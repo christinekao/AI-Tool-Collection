@@ -28,6 +28,7 @@ button:hover{border-color:var(--accent)}
 .card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),#101419);border-radius:16px;padding:16px;display:grid;grid-template-columns:minmax(220px,1.1fr) minmax(120px,.6fr) minmax(300px,1.7fr) minmax(150px,.7fr);gap:14px;align-items:start}
 .name{font-weight:750;letter-spacing:-.01em;word-break:break-word}
 .type,.purpose,.status{color:var(--muted);line-height:1.55}
+.recommendation{display:block;margin-top:8px;color:var(--accent);line-height:1.5}
 .status span{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:12px}
 .status .core{color:var(--accent);border-color:#566822}
 .status .todo{color:var(--warn);border-color:#6a5a22}
@@ -124,12 +125,15 @@ function render(){
       const card=document.createElement('div'); card.className='card';
       const statusLabel=r.displayStatus || r.status || '';
       const researchIntent=researchIntentLabel(r.researchInterest);
+      const recommendationHtml=r.recommendation
+        ? '<small class="recommendation">推薦：'+esc(r.recommendation)+'</small>'
+        : '';
       const researchHtml=researchIntent
         ? '<small class="research" title="個人研究意向：'+Number(r.researchInterest)+'/5"><span aria-hidden="true">🔎</span>我會研究 · '+researchIntent+'</small>'
         : '';
       card.innerHTML='<div class="name">'+esc(r.name)+'</div>' +
         '<div class="type">'+esc(r.type)+'</div>' +
-        '<div class="purpose">'+esc(r.purpose)+'</div>' +
+        '<div class="purpose">'+esc(r.purpose)+recommendationHtml+'</div>' +
         '<div class="status"><span class="'+cls(statusLabel)+'">'+esc(statusLabel)+'</span>'+researchHtml+'</div>';
       grid.appendChild(card);
     });
