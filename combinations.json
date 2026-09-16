@@ -1,0 +1,72 @@
+[
+  {
+    "name": "大型 Codebase Agent Context Stack",
+    "goal": "讓 coding agent 在大型專案中少重讀、少塞無關內容，又保有結構理解與持續記憶。",
+    "components": ["flyingrobots/graft", "DeusData/codebase-memory-mcp", "rtk-ai/rtk", "openai/codex"],
+    "flow": ["Graft：縮小結構化 code view", "Codebase Memory MCP：保留 code graph / memory", "RTK：壓縮高噪音 CLI output", "Codex：執行修改與驗證"],
+    "useCases": ["大型 monorepo", "長 session 開發", "頻繁 lint/test/git diff", "Agent 每次都重新探索 codebase"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "code-intelligence", "memory", "token-efficiency", "coding-agent"]
+  },
+  {
+    "name": "多 Agent 平行開發 Stack",
+    "goal": "把任務分工、Agent 角色、隔離工作區與模型 routing 組成可管理的平行開發流程。",
+    "components": ["stablyai/orca", "msitarzewski/agency-agents", "omniroute", "openai/codex"],
+    "flow": ["Agency Agents：定義專家角色與交付規則", "OmniRoute：模型／provider routing 與 fallback", "Orca：每個 Agent 使用獨立 worktree 平行執行", "Codex：實際 coding / review / verification"],
+    "useCases": ["多功能同時開發", "平行 bugfix / feature", "想比較不同 Agent 或模型結果", "需要 worktree 隔離"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "multi-agent", "orchestration", "worktree", "routing"]
+  },
+  {
+    "name": "企業知識問答 Stack",
+    "goal": "把公司文件、結構化資料與商業語意整合成可治理的 AI 問答／分析入口。",
+    "components": ["onyx-dot-app/onyx", "Canner/WrenAI", "unclecode/crawl4ai", "opendatalab/MinerU"],
+    "flow": ["MinerU / Crawl4AI：文件與網站 ingestion", "Onyx：文件索引、RAG、跨來源搜尋與問答", "WrenAI：結構化資料的 semantic layer / governed SQL", "Agent：統一回答文件知識與 BI 問題"],
+    "useCases": ["內部知識庫", "政策／文件問答", "跨 SaaS / 文件搜尋", "自然語言查商業資料"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "rag", "enterprise-search", "semantic-layer", "genbi"]
+  },
+  {
+    "name": "Web Research Agent Stack",
+    "goal": "讓 Agent 能穩定取得多平台公開資訊，整理成可查詢或可持續累積的研究資料。",
+    "components": ["Panniantong/Agent-Reach", "unclecode/crawl4ai", "simonw/llm"],
+    "flow": ["Agent Reach：選擇與路由各平台 access backend", "Crawl4AI：需要時把網站轉成乾淨 Markdown / structured content", "LLM：分析並把 prompt / response 紀錄進 SQLite"],
+    "useCases": ["競品研究", "社群與網頁資料蒐集", "長期主題研究", "研究歷史可回查"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "research", "web-access", "social-media", "history"]
+  },
+  {
+    "name": "Agentic Video Production Stack",
+    "goal": "把腳本、素材、剪輯與後製變成可由 Agent 編排的端到端影片工作流。",
+    "components": ["calesthio/OpenMontage", "DaVinci Resolve", "gbro-collage-broll", "vulture-s/whisper-guard"],
+    "flow": ["OpenMontage：research / script / media / edit / review / render orchestration", "gbro-collage-broll：腳本拆 B-roll / collage 概念", "Whisper Guard：語音轉錄品質防護", "DaVinci Resolve：人工精修、調色、音訊與最終輸出"],
+    "useCases": ["短影音", "教學影片", "大量內容生產", "AI 初剪 + 人工 final polish"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "video", "agentic-workflow", "post-production"]
+  },
+  {
+    "name": "Generative UI Stack",
+    "goal": "讓 Agent 不只輸出文字，而是依既有 design system 產生受控、可串流、可互動的 UI。",
+    "components": ["thesysdev/openui", "shadcn/ui", "Google Stitch", "frontend-design"],
+    "flow": ["frontend-design / Stitch：定義視覺方向與介面品質", "shadcn/ui：提供可控 component primitives", "OpenUI：限制模型只能使用允許的 component schema 並串流 render", "Agent：依需求動態產生 UI"],
+    "useCases": ["Generative UI", "Agent dashboard", "動態表單", "AI response 直接變成 interactive interface"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "generative-ui", "design-system", "agent-ui"]
+  },
+  {
+    "name": "低成本 Coding Agent Stack",
+    "goal": "降低 coding agent 的模型與 context 成本，同時保留 fallback 與可用性。",
+    "components": ["omniroute", "rtk-ai/rtk", "flyingrobots/graft", "openai/codex"],
+    "flow": ["OmniRoute：優先路由到低成本／免費模型並處理 quota fallback", "Graft：避免把整份大型程式碼塞入 context", "RTK：壓縮 shell output", "Codex / coding agent：執行實際任務"],
+    "useCases": ["高頻 Agent coding", "API quota 容易觸頂", "想壓低 token 成本", "長時間 autonomous loop"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "cost", "routing", "token-efficiency", "coding-agent"]
+  }
+]
