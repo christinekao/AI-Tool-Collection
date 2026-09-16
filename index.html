@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kao · AI Engineering Resources</title>
+<style>
+:root {
+  --bg:#0b0d10; --panel:#12161b; --panel2:#171c22; --text:#e9eef4; --muted:#9aa6b2;
+  --line:#28313b; --accent:#d8ff5f; --chip:#202833; --warn:#ffd166;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1320px;margin:0 auto;padding:32px 20px 80px}
+.hero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;margin-bottom:22px}
+h1{margin:0;font-size:clamp(28px,4vw,54px);line-height:1;letter-spacing:-.04em}
+.sub{margin-top:12px;color:var(--muted);max-width:760px;line-height:1.65}
+.meta{color:var(--muted);font-size:13px;text-align:right}
+.toolbar{display:grid;grid-template-columns:1fr 240px auto;gap:10px;position:sticky;top:0;z-index:5;padding:12px 0;background:linear-gradient(var(--bg) 70%,transparent)}
+input,select,button{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;padding:11px 13px;font:inherit}
+input:focus,select:focus{outline:2px solid #4e5c2c}
+button{cursor:pointer}
+button:hover{border-color:var(--accent)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 22px}
+.stat{border:1px solid var(--line);background:var(--panel);padding:9px 12px;border-radius:999px;color:var(--muted);font-size:13px}
+.stat b{color:var(--text)}
+.grid{display:grid;gap:12px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),#101419);border-radius:16px;padding:16px;display:grid;grid-template-columns:minmax(220px,1.1fr) minmax(120px,.6fr) minmax(300px,1.7fr) minmax(150px,.7fr);gap:14px;align-items:start}
+.name{font-weight:750;letter-spacing:-.01em;word-break:break-word}
+.type,.purpose,.status{color:var(--muted);line-height:1.55}
+.status span{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:12px}
+.status .core{color:var(--accent);border-color:#566822}
+.status .todo{color:var(--warn);border-color:#6a5a22}
+.research{display:flex;align-items:center;gap:5px;margin-top:8px;color:var(--warn);font-size:12px;letter-spacing:.02em}
+.sectionTitle{margin:30px 0 12px;font-size:17px;letter-spacing:.01em;color:#cbd5df}
+.empty{display:none;padding:36px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.note{margin-top:34px;border-left:3px solid var(--accent);padding:12px 16px;background:var(--panel);color:var(--muted);line-height:1.7}
+code{color:var(--accent)}
+@media(max-width:850px){
+ .hero{grid-template-columns:1fr} .meta{text-align:left}
+ .toolbar{grid-template-columns:1fr 1fr} .toolbar button{grid-column:1/-1}
+ .card{grid-template-columns:1fr} 
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>AI Engineering Resources</h1>
+      <div class="sub">目前聊天中蒐集到的 Agent、Skill、Code Intelligence、Knowledge、Security、UI/Design 與 Artifact 工具。資料由同層的 <code>resources.json</code> 載入。</div>
+    </div>
+    <div class="meta">Snapshot<br>2026-09-16</div>
+  </div>
+
+  <div class="toolbar">
+    <input id="q" type="search" placeholder="搜尋工具、用途、類型…">
+    <select id="cat"><option value="">全部分類</option></select>
+    <button id="export">匯出 JSON</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat">工具／資源：<b id="count"></b></div>
+    <div class="stat">分類：<b id="categoryCount"></b></div>
+    <div class="stat">資料來源：<b>目前對話整理</b></div>
+  </div>
+
+  <div id="app"></div>
+  <div id="empty" class="empty">沒有符合條件的項目。</div>
+
+  <div class="note">
+    <b>資料保存方式：</b><code>resources.json</code> 是 canonical data，不依賴 ChatGPT 記憶。建議把它與此頁面一起存進 Git repo 或固定資料夾。<br>
+    之後新增或更新工具時，請直接更新 JSON；頁面只負責讀取與呈現。
+  </div>
+</div>
+
+<script>
+let RESOURCES = [];
+
+const cat = document.getElementById('cat');
+const q = document.getElementById('q');
+const app = document.getElementById('app');
+const empty = document.getElementById('empty');
+const count = document.getElementById('count');
+const categoryCount = document.getElementById('categoryCount');
+
+function cls(s=''){
+  if(s.includes('核心')) return 'core';
+  if(s.includes('待') || s.includes('未確認') || s.includes('候選')) return 'todo';
+  return '';
+}
+
+function esc(s=''){
+  return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function researchIntentLabel(level){
+  const n=Number(level);
+  return Number.isInteger(n) ? ({1:'有興趣',2:'想看看',3:'想深入',4:'優先',5:'重點'}[n] || '') : '';
+}
+
+function render(){
+  const term=q.value.trim().toLowerCase();
+  const selected=cat.value;
+  const rows=RESOURCES.filter(r=>{
+    const hay=[
+      r.name,r.canonicalName,r.type,r.purpose,r.status,r.displayStatus,
+      r.category,r.notes,(r.tags||[]).join(' ')
+    ].filter(Boolean).join(' ').toLowerCase();
+    return (!selected || r.category===selected) && (!term || hay.includes(term));
+  });
+  count.textContent=rows.length;
+  app.innerHTML='';
+  empty.textContent='沒有符合條件的項目。';
+  empty.style.display=rows.length?'none':'block';
+
+  const grouped=Object.groupBy ? Object.groupBy(rows, r=>r.category) :
+    rows.reduce((a,r)=>((a[r.category]??=[]).push(r),a),{});
+
+  Object.keys(grouped).sort().forEach(category=>{
+    const h=document.createElement('div'); h.className='sectionTitle'; h.textContent=category; app.appendChild(h);
+    const grid=document.createElement('div'); grid.className='grid';
+    grouped[category].forEach(r=>{
+      const card=document.createElement('div'); card.className='card';
+      const statusLabel=r.displayStatus || r.status || '';
+      const researchIntent=researchIntentLabel(r.researchInterest);
+      const researchHtml=researchIntent
+        ? '<small class="research" title="個人研究意向：'+Number(r.researchInterest)+'/5"><span aria-hidden="true">🔎</span>我會研究 · '+researchIntent+'</small>'
+        : '';
+      card.innerHTML='<div class="name">'+esc(r.name)+'</div>' +
+        '<div class="type">'+esc(r.type)+'</div>' +
+        '<div class="purpose">'+esc(r.purpose)+'</div>' +
+        '<div class="status"><span class="'+cls(statusLabel)+'">'+esc(statusLabel)+'</span>'+researchHtml+'</div>';
+      grid.appendChild(card);
+    });
+    app.appendChild(grid);
+  });
+}
+
+async function loadResources(){
+  try{
+    const response=await fetch('resources.json',{cache:'no-store'});
+    if(!response.ok) throw new Error('resources.json returned '+response.status);
+    const data=await response.json();
+    if(!Array.isArray(data)) throw new Error('resources.json must contain an array');
+    RESOURCES=data;
+    categoryCount.textContent=new Set(RESOURCES.map(x=>x.category)).size;
+    [...new Set(RESOURCES.map(x=>x.category))].sort().forEach(c=>{
+      const o=document.createElement('option'); o.value=c; o.textContent=c; cat.appendChild(o);
+    });
+    render();
+  }catch(error){
+    console.error(error);
+    count.textContent='0';
+    app.innerHTML='';
+    empty.textContent='無法載入 resources.json。';
+    empty.style.display='block';
+  }
+}
+
+q.addEventListener('input',render);
+cat.addEventListener('change',render);
+document.getElementById('export').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(RESOURCES,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='ai-engineering-resources.json'; a.click();
+  URL.revokeObjectURL(url);
+});
+loadResources();
+</script>
+</body>
+</html>
