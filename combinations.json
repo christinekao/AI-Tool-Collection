@@ -71,13 +71,22 @@
   },
   {
     "name": "Reference → Agent → Implementation",
-    "goal": "把設計參考直接當成 Agent 的工作輸入，先鎖定視覺／互動方向，再進入實作，避免只用抽象形容詞描述『高級一點』。",
+    "goal": "把設計 reference 當成 prompt evidence，先抽取可觀察的設計原則，再交給 Agent 實作與驗收。",
     "components": ["Inspora", "Wellmade", "Bencho", "Landing Love", "MaxiBestOf", "frontend-design", "Google Stitch", "openai/codex"],
-    "flow": ["1. Reference：依問題選對來源；Visual Direction → Inspora、Creative Work → Wellmade、UI Interaction → Bencho、Landing Page Motion → Landing Love、Web + Typography → MaxiBestOf", "2. Extract：不要只丟網址；整理要學的具體元素，例如版面 hierarchy、字體比例、spacing、motion timing、hover behavior、scroll rhythm", "3. Agent Brief：把 reference 與『要學什麼／不要抄什麼』一起交給 frontend-design、Stitch 或 coding agent", "4. Implementation：Codex 依 reference constraints 實作，而不是自由發揮", "5. Review：對照 reference 做 visual / interaction acceptance，確認學到的是結構與原則，不是像素級複製"],
-    "useCases": ["Vibe Coding", "作品集網站", "Landing page", "缺乏設計詞彙但有明確喜歡的參考", "需要讓 Agent 更準確理解視覺意圖"],
+    "flow": ["Reference：選定 visual / interaction / motion / typography 參考", "Extract：拆出 typography、spacing、layout、motion timing、interaction pattern 等 design signals", "Agent Brief：寫明要學什麼與禁止複製什麼", "Implementation：Stitch / frontend-design / Codex 實作", "Acceptance：用實際畫面與 interaction 對照 reference 原則驗收"],
+    "useCases": ["作品集網站", "landing page", "產品 UI", "Vibe Coding 時避免只用『高級一點』這種抽象 prompt"],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "notes": "核心原則：Reference 本身就是 prompt context 的一部分。最好記錄 reference URL、觀察到的 design signals、要採用的 patterns、禁止直接複製的品牌／內容元素，以及最後 acceptance evidence。",
-    "tags": ["combo", "reference-driven", "design", "vibe-coding", "agent-brief", "implementation"]
+    "tags": ["combo", "reference", "design-evidence", "ui-design", "acceptance"]
+  },
+  {
+    "name": "AI Vector Asset → Code Stack",
+    "goal": "把 AI 產生的視覺資產保留成真正可編輯、可程式化與可動畫的 SVG，而不是停在一次性的 PNG。",
+    "components": ["QuiverAI Arrow 2", "openai/codex", "Motion.dev", "Google Stitch"],
+    "flow": ["Arrow 2：text/image → editable SVG", "Codex：直接修改 SVG path、色彩、尺寸或轉成 React component", "Motion.dev：需要時加入 interaction / animation", "Stitch / 前端專案：把向量資產放入完整 UI 並做視覺驗收"],
+    "useCases": ["Logo", "Icon", "Illustration", "Landing page visual asset", "需要 responsive / animated SVG 的前端專案"],
+    "status": "pattern",
+    "addedAt": "2026-09-17",
+    "tags": ["combo", "svg", "vector", "design-to-code", "motion", "frontend"]
   }
 ]
