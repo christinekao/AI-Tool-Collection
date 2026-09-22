@@ -1,0 +1,348 @@
+[
+  {
+    "id": "context-governance",
+    "title": "Context Governance",
+    "coreProblem": "Agent 的 context window 有限；如果把整份 codebase、長篇 CLI output 與大量無關資訊全部塞進去，成本、延遲與判斷品質都會變差。",
+    "solutionMethods": [
+      "依程式結構只提供當下任務需要的 code view",
+      "壓縮或過濾高噪音 terminal / CLI output",
+      "把穩定知識放到可查詢索引，而不是每回合重送",
+      "在 handoff 時只保留與決策相關的完整脈絡"
+    ],
+    "examples": [
+      "Graft",
+      "RTK",
+      "Codebase Memory MCP",
+      "Spectra"
+    ],
+    "tags": [
+      "context",
+      "token-efficiency",
+      "coding-agent",
+      "retrieval"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "persistent-agent-memory",
+    "title": "Persistent Agent Memory",
+    "coreProblem": "Agent session 結束後容易失去前次工作脈絡，導致重複探索、重複決策，或忘記使用者與專案已確認的資訊。",
+    "solutionMethods": [
+      "把長期記憶寫入獨立持久層",
+      "區分短期 session context 與長期 memory",
+      "只保存可重用的重要事實、決策與偏好",
+      "提供查詢與更新機制，而不是把整段聊天永久塞進 prompt"
+    ],
+    "examples": [
+      "claude-mem",
+      "Hermes Memory Wiki",
+      "simonw/llm",
+      "claude-obsidian"
+    ],
+    "tags": [
+      "memory",
+      "persistent-memory",
+      "session",
+      "knowledge"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "memory-observability",
+    "title": "Memory Observability",
+    "coreProblem": "即使 Agent 有 persistent memory，人仍可能不知道它到底記住了什麼、從哪裡來、是否過期或是否正在影響現在的行為。",
+    "solutionMethods": [
+      "提供可瀏覽的 memory / session dashboard",
+      "區分原始來源、derived knowledge 與 persistent memory",
+      "讓 memory 可 audit、可追溯、可檢查",
+      "保留 subject、daily log、recent activity 等觀察入口"
+    ],
+    "examples": [
+      "Hermes Memory Wiki",
+      "claude-obsidian"
+    ],
+    "tags": [
+      "memory",
+      "observability",
+      "audit",
+      "provenance"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "codebase-knowledge-graph",
+    "title": "Codebase Knowledge Graph",
+    "coreProblem": "大型 codebase 的檔案、module、function、dependency、call relationship 很難靠每次全文閱讀重新理解。",
+    "solutionMethods": [
+      "建立 code index / graph / topology",
+      "記錄 module、dependency、call 與 symbol 關係",
+      "透過 MCP 或 retrieval API 讓 Agent 按需查詢",
+      "背景更新索引，避免每次從零探索"
+    ],
+    "examples": [
+      "Codebase Memory MCP",
+      "Graphify",
+      "Spectra",
+      "codebase-index"
+    ],
+    "tags": [
+      "code-intelligence",
+      "knowledge-graph",
+      "indexing",
+      "mcp"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "vendor-agnostic-orchestration",
+    "title": "Vendor-Agnostic Orchestration",
+    "coreProblem": "如果 workflow 綁死單一模型或供應商，價格、額度、能力或訂閱一變，整套自動化就可能失效。",
+    "solutionMethods": [
+      "先定義 Collector、Analyst、Reviewer 等角色，再綁定模型",
+      "讓 provider / model 可以替換而不改 workflow contract",
+      "使用 routing / fallback 層處理 quota 與可用性",
+      "把 orchestration 與實際模型能力解耦"
+    ],
+    "examples": [
+      "Orca",
+      "OmniRoute",
+      "Sol/Terra/Luna orchestration"
+    ],
+    "tags": [
+      "orchestration",
+      "vendor-agnostic",
+      "routing",
+      "fallback"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "capability-cost-routing",
+    "title": "Capability & Cost Routing",
+    "coreProblem": "所有工作都交給最強模型會浪費成本；全部交給便宜模型又可能在高認知任務上失敗。",
+    "solutionMethods": [
+      "依任務複雜度與風險分級",
+      "機械式蒐集、格式整理交給低成本模型",
+      "高歧義分析與決策交給較強模型",
+      "設定 quota / price / latency fallback"
+    ],
+    "examples": [
+      "OmniRoute",
+      "Sol/Terra/Luna orchestration",
+      "Orca"
+    ],
+    "tags": [
+      "routing",
+      "cost",
+      "model-selection",
+      "orchestration"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "heterogeneous-model-review",
+    "title": "Heterogeneous Model Review",
+    "coreProblem": "同一模型產生內容後再自己 review，容易重複相同盲點與偏誤。",
+    "solutionMethods": [
+      "Author 與 Reviewer 優先使用不同模型或 provider",
+      "Reviewer 取得足夠的原始 evidence 與決策脈絡",
+      "要求 Reviewer 主動找 unsupported claims、矛盾、假設與 failure cases",
+      "review 後再由原作者或第三個 Agent 修正"
+    ],
+    "examples": [
+      "Claude → Codex Review",
+      "Orca multi-agent workflow",
+      "Agency Agents"
+    ],
+    "tags": [
+      "review",
+      "multi-agent",
+      "model-diversity",
+      "quality"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "long-running-agent-operations",
+    "title": "Long-running Agent Operations",
+    "coreProblem": "Agent 任務跑幾小時後，可能卡在確認、失敗、quota、環境狀態或沒人知道誰正在做什麼。",
+    "solutionMethods": [
+      "把長任務拆成可觀察 task",
+      "記錄 owner、status、blocker、evidence、next action",
+      "提供工作區隔離與 resume / recovery 能力",
+      "只在真正需要人類決策時中斷"
+    ],
+    "examples": [
+      "Orca",
+      "Shared Handoff Bridge pattern",
+      "Hermes Agent"
+    ],
+    "tags": [
+      "long-running-agent",
+      "operations",
+      "observability",
+      "recovery"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "agent-credential-isolation",
+    "title": "Agent Credential Isolation",
+    "coreProblem": "如果 Agent 可以直接讀取與持有所有 API keys / secrets，一次 prompt injection 或工具誤用就可能擴大成高權限事故。",
+    "solutionMethods": [
+      "讓 Agent 使用 capability，而不是直接取得 secret",
+      "在 Agent 與外部服務間加入 Gatekeeper / broker",
+      "依服務與操作範圍分離 credentials",
+      "使用最小權限與可撤銷授權"
+    ],
+    "examples": [
+      "Cloudflare Gatekeeper pattern"
+    ],
+    "tags": [
+      "security",
+      "credentials",
+      "least-privilege",
+      "gatekeeper"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "semantic-layer-for-ai",
+    "title": "Semantic Layer for AI",
+    "coreProblem": "讓 LLM 直接看 raw schema 猜 SQL，容易誤解 business definition、metric、join rule 與資料口徑。",
+    "solutionMethods": [
+      "在資料庫與 Agent 之間加入 semantic / context layer",
+      "把 business definitions、metrics、joins 明文化",
+      "讓 SQL generation 受治理規則限制",
+      "把語意定義版本化並可 review"
+    ],
+    "examples": [
+      "WrenAI"
+    ],
+    "tags": [
+      "semantic-layer",
+      "genbi",
+      "text-to-sql",
+      "governance"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "point-in-time-retrieval",
+    "title": "Point-in-Time Retrieval",
+    "coreProblem": "做歷史研究或 backtest 時，如果搜尋結果混入截止日之後的資料，就會產生未來資訊洩漏，讓結果看起來比真實情況更好。",
+    "solutionMethods": [
+      "每次查詢明確傳入 as_of cutoff",
+      "只使用截止日前已封存或可證明存在的資料",
+      "固定 archive snapshot 以提高可重現性",
+      "把 retrieval time semantics 視為資料品質的一部分"
+    ],
+    "examples": [
+      "Hermes BackSearch"
+    ],
+    "tags": [
+      "historical-search",
+      "backtest",
+      "data-leakage",
+      "reproducibility"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "security-as-workflow-gate",
+    "title": "Security as a Workflow Gate",
+    "coreProblem": "Agent 能快速產生與修改程式碼，但功能測試通過不代表 dependency、container、IaC、SBOM 或 API 使用方式安全。",
+    "solutionMethods": [
+      "把 SAST / SCA / container / IaC scan 放進 Agent workflow",
+      "在交付前建立 security acceptance gate",
+      "對 private repo 與外部 scan 明確要求授權",
+      "將 finding 修復與再掃描納入同一 loop"
+    ],
+    "examples": [
+      "Hermes Snyk Plugin",
+      "Akto",
+      "NVIDIA SkillSpector"
+    ],
+    "tags": [
+      "security",
+      "sast",
+      "sca",
+      "governance",
+      "acceptance"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "reference-as-prompt-evidence",
+    "title": "Reference as Prompt Evidence",
+    "coreProblem": "「高級一點」「更漂亮」等抽象設計語言很難讓 Agent 穩定產出一致結果。",
+    "solutionMethods": [
+      "提供具體 visual / motion / typography reference",
+      "先抽取 layout、spacing、type hierarchy、motion timing 等 design signals",
+      "明確寫出要學什麼與禁止複製什麼",
+      "最後用實際畫面對照 reference 原則驗收"
+    ],
+    "examples": [
+      "Inspora",
+      "Landing Love",
+      "Bencho",
+      "MaxiBestOf",
+      "Google Stitch"
+    ],
+    "tags": [
+      "design-evidence",
+      "reference",
+      "prompting",
+      "ui-design"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "editable-generative-assets",
+    "title": "Editable Generative Assets",
+    "coreProblem": "AI 生圖若只輸出扁平 PNG，後續要改顏色、形狀、尺寸、動畫或程式化使用時，往往得重新製作。",
+    "solutionMethods": [
+      "優先生成 SVG / vector 等可編輯格式",
+      "保留 path、anchor、色彩等結構資訊",
+      "需要時轉成 React component 或 animation asset",
+      "把生成、修改、motion 與 UI integration 接成同一 pipeline"
+    ],
+    "examples": [
+      "Arrow 2",
+      "Recraft",
+      "Rive",
+      "Motion.dev"
+    ],
+    "tags": [
+      "svg",
+      "vector",
+      "asset-pipeline",
+      "motion"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "constrained-generative-ui",
+    "title": "Generative UI under Constraints",
+    "coreProblem": "如果模型可以任意輸出 UI 結構與元件，容易產生不一致、不可維護、無法符合 design system 的介面。",
+    "solutionMethods": [
+      "限制模型只能使用允許的 component schema",
+      "以既有 design system / primitives 作為生成邊界",
+      "使用 streaming renderer 把結構逐步轉成 UI",
+      "把視覺品質與互動行為納入 acceptance"
+    ],
+    "examples": [
+      "OpenUI",
+      "shadcn/ui",
+      "Google Stitch",
+      "frontend-design skill"
+    ],
+    "tags": [
+      "generative-ui",
+      "design-system",
+      "constraints",
+      "components"
+    ],
+    "addedAt": "2026-09-22"
+  }
+]
