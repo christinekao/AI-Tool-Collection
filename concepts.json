@@ -131,12 +131,14 @@
       "依任務複雜度與風險分級",
       "機械式蒐集、格式整理交給低成本模型",
       "高歧義分析與決策交給較強模型",
-      "設定 quota / price / latency fallback"
+      "設定 quota / price / latency fallback",
+      "在真正呼叫昂貴 LLM 前，先用快速 typed decision layer 做需求分類、風險判斷與模型路由"
     ],
     "examples": [
       "OmniRoute",
       "Sol/Terra/Luna orchestration",
-      "Orca"
+      "Orca",
+      "Laya"
     ],
     "tags": [
       "routing",
@@ -144,7 +146,8 @@
       "model-selection",
       "orchestration"
     ],
-    "addedAt": "2026-09-22"
+    "addedAt": "2026-09-22",
+    "updatedAt": "2026-09-22"
   },
   {
     "id": "heterogeneous-model-review",
@@ -401,6 +404,57 @@
       "memory",
       "provenance",
       "portability"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "system-1-decision-layer",
+    "title": "System 1 Decision Layer",
+    "coreProblem": "很多 Agent 流程會把每個分類、路由、guardrail、風險判斷都丟給生成式 LLM；這會增加 latency、token 成本，也讓原本只需要固定結構答案的決策變成難以解析的自由文字生成。",
+    "solutionMethods": [
+      "把高頻、低歧義的決策拆成獨立 typed decision layer",
+      "輸出固定 primitive，例如 choice、score、boolean / probability，而不是自然語言",
+      "一次 forward pass 同時回答多個結構化問題",
+      "只把需要深度推理或生成的工作升級給 System 2 LLM",
+      "為不同語言、domain 或 task 選擇專用 checkpoint，而不是期待單一模型萬能"
+    ],
+    "examples": [
+      "Laya",
+      "small classifier before frontier LLM",
+      "intent / risk / routing layer"
+    ],
+    "tags": [
+      "system-1",
+      "decision-layer",
+      "routing",
+      "classification",
+      "latency",
+      "cost"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "confidence-gated-automation",
+    "title": "Confidence-Gated Automation",
+    "coreProblem": "自動化系統若只看模型輸出的 top answer，不知道模型對答案有多不確定，就很難決定何時可以自動執行、何時應升級到人工或更強模型。",
+    "solutionMethods": [
+      "讓 decision model 輸出可解讀的 confidence / probability",
+      "設定高信心閾值：高於門檻才允許自動 action",
+      "低信心時升級到 human review 或更強模型",
+      "在實際 domain 上校準 probability，而不是直接相信 raw confidence",
+      "特別檢查模型是否存在『高信心但錯誤』的語言或資料分佈"
+    ],
+    "examples": [
+      "Laya confidence gating",
+      "human escalation threshold",
+      "model escalation policy"
+    ],
+    "tags": [
+      "confidence",
+      "calibration",
+      "human-in-the-loop",
+      "automation",
+      "risk"
     ],
     "addedAt": "2026-09-22"
   }
