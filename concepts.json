@@ -31,13 +31,16 @@
       "把長期記憶寫入獨立持久層",
       "區分短期 session context 與長期 memory",
       "只保存可重用的重要事實、決策與偏好",
-      "提供查詢與更新機制，而不是把整段聊天永久塞進 prompt"
+      "提供查詢與更新機制，而不是把整段聊天永久塞進 prompt",
+      "讓不同 Agent / harness 共用同一個 project memory，而不是各自封閉在自己的 session",
+      "用明確 handoff protocol 保存目前進度、失敗嘗試與 open questions"
     ],
     "examples": [
       "claude-mem",
       "Hermes Memory Wiki",
       "simonw/llm",
-      "claude-obsidian"
+      "claude-obsidian",
+      "ai-memory"
     ],
     "tags": [
       "memory",
@@ -45,7 +48,8 @@
       "session",
       "knowledge"
     ],
-    "addedAt": "2026-09-22"
+    "addedAt": "2026-09-22",
+    "updatedAt": "2026-09-22"
   },
   {
     "id": "memory-observability",
@@ -55,11 +59,13 @@
       "提供可瀏覽的 memory / session dashboard",
       "區分原始來源、derived knowledge 與 persistent memory",
       "讓 memory 可 audit、可追溯、可檢查",
-      "保留 subject、daily log、recent activity 等觀察入口"
+      "保留 subject、daily log、recent activity 等觀察入口",
+      "保留 mutation audit log，讓長期記憶的變更可追蹤"
     ],
     "examples": [
       "Hermes Memory Wiki",
-      "claude-obsidian"
+      "claude-obsidian",
+      "ai-memory"
     ],
     "tags": [
       "memory",
@@ -67,7 +73,8 @@
       "audit",
       "provenance"
     ],
-    "addedAt": "2026-09-22"
+    "addedAt": "2026-09-22",
+    "updatedAt": "2026-09-22"
   },
   {
     "id": "codebase-knowledge-graph",
@@ -342,6 +349,58 @@
       "design-system",
       "constraints",
       "components"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "cross-agent-memory-portability",
+    "title": "Cross-Agent Memory Portability",
+    "coreProblem": "不同 coding agent 往往各自有自己的 memory、session 與本機狀態；一旦從 Claude Code 換到 Codex、OpenCode 或另一台電腦，就要重新解釋架構、失敗嘗試、目前進度與待解問題。",
+    "solutionMethods": [
+      "把 project memory 放在獨立於單一 Agent 的共享服務或資料層",
+      "替不同 harness 提供共同的 MCP / lifecycle hook 接入",
+      "讓下一個 Agent 取得 bounded brief，而不是整份歷史全部灌進 context",
+      "把 handoff 做成 typed、可 claim、可追蹤的 protocol",
+      "將 project knowledge 與 personal handoff 分開，支援多使用者與跨機器"
+    ],
+    "examples": [
+      "ai-memory",
+      "Orca session handoff pattern",
+      "Shared Handoff Bridge pattern"
+    ],
+    "tags": [
+      "memory",
+      "cross-agent",
+      "handoff",
+      "portability",
+      "multi-agent",
+      "continuity"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "file-first-memory-source-of-truth",
+    "title": "File-first Memory Source of Truth",
+    "coreProblem": "如果 Agent memory 只存在 opaque database、vector store 或某個供應商內部格式，人很難直接檢查、版本控制、手動修正、備份或遷移。",
+    "solutionMethods": [
+      "用 Markdown / text files 作為 canonical source of truth",
+      "用 Git 保存版本與 provenance",
+      "把 SQLite、FTS、graph、vector index 視為可重建的 derived data",
+      "允許人直接 grep、Obsidian 編輯、rsync、review diff",
+      "把 LLM consolidation 與 vector search設計成可選能力，而非基礎依賴"
+    ],
+    "examples": [
+      "ai-memory",
+      "claude-obsidian",
+      "basic-memory pattern"
+    ],
+    "tags": [
+      "file-first",
+      "markdown",
+      "git",
+      "memory",
+      "provenance",
+      "portability"
     ],
     "addedAt": "2026-09-22"
   }
