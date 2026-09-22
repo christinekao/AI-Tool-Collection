@@ -13,7 +13,11 @@
       "Graft",
       "RTK",
       "Codebase Memory MCP",
-      "Spectra"
+      "Spectra",
+      "rankupgames/Spectra",
+      "codebase-index",
+      "Graphify-Labs/graphify",
+      "Code Graph"
     ],
     "tags": [
       "context",
@@ -40,7 +44,12 @@
       "Hermes Memory Wiki",
       "simonw/llm",
       "claude-obsidian",
-      "ai-memory"
+      "ai-memory",
+      "bruiandy/claude-obsidian",
+      "acheAIsuiyimen/ache-life-to-comic-skill",
+      "Claude-Mem",
+      "LLM",
+      "Onyx"
     ],
     "tags": [
       "memory",
@@ -65,7 +74,9 @@
     "examples": [
       "Hermes Memory Wiki",
       "claude-obsidian",
-      "ai-memory"
+      "ai-memory",
+      "bruiandy/claude-obsidian",
+      "LLM"
     ],
     "tags": [
       "memory",
@@ -90,7 +101,11 @@
       "Codebase Memory MCP",
       "Graphify",
       "Spectra",
-      "codebase-index"
+      "codebase-index",
+      "rankupgames/Spectra",
+      "Graphify-Labs/graphify",
+      "Code Graph",
+      "Graft"
     ],
     "tags": [
       "code-intelligence",
@@ -113,7 +128,11 @@
     "examples": [
       "Orca",
       "OmniRoute",
-      "Sol/Terra/Luna orchestration"
+      "Sol/Terra/Luna orchestration",
+      "irons163/orchestrate-sol-terra-luna",
+      "irons163/three-tier-agent-orchestrator",
+      "codex router",
+      "Agency Agents"
     ],
     "tags": [
       "orchestration",
@@ -138,7 +157,10 @@
       "OmniRoute",
       "Sol/Terra/Luna orchestration",
       "Orca",
-      "Laya"
+      "Laya",
+      "irons163/orchestrate-sol-terra-luna",
+      "irons163/three-tier-agent-orchestrator",
+      "codex router"
     ],
     "tags": [
       "routing",
@@ -162,7 +184,8 @@
     "examples": [
       "Claude → Codex Review",
       "Orca multi-agent workflow",
-      "Agency Agents"
+      "Agency Agents",
+      "Orca"
     ],
     "tags": [
       "review",
@@ -206,7 +229,8 @@
       "使用最小權限與可撤銷授權"
     ],
     "examples": [
-      "Cloudflare Gatekeeper pattern"
+      "Cloudflare Gatekeeper pattern",
+      "cloudflare/cloudflare-os"
     ],
     "tags": [
       "security",
@@ -271,7 +295,10 @@
     "examples": [
       "Hermes Snyk Plugin",
       "Akto",
-      "NVIDIA SkillSpector"
+      "NVIDIA SkillSpector",
+      "NVIDIA/SkillSpector",
+      "akto-api-security/akto",
+      "cloudflare/cloudflare-os"
     ],
     "tags": [
       "security",
@@ -297,7 +324,9 @@
       "Landing Love",
       "Bencho",
       "MaxiBestOf",
-      "Google Stitch"
+      "Google Stitch",
+      "Wellmade",
+      "landing.love"
     ],
     "tags": [
       "design-evidence",
@@ -395,7 +424,8 @@
     "examples": [
       "ai-memory",
       "claude-obsidian",
-      "basic-memory pattern"
+      "basic-memory pattern",
+      "bruiandy/claude-obsidian"
     ],
     "tags": [
       "file-first",
@@ -447,7 +477,8 @@
     "examples": [
       "Laya confidence gating",
       "human escalation threshold",
-      "model escalation policy"
+      "model escalation policy",
+      "Laya"
     ],
     "tags": [
       "confidence",
@@ -455,6 +486,371 @@
       "human-in-the-loop",
       "automation",
       "risk"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "agent-runtime-harness",
+    "title": "Agent Runtime & Harness",
+    "coreProblem": "模型本身不等於可工作的 Agent；實際工程需要一層 runtime 把工具執行、Skills、Hooks、MCP、環境、權限與工作狀態接起來。",
+    "solutionMethods": [
+      "用統一 runtime 管理模型、工具與工作目錄",
+      "透過 MCP / Skills / Hooks 擴充能力而不是把所有規則塞進 system prompt",
+      "把執行環境、工具權限與模型本身解耦",
+      "讓同一套工程 workflow 能跨不同 coding agents 重用"
+    ],
+    "examples": [
+      "openai/codex",
+      "affaan-m/ecc",
+      "RTK"
+    ],
+    "tags": [
+      "agent-runtime",
+      "harness",
+      "mcp",
+      "hooks",
+      "tool-use"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "data-ingestion-normalization",
+    "title": "Data Ingestion & Normalization",
+    "coreProblem": "Agent 很難直接可靠使用 PDF、掃描檔、網頁、社群平台與各種非結構化來源；原始內容需要先轉成乾淨、可解析、可追蹤的資料。",
+    "solutionMethods": [
+      "把 PDF / web / image / platform content 轉成 Markdown 或 structured data",
+      "保留來源與 metadata，讓後續回答可追溯",
+      "將不同來源正規化成一致 ingestion contract",
+      "把擷取與推理分離，避免每個 Agent 自己重做 parser / crawler"
+    ],
+    "examples": [
+      "opendatalab/MinerU",
+      "unclecode/crawl4ai",
+      "WrenAI",
+      "Agent Reach",
+      "Onyx",
+      "Hermes BackSearch"
+    ],
+    "tags": [
+      "ingestion",
+      "parsing",
+      "crawler",
+      "normalization",
+      "structured-data"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "retrieval-grounded-knowledge-layer",
+    "title": "Retrieval-Grounded Knowledge Layer",
+    "coreProblem": "組織或專案知識散落在文件、網站與 SaaS 中；如果只依靠模型參數記憶，回答容易過時、缺乏來源，而且無法使用私有知識。",
+    "solutionMethods": [
+      "先建立 connector / ingestion 與索引層",
+      "回答時按需 retrieval，而不是把所有資料塞進 prompt",
+      "把來源、文件權限與 retrieval scope 納入知識層",
+      "將搜尋、RAG、deep research 與 Agent tool access 統一"
+    ],
+    "examples": [
+      "opendatalab/MinerU",
+      "unclecode/crawl4ai",
+      "Onyx"
+    ],
+    "tags": [
+      "rag",
+      "retrieval",
+      "knowledge-layer",
+      "connectors",
+      "grounding"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "reusable-agent-skills",
+    "title": "Reusable Agent Skills",
+    "coreProblem": "如果每次任務都重新寫 prompt 與操作步驟，專業知識無法累積、版本化，也很難跨 Agent 或專案重用。",
+    "solutionMethods": [
+      "把 domain knowledge、workflow、工具用法與驗收規則封裝成 Skill",
+      "讓 Skill 只在相關任務載入，避免永久污染 context",
+      "用檔案與版本控制管理 Skill",
+      "建立可搜尋的 Skill catalog，並在採用前做品質與安全檢查"
+    ],
+    "examples": [
+      "affaan-m/ecc",
+      "acheAIsuiyimen/ache-life-to-comic-skill",
+      "frontend-design",
+      "mattpocock/skills",
+      "addyosmani/agent-skills",
+      "ECPay/ECPay-API-Skill",
+      "reverse-skill",
+      "K-Dense-AI/scientific-agent-skills",
+      "mukul975/Anthropic-Cybersecurity-Skills",
+      "KKKKhazix/khazix-skills",
+      "Ayueh0102/Ronnier-skill",
+      "yusufkaraaslan/Skill_Seekers",
+      "NVIDIA/SkillSpector",
+      "VoltAgent/awesome-agent-skills",
+      "ComposioHQ/awesome-claude-skills",
+      "hesreallyhim/awesome-claude-code",
+      "VoltAgent/awesome-openclaw-skills",
+      "Stitch Skills",
+      "yanliudesign/mono-color-skill",
+      "Nutlope/hallmark",
+      "alchaincy/huashu-design",
+      "motion-dev-animations-skill",
+      "baoyu-skill",
+      "Punk-skill",
+      "gzh-design-skill",
+      "OpenMontage"
+    ],
+    "tags": [
+      "skills",
+      "reuse",
+      "domain-knowledge",
+      "workflow",
+      "catalog"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "design-to-code-loop",
+    "title": "Design ↔ Code Loop",
+    "coreProblem": "設計與程式實作分離時，reference、UI draft 與實際 code 容易在 handoff 中失真，修改也需要人工往返。",
+    "solutionMethods": [
+      "從 prompt / screenshot / reference 生成 UI draft",
+      "把設計輸出轉成可編輯的前端程式碼",
+      "讓 Agent 透過 MCP 直接操作設計工具",
+      "支援 code-to-design / design-to-code 的反覆迭代與視覺驗收"
+    ],
+    "examples": [
+      "Google Stitch",
+      "Stitch MCP",
+      "Stitch Skills",
+      "abi/screenshot-to-code"
+    ],
+    "tags": [
+      "design-to-code",
+      "code-to-design",
+      "ui",
+      "mcp",
+      "visual"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "component-primitives-design-system",
+    "title": "Component Primitives as Design Constraints",
+    "coreProblem": "自由生成前端 UI 容易造成元件不一致、可及性問題、樣式漂移與難以維護；需要一組可重用 primitives 作為實作邊界。",
+    "solutionMethods": [
+      "以 component library / primitives 建立有限可組合的介面語彙",
+      "把 spacing、typography、state、accessibility 規則集中在 design system",
+      "讓 Agent 優先組合既有元件而不是每次重新發明",
+      "把元件層作為 Generative UI 的安全與一致性邊界"
+    ],
+    "examples": [
+      "shadcn/ui",
+      "ant-design/ant-design",
+      "chakra-ui/chakra-ui",
+      "saadeghi/daisyui",
+      "magicuidesign/magicui",
+      "Kokonut UI",
+      "uiverse-io/galaxy",
+      "OpenUI"
+    ],
+    "tags": [
+      "components",
+      "design-system",
+      "primitives",
+      "ui",
+      "constraints"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "explicit-visual-system",
+    "title": "Explicit Visual System",
+    "coreProblem": "只用『漂亮、高級、科技感』等形容詞無法穩定重現視覺風格；色彩、字體、比例、spacing 與 editorial rules 必須被明確化。",
+    "solutionMethods": [
+      "把 color palette、typography、spacing、layout ratio 轉成明確規則",
+      "用 design tokens / style rules 取代模糊形容詞",
+      "把視覺規則封裝成 Skill 或 acceptance checklist",
+      "用 reference 驗證規則是否真的呈現在畫面上"
+    ],
+    "examples": [
+      "frontend-design",
+      "Google Stitch",
+      "Stitch MCP",
+      "Stitch Skills",
+      "abi/screenshot-to-code",
+      "yanliudesign/mono-color-skill",
+      "Nutlope/hallmark",
+      "alchaincy/huashu-design",
+      "ui-ux-gold-standard",
+      "shadcn/ui",
+      "ant-design/ant-design",
+      "chakra-ui/chakra-ui",
+      "saadeghi/daisyui",
+      "magicuidesign/magicui",
+      "Kokonut UI",
+      "uiverse-io/galaxy",
+      "Motion.dev",
+      "Anime.js",
+      "motion-dev-animations-skill",
+      "Motion Sites",
+      "Particles Casberry",
+      "MotionSites AI",
+      "OpenUI",
+      "Inspora",
+      "Wellmade",
+      "Bencho",
+      "landing.love",
+      "MaxiBestOf",
+      "Arrow 2",
+      "Recraft",
+      "Rive",
+      "Coolors"
+    ],
+    "tags": [
+      "visual-system",
+      "design-tokens",
+      "typography",
+      "color",
+      "ui-guidance"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "motion-interaction-layer",
+    "title": "Motion & Interaction as a Product Layer",
+    "coreProblem": "靜態 UI 無法完整描述 loading、hover、scroll、state transition 與 micro-interaction；互動節奏若沒有獨立設計，產品容易顯得生硬或不一致。",
+    "solutionMethods": [
+      "把 motion timing、easing、state transition 明確化",
+      "使用 animation runtime / library 實作可重用互動",
+      "將 scroll、hover、gesture 與 state machine 納入設計",
+      "以真實 interaction reference 做驗收，而不只比較 screenshot"
+    ],
+    "examples": [
+      "Motion.dev",
+      "Anime.js",
+      "motion-dev-animations-skill",
+      "Motion Sites",
+      "Particles Casberry",
+      "MotionSites AI",
+      "Bencho",
+      "landing.love",
+      "Rive"
+    ],
+    "tags": [
+      "motion",
+      "interaction",
+      "animation",
+      "state-machine",
+      "micro-interaction"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "content-production-pipeline",
+    "title": "Composable Content Production Pipeline",
+    "coreProblem": "內容產製常包含研究、標題、腳本、視覺、語音、簡報與後製；如果每一步靠人工搬運，難以規模化與重用。",
+    "solutionMethods": [
+      "把內容工作拆成 research → draft → asset → review → export 階段",
+      "每個階段使用專門 Skill / tool，而不是一個模型包辦全部",
+      "定義中間 artifact contract，讓下一步可以直接消費",
+      "在交付前加入品質檢查與人工 final polish"
+    ],
+    "examples": [
+      "acheAIsuiyimen/ache-life-to-comic-skill",
+      "baoyu-skill",
+      "Punk-skill",
+      "gzh-design-skill",
+      "gbro-cover-design",
+      "gbro-collage-broll",
+      "blogger-distiller",
+      "viral-hook-title",
+      "bobyu89/codex-ppt-style-expanded",
+      "vulture-s/whisper-guard",
+      "另一個 Whisper UI 專案",
+      "OpenMontage",
+      "remove.bg"
+    ],
+    "tags": [
+      "content",
+      "pipeline",
+      "artifact",
+      "workflow",
+      "production"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "quality-gates-verification",
+    "title": "Evidence-Gated Verification",
+    "coreProblem": "Agent 宣稱『完成』不代表功能、UI、安全、媒體輸出或瀏覽器行為真的正確；需要獨立 evidence 才能接受結果。",
+    "solutionMethods": [
+      "以 test / browser / scanner / output validation 產生可檢查 evidence",
+      "把 acceptance criteria 寫在執行前，而不是完成後臨時判斷",
+      "失敗時回到修復 loop，驗證通過才交付",
+      "對高風險工作使用不同 verifier 或人工 review"
+    ],
+    "examples": [
+      "NVIDIA/SkillSpector",
+      "akto-api-security/akto",
+      "vulture-s/whisper-guard",
+      "另一個 Whisper UI 專案",
+      "Playwright",
+      "Hermes Snyk Plugin"
+    ],
+    "tags": [
+      "verification",
+      "acceptance",
+      "evidence",
+      "testing",
+      "quality-gate"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "reference-application-pattern-mining",
+    "title": "Reference Application Pattern Mining",
+    "coreProblem": "成熟開源應用包含大量可學習的資料模型、UI、匯出、部署與產品 workflow；只看功能表面會錯過真正可移植的設計模式。",
+    "solutionMethods": [
+      "把 reference app 拆成資料模型、流程、架構與 UX pattern",
+      "區分可重用模式與產品特定實作",
+      "記錄值得借鑑的 trade-off，而不是直接複製 code",
+      "把 pattern 回灌到自己的 Concept / Combination"
+    ],
+    "examples": [
+      "ZhuLinsen/daily_stock_analysis",
+      "Reactive Resume"
+    ],
+    "tags": [
+      "reference-app",
+      "pattern-mining",
+      "architecture",
+      "product"
+    ],
+    "addedAt": "2026-09-22"
+  },
+  {
+    "id": "agentic-media-pipeline",
+    "title": "Agentic Media Pipeline",
+    "coreProblem": "影片與多媒體製作跨越腳本、素材、剪輯、字幕、音訊、review 與 render；單一步驟 AI 工具很難形成可靠的端到端交付。",
+    "solutionMethods": [
+      "用 orchestrator 管理 research、script、asset、edit、review、render",
+      "把傳統專業工具保留在 final polish 階段",
+      "對字幕、轉錄、素材與輸出加入專門 quality gate",
+      "使用可讀 pipeline / manifest 讓人能介入與修改"
+    ],
+    "examples": [
+      "DaVinci Resolve",
+      "OpenMontage"
+    ],
+    "tags": [
+      "media",
+      "video",
+      "orchestration",
+      "render",
+      "post-production"
     ],
     "addedAt": "2026-09-22"
   }
