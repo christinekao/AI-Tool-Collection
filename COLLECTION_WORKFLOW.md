@@ -156,3 +156,17 @@ Tools
 Tools are time-sensitive implementations. Concepts are the durable knowledge layer.
 
 When tools become outdated, replaced, archived, or renamed, preserve the useful concept and pattern knowledge. Update the implementation examples rather than deleting the underlying engineering idea.
+
+
+## Resource-to-concept traceability
+
+Every resource record must include:
+
+- `concepts`: one or more stable concept IDs from `concepts.json`
+- `conceptReviewedAt`: the date the concept mapping was last reviewed
+
+This makes concept coverage auditable from both directions: Concept → examples and Tool → concepts.
+
+## Backfill status
+
+Concept backfill completed on 2026-09-22. Existing merged resource inventory: 93/93 resources mapped to at least one concept.
