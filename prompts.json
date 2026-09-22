@@ -1,0 +1,51 @@
+[
+  {
+    "id": "multi-agent-content-pipeline-orca",
+    "title": "多 Agent 內容產線：蒐集 → 分析 → 異質模型 Review",
+    "category": "Agent Orchestration",
+    "promptType": "Workflow / Orchestration Prompt",
+    "problemSolved": "避免一個人手動在 Claude、Codex、opencode 等多個 Agent 視窗間切換、搬運 context、重複補背景；同時把低價值工作交給便宜模型，把高認知工作交給強模型，並用不同模型做獨立 review，降低單一模型偏誤。",
+    "whenToUse": [
+      "同時跑多條內容產製、研究或 coding 任務",
+      "需要控制模型成本與額度",
+      "希望作者模型與 reviewer 模型分離",
+      "需要跨 session 保留完整決策脈絡",
+      "任務可能長時間執行並需要中途確認"
+    ],
+    "promptContent": "You are the orchestration lead for a vendor-agnostic multi-agent pipeline.\n\nGoal:\n[Describe the final outcome]\n\nAvailable agents/models:\n[List available agents, model providers, tools, subscriptions and limits]\n\nConstraints:\n[Budget, deadline, privacy, quality bar, required human approvals]\n\nDesign and execute the workflow using these rules:\n\n1. Route work by cognitive demand, not by brand.\n   - Collection, crawling, repetitive extraction, formatting and mechanical tasks → use the cheapest reliable model/tool.\n   - Analysis, synthesis and ambiguous reasoning → use the strongest suitable reasoning model.\n   - Final review → use a different model/provider from the one that authored the main output whenever possible.\n\n2. Preserve context across handoffs.\n   - Pass the full relevant working context, including rejected options, intermediate reasoning summaries, constraints, evidence and prior feedback.\n   - Do not reduce a rich session to a conclusion-only summary when the receiving reviewer needs the decision history.\n\n3. Keep the workflow vendor-agnostic.\n   - Define roles such as Collector, Analyst, Reviewer and Finalizer independently from specific vendors.\n   - If a model hits quota, becomes unavailable or is too expensive, re-route the role to another suitable model without changing the workflow contract.\n\n4. Support long-running execution.\n   - Break work into independently observable tasks.\n   - Record task owner, status, blockers, evidence and next action.\n   - Pause only when a human decision is actually required.\n\n5. Enforce independent review.\n   - The reviewer must actively look for unsupported claims, missing evidence, contradictions, hidden assumptions, weak trade-offs and failure cases.\n   - Do not ask the authoring model to simply review its own work unless no independent model is available.\n\n6. Return a final package containing:\n   - final artifact\n   - task/agent routing used\n   - evidence or source references\n   - reviewer findings and fixes\n   - unresolved questions\n   - handoff context needed for the next session\n\nBefore execution, output the proposed pipeline as:\nRole → Agent/Model → Input → Output → Acceptance criteria → Fallback.",
+    "tags": [
+      "multi-agent",
+      "orchestration",
+      "orca",
+      "claude",
+      "codex",
+      "opencode",
+      "context-handoff",
+      "cross-model-review",
+      "vendor-agnostic",
+      "cost-routing",
+      "long-running-agent"
+    ],
+    "relatedTools": [
+      "stablyai/orca",
+      "openai/codex",
+      "Claude Code",
+      "opencode",
+      "omniroute"
+    ],
+    "variables": [
+      "final outcome",
+      "available agents/models",
+      "budget / quota",
+      "privacy constraints",
+      "quality bar",
+      "human approval points"
+    ],
+    "expectedOutput": "一份角色分工清楚、可替換模型、保留跨 session context、包含獨立 review 與 fallback 的多 Agent 執行計畫與最終交付。",
+    "sourceUrl": "https://www.threads.com/share/BAx2-nZvDj/",
+    "sourceType": "Threads post",
+    "sourceSummary": "核心觀念：不要讓人類自己當所有 Agent 的手動調度中心；將便宜模型用於蒐集、強模型用於分析、不同模型用於 review，並讓跨 session context 可以直接交接。Orchestration 能力不是規模變大後才需要，而是規模能長大的前提之一。",
+    "status": "generated-draft",
+    "addedAt": "2026-09-22"
+  }
+]
