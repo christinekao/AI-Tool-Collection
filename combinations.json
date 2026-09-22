@@ -2,91 +2,316 @@
   {
     "name": "大型 Codebase Agent Context Stack",
     "goal": "讓 coding agent 在大型專案中少重讀、少塞無關內容，又保有結構理解與持續記憶。",
-    "components": ["flyingrobots/graft", "DeusData/codebase-memory-mcp", "rtk-ai/rtk", "openai/codex"],
-    "flow": ["Graft：縮小結構化 code view", "Codebase Memory MCP：保留 code graph / memory", "RTK：壓縮高噪音 CLI output", "Codex：執行修改與驗證"],
-    "useCases": ["大型 monorepo", "長 session 開發", "頻繁 lint/test/git diff", "Agent 每次都重新探索 codebase"],
+    "components": [
+      "flyingrobots/graft",
+      "DeusData/codebase-memory-mcp",
+      "rtk-ai/rtk",
+      "openai/codex"
+    ],
+    "flow": [
+      "Graft：縮小結構化 code view",
+      "Codebase Memory MCP：保留 code graph / memory",
+      "RTK：壓縮高噪音 CLI output",
+      "Codex：執行修改與驗證"
+    ],
+    "useCases": [
+      "大型 monorepo",
+      "長 session 開發",
+      "頻繁 lint/test/git diff",
+      "Agent 每次都重新探索 codebase"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "code-intelligence", "memory", "token-efficiency", "coding-agent"]
+    "tags": [
+      "combo",
+      "code-intelligence",
+      "memory",
+      "token-efficiency",
+      "coding-agent"
+    ]
   },
   {
     "name": "多 Agent 平行開發 Stack",
     "goal": "把任務分工、Agent 角色、隔離工作區與模型 routing 組成可管理的平行開發流程。",
-    "components": ["stablyai/orca", "msitarzewski/agency-agents", "omniroute", "openai/codex"],
-    "flow": ["Agency Agents：定義專家角色與交付規則", "OmniRoute：模型／provider routing 與 fallback", "Orca：每個 Agent 使用獨立 worktree 平行執行", "Codex：實際 coding / review / verification"],
-    "useCases": ["多功能同時開發", "平行 bugfix / feature", "想比較不同 Agent 或模型結果", "需要 worktree 隔離"],
+    "components": [
+      "stablyai/orca",
+      "msitarzewski/agency-agents",
+      "omniroute",
+      "openai/codex"
+    ],
+    "flow": [
+      "Agency Agents：定義專家角色與交付規則",
+      "OmniRoute：模型／provider routing 與 fallback",
+      "Orca：每個 Agent 使用獨立 worktree 平行執行",
+      "Codex：實際 coding / review / verification"
+    ],
+    "useCases": [
+      "多功能同時開發",
+      "平行 bugfix / feature",
+      "想比較不同 Agent 或模型結果",
+      "需要 worktree 隔離"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "multi-agent", "orchestration", "worktree", "routing"]
+    "tags": [
+      "combo",
+      "multi-agent",
+      "orchestration",
+      "worktree",
+      "routing"
+    ]
   },
   {
     "name": "企業知識問答 Stack",
     "goal": "把公司文件、結構化資料與商業語意整合成可治理的 AI 問答／分析入口。",
-    "components": ["onyx-dot-app/onyx", "Canner/WrenAI", "unclecode/crawl4ai", "opendatalab/MinerU"],
-    "flow": ["MinerU / Crawl4AI：文件與網站 ingestion", "Onyx：文件索引、RAG、跨來源搜尋與問答", "WrenAI：結構化資料的 semantic layer / governed SQL", "Agent：統一回答文件知識與 BI 問題"],
-    "useCases": ["內部知識庫", "政策／文件問答", "跨 SaaS / 文件搜尋", "自然語言查商業資料"],
+    "components": [
+      "onyx-dot-app/onyx",
+      "Canner/WrenAI",
+      "unclecode/crawl4ai",
+      "opendatalab/MinerU"
+    ],
+    "flow": [
+      "MinerU / Crawl4AI：文件與網站 ingestion",
+      "Onyx：文件索引、RAG、跨來源搜尋與問答",
+      "WrenAI：結構化資料的 semantic layer / governed SQL",
+      "Agent：統一回答文件知識與 BI 問題"
+    ],
+    "useCases": [
+      "內部知識庫",
+      "政策／文件問答",
+      "跨 SaaS / 文件搜尋",
+      "自然語言查商業資料"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "rag", "enterprise-search", "semantic-layer", "genbi"]
+    "tags": [
+      "combo",
+      "rag",
+      "enterprise-search",
+      "semantic-layer",
+      "genbi"
+    ]
   },
   {
     "name": "Web Research Agent Stack",
     "goal": "讓 Agent 能穩定取得多平台公開資訊，整理成可查詢或可持續累積的研究資料。",
-    "components": ["Panniantong/Agent-Reach", "unclecode/crawl4ai", "simonw/llm"],
-    "flow": ["Agent Reach：選擇與路由各平台 access backend", "Crawl4AI：需要時把網站轉成乾淨 Markdown / structured content", "LLM：分析並把 prompt / response 紀錄進 SQLite"],
-    "useCases": ["競品研究", "社群與網頁資料蒐集", "長期主題研究", "研究歷史可回查"],
+    "components": [
+      "Panniantong/Agent-Reach",
+      "unclecode/crawl4ai",
+      "simonw/llm"
+    ],
+    "flow": [
+      "Agent Reach：選擇與路由各平台 access backend",
+      "Crawl4AI：需要時把網站轉成乾淨 Markdown / structured content",
+      "LLM：分析並把 prompt / response 紀錄進 SQLite"
+    ],
+    "useCases": [
+      "競品研究",
+      "社群與網頁資料蒐集",
+      "長期主題研究",
+      "研究歷史可回查"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "research", "web-access", "social-media", "history"]
+    "tags": [
+      "combo",
+      "research",
+      "web-access",
+      "social-media",
+      "history"
+    ]
   },
   {
     "name": "Agentic Video Production Stack",
     "goal": "把腳本、素材、剪輯與後製變成可由 Agent 編排的端到端影片工作流。",
-    "components": ["calesthio/OpenMontage", "DaVinci Resolve", "gbro-collage-broll", "vulture-s/whisper-guard"],
-    "flow": ["OpenMontage：research / script / media / edit / review / render orchestration", "gbro-collage-broll：腳本拆 B-roll / collage 概念", "Whisper Guard：語音轉錄品質防護", "DaVinci Resolve：人工精修、調色、音訊與最終輸出"],
-    "useCases": ["短影音", "教學影片", "大量內容生產", "AI 初剪 + 人工 final polish"],
+    "components": [
+      "calesthio/OpenMontage",
+      "DaVinci Resolve",
+      "gbro-collage-broll",
+      "vulture-s/whisper-guard"
+    ],
+    "flow": [
+      "OpenMontage：research / script / media / edit / review / render orchestration",
+      "gbro-collage-broll：腳本拆 B-roll / collage 概念",
+      "Whisper Guard：語音轉錄品質防護",
+      "DaVinci Resolve：人工精修、調色、音訊與最終輸出"
+    ],
+    "useCases": [
+      "短影音",
+      "教學影片",
+      "大量內容生產",
+      "AI 初剪 + 人工 final polish"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "video", "agentic-workflow", "post-production"]
+    "tags": [
+      "combo",
+      "video",
+      "agentic-workflow",
+      "post-production"
+    ]
   },
   {
     "name": "Generative UI Stack",
     "goal": "讓 Agent 不只輸出文字，而是依既有 design system 產生受控、可串流、可互動的 UI。",
-    "components": ["thesysdev/openui", "shadcn/ui", "Google Stitch", "frontend-design"],
-    "flow": ["frontend-design / Stitch：定義視覺方向與介面品質", "shadcn/ui：提供可控 component primitives", "OpenUI：限制模型只能使用允許的 component schema 並串流 render", "Agent：依需求動態產生 UI"],
-    "useCases": ["Generative UI", "Agent dashboard", "動態表單", "AI response 直接變成 interactive interface"],
+    "components": [
+      "thesysdev/openui",
+      "shadcn/ui",
+      "Google Stitch",
+      "frontend-design"
+    ],
+    "flow": [
+      "frontend-design / Stitch：定義視覺方向與介面品質",
+      "shadcn/ui：提供可控 component primitives",
+      "OpenUI：限制模型只能使用允許的 component schema 並串流 render",
+      "Agent：依需求動態產生 UI"
+    ],
+    "useCases": [
+      "Generative UI",
+      "Agent dashboard",
+      "動態表單",
+      "AI response 直接變成 interactive interface"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "generative-ui", "design-system", "agent-ui"]
+    "tags": [
+      "combo",
+      "generative-ui",
+      "design-system",
+      "agent-ui"
+    ]
   },
   {
     "name": "低成本 Coding Agent Stack",
     "goal": "降低 coding agent 的模型與 context 成本，同時保留 fallback 與可用性。",
-    "components": ["omniroute", "rtk-ai/rtk", "flyingrobots/graft", "openai/codex"],
-    "flow": ["OmniRoute：優先路由到低成本／免費模型並處理 quota fallback", "Graft：避免把整份大型程式碼塞入 context", "RTK：壓縮 shell output", "Codex / coding agent：執行實際任務"],
-    "useCases": ["高頻 Agent coding", "API quota 容易觸頂", "想壓低 token 成本", "長時間 autonomous loop"],
+    "components": [
+      "omniroute",
+      "rtk-ai/rtk",
+      "flyingrobots/graft",
+      "openai/codex"
+    ],
+    "flow": [
+      "OmniRoute：優先路由到低成本／免費模型並處理 quota fallback",
+      "Graft：避免把整份大型程式碼塞入 context",
+      "RTK：壓縮 shell output",
+      "Codex / coding agent：執行實際任務"
+    ],
+    "useCases": [
+      "高頻 Agent coding",
+      "API quota 容易觸頂",
+      "想壓低 token 成本",
+      "長時間 autonomous loop"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "cost", "routing", "token-efficiency", "coding-agent"]
+    "tags": [
+      "combo",
+      "cost",
+      "routing",
+      "token-efficiency",
+      "coding-agent"
+    ]
   },
   {
     "name": "Reference → Agent → Implementation",
     "goal": "把設計 reference 當成 prompt evidence，先抽取可觀察的設計原則，再交給 Agent 實作與驗收。",
-    "components": ["Inspora", "Wellmade", "Bencho", "Landing Love", "MaxiBestOf", "frontend-design", "Google Stitch", "openai/codex"],
-    "flow": ["Reference：選定 visual / interaction / motion / typography 參考", "Extract：拆出 typography、spacing、layout、motion timing、interaction pattern 等 design signals", "Agent Brief：寫明要學什麼與禁止複製什麼", "Implementation：Stitch / frontend-design / Codex 實作", "Acceptance：用實際畫面與 interaction 對照 reference 原則驗收"],
-    "useCases": ["作品集網站", "landing page", "產品 UI", "Vibe Coding 時避免只用『高級一點』這種抽象 prompt"],
+    "components": [
+      "Inspora",
+      "Wellmade",
+      "Bencho",
+      "Landing Love",
+      "MaxiBestOf",
+      "frontend-design",
+      "Google Stitch",
+      "openai/codex"
+    ],
+    "flow": [
+      "Reference：選定 visual / interaction / motion / typography 參考",
+      "Extract：拆出 typography、spacing、layout、motion timing、interaction pattern 等 design signals",
+      "Agent Brief：寫明要學什麼與禁止複製什麼",
+      "Implementation：Stitch / frontend-design / Codex 實作",
+      "Acceptance：用實際畫面與 interaction 對照 reference 原則驗收"
+    ],
+    "useCases": [
+      "作品集網站",
+      "landing page",
+      "產品 UI",
+      "Vibe Coding 時避免只用『高級一點』這種抽象 prompt"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "reference", "design-evidence", "ui-design", "acceptance"]
+    "tags": [
+      "combo",
+      "reference",
+      "design-evidence",
+      "ui-design",
+      "acceptance"
+    ]
   },
   {
     "name": "AI Vector Asset → Code Stack",
     "goal": "把 AI 產生的視覺資產保留成真正可編輯、可程式化與可動畫的 SVG，而不是停在一次性的 PNG。",
-    "components": ["QuiverAI Arrow 2", "openai/codex", "Motion.dev", "Google Stitch"],
-    "flow": ["Arrow 2：text/image → editable SVG", "Codex：直接修改 SVG path、色彩、尺寸或轉成 React component", "Motion.dev：需要時加入 interaction / animation", "Stitch / 前端專案：把向量資產放入完整 UI 並做視覺驗收"],
-    "useCases": ["Logo", "Icon", "Illustration", "Landing page visual asset", "需要 responsive / animated SVG 的前端專案"],
+    "components": [
+      "QuiverAI Arrow 2",
+      "openai/codex",
+      "Motion.dev",
+      "Google Stitch"
+    ],
+    "flow": [
+      "Arrow 2：text/image → editable SVG",
+      "Codex：直接修改 SVG path、色彩、尺寸或轉成 React component",
+      "Motion.dev：需要時加入 interaction / animation",
+      "Stitch / 前端專案：把向量資產放入完整 UI 並做視覺驗收"
+    ],
+    "useCases": [
+      "Logo",
+      "Icon",
+      "Illustration",
+      "Landing page visual asset",
+      "需要 responsive / animated SVG 的前端專案"
+    ],
     "status": "pattern",
     "addedAt": "2026-09-17",
-    "tags": ["combo", "svg", "vector", "design-to-code", "motion", "frontend"]
+    "tags": [
+      "combo",
+      "svg",
+      "vector",
+      "design-to-code",
+      "motion",
+      "frontend"
+    ]
+  },
+  {
+    "name": "Long-running Agent Foundation Stack",
+    "goal": "補齊長期運行 Agent 所需的三個基礎面：記憶可觀測、安全治理、以及可重現的歷史研究，讓 Agent 不只是會呼叫更多工具，而是能被檢查、被約束、被回溯。",
+    "components": [
+      "NousResearch/hermes-memory-wiki",
+      "NousResearch/hermes-plugin-snyk",
+      "NousResearch/hermes-plugin-backsearch",
+      "Hermes Agent"
+    ],
+    "flow": [
+      "Memory Wiki：檢查 session history 與 Persistent Memory，確認 Agent 到底記得什麼",
+      "Snyk Plugin：在 code / dependency / container / IaC / SBOM 階段加入 security scan",
+      "BackSearch：需要歷史研究或 backtest 時，以 as_of cutoff 取得當時可見的資料，避免未來資訊污染",
+      "Hermes Agent：把這些能力放進同一個長期 Agent runtime / plugin workflow"
+    ],
+    "useCases": [
+      "長期 autonomous agent",
+      "coding agent 基礎設施",
+      "需要 memory audit 的 Agent",
+      "安全掃描納入 Agent workflow",
+      "歷史研究 / backtest / reproducible benchmark"
+    ],
+    "status": "pattern",
+    "addedAt": "2026-09-18",
+    "tags": [
+      "combo",
+      "long-running-agent",
+      "memory",
+      "security",
+      "historical-research",
+      "governance"
+    ]
   }
 ]
