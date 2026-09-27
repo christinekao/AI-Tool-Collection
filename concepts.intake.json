@@ -12,19 +12,8 @@
       "把 approval gate、pause / resume / terminate、audit log 與 rollback 做成治理層",
       "用 RBAC、scoped secrets 與 company boundary 限制 Agent 的權限與資料範圍"
     ],
-    "examples": [
-      "Paperclip"
-    ],
-    "tags": [
-      "agent-organization",
-      "control-plane",
-      "governance",
-      "org-chart",
-      "goal-alignment",
-      "budget",
-      "audit",
-      "long-running-agent"
-    ],
+    "examples": ["Paperclip"],
+    "tags": ["agent-organization", "control-plane", "governance", "org-chart", "goal-alignment", "budget", "audit", "long-running-agent"],
     "addedAt": "2026-09-26"
   },
   {
@@ -34,9 +23,7 @@
   {
     "id": "long-running-agent-operations",
     "examplesAppend": ["Paperclip"],
-    "solutionMethodsAppend": [
-      "用 heartbeat queue、persistent task state、budget checks 與 orphaned-run recovery 支撐 24/7 Agent 執行"
-    ]
+    "solutionMethodsAppend": ["用 heartbeat queue、persistent task state、budget checks 與 orphaned-run recovery 支撐 24/7 Agent 執行"]
   },
   {
     "id": "agent-runtime-harness",
@@ -44,25 +31,25 @@
   },
   {
     "id": "reusable-agent-skills",
-    "examplesAppend": ["Paperclip"],
+    "examplesAppend": ["Paperclip", "OneTake"],
     "solutionMethodsAppend": [
-      "在 runtime 載入共享 Skills / project context，而不是為每個 Agent 重新訓練"
+      "在 runtime 載入共享 Skills / project context，而不是為每個 Agent 重新訓練",
+      "把創意製作方法、工具腳本與驗收規則一起封裝成可版本化 Agent Skill"
     ]
   },
   {
     "id": "quality-gates-verification",
-    "examplesAppend": ["Paperclip", "Blave Agent"],
+    "examplesAppend": ["Paperclip", "Blave Agent", "OneTake"],
     "solutionMethodsAppend": [
       "把 board approval、review stage、diff / screenshot / test evidence 與 rollback 納入 Agent 任務驗收",
-      "高風險流程採 verify-before-report：寫檔後重讀、下單後向外部系統查回結果，避免把意圖誤報成成功"
+      "高風險流程採 verify-before-report：寫檔後重讀、下單後向外部系統查回結果，避免把意圖誤報成成功",
+      "創意輸出也能定義 machine-checkable oracle，在人工 review 前先檢查 continuity、節奏、framing、音訊與 motion blur"
     ]
   },
   {
     "id": "agent-credential-isolation",
     "examplesAppend": ["Paperclip"],
-    "solutionMethodsAppend": [
-      "以 company-scoped secrets、short-lived credentials 與 RBAC 控制每個 Agent 能接觸的能力與資料"
-    ]
+    "solutionMethodsAppend": ["以 company-scoped secrets、short-lived credentials 與 RBAC 控制每個 Agent 能接觸的能力與資料"]
   },
   {
     "id": "deterministic-execution-boundary",
@@ -94,5 +81,40 @@
     "examples": ["Blave Agent"],
     "tags": ["backtest", "overfitting", "monte-carlo", "walk-forward", "parameter-stability", "model-risk"],
     "addedAt": "2026-09-27"
+  },
+  {
+    "id": "continuity-driven-motion-design",
+    "title": "Continuity-Driven Motion Design",
+    "coreProblem": "AI 動效影片常能做出漂亮的單一鏡頭，但 scene / beat 之間缺乏視覺因果，下一幕只是把上一幕替換掉，因此整支影片仍像投影片而不是連續敘事。",
+    "solutionMethods": [
+      "先設計 beat 之間的 boundary / transition，再補每個 beat 的內容",
+      "要求每個主要交界至少有一個可見元素跨段延續、變形、碰撞或引導出下一段",
+      "用單一 camera grammar 維持 world-space continuity，hard cut 只在有敘事理由時使用",
+      "將產品 UI 重建成可程式控制的 HTML / deterministic layer，讓鏡頭能真正進入與穿越介面",
+      "用可重現的 motion primitives、motion blur 與 event-driven sound 建立動作與聲音的一致因果",
+      "把 continuity 轉成可量測的 acceptance gate，在人工審片前先用 oracle 檢查"
+    ],
+    "examples": ["OneTake"],
+    "tags": ["motion", "continuity", "single-take", "transition-design", "product-video", "visual-storytelling"],
+    "addedAt": "2026-09-27"
+  },
+  {
+    "id": "motion-interaction-layer",
+    "examplesAppend": ["OneTake"],
+    "solutionMethodsAppend": ["把 scene boundary 視為 first-class motion object，明確設計上一段如何在畫面中存活並轉成下一段"]
+  },
+  {
+    "id": "agentic-media-pipeline",
+    "examplesAppend": ["OneTake"],
+    "solutionMethodsAppend": ["在 Agent 影片產線中加入 reference analysis → concept → beat/carry sheet → composition → render → automated verification 的 motion-film pipeline"]
+  },
+  {
+    "id": "reference-as-prompt-evidence",
+    "examplesAppend": ["OneTake"],
+    "solutionMethodsAppend": ["先把 reference 拆成可觀察的節奏、靜止比例、cut、motion curve 與構圖訊號，再開始生成設計"]
+  },
+  {
+    "id": "content-production-pipeline",
+    "examplesAppend": ["OneTake"]
   }
 ]
