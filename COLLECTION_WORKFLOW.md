@@ -157,7 +157,6 @@ Tools are time-sensitive implementations. Concepts are the durable knowledge lay
 
 When tools become outdated, replaced, archived, or renamed, preserve the useful concept and pattern knowledge. Update the implementation examples rather than deleting the underlying engineering idea.
 
-
 ## Resource-to-concept traceability
 
 Every resource record must include:
@@ -167,6 +166,17 @@ Every resource record must include:
 
 This makes concept coverage auditable from both directions: Concept → examples and Tool → concepts.
 
+## Intake overlay policy
+
+New verified items may first be written to lightweight overlay files so the website can expose them immediately without rewriting large historical datasets on every intake:
+
+- `resources.intake.json` — new or replacement resource records
+- `concepts.intake.json` — new concepts plus `examplesAppend` / `solutionMethodsAppend` patches for existing concepts
+
+The website merges these overlays at runtime. Duplicate keys still follow the same canonical merge rules.
+
+Periodically consolidate intake overlays back into the main JSON files during maintenance. The overlay is an ingestion buffer, not a separate knowledge model.
+
 ## Backfill status
 
-Concept backfill completed on 2026-09-22. Existing merged resource inventory: 93/93 resources mapped to at least one concept.
+Concept backfill completed on 2026-09-22. The original 93/93 merged resources were mapped to at least one concept. New intake records must also include concept mappings before they are considered complete.
