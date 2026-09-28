@@ -27,14 +27,15 @@
   },
   {
     "id": "agent-runtime-harness",
-    "examplesAppend": ["Paperclip", "Blave Agent"]
+    "examplesAppend": ["Paperclip", "Blave Agent", "OpenChatX"]
   },
   {
     "id": "reusable-agent-skills",
-    "examplesAppend": ["Paperclip", "OneTake"],
+    "examplesAppend": ["Paperclip", "OneTake", "OpenChatX"],
     "solutionMethodsAppend": [
       "在 runtime 載入共享 Skills / project context，而不是為每個 Agent 重新訓練",
-      "把創意製作方法、工具腳本與驗收規則一起封裝成可版本化 Agent Skill"
+      "把創意製作方法、工具腳本與驗收規則一起封裝成可版本化 Agent Skill",
+      "讓 Skills / Rules 依需求 lazy load，避免所有能力永久佔用 context"
     ]
   },
   {
@@ -105,8 +106,11 @@
   },
   {
     "id": "agentic-media-pipeline",
-    "examplesAppend": ["OneTake"],
-    "solutionMethodsAppend": ["在 Agent 影片產線中加入 reference analysis → concept → beat/carry sheet → composition → render → automated verification 的 motion-film pipeline"]
+    "examplesAppend": ["OneTake", "ChatCut", "DaVinci Resolve"],
+    "solutionMethodsAppend": [
+      "在 Agent 影片產線中加入 reference analysis → concept → beat/carry sheet → composition → render → automated verification 的 motion-film pipeline",
+      "讓 AI rough cut 保持 editable timeline，透過標準交換格式交給專業 NLE 做調色、音訊、效果與 mastering"
+    ]
   },
   {
     "id": "reference-as-prompt-evidence",
@@ -115,6 +119,73 @@
   },
   {
     "id": "content-production-pipeline",
-    "examplesAppend": ["OneTake"]
+    "examplesAppend": ["OneTake", "ChatCut", "DaVinci Resolve"]
+  },
+  {
+    "id": "persistent-agent-memory",
+    "examplesAppend": ["OpenChatX"],
+    "solutionMethodsAppend": ["以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續"]
+  },
+  {
+    "id": "context-governance",
+    "examplesAppend": ["OpenChatX"],
+    "solutionMethodsAppend": ["外部 MCP 與 Toolbox schema 採 lazy exposure，只在需要時把能力加入 context"]
+  },
+  {
+    "id": "capability-aggregation-gateway",
+    "title": "Capability Aggregation Gateway",
+    "coreProblem": "當 Agent 同時需要本機檔案、shell、電腦控制、Skills、Rules、外部 MCP 與子 Agent 時，逐一把每種能力直接接到模型會造成工具管理分散、context 膨脹與治理困難。",
+    "solutionMethods": [
+      "在模型與實際工具之間加入單一 capability gateway",
+      "把本機工具、外部 MCP、Skills、Rules 與 Subagents 統一成可管理的能力目錄",
+      "能力 schema 採 lazy discovery / loading，避免一次暴露全部工具",
+      "把 model/planner 與 tool/runtime 分離，讓 runtime 可以獨立演進"
+    ],
+    "examples": ["OpenChatX"],
+    "tags": ["mcp", "gateway", "capability", "tool-aggregation", "lazy-tools", "agent-runtime"],
+    "addedAt": "2026-09-28"
+  },
+  {
+    "id": "outbound-private-tool-bridge",
+    "title": "Outbound Private Tool Bridge",
+    "coreProblem": "雲端 Agent 若要安全呼叫使用者電腦內的工具，直接開公開 inbound port 會增加網路暴露面、NAT / firewall 設定與憑證管理負擔。",
+    "solutionMethods": [
+      "由本機 runtime 主動建立 outbound secure tunnel，而不是公開本機 inbound endpoint",
+      "雲端 Agent 只連到受控 tunnel / relay，再把 tool request 轉送到本機",
+      "把 tunnel control-plane credential 存在 OS credential store，而不是放進專案檔案",
+      "本機工具仍以使用者權限執行，因此要搭配最小權限、tool trust 與 audit"
+    ],
+    "examples": ["OpenChatX + Secure MCP Tunnel"],
+    "tags": ["secure-tunnel", "mcp", "local-tools", "outbound", "private-runtime", "security"],
+    "addedAt": "2026-09-28"
+  },
+  {
+    "id": "web-to-desktop-application-shell",
+    "title": "Web-to-Desktop Application Shell",
+    "coreProblem": "Web 技術開發速度快，但瀏覽器本身無法完整、安全地使用桌面 OS 能力；跨平台桌面 App 需要同時兼顧 Web UI 與 privileged native capability。",
+    "solutionMethods": [
+      "把 Web UI 放在 renderer process，把檔案系統、視窗、系統整合等高權限能力留在 main process",
+      "透過 preload / context bridge / IPC 建立窄而明確的 capability boundary",
+      "避免讓不受信任的 renderer 直接取得完整 Node / OS 權限",
+      "用單一 Web codebase 打包成多平台桌面應用"
+    ],
+    "examples": ["Electron"],
+    "tags": ["desktop", "web-runtime", "ipc", "capability-boundary", "cross-platform"],
+    "addedAt": "2026-09-27"
+  },
+  {
+    "id": "editable-agentic-timeline",
+    "title": "Editable Agentic Timeline",
+    "coreProblem": "許多 AI 影片工具直接輸出最終 MP4；一旦需要人工精修、調色、混音或修改細節，就失去原本的時間軸結構與可編輯性，AI 與專業後製之間形成斷點。",
+    "solutionMethods": [
+      "讓 Agent 直接修改真正的 clips、tracks、captions 與 timeline，而不是只生成扁平 render",
+      "把 AI rough cut 與 transcript-based edit 保留成可人工調整的 project state",
+      "使用 XML / XMEML 等 interchange format 把 timeline 交給專業 NLE",
+      "無法透過 timeline interchange 保留的 motion graphics，可另外輸出帶 alpha 的中介素材",
+      "AI 負責高頻初剪與生成，專業 NLE 負責 color、audio、effects、finishing 與 mastering"
+    ],
+    "examples": ["ChatCut", "DaVinci Resolve"],
+    "tags": ["video-editing", "timeline", "nle", "xml", "human-in-the-loop", "editable-artifact"],
+    "addedAt": "2026-09-28"
   }
 ]
