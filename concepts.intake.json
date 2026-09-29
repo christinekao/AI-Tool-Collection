@@ -31,22 +31,24 @@
   },
   {
     "id": "reusable-agent-skills",
-    "examplesAppend": ["Paperclip", "OneTake", "OpenChatX", "Impeccable"],
+    "examplesAppend": ["Paperclip", "OneTake", "OpenChatX", "Impeccable", "Photo Riso Poster"],
     "solutionMethodsAppend": [
       "在 runtime 載入共享 Skills / project context，而不是為每個 Agent 重新訓練",
       "把創意製作方法、工具腳本與驗收規則一起封裝成可版本化 Agent Skill",
       "讓 Skills / Rules 依需求 lazy load，避免所有能力永久佔用 context",
-      "把跨 harness 共用的設計 vocabulary、命令與 hooks 封裝成單一可攜 Skill，而不是為每個 Agent 維護不同 prompt"
+      "把跨 harness 共用的設計 vocabulary、命令與 hooks 封裝成單一可攜 Skill，而不是為每個 Agent 維護不同 prompt",
+      "把 visual analysis、generation constraints 與自我檢查封裝成單一可攜 prompt skill，讓不同 image-capable assistants 重用同一套方法"
     ]
   },
   {
     "id": "quality-gates-verification",
-    "examplesAppend": ["Paperclip", "Blave Agent", "OneTake", "Impeccable"],
+    "examplesAppend": ["Paperclip", "Blave Agent", "OneTake", "Impeccable", "Photo Riso Poster"],
     "solutionMethodsAppend": [
       "把 board approval、review stage、diff / screenshot / test evidence 與 rollback 納入 Agent 任務驗收",
       "高風險流程採 verify-before-report：寫檔後重讀、下單後向外部系統查回結果，避免把意圖誤報成成功",
       "創意輸出也能定義 machine-checkable oracle，在人工 review 前先檢查 continuity、節奏、framing、音訊與 motion blur",
-      "把可機械判定的 UI 問題交給 deterministic detector rules，把需要設計判斷的層級、清晰度與情緒表現留給 LLM critique / human review"
+      "把可機械判定的 UI 問題交給 deterministic detector rules，把需要設計判斷的層級、清晰度與情緒表現留給 LLM critique / human review",
+      "生成式視覺在交付前逐項檢查構圖、色彩、文字與來源 evidence 是否符合約束；若關鍵規則失敗，限制次數後重生一次"
     ]
   },
   {
@@ -116,8 +118,11 @@
   },
   {
     "id": "reference-as-prompt-evidence",
-    "examplesAppend": ["OneTake"],
-    "solutionMethodsAppend": ["先把 reference 拆成可觀察的節奏、靜止比例、cut、motion curve 與構圖訊號，再開始生成設計"]
+    "examplesAppend": ["OneTake", "Photo Riso Poster"],
+    "solutionMethodsAppend": [
+      "先把 reference 拆成可觀察的節奏、靜止比例、cut、motion curve 與構圖訊號，再開始生成設計",
+      "先把照片轉成 counts、spacing、occlusion、direction、depth、color roles 等文字 evidence，再用這些 evidence 驅動生成，而不是直接要求模型模仿原圖"
+    ]
   },
   {
     "id": "content-production-pipeline",
@@ -192,10 +197,11 @@
   },
   {
     "id": "explicit-visual-system",
-    "examplesAppend": ["Impeccable"],
+    "examplesAppend": ["Impeccable", "Photo Riso Poster"],
     "solutionMethodsAppend": [
       "把 durable product truth 與 surface-level visual direction 分離保存，避免品牌、受眾與產品限制被短期視覺偏好覆蓋",
-      "將 typography、layout、color、motion、tone 等設計方向寫成可版本化 DESIGN.md，而不是只留在單次 prompt"
+      "將 typography、layout、color、motion、tone 等設計方向寫成可版本化 DESIGN.md，而不是只留在單次 prompt",
+      "把紙張冷暖、墨色數量、留白比例、cluster 大小、排印語彙與禁用樣式寫成明確 generation grammar，降低視覺漂移"
     ]
   },
   {
@@ -205,5 +211,20 @@
       "先 shape UX/UI，再進入 build，而不是讓 Agent 邊寫 code 邊臨時決定產品與視覺結構",
       "在 live browser 中生成與比較 visual variants，再把選擇回寫到實際前端實作"
     ]
+  },
+  {
+    "id": "evidence-preserving-visual-abstraction",
+    "title": "Evidence-Preserving Visual Abstraction",
+    "coreProblem": "把照片或真實世界 reference 交給生成模型做風格轉換時，模型容易只保留表面『像不像』或風格印象，卻丟失數量、間距、方向、遮擋、深度、比例與色彩角色等真正描述來源結構的 evidence。",
+    "solutionMethods": [
+      "先把來源解構成可命名、可檢查的視覺事實，再開始生成",
+      "將每個輸出 mark / typography 對應回至少一個來源 fact，刪除沒有證據來源的裝飾",
+      "在不同 abstraction level 下保留 relational invariants，例如 count、spacing、size hierarchy、direction、asymmetry、occlusion",
+      "把 style grammar 與 source evidence 分開：style 決定如何畫，evidence 決定畫什麼與彼此關係",
+      "生成後重新檢查 evidence 是否仍可追溯，而不是只憑主觀美感判斷"
+    ],
+    "examples": ["Photo Riso Poster"],
+    "tags": ["visual-abstraction", "evidence", "image-generation", "reference", "relational-invariants", "traceability"],
+    "addedAt": "2026-09-29"
   }
 ]
