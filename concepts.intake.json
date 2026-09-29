@@ -10,7 +10,7 @@
       "以 heartbeat / routine / schedule 讓 Agent 長時間自主執行，同時保留 recovery 機制",
       "用 budget、cost attribution、warning threshold 與 hard stop 控制 runaway spend",
       "把 approval gate、pause / resume / terminate、audit log 與 rollback 做成治理層",
-      "用 RBAC、scoped secrets 與 company boundary 限制 Agent 的權限與資料範圍"
+      "用 RBAC、scoped secrets 與 company boundary 限制每個 Agent 能接觸的能力與資料"
     ],
     "examples": ["Paperclip"],
     "tags": ["agent-organization", "control-plane", "governance", "org-chart", "goal-alignment", "budget", "audit", "long-running-agent"],
@@ -18,7 +18,7 @@
   },
   {
     "id": "vendor-agnostic-orchestration",
-    "examplesAppend": ["Paperclip"]
+    "examplesAppend": ["Paperclip", "GitHub Agentic Workflows"]
   },
   {
     "id": "long-running-agent-operations",
@@ -27,7 +27,7 @@
   },
   {
     "id": "agent-runtime-harness",
-    "examplesAppend": ["Paperclip", "Blave Agent", "OpenChatX"]
+    "examplesAppend": ["Paperclip", "Blave Agent", "OpenChatX", "GitHub Agentic Workflows"]
   },
   {
     "id": "reusable-agent-skills",
@@ -42,13 +42,14 @@
   },
   {
     "id": "quality-gates-verification",
-    "examplesAppend": ["Paperclip", "Blave Agent", "OneTake", "Impeccable", "Photo Riso Poster"],
+    "examplesAppend": ["Paperclip", "Blave Agent", "OneTake", "Impeccable", "Photo Riso Poster", "GitHub Agentic Workflows"],
     "solutionMethodsAppend": [
       "把 board approval、review stage、diff / screenshot / test evidence 與 rollback 納入 Agent 任務驗收",
       "高風險流程採 verify-before-report：寫檔後重讀、下單後向外部系統查回結果，避免把意圖誤報成成功",
       "創意輸出也能定義 machine-checkable oracle，在人工 review 前先檢查 continuity、節奏、framing、音訊與 motion blur",
       "把可機械判定的 UI 問題交給 deterministic detector rules，把需要設計判斷的層級、清晰度與情緒表現留給 LLM critique / human review",
-      "生成式視覺在交付前逐項檢查構圖、色彩、文字與來源 evidence 是否符合約束；若關鍵規則失敗，限制次數後重生一次"
+      "生成式視覺在交付前逐項檢查構圖、色彩、文字與來源 evidence 是否符合約束；若關鍵規則失敗，限制次數後重生一次",
+      "把 Agent 產生的寫入內容先轉成 structured safe outputs，再由獨立、權限受限的 job 驗證與套用"
     ]
   },
   {
@@ -67,7 +68,7 @@
       "對真實動作加入 kill switch、人工 redline、權限限制與 audit log",
       "每次高風險 action 後從外部系統 read-back 驗證實際狀態"
     ],
-    "examples": ["Blave Agent"],
+    "examples": ["Blave Agent", "GitHub Agentic Workflows"],
     "tags": ["deterministic-execution", "agent-safety", "high-risk", "scheduler", "reconciliation", "human-control"],
     "addedAt": "2026-09-27"
   },
@@ -130,8 +131,11 @@
   },
   {
     "id": "persistent-agent-memory",
-    "examplesAppend": ["OpenChatX"],
-    "solutionMethodsAppend": ["以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續"]
+    "examplesAppend": ["OpenChatX", "Hindsight"],
+    "solutionMethodsAppend": [
+      "以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續",
+      "把 episodic memories 依 bank / project 隔離，透過 retain / recall 持續累積，而不是每次重新餵完整歷史"
+    ]
   },
   {
     "id": "context-governance",
@@ -226,5 +230,52 @@
     "examples": ["Photo Riso Poster"],
     "tags": ["visual-abstraction", "evidence", "image-generation", "reference", "relational-invariants", "traceability"],
     "addedAt": "2026-09-29"
+  },
+  {
+    "id": "agentic-ci-workflow-compilation",
+    "title": "Agentic CI Workflow Compilation",
+    "coreProblem": "需要推理的 repository automation 若只靠長時間 Agent session 或直接手寫高權限 workflow，容易缺乏可重現 artifact、事件觸發、權限邊界與安全驗證；但把所有 CI/CD 都交給 LLM 又會破壞 deterministic automation 的可靠性。",
+    "solutionMethods": [
+      "把需要 reasoning 的 workflow source 寫成 Markdown + declarative frontmatter，再 compile 成標準 CI workflow artifact",
+      "保留 build / test / lint / deploy 等 deterministic 工作在一般 CI，Agent 只處理 interpretation-heavy tasks",
+      "讓 AI engine 成為可替換 implementation，而 workflow contract 與 trigger 保持穩定",
+      "Agent job 預設 read-only / sandboxed，將寫入意圖轉成 safe outputs",
+      "由獨立 job 使用 scoped permissions 驗證並套用 Agent 的寫入結果"
+    ],
+    "examples": ["GitHub Agentic Workflows"],
+    "tags": ["agentic-ci", "workflow-compiler", "github-actions", "safe-outputs", "sandbox", "deterministic-boundary"],
+    "addedAt": "2026-09-29"
+  },
+  {
+    "id": "reflective-agent-learning",
+    "title": "Reflective Agent Learning",
+    "coreProblem": "只會 recall 過去片段的 Agent 仍然只是『記得』，不會把多次 episodic experience 整理成更穩定的觀點、偏好、規則或 domain model，因此長期使用後知識仍然碎片化。",
+    "solutionMethods": [
+      "把 memory lifecycle 拆成 retain、recall、reflect，而不是只有 store / search",
+      "從 episodic memories 與 observations 生成持續更新的 mental models",
+      "用 knowledge pages 把 mental models 組織成可直接閱讀與注入的長期知識",
+      "增量 refresh 只處理新 facts，避免每次重新摘要整份歷史",
+      "將不同 user / project / agent memory 放進獨立 banks，同時允許匯出與移轉"
+    ],
+    "examples": ["Hindsight"],
+    "tags": ["agent-memory", "learning", "reflection", "mental-model", "knowledge-pages", "long-term-memory"],
+    "addedAt": "2026-09-29"
+  },
+  {
+    "id": "cross-agent-memory-portability",
+    "examplesAppend": ["Hindsight"]
+  },
+  {
+    "id": "memory-observability",
+    "examplesAppend": ["Hindsight"]
+  },
+  {
+    "id": "retrieval-grounded-knowledge-layer",
+    "examplesAppend": ["Hindsight"]
+  },
+  {
+    "id": "security-as-workflow-gate",
+    "examplesAppend": ["GitHub Agentic Workflows"],
+    "solutionMethodsAppend": ["將 Agent 的 repository writes 經過 safe-output validation 與 scoped-permission apply job，而不是讓 reasoning job 直接拿高權限寫入"]
   }
 ]
