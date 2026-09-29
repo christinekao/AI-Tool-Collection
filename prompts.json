@@ -45,5 +45,28 @@
     "sourceSummary": "由 OneTake 的 continuity-first 方法抽象成可重用 prompt：先量化拆解 reference，再選 central visual concept，用 beat/carry sheet 設計邊界，最後以自動 verification gate 先驗收再給人看。此 prompt 為重新整理的通用版本，不是原始 SKILL.md 的逐字複製。",
     "status": "generated-draft",
     "addedAt": "2026-09-27"
+  },
+  {
+    "id": "evidence-first-visual-abstraction",
+    "title": "Evidence-first 視覺抽象：先抽事實，再生成風格化圖像",
+    "category": "Image Generation / Visual Design",
+    "promptType": "Visual Analysis / Constrained Generation Prompt",
+    "problemSolved": "避免 reference image 一進生成模型就變成模糊的 style transfer；先把來源拆成可檢查的事實，再用明確 visual grammar 重建，讓抽象化後仍保留數量、間距、方向、比例與遮擋等結構。",
+    "whenToUse": [
+      "照片轉海報、插畫、zine、editorial visual",
+      "希望保留來源結構但不要直接描圖",
+      "需要不同抽象程度仍維持相同 relational invariants",
+      "希望生成前後都有可檢查的 evidence traceability"
+    ],
+    "promptContent": "You are transforming a visual reference into a new stylized artifact without tracing or copying its surface appearance.\n\nInput:\n- Source image or theme: [SOURCE]\n- Target visual grammar: [STYLE / MEDIUM]\n- Abstraction level: [FAITHFUL / STANDARD / MINIMAL]\n- Output constraints: [ASPECT / PALETTE / TYPOGRAPHY / FORMAT]\n\nWorkflow:\n1. Deconstruct the source before generating. Record only observable facts: primary and secondary elements, count, normalized position, scale, direction, spacing rhythm, depth order, occlusion, meaningful empty space and dominant color roles.\n2. Identify relational invariants that must survive abstraction: counts, uneven spacing, size hierarchy, direction, asymmetry, occlusion and repeated rhythm.\n3. Separate evidence from style. Evidence decides what relationships must exist; the visual grammar decides how those facts are rendered. Do not let stylistic decoration invent unsupported structure.\n4. Map each major output mark, shape or typographic fact back to a named source fact. Remove decorative elements that cannot be justified.\n5. Adjust detail by abstraction level:\n   - Faithful: preserve recognizable identity and more contour/detail.\n   - Standard: simplify to readable silhouettes and structural marks.\n   - Minimal: dissolve identity into geometric marks while preserving relational invariants.\n6. Generate using only the extracted evidence plus the target visual grammar when possible; do not rely on direct tracing.\n7. Verify before delivery: check composition, palette, typography, required invariants and whether every major mark remains traceable to source evidence. If a critical constraint fails, revise once with the failed rule stated explicitly.\n\nReturn:\nA. evidence summary\nB. invariant list\nC. evidence → mark mapping\nD. generation prompt\nE. verification result.",
+    "tags": ["image-generation", "visual-abstraction", "evidence-first", "reference", "traceability", "poster", "photo-riso-poster"],
+    "relatedTools": ["luckdvr/photo-riso-poster"],
+    "variables": ["source image / theme", "target style or medium", "abstraction level", "aspect / palette / typography / output format"],
+    "expectedOutput": "一份來源 evidence、不可丟失的 relational invariants、evidence-to-mark mapping、生成 prompt 與交付前 verification；風格可以改變，但來源結構仍可追溯。",
+    "sourceUrl": "https://github.com/luckdvr/photo-riso-poster",
+    "sourceType": "Open-source Codex Skill / SKILL.md",
+    "sourceSummary": "由 Photo Riso Poster 的 evidence-first 方法抽象成媒介無關版本：先把照片拆成 counts、spacing、occlusion、direction、depth、color roles，再把每個 output mark 對應回來源 fact；風格 grammar 與 source evidence 分離，最後做一次 constraint verification。不是原始 SKILL.md 的逐字複製。",
+    "status": "generated-draft",
+    "addedAt": "2026-09-29"
   }
 ]
