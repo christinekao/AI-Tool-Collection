@@ -3,296 +3,180 @@
     "id": "agent-organization-control-plane",
     "title": "Agent Organization Control Plane",
     "coreProblem": "當 Agent 數量從幾個增加到數十個時，單純的 task list 或多個 terminal 已不足以管理：需要知道誰負責什麼、任務為何存在、成本花在哪裡、誰能做什麼、何時需要審批、任務是否卡住，以及所有變更是否可稽核。",
-    "solutionMethods": [
-      "用 org chart、角色、責任與 reporting line 建立 Agent 組織結構",
-      "讓每個 task 能追溯到 project / goal / organization mission，避免只看到局部工作",
-      "用 ticket、atomic checkout、blocker dependency 與 persistent task state 管理工作所有權",
-      "以 heartbeat / routine / schedule 讓 Agent 長時間自主執行，同時保留 recovery 機制",
-      "用 budget、cost attribution、warning threshold 與 hard stop 控制 runaway spend",
-      "把 approval gate、pause / resume / terminate、audit log 與 rollback 做成治理層",
-      "用 RBAC、scoped secrets 與 company boundary 限制每個 Agent 能接觸的能力與資料"
-    ],
+    "solutionMethods": ["用 org chart、角色、責任與 reporting line 建立 Agent 組織結構","讓每個 task 能追溯到 project / goal / organization mission，避免只看到局部工作","用 ticket、atomic checkout、blocker dependency 與 persistent task state 管理工作所有權","以 heartbeat / routine / schedule 讓 Agent 長時間自主執行，同時保留 recovery 機制","用 budget、cost attribution、warning threshold 與 hard stop 控制 runaway spend","把 approval gate、pause / resume / terminate、audit log 與 rollback 做成治理層","用 RBAC、scoped secrets 與 company boundary 限制每個 Agent 能接觸的能力與資料"],
     "examples": ["Paperclip"],
     "tags": ["agent-organization", "control-plane", "governance", "org-chart", "goal-alignment", "budget", "audit", "long-running-agent"],
     "addedAt": "2026-09-26"
   },
+  {"id":"vendor-agnostic-orchestration","examplesAppend":["Paperclip","GitHub Agentic Workflows"]},
+  {"id":"long-running-agent-operations","examplesAppend":["Paperclip"],"solutionMethodsAppend":["用 heartbeat queue、persistent task state、budget checks 與 orphaned-run recovery 支撐 24/7 Agent 執行"]},
+  {"id":"agent-runtime-harness","examplesAppend":["Paperclip","Blave Agent","OpenChatX","GitHub Agentic Workflows"]},
   {
-    "id": "vendor-agnostic-orchestration",
-    "examplesAppend": ["Paperclip", "GitHub Agentic Workflows"]
+    "id":"reusable-agent-skills",
+    "examplesAppend":["Paperclip","OneTake","OpenChatX","Impeccable","Photo Riso Poster","JIT Learning Loop"],
+    "solutionMethodsAppend":["在 runtime 載入共享 Skills / project context，而不是為每個 Agent 重新訓練","把創意製作方法、工具腳本與驗收規則一起封裝成可版本化 Agent Skill","讓 Skills / Rules 依需求 lazy load，避免所有能力永久佔用 context","把跨 harness 共用的設計 vocabulary、命令與 hooks 封裝成單一可攜 Skill，而不是為每個 Agent 維護不同 prompt","把 visual analysis、generation constraints 與自我檢查封裝成單一可攜 prompt skill，讓不同 image-capable assistants 重用同一套方法","把 learn-while-doing 的 gap mapping、prediction checkpoint、transfer check 與 assistance fading 封裝成跨 coding-agent 可重用 Skill"]
   },
   {
-    "id": "long-running-agent-operations",
-    "examplesAppend": ["Paperclip"],
-    "solutionMethodsAppend": ["用 heartbeat queue、persistent task state、budget checks 與 orphaned-run recovery 支撐 24/7 Agent 執行"]
+    "id":"quality-gates-verification",
+    "examplesAppend":["Paperclip","Blave Agent","OneTake","Impeccable","Photo Riso Poster","GitHub Agentic Workflows"],
+    "solutionMethodsAppend":["把 board approval、review stage、diff / screenshot / test evidence 與 rollback 納入 Agent 任務驗收","高風險流程採 verify-before-report：寫檔後重讀、下單後向外部系統查回結果，避免把意圖誤報成成功","創意輸出也能定義 machine-checkable oracle，在人工 review 前先檢查 continuity、節奏、framing、音訊與 motion blur","把可機械判定的 UI 問題交給 deterministic detector rules，把需要設計判斷的層級、清晰度與情緒表現留給 LLM critique / human review","生成式視覺在交付前逐項檢查構圖、色彩、文字與來源 evidence 是否符合約束；若關鍵規則失敗，限制次數後重生一次","把 Agent 產生的寫入內容先轉成 structured safe outputs，再由獨立、權限受限的 job 驗證與套用"]
+  },
+  {"id":"agent-credential-isolation","examplesAppend":["Paperclip"],"solutionMethodsAppend":["以 company-scoped secrets、short-lived credentials 與 RBAC 控制每個 Agent 能接觸的能力與資料"]},
+  {
+    "id":"deterministic-execution-boundary",
+    "title":"Deterministic Execution Boundary",
+    "coreProblem":"在交易、付款、部署等高風險系統中，如果讓 LLM 直接位於每次執行迴圈內，非決定性輸出、模型失誤與 prompt injection 可能直接轉成真實世界動作。",
+    "solutionMethods":["讓 LLM 負責研究、規劃與產生可檢查的程式碼，而不是逐次決定實際執行動作","把正式執行交給 deterministic code、scheduler、state machine 或 reconciler","在 Agent 與執行層之間建立明確 contract 與資料格式","對真實動作加入 kill switch、人工 redline、權限限制與 audit log","每次高風險 action 後從外部系統 read-back 驗證實際狀態"],
+    "examples":["Blave Agent","GitHub Agentic Workflows"],
+    "tags":["deterministic-execution","agent-safety","high-risk","scheduler","reconciliation","human-control"],
+    "addedAt":"2026-09-27"
   },
   {
-    "id": "agent-runtime-harness",
-    "examplesAppend": ["Paperclip", "Blave Agent", "OpenChatX", "GitHub Agentic Workflows"]
+    "id":"robust-backtest-validation",
+    "title":"Robust Backtest Validation",
+    "coreProblem":"單次漂亮回測可能只是過度擬合、參數挑選偏誤、忽略交易成本或偶然運氣；若 Agent 能不停重調參直到數字好看，風險更高。",
+    "solutionMethods":["用 Monte Carlo / permutation test 檢查績效是否可能由隨機資料產生","找參數 plateau 而不是只挑單一最佳參數格","用 rolling walk-forward 檢查 out-of-sample 表現","強制納入實際交易費用，將零費用視為品質錯誤","限制自動重調參次數並如實保留失敗結果","把 live strategy 與已回測版本做一致性追蹤，程式變更後明確標示 drift"],
+    "examples":["Blave Agent"],
+    "tags":["backtest","overfitting","monte-carlo","walk-forward","parameter-stability","model-risk"],
+    "addedAt":"2026-09-27"
   },
   {
-    "id": "reusable-agent-skills",
-    "examplesAppend": ["Paperclip", "OneTake", "OpenChatX", "Impeccable", "Photo Riso Poster", "JIT Learning Loop"],
-    "solutionMethodsAppend": [
-      "在 runtime 載入共享 Skills / project context，而不是為每個 Agent 重新訓練",
-      "把創意製作方法、工具腳本與驗收規則一起封裝成可版本化 Agent Skill",
-      "讓 Skills / Rules 依需求 lazy load，避免所有能力永久佔用 context",
-      "把跨 harness 共用的設計 vocabulary、命令與 hooks 封裝成單一可攜 Skill，而不是為每個 Agent 維護不同 prompt",
-      "把 visual analysis、generation constraints 與自我檢查封裝成單一可攜 prompt skill，讓不同 image-capable assistants 重用同一套方法",
-      "把 learn-while-doing 的 gap mapping、prediction checkpoint、transfer check 與 assistance fading 封裝成跨 coding-agent 可重用 Skill"
-    ]
+    "id":"continuity-driven-motion-design",
+    "title":"Continuity-Driven Motion Design",
+    "coreProblem":"AI 動效影片常能做出漂亮的單一鏡頭，但 scene / beat 之間缺乏視覺因果，下一幕只是把上一幕替換掉，因此整支影片仍像投影片而不是連續敘事。",
+    "solutionMethods":["先設計 beat 之間的 boundary / transition，再補每個 beat 的內容","要求每個主要交界至少有一個可見元素跨段延續、變形、碰撞或引導出下一段","用單一 camera grammar 維持 world-space continuity，hard cut 只在有敘事理由時使用","將產品 UI 重建成可程式控制的 HTML / deterministic layer，讓鏡頭能真正進入與穿越介面","用可重現的 motion primitives、motion blur 與 event-driven sound 建立動作與聲音的一致因果","把 continuity 轉成可量測的 acceptance gate，在人工審片前先用 oracle 檢查"],
+    "examples":["OneTake"],
+    "tags":["motion","continuity","single-take","transition-design","product-video","visual-storytelling"],
+    "addedAt":"2026-09-27"
+  },
+  {"id":"motion-interaction-layer","examplesAppend":["OneTake"],"solutionMethodsAppend":["把 scene boundary 視為 first-class motion object，明確設計上一段如何在畫面中存活並轉成下一段"]},
+  {"id":"agentic-media-pipeline","examplesAppend":["OneTake","ChatCut","DaVinci Resolve"],"solutionMethodsAppend":["在 Agent 影片產線中加入 reference analysis → concept → beat/carry sheet → composition → render → automated verification 的 motion-film pipeline","讓 AI rough cut 保持 editable timeline，透過標準交換格式交給專業 NLE 做調色、音訊、效果與 mastering"]},
+  {"id":"reference-as-prompt-evidence","examplesAppend":["OneTake","Photo Riso Poster"],"solutionMethodsAppend":["先把 reference 拆成可觀察的節奏、靜止比例、cut、motion curve 與構圖訊號，再開始生成設計","先把照片轉成 counts、spacing、occlusion、direction、depth、color roles 等文字 evidence，再用這些 evidence 驅動生成，而不是直接要求模型模仿原圖"]},
+  {"id":"content-production-pipeline","examplesAppend":["OneTake","ChatCut","DaVinci Resolve"]},
+  {"id":"persistent-agent-memory","examplesAppend":["OpenChatX","Hindsight"],"solutionMethodsAppend":["以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續","把 episodic memories 依 bank / project 隔離，透過 retain / recall 持續累積，而不是每次重新餵完整歷史"]},
+  {"id":"context-governance","examplesAppend":["OpenChatX"],"solutionMethodsAppend":["外部 MCP 與 Toolbox schema 採 lazy exposure，只在需要時把能力加入 context"]},
+  {
+    "id":"capability-aggregation-gateway",
+    "title":"Capability Aggregation Gateway",
+    "coreProblem":"當 Agent 同時需要本機檔案、shell、電腦控制、Skills、Rules、外部 MCP 與子 Agent 時，逐一把每種能力直接接到模型會造成工具管理分散、context 膨脹與治理困難。",
+    "solutionMethods":["在模型與實際工具之間加入單一 capability gateway","把本機工具、外部 MCP、Skills、Rules 與 Subagents 統一成可管理的能力目錄","能力 schema 採 lazy discovery / loading，避免一次暴露全部工具","把 model/planner 與 tool/runtime 分離，讓 runtime 可以獨立演進"],
+    "examples":["OpenChatX"],
+    "tags":["mcp","gateway","capability","tool-aggregation","lazy-tools","agent-runtime"],
+    "addedAt":"2026-09-28"
   },
   {
-    "id": "quality-gates-verification",
-    "examplesAppend": ["Paperclip", "Blave Agent", "OneTake", "Impeccable", "Photo Riso Poster", "GitHub Agentic Workflows"],
-    "solutionMethodsAppend": [
-      "把 board approval、review stage、diff / screenshot / test evidence 與 rollback 納入 Agent 任務驗收",
-      "高風險流程採 verify-before-report：寫檔後重讀、下單後向外部系統查回結果，避免把意圖誤報成成功",
-      "創意輸出也能定義 machine-checkable oracle，在人工 review 前先檢查 continuity、節奏、framing、音訊與 motion blur",
-      "把可機械判定的 UI 問題交給 deterministic detector rules，把需要設計判斷的層級、清晰度與情緒表現留給 LLM critique / human review",
-      "生成式視覺在交付前逐項檢查構圖、色彩、文字與來源 evidence 是否符合約束；若關鍵規則失敗，限制次數後重生一次",
-      "把 Agent 產生的寫入內容先轉成 structured safe outputs，再由獨立、權限受限的 job 驗證與套用"
-    ]
+    "id":"outbound-private-tool-bridge",
+    "title":"Outbound Private Tool Bridge",
+    "coreProblem":"雲端 Agent 若要安全呼叫使用者電腦內的工具，直接開公開 inbound port 會增加網路暴露面、NAT / firewall 設定與憑證管理負擔。",
+    "solutionMethods":["由本機 runtime 主動建立 outbound secure tunnel，而不是公開本機 inbound endpoint","雲端 Agent 只連到受控 tunnel / relay，再把 tool request 轉送到本機","把 tunnel control-plane credential 存在 OS credential store，而不是放進專案檔案","本機工具仍以使用者權限執行，因此要搭配最小權限、tool trust 與 audit"],
+    "examples":["OpenChatX + Secure MCP Tunnel"],
+    "tags":["secure-tunnel","mcp","local-tools","outbound","private-runtime","security"],
+    "addedAt":"2026-09-28"
   },
   {
-    "id": "agent-credential-isolation",
-    "examplesAppend": ["Paperclip"],
-    "solutionMethodsAppend": ["以 company-scoped secrets、short-lived credentials 與 RBAC 控制每個 Agent 能接觸的能力與資料"]
+    "id":"web-to-desktop-application-shell",
+    "title":"Web-to-Desktop Application Shell",
+    "coreProblem":"Web 技術開發速度快，但瀏覽器本身無法完整、安全地使用桌面 OS 能力；跨平台桌面 App 需要同時兼顧 Web UI 與 privileged native capability。",
+    "solutionMethods":["把 Web UI 放在 renderer process，把檔案系統、視窗、系統整合等高權限能力留在 main process","透過 preload / context bridge / IPC 建立窄而明確的 capability boundary","避免讓不受信任的 renderer 直接取得完整 Node / OS 權限","用單一 Web codebase 打包成多平台桌面應用"],
+    "examples":["Electron"],
+    "tags":["desktop","web-runtime","ipc","capability-boundary","cross-platform"],
+    "addedAt":"2026-09-27"
   },
   {
-    "id": "deterministic-execution-boundary",
-    "title": "Deterministic Execution Boundary",
-    "coreProblem": "在交易、付款、部署等高風險系統中，如果讓 LLM 直接位於每次執行迴圈內，非決定性輸出、模型失誤與 prompt injection 可能直接轉成真實世界動作。",
-    "solutionMethods": [
-      "讓 LLM 負責研究、規劃與產生可檢查的程式碼，而不是逐次決定實際執行動作",
-      "把正式執行交給 deterministic code、scheduler、state machine 或 reconciler",
-      "在 Agent 與執行層之間建立明確 contract 與資料格式",
-      "對真實動作加入 kill switch、人工 redline、權限限制與 audit log",
-      "每次高風險 action 後從外部系統 read-back 驗證實際狀態"
-    ],
-    "examples": ["Blave Agent", "GitHub Agentic Workflows"],
-    "tags": ["deterministic-execution", "agent-safety", "high-risk", "scheduler", "reconciliation", "human-control"],
-    "addedAt": "2026-09-27"
+    "id":"editable-agentic-timeline",
+    "title":"Editable Agentic Timeline",
+    "coreProblem":"許多 AI 影片工具直接輸出最終 MP4；一旦需要人工精修、調色、混音或修改細節，就失去原本的時間軸結構與可編輯性，AI 與專業後製之間形成斷點。",
+    "solutionMethods":["讓 Agent 直接修改真正的 clips、tracks、captions 與 timeline，而不是只生成扁平 render","把 AI rough cut 與 transcript-based edit 保留成可人工調整的 project state","使用 XML / XMEML 等 interchange format 把 timeline 交給專業 NLE","無法透過 timeline interchange 保留的 motion graphics，可另外輸出帶 alpha 的中介素材","AI 負責高頻初剪與生成，專業 NLE 負責 color、audio、effects、finishing 與 mastering"],
+    "examples":["ChatCut","DaVinci Resolve"],
+    "tags":["video-editing","timeline","nle","xml","human-in-the-loop","editable-artifact"],
+    "addedAt":"2026-09-28"
+  },
+  {"id":"explicit-visual-system","examplesAppend":["Impeccable","Photo Riso Poster"],"solutionMethodsAppend":["把 durable product truth 與 surface-level visual direction 分離保存，避免品牌、受眾與產品限制被短期視覺偏好覆蓋","將 typography、layout、color、motion、tone 等設計方向寫成可版本化 DESIGN.md，而不是只留在單次 prompt","把紙張冷暖、墨色數量、留白比例、cluster 大小、排印語彙與禁用樣式寫成明確 generation grammar，降低視覺漂移"]},
+  {"id":"design-to-code-loop","examplesAppend":["Impeccable"],"solutionMethodsAppend":["先 shape UX/UI，再進入 build，而不是讓 Agent 邊寫 code 邊臨時決定產品與視覺結構","在 live browser 中生成與比較 visual variants，再把選擇回寫到實際前端實作"]},
+  {
+    "id":"evidence-preserving-visual-abstraction",
+    "title":"Evidence-Preserving Visual Abstraction",
+    "coreProblem":"把照片或真實世界 reference 交給生成模型做風格轉換時，模型容易只保留表面『像不像』或風格印象，卻丟失數量、間距、方向、遮擋、深度、比例與色彩角色等真正描述來源結構的 evidence。",
+    "solutionMethods":["先把來源解構成可命名、可檢查的視覺事實，再開始生成","將每個輸出 mark / typography 對應回至少一個來源 fact，刪除沒有證據來源的裝飾","在不同 abstraction level 下保留 relational invariants，例如 count、spacing、size hierarchy、direction、asymmetry、occlusion","把 style grammar 與 source evidence 分開：style 決定如何畫，evidence 決定畫什麼與彼此關係","生成後重新檢查 evidence 是否仍可追溯，而不是只憑主觀美感判斷"],
+    "examples":["Photo Riso Poster"],
+    "tags":["visual-abstraction","evidence","image-generation","reference","relational-invariants","traceability"],
+    "addedAt":"2026-09-29"
   },
   {
-    "id": "robust-backtest-validation",
-    "title": "Robust Backtest Validation",
-    "coreProblem": "單次漂亮回測可能只是過度擬合、參數挑選偏誤、忽略交易成本或偶然運氣；若 Agent 能不停重調參直到數字好看，風險更高。",
-    "solutionMethods": [
-      "用 Monte Carlo / permutation test 檢查績效是否可能由隨機資料產生",
-      "找參數 plateau 而不是只挑單一最佳參數格",
-      "用 rolling walk-forward 檢查 out-of-sample 表現",
-      "強制納入實際交易費用，將零費用視為品質錯誤",
-      "限制自動重調參次數並如實保留失敗結果",
-      "把 live strategy 與已回測版本做一致性追蹤，程式變更後明確標示 drift"
-    ],
-    "examples": ["Blave Agent"],
-    "tags": ["backtest", "overfitting", "monte-carlo", "walk-forward", "parameter-stability", "model-risk"],
-    "addedAt": "2026-09-27"
+    "id":"agentic-ci-workflow-compilation",
+    "title":"Agentic CI Workflow Compilation",
+    "coreProblem":"需要推理的 repository automation 若只靠長時間 Agent session 或直接手寫高權限 workflow，容易缺乏可重現 artifact、事件觸發、權限邊界與安全驗證；但把所有 CI/CD 都交給 LLM 又會破壞 deterministic automation 的可靠性。",
+    "solutionMethods":["把需要 reasoning 的 workflow source 寫成 Markdown + declarative frontmatter，再 compile 成標準 CI workflow artifact","保留 build / test / lint / deploy 等 deterministic 工作在一般 CI，Agent 只處理 interpretation-heavy tasks","讓 AI engine 成為可替換 implementation，而 workflow contract 與 trigger 保持穩定","Agent job 預設 read-only / sandboxed，將寫入意圖轉成 safe outputs","由獨立 job 使用 scoped permissions 驗證並套用 Agent 的寫入結果"],
+    "examples":["GitHub Agentic Workflows"],
+    "tags":["agentic-ci","workflow-compiler","github-actions","safe-outputs","sandbox","deterministic-boundary"],
+    "addedAt":"2026-09-29"
   },
   {
-    "id": "continuity-driven-motion-design",
-    "title": "Continuity-Driven Motion Design",
-    "coreProblem": "AI 動效影片常能做出漂亮的單一鏡頭，但 scene / beat 之間缺乏視覺因果，下一幕只是把上一幕替換掉，因此整支影片仍像投影片而不是連續敘事。",
-    "solutionMethods": [
-      "先設計 beat 之間的 boundary / transition，再補每個 beat 的內容",
-      "要求每個主要交界至少有一個可見元素跨段延續、變形、碰撞或引導出下一段",
-      "用單一 camera grammar 維持 world-space continuity，hard cut 只在有敘事理由時使用",
-      "將產品 UI 重建成可程式控制的 HTML / deterministic layer，讓鏡頭能真正進入與穿越介面",
-      "用可重現的 motion primitives、motion blur 與 event-driven sound 建立動作與聲音的一致因果",
-      "把 continuity 轉成可量測的 acceptance gate，在人工審片前先用 oracle 檢查"
-    ],
-    "examples": ["OneTake"],
-    "tags": ["motion", "continuity", "single-take", "transition-design", "product-video", "visual-storytelling"],
-    "addedAt": "2026-09-27"
+    "id":"reflective-agent-learning",
+    "title":"Reflective Agent Learning",
+    "coreProblem":"只會 recall 過去片段的 Agent 仍然只是『記得』，不會把多次 episodic experience 整理成更穩定的觀點、偏好、規則或 domain model，因此長期使用後知識仍然碎片化。",
+    "solutionMethods":["把 memory lifecycle 拆成 retain、recall、reflect，而不是只有 store / search","從 episodic memories 與 observations 生成持續更新的 mental models","用 knowledge pages 把 mental models 組織成可直接閱讀與注入的長期知識","增量 refresh 只處理新 facts，避免每次重新摘要整份歷史","將不同 user / project / agent memory 放進獨立 banks，同時允許匯出與移轉"],
+    "examples":["Hindsight"],
+    "tags":["agent-memory","learning","reflection","mental-model","knowledge-pages","long-term-memory"],
+    "addedAt":"2026-09-29"
+  },
+  {"id":"cross-agent-memory-portability","examplesAppend":["Hindsight"]},
+  {"id":"memory-observability","examplesAppend":["Hindsight"]},
+  {"id":"retrieval-grounded-knowledge-layer","examplesAppend":["Hindsight"]},
+  {"id":"security-as-workflow-gate","examplesAppend":["GitHub Agentic Workflows"],"solutionMethodsAppend":["將 Agent 的 repository writes 經過 safe-output validation 與 scoped-permission apply job，而不是讓 reasoning job 直接拿高權限寫入"]},
+  {
+    "id":"cognitive-skill-transfer-loop",
+    "title":"Cognitive Skill Transfer Loop",
+    "coreProblem":"Coding Agent 能快速替人完成陌生任務，但如果每次都由 Agent 承擔定位問題、建立模型、做判斷與驗證等認知工作，使用者雖然交付變快，下一次遇到相似問題仍然需要同樣程度的協助。",
+    "solutionMethods":["先辨識使用者已知 anchors 與真正缺口，並把未知分成 concept / API / codebase / behavior，避免用同一種解釋處理不同問題","只建立完成當前任務需要的 minimum viable mental model，而不是把實作中斷成完整課程","在實驗或證據揭露前要求 prediction，讓使用者先用 mental model 推導結果，再與實際 evidence 比較","完成實作後解釋 design decision、invariants 與 failure modes，而不是逐行複述程式碼","用 transfer questions 檢查能否把概念套到變形情境，而不是只測記憶","把可轉移 lessons 留進 learning log，並隨熟悉度由 guided → shared → review 逐步減少 Agent 代做比例"],
+    "examples":["JIT Learning Loop"],
+    "tags":["learning","cognitive-scaffolding","skill-transfer","prediction","mental-model","fading","human-in-the-loop"],
+    "addedAt":"2026-09-29"
   },
   {
-    "id": "motion-interaction-layer",
-    "examplesAppend": ["OneTake"],
-    "solutionMethodsAppend": ["把 scene boundary 視為 first-class motion object，明確設計上一段如何在畫面中存活並轉成下一段"]
+    "id":"task-aware-skill-routing",
+    "title":"Task-Aware Skill Routing",
+    "coreProblem":"當 Skill 與工具數量增加後，Agent 若直接從全部能力中臨場猜選擇，容易選錯工具、漏掉必要前置條件，且不同環境的 tool availability 也會造成流程漂移。",
+    "solutionMethods":["先依任務型態、目標物、意圖與授權範圍做結構化 routing，再載入對應 Skill","把 routing rules 放在單一 source of truth，避免多份文件互相矛盾","在執行前檢查實際工具可用性，必要時走 bootstrap / fallback，而不是假設工具已安裝","用 regression cases 驗證 routing hint 是否穩定映射到預期 primary skill","將 case initialization、scope、evidence 與 handoff contract 做成 routing 的固定前置／後置流程"],
+    "examples":["Reverse Skill"],
+    "tags":["skill-routing","tool-routing","agent-skills","capability-selection","regression","tool-discovery"],
+    "addedAt":"2026-09-30"
   },
   {
-    "id": "agentic-media-pipeline",
-    "examplesAppend": ["OneTake", "ChatCut", "DaVinci Resolve"],
-    "solutionMethodsAppend": [
-      "在 Agent 影片產線中加入 reference analysis → concept → beat/carry sheet → composition → render → automated verification 的 motion-film pipeline",
-      "讓 AI rough cut 保持 editable timeline，透過標準交換格式交給專業 NLE 做調色、音訊、效果與 mastering"
-    ]
+    "id":"research-to-structured-visualization",
+    "title":"Research → Structured Visualization",
+    "coreProblem":"複雜主題即使研究資料齊全，如果沒有把 entities、relationships、hierarchy 與 evidence 結構化，最終往往只得到長篇文字摘要，仍難以看出整體關係。",
+    "solutionMethods":["將研究流程與視覺化流程串成同一條 pipeline，而不是研究完再人工重畫","在 research 階段同步記錄 sources 與 entity / relationship evidence","依問題型態選擇 relationship graph、concept map、architecture 或 timeline 等視覺結構","輸出可編輯的 diagram source 與 final artifact，保留人工修訂能力","將來源連結與圖形節點分離保存，使圖表可追溯回研究 evidence"],
+    "examples":["Research to Diagram"],
+    "tags":["research","visualization","knowledge-graph","diagram","source-tracking","editable-artifact"],
+    "addedAt":"2026-09-30"
   },
   {
-    "id": "reference-as-prompt-evidence",
-    "examplesAppend": ["OneTake", "Photo Riso Poster"],
-    "solutionMethodsAppend": [
-      "先把 reference 拆成可觀察的節奏、靜止比例、cut、motion curve 與構圖訊號，再開始生成設計",
-      "先把照片轉成 counts、spacing、occlusion、direction、depth、color roles 等文字 evidence，再用這些 evidence 驅動生成，而不是直接要求模型模仿原圖"
-    ]
+    "id":"constraint-bounded-editing",
+    "title":"Constraint-Bounded Editing",
+    "coreProblem":"要求模型『改自然一點』『去 AI 味』時，模型常順便重寫未要求修改的內容、改變文章結構或作者立場，使 editing 變成不可控的 regeneration。",
+    "solutionMethods":["用明確 whitelist / rule set 定義允許修改的問題類型","未命中規則的文字預設保持原樣，避免無關變更","把 editing 當成 post-processing pass，而不是重新生成整篇內容","每個修改應能指出觸發的規則或可觀察問題，讓變更可審核","在語氣清理與內容／結構決策之間建立明確權限邊界"],
+    "examples":["lieflat-less-ai-tone"],
+    "tags":["editing","constraints","writing","humanization","traceability","minimal-change"],
+    "addedAt":"2026-09-30"
   },
   {
-    "id": "content-production-pipeline",
-    "examplesAppend": ["OneTake", "ChatCut", "DaVinci Resolve"]
+    "id":"source-grounded-product-media",
+    "title":"Source-Grounded Product Media",
+    "coreProblem":"AI 產品宣傳影片若只靠文字描述或想像生成 UI，常出現畫面漂亮但與真實產品不一致、功能被誤呈現、品牌語言漂移，最後還需要大量人工重做。",
+    "solutionMethods":["把 codebase、release notes、真實元件與 design system 當成 media generation 的 ground truth","先從產品實際功能與近期變更整理 audience-facing value，再寫分鏡與文案","能直接掛載真實元件時優先重用，不用假的 screenshot 或重新捏一套 UI","從產品已有色彩、字體、圓角、互動與資訊層級推導影片視覺語言","輸出可重新 render 的工程、素材來源與檢查記錄，讓媒體產物可追溯且可修改"],
+    "examples":["Guizang Product Video Skill"],
+    "tags":["product-video","source-grounding","codebase","design-system","media-pipeline","provenance"],
+    "addedAt":"2026-09-30"
   },
-  {
-    "id": "persistent-agent-memory",
-    "examplesAppend": ["OpenChatX", "Hindsight"],
-    "solutionMethodsAppend": [
-      "以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續",
-      "把 episodic memories 依 bank / project 隔離，透過 retain / recall 持續累積，而不是每次重新餵完整歷史"
-    ]
-  },
-  {
-    "id": "context-governance",
-    "examplesAppend": ["OpenChatX"],
-    "solutionMethodsAppend": ["外部 MCP 與 Toolbox schema 採 lazy exposure，只在需要時把能力加入 context"]
-  },
-  {
-    "id": "capability-aggregation-gateway",
-    "title": "Capability Aggregation Gateway",
-    "coreProblem": "當 Agent 同時需要本機檔案、shell、電腦控制、Skills、Rules、外部 MCP 與子 Agent 時，逐一把每種能力直接接到模型會造成工具管理分散、context 膨脹與治理困難。",
-    "solutionMethods": [
-      "在模型與實際工具之間加入單一 capability gateway",
-      "把本機工具、外部 MCP、Skills、Rules 與 Subagents 統一成可管理的能力目錄",
-      "能力 schema 採 lazy discovery / loading，避免一次暴露全部工具",
-      "把 model/planner 與 tool/runtime 分離，讓 runtime 可以獨立演進"
-    ],
-    "examples": ["OpenChatX"],
-    "tags": ["mcp", "gateway", "capability", "tool-aggregation", "lazy-tools", "agent-runtime"],
-    "addedAt": "2026-09-28"
-  },
-  {
-    "id": "outbound-private-tool-bridge",
-    "title": "Outbound Private Tool Bridge",
-    "coreProblem": "雲端 Agent 若要安全呼叫使用者電腦內的工具，直接開公開 inbound port 會增加網路暴露面、NAT / firewall 設定與憑證管理負擔。",
-    "solutionMethods": [
-      "由本機 runtime 主動建立 outbound secure tunnel，而不是公開本機 inbound endpoint",
-      "雲端 Agent 只連到受控 tunnel / relay，再把 tool request 轉送到本機",
-      "把 tunnel control-plane credential 存在 OS credential store，而不是放進專案檔案",
-      "本機工具仍以使用者權限執行，因此要搭配最小權限、tool trust 與 audit"
-    ],
-    "examples": ["OpenChatX + Secure MCP Tunnel"],
-    "tags": ["secure-tunnel", "mcp", "local-tools", "outbound", "private-runtime", "security"],
-    "addedAt": "2026-09-28"
-  },
-  {
-    "id": "web-to-desktop-application-shell",
-    "title": "Web-to-Desktop Application Shell",
-    "coreProblem": "Web 技術開發速度快，但瀏覽器本身無法完整、安全地使用桌面 OS 能力；跨平台桌面 App 需要同時兼顧 Web UI 與 privileged native capability。",
-    "solutionMethods": [
-      "把 Web UI 放在 renderer process，把檔案系統、視窗、系統整合等高權限能力留在 main process",
-      "透過 preload / context bridge / IPC 建立窄而明確的 capability boundary",
-      "避免讓不受信任的 renderer 直接取得完整 Node / OS 權限",
-      "用單一 Web codebase 打包成多平台桌面應用"
-    ],
-    "examples": ["Electron"],
-    "tags": ["desktop", "web-runtime", "ipc", "capability-boundary", "cross-platform"],
-    "addedAt": "2026-09-27"
-  },
-  {
-    "id": "editable-agentic-timeline",
-    "title": "Editable Agentic Timeline",
-    "coreProblem": "許多 AI 影片工具直接輸出最終 MP4；一旦需要人工精修、調色、混音或修改細節，就失去原本的時間軸結構與可編輯性，AI 與專業後製之間形成斷點。",
-    "solutionMethods": [
-      "讓 Agent 直接修改真正的 clips、tracks、captions 與 timeline，而不是只生成扁平 render",
-      "把 AI rough cut 與 transcript-based edit 保留成可人工調整的 project state",
-      "使用 XML / XMEML 等 interchange format 把 timeline 交給專業 NLE",
-      "無法透過 timeline interchange 保留的 motion graphics，可另外輸出帶 alpha 的中介素材",
-      "AI 負責高頻初剪與生成，專業 NLE 負責 color、audio、effects、finishing 與 mastering"
-    ],
-    "examples": ["ChatCut", "DaVinci Resolve"],
-    "tags": ["video-editing", "timeline", "nle", "xml", "human-in-the-loop", "editable-artifact"],
-    "addedAt": "2026-09-28"
-  },
-  {
-    "id": "explicit-visual-system",
-    "examplesAppend": ["Impeccable", "Photo Riso Poster"],
-    "solutionMethodsAppend": [
-      "把 durable product truth 與 surface-level visual direction 分離保存，避免品牌、受眾與產品限制被短期視覺偏好覆蓋",
-      "將 typography、layout、color、motion、tone 等設計方向寫成可版本化 DESIGN.md，而不是只留在單次 prompt",
-      "把紙張冷暖、墨色數量、留白比例、cluster 大小、排印語彙與禁用樣式寫成明確 generation grammar，降低視覺漂移"
-    ]
-  },
-  {
-    "id": "design-to-code-loop",
-    "examplesAppend": ["Impeccable"],
-    "solutionMethodsAppend": [
-      "先 shape UX/UI，再進入 build，而不是讓 Agent 邊寫 code 邊臨時決定產品與視覺結構",
-      "在 live browser 中生成與比較 visual variants，再把選擇回寫到實際前端實作"
-    ]
-  },
-  {
-    "id": "evidence-preserving-visual-abstraction",
-    "title": "Evidence-Preserving Visual Abstraction",
-    "coreProblem": "把照片或真實世界 reference 交給生成模型做風格轉換時，模型容易只保留表面『像不像』或風格印象，卻丟失數量、間距、方向、遮擋、深度、比例與色彩角色等真正描述來源結構的 evidence。",
-    "solutionMethods": [
-      "先把來源解構成可命名、可檢查的視覺事實，再開始生成",
-      "將每個輸出 mark / typography 對應回至少一個來源 fact，刪除沒有證據來源的裝飾",
-      "在不同 abstraction level 下保留 relational invariants，例如 count、spacing、size hierarchy、direction、asymmetry、occlusion",
-      "把 style grammar 與 source evidence 分開：style 決定如何畫，evidence 決定畫什麼與彼此關係",
-      "生成後重新檢查 evidence 是否仍可追溯，而不是只憑主觀美感判斷"
-    ],
-    "examples": ["Photo Riso Poster"],
-    "tags": ["visual-abstraction", "evidence", "image-generation", "reference", "relational-invariants", "traceability"],
-    "addedAt": "2026-09-29"
-  },
-  {
-    "id": "agentic-ci-workflow-compilation",
-    "title": "Agentic CI Workflow Compilation",
-    "coreProblem": "需要推理的 repository automation 若只靠長時間 Agent session 或直接手寫高權限 workflow，容易缺乏可重現 artifact、事件觸發、權限邊界與安全驗證；但把所有 CI/CD 都交給 LLM 又會破壞 deterministic automation 的可靠性。",
-    "solutionMethods": [
-      "把需要 reasoning 的 workflow source 寫成 Markdown + declarative frontmatter，再 compile 成標準 CI workflow artifact",
-      "保留 build / test / lint / deploy 等 deterministic 工作在一般 CI，Agent 只處理 interpretation-heavy tasks",
-      "讓 AI engine 成為可替換 implementation，而 workflow contract 與 trigger 保持穩定",
-      "Agent job 預設 read-only / sandboxed，將寫入意圖轉成 safe outputs",
-      "由獨立 job 使用 scoped permissions 驗證並套用 Agent 的寫入結果"
-    ],
-    "examples": ["GitHub Agentic Workflows"],
-    "tags": ["agentic-ci", "workflow-compiler", "github-actions", "safe-outputs", "sandbox", "deterministic-boundary"],
-    "addedAt": "2026-09-29"
-  },
-  {
-    "id": "reflective-agent-learning",
-    "title": "Reflective Agent Learning",
-    "coreProblem": "只會 recall 過去片段的 Agent 仍然只是『記得』，不會把多次 episodic experience 整理成更穩定的觀點、偏好、規則或 domain model，因此長期使用後知識仍然碎片化。",
-    "solutionMethods": [
-      "把 memory lifecycle 拆成 retain、recall、reflect，而不是只有 store / search",
-      "從 episodic memories 與 observations 生成持續更新的 mental models",
-      "用 knowledge pages 把 mental models 組織成可直接閱讀與注入的長期知識",
-      "增量 refresh 只處理新 facts，避免每次重新摘要整份歷史",
-      "將不同 user / project / agent memory 放進獨立 banks，同時允許匯出與移轉"
-    ],
-    "examples": ["Hindsight"],
-    "tags": ["agent-memory", "learning", "reflection", "mental-model", "knowledge-pages", "long-term-memory"],
-    "addedAt": "2026-09-29"
-  },
-  {
-    "id": "cross-agent-memory-portability",
-    "examplesAppend": ["Hindsight"]
-  },
-  {
-    "id": "memory-observability",
-    "examplesAppend": ["Hindsight"]
-  },
-  {
-    "id": "retrieval-grounded-knowledge-layer",
-    "examplesAppend": ["Hindsight"]
-  },
-  {
-    "id": "security-as-workflow-gate",
-    "examplesAppend": ["GitHub Agentic Workflows"],
-    "solutionMethodsAppend": ["將 Agent 的 repository writes 經過 safe-output validation 與 scoped-permission apply job，而不是讓 reasoning job 直接拿高權限寫入"]
-  },
-  {
-    "id": "cognitive-skill-transfer-loop",
-    "title": "Cognitive Skill Transfer Loop",
-    "coreProblem": "Coding Agent 能快速替人完成陌生任務，但如果每次都由 Agent 承擔定位問題、建立模型、做判斷與驗證等認知工作，使用者雖然交付變快，下一次遇到相似問題仍然需要同樣程度的協助。",
-    "solutionMethods": [
-      "先辨識使用者已知 anchors 與真正缺口，並把未知分成 concept / API / codebase / behavior，避免用同一種解釋處理不同問題",
-      "只建立完成當前任務需要的 minimum viable mental model，而不是把實作中斷成完整課程",
-      "在實驗或證據揭露前要求 prediction，讓使用者先用 mental model 推導結果，再與實際 evidence 比較",
-      "完成實作後解釋 design decision、invariants 與 failure modes，而不是逐行複述程式碼",
-      "用 transfer questions 檢查能否把概念套到變形情境，而不是只測記憶",
-      "把可轉移 lessons 留進 learning log，並隨熟悉度由 guided → shared → review 逐步減少 Agent 代做比例"
-    ],
-    "examples": ["JIT Learning Loop"],
-    "tags": ["learning", "cognitive-scaffolding", "skill-transfer", "prediction", "mental-model", "fading", "human-in-the-loop"],
-    "addedAt": "2026-09-29"
-  }
+  {"id":"reusable-agent-skills","examplesAppend":["Reverse Skill","GSAP Skills","Research to Diagram","Copywriting Skill","lieflat-less-ai-tone","Guizang Product Video Skill"],"solutionMethodsAppend":["大型 Skill library 先用 task-aware router 選擇必要 playbook，再按需求載入工具與子 Skill","由領域官方維護 Agent Skill pack，將 API、best practices、framework lifecycle 與 performance guidance 一起版本化","把 research → structure → artifact generation 封裝成可安裝 Skill，而不是只保存一次性的 prompt","將 conversion copywriting 的 context gathering、page structure 與 quality checks 封裝成 reusable marketing skill","把 post-draft editing 的允許修改範圍寫成可重用規則 Skill","把產品 codebase、真實元件、motion、sound 與 render workflow 封裝成可重用 product-video Skill"]},
+  {"id":"quality-gates-verification","examplesAppend":["Reverse Skill","Research to Diagram","lieflat-less-ai-tone","Guizang Product Video Skill"],"solutionMethodsAppend":["Skill router 的 routing config 與 scenario mapping 也要用 regression suite / coherence check 驗證，避免能力目錄改動後 silently misroute","研究型圖表交付前驗證 diagram 可生成、版面可讀與 source references 完整","文字後處理只允許命中明確規則的變更，將 minimal-change constraint 本身當作品質 gate","產品影片在輸出前用 contact sheet、transition review、full-size frame 與實際試看片做人工 acceptance"]},
+  {"id":"security-as-workflow-gate","examplesAppend":["Reverse Skill"],"solutionMethodsAppend":["在 reverse / pentest case 初始化時先建立 authorization scope 與 network profile，scope 未就緒前不得對 target 執行 ACT"]},
+  {"id":"motion-interaction-layer","examplesAppend":["GSAP Skills","Guizang Product Video Skill"],"solutionMethodsAppend":["把 timeline、scroll trigger、plugin behavior、framework cleanup 與 performance constraints 寫成可重用 motion grammar","產品影片的 motion 手法由真實產品 interaction / visual language 推導，而不是套固定模板"]},
+  {"id":"design-to-code-loop","examplesAppend":["GSAP Skills"],"solutionMethodsAppend":["把 motion implementation 也納入 design-to-code：從設計意圖映射到 timeline、ScrollTrigger、framework lifecycle 與 cleanup，而不是只把動畫當 decoration"]},
+  {"id":"retrieval-grounded-knowledge-layer","examplesAppend":["Research to Diagram"],"solutionMethodsAppend":["研究結果先保留 source links 與 evidence，再把結構化 entities / relations 轉成 diagram，避免圖形與來源脫鉤"]},
+  {"id":"content-production-pipeline","examplesAppend":["Research to Diagram","Copywriting Skill","lieflat-less-ai-tone","Guizang Product Video Skill"]},
+  {"id":"agentic-media-pipeline","examplesAppend":["Guizang Product Video Skill"],"solutionMethodsAppend":["從 codebase / release notes 取得真實產品訊號，再串 storyboard、real component rendering、motion、music/SFX、review 與可重 render project"]},
+  {"id":"reference-as-prompt-evidence","examplesAppend":["Guizang Product Video Skill"],"solutionMethodsAppend":["影片 reference 只提煉節奏、構圖與 motion 手法；產品畫面與功能則回到 codebase / real components 取得 ground truth"]},
+  {"id":"context-governance","examplesAppend":["Copywriting Skill"],"solutionMethodsAppend":["將 durable product-marketing context 存成持久檔案，寫作前先讀既有產品事實，只詢問本次任務缺少的資訊"]}
 ]
