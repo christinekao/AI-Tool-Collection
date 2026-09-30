@@ -224,5 +224,23 @@
     "addedAt": "2026-09-29",
     "notes": "Pattern assembled from two independent tools; this does not claim an official gh-aw ↔ Hindsight integration. Integration can be implemented through Hindsight SDK / MCP / supported agent surfaces while gh-aw provides the GitHub Actions execution and safe-write boundary.",
     "tags": ["combo", "agentic-ci", "repository-automation", "memory", "reflective-learning", "safe-outputs", "github-actions", "stateful-agent"]
+  },
+  {
+    "name": "Spec → Multi-Agent Delivery → Evidence QA Stack",
+    "goal": "把需求釐清後的 Spec 轉成可平行執行的 Tickets，跨 Claude / Codex 分工實作與獨立審查，最後只用整合後版本與可追溯 evidence 判定是否完成。",
+    "components": ["ouob-tw/LoopAgentTeams", "mattpocock/skills", "HCOM", "Claude Code", "openai/codex", "Git worktree"],
+    "flow": [
+      "Designer：需求釐清並產生 Spec，使用者在唯一正式確認點確認範圍與 acceptance criteria",
+      "LoopAgentTeams：把 Spec 拆成具依賴關係的 Tickets，依角色／模型能力派給 Claude、Codex 或其他 Agent",
+      "Worktree / HCOM：平行工作使用隔離工作區；需要跨 client 時透過 HCOM 協作與交接",
+      "Implementer + Independent Review：每張 Ticket 實作、測試並接受獨立 Code Review，不把實作者自我判定視為驗收",
+      "Integration + QA：在整合後版本依需求與實際實作路徑建立測試清單，記錄 PASS / FAIL / UNPROVEN / NOT_EXECUTED",
+      "Delivery：只在 Git commit、實際測試與有效 evidence 支持時宣告完成；超出已確認授權範圍才回到使用者決策"
+    ],
+    "useCases": ["完整 feature delivery", "大型 refactor", "多 Agent 平行實作", "需要獨立 QA / Code Review 的 AI coding", "希望 Spec 確認後 Agent 自主推進但仍保留範圍控制"],
+    "status": "pattern",
+    "addedAt": "2026-09-30",
+    "notes": "This pattern is grounded in LoopAgentTeams' documented LAT workflow and its explicit integration with Matt skills and HCOM. User-decision boundaries are workflow rules rather than tool-enforced security isolation.",
+    "tags": ["combo", "multi-agent", "sdlc", "spec", "tickets", "worktree", "code-review", "qa", "evidence", "human-in-the-loop"]
   }
 ]
