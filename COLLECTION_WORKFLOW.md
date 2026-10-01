@@ -19,9 +19,11 @@ Input
   ↓
 5. Combination / Pattern analysis
   ↓
-6. Prompt / Workflow extraction
+6. Workflow analysis
   ↓
-7. Update website data
+7. Prompt extraction
+  ↓
+8. Update website data
 ```
 
 ## 1. Verify Source
@@ -101,7 +103,11 @@ Concept schema:
 
 ## 5. Combination / Pattern Analysis
 
-Check whether the new item strengthens or creates a reusable multi-tool workflow.
+Check whether the new item strengthens or creates a reusable multi-tool pattern.
+
+A combination answers:
+
+> What tools or capabilities work well together?
 
 A combination should explain:
 
@@ -112,9 +118,94 @@ A combination should explain:
 
 Prefer updating an existing combination when the pattern already exists.
 
-## 6. Prompt / Workflow Extraction
+Combination and Workflow are related but not the same thing:
 
-If the source contains a reusable instruction, operating procedure, orchestration method, review method, or prompt pattern, store it in `prompts.json`.
+- **Combination** = what capabilities / tools are combined.
+- **Workflow** = how the problem is solved in execution order.
+
+Do not replace existing combinations with workflows.
+
+## 6. Workflow Analysis
+
+When a source demonstrates a useful way of solving a problem, do not merely copy another person's sequence of steps. Internalize the workflow into a reusable execution pattern.
+
+Analyze it as:
+
+```text
+Goal
+  ↓
+Problem
+  ↓
+Solution Strategy
+  ↓
+Workflow Stages
+  ↓
+Tool / Capability used at each stage
+  ↓
+Related Concept
+```
+
+The Workflow layer should answer:
+
+1. What problem is being solved?
+2. What outcome is the workflow trying to achieve?
+3. What strategy makes the workflow effective?
+4. What are the execution stages and their order?
+5. What tool or capability is used at each stage?
+6. Which durable Concept explains why this workflow works?
+
+### Storage model
+
+Workflow is **not a separate source-of-truth file**. Store it as an optional structured layer on a relevant record in `combinations.json`, then expose it independently in the website's Workflow view.
+
+Recommended fields:
+
+```json
+{
+  "name": "Example Combination",
+  "goal": "Desired outcome",
+  "problem": "Problem this pattern addresses",
+  "solutionStrategy": "General method used to solve it",
+  "components": ["Tool A", "Tool B"],
+  "workflow": [
+    {
+      "stage": "Stage name",
+      "purpose": "What this stage solves",
+      "tools": ["Tool A"]
+    }
+  ],
+  "concepts": ["concept-id"],
+  "useCases": []
+}
+```
+
+`workflow` is optional. Do not invent a fixed sequence when the combination is genuinely unordered.
+
+For older combinations that only have `flow`, the website may use `flow` as a legacy workflow representation until the record is upgraded to the structured schema.
+
+### Source workflow vs reusable workflow
+
+A community post may say:
+
+```text
+Tool A → Tool B → Tool C
+```
+
+Do not store that sequence only because someone used it. First determine:
+
+```text
+What was the goal?
+What problem made the workflow necessary?
+What method actually solved the problem?
+Which stages are reusable beyond those exact tools?
+Which tools are examples of the capabilities needed by each stage?
+```
+
+Preserve exact tools when useful, but separate the durable method from the current implementation.
+
+## 7. Prompt Extraction
+
+If the source contains a reusable instruction, operating procedure, orchestration method, review method, or prompt pattern that can be executed by an Agent, store it in `prompts.json`.
 
 Prompt records should capture:
 
@@ -130,7 +221,7 @@ Prompt records should capture:
 
 Do not force every source into a prompt. Add one only when it can be reused operationally.
 
-## 7. Relationship Model
+## 8. Relationship Model
 
 The intended knowledge structure is:
 
@@ -143,19 +234,31 @@ Concept
   ↓ combined into
 Patterns / Combinations
 
+Combination
+  ↓ may expose
+Workflow
+  ↓ explains
+Problem → Solution Strategy → Execution Stages → Tools
+
 Concept
   ↓ operationalized by
 Prompts
 
 Tools
-  ↔ may participate in multiple Concepts and Combinations
+  ↔ may participate in multiple Concepts, Combinations and Workflows
 ```
+
+The website should expose Workflow as its own viewing layer even though the canonical workflow data lives with the related combination. This allows browsing from the question:
+
+> What problem am I solving, and how should the workflow run?
+
+rather than requiring the user to already know the combination name.
 
 ## Maintenance Rule
 
-Tools are time-sensitive implementations. Concepts are the durable knowledge layer.
+Tools are time-sensitive implementations. Concepts are the durable knowledge layer. Workflows preserve reusable execution logic while still showing the concrete tools that implement each stage.
 
-When tools become outdated, replaced, archived, or renamed, preserve the useful concept and pattern knowledge. Update the implementation examples rather than deleting the underlying engineering idea.
+When tools become outdated, replaced, archived, or renamed, preserve the useful concept, combination and workflow knowledge. Update implementation examples rather than deleting the underlying engineering idea.
 
 ## Resource-to-concept traceability
 
@@ -180,3 +283,5 @@ Periodically consolidate intake overlays back into the main JSON files during ma
 ## Backfill status
 
 Concept backfill completed on 2026-09-22. The original 93/93 merged resources were mapped to at least one concept. New intake records must also include concept mappings before they are considered complete.
+
+Workflow viewing layer added on 2026-10-01. Existing `flow` records remain valid and are exposed through the Workflow view as legacy workflow data; new or materially updated combinations should use `problem`, `solutionStrategy`, and structured `workflow` whenever the execution order itself is useful knowledge.
