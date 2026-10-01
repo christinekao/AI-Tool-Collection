@@ -242,5 +242,38 @@
     "addedAt": "2026-09-30",
     "notes": "This pattern is grounded in LoopAgentTeams' documented LAT workflow and its explicit integration with Matt skills and HCOM. User-decision boundaries are workflow rules rather than tool-enforced security isolation.",
     "tags": ["combo", "multi-agent", "sdlc", "spec", "tickets", "worktree", "code-review", "qa", "evidence", "human-in-the-loop"]
+  },
+  {
+    "name": "Goal → Build → Evidence Learning Loop",
+    "goal": "把 AI Engineering 學習從零散閱讀與被動觀看，轉成以目標導向、親手實作、可執行證據與持久進度為核心的學習路徑。",
+    "problem": "AI / ML 教學資源往往零散，學習者容易只看解說或複製程式碼；加入 Coding Agent 後又更容易直接取得答案，導致『完成內容』與『真的能解釋、修改、驗證』脫鉤。",
+    "solutionStrategy": "先用目標與程度決定學習路徑，把每一課固定成問題理解 → 概念與預測 → from-scratch build → 實際執行與保存 evidence → production mapping → quiz / review gate；只有能解釋輸出並做出小改動時才往下走，進度則寫入持久 state。",
+    "components": ["rohitg00/ai-engineering-from-scratch", "start-learning skill", "learn skill", "LEARNING.md", "Local toolchain / terminal", "Quiz + execution evidence"],
+    "flow": [
+      "Goal & Placement：先確認學習目的、想做的東西與目前程度，選擇適合的 entry point / focused path",
+      "Persistent Plan：把 mission、placement、path、progress 與 review queue 寫入 LEARNING.md 或專題 state file",
+      "Recall & Frame：用前一課 retrieval question 啟動記憶，再把新問題連回學習目標",
+      "Concept & Prediction：解釋概念並在揭露結果前要求 learner 預測",
+      "Build from Scratch：親手輸入與理解核心實作，而不是只閱讀 code block",
+      "Run & Evidence：實際執行，保留 command、cwd、exit code、meaningful output 與產出的 artifact",
+      "Production Mapping：對照 production library，說明它替你抽象掉了哪些底層機制",
+      "Quiz & Review Gate：用 post-lesson quiz、review queue 與可解釋／可修改能力決定是否繼續"
+    ],
+    "workflow": [
+      {"stage":"Goal & Placement","purpose":"先確定為什麼學、最後想做什麼，以及應該從哪個 phase / focused path 開始，避免從頭掃完整套教材。","tools":["start-learning skill","placement quiz","learning-path manifests"]},
+      {"stage":"Persist Learning State","purpose":"把 mission、entry point、pace、path、progress 與 review queue 固定成可跨 session 延續的 source of truth。","tools":["LEARNING.md","route-specific learning state files"]},
+      {"stage":"Warm-up Recall & Problem Framing","purpose":"先提取上一課記憶，再把本課問題連回 learner 的 mission，避免只被動接收新內容。","tools":["learn skill","previous lesson quiz"]},
+      {"stage":"Concept & Prediction","purpose":"在公式、結果或實驗揭露前先建立 mental model 並要求 learner 做 prediction。","tools":["lesson docs","interactive tutor"]},
+      {"stage":"Build from Scratch","purpose":"親手寫核心實作，把演算法與系統機制從黑盒變成可理解的操作。","tools":["lesson code","Python / TypeScript / Rust / Julia toolchains"]},
+      {"stage":"Run & Keep Evidence","purpose":"用真實執行證據確認不是『看懂了』而是真的能跑、能觀察、能修改。","tools":["terminal","lesson commands","tests / verifiers","generated artifacts"]},
+      {"stage":"Map to Production","purpose":"把 from-scratch 理解映射到 production library，辨認 library 幫你隱藏的機制與 trade-offs。","tools":["production-library examples","course lesson"]},
+      {"stage":"Quiz & Review Gate","purpose":"以 quiz、review queue 與『能解釋輸出並做一個小變更』作為進度 gate，而不是只用閱讀完成度。","tools":["quiz.json","LEARNING.md","check-understanding skill"]}
+    ],
+    "concepts": ["evidence-gated-mastery-learning", "cognitive-skill-transfer-loop", "quality-gates-verification", "reusable-agent-skills"],
+    "useCases": ["系統化 AI Engineering 學習", "轉職或技能補強", "用 Coding Agent 輔助學習但避免被 Agent 代做", "MCP / Agent Skills 等專題學習路徑"],
+    "status": "pattern",
+    "addedAt": "2026-10-01",
+    "notes": "Generalized from the official AI Engineering from Scratch README plus its start-learning and learn Agent Skills. The durable pattern is the evidence-gated learning loop; exact lesson count, route names and host invocation syntax are implementation details of this repository.",
+    "tags": ["combo", "workflow", "learning", "ai-engineering", "evidence-gated", "hands-on", "agent-tutor", "mastery-learning"]
   }
 ]
