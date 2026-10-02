@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 2,
+  "id": "long-running-agent-operations",
+  "entityType": "concept",
+  "title": "Long-running Agent Operations",
+  "coreProblem": "Agent 任務跑幾小時後，可能卡在確認、失敗、quota、環境狀態或沒人知道誰正在做什麼。",
+  "solutionMethods": [
+    "把長任務拆成可觀察 task",
+    "記錄 owner、status、blocker、evidence、next action",
+    "提供工作區隔離與 resume / recovery 能力",
+    "只在真正需要人類決策時中斷",
+    "用 heartbeat queue、persistent task state、budget checks 與 orphaned-run recovery 支撐 24/7 Agent 執行",
+    "在使用者確認 Spec 後，已授權工作可持續推進；待決事項只阻擋相依工作，其餘 Tickets 繼續執行，避免整條流程因單一 decision point 停住"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "Orca",
+    "Shared Handoff Bridge pattern",
+    "Hermes Agent",
+    "Paperclip",
+    "LoopAgentTeams"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-22",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "long-running-agent",
+    "operations",
+    "observability",
+    "recovery"
+  ]
+}

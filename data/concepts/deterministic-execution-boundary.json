@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "id": "deterministic-execution-boundary",
+  "entityType": "concept",
+  "title": "Deterministic Execution Boundary",
+  "coreProblem": "在交易、付款、部署等高風險系統中，如果讓 LLM 直接位於每次執行迴圈內，非決定性輸出、模型失誤與 prompt injection 可能直接轉成真實世界動作。",
+  "solutionMethods": [
+    "讓 LLM 負責研究、規劃與產生可檢查的程式碼，而不是逐次決定實際執行動作",
+    "把正式執行交給 deterministic code、scheduler、state machine 或 reconciler",
+    "在 Agent 與執行層之間建立明確 contract 與資料格式",
+    "對真實動作加入 kill switch、人工 redline、權限限制與 audit log",
+    "每次高風險 action 後從外部系統 read-back 驗證實際狀態"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "Blave Agent",
+    "GitHub Agentic Workflows"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-27",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "deterministic-execution",
+    "agent-safety",
+    "high-risk",
+    "scheduler",
+    "reconciliation",
+    "human-control"
+  ]
+}

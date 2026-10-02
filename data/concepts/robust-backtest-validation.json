@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "id": "robust-backtest-validation",
+  "entityType": "concept",
+  "title": "Robust Backtest Validation",
+  "coreProblem": "單次漂亮回測可能只是過度擬合、參數挑選偏誤、忽略交易成本或偶然運氣；若 Agent 能不停重調參直到數字好看，風險更高。",
+  "solutionMethods": [
+    "用 Monte Carlo / permutation test 檢查績效是否可能由隨機資料產生",
+    "找參數 plateau 而不是只挑單一最佳參數格",
+    "用 rolling walk-forward 檢查 out-of-sample 表現",
+    "強制納入實際交易費用，將零費用視為品質錯誤",
+    "限制自動重調參次數並如實保留失敗結果",
+    "把 live strategy 與已回測版本做一致性追蹤，程式變更後明確標示 drift"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "Blave Agent"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-27",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "backtest",
+    "overfitting",
+    "monte-carlo",
+    "walk-forward",
+    "parameter-stability",
+    "model-risk"
+  ]
+}

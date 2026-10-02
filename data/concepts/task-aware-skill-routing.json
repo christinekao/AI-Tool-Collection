@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "id": "task-aware-skill-routing",
+  "entityType": "concept",
+  "title": "Task-Aware Skill Routing",
+  "coreProblem": "當 Skill 與工具數量增加後，Agent 若直接從全部能力中臨場猜選擇，容易選錯工具、漏掉必要前置條件，且不同環境的 tool availability 也會造成流程漂移。",
+  "solutionMethods": [
+    "先依任務型態、目標物、意圖與授權範圍做結構化 routing，再載入對應 Skill",
+    "把 routing rules 放在單一 source of truth，避免多份文件互相矛盾",
+    "在執行前檢查實際工具可用性，必要時走 bootstrap / fallback，而不是假設工具已安裝",
+    "用 regression cases 驗證 routing hint 是否穩定映射到預期 primary skill",
+    "將 case initialization、scope、evidence 與 handoff contract 做成 routing 的固定前置／後置流程"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "Reverse Skill"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-30",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "skill-routing",
+    "tool-routing",
+    "agent-skills",
+    "capability-selection",
+    "regression",
+    "tool-discovery"
+  ]
+}

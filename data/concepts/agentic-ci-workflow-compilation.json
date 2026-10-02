@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "id": "agentic-ci-workflow-compilation",
+  "entityType": "concept",
+  "title": "Agentic CI Workflow Compilation",
+  "coreProblem": "需要推理的 repository automation 若只靠長時間 Agent session 或直接手寫高權限 workflow，容易缺乏可重現 artifact、事件觸發、權限邊界與安全驗證；但把所有 CI/CD 都交給 LLM 又會破壞 deterministic automation 的可靠性。",
+  "solutionMethods": [
+    "把需要 reasoning 的 workflow source 寫成 Markdown + declarative frontmatter，再 compile 成標準 CI workflow artifact",
+    "保留 build / test / lint / deploy 等 deterministic 工作在一般 CI，Agent 只處理 interpretation-heavy tasks",
+    "讓 AI engine 成為可替換 implementation，而 workflow contract 與 trigger 保持穩定",
+    "Agent job 預設 read-only / sandboxed，將寫入意圖轉成 safe outputs",
+    "由獨立 job 使用 scoped permissions 驗證並套用 Agent 的寫入結果"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "GitHub Agentic Workflows"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-29",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "agentic-ci",
+    "workflow-compiler",
+    "github-actions",
+    "safe-outputs",
+    "sandbox",
+    "deterministic-boundary"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "outbound-private-tool-bridge",
+  "entityType": "concept",
+  "title": "Outbound Private Tool Bridge",
+  "coreProblem": "雲端 Agent 若要安全呼叫使用者電腦內的工具，直接開公開 inbound port 會增加網路暴露面、NAT / firewall 設定與憑證管理負擔。",
+  "solutionMethods": [
+    "由本機 runtime 主動建立 outbound secure tunnel，而不是公開本機 inbound endpoint",
+    "雲端 Agent 只連到受控 tunnel / relay，再把 tool request 轉送到本機",
+    "把 tunnel control-plane credential 存在 OS credential store，而不是放進專案檔案",
+    "本機工具仍以使用者權限執行，因此要搭配最小權限、tool trust 與 audit"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "OpenChatX + Secure MCP Tunnel"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-28",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "secure-tunnel",
+    "mcp",
+    "local-tools",
+    "outbound",
+    "private-runtime",
+    "security"
+  ]
+}

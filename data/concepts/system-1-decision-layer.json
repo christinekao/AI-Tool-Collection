@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 2,
+  "id": "system-1-decision-layer",
+  "entityType": "concept",
+  "title": "System 1 Decision Layer",
+  "coreProblem": "很多 Agent 流程會把每個分類、路由、guardrail、風險判斷都丟給生成式 LLM；這會增加 latency、token 成本，也讓原本只需要固定結構答案的決策變成難以解析的自由文字生成。",
+  "solutionMethods": [
+    "把高頻、低歧義的決策拆成獨立 typed decision layer",
+    "輸出固定 primitive，例如 choice、score、boolean / probability，而不是自然語言",
+    "一次 forward pass 同時回答多個結構化問題",
+    "只把需要深度推理或生成的工作升級給 System 2 LLM",
+    "為不同語言、domain 或 task 選擇專用 checkpoint，而不是期待單一模型萬能"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "Laya",
+    "small classifier before frontier LLM",
+    "intent / risk / routing layer"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-22",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "system-1",
+    "decision-layer",
+    "routing",
+    "classification",
+    "latency",
+    "cost"
+  ]
+}

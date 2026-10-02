@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "id": "voice-publish-evidence-social-content-loop",
+  "entityType": "workflow",
+  "title": "Voice → Publish → Evidence Social Content Loop",
+  "goal": "讓社群內容維持個人／品牌聲線並持續從真實成效學習，同時保留人工控制與可驗證的發布邊界。",
+  "problem": "一次性 AI 文案沒有持久 voice 與成效記憶；跨平台直接複製容易忽略平台差異；若生成後直接自動發布，錯誤與未驗證的 browser automation 會直接轉成公開風險。",
+  "solutionStrategy": "把 social content 視為閉環系統：先建立持久 voice 與 current brief，再做規劃與平台化草稿；公開行為前加入 approval / capability gate；發布後把 outcome 轉成結構化 evidence，經比較與 confound-aware analysis 更新下一輪規則。",
+  "stages": [
+    {
+      "id": "learn-voice-context",
+      "title": "Learn Voice & Context",
+      "purpose": "從真實內容建立可持久重用的聲線與當前內容 brief，避免每次從空白 prompt 開始。",
+      "uses": [],
+      "unresolvedUses": [
+        "Social Post P1",
+        "voice_quick / style profile",
+        "current brief"
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "plan-content",
+      "title": "Plan Content",
+      "purpose": "依目標、既有 comparables 與平台限制安排內容，而不是逐篇臨時生成。",
+      "uses": [],
+      "unresolvedUses": [
+        "Social Post P0",
+        "content plan",
+        "structured comparables"
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "draft-platform-native-content",
+      "title": "Draft Platform-native Content",
+      "purpose": "保留核心訊息與 voice，同時依 FB／IG／Threads／X surface 產生適合的版本。",
+      "uses": [],
+      "unresolvedUses": [
+        "Social Post P2",
+        "Codex / Claude Code"
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "human-capability-gate",
+      "title": "Human & Capability Gate",
+      "purpose": "在公開發布或留言前確認內容、目標帳號／貼文與 runtime capability；未驗證能力 fail closed。",
+      "uses": [],
+      "unresolvedUses": [
+        "Human Approval",
+        "capability ledger",
+        "browser preflight"
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "publish-interact",
+      "title": "Publish / Interact",
+      "purpose": "只在已核准 scope 內執行發布或指定互動，避免把草稿能力誤當成全面自動化能力。",
+      "uses": [],
+      "unresolvedUses": [
+        "Logged-in browser capability",
+        "Social Post P2 / P5"
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "capture-outcome-evidence",
+      "title": "Capture Outcome Evidence",
+      "purpose": "把貼文、洞察、時間、平台 scope、correction 與實驗資料保存成可驗證的結構化紀錄。",
+      "uses": [],
+      "unresolvedUses": [
+        "Social Post P3",
+        "JSONL data",
+        "validation scripts"
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "optimize-patterns",
+      "title": "Optimize Patterns",
+      "purpose": "在相同平台與 maturity 下比較 evidence，標示 confound，讓規則從 hypothesis 逐步升級而不是憑單篇爆文下結論。",
+      "uses": [],
+      "unresolvedUses": [
+        "Social Post P4",
+        "feature matrix",
+        "experiments / rules"
+      ],
+      "outputs": [],
+      "gate": ""
+    }
+  ],
+  "combinationRefs": [
+    {
+      "type": "combination",
+      "id": "voice-publish-evidence-social-content-loop"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "closed-loop-social-content-system"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    }
+  ],
+  "useCases": [
+    "個人品牌內容",
+    "多平台社群經營",
+    "內容日曆",
+    "品牌聲線維持",
+    "以真實成效迭代內容策略",
+    "需要人工核准的社群自動化"
+  ],
+  "notes": "",
+  "status": "active",
+  "addedAt": "2026-10-02",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "combo",
+    "workflow",
+    "social-media",
+    "brand-voice",
+    "feedback-loop",
+    "human-in-the-loop",
+    "evidence"
+  ]
+}

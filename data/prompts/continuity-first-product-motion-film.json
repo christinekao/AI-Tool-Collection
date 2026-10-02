@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 2,
+  "id": "continuity-first-product-motion-film",
+  "entityType": "prompt",
+  "title": "Continuity-first 產品發布片：先設計交界，再設計鏡頭",
+  "category": "Media / Motion Design",
+  "promptType": "Creative Production / Acceptance Prompt",
+  "problem": "避免 AI 影片每一鏡單看漂亮、串起來卻像投影片；把 beat 之間的 continuity、camera、節奏與可驗收條件變成一套 Agent 可以執行的製作規則。",
+  "goal": "Reference 分析、三個真正不同的視覺概念、包含 carry 欄位的 beat sheet、實作計畫與可驗收 checklist；最終影片的每個主要交界都能說明『什麼東西從上一段活到下一段』。",
+  "prompt": "You are designing a continuity-first product motion film. The film must feel like one visual idea unfolding, not a sequence of independent slides.\n\nInputs:\n- Product / feature: [PRODUCT]\n- Target duration: [DURATION]\n- Reference material: [REFERENCES]\n- Required product states / messages: [REQUIRED_CONTENT]\n- Output constraints: [FORMAT / RESOLUTION / AUDIO / LANGUAGE]\n\nWorkflow:\n1. Analyze the references before designing. Extract observable signals such as rhythm, holds, cuts, spatial composition, camera behavior, motion character and transition logic. Do not copy branding, artwork or exact frames.\n2. Propose three genuinely different visual concepts. Each concept must be one sentence describing the central visual mechanism, not three scripts using the same cards. For each concept, state the hook, visual language, what carries across boundaries and what the concept forbids.\n3. After a concept is selected, create a beat sheet with: time → beat → what moves → what stays still → what visibly carries into the next beat.\n4. Treat every major boundary as a first-class design problem. At least one visible element, camera move, container, line, object, state or physical cause must survive and transform into the next beat. A scene that simply disappears and is replaced is a failed boundary unless the hard cut is intentionally part of the concept.\n5. Keep a coherent camera grammar. Use movement, anticipation, impact and stillness deliberately; do not keep every beat at the same cadence.\n6. For feature demos, prefer a controllable reconstruction of the product UI when that enables precise camera and state transitions. Preserve the product's real content and behavior.\n7. Make motion deterministic and reproducible where possible. Fast movement should have appropriate motion blur. Sound should follow meaningful events rather than adding one generic sound per beat.\n8. Verify before presenting the final result. Check continuity across every boundary, rhythm variation, intentional stillness, framing, audio clipping/silence, motion blur on fast moves and whether the required product message remains understandable.\n\nReturn before production:\nA. reference signal summary\nB. three concepts\nC. selected-concept beat/carry sheet\nD. implementation plan\nE. acceptance checklist\n\nDo not call the film finished until the acceptance checklist has evidence for every item.",
+  "whenToUse": [
+    "產品 launch video / teaser / feature demo",
+    "現有 AI 動效看起來像 PPT 或轉場生硬",
+    "希望依 reference 學節奏與 motion grammar，而不是複製畫面",
+    "需要把創意影片也納入 machine-checkable acceptance workflow"
+  ],
+  "inputs": [
+    "product / feature",
+    "duration",
+    "references",
+    "required content",
+    "format / resolution / audio / language"
+  ],
+  "expectedOutput": "Reference 分析、三個真正不同的視覺概念、包含 carry 欄位的 beat sheet、實作計畫與可驗收 checklist；最終影片的每個主要交界都能說明『什麼東西從上一段活到下一段』。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "onetake"
+    },
+    {
+      "type": "resource",
+      "id": "openmontage"
+    },
+    {
+      "type": "resource",
+      "id": "davinci-resolve"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/feitangyuan/onetake",
+    "type": "Open-source Agent Skill / README + SKILL.md",
+    "summary": "由 OneTake 的 continuity-first 方法抽象成可重用 prompt：先量化拆解 reference，再選 central visual concept，用 beat/carry sheet 設計邊界，最後以自動 verification gate 先驗收再給人看。此 prompt 為重新整理的通用版本，不是原始 SKILL.md 的逐字複製。"
+  },
+  "status": "generated-draft",
+  "addedAt": "2026-09-27",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "motion-design",
+    "continuity",
+    "single-take",
+    "product-video",
+    "reference-analysis",
+    "acceptance",
+    "agentic-media",
+    "onetake"
+  ]
+}

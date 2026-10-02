@@ -1,21 +1,62 @@
 {
-  "name": "Voice → Publish → Evidence Social Content Loop",
+  "schemaVersion": 2,
+  "id": "voice-publish-evidence-social-content-loop",
+  "entityType": "combination",
+  "title": "Voice → Publish → Evidence Social Content Loop",
   "goal": "讓社群內容維持個人／品牌聲線並持續從真實成效學習，同時保留人工控制與可驗證的發布邊界。",
-  "problem": "一次性 AI 文案沒有持久 voice 與成效記憶；跨平台直接複製忽略平台差異；生成後直接自動發布會把錯誤與未驗證 automation 轉成公開風險。",
-  "solutionStrategy": "先建立持久 voice 與 current brief，再做規劃與平台化草稿；公開行為前加入 approval / capability gate；發布後把 outcome 轉成結構化 evidence，供下一輪規則更新。",
-  "components": ["Hao0321/claude-skill-social-post", "Codex / Claude Code", "Local voice + social data", "Logged-in browser capability", "Human Approval"],
-  "workflow": [
-    {"stage":"Learn Voice & Context","purpose":"從真實內容建立可持久重用的聲線與當前內容 brief。","tools":["Social Post P1","voice / style profile","current brief"]},
-    {"stage":"Plan Content","purpose":"依目標、既有 comparables 與平台限制安排內容。","tools":["Social Post P0","content plan","structured comparables"]},
-    {"stage":"Draft Platform-native Content","purpose":"保留核心訊息與 voice，同時依不同平台產生適合版本。","tools":["Social Post P2","Codex / Claude Code"]},
-    {"stage":"Human & Capability Gate","purpose":"公開發布或留言前確認內容、目標與 runtime capability；未驗證能力 fail closed。","tools":["Human Approval","capability ledger","browser preflight"]},
-    {"stage":"Publish / Interact","purpose":"只在已核准 scope 內執行發布或指定互動。","tools":["Logged-in browser capability","Social Post P2 / P5"]},
-    {"stage":"Capture Outcome Evidence","purpose":"保存貼文、洞察、時間、平台 scope、correction 與實驗資料。","tools":["Social Post P3","JSONL data","validation scripts"]},
-    {"stage":"Optimize Patterns","purpose":"比較 evidence、標示 confound，讓規則由 hypothesis 逐步升級。","tools":["Social Post P4","feature matrix","experiments / rules"]}
+  "problem": "一次性 AI 文案沒有持久 voice 與成效記憶；跨平台直接複製容易忽略平台差異；若生成後直接自動發布，錯誤與未驗證的 browser automation 會直接轉成公開風險。",
+  "rationale": "把 social content 視為閉環系統：先建立持久 voice 與 current brief，再做規劃與平台化草稿；公開行為前加入 approval / capability gate；發布後把 outcome 轉成結構化 evidence，經比較與 confound-aware analysis 更新下一輪規則。",
+  "members": [
+    {
+      "type": "resource",
+      "id": "social-post"
+    }
   ],
-  "concepts": ["closed-loop-social-content-system", "quality-gates-verification", "context-governance"],
-  "useCases": ["個人品牌內容", "多平台社群經營", "內容日曆", "品牌聲線維持", "以真實成效迭代內容策略", "需要人工核准的社群自動化"],
+  "unresolvedMembers": [
+    "Codex / Claude Code",
+    "Local voice + social data",
+    "Logged-in browser capability",
+    "Human Approval"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "closed-loop-social-content-system"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    }
+  ],
+  "useCases": [
+    "個人品牌內容",
+    "多平台社群經營",
+    "內容日曆",
+    "品牌聲線維持",
+    "以真實成效迭代內容策略",
+    "需要人工核准的社群自動化"
+  ],
+  "notes": "",
   "status": "pattern",
   "addedAt": "2026-10-02",
-  "tags": ["combo", "workflow", "social-media", "brand-voice", "feedback-loop", "human-in-the-loop", "evidence"]
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "combo",
+    "workflow",
+    "social-media",
+    "brand-voice",
+    "feedback-loop",
+    "human-in-the-loop",
+    "evidence"
+  ],
+  "workflowRefs": [
+    {
+      "type": "workflow",
+      "id": "voice-publish-evidence-social-content-loop"
+    }
+  ]
 }

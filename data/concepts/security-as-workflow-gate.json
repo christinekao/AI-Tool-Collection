@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "id": "security-as-workflow-gate",
+  "entityType": "concept",
+  "title": "Security as a Workflow Gate",
+  "coreProblem": "Agent 能快速產生與修改程式碼，但功能測試通過不代表 dependency、container、IaC、SBOM 或 API 使用方式安全。",
+  "solutionMethods": [
+    "把 SAST / SCA / container / IaC scan 放進 Agent workflow",
+    "在交付前建立 security acceptance gate",
+    "對 private repo 與外部 scan 明確要求授權",
+    "將 finding 修復與再掃描納入同一 loop",
+    "將 Agent 的 repository writes 經過 safe-output validation 與 scoped-permission apply job，而不是讓 reasoning job 直接拿高權限寫入",
+    "在 reverse / pentest case 初始化時先建立 authorization scope 與 network profile，scope 未就緒前不得對 target 執行 ACT",
+    "將使用者確認的 Spec 視為正式授權邊界；超出範圍、需要帳號／金鑰或預留核准事項時才要求使用者決策，並明確記錄授權缺口。此為 workflow constraint，不能誤當成工具層安全隔離"
+  ],
+  "tradeoffs": [],
+  "signals": [],
+  "antiPatterns": [],
+  "examples": [
+    "Hermes Snyk Plugin",
+    "Akto",
+    "NVIDIA SkillSpector",
+    "NVIDIA/SkillSpector",
+    "akto-api-security/akto",
+    "cloudflare/cloudflare-os",
+    "GitHub Agentic Workflows",
+    "Reverse Skill",
+    "LoopAgentTeams"
+  ],
+  "status": "active",
+  "addedAt": "2026-09-22",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "security",
+    "sast",
+    "sca",
+    "governance",
+    "acceptance"
+  ]
+}

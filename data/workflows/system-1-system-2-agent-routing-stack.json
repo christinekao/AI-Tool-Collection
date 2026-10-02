@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "id": "system-1-system-2-agent-routing-stack",
+  "entityType": "workflow",
+  "title": "System 1 → System 2 Agent Routing Stack",
+  "goal": "先用快速、便宜、結構化的 decision layer 處理分類、風險與 routing，只在必要時才把請求送進昂貴的生成式 Agent，並用 confidence gate 控制自動化風險。",
+  "problem": "",
+  "solutionStrategy": "",
+  "stages": [
+    {
+      "id": "stage-1",
+      "title": "Stage 1",
+      "purpose": "Laya：對輸入做 intent、urgency、risk、guardrail 或 route 的 typed decision",
+      "uses": [],
+      "unresolvedUses": [],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "stage-2",
+      "title": "Stage 2",
+      "purpose": "Confidence Gate：高信心決策直接進自動流程；低信心則升級",
+      "uses": [],
+      "unresolvedUses": [],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "stage-3",
+      "title": "Stage 3",
+      "purpose": "OmniRoute：依任務能力、成本與 quota 選擇實際 System 2 model/provider",
+      "uses": [],
+      "unresolvedUses": [],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "stage-4",
+      "title": "Stage 4",
+      "purpose": "Claude / Codex：處理需要深度推理、生成或 coding 的任務",
+      "uses": [],
+      "unresolvedUses": [],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "stage-5",
+      "title": "Stage 5",
+      "purpose": "Human Review：高風險或低信心情況保留人工確認",
+      "uses": [],
+      "unresolvedUses": [],
+      "outputs": [],
+      "gate": ""
+    }
+  ],
+  "combinationRefs": [
+    {
+      "type": "combination",
+      "id": "system-1-system-2-agent-routing-stack"
+    }
+  ],
+  "conceptRefs": [],
+  "useCases": [
+    "support ticket routing",
+    "prompt injection / safety gate",
+    "small model vs frontier model routing",
+    "大量低成本分類後只升級少數複雜案例",
+    "需要 latency / cost / risk 一起控制的 Agent pipeline"
+  ],
+  "notes": "",
+  "status": "active",
+  "addedAt": "2026-09-22",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "combo",
+    "system-1",
+    "system-2",
+    "routing",
+    "confidence-gating",
+    "cost",
+    "human-in-the-loop",
+    "workflow"
+  ]
+}
