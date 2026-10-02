@@ -4,6 +4,7 @@ on:
     branches: [schema-v2-migration]
     paths:
       - 'scripts/migrate-v2.mjs'
+      - 'scripts/apply-v2-extras.mjs'
       - 'resources*.json'
       - 'concepts*.json'
       - 'combinations.json'
@@ -24,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node scripts/migrate-v2.mjs
+      - run: node scripts/migrate-v2.mjs && node scripts/apply-v2-extras.mjs
       - name: Commit generated V2 records
         run: |
           git config user.name 'github-actions[bot]'
