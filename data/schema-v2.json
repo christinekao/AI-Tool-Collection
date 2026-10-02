@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "entityTypes": ["resource", "skill", "concept", "prompt", "combination", "workflow"],
+  "paths": {
+    "resource": "data/resources",
+    "skill": "data/skills",
+    "concept": "data/concepts",
+    "prompt": "data/prompts",
+    "combination": "data/combinations",
+    "workflow": "data/workflows"
+  },
+  "requiredCommonFields": ["schemaVersion", "id", "entityType", "title", "status", "addedAt", "updatedAt", "tags"],
+  "referenceShape": {"type": "<entityType>", "id": "<stable-id>"},
+  "rules": {
+    "workflowIsFirstClass": true,
+    "combinationOwnsExecutionOrder": false,
+    "typedReferences": true,
+    "oneRecordPerFile": true,
+    "legacySourcesReadOnlyUntilParity": true,
+    "promptExtractionOnlyWhenIndependentlyReusable": true,
+    "conceptMustBeToolIndependent": true
+  },
+  "legacySourcePrecedence": ["data/*", "*.updates.json", "*.intake.json", "legacy aggregate"],
+  "futureIntake": ["research", "dedupe", "resource-or-skill", "concept", "combination", "workflow", "prompt-decision", "validate-references", "publish"]
+}
