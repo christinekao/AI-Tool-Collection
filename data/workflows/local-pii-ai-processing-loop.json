@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 2,
+  "id": "local-pii-ai-processing-loop",
+  "entityType": "workflow",
+  "title": "Local PII → Cloud AI → Local Restore Loop",
+  "goal": "讓含敏感個資的文件仍可使用雲端 AI，同時把原始 PII 與還原 mapping 留在本機信任邊界。",
+  "problem": "直接上傳 PII 有風險，永久遮罩又會破壞最終文件可用性。",
+  "solutionStrategy": "本機偵測與 reversible masking → 雲端只處理 placeholder → 本機 restore → privacy QA gate。",
+  "stages": [
+    {
+      "id": "detect-pii-locally",
+      "title": "Detect PII Locally",
+      "purpose": "在敏感內容離開本機前辨識 PII",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "pii-guard"
+        }
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "reversible-masking",
+      "title": "Reversible Masking",
+      "purpose": "以一致 placeholder 取代敏感實體並將 mapping 留在本機",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "pii-guard"
+        }
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "ai-processing",
+      "title": "AI Processing",
+      "purpose": "雲端模型只接觸去識別化版本",
+      "uses": [],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "restore-locally",
+      "title": "Restore Locally",
+      "purpose": "在可信本機環境還原原始實體",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "pii-guard"
+        }
+      ],
+      "outputs": [],
+      "gate": ""
+    },
+    {
+      "id": "privacy-qa-gate",
+      "title": "Privacy QA Gate",
+      "purpose": "檢查漏偵測、錯誤分類與不應還原的輸出",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "pii-guard"
+        }
+      ],
+      "outputs": [],
+      "gate": ""
+    }
+  ],
+  "combinationRefs": [
+    {
+      "type": "combination",
+      "id": "local-pii-ai-processing-loop"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reversible-privacy-boundary"
+    },
+    {
+      "type": "concept",
+      "id": "local-first-sensitive-data-processing"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "useCases": [
+    "企業文件摘要",
+    "合約與 HR 文件 AI 處理",
+    "客服資料分析",
+    "含台灣個資的 Agent workflow"
+  ],
+  "notes": "",
+  "status": "active",
+  "addedAt": "2026-10-02",
+  "updatedAt": "2026-10-02",
+  "tags": [
+    "combo",
+    "workflow",
+    "privacy",
+    "pii",
+    "local-first",
+    "cloud-ai",
+    "workflow"
+  ]
+}

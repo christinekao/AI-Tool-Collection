@@ -3975,6 +3975,46 @@
           "id": "context-governance"
         }
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "pii-guard",
+      "entityType": "resource",
+      "title": "PII Guard",
+      "canonicalName": "PII Guard",
+      "category": "Security / Privacy / Agent Skills",
+      "resourceType": "Local reversible PII de-identification guard for AI workflows",
+      "purpose": "在文件或 Agent 工具內容進入雲端模型前，先於本機偵測台灣繁體中文個資並替換成可還原代號；AI 處理後再用本機 mapping 還原。",
+      "recommendation": "適合台灣繁體中文、企業文件與 coding-agent 工作流的 reversible de-identification。",
+      "url": "https://github.com/danyuchn/pii-guard",
+      "repo": "danyuchn/pii-guard",
+      "notes": "Modular-only record preserved during V2 migration.",
+      "status": "active",
+      "addedAt": "2026-10-02",
+      "updatedAt": "2026-10-02",
+      "tags": [
+        "privacy",
+        "pii",
+        "taiwan",
+        "traditional-chinese",
+        "reversible-redaction",
+        "local-first",
+        "security"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reversible-privacy-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "local-first-sensitive-data-processing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ]
     }
   ],
   "skills": [
@@ -7377,6 +7417,60 @@
         "local-first",
         "capability-gating"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "reversible-privacy-boundary",
+      "entityType": "concept",
+      "title": "Reversible Privacy Boundary",
+      "coreProblem": "AI 工作流需要保留文件上下文與實體關係，但直接把原始 PII 送往雲端模型會增加隱私與合規風險；永久刪除又可能降低輸出可用性。",
+      "solutionMethods": [
+        "在資料離開本機或信任邊界前先偵測 PII",
+        "以穩定 placeholder 取代敏感實體並保留結構與關係",
+        "mapping 僅保存在本機可信環境",
+        "雲端模型只處理去識別化內容",
+        "模型完成後於本機依 mapping 還原",
+        "以 coverage 驗證與人工檢查避免把遮罩誤認為零洩漏"
+      ],
+      "examples": [
+        "PII Guard"
+      ],
+      "status": "active",
+      "addedAt": "2026-10-02",
+      "updatedAt": "2026-10-02",
+      "tags": [
+        "privacy-boundary",
+        "pii",
+        "reversible-deidentification",
+        "local-first",
+        "cloud-ai",
+        "data-governance"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "local-first-sensitive-data-processing",
+      "entityType": "concept",
+      "title": "Local-First Sensitive Data Processing",
+      "coreProblem": "敏感資料若在預處理、映射、憑證或原始內容階段離開可信本機，後續再做雲端安全控制也可能已失去資料邊界。",
+      "solutionMethods": [
+        "敏感原文、mapping 與高權限資料優先留在本機",
+        "只把完成任務所需的最小化衍生資料送往外部服務",
+        "將本機處理與雲端推理之間建立明確 contract",
+        "對離開本機的 payload 做可驗證的最小化與遮罩"
+      ],
+      "examples": [
+        "PII Guard"
+      ],
+      "status": "active",
+      "addedAt": "2026-10-02",
+      "updatedAt": "2026-10-02",
+      "tags": [
+        "local-first",
+        "privacy",
+        "data-minimization",
+        "trust-boundary"
+      ]
     }
   ],
   "prompts": [
@@ -8428,6 +8522,65 @@
         {
           "type": "workflow",
           "id": "voice-publish-evidence-social-content-loop"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "local-pii-ai-processing-loop",
+      "entityType": "combination",
+      "title": "Local PII → Cloud AI → Local Restore Loop",
+      "goal": "讓含敏感個資的文件仍可使用雲端 AI，同時把原始 PII 與還原 mapping 留在本機信任邊界。",
+      "problem": "直接上傳 PII 有風險，永久遮罩又會破壞最終文件可用性。",
+      "rationale": "本機偵測與 reversible masking → 雲端只處理 placeholder → 本機 restore → privacy QA gate。",
+      "members": [
+        {
+          "type": "resource",
+          "id": "pii-guard"
+        }
+      ],
+      "unresolvedMembers": [
+        "Microsoft Presidio",
+        "CKIP Transformers",
+        "Ollama / local LLM fallback",
+        "Claude Code or cloud AI",
+        "Local mapping store"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reversible-privacy-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "local-first-sensitive-data-processing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "useCases": [
+        "企業文件摘要",
+        "合約與 HR 文件 AI 處理",
+        "客服資料分析",
+        "含台灣個資的 Agent workflow"
+      ],
+      "status": "pattern",
+      "addedAt": "2026-10-02",
+      "updatedAt": "2026-10-02",
+      "tags": [
+        "combo",
+        "workflow",
+        "privacy",
+        "pii",
+        "local-first",
+        "cloud-ai"
+      ],
+      "workflowRefs": [
+        {
+          "type": "workflow",
+          "id": "local-pii-ai-processing-loop"
         }
       ]
     }
@@ -9797,6 +9950,116 @@
         "feedback-loop",
         "human-in-the-loop",
         "evidence"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "local-pii-ai-processing-loop",
+      "entityType": "workflow",
+      "title": "Local PII → Cloud AI → Local Restore Loop",
+      "goal": "讓含敏感個資的文件仍可使用雲端 AI，同時把原始 PII 與還原 mapping 留在本機信任邊界。",
+      "problem": "直接上傳 PII 有風險，永久遮罩又會破壞最終文件可用性。",
+      "solutionStrategy": "本機偵測與 reversible masking → 雲端只處理 placeholder → 本機 restore → privacy QA gate。",
+      "stages": [
+        {
+          "id": "detect-pii-locally",
+          "title": "Detect PII Locally",
+          "purpose": "在敏感內容離開本機前辨識 PII",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "pii-guard"
+            }
+          ],
+          "outputs": [],
+          "gate": ""
+        },
+        {
+          "id": "reversible-masking",
+          "title": "Reversible Masking",
+          "purpose": "以一致 placeholder 取代敏感實體並將 mapping 留在本機",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "pii-guard"
+            }
+          ],
+          "outputs": [],
+          "gate": ""
+        },
+        {
+          "id": "ai-processing",
+          "title": "AI Processing",
+          "purpose": "雲端模型只接觸去識別化版本",
+          "uses": [],
+          "outputs": [],
+          "gate": ""
+        },
+        {
+          "id": "restore-locally",
+          "title": "Restore Locally",
+          "purpose": "在可信本機環境還原原始實體",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "pii-guard"
+            }
+          ],
+          "outputs": [],
+          "gate": ""
+        },
+        {
+          "id": "privacy-qa-gate",
+          "title": "Privacy QA Gate",
+          "purpose": "檢查漏偵測、錯誤分類與不應還原的輸出",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "pii-guard"
+            }
+          ],
+          "outputs": [],
+          "gate": ""
+        }
+      ],
+      "combinationRefs": [
+        {
+          "type": "combination",
+          "id": "local-pii-ai-processing-loop"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reversible-privacy-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "local-first-sensitive-data-processing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "useCases": [
+        "企業文件摘要",
+        "合約與 HR 文件 AI 處理",
+        "客服資料分析",
+        "含台灣個資的 Agent workflow"
+      ],
+      "notes": "",
+      "status": "active",
+      "addedAt": "2026-10-02",
+      "updatedAt": "2026-10-02",
+      "tags": [
+        "combo",
+        "workflow",
+        "privacy",
+        "pii",
+        "local-first",
+        "cloud-ai",
+        "workflow"
       ]
     }
   ]
