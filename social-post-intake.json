@@ -1,0 +1,64 @@
+{
+  "resource": {
+    "name": "Hao0321/claude-skill-social-post",
+    "canonicalName": "Social Post",
+    "category": "06 Skills",
+    "type": "Cross-platform Social Content Agent Skill / Closed-loop Content System",
+    "purpose": "讓 Codex、Claude Code 或精簡 ChatGPT Chat 流程依使用者真實貼文與成效學習聲線，規劃內容、撰寫平台化貼文，經人工確認後發布，並把 FB／IG／Threads／X 等平台的成效與互動 evidence 保存成可驗證的結構化資料，供下一輪內容決策使用。",
+    "recommendation": "適合想把社群內容從一次性 prompt 升級成持續學習系統：保留自己的 voice、內容規劃、平台化改寫、人工核准、發布、成效記錄與 pattern optimization，同時避免把私人貼文與帳號資料放進公開 repo。",
+    "url": "https://github.com/Hao0321/claude-skill-social-post",
+    "repo": "Hao0321/claude-skill-social-post",
+    "status": "collected",
+    "notes": "Official repository verified. Stable tag documented as v2.5.0 while main contains unreleased candidates. The skill separates planning, voice learning, drafting/publishing, outcome logging, pattern optimization and comment operations. Private voice, real posts, account performance and comments remain local. Live browser actuation is intentionally capability-gated and current README warns that full three-platform live comment automation is not yet proven; target-only evidence must not be generalized to full-thread capability. MIT licensed.",
+    "addedAt": "2026-10-02",
+    "researchStatus": "researched",
+    "displayStatus": "核心研究",
+    "tags": ["agent-skill", "social-media", "brand-voice", "content-planning", "content-calendar", "facebook", "instagram", "threads", "x", "human-approval", "outcome-learning", "local-first", "fail-closed"],
+    "concepts": ["closed-loop-social-content-system", "reusable-agent-skills", "quality-gates-verification", "context-governance"],
+    "conceptReviewedAt": "2026-10-02"
+  },
+  "concept": {
+    "id": "closed-loop-social-content-system",
+    "title": "Closed-Loop Social Content System",
+    "coreProblem": "社群內容若每次從空白 prompt 開始，品牌聲線、過去成效與平台差異無法累積；若又直接把生成與發布綁在一起，錯誤內容或不確定的自動化能力可能直接變成公開行為。",
+    "solutionMethods": [
+      "把過去真實內容與成效整理成可重用的 voice / style profile，而不是每次重新描述口氣",
+      "把內容規劃、聲線學習、草稿、發布、成效記錄與 pattern optimization 分成不同階段",
+      "依平台 surface 產生 platform-native 版本，而不是把同一份文字機械式同步到所有平台",
+      "發布前保留明確 human approval gate；真實 browser actuation 與純分析／草稿能力分離",
+      "把 outcome、insight snapshot、experiment、correction 與規則生命週期保存成結構化 evidence，讓下一輪決策可追溯",
+      "對低信心或尚未 live-canary 驗證的自動化能力 fail closed，不把 fixture、單一 canary 或 target-only evidence 誤報成全面 production capability",
+      "私人 voice、真實貼文、帳號洞察與留言資料 local-first 保存，公開 repo 只保留通用程式與匿名測試"
+    ],
+    "examples": ["Social Post"],
+    "tags": ["social-content", "feedback-loop", "brand-voice", "human-in-the-loop", "structured-evidence", "local-first", "capability-gating"],
+    "addedAt": "2026-10-02"
+  },
+  "conceptPatches": [
+    {"id":"reusable-agent-skills","examplesAppend":["Social Post"],"solutionMethodsAppend":["把聲線學習、內容規劃、平台化撰稿、成效學習與安全發布規則封裝成可版本化 Social Content Skill"]},
+    {"id":"quality-gates-verification","examplesAppend":["Social Post"],"solutionMethodsAppend":["對社群發布與留言操作採 capability ledger、人工核准、單次送出、送後 read-back 與 fail-closed gate，不以 fixture 或局部 canary 冒充全面能力"]},
+    {"id":"context-governance","examplesAppend":["Social Post"],"solutionMethodsAppend":["依目前 mode 只讀必要的 voice、brief、comparables 與 platform reference，避免整個案例庫永久塞進 context"]}
+  ],
+  "combination": {
+    "name": "Voice → Publish → Evidence Social Content Loop",
+    "goal": "讓社群內容維持個人／品牌聲線並持續從真實成效學習，同時保留人工控制與可驗證的發布邊界。",
+    "problem": "一次性 AI 文案沒有持久 voice 與成效記憶；跨平台直接複製容易忽略平台差異；若生成後直接自動發布，錯誤與未驗證的 browser automation 會直接轉成公開風險。",
+    "solutionStrategy": "把 social content 視為閉環系統：先建立持久 voice 與 current brief，再做規劃與平台化草稿；公開行為前加入 approval / capability gate；發布後把 outcome 轉成結構化 evidence，經比較與 confound-aware analysis 更新下一輪規則。",
+    "components": ["Hao0321/claude-skill-social-post", "Codex / Claude Code", "Local voice + social data", "Logged-in browser capability", "Human Approval"],
+    "workflow": [
+      {"stage":"Learn Voice & Context","purpose":"從真實內容建立可持久重用的聲線與當前內容 brief，避免每次從空白 prompt 開始。","tools":["Social Post P1","voice_quick / style profile","current brief"]},
+      {"stage":"Plan Content","purpose":"依目標、既有 comparables 與平台限制安排內容，而不是逐篇臨時生成。","tools":["Social Post P0","content plan","structured comparables"]},
+      {"stage":"Draft Platform-native Content","purpose":"保留核心訊息與 voice，同時依 FB／IG／Threads／X surface 產生適合的版本。","tools":["Social Post P2","Codex / Claude Code"]},
+      {"stage":"Human & Capability Gate","purpose":"在公開發布或留言前確認內容、目標帳號／貼文與 runtime capability；未驗證能力 fail closed。","tools":["Human Approval","capability ledger","browser preflight"]},
+      {"stage":"Publish / Interact","purpose":"只在已核准 scope 內執行發布或指定互動，避免把草稿能力誤當成全面自動化能力。","tools":["Logged-in browser capability","Social Post P2 / P5"]},
+      {"stage":"Capture Outcome Evidence","purpose":"把貼文、洞察、時間、平台 scope、correction 與實驗資料保存成可驗證的結構化紀錄。","tools":["Social Post P3","JSONL data","validation scripts"]},
+      {"stage":"Optimize Patterns","purpose":"在相同平台與 maturity 下比較 evidence，標示 confound，讓規則從 hypothesis 逐步升級而不是憑單篇爆文下結論。","tools":["Social Post P4","feature matrix","experiments / rules"]}
+    ],
+    "concepts": ["closed-loop-social-content-system", "quality-gates-verification", "context-governance"],
+    "useCases": ["個人品牌內容", "多平台社群經營", "內容日曆", "品牌聲線維持", "以真實成效迭代內容策略", "需要人工核准的社群自動化"],
+    "status": "pattern",
+    "addedAt": "2026-10-02",
+    "tags": ["combo", "workflow", "social-media", "brand-voice", "feedback-loop", "human-in-the-loop", "evidence"]
+  },
+  "promptDecision": "No separate prompt extracted: the repository is itself an executable Skill/protocol, so duplicating it as a generic prompt would add little value unless a narrower reusable instruction is identified later."
+}
