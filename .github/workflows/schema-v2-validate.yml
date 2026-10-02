@@ -1,0 +1,15 @@
+name: Schema V2 Validate
+on:
+  push:
+    branches: [schema-v2-migration]
+    paths: ['data/**','scripts/validate-v2.mjs','MIGRATION_V2_REPORT.json','v2.html','.github/workflows/schema-v2-validate.yml']
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: schema-v2-migration}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/validate-v2.mjs
