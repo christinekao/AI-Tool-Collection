@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "id": "outcome-weighted-agent-memory",
+  "entityType": "concept",
+  "title": "Outcome-Weighted Agent Memory",
+  "status": "active",
+  "addedAt": "2026-10-04",
+  "updatedAt": "2026-10-04",
+  "tags": ["agent-memory", "feedback-loop", "memory-decay", "reinforcement", "knowledge-quality"],
+  "coreProblem": "Agent memory 若只是不斷累積歷史內容，成功與失敗的經驗會被同等保存，舊資訊也會持續佔據 recall，最後形成大量但低品質的 context。",
+  "solutionMethods": [
+    "把 memory 使用後的結果明確記錄為 success、failure 或 neutral，而不是只保存內容本身",
+    "成功經驗提高權重、失敗經驗降低權重，讓被驗證有效的 pattern 更容易再次被 recall",
+    "對長時間沒有被強化的非永久記憶加入 decay，使過時經驗逐漸降低優先度",
+    "將 recall 是否真正被使用納入 relevance feedback，避免被反覆 surfaced 但沒有價值的記憶永久佔據高排名",
+    "把需要永久保留的穩定事實與會衰減的工作經驗分成不同 memory lifecycle"
+  ],
+  "tradeoffs": [
+    "Outcome 標記若錯誤，可能強化錯誤 pattern 或過早壓低仍有價值的記憶",
+    "權重與 decay 只能代表實用性訊號之一，不能取代來源可信度與任務情境判斷"
+  ],
+  "exampleRefs": [
+    {"type":"resource","id":"amp-agent-memory-protocol"}
+  ]
+}
