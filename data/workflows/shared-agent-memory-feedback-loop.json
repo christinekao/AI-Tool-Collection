@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "id": "shared-agent-memory-feedback-loop",
+  "entityType": "workflow",
+  "title": "Shared Agent Memory Feedback Loop",
+  "status": "active",
+  "addedAt": "2026-10-04",
+  "updatedAt": "2026-10-04",
+  "tags": ["workflow", "agent-memory", "multi-agent", "feedback-loop", "github"],
+  "problem": "多個 agent 在不同 session 工作時，決策、經驗與失敗 pattern 無法可靠共享；若只是保存全部 transcript，又會造成 context 膨脹與低品質 recall。",
+  "goal": "建立一個跨 agent、跨 session 的 durable memory loop，讓有效經驗逐漸變強、失敗或過時經驗逐漸降低優先度，並只在任務需要時注入相關 context。",
+  "solutionStrategy": "把共享記憶外部化到 GitHub-native store，將記憶寫入、索引、task-aware recall、使用結果與 decay 串成閉環。",
+  "stages": [
+    {"id":"capture-memory","title":"Capture Memory","purpose":"Agent 或使用者把值得跨 session 保存的 thought、decision、pattern 或 fact 寫入共享記憶層。","uses":[{"type":"resource","id":"amp-agent-memory-protocol"}],"outputs":["structured-memory-record"]},
+    {"id":"index-and-rank","title":"Index & Rank","purpose":"建立 navigation/index，依 outcome、relevance 與時間衰減計算記憶優先度。","uses":[{"type":"resource","id":"amp-agent-memory-protocol"}],"outputs":["ranked-memory-index"]},
+    {"id":"progressive-recall","title":"Progressive Recall","purpose":"新 session 先取得小型 pointers，再依當前任務載入 matching summaries，必要時才讀完整記憶。","uses":[{"type":"concept","id":"progressive-context-recall"}],"outputs":["task-relevant-context"]},
+    {"id":"apply-memory","title":"Apply Memory","purpose":"Agent 在目前任務中使用 recalled experience，而不是重新探索相同問題。","uses":[{"type":"concept","id":"cross-agent-shared-memory"}],"outputs":["task-result"]},
+    {"id":"record-outcome","title":"Record Outcome","purpose":"記錄 recalled memory 對這次任務是 success、failure、neutral 或 surfaced-but-unused。","uses":[{"type":"concept","id":"outcome-weighted-agent-memory"}],"outputs":["memory-outcome-signal"]},
+    {"id":"reinforce-or-decay","title":"Reinforce / Decay","purpose":"成功 pattern 提高權重；失敗、未使用或長期未強化的記憶降低排名，永久事實則使用不同 lifecycle。","uses":[{"type":"concept","id":"outcome-weighted-agent-memory"}],"outputs":["updated-memory-priority"]}
+  ],
+  "conceptRefs": [
+    {"type":"concept","id":"cross-agent-shared-memory"},
+    {"type":"concept","id":"outcome-weighted-agent-memory"},
+    {"type":"concept","id":"progressive-context-recall"}
+  ],
+  "useCases": ["Claude 與 Codex 共用專案經驗", "跨 session 保存架構決策", "多 agent 共用失敗教訓", "長期 agent knowledge base", "降低重複 context 搬運"]
+}
