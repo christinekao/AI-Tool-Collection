@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 2,
+  "id": "evidence-backed-software-reconstruction",
+  "entityType": "workflow",
+  "title": "Evidence-Backed Software Reconstruction",
+  "status": "active",
+  "addedAt": "2026-10-05",
+  "updatedAt": "2026-10-05",
+  "tags": ["reverse-engineering", "investigation", "evidence", "reconstruction"],
+  "problem": "需要理解陌生或缺乏原始碼的軟體功能，但單靠閱讀檔案、猜測架構或一次性 prompt 容易產生沒有證據支撐的結論。",
+  "goal": "讓 agent 以可追溯 evidence 逐步建立跨層行為模型，最後把理解轉譯成可實作的 reconstruction plan。",
+  "solutionStrategy": "把 reverse engineering 當成 evidence-driven investigation：先界定問題，再選工具、觀察、記錄 evidence、形成 hypothesis、交叉驗證，最後才重建。",
+  "conceptRefs": [{"type":"concept","id":"evidence-backed-agent-investigation"},{"type":"concept","id":"agent-native-tool-abstraction"},{"type":"concept","id":"cross-layer-software-reconstruction"}],
+  "stages": [
+    {"id":"scope","title":"Scope the target","purpose":"定義要理解的功能、行為與邊界。","uses":[{"type":"resource","id":"rea"}],"outputs":["investigation-scope"]},
+    {"id":"select-tools","title":"Select investigation tools","purpose":"依 artifact 與問題選擇 static、runtime、binary、web 或其他工具。","uses":[{"type":"resource","id":"rea"}],"outputs":["tool-plan"]},
+    {"id":"collect-evidence","title":"Collect evidence","purpose":"執行觀察並保存可引用的 evidence，而不是只保留 agent 結論。","uses":[{"type":"resource","id":"rea"}],"outputs":["evidence-set"]},
+    {"id":"form-hypothesis","title":"Form hypotheses","purpose":"根據 evidence 建立控制流、資料流與責任邊界假設。","uses":[],"outputs":["hypotheses"]},
+    {"id":"cross-check","title":"Cross-check","purpose":"用不同工具或不同層 evidence 驗證 hypothesis，區分已觀察事實與 inference。","uses":[{"type":"resource","id":"rea"}],"outputs":["validated-behavior-model"],"gate":"關鍵結論具有可追溯 evidence，未驗證推論被明確標示。"},
+    {"id":"reconstruct","title":"Reconstruct in target stack","purpose":"依驗證後的行為模型設計自己的實作，不假設取得原始 source code。","uses":[],"outputs":["reconstruction-plan"]}
+  ]
+}
