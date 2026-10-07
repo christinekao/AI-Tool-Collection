@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 2,
+  "id": "evidence-gated-trading-automation",
+  "entityType": "workflow",
+  "title": "Evidence-Gated Trading Automation",
+  "status": "active",
+  "addedAt": "2026-10-07",
+  "updatedAt": "2026-10-07",
+  "tags": [
+    "trading",
+    "statistics",
+    "paper-trading",
+    "automation",
+    "risk-gate"
+  ],
+  "problem": "交易策略可能只是短期運氣、倖存者偏差或過度配適；若直接把策略接到 live broker，自動化會放大未驗證假設與損失。",
+  "goal": "先用可檢驗 evidence 判斷策略是否值得繼續，再逐級從 backtest／out-of-sample 進到 paper execution，最後才允許受控 live integration。",
+  "solutionStrategy": "建立 evidence → validation → simulation → safety gate → live execution 的能力升級鏈；每一層只在前一層證據足夠時解鎖。",
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "deterministic-execution-boundary"
+    },
+    {
+      "type": "concept",
+      "id": "local-first-sensitive-data-processing"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "stages": [
+    {
+      "id": "ingest",
+      "title": "Ingest locally",
+      "purpose": "在本機匯入交易紀錄或其他 evidence，避免不必要的敏感資料外流。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ],
+      "outputs": [
+        "normalized-trade-evidence"
+      ]
+    },
+    {
+      "id": "measure",
+      "title": "Measure performance",
+      "purpose": "計算 expectancy、盈虧結構、drawdown、Sharpe／Sortino 等描述與風險指標。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ],
+      "outputs": [
+        "performance-profile"
+      ]
+    },
+    {
+      "id": "validate",
+      "title": "Validate edge",
+      "purpose": "以顯著性檢定、bootstrap 與樣本外驗證區分可重複 edge、運氣與過度配適。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ],
+      "outputs": [
+        "validation-evidence"
+      ],
+      "gate": "沒有足夠 evidence 時不得把策略描述成已證明可獲利。"
+    },
+    {
+      "id": "fraud-risk",
+      "title": "Check fraud and claim risk",
+      "purpose": "對外部老師、群組、績效宣稱或話術做風險掃描與鑑識，避免把未驗證 claim 當策略輸入。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ],
+      "outputs": [
+        "claim-risk-assessment"
+      ]
+    },
+    {
+      "id": "paper",
+      "title": "Paper-first execution",
+      "purpose": "把通過前述 gate 的策略轉成可回測／paper execution 專案，保持 live capability 關閉。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ],
+      "outputs": [
+        "paper-trading-system"
+      ]
+    },
+    {
+      "id": "live-gate",
+      "title": "Explicit live safety gate",
+      "purpose": "只有在 broker API、live data runner、風控與明確解鎖都完成後，才允許 live adapter 取得真實下單能力。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ],
+      "outputs": [
+        "controlled-live-integration"
+      ],
+      "gate": "Live execution 必須是顯式 capability escalation；歷史 runner 與預設 scaffold 不得送真單。"
+    }
+  ]
+}
