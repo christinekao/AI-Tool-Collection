@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "id": "reference-to-reusable-video-pattern",
+  "entityType": "workflow",
+  "title": "Reference → Reusable Video Pattern",
+  "status": "active",
+  "addedAt": "2026-10-07",
+  "updatedAt": "2026-10-07",
+  "tags": [
+    "ai-video",
+    "reference-mining",
+    "prompt-analysis",
+    "workflow"
+  ],
+  "problem": "看到大量 AI 影片案例時，很容易只收藏作品或照抄 prompt，卻沒有形成下一次仍可使用的方法。",
+  "goal": "把案例庫轉成可重用的影片製作知識：知道它解決什麼問題、用了什麼方法與工具、哪些條件真正影響輸出。",
+  "solutionStrategy": "從代表案例抽樣，連結 prompt 與 output，拆解 goal／stack／constraints／result，再跨案例歸納 pattern；只有穩定模式才升級成 Concept、Combination、Workflow 或 Prompt。",
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reference-backed-pattern-mining"
+    },
+    {
+      "type": "concept",
+      "id": "prompt-to-output-comparative-learning"
+    }
+  ],
+  "stages": [
+    {
+      "id": "select-reference",
+      "title": "Select representative reference",
+      "purpose": "依目標類型挑選代表案例，而非盲目收藏全部內容。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "skillry-opus-5-5-video-pattern-library"
+        }
+      ],
+      "outputs": [
+        "reference-case"
+      ]
+    },
+    {
+      "id": "inspect-prompt-output",
+      "title": "Inspect prompt and output",
+      "purpose": "同時查看 creator prompt、original 與 remake，建立 instruction-to-result evidence。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "skillry-opus-5-5-video-pattern-library"
+        }
+      ],
+      "outputs": [
+        "prompt-output-observations"
+      ]
+    },
+    {
+      "id": "decompose",
+      "title": "Decompose the solution",
+      "purpose": "拆出 goal、視覺策略、工具、素材、節奏、限制、驗證方式與可觀察結果。",
+      "uses": [],
+      "outputs": [
+        "case-pattern"
+      ]
+    },
+    {
+      "id": "cross-case",
+      "title": "Cross-case comparison",
+      "purpose": "與其他案例比較，辨識重複模式與只屬於單一作品的細節。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "skillry-opus-5-5-video-pattern-library"
+        }
+      ],
+      "outputs": [
+        "reusable-patterns"
+      ]
+    },
+    {
+      "id": "internalize",
+      "title": "Internalize durable knowledge",
+      "purpose": "把穩定模式轉成 Concept／Combination／Workflow；只有可獨立重用的 instruction 才建立 Prompt。",
+      "uses": [],
+      "outputs": [
+        "collection-updates"
+      ],
+      "gate": "不得把單一作者 prompt 直接當成通用 workflow；新知識必須說明其 problem、solution method 與 evidence。"
+    }
+  ]
+}
