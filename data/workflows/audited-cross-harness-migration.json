@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "id": "audited-cross-harness-migration",
+  "entityType": "workflow",
+  "title": "Audited Claude-to-Codex Harness Migration",
+  "status": "active",
+  "addedAt": "2026-10-10",
+  "updatedAt": "2026-10-10",
+  "tags": [
+    "harness",
+    "migration",
+    "audit",
+    "drift",
+    "security"
+  ],
+  "problem": "Claude Code 與 Codex 的設定語意及檔案結構不同，直接複製會造成失效或秘密外洩。",
+  "goal": "安全建立 Codex harness 並持續追蹤兩端 drift。",
+  "solutionStrategy": "先盤點，再分類、確認、轉譯與驗證；只修改 Codex 端，secret 由使用者管理。",
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "cross-agent-harness-portability"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    }
+  ],
+  "stages": [
+    {
+      "id": "inventory",
+      "title": "Inventory",
+      "purpose": "盤點全域與專案 Claude／Codex 設定。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "claude-codex-harness-sync"
+        }
+      ],
+      "outputs": [
+        "inventory"
+      ]
+    },
+    {
+      "id": "classify",
+      "title": "Classify drift and risk",
+      "purpose": "辨識低風險同步、高風險人工轉譯與使用者管理的秘密。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "claude-codex-harness-sync"
+        }
+      ],
+      "outputs": [
+        "risk-classification"
+      ]
+    },
+    {
+      "id": "approve",
+      "title": "Review and approve",
+      "purpose": "說明改動、檔案、風險與驗證計畫並取得確認。",
+      "uses": [],
+      "outputs": [
+        "approved-plan"
+      ],
+      "gate": "未經確認不得修改 Codex 設定；不得複製 secret values。"
+    },
+    {
+      "id": "translate",
+      "title": "Translate Codex-side settings",
+      "purpose": "只在 Codex 端套用經核准的設定。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "claude-codex-harness-sync"
+        }
+      ],
+      "outputs": [
+        "codex-config"
+      ]
+    },
+    {
+      "id": "validate",
+      "title": "Validate and maintain",
+      "purpose": "驗證 Codex harness 語法並定期檢查 drift。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "claude-codex-harness-sync"
+        }
+      ],
+      "outputs": [
+        "validation-report"
+      ]
+    }
+  ]
+}
