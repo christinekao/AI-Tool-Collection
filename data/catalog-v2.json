@@ -6112,6 +6112,36 @@
         "fail-closed",
         "skill"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "claude-codex-harness-sync",
+      "entityType": "skill",
+      "title": "Claude Codex Harness Sync — Setup and Maintain",
+      "status": "active",
+      "addedAt": "2026-10-10",
+      "updatedAt": "2026-10-10",
+      "tags": [
+        "codex",
+        "claude-code",
+        "migration",
+        "drift",
+        "audit"
+      ],
+      "purpose": "以 setup 模式產生 Claude → Codex 遷移盤點；以 maintain 模式辨識兩端設定 drift，經使用者確認後僅修改 Codex 端。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "claude-codex-harness-sync"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "cross-agent-harness-portability"
+        }
+      ],
+      "notes": "Repository includes scripts/inventory.py, scripts/classify_drift.py, scripts/validate_codex.py. Never edit Claude configuration; never copy secrets."
     }
   ],
   "concepts": [
@@ -7892,6 +7922,301 @@
         "privacy",
         "data-minimization",
         "trust-boundary"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "agent-native-tool-abstraction",
+      "entityType": "concept",
+      "title": "Agent-Native Tool Abstraction",
+      "status": "active",
+      "addedAt": "2026-10-05",
+      "updatedAt": "2026-10-05",
+      "tags": [
+        "agents",
+        "mcp",
+        "tooling",
+        "abstraction",
+        "workflow"
+      ],
+      "coreProblem": "複雜專業工作常需要多套底層工具、不同 API 與大量操作知識；若 agent 必須自己理解每個工具的細節，context 與操作成本都很高。",
+      "solutionMethods": [
+        "在專業工具之上提供一致的 agent-facing CLI/MCP interface。",
+        "把 provider-specific complexity 封裝在 adapter/provider layer。",
+        "用 guided skill/workflow 告訴 agent 何時選哪一種能力，而不是把所有底層細節塞進 prompt。",
+        "讓底層 provider 可以替換，但上層 investigation model 維持穩定。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "rea"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "cross-agent-harness-portability",
+      "entityType": "concept",
+      "title": "Cross-Agent Harness Portability",
+      "status": "active",
+      "addedAt": "2026-10-10",
+      "updatedAt": "2026-10-10",
+      "tags": [
+        "agent",
+        "harness",
+        "portability",
+        "migration",
+        "configuration-drift"
+      ],
+      "coreProblem": "不同 coding-agent 的 instruction、skills、hooks、MCP 與 memory surfaces 不同；直接複製設定會造成語意不相容、失效或秘密外洩。",
+      "solutionMethods": [
+        "先盤點來源與目標 harness，辨識可移植與不可直接移植的設定。",
+        "依風險分類：低風險變更須確認、高風險語意轉換須人工協助、秘密資訊由使用者自行處理。",
+        "以目標平台原生形式轉譯設定，保留來源設定不變。",
+        "定期比較 drift 並驗證目標設定有效性。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "claude-codex-harness-sync"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "cross-agent-shared-memory",
+      "entityType": "concept",
+      "title": "Cross-Agent Shared Memory",
+      "status": "active",
+      "addedAt": "2026-10-04",
+      "updatedAt": "2026-10-04",
+      "tags": [
+        "multi-agent",
+        "shared-memory",
+        "cross-session",
+        "vendor-agnostic",
+        "durable-context"
+      ],
+      "coreProblem": "不同 agent 與不同 session 各自擁有孤立 context，導致使用者反覆搬運背景、決策、失敗經驗與成果；換模型或工具時知識也容易一起消失。",
+      "solutionMethods": [
+        "把 durable memory 放在 agent 之外的共享儲存層，使多個 agent 透過共同 protocol 讀寫",
+        "將記憶表示與特定模型供應商解耦，讓 Claude、Codex、OpenClaw 等可以共享同一份歷史",
+        "用結構化 metadata 與索引區分記憶類型、主題、狀態與重要性，而不是把所有 session transcript 當作 memory",
+        "保留 provenance、discussion 與 outcome，使後續 agent 不只看到結論，也能追溯記憶來源與驗證結果"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "amp-agent-memory-protocol"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "cross-layer-software-reconstruction",
+      "entityType": "concept",
+      "title": "Cross-Layer Software Reconstruction",
+      "status": "active",
+      "addedAt": "2026-10-05",
+      "updatedAt": "2026-10-05",
+      "tags": [
+        "reverse-engineering",
+        "runtime",
+        "static-analysis",
+        "software-architecture"
+      ],
+      "coreProblem": "一個產品功能通常跨越 UI、JavaScript/Electron、native code、process/runtime 與資料層；只看單一層容易誤判真正的控制流與責任邊界。",
+      "solutionMethods": [
+        "從可觀察的產品行為建立 investigation target。",
+        "跨 static analysis、runtime observation、call relationships 與 artifact reconstruction 蒐集 evidence。",
+        "建立跨層關係圖，但明確標記 observation 與 inference 的差異。",
+        "把理解出的行為模型轉譯成自己的 stack，而不是試圖複製原始 source code。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "rea"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "evidence-backed-agent-investigation",
+      "entityType": "concept",
+      "title": "Evidence-Backed Agent Investigation",
+      "status": "active",
+      "addedAt": "2026-10-05",
+      "updatedAt": "2026-10-05",
+      "tags": [
+        "agents",
+        "evidence",
+        "investigation",
+        "verification",
+        "reverse-engineering"
+      ],
+      "coreProblem": "Agent 在分析不熟悉或缺少原始碼的系統時，很容易把推測、靜態線索與實際 runtime behavior 混在一起，最後產生看似合理但無法驗證的結論。",
+      "solutionMethods": [
+        "把每個重要結論連回可重現的 evidence record。",
+        "區分 static inference、runtime observation 與已驗證事實。",
+        "讓 agent 沿著 evidence graph 逐步縮小調查範圍，而不是直接猜實作。",
+        "在重建功能前保留來源、觀察方式與限制，讓後續 review 能追溯。"
+      ],
+      "tradeoffs": [
+        "Evidence capture 會增加調查成本與資料量，但可降低錯誤推論與不可重現的 agent output。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "rea"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "evidence-before-execution",
+      "entityType": "concept",
+      "title": "Evidence Before Execution",
+      "status": "active",
+      "addedAt": "2026-10-07",
+      "updatedAt": "2026-10-07",
+      "tags": [
+        "evidence",
+        "validation",
+        "risk",
+        "automation",
+        "decision-systems"
+      ],
+      "coreProblem": "自動化會放大錯誤。如果一個策略、模型或規則尚未證明具有可重複效果，就直接連到真實執行層，會把抽樣運氣、過度配適或錯誤假設轉成實際損失。",
+      "solutionMethods": [
+        "把『效果是否存在』與『如何執行』拆成不同階段。",
+        "先用統計檢驗、樣本外資料或其他獨立 evidence 驗證核心 claim。",
+        "只有通過 validation gate 的策略才進入模擬／paper execution。",
+        "真實執行需要額外風控、權限與明確解鎖，不因回測成功自動取得 live capability。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "anti-gambling-trader-tw"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "outcome-weighted-agent-memory",
+      "entityType": "concept",
+      "title": "Outcome-Weighted Agent Memory",
+      "status": "active",
+      "addedAt": "2026-10-04",
+      "updatedAt": "2026-10-04",
+      "tags": [
+        "agent-memory",
+        "feedback-loop",
+        "memory-decay",
+        "reinforcement",
+        "knowledge-quality"
+      ],
+      "coreProblem": "Agent memory 若只是不斷累積歷史內容，成功與失敗的經驗會被同等保存，舊資訊也會持續佔據 recall，最後形成大量但低品質的 context。",
+      "solutionMethods": [
+        "把 memory 使用後的結果明確記錄為 success、failure 或 neutral，而不是只保存內容本身",
+        "成功經驗提高權重、失敗經驗降低權重，讓被驗證有效的 pattern 更容易再次被 recall",
+        "對長時間沒有被強化的非永久記憶加入 decay，使過時經驗逐漸降低優先度",
+        "將 recall 是否真正被使用納入 relevance feedback，避免被反覆 surfaced 但沒有價值的記憶永久佔據高排名",
+        "把需要永久保留的穩定事實與會衰減的工作經驗分成不同 memory lifecycle"
+      ],
+      "tradeoffs": [
+        "Outcome 標記若錯誤，可能強化錯誤 pattern 或過早壓低仍有價值的記憶",
+        "權重與 decay 只能代表實用性訊號之一，不能取代來源可信度與任務情境判斷"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "amp-agent-memory-protocol"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "progressive-context-recall",
+      "entityType": "concept",
+      "title": "Progressive Context Recall",
+      "status": "active",
+      "addedAt": "2026-10-04",
+      "updatedAt": "2026-10-04",
+      "tags": [
+        "context-management",
+        "agent-memory",
+        "progressive-disclosure",
+        "task-aware-recall"
+      ],
+      "coreProblem": "Shared memory 若每次全部灌進 agent context，記憶愈多反而愈昂貴、愈吵雜，也容易讓不相關歷史干擾當前任務。",
+      "solutionMethods": [
+        "第一層只注入小型 navigation/index，先讓 agent 判斷哪些記憶可能相關",
+        "第二層依當前 task 選擇少量摘要或 matching records，而不是載入整個 memory store",
+        "需要細節時才按需取得完整記憶內容，形成 pointer → summary → full record 的漸進式 disclosure",
+        "把 recall 是否被使用與結果回饋給 ranking，持續改善下一次 context selection"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "amp-agent-memory-protocol"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "prompt-to-output-comparative-learning",
+      "entityType": "concept",
+      "title": "Prompt-to-Output Comparative Learning",
+      "status": "active",
+      "addedAt": "2026-10-07",
+      "updatedAt": "2026-10-07",
+      "tags": [
+        "prompt",
+        "output",
+        "comparison",
+        "remake",
+        "evaluation"
+      ],
+      "coreProblem": "只保存 prompt 看不到它實際造成什麼結果；只保存成品又不知道哪些 instruction、context 或工具造成差異。",
+      "solutionMethods": [
+        "把 prompt／instruction 與可觀察 output 綁在同一個 reference record。",
+        "在可能時保留 original 與 controlled remake，建立可比較結果。",
+        "比較結構、視覺、節奏、技術實作與失敗點，而不是只做主觀好不好看評價。",
+        "將差異轉成下一輪可測試的 instruction、workflow 或 acceptance rule。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "skillry-opus-5-5-video-pattern-library"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "reference-backed-pattern-mining",
+      "entityType": "concept",
+      "title": "Reference-Backed Pattern Mining",
+      "status": "active",
+      "addedAt": "2026-10-07",
+      "updatedAt": "2026-10-07",
+      "tags": [
+        "reference",
+        "pattern-mining",
+        "evidence",
+        "creative-workflow"
+      ],
+      "coreProblem": "單一熱門作品或 prompt 很容易被誤認為通用方法；真正可重用的知識通常分散在多個案例的 prompt、工具、限制與結果中。",
+      "solutionMethods": [
+        "以多個已完成案例作為 evidence，而不是從單一範例下結論。",
+        "拆解每個案例的目標、輸入、工具、製作方法、限制與輸出特徵。",
+        "跨案例尋找重複出現的 solution pattern、workflow stage 與 acceptance criteria。",
+        "只把跨案例仍成立的模式內化成 Concept／Workflow；個別作者 prompt 保留為來源證據。"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "skillry-opus-5-5-video-pattern-library"
+        }
       ]
     }
   ],
@@ -10482,6 +10807,562 @@
         "local-first",
         "cloud-ai",
         "workflow"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "audited-cross-harness-migration",
+      "entityType": "workflow",
+      "title": "Audited Claude-to-Codex Harness Migration",
+      "status": "active",
+      "addedAt": "2026-10-10",
+      "updatedAt": "2026-10-10",
+      "tags": [
+        "harness",
+        "migration",
+        "audit",
+        "drift",
+        "security"
+      ],
+      "problem": "Claude Code 與 Codex 的設定語意及檔案結構不同，直接複製會造成失效或秘密外洩。",
+      "goal": "安全建立 Codex harness 並持續追蹤兩端 drift。",
+      "solutionStrategy": "先盤點，再分類、確認、轉譯與驗證；只修改 Codex 端，secret 由使用者管理。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "cross-agent-harness-portability"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        }
+      ],
+      "stages": [
+        {
+          "id": "inventory",
+          "title": "Inventory",
+          "purpose": "盤點全域與專案 Claude／Codex 設定。",
+          "uses": [
+            {
+              "type": "skill",
+              "id": "claude-codex-harness-sync"
+            }
+          ],
+          "outputs": [
+            "inventory"
+          ]
+        },
+        {
+          "id": "classify",
+          "title": "Classify drift and risk",
+          "purpose": "辨識低風險同步、高風險人工轉譯與使用者管理的秘密。",
+          "uses": [
+            {
+              "type": "skill",
+              "id": "claude-codex-harness-sync"
+            }
+          ],
+          "outputs": [
+            "risk-classification"
+          ]
+        },
+        {
+          "id": "approve",
+          "title": "Review and approve",
+          "purpose": "說明改動、檔案、風險與驗證計畫並取得確認。",
+          "uses": [],
+          "outputs": [
+            "approved-plan"
+          ],
+          "gate": "未經確認不得修改 Codex 設定；不得複製 secret values。"
+        },
+        {
+          "id": "translate",
+          "title": "Translate Codex-side settings",
+          "purpose": "只在 Codex 端套用經核准的設定。",
+          "uses": [
+            {
+              "type": "skill",
+              "id": "claude-codex-harness-sync"
+            }
+          ],
+          "outputs": [
+            "codex-config"
+          ]
+        },
+        {
+          "id": "validate",
+          "title": "Validate and maintain",
+          "purpose": "驗證 Codex harness 語法並定期檢查 drift。",
+          "uses": [
+            {
+              "type": "skill",
+              "id": "claude-codex-harness-sync"
+            }
+          ],
+          "outputs": [
+            "validation-report"
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "evidence-backed-software-reconstruction",
+      "entityType": "workflow",
+      "title": "Evidence-Backed Software Reconstruction",
+      "status": "active",
+      "addedAt": "2026-10-05",
+      "updatedAt": "2026-10-05",
+      "tags": [
+        "reverse-engineering",
+        "investigation",
+        "evidence",
+        "reconstruction"
+      ],
+      "problem": "需要理解陌生或缺乏原始碼的軟體功能，但單靠閱讀檔案、猜測架構或一次性 prompt 容易產生沒有證據支撐的結論。",
+      "goal": "讓 agent 以可追溯 evidence 逐步建立跨層行為模型，最後把理解轉譯成可實作的 reconstruction plan。",
+      "solutionStrategy": "把 reverse engineering 當成 evidence-driven investigation：先界定問題，再選工具、觀察、記錄 evidence、形成 hypothesis、交叉驗證，最後才重建。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "evidence-backed-agent-investigation"
+        },
+        {
+          "type": "concept",
+          "id": "agent-native-tool-abstraction"
+        },
+        {
+          "type": "concept",
+          "id": "cross-layer-software-reconstruction"
+        }
+      ],
+      "stages": [
+        {
+          "id": "scope",
+          "title": "Scope the target",
+          "purpose": "定義要理解的功能、行為與邊界。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "rea"
+            }
+          ],
+          "outputs": [
+            "investigation-scope"
+          ]
+        },
+        {
+          "id": "select-tools",
+          "title": "Select investigation tools",
+          "purpose": "依 artifact 與問題選擇 static、runtime、binary、web 或其他工具。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "rea"
+            }
+          ],
+          "outputs": [
+            "tool-plan"
+          ]
+        },
+        {
+          "id": "collect-evidence",
+          "title": "Collect evidence",
+          "purpose": "執行觀察並保存可引用的 evidence，而不是只保留 agent 結論。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "rea"
+            }
+          ],
+          "outputs": [
+            "evidence-set"
+          ]
+        },
+        {
+          "id": "form-hypothesis",
+          "title": "Form hypotheses",
+          "purpose": "根據 evidence 建立控制流、資料流與責任邊界假設。",
+          "uses": [],
+          "outputs": [
+            "hypotheses"
+          ]
+        },
+        {
+          "id": "cross-check",
+          "title": "Cross-check",
+          "purpose": "用不同工具或不同層 evidence 驗證 hypothesis，區分已觀察事實與 inference。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "rea"
+            }
+          ],
+          "outputs": [
+            "validated-behavior-model"
+          ],
+          "gate": "關鍵結論具有可追溯 evidence，未驗證推論被明確標示。"
+        },
+        {
+          "id": "reconstruct",
+          "title": "Reconstruct in target stack",
+          "purpose": "依驗證後的行為模型設計自己的實作，不假設取得原始 source code。",
+          "uses": [],
+          "outputs": [
+            "reconstruction-plan"
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "evidence-gated-trading-automation",
+      "entityType": "workflow",
+      "title": "Evidence-Gated Trading Automation",
+      "status": "active",
+      "addedAt": "2026-10-07",
+      "updatedAt": "2026-10-07",
+      "tags": [
+        "trading",
+        "statistics",
+        "paper-trading",
+        "automation",
+        "risk-gate"
+      ],
+      "problem": "交易策略可能只是短期運氣、倖存者偏差或過度配適；若直接把策略接到 live broker，自動化會放大未驗證假設與損失。",
+      "goal": "先用可檢驗 evidence 判斷策略是否值得繼續，再逐級從 backtest／out-of-sample 進到 paper execution，最後才允許受控 live integration。",
+      "solutionStrategy": "建立 evidence → validation → simulation → safety gate → live execution 的能力升級鏈；每一層只在前一層證據足夠時解鎖。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        },
+        {
+          "type": "concept",
+          "id": "robust-backtest-validation"
+        },
+        {
+          "type": "concept",
+          "id": "deterministic-execution-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "local-first-sensitive-data-processing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "stages": [
+        {
+          "id": "ingest",
+          "title": "Ingest locally",
+          "purpose": "在本機匯入交易紀錄或其他 evidence，避免不必要的敏感資料外流。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "anti-gambling-trader-tw"
+            }
+          ],
+          "outputs": [
+            "normalized-trade-evidence"
+          ]
+        },
+        {
+          "id": "measure",
+          "title": "Measure performance",
+          "purpose": "計算 expectancy、盈虧結構、drawdown、Sharpe／Sortino 等描述與風險指標。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "anti-gambling-trader-tw"
+            }
+          ],
+          "outputs": [
+            "performance-profile"
+          ]
+        },
+        {
+          "id": "validate",
+          "title": "Validate edge",
+          "purpose": "以顯著性檢定、bootstrap 與樣本外驗證區分可重複 edge、運氣與過度配適。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "anti-gambling-trader-tw"
+            }
+          ],
+          "outputs": [
+            "validation-evidence"
+          ],
+          "gate": "沒有足夠 evidence 時不得把策略描述成已證明可獲利。"
+        },
+        {
+          "id": "fraud-risk",
+          "title": "Check fraud and claim risk",
+          "purpose": "對外部老師、群組、績效宣稱或話術做風險掃描與鑑識，避免把未驗證 claim 當策略輸入。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "anti-gambling-trader-tw"
+            }
+          ],
+          "outputs": [
+            "claim-risk-assessment"
+          ]
+        },
+        {
+          "id": "paper",
+          "title": "Paper-first execution",
+          "purpose": "把通過前述 gate 的策略轉成可回測／paper execution 專案，保持 live capability 關閉。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "anti-gambling-trader-tw"
+            }
+          ],
+          "outputs": [
+            "paper-trading-system"
+          ]
+        },
+        {
+          "id": "live-gate",
+          "title": "Explicit live safety gate",
+          "purpose": "只有在 broker API、live data runner、風控與明確解鎖都完成後，才允許 live adapter 取得真實下單能力。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "anti-gambling-trader-tw"
+            }
+          ],
+          "outputs": [
+            "controlled-live-integration"
+          ],
+          "gate": "Live execution 必須是顯式 capability escalation；歷史 runner 與預設 scaffold 不得送真單。"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "reference-to-reusable-video-pattern",
+      "entityType": "workflow",
+      "title": "Reference → Reusable Video Pattern",
+      "status": "active",
+      "addedAt": "2026-10-07",
+      "updatedAt": "2026-10-07",
+      "tags": [
+        "ai-video",
+        "reference-mining",
+        "prompt-analysis",
+        "workflow"
+      ],
+      "problem": "看到大量 AI 影片案例時，很容易只收藏作品或照抄 prompt，卻沒有形成下一次仍可使用的方法。",
+      "goal": "把案例庫轉成可重用的影片製作知識：知道它解決什麼問題、用了什麼方法與工具、哪些條件真正影響輸出。",
+      "solutionStrategy": "從代表案例抽樣，連結 prompt 與 output，拆解 goal／stack／constraints／result，再跨案例歸納 pattern；只有穩定模式才升級成 Concept、Combination、Workflow 或 Prompt。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reference-backed-pattern-mining"
+        },
+        {
+          "type": "concept",
+          "id": "prompt-to-output-comparative-learning"
+        }
+      ],
+      "stages": [
+        {
+          "id": "select-reference",
+          "title": "Select representative reference",
+          "purpose": "依目標類型挑選代表案例，而非盲目收藏全部內容。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "skillry-opus-5-5-video-pattern-library"
+            }
+          ],
+          "outputs": [
+            "reference-case"
+          ]
+        },
+        {
+          "id": "inspect-prompt-output",
+          "title": "Inspect prompt and output",
+          "purpose": "同時查看 creator prompt、original 與 remake，建立 instruction-to-result evidence。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "skillry-opus-5-5-video-pattern-library"
+            }
+          ],
+          "outputs": [
+            "prompt-output-observations"
+          ]
+        },
+        {
+          "id": "decompose",
+          "title": "Decompose the solution",
+          "purpose": "拆出 goal、視覺策略、工具、素材、節奏、限制、驗證方式與可觀察結果。",
+          "uses": [],
+          "outputs": [
+            "case-pattern"
+          ]
+        },
+        {
+          "id": "cross-case",
+          "title": "Cross-case comparison",
+          "purpose": "與其他案例比較，辨識重複模式與只屬於單一作品的細節。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "skillry-opus-5-5-video-pattern-library"
+            }
+          ],
+          "outputs": [
+            "reusable-patterns"
+          ]
+        },
+        {
+          "id": "internalize",
+          "title": "Internalize durable knowledge",
+          "purpose": "把穩定模式轉成 Concept／Combination／Workflow；只有可獨立重用的 instruction 才建立 Prompt。",
+          "uses": [],
+          "outputs": [
+            "collection-updates"
+          ],
+          "gate": "不得把單一作者 prompt 直接當成通用 workflow；新知識必須說明其 problem、solution method 與 evidence。"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "shared-agent-memory-feedback-loop",
+      "entityType": "workflow",
+      "title": "Shared Agent Memory Feedback Loop",
+      "status": "active",
+      "addedAt": "2026-10-04",
+      "updatedAt": "2026-10-04",
+      "tags": [
+        "workflow",
+        "agent-memory",
+        "multi-agent",
+        "feedback-loop",
+        "github"
+      ],
+      "problem": "多個 agent 在不同 session 工作時，決策、經驗與失敗 pattern 無法可靠共享；若只是保存全部 transcript，又會造成 context 膨脹與低品質 recall。",
+      "goal": "建立一個跨 agent、跨 session 的 durable memory loop，讓有效經驗逐漸變強、失敗或過時經驗逐漸降低優先度，並只在任務需要時注入相關 context。",
+      "solutionStrategy": "把共享記憶外部化到 GitHub-native store，將記憶寫入、索引、task-aware recall、使用結果與 decay 串成閉環。",
+      "stages": [
+        {
+          "id": "capture-memory",
+          "title": "Capture Memory",
+          "purpose": "Agent 或使用者把值得跨 session 保存的 thought、decision、pattern 或 fact 寫入共享記憶層。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "amp-agent-memory-protocol"
+            }
+          ],
+          "outputs": [
+            "structured-memory-record"
+          ]
+        },
+        {
+          "id": "index-and-rank",
+          "title": "Index & Rank",
+          "purpose": "建立 navigation/index，依 outcome、relevance 與時間衰減計算記憶優先度。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "amp-agent-memory-protocol"
+            }
+          ],
+          "outputs": [
+            "ranked-memory-index"
+          ]
+        },
+        {
+          "id": "progressive-recall",
+          "title": "Progressive Recall",
+          "purpose": "新 session 先取得小型 pointers，再依當前任務載入 matching summaries，必要時才讀完整記憶。",
+          "uses": [
+            {
+              "type": "concept",
+              "id": "progressive-context-recall"
+            }
+          ],
+          "outputs": [
+            "task-relevant-context"
+          ]
+        },
+        {
+          "id": "apply-memory",
+          "title": "Apply Memory",
+          "purpose": "Agent 在目前任務中使用 recalled experience，而不是重新探索相同問題。",
+          "uses": [
+            {
+              "type": "concept",
+              "id": "cross-agent-shared-memory"
+            }
+          ],
+          "outputs": [
+            "task-result"
+          ]
+        },
+        {
+          "id": "record-outcome",
+          "title": "Record Outcome",
+          "purpose": "記錄 recalled memory 對這次任務是 success、failure、neutral 或 surfaced-but-unused。",
+          "uses": [
+            {
+              "type": "concept",
+              "id": "outcome-weighted-agent-memory"
+            }
+          ],
+          "outputs": [
+            "memory-outcome-signal"
+          ]
+        },
+        {
+          "id": "reinforce-or-decay",
+          "title": "Reinforce / Decay",
+          "purpose": "成功 pattern 提高權重；失敗、未使用或長期未強化的記憶降低排名，永久事實則使用不同 lifecycle。",
+          "uses": [
+            {
+              "type": "concept",
+              "id": "outcome-weighted-agent-memory"
+            }
+          ],
+          "outputs": [
+            "updated-memory-priority"
+          ]
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "cross-agent-shared-memory"
+        },
+        {
+          "type": "concept",
+          "id": "outcome-weighted-agent-memory"
+        },
+        {
+          "type": "concept",
+          "id": "progressive-context-recall"
+        }
+      ],
+      "useCases": [
+        "Claude 與 Codex 共用專案經驗",
+        "跨 session 保存架構決策",
+        "多 agent 共用失敗教訓",
+        "長期 agent knowledge base",
+        "降低重複 context 搬運"
       ]
     }
   ]
