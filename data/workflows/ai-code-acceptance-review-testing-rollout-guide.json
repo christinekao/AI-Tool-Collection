@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "id": "ai-code-acceptance-review-testing-rollout-guide",
+  "entityType": "workflow",
+  "title": "AI Code Acceptance → Review → Test → Rollout",
+  "problem": "AI 實作可能通過現有測試，卻偏離需求、遺漏邊界、造成資料不一致，或在正式環境出現未被驗證的問題。",
+  "goal": "用可觀察的需求、獨立檢查和實際證據決定 AI 產生的程式是否可以交付與逐步上線。",
+  "solutionStrategy": "先定義 acceptance criteria，再核對 diff、執行針對性測試、操作與儲存讀回、評估上線風險及 rollback，最後依觀察結果決定擴大或停止。",
+  "status": "active",
+  "addedAt": "2026-10-13",
+  "updatedAt": "2026-10-13",
+  "tags": [
+    "ai-coding",
+    "acceptance",
+    "code-review",
+    "testing",
+    "deployment",
+    "rollback",
+    "evidence"
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "ai-code-acceptance-review-testing-rollout-guide"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "stages": [
+    {
+      "id": "define-acceptance",
+      "title": "Define Observable Acceptance",
+      "purpose": "將需求轉成可操作的觸發條件與預期結果，列出正常、缺漏與邊界案例。",
+      "uses": [],
+      "outputs": [
+        "acceptance criteria"
+      ],
+      "gate": "需求與未定義的業務規則已釐清。"
+    },
+    {
+      "id": "review-diff",
+      "title": "Review Scope & Data Flow",
+      "purpose": "審查實際修改檔案、變更理由、資料流與錯誤處理，確認未越權擴大範圍。",
+      "uses": [],
+      "outputs": [
+        "review findings",
+        "change scope"
+      ],
+      "gate": "改動範圍與需求一致；異常變更有合理說明。"
+    },
+    {
+      "id": "targeted-tests",
+      "title": "Run Targeted & Regression Tests",
+      "purpose": "以真實需求核對測試預期，執行缺漏、合法、邊界及受影響回歸案例，避免只測函式存在。",
+      "uses": [],
+      "outputs": [
+        "test results",
+        "coverage gaps"
+      ],
+      "gate": "關鍵情境通過，未測範圍已明示。"
+    },
+    {
+      "id": "manual-readback",
+      "title": "Verify UI & Persisted Data",
+      "purpose": "在接近實際使用的環境操作，檢查畫面、手機顯示、提交及重新讀取儲存結果。",
+      "uses": [],
+      "outputs": [
+        "interaction evidence",
+        "readback evidence"
+      ],
+      "gate": "可觀察的 UI 行為與持久化資料符合驗收標準。"
+    },
+    {
+      "id": "rollout-plan",
+      "title": "Plan Release & Rollback",
+      "purpose": "依風險決定是否分階段上線，事先定義觀察指標、停止條件、回復方式與負責人。",
+      "uses": [],
+      "outputs": [
+        "rollout plan",
+        "rollback plan"
+      ],
+      "gate": "有可執行的停止與回復條件，且正式環境風險已評估。"
+    },
+    {
+      "id": "monitor-report",
+      "title": "Observe & Report Evidence",
+      "purpose": "監測實際結果並記錄版本、檢查環境、通過項目、剩餘限制及是否需要回復。",
+      "uses": [],
+      "outputs": [
+        "acceptance report",
+        "release decision"
+      ],
+      "gate": "只有證據支援的項目才能標示為已驗證完成。"
+    }
+  ],
+  "notes": "整理自 AI 郵報文章，屬於可重用的交付驗收工作流；不同風險的改動可調整檢查深度。來源：https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+}
