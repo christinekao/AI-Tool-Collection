@@ -2637,6 +2637,72 @@
     },
     {
       "schemaVersion": 2,
+      "id": "leonxlnx-taste-skill",
+      "entityType": "resource",
+      "title": "Taste Skill — Art-Directed Frontend Agent Skills with Browser Review",
+      "canonicalName": "Leonxlnx/taste-skill",
+      "category": "06 Skills",
+      "resourceType": "Open-source multi-skill frontend art direction and browser-verified design workflow pack",
+      "purpose": "為 Claude Code、Codex、Cursor 等 AI Coding Agents 提供可安裝的前端設計 Skills；預設 design-taste-frontend v2 從參考網站研究提煉視覺構圖、字體、配色與圖片，依產品／品牌真實素材產生網站頁面，再以真實瀏覽器截圖、不同螢幕寬度與評分／修正流程驗收。套件亦提供 redesign-existing-projects、image-to-code、gpt-taste、high-end-visual-design、minimalist-ui、industrial-brutalist-ui、stitch-design-taste 與圖片生成等專用 Skills。",
+      "recommendation": "適合以 AI 建立或升級對外公開的作品集、產品介紹頁、行銷 Landing Page 與品牌網站，特別是希望避免制式 AI 排版的人。先使用預設 v2 或 redesign-existing-projects 並提供真實內容／品牌約束，讓 Agent 產出可執行的頁面、實際瀏覽器截圖及缺陷修復證據；Dashboard／內部 App Screen 請改用其 minimalist-ui、high-end-visual-design 或其他專門的 UI Skill。執行腳本須 Node.js 22+ 與 Chrome／Edge／Chromium，搜尋圖片需網路；需留意圖片授權與高 Token 成本。",
+      "url": "https://github.com/Leonxlnx/taste-skill",
+      "repo": "Leonxlnx/taste-skill",
+      "status": "active",
+      "addedAt": "2026-10-18",
+      "updatedAt": "2026-10-18",
+      "tags": [
+        "agent-skills",
+        "frontend-design",
+        "anti-slop",
+        "art-direction",
+        "browser-visual-review",
+        "screenshot-verification",
+        "responsive-layout",
+        "landing-page",
+        "portfolio-design",
+        "redesign",
+        "claude-code",
+        "codex",
+        "cursor",
+        "web-design",
+        "real-images",
+        "open-license-assets",
+        "design-to-code",
+        "nodejs",
+        "open-source"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "reference-backed-pattern-mining"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "leonxlnx-taste-skill"
+        }
+      ],
+      "notes": "官方 README 與 skills/taste-skill/SKILL.md 已查證，MIT 授權。預設 install name 為 design-taste-frontend（v2）；完整安裝：`npx skills add https://github.com/Leonxlnx/taste-skill`，僅安裝預設 Skill：`npx skills add https://github.com/Leonxlnx/taste-skill --skill \"design-taste-frontend\"`。另提供 Claude Code／Codex Plugin 與 git clone symlink。官方說預設 Skill 從 247 個精選站點研究衍生 20 種方向、產生三個候選再選擇，尋找可用圖片、在瀏覽器三種寬度檢查畫面並最多修復三輪，可能耗時約 30–45 分鐘、數十萬 tokens（此為官方估計，非實測）。需 Node.js 22+、Chrome／Edge／Chromium；不需要外部 API Key，圖片搜尋需要網路。default Skill 著重對外公開頁面，不為 dashboard／內部產品 App UI 保證適用。此 Repo 還有 8 種特定用途 Skills、3 個生成圖像 Skills 與舊版保留 Skill，收錄為套件而非將每個子技能拆開。來源圖片自述優先使用 public domain／CC0／CC BY／CC BY-SA 並附註來源，實際採用仍須自行查核授權與必要標示。曾公開產品 TasteCode 為另一專案，不應混淆為同一個 Skill。尚未在使用者專案安裝或執行 UI 測試。"
+    },
+    {
+      "schemaVersion": 2,
       "id": "lieflat-less-ai-tone",
       "entityType": "resource",
       "title": "lieflat-less-ai-tone",
@@ -5906,6 +5972,75 @@
         "collection",
         "ai",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "leonxlnx-taste-skill",
+      "entityType": "skill",
+      "title": "Taste Skill — design-taste-frontend v2 & UI Design Variants",
+      "purpose": "讓 AI Coding Agent 以真實品牌內容與視覺研究決定網站 Art Direction，完成網頁實作後透過瀏覽器多尺寸檢視、截圖與分輪修正產生具備實際驗收證據的前端畫面；可切換既有專案改版、指定風格、圖片到程式碼等專用 Skills。",
+      "problem": "AI 產生的網頁容易套用相同 Hero／卡片／漸層與籠統設計語彙，缺乏符合產品本身的獨特構圖與內容；只檢視產出的程式碼也無法驗證真實渲染的視覺品質及行動版問題。",
+      "inputs": [
+        "網站／產品用途、使用者、內容與品牌方向",
+        "既有前端 Repo 或新專案技術棧",
+        "可使用的品牌圖片／Logo／產品截圖及其授權條件",
+        "必須呈現的頁面區塊、資料與互動功能",
+        "可供腳本測試的 Node.js 22+、Chrome／Edge／Chromium 環境"
+      ],
+      "outputs": [
+        "根據主體內容選擇的 Art Direction、版型及設計決策",
+        "已實作的 HTML／CSS／React 等前端頁面",
+        "三種寬度的瀏覽器截圖與缺陷清單",
+        "修復迭代與尚未解決／無法驗證的項目"
+      ],
+      "execution": "先從官方來源以 `npx skills add https://github.com/Leonxlnx/taste-skill --skill \"design-taste-frontend\"` 安裝 v2；可用 `--skill \"redesign-existing-projects\"` 針對既有網站。Agent 依 Skill 讀取 Brief，列出真實獨特素材，產生候選視覺方向與文案結構，建立可用頁面，再執行 Skill 提供的 browser inspector 於不同螢幕尺寸檢查並逐輪修復。僅在有真實測試結果時宣稱驗收通過；預設 Skill 不適用 Dashboard 或複雜 App UI。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "leonxlnx-taste-skill"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "reference-backed-pattern-mining"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-18",
+      "updatedAt": "2026-10-18",
+      "tags": [
+        "agent-skill-pack",
+        "design-taste-frontend",
+        "visual-design",
+        "art-direction",
+        "responsive",
+        "browser-qa",
+        "screenshot-review",
+        "no-generic-ui",
+        "front-end",
+        "claude-code",
+        "codex",
+        "cursor",
+        "portfolio",
+        "marketing"
       ]
     },
     {
