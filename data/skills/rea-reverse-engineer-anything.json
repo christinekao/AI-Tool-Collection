@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 2,
+  "id": "rea-reverse-engineer-anything",
+  "entityType": "skill",
+  "title": "REA — reverse-engineer-anything Investigation Skill",
+  "purpose": "引導 Agent 針對已授權的程式、執行檔、Electron／JavaScript、.NET、Android、網站與行為錄製資料，依目標選用適當 REA MCP／CLI 工具，蒐集附帶來源與限制的 Evidence、交叉驗證推論並產出可重現的調查或軟體重建建議。",
+  "problem": "缺乏原始碼的軟體調查若讓 Agent 直接推測內部實作，會混淆靜態線索、執行觀察及實際可驗證的功能；不同格式的反向工程工具也有多樣依賴與存取限制。",
+  "inputs": [
+    "已獲授權的目標檔案、網站或本機進程與要回答的具體問題",
+    "MCP 連線或 CLI 環境與相容 Node.js 版本",
+    "必要時已安裝且獲授權的 Hopper、Ghidra、IDA、JADX 或其他分析工具",
+    "需交付的 Evidence、已知限制及驗收條件"
+  ],
+  "outputs": [
+    "依目標格式選定的 CLI 或 MCP 調查途徑",
+    "帶來源與限制的靜態或動態 Evidence 紀錄",
+    "觀察／推論／未知事項的明確區分",
+    "必要時的跨層行為模型、實作重建規格及驗證項目"
+  ],
+  "execution": "官方 Skill 位於 `.agents/skills/reverse-engineer-anything/SKILL.md`。可先按 README 以 `npx rea-agents setup` 在使用者審核設定變更後註冊 Agent MCP 及對應 Skill；單獨安裝 `npx skills add morluto/rea --skill reverse-engineer-anything` 不會註冊 MCP 或安裝 native engines。提供具體授權目標及問題後由 Skill 依檔案類型選用工具，保留原始 Evidence 並報告未知處；勿執行未經允許的目標或作侵權／未授權用途。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "rea"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
+    },
+    {
+      "type": "concept",
+      "id": "agent-native-tool-abstraction"
+    },
+    {
+      "type": "concept",
+      "id": "cross-layer-software-reconstruction"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-17",
+  "updatedAt": "2026-10-17",
+  "tags": [
+    "reverse-engineering",
+    "rea",
+    "agent-skills",
+    "mcp",
+    "cli",
+    "evidence",
+    "electron",
+    "javascript",
+    "native-binaries",
+    "android",
+    "dotnet",
+    "browser-observation",
+    "investigation",
+    "reconstruction"
+  ]
+}
