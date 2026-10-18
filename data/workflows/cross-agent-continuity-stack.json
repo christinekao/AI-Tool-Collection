@@ -46,11 +46,16 @@
     {
       "id": "stage-5",
       "title": "Handoff Context",
-      "purpose": "handoff：下一個 Agent 直接接續架構、失敗嘗試、open questions 與目前工作狀態",
+      "purpose": "在每次 session 收尾或切換 Agent 前，將目前目標、已完成工作、改動檔案、驗證證據、尚未解決問題及下一步寫入版本化交接文件（例如 handoff.md）。由對應 Agent 的實際入口指令／專案規則明確要求讀取，必要時用具權限的 hook 更新；下一 Agent 僅讀取與任務相關的最新狀態，不依賴聊天歷史。",
       "uses": [],
       "unresolvedUses": [],
-      "outputs": [],
-      "gate": ""
+      "outputs": [
+        "versioned handoff summary",
+        "open tasks and blockers",
+        "verification evidence",
+        "next-step checklist"
+      ],
+      "gate": "交接記錄包含來源時間／目前 Git commit／實測狀態；更新成功後重讀確認，避免過期狀態覆蓋新進度或把舊 session 當成目前狀態。"
     }
   ],
   "combinationRefs": [
@@ -67,10 +72,10 @@
     "長時間 coding workflow",
     "作者模型與 reviewer 模型分離"
   ],
-  "notes": "",
+  "notes": "2026-10-18 依使用者提供 Threads 截圖補充 handoff.md + project instruction + hook 的實作模式（社群經驗，未經實機驗證）。其中 `.agent.md` 並非跨所有 Agent 自動讀取的通用檔名；Claude Code、Codex 等應使用其實際支援的 CLAUDE.md、AGENTS.md 或明確入口規則。Hook 只用於已確認的事件與文件更新，需防止重複執行、過時資料覆蓋及不必要的全文 token 讀取；封存舊狀態並保留必要索引以便恢復。此為既有 Workflow 內容補強，不新增重複 Workflow。",
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-18",
   "tags": [
     "combo",
     "cross-agent",
