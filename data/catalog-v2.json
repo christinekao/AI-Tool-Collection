@@ -498,6 +498,66 @@
     },
     {
       "schemaVersion": 2,
+      "id": "anthropic-solving-code-review-at-anthropic",
+      "entityType": "resource",
+      "title": "How the Claude Code Team Does Code Review — Risk-Adaptive Agent Review",
+      "canonicalName": "Anthropic Claude Code Engineering — How the Claude Code team does code review",
+      "category": "Software Engineering / Quality Assurance",
+      "resourceType": "First-party engineering case study / AI-assisted code review governance",
+      "purpose": "整理 Anthropic Claude Code 團隊在大量 Agent 生成 PR 情境下的多層品質管線：變更前自動驗證、fresh-context Agent Diff Review、每 PR AI／安全審查、Lint／Typecheck／跨平台 CI、依變更風險分級的人工核准、commit-bound approval、Merge Queue、Feature Flags 與快速回滾；並以 incidents/reverts 建立 reviewer eval set、以人工耗時與事故率評估流程效果。",
+      "recommendation": "適合設計 AI Coding Agent 的 PR 交付治理與驗收策略：先要求 Agent 提供可執行檢查與 Evidence，對每個 PR 做針對目的與整體 Codebase 的審查；Security Finding／CI 未結案不可合併。依功能與受影響路徑設 Risk Tier、信任作者條件與人工核准要求，不得用 AI 取代必需的人類核准。限制重複 Review 輪數、防止重複報錯，並把事故與回滾納入回歸評測。既有 workflow 可採 `ai-code-acceptance-review-testing-rollout-guide`，無須重複建立。",
+      "url": "https://claude.dev/blog/solving-code-review-at-anthropic/",
+      "status": "active",
+      "addedAt": "2026-10-18",
+      "updatedAt": "2026-10-18",
+      "tags": [
+        "anthropic",
+        "claude-code",
+        "agentic-code-review",
+        "ai-code-review",
+        "pull-request",
+        "risk-adaptive-approvals",
+        "human-in-the-loop",
+        "fresh-context-review",
+        "security-review",
+        "merge-queue",
+        "feature-flags",
+        "rollback",
+        "review-convergence",
+        "reviewer-evals",
+        "incident-regression",
+        "review-md",
+        "claude-md",
+        "engineering-case-study"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "risk-adaptive-agent-code-review"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        },
+        {
+          "type": "concept",
+          "id": "heterogeneous-model-review"
+        }
+      ],
+      "workflowRefs": [
+        {
+          "type": "workflow",
+          "id": "ai-code-acceptance-review-testing-rollout-guide"
+        }
+      ],
+      "notes": "第一手資料：claude.dev/blog/solving-code-review-at-anthropic/，2026-10-15 發表，署名 Addy Osmani、Morgan Westlee Lunt、Qing Wang。文章為 Anthropic 內部案例而非開源 Skill 或已可直接安裝的 Pipeline。六層檢查加回滾：1 PR 前實際測試與 fresh-context subagent Review，2 每個 PR AI Review、其他 Agent 驗證 finding，3 Security Review finding blocking，4 Lint/Typecheck/CI/Build，5 風險分級人工核准（low:0，medium:1，high:2；另有 trusted author、敏感路徑及 approval 隨 commit 變更失效條件），6 Merge Queue／Flag／漸進 Release，並確保可快速回滾。文章說 Claude Code repo 2026/6 至 9 月合併 PR 超過翻倍，需回滾比例下降超過 40%，僅為內部觀察，不是通用 SLA。以 incidents/reverts 與 clean PR 建 eval、量化 reviewer false positive；review 最大三輪後要重看方案，後續傾向 diff-only 並抑制重複 finding。工程文化允許受限、可信作者的低風險 PR 零人批准，但 Code Review 公開產品僅提交 findings，不能取代人類所需 approval。此資料已關聯既有 AI Code Acceptance Workflow，未新建重複流程；未實測其內部系統。"
+    },
+    {
+      "schemaVersion": 2,
       "id": "anti-gambling-trader-tw",
       "entityType": "resource",
       "title": "反詐投資王 — Anti-Gambling Trader",
@@ -8885,6 +8945,60 @@
         "local-first",
         "cloud-ai",
         "data-governance"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "risk-adaptive-agent-code-review",
+      "entityType": "concept",
+      "title": "Risk-Adaptive Agent Code Review & Review Convergence",
+      "status": "active",
+      "addedAt": "2026-10-18",
+      "updatedAt": "2026-10-18",
+      "tags": [
+        "agentic-code-review",
+        "risk-tiering",
+        "human-approval",
+        "security-gates",
+        "review-convergence",
+        "reviewer-evaluation",
+        "ci-cd",
+        "rollback",
+        "incident-metrics"
+      ],
+      "coreProblem": "Agent 大量產碼使 PR 數量超越人工逐行審查的負荷；一律多次 review 會產生低價值雜訊與無限修復循環，但直接取消人工核准也可能增加安全、正式環境與架構風險。",
+      "solutionMethods": [
+        "把 Review 從 PR 終點前移到 Agent 寫作與 PR 前，執行實際測試／UI 證據、用 fresh-context Agent 檢查 diff，對重要 finding 提供路徑與行號證據。",
+        "將 Code Review 與 Security Review、CI／Lint／Typecheck 分成獨立品質 Gate；對每個發現都要修復或留下可審核的 false-positive 理由。",
+        "依變更內容與 blast radius 分低中高風險；定義不同人工核准需求並讓 CI、驗證與 repo permissions 執行，敏感路徑（例如 Auth、Billing、CI 與 Release）強制有人審查。",
+        "AI reviewer 只能提出 finding，不能充當所需的人類核准；人工核准綁定具體 Commit，對未涵蓋的新變更要求重新核准。",
+        "限制 Agent↔Agent 重複 Review 輪數（案例為三輪後重新思考做法），以後僅重審新 diff、抑制已回報的 Finding、回報整類缺陷而非逐行補洞。",
+        "運用 Merge Queue、Feature Flag、內部先行與階段發布，在檢查之外保留快速回滾與事故觀測能力。",
+        "把真實 incidents／reverts、被證實錯誤與已知無問題的 PR 納入 reviewer regression eval；同時評估缺陷召回、誤報、review rounds、人工等待及事故與回滾率。"
+      ],
+      "tradeoffs": [
+        "AI Review 覆蓋率提升不代表實際風險降低；誤報會讓 Agent 追加無益 Commit 並重啟 Review 循環。",
+        "降低人類 Approvals 可以節省審查時間，但可能增加後續 Incident、On-call 與 rollback 成本；必須以事故與回滾率當守門指標。",
+        "低風險零人審查依賴成熟的自動化、Trusted Author、敏感路徑強制審查及有效回滾，不能機械式複製到所有 Repo。"
+      ],
+      "signals": [
+        "Human approvals per PR（median／p95）與等待人類的時間",
+        "重要 Finding 中經查證有實質問題的比例及 false-positive rate",
+        "Review rounds-to-pass 與重複報告比例",
+        "Revert rate／incident rate／偵測與回復時間"
+      ],
+      "antiPatterns": [
+        "以 AI Review 通過當作需要真人核准的替代品",
+        "不管風險一律無限循環讓 Author Agent 與 Reviewer Agent 互相修改",
+        "只追求 Review 留言數或發現率，不考慮誤報所造成的代價",
+        "把所有修改（含敏感路徑）都當成低風險可自動合併",
+        "只檢查 CI 全綠，卻沒有回滾、事故警戒與版本／Commit 對應"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "anthropic-solving-code-review-at-anthropic"
+        }
       ]
     },
     {
