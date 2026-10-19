@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 2,
+  "id": "seokwoooo-lucian-uxui",
+  "entityType": "skill",
+  "title": "Lucian UX/UI Agent Skill — Search and Port Interactive Elements",
+  "purpose": "透過作者獨立 Repo Seokwoooo/lucian-uxui 的官方 SKILL.md 與無相依 CLI，讓 Claude Code、Codex、Cursor 等 Agent 以介面需求搜尋 Lucian 元件目錄、僅下載挑中的 ID 與 tokens，將 HTML/CSS/JS 移植成專案使用的元件、對映既有 theme 並回報來源、修改與驗收限制。",
+  "problem": "AI 前端開發若只依文字泛化設計，容易生成不一致的 UI 或未經測試的動畫；把整個元件庫塞入 context 又浪費 Token，直接複製範例可能破壞現有 framework、theme、狀態管理或安全邊界。",
+  "inputs": [
+    "明確頁面需求、UI 組件功能與可選的 Lucian 元件編號／Gallery URL",
+    "現有專案的 framework、styling、tokens、前端語言與裝置範圍",
+    "Node.js 18+ 或 curl 與經允許的 lucianlabs.dev／GitHub raw 網路存取",
+    "預期的鍵盤、觸控、淺色／深色、reduced-motion、內容與安全驗收條件"
+  ],
+  "outputs": [
+    "選用元件 ID、名稱與官方 Demo 連結",
+    "從遠端 API 查回的元件原始碼／共享 theme token",
+    "適配 React／Next.js／Vue／Svelte／Astro 或原生 HTML/CSS/JS 的元件實作",
+    "變更說明、MIT 著作權註記、實際 QA 證據與未驗證項目"
+  ],
+  "execution": "官方安裝 `npx skills add Seokwoooo/lucian-uxui`（應事先審查要安裝的腳本與 Repo），Claude Code Plugin 可 `/plugin marketplace add Seokwoooo/lucian-uxui` 後 `/plugin install lucian-uxui@lucian-uxui`。官方 Skill 路徑為 `skills/lucian-uxui/SKILL.md`，CLI `node <skill-dir>/scripts/lucian-uxui.mjs search ...`／`get 056`／`tokens`。Agent 先讀實際 codebase，再依需求搜尋或取指定 ID、讀 references/porting.md 移植，保留元件的 license notice；必須測試兩種 theme、375px 寬度、鍵盤及 prefers-reduced-motion。CLI 作者聲明只 GET 元件庫靜態資料，不發送專案內容，但遠端取得的 JS 程式碼必須審查且 Agent/LLM 讀取專案時的外送政策需另行確認。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "seokwoooo-lucian-uxui-prompt"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "design-to-code-loop"
+    },
+    {
+      "type": "concept",
+      "id": "explicit-visual-system"
+    },
+    {
+      "type": "concept",
+      "id": "component-primitives-design-system"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-20",
+  "updatedAt": "2026-10-20",
+  "tags": [
+    "lucian-uxui",
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "cursor",
+    "frontend-skill",
+    "ui-components",
+    "theme-tokens",
+    "design-to-code",
+    "element-ids",
+    "static-api",
+    "cdn",
+    "source-provenance",
+    "mit-license",
+    "responsive-qa"
+  ]
+}
