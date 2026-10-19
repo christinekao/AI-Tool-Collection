@@ -1636,6 +1636,61 @@
     },
     {
       "schemaVersion": 2,
+      "id": "dominicrico-jev-router",
+      "entityType": "resource",
+      "title": "jev-router — Claude Code Model & Reasoning Effort Router",
+      "canonicalName": "dominicrico/jev-router",
+      "category": "02 Agent Orchestration",
+      "resourceType": "MIT-licensed Claude Code plugin for model selection, reasoning effort and cache-aware task routing",
+      "purpose": "Claude Code 插件，透過 TypeSafe Jev 對 Prompt（可選每一步與子 Agent 任務）做模型與 reasoning effort 分流，可限定候選模型、指定 effort cap、管理 prompt-cache stickiness、處理失敗 fallback、呈現決策狀態與模型使用統計。也可用單一 Opus model pool，使 Jev 主要用於每個 Prompt 的 Effort 分級。",
+      "recommendation": "適合想將 Claude Code 的模型／推理強度自動化，或只讓 Jev 選 reasoning effort 的使用者。若只想固定 Opus：採 preset none、models 只有 opus、floor 和 ceiling 都為 opus、關閉步驟與 Subagent 路由及失敗升級，先確認插件內建 Opus 具體版本與目前 Session 一致；不要把固定 models pool 誤認為自動保留 session model。啟用前評估 TypeSafe 外送 Prompt 的隱私與授權，TypeSafe Key 優先用 TYPESAFE_API_KEY 環境變數。原始設定範例另收錄成 Prompt。",
+      "url": "https://github.com/dominicrico/jev-router",
+      "repo": "dominicrico/jev-router",
+      "status": "active",
+      "addedAt": "2026-10-19",
+      "updatedAt": "2026-10-19",
+      "tags": [
+        "jev-router",
+        "claude-code",
+        "claude-code-plugin",
+        "typesafe",
+        "reasoning-effort",
+        "model-routing",
+        "opus",
+        "haiku",
+        "sonnet",
+        "effort-cap",
+        "prompt-cache",
+        "privacy",
+        "third-party-api",
+        "cost-control",
+        "plugin-config",
+        "open-source"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "capability-cost-routing"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "promptRefs": [
+        {
+          "type": "prompt",
+          "id": "jev-router-opus-effort-only-configuration"
+        }
+      ],
+      "notes": "來源官方 README、OPTIONS.md、SECURITY.md、hooks/register.tsx、.claude-plugin/plugin.json、CHANGELOG.md，核對 v0.4.2（2026-10-12）。官方安裝 `/plugin marketplace add dominicrico/jev-router` 與 `/plugin install jev-router@jev-router`。插件硬編碼 opus alias -> claude-opus-5-5，不是當前 Session Model 的無條件別名；`models:[\"opus\"]` 是將 Jev 選擇限制為此 alias，但嚴格 warm-cache stickiness 仍可能保留先前其他 Claude 模型（原始碼 decide() 先選好候選後可改用 warm cache 的模型）。`ceilingBreak:1.01` 超出文檔信心值 0–1，該單模型 pool 下多餘。`routeSteps:false` 不會每一步重估 effort，只在每次新 user prompt 評估；`routeSubagents:false` 不改 subagents。`effortCap:max` 是有效值，允許低到 max，不等於每次固定 max。即使 `sendHistory:false`，目前 Prompt 仍會送到 api.typesafe.ai；正則遮罩不能保證全部秘密安全。`/jev key` 將 TypeSafe 金鑰明文保存在插件 store 且命令可能出現在 transcript；官方建議改以 TYPESAFE_API_KEY 環境變數。TypeSafe 的成本／配額／服務條款須另外查證；Repo Benchmark 為作者測試並不保證任何專案達成同等節省。本次只收錄來源與範例，未在使用者電腦安裝插件或修改 ~/.claude/settings.json。"
+    },
+    {
+      "schemaVersion": 2,
       "id": "dslab-lessons",
       "entityType": "resource",
       "title": "DSLab 夢想空間實驗室 — 免費 AI 影音生成簡報課程",
@@ -9699,6 +9754,57 @@
         "traceability",
         "poster",
         "photo-riso-poster"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "jev-router-opus-effort-only-configuration",
+      "entityType": "prompt",
+      "title": "jev-router — 固定 Opus、僅選 Reasoning Effort 的 Claude Code 設定",
+      "category": "Agent Orchestration / Model & Effort Routing",
+      "promptType": "Claude Code Plugin Installation / Configuration Prompt",
+      "problem": "Claude Code 的自動 model router 會因不同任務切換 Haiku／Sonnet／Opus；有些使用者只想固定使用 Opus，讓獨立路由器調整推理強度，並希望保留備份、確認及失敗 fallback。",
+      "goal": "參考 jev-router v0.4.2 的 Claude Code 設定流程：安裝插件、限制 Jev 可選模型為 Opus、由 Jev 決定每個 Prompt 的 reasoning effort、關閉 Subagent 與 Step Routing，備份設定並用 /jev status 驗證；在真正變更前查核模型版本與資料外送風險。",
+      "prompt": "幫我安裝並設定 jev-router（https://github.com/dominicrico/jev-router），只讓它選\nreasoning effort、不換模型：\n\n1. 安裝：/plugin marketplace add dominicrico/jev-router，再 /plugin install\njev-router@jev-router\n2. 在 ~/.claude/settings.json 的 pluginConfigs[\"jev-router@jev-router\"].options\n設定（改之前先備份）：\n   preset \"none\"、models [\"opus\"]、ceiling \"opus\"、floor \"opus\"、ceilingBreak\n1.01、effortCap \"max\"、\n   stickiness \"strict\"、cacheTtlMs 3600000、routeSteps false、routeSubagents false、\n   sendHistory false、escalateAfter 0、fallback \"session\"\n3. 提醒我用 /jev key <TypeSafe key> 設定 key，最後跑 /jev status 確認",
+      "whenToUse": [
+        "想研究 Claude Code 插件的模型固定、Reasoning Effort 路由設定",
+        "希望避免讓路由器自動降級到 Haiku／Sonnet",
+        "需要可重用的 Claude Code Plugin 安裝與設定參考"
+      ],
+      "inputs": [
+        "Claude Code 版本及目前 Session 使用的實際模型名稱",
+        "jev-router 插件版本與官方 README／OPTIONS.md",
+        "~/.claude/settings.json（不可分享憑證）",
+        "TypeSafe API Key（只在本機以環境變數或受保護的輸入方式提供）"
+      ],
+      "expectedOutput": "原設定已先備份；Claude Code 插件設定成功寫入且能重讀；/jev status 顯示 pool 為 opus、effort cap 為 max、路由開關符合預期；如模型版本不符或無法保證不切換模型，需報告限制且不得宣稱完成『不換模型』。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "dominicrico-jev-router"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/dominicrico/jev-router",
+        "type": "User-shared Claude Code setup prompt, verified against upstream docs and v0.4.2 source",
+        "summary": "保留使用者提供的安裝／設定原文作為參考，而非聲稱這是官方提供的 prompt。選項於插件 v0.4.2 存在；但 opus 被硬編碼為 claude-opus-5-5，strict cache stickiness 可能保留先前模型，ceilingBreak 1.01 超出文檔 0–1；只關閉 history 不等於 Prompt 不外送。建議在執行前檢查 Session Model、先備份與重讀，若必須『真正完全不換模型』需要另驗證或調整 sticky 行為。TypeSafe Key 使用環境變數優於 `/jev key` 的明文插件 store／可能的 transcript。"
+      },
+      "status": "generated-draft",
+      "addedAt": "2026-10-19",
+      "updatedAt": "2026-10-19",
+      "tags": [
+        "claude-code",
+        "jev-router",
+        "setup-prompt",
+        "opus",
+        "reasoning-effort",
+        "model-pinning",
+        "pluginConfigs",
+        "settings-json",
+        "backup",
+        "privacy",
+        "cache-stickiness",
+        "type-safe-api"
       ]
     },
     {
