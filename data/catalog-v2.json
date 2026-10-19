@@ -3940,15 +3940,15 @@
       "title": "OpenChatX",
       "canonicalName": "OpenChatX",
       "category": "01 Agent Runtime & Harness",
-      "resourceType": "Local Agent Runtime / MCP Capability Gateway",
-      "purpose": "把一般 ChatGPT Chat 當作模型與 planner，將 coding-grade 檔案／shell 工具、電腦控制、MCP aggregation、Toolboxes、Skills、Rules、Projects、Tasks、Subagents 與跨 session Summaries 放在本機 runtime，透過一個官方 MCP 連線提供給 ChatGPT 使用。外部 MCP 與 Toolbox schemas 採 lazy exposure，避免所有工具定義一次塞進 context。",
-      "recommendation": "適合想把 ChatGPT 變成可操作本機專案與工具的 Agent，但不想自己從零打造 agent runtime、MCP gateway、Skills／Rules 載入、跨 session handoff 與本機管理介面的情境。",
+      "resourceType": "Local ChatGPT Agent Runtime / Secure MCP Capability Gateway / Cross-Session Workspace",
+      "purpose": "讓一般 ChatGPT 對話透過 OpenAI Secure MCP Tunnel 操作使用者本機的 Agent Runtime：支援檔案與 Shell、桌面控制、MCP Servers 聚合、Toolboxes、Skills、Rules、Project／Task／Goals、Subagents 與 UUID 跨對話 Summaries；亦提供 Desktop Dashboard 與獨立 ChatGPT Dot Mode。ChatGPT 本身負責規劃與模型推理，OpenChatX 作為本機工具及持續工作介面。",
+      "recommendation": "適合想以 ChatGPT 控制自己電腦、組合本機 MCP 與 Agent 開發能力，或管理跨對話交接的人。**高權限工具**：只在自己控制且經授權的電腦上安裝，首次請先用獨立 OS 測試帳號或 VM／沙箱、非敏感專案及具限權限的 MCP Servers；不要預設選 Allow all tools，Shell／桌面操作／刪除／跨帳號存取應保留逐項確認；不得在公司機密或正式生產環境未經許可就使用。建議下載官方 Release 並檢查 SHA256SUMS、macOS 簽署狀態，以及 Windows 未簽名的提示。",
       "url": "https://github.com/XiaoPuOuO/openchatx-mcp",
       "repo": "XiaoPuOuO/openchatx-mcp",
-      "notes": "Official repository confirmed. OpenChatX uses the documented MCP path and OpenAI Secure MCP Tunnel rather than reverse engineering ChatGPT. The tunnel is outbound-only, so the local MCP server does not require a public inbound listener. OpenChatX keeps ChatGPT as the model/planner and acts as the local tool/runtime layer. Cross-session Summaries store a compacted older summary plus recent useful context and return a UUID handoff for a fresh conversation. The runtime can execute commands, edit files, use connected MCP servers and control supported applications with the local user's permissions, so tool trust and permission boundaries matter. MIT licensed.",
+      "notes": "來源查核（2026-10-20）：官方 README.md／README.zh-TW.md、SECURITY.md、package.json 與 GitHub Releases；最新版已查證 v1.1.2（2026-10-16），採 MIT 授權。OpenChatX 使用 OpenAI 官方文件化的 Secure MCP Tunnel，採 outbound HTTPS 接線，ChatGPT 仍為 Planner/Model，本機處理 Tools；這不代表資料或請求全部離線。macOS Desktop 發行有 Developer ID 簽署與 Notarization 的作者聲明；Windows Installer 無 Authenticode 簽署，安裝來源與 checksum 必須手動確認。OpenChatX 的本機 MCP endpoint 是 loopback 但刻意無驗證；遠端 ChatGPT Tunnel 用首次觀察到的 OpenAI subject 綁定信任，需保護 Tunnel ID／Control-plane API Key、依官方順序授權，不可開放 public listening port。Desktop App 將 Tunnel API Key 存 OS Keychain／Windows Credential Manager；本機 tool／audit logs 可能有機密輸入。`Projects` 讀寫 Shell 權限是 OpenChatX 應用層 policy，不是 OS-level isolation；Shell、互動終端、部分自訂 Toolboxes 或外部 MCP 可依本機 OS 使用者權限讀寫/執行，具真實破壞性，勿認為勾選 Project 封鎖就完全不可能跨界。Community Capability Store 是第三方 GitHub 程式碼、官方未替每個項目審核；雖有 immutable SHA 安裝 pin、拒絕 symlink/submodule、路徑大小限制與 static review，仍須把自訂能力視為可能執行任意本機程式碼。官方 README 顯示可選 ChatGPT Custom MCP 的 Allow all tools，但安全優先應逐項提示確認。Dot Mode 需獨立 Tunnel ID，且外部 MCP 應逐一選擇暴露。Cross-session Summaries 會以 UUID 在本地保存摘要及最近約 8k tokens 的有用內容，讀取後刪除；可能包含敏感資料，需管控備份、存取、清理與回傳。Manual Install 需 Node.js >=22.18、npm、ripgrep、官方 tunnel-client，Desktop Installer 則不用手裝 Node/npm。產品作者稱使用一般 ChatGPT Chat 用量、不扣 Work/Codex Agent 額度；此為作者產品描述，並非另經實際帳號測試或保證永遠適用。未安裝、未給予工具權限、未運行測試；Catalog 僅更新原有 openchatx Entity，沒有另建重複 Resource／Skill／Workflow。",
       "status": "active",
       "addedAt": "2026-09-28",
-      "updatedAt": "2026-09-28",
+      "updatedAt": "2026-10-20",
       "tags": [
         "agent-runtime",
         "mcp",
@@ -3961,7 +3961,21 @@
         "projects",
         "subagents",
         "cross-session-handoff",
-        "lazy-tools"
+        "lazy-tools",
+        "windows",
+        "macos",
+        "desktop-app",
+        "chatgpt-dot",
+        "os-user-permissions",
+        "high-privilege",
+        "security-sensitive",
+        "unauthenticated-loopback",
+        "credential-store",
+        "community-capability-supply-chain",
+        "sandbox-recommended",
+        "windows-unsigned",
+        "mcp-authorization",
+        "version-1.1.2"
       ],
       "conceptRefs": [
         {
@@ -3987,6 +4001,14 @@
         {
           "type": "concept",
           "id": "outbound-private-tool-bridge"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
         }
       ]
     },
