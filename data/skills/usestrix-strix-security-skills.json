@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 2,
+  "id": "usestrix-strix-security-skills",
+  "entityType": "skill",
+  "title": "Strix Security Skills — Authorized Pentesting, Fix & Re-Test",
+  "purpose": "提供 Coding Agent 九個 Strix 官方 Skills 的技能組入口，幫助在授權範圍內選擇 code review、Staging Web/API、OWASP Top 10、CI Security Scan、雲端託管或根因修復與重測，而不是讓 Agent 無約束地對任意目標進行自動攻擊。",
+  "problem": "一般 AI Coding Agent 可能把資安掃描變成沒有 Scope 與 Evidence 的主觀評論，或在未經授權、缺少資料保護時直接執行具破壞性的真實 exploit；掃描通過也可能只是 budget 截止造成的部分覆蓋。",
+  "inputs": [
+    "資產擁有人明確授權與時間／域名／IP／路徑的允許範圍",
+    "隔離 Staging / Git worktree 與可丟棄測試資料",
+    "模型端點／API 憑證存取權限及外送資料規則",
+    "預算、步數、速率、掃描模式與排除清單",
+    "驗收準則、報告格式和安全審查人"
+  ],
+  "outputs": [
+    "已記錄授權邊界與已執行測試的精確範圍",
+    "有 PoC／重現步驟與來源證據的弱點報告（只在已驗證時宣稱）",
+    "run.json、SARIF、coverage gap 與預算／完整性狀態",
+    "最小範圍修復 Diff、獨立測試與重新掃描的結果"
+  ],
+  "execution": "官方 Repo skills/ 包含 9 個 Skills：penetration-testing-with-strix、managed-pentesting-with-strix、fix-security-vulnerabilities-with-strix、ci-security-scanning-with-strix、application-security-testing、web-app-penetration-testing、api-security-testing、owasp-top-10-testing、find-security-vulnerabilities-in-code。可在支援 SKILL.md 的 Agent 使用 `npx skills add usestrix/strix`，但安裝 Skill 本身不等於安裝/啟動 CLI 或經授權測試；OSS CLI 可審核後透過 `pipx install strix-agent` 安裝。不得因 Skill 寫『run pentest』就對任何網域或正式環境執行。首次測試僅用經批准的隔離環境、乾淨可寫 Worktree、限制預算與明確 scope；確認掃描狀態、真實 PoC、人工批准的修補與 re-scan。Strix Cloud 上傳原始碼前必須 dry-run、人工確認檔案清單及哈希。不自動加金鑰、不自動付費或將安全工具設成對未授權外部目標執行。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "usestrix-strix"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-19",
+  "updatedAt": "2026-10-19",
+  "tags": [
+    "strix",
+    "agent-skills",
+    "appsec",
+    "owasp",
+    "authorized-pentesting",
+    "isolation",
+    "secure-devops",
+    "security-gates",
+    "ci-scanning",
+    "vulnerability-remediation",
+    "sarif",
+    "source-code-privacy"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "id": "usestrix-strix",
+  "entityType": "resource",
+  "title": "Strix — Open-Source Autonomous AI Penetration Testing",
+  "canonicalName": "usestrix/strix",
+  "category": "07 Security & Governance",
+  "resourceType": "Apache-2.0 autonomous AI penetration-testing CLI, nine agent skills and optional managed platform",
+  "purpose": "以多 Agent、Docker 沙箱、動態執行與實際 PoC 驗證分析已授權的 Web App、API、Git Repository 和本機程式，提供 OWASP 分類、CVSS、修復建議、SARIF/JSON 報告與可加入 CI 的 Security Gates。支援自行託管的 CLI（BYO 模型）和 Strix Cloud；可安裝九個 Coding Agent Skills 進行安全掃描、修補與重驗。",
+  "recommendation": "適合在明確書面授權範圍內對自己的專案實施 security-first 測試：先用獨立工作區和 Staging，不直接連正式環境；確認掃描目標、排除路徑、測試帳號、允許的攻擊類型、速率／預算／時間與外送資料政策；查核 Docker image 與安裝來源，再做有限度的只針對目標測試、證據驗收、獨立 Code Review、根因修補及重測。每個 PR 可加有限預算 quick CI，定期做較全面掃描，但不能把 clean exit 當成完成所有資安驗證。使用雲端服務上傳原始碼前要求明確核准並審核上傳清單。",
+  "url": "https://github.com/usestrix/strix",
+  "repo": "usestrix/strix",
+  "status": "active",
+  "addedAt": "2026-10-19",
+  "updatedAt": "2026-10-19",
+  "tags": [
+    "strix",
+    "autonomous-pentesting",
+    "appsec",
+    "owasp-top-10",
+    "security-testing",
+    "red-team",
+    "authorized-scope",
+    "github-actions",
+    "agent-skills",
+    "docker-sandbox",
+    "proof-of-concept",
+    "risk-governance",
+    "sarif",
+    "sast-dast",
+    "llm-cost",
+    "source-upload",
+    "supply-chain",
+    "apache-2.0"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
+    },
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    }
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "usestrix-strix-security-skills"
+    }
+  ],
+  "workflowRefs": [
+    {
+      "type": "workflow",
+      "id": "scope-first-ai-pentest-remediation-loop"
+    }
+  ],
+  "notes": "2026-10-19 官方 README、AGENTS.md、skills/penetration-testing-with-strix/SKILL.md、skills/find-security-vulnerabilities-in-code/SKILL.md 與 pyproject.toml 查證：Apache-2.0，pyproject v1.7.0、Python >=3.12；OSS CLI 一般需 Docker + 自己的 LLM（除本機模型等例外），可選 `pipx install strix-agent`，官方另提供 curl|bash 安裝但有供應鏈風險應先審核。官方九個獨立 Skills 可由 `npx skills add usestrix/strix` 安裝。高度重要限制：本機 code target 會可寫入掛載至 Docker，Agent 能修改原始碼；實際 PoC、Web/API 攻擊可能造成寫入、流量與資源耗用，必須由資產擁有人書面授權並以隔離測試環境為主。即使本機用 Docker，向外部 LLM API 傳送 Prompt／原始碼／弱點摘要的資料政策仍需先批准；完全離線需實際使用相容本機模型並隔離網路。Strix Cloud `--source` 會上傳選定的工作樹，需要先 dry-run --show-files 並核對哈希與人工授權，且有雲端收費及資料保留風險。Headless exit 0 僅代表分析範圍內沒有達 threshold 的 finding；預算／步數提前停止可能仍是 0，需重讀 run.json status、usage、coverage 與報告。需補充 SCA、Secret Scan、IaC/Container Scan 及人工審查，不能宣稱 Strix 即完全的產品安全認證。未對任何目標進行實際滲透掃描。Strix 與 Anthropic Claude Mythos 5.1 沒有在官方原始資料中被確認有直接整合；Mythos 經資安資格審查才能取得存取權。"
+}
