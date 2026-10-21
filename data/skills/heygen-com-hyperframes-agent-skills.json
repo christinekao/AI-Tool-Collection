@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "heygen-com-hyperframes-agent-skills",
+  "entityType": "skill",
+  "title": "HyperFrames Agent Skills — HTML Video Production Router & 21 Workflows",
+  "purpose": "提供可安裝於 Claude Code、Codex、Cursor 等 Coding Agent 的 HyperFrames 影片產線：`/hyperframes` Router 判定產品宣傳、無人出鏡解說、動態特效、現有影片字幕／重剪、PR 解說、音樂同步、投影片、Remotion 移植或一般影片等任務，再按需載入相應 Skills，以設計 Brief → HTML Composition → 媒體 → 動畫 → 預覽 → Lint／Check → Render → 檢查完成製作。",
+  "problem": "Coding Agent 熟悉網頁但容易把 HTML 畫面直接當影片，忽略分鏡時間、可 seek 動畫、音畫同步、逐格 determinism、素材授權與輸出品質；把所有視頻能力一次載入又可能浪費 Context 和相依資源。",
+  "inputs": [
+    "影片用途、目標觀眾、秒數與縱橫比／解析度",
+    "授權的產品頁、截圖、Logo、腳本、音樂、影片與圖像素材",
+    "既有設計系統、字體、配色與品牌詞彙（可採 frame.md）",
+    "Node.js 22+、FFmpeg、支援的 CLI/Plugin 執行環境",
+    "素材與 API 預算、是否可使用外部雲端渲染／聲音或模型"
+  ],
+  "outputs": [
+    "可修改且可重複 render 的 HTML composition + 媒體與音訊資產索引",
+    "來源真實資訊、版型、動畫／時間軸、旁白／字幕規則與執行版本",
+    "CLI Preview、Lint/Check、渲染 MP4 及檢視證據",
+    "未查證的素材來源、license/cost、性能／畫面缺陷與下一輪修復清單"
+  ],
+  "execution": "官方 21 個發布 Skills 共存在 heygen-com/hyperframes 的 skills/，核心入口 `skills/hyperframes/SKILL.md`；可在 Claude Code Terminal 用 `claude plugin marketplace add heygen-com/hyperframes`，再 `claude plugin install hyperframes@hyperframes`，重開／Reload Plugin 並呼叫 `/hyperframes:hyperframes`。Standalone 可 `npx skills add heygen-com/hyperframes` 並在 picker 選 Core Skills；CI / 非互動建議官方 `npx hyperframes skills update`，不要在 Plugin 裡混用該命令；如只想單一 Skill，`npx skills add heygen-com/hyperframes --skill motion-graphics`。手動 CLI `npx hyperframes init my-video` → `npx hyperframes preview` → `npx hyperframes lint/check` → `npx hyperframes render`（先讀 CLI 幫助確認當前版本指令），檢驗成品與失敗回報。請先審核 npm 包與安裝權限，第三方媒體、模型／雲端成本、影音權利與外送資料政策。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "heygen-com-hyperframes"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "agentic-media-pipeline"
+    },
+    {
+      "type": "concept",
+      "id": "content-production-pipeline"
+    },
+    {
+      "type": "concept",
+      "id": "source-grounded-product-media"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "motion-interaction-layer"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-21",
+  "updatedAt": "2026-10-21",
+  "tags": [
+    "hyperframes",
+    "agent-skills",
+    "skill-router",
+    "html-to-video",
+    "claude-code",
+    "codex",
+    "cursor",
+    "deterministic-animation",
+    "product-launch-video",
+    "faceless-explainer",
+    "music-to-video",
+    "motion-graphics",
+    "captions",
+    "pr-to-video",
+    "remotion-port",
+    "video-qa",
+    "render-validation",
+    "apache-2.0"
+  ]
+}
