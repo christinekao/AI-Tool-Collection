@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "id": "episodic-character-asset-consistency",
+  "entityType": "concept",
+  "title": "Episodic Character, Scene & Asset Consistency in AI Video",
+  "coreProblem": "單段 AI 影片或逐鏡生成容易改變角色面貌、服裝、聲音、場景與道具；把多段鏡頭接成短劇需要跨場景／跨集身分一致、劇情狀態延續，以及角色和鏡頭的可稽核資產關聯，否則自動成片也難以觀看或量產。",
+  "solutionMethods": [
+    "建立角色、演員、服裝、道具、場景的獨立資產 ID 與版本，不以名稱當唯一識別",
+    "從故事／劇本產出可追蹤的角色場景資料，再把每一鏡與參考圖片、服裝、鏡頭提示和故事狀態綁定",
+    "維持 storyboard → shot-ready → generate → review 的分階段品質閘門，角色與劇情矛盾要能阻擋後續批次生成",
+    "用第一幀／最後一幀、reference images、可重用素材與分鏡參照改善視覺一致性",
+    "每次生成保存 seed／model／prompt／費用／輸出資產與審查狀態；失敗鏡頭局部重做，不要全部重算",
+    "把可發布影片的品質與商業權利分開驗收：小說／音樂／肖像授權、配音聲音使用權、平台 AI 標示與生成成本要獨立檢查"
+  ],
+  "tradeoffs": [
+    "更多參照素材、比對與人工審核可提高一致性，但會增加時間、成本、儲存與流程複雜度",
+    "同一角色跨鏡頭穩定不等於整部劇敘事與節奏自動變好；片段品質、觀眾留存及變現需要另外實測",
+    "模組間共用角色／場景 ID 難度高，使用單一平台較易整合但可能增加服務商鎖定"
+  ],
+  "signals": [
+    "跨集反覆出現相同角色、服裝、場景、口型及聲音",
+    "已有故事文本或小說，要系統性切成多鏡頭",
+    "大量 shot 重跑導致成本高，需資產重用、失敗恢復與人工品質閘門",
+    "生成輸出需要實際商業發布及權利審查"
+  ],
+  "antiPatterns": [
+    "只因平台能一句話產生影片，就宣稱能穩定產出長篇連續劇",
+    "用角色名稱代替素材／角色 ID，導致同名角色或版本混淆",
+    "把 AI 自動宣稱通過的 consistency 當成人工驗收證據",
+    "忽視源小說、人物／聲音、音樂與素材權利，只看軟體授權和 GitHub 星數",
+    "沒有算每集失敗重生的成本就直接量產"
+  ],
+  "exampleRefs": [
+    {
+      "type": "resource",
+      "id": "chatfire-ai-huobao-drama"
+    },
+    {
+      "type": "resource",
+      "id": "hbai-ltd-toonflow-app"
+    },
+    {
+      "type": "resource",
+      "id": "forget-c-jellyfish"
+    },
+    {
+      "type": "resource",
+      "id": "waooai-waoowaoo"
+    },
+    {
+      "type": "resource",
+      "id": "hkuds-vimax"
+    }
+  ],
+  "tags": [
+    "ai-short-drama",
+    "episodic-video",
+    "novel-to-video",
+    "storyboard",
+    "character-identity",
+    "scene-consistency",
+    "asset-reuse",
+    "shot-quality-gate",
+    "rights-compliance",
+    "commercial-content",
+    "cost-control"
+  ],
+  "status": "active",
+  "addedAt": "2026-10-22",
+  "updatedAt": "2026-10-22"
+}
