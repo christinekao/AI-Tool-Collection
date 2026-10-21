@@ -698,6 +698,84 @@
     },
     {
       "schemaVersion": 2,
+      "id": "arumwu-agentrelay",
+      "entityType": "resource",
+      "title": "AgentRelay — Local Cross-Agent Coordination, Task Leases & Git-aware Handoffs",
+      "canonicalName": "arumwu/agentrelay",
+      "category": "02 Agent Orchestration",
+      "resourceType": "Apache-2.0 local-first coding-agent coordination CLI / MCP server with SQLite memory and tmux messaging",
+      "purpose": "讓 Claude Code、Codex 與其他 Coding Agents 在同一個 Git Repo 或跨多 Repo 工作區協作，管理 Agent Sessions/Heartbeat、到期 Task Leases、檔案與 Glob Scope Claim 重疊警告、Architecture Decisions、Failed Attempts、Git-aware Markdown Handoffs、FTS5 可搜尋本機專案記憶和 token-budgeted context packs；內建 tmux Terminal list/read/send/name/doctor 五個工具，在可信任的同一個 tmux Session 內傳遞有限長度的訊息。",
+      "recommendation": "適合一個人同時用 Claude Code 與 Codex 處理同一專案，想降低重複分析、檔案互相覆蓋與切換 Session 的交接成本。可作為 Cross-Agent Continuity Stack 裡的協作／交接組件，與跨 Agent Shared Memory 概念不同，著重同一工作區的任務所有權和歷史決策。先在非敏感測試 Repo 安裝，明確針對各 Repo 設定 Project-local MCP 而非開到全域；同時啟動多個 Agent 前，先驗證 Task Lease 衝突、Scope Warning、Handoff 內容與 git status。安全優先只讓受信任 Agent 使用同一 tmux Session，不把 Shell/Production Console 當成可供 terminal_send 的 Agent Pane；不要誤以為 Advisory File Claims 能硬性防止覆寫檔案。",
+      "url": "https://github.com/arumwu/agentrelay",
+      "repo": "arumwu/agentrelay",
+      "status": "active",
+      "addedAt": "2026-10-22",
+      "updatedAt": "2026-10-22",
+      "tags": [
+        "agentrelay",
+        "cross-agent",
+        "claude-code",
+        "codex",
+        "mcp",
+        "multi-agent",
+        "local-first",
+        "sqlite",
+        "task-lease",
+        "file-scope-claims",
+        "git-aware-handoff",
+        "structured-decisions",
+        "heartbeat",
+        "tmux",
+        "terminal-messaging",
+        "shared-memory",
+        "context-pack",
+        "workspace-coordination",
+        "audit",
+        "secret-redaction",
+        "apache-2.0",
+        "nodejs",
+        "pre-1.0"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "lease-based-agent-task-coordination"
+        },
+        {
+          "type": "concept",
+          "id": "cross-agent-shared-memory"
+        },
+        {
+          "type": "concept",
+          "id": "cross-agent-memory-portability"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "long-running-agent-operations"
+        }
+      ],
+      "workflowRefs": [
+        {
+          "type": "workflow",
+          "id": "cross-agent-continuity-stack"
+        }
+      ],
+      "notes": "2026-10-22 查核官方 README.md、package.json、SECURITY.md、THIRD_PARTY_NOTICES.md、GitHub repo metadata。Repo 是 Apache-2.0，npm package @arumwu/agentrelay v0.4.0，Node.js >=22.13，TMUX 3.2+ 只在需要 Live Terminal Transport 時才需要。此 package 尚未正式刊登到 npm，官方建議 `npm install -g github:arumwu/agentrelay` 或 clone 後 `npm install && npm run build && npm link`；全域 GitHub 安裝會取得並執行第三方 package scripts (prepare/build)，較安全做法是先審閱內容、固定可信任 Git Commit / release、限測試帳號及 Repo 權限，避免執行未知遠端腳本。CLI 和 MCP 共 10 個 coordination tools、5 個 terminal tools，不需要外部模型 API 或服務，SQLite 存 `.agentrelay/agentrelay.db`，有 events.jsonl 與 handoffs。非 Git Workspace 允許 Child Repo，MCP Workspace Boundary 固定在 server 啟動時，Terminal Access 僅限當前或設定的 tmux Session。Task Lease 為獨佔且到期，File Glob Scope Claims 及 Decision Conflicts 僅警告、不是 OS 保障，不能限制繞過 AgentRelay 的其他 Tool 操作。`terminal_read` 開一次性、90 秒 read-before-send guard，`terminal_send` 仍會向 Pane 輸入一行字並送 Enter，若對方 Pane 是 Shell 可能執行命令，務必限定 Trusted Pane；工具沒有任意 Shell 或 arbitrary-key tool，但不能宣稱絕對隔離。Terminal Outputs 讀取時 redacted + capped，Audit 只保留 metadata，內容通常不落盤；MCP 事件/交接文字還是會落盤，Secret Redaction 是 best-effort 不等於萬無一失。SECURITY.md 明定惡意本機使用者與已受入侵 tmux 程序不在威脅模型內；Agent authored memory 可被注入，應視為不可信描述而非指令。官方 Roadmap 的自動 Agent Hook、Git post-commit adapters、Portable Repo Sync、GitHub issue projection 與 Dashboard 尚不能視為已實作。GitHub 約 32 stars 且最後 push 2026-08-01，成熟度應先試驗。未在使用者裝置安裝或執行 MCP/tmux；Resource 是工具收錄而非套用到現有任務。"
+    },
+    {
+      "schemaVersion": 2,
       "id": "ath-maas-pixelle-video",
       "entityType": "resource",
       "title": "Pixelle-Video — Fully Automated Topic-to-Short-Video Pipeline",
@@ -9545,6 +9623,65 @@
         "multi-agent",
         "model-diversity",
         "quality"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "lease-based-agent-task-coordination",
+      "entityType": "concept",
+      "title": "Lease-Based Multi-Agent Task Coordination & Advisory File Claims",
+      "coreProblem": "同一專案多個 Coding Agents 平行修改時，僅有共享記憶或聊天交接不夠：兩個 Agent 可能重複接手任務、覆蓋同個檔案、採用相衝突的技術決策，也可能從過期狀態繼續執行。",
+      "solutionMethods": [
+        "將 Task Claim 表示為有 owner、session、expiry 與 heartbeat 的租約；到期後允許回收，避免 Agent 中斷造成永久佔有",
+        "在動手改程式前宣告 File/Glob Scope Claim，於交疊時提供具體衝突警告，建立停止與重新分工的慣例",
+        "保留 decision、failed attempt、test、completion 事件及 Git Commit、變更檔案、工作目錄等來源脈絡，不只保留摘要",
+        "按目前任務和 token budget 組裝 Context Pack，讓下一個 Agent 對已驗證與未驗證狀態有可檢查的依據",
+        "任務交接採讀後確認：建立 Markdown handoff、檢查新接手 Agent 實際讀到的 Git / Lease / Scope，再釋放舊 Claim",
+        "需要 Agent 互相通知時，在受限 Session 內建立可信任的訊息通道，將狀態訊息與會被 Shell 執行的指令嚴格區分",
+        "把 Task 租約、Scope 交疊、Memory Provenance 與實際 Git 變更交叉驗證；高風險編輯仍使用工作樹隔離、測試和人工核准"
+      ],
+      "tradeoffs": [
+        "Lease 可避免重複接案，但不會讓 Agent 的任務本身自動鎖住全部系統資源",
+        "File/Glob Claims 是 Advisory 而非 OS 或 Git 強制 Lock；繞過協調層的編輯仍可發生",
+        "跨 Repo 共用一個工作區可簡化移交，但錯誤設定 Boundary、消息目標或敏感記憶可能影響其他專案",
+        "SQLite 本機儲存降低外部服務依賴，卻需要自行處理權限、備份和多機同步；目前工具不保證跨機自動同步"
+      ],
+      "signals": [
+        "Claude Code、Codex 或其他 Coding Agent 要共同修改同一個程式庫",
+        "多 Agent 偶爾重複實作、互相覆寫檔案或做出矛盾決策",
+        "交接不只需要筆記，還需要 Task Owner、Scope、最新 Git State 和是否驗證",
+        "希望以本機 MCP + SQLite 建立比純聊天記憶更結構化的協作層"
+      ],
+      "antiPatterns": [
+        "把 File Claim 當成硬性檔案鎖，直接允許 Agent 無衝突檢查地平行修改",
+        "把 MCP Terminal Send 當成無權限指令，將任意文字傳入 Shell 或 Production Console",
+        "讓過期租約永久阻擋任務，或讓 Agent 交接後不釋放舊租約",
+        "把舊 Agent 手寫的 Decision/Memory 當作可信指令而不看實際 Git Diff 和 Test Evidence",
+        "把 Secret Redaction 當成完整的機密資料保護，主動記錄 Token、Session Key 或私人訊息"
+      ],
+      "exampleRefs": [
+        {
+          "type": "resource",
+          "id": "arumwu-agentrelay"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-22",
+      "updatedAt": "2026-10-22",
+      "tags": [
+        "multi-agent",
+        "task-leases",
+        "file-claims",
+        "advisory-coordination",
+        "concurrency",
+        "git-aware",
+        "handoff",
+        "heartbeat",
+        "mcp",
+        "sqlite",
+        "security",
+        "project-memory",
+        "scope-overlap"
       ]
     },
     {
