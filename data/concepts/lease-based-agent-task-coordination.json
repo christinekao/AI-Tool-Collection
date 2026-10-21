@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "id": "lease-based-agent-task-coordination",
+  "entityType": "concept",
+  "title": "Lease-Based Multi-Agent Task Coordination & Advisory File Claims",
+  "coreProblem": "同一專案多個 Coding Agents 平行修改時，僅有共享記憶或聊天交接不夠：兩個 Agent 可能重複接手任務、覆蓋同個檔案、採用相衝突的技術決策，也可能從過期狀態繼續執行。",
+  "solutionMethods": [
+    "將 Task Claim 表示為有 owner、session、expiry 與 heartbeat 的租約；到期後允許回收，避免 Agent 中斷造成永久佔有",
+    "在動手改程式前宣告 File/Glob Scope Claim，於交疊時提供具體衝突警告，建立停止與重新分工的慣例",
+    "保留 decision、failed attempt、test、completion 事件及 Git Commit、變更檔案、工作目錄等來源脈絡，不只保留摘要",
+    "按目前任務和 token budget 組裝 Context Pack，讓下一個 Agent 對已驗證與未驗證狀態有可檢查的依據",
+    "任務交接採讀後確認：建立 Markdown handoff、檢查新接手 Agent 實際讀到的 Git / Lease / Scope，再釋放舊 Claim",
+    "需要 Agent 互相通知時，在受限 Session 內建立可信任的訊息通道，將狀態訊息與會被 Shell 執行的指令嚴格區分",
+    "把 Task 租約、Scope 交疊、Memory Provenance 與實際 Git 變更交叉驗證；高風險編輯仍使用工作樹隔離、測試和人工核准"
+  ],
+  "tradeoffs": [
+    "Lease 可避免重複接案，但不會讓 Agent 的任務本身自動鎖住全部系統資源",
+    "File/Glob Claims 是 Advisory 而非 OS 或 Git 強制 Lock；繞過協調層的編輯仍可發生",
+    "跨 Repo 共用一個工作區可簡化移交，但錯誤設定 Boundary、消息目標或敏感記憶可能影響其他專案",
+    "SQLite 本機儲存降低外部服務依賴，卻需要自行處理權限、備份和多機同步；目前工具不保證跨機自動同步"
+  ],
+  "signals": [
+    "Claude Code、Codex 或其他 Coding Agent 要共同修改同一個程式庫",
+    "多 Agent 偶爾重複實作、互相覆寫檔案或做出矛盾決策",
+    "交接不只需要筆記，還需要 Task Owner、Scope、最新 Git State 和是否驗證",
+    "希望以本機 MCP + SQLite 建立比純聊天記憶更結構化的協作層"
+  ],
+  "antiPatterns": [
+    "把 File Claim 當成硬性檔案鎖，直接允許 Agent 無衝突檢查地平行修改",
+    "把 MCP Terminal Send 當成無權限指令，將任意文字傳入 Shell 或 Production Console",
+    "讓過期租約永久阻擋任務，或讓 Agent 交接後不釋放舊租約",
+    "把舊 Agent 手寫的 Decision/Memory 當作可信指令而不看實際 Git Diff 和 Test Evidence",
+    "把 Secret Redaction 當成完整的機密資料保護，主動記錄 Token、Session Key 或私人訊息"
+  ],
+  "exampleRefs": [
+    {
+      "type": "resource",
+      "id": "arumwu-agentrelay"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-22",
+  "updatedAt": "2026-10-22",
+  "tags": [
+    "multi-agent",
+    "task-leases",
+    "file-claims",
+    "advisory-coordination",
+    "concurrency",
+    "git-aware",
+    "handoff",
+    "heartbeat",
+    "mcp",
+    "sqlite",
+    "security",
+    "project-memory",
+    "scope-overlap"
+  ]
+}
