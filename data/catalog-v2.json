@@ -10092,6 +10092,79 @@
     },
     {
       "schemaVersion": 2,
+      "id": "google-maps-saved-places-cleanup-classification",
+      "entityType": "prompt",
+      "title": "Google Maps 收藏地點自動分類、搬移與回讀驗收",
+      "category": "Personal Productivity / Data Organization",
+      "promptType": "Computer-Use Agent / Saved Places Migration & Verification Prompt",
+      "problem": "Google Maps 的喜愛、想去、加星號和自訂清單互相重疊，地點狀態、備註與共同清單歸屬不一致；若直接批次清除舊標記，可能遺漏收藏、誤刪筆記或變更他人的清單內容。",
+      "goal": "以 Google Maps 真實帳戶狀態為準，完整盤點與備份原始收藏，辨識地點身分、分類與歇業狀態，採小批試行及逐批回讀驗證、搬移舊標記，最後提出可追溯的繁體中文分類與剩餘異常報告。",
+      "prompt": "請直接幫我整理 Google Maps 所有個人已儲存地點，包含喜愛的地點、想去的地方、已加星號及自訂清單。請實際操作完成，不只提供分類建議。\n\n【整理目標】\n依地點實際性質，重新整理成清楚、好找的繁體中文分類，並使用合適的 emoji，例如 ☕咖啡、🥩牛排、🍜麵店、🍸酒吧。請依我的收藏內容決定分類，不必逐一詢問；避免分類過細或大量使用「其他」。\n\n【先盤點】\n1. 先完整盤點所有來源清單、地點數、地點連結、個人筆記與清單說明，保留原始備份。\n2. 如果使用匯出資料，請辨識真正表頭，核對每份清單的數量，並與 Google Maps 畫面交叉檢查。\n3. 同一地點重複收藏時合併；同名不同分店必須依地點身分區分，不能只看名稱。\n\n【分類與清理】\n1. 確認為「永久歇業」的地點直接移除，不必分類。\n2. 暫停營業、資訊不足或無法確認的地點不要刪除；保留到「🔎待確認」並記錄原因。\n3. 保留原有個人筆記，分類清單維持私人。\n4. 共同清單只處理我本人新增的地點，保留其他人的內容。\n5. 每個地點確認已存入新分類後，就移除原本所有舊標記，包括愛心、綠旗與星號。若原清單已適合直接作為新分類，可以重用，避免重複建立。\n\n【執行方式】\n先試做一小批並回讀驗證，成功後再批次處理。\n可用多個子 agent 協助盤點、分類和稽核，但帳戶寫入由單一路徑執行。\n每批依序完成「存入新分類 → 回讀確認 → 移除舊標記」，保留進度，讓中斷後能接續。\n\n【驗收】\n最後重新載入，核對：\n- 保留地點是否全部進入正確分類，有無遺漏或重複。\n- 原愛心、綠旗、星號與待搬移的舊清單是否清空。\n- 原筆記是否保留，分類 emoji 與私人權限是否正確。\n\n不能只憑操作成功訊息宣告完成。\n若個別異常在 3 次有依據的嘗試後仍失敗，請先完成其餘項目，再列出異常地點、已嘗試方式與剩餘問題，不要無限重試或誤稱全部完成。\n\n最後請用繁體中文簡短報告：保留地點數、分類及各類數量、永久歇業移除數、舊標記剩餘數與未完成項目。只有登入、驗證碼或確實需要我決定時才詢問我。",
+      "whenToUse": [
+        "需要將 Google Maps 喜愛、想去、已加星號與自訂清單整併到清楚的私人繁體中文分類",
+        "希望讓有權限操作 Google Maps 的 Computer-Use Agent 實際執行地點搬移與去重",
+        "收藏有不同分店、個人筆記、共同清單與永久／暫時歇業地點，需要完整盤點及驗收",
+        "希望長時間批次搬移有可恢復進度、失敗三次停止與最終剩餘數報告"
+      ],
+      "inputs": [
+        "使用者本人授權的 Google Maps 帳戶及可操作的 Maps 介面／原始備份",
+        "所有 Saved Places 來源清單、清單說明、個人筆記與每個地點的身分識別及連結",
+        "如採匯出方式，對應的 Google Takeout 或其他合法匯出資料及實際 Google Maps 畫面",
+        "確認共同清單中本人新增地點與非本人內容的區分",
+        "能在帳戶變更後重新讀取並比對狀態的 Agent 執行環境"
+      ],
+      "expectedOutput": "繁體中文簡短報告，列出保留地點數、各分類及數量、已確認永久歇業移除數、舊標記剩餘數與逐筆未完成／異常項目。附可核對的原始備份、搬移進度與驗證紀錄，只有實際回讀確認才算完成；不能把未執行或未驗證描述為成功。",
+      "resourceRefs": [],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "data-ingestion-normalization"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "confidence-gated-automation"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        }
+      ],
+      "source": {
+        "type": "User-provided Traditional Chinese computer-use prompt",
+        "summary": "2026-10-21 使用者在對話中直接提供的完整 Prompt，僅去除貼上時附帶的無關物件替代符，保留原本指令、刪除與例外處理規則。為未執行的範本，不包含或擷取任何 Google Maps 收藏內容。實際套用前需確認個人 Google Maps 帳戶權限、共用清單作者／所有權、備份的可恢復性及帳戶寫入授權；永久歇業刪除、私人／共享清單修改和清空舊標記均可能是難以逆轉的帳戶變更，必須有可回復的追蹤紀錄。"
+      },
+      "status": "generated-draft",
+      "addedAt": "2026-10-21",
+      "updatedAt": "2026-10-21",
+      "tags": [
+        "google-maps",
+        "saved-places",
+        "places-lists",
+        "favorites",
+        "want-to-go",
+        "starred-places",
+        "deduplication",
+        "classification",
+        "private-lists",
+        "computer-use",
+        "data-migration",
+        "batch-processing",
+        "backup",
+        "read-after-write",
+        "verification",
+        "rollback",
+        "checkpointing",
+        "traditional-chinese",
+        "emoji",
+        "shared-list-safety"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "jev-router-opus-effort-only-configuration",
       "entityType": "prompt",
       "title": "jev-router — 固定 Opus、僅選 Reasoning Effort 的 Claude Code 設定",
