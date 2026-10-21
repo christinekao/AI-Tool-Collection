@@ -2404,6 +2404,85 @@
     },
     {
       "schemaVersion": 2,
+      "id": "heygen-com-hyperframes",
+      "entityType": "resource",
+      "title": "HyperFrames — HTML-Native Deterministic Video Rendering & Agent Workflows",
+      "canonicalName": "heygen-com/hyperframes",
+      "category": "11 Media / Video",
+      "resourceType": "Apache-2.0 open-source HTML/CSS/JS-to-video framework, CLI, Studio, render engine and agent-skill catalog",
+      "purpose": "以 HTML、CSS、影片／音訊資產與 seekable 動畫定義 clips、tracks、timing、transitions 與 composition，透過 headless Chrome/Puppeteer 擷取逐格影像並用 FFmpeg 混音與輸出 MP4。提供 CLI、瀏覽器 Studio、視覺特效 Catalog、frame.md 設計語言、21 個 Agent Skills（產品影片、無人出鏡解說、動態圖表、字幕、PR 影片、音樂節奏、投影片等）與選配 AWS Lambda／HeyGen cloud 渲染。",
+      "recommendation": "適合 AI 程式化製作產品介紹影片、作品集 Demo、工程 PR 摘要影片、數據視覺化與可批次重算的社群短影音。優先先用本地 CLI／/hyperframes Skill 製作 5–10 秒小樣，檢查 Node 22+、FFmpeg 與 Chromium 等需求、實際 render 耗時、1080p 品質及音訊授權；通過驗證後再導入多場景、批次、CI 或雲端。與 OneTake 著重鏡頭連續性不同，HyperFrames 主要是具組合時間軸與確定性輸出的影片框架。使用產品網站、人物、影音、Logo／配樂前應查權限，來源資料與輸出的片段逐格檢查文字、事實、畫面及聲音；外部 AI / 雲端生成額外計費。",
+      "url": "https://github.com/heygen-com/hyperframes",
+      "repo": "heygen-com/hyperframes",
+      "status": "active",
+      "addedAt": "2026-10-21",
+      "updatedAt": "2026-10-21",
+      "tags": [
+        "hyperframes",
+        "heygen",
+        "html-to-video",
+        "deterministic-rendering",
+        "agentic-video",
+        "programmatic-video",
+        "motion-graphics",
+        "puppeteer",
+        "ffmpeg",
+        "gsap",
+        "lottie",
+        "javascript",
+        "html-css",
+        "agent-skills",
+        "video-rendering",
+        "product-video",
+        "faceless-video",
+        "pr-to-video",
+        "render-pipeline",
+        "frame-md",
+        "apache-2.0",
+        "studio",
+        "aws-lambda",
+        "cli"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agentic-media-pipeline"
+        },
+        {
+          "type": "concept",
+          "id": "content-production-pipeline"
+        },
+        {
+          "type": "concept",
+          "id": "source-grounded-product-media"
+        },
+        {
+          "type": "concept",
+          "id": "motion-interaction-layer"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "heygen-com-hyperframes-agent-skills"
+        }
+      ],
+      "notes": "2026-10-21 核對官方 README、LICENSE、packages/cli/package.json、skills-manifest.json、skills/hyperframes/SKILL.md、docs/quickstart.mdx、docs/guides/plugins.mdx 與 GitHub 元資料。官方 Apache-2.0；CLI @hyperframes/cli v0.8.183，需 Node.js >=22、FFmpeg，實際預覽/渲染涉及 headless Chrome／Puppeteer 與本機計算資源。渲染方式是 HTML DOM 時間定位、adapter seek-safe 動畫及逐格 capture + FFmpeg encoding；相同 frozen inputs 才能比較 deterministic，動態網頁、外部 CDN、隨機動畫、未固定版本或未授權媒體會破壞可重現性。提供本地 preview/render（本地渲染不扣 HeyGen credits）與選配 cloud render/AWS Lambda、TTS／音樂／影片外部服務，這些可能單獨付費或外送資料。官方 21 個已發布 Skills 使用 /hyperframes 作 router，與可獨立安裝的單一專用 Skill 不同；採一個 Skill 套件條目連結，不將 21 項拆成 21 個目錄項以避免膨脹。官方安裝 Claude Code 插件 `claude plugin marketplace add heygen-com/hyperframes` 和 `claude plugin install hyperframes@hyperframes`；或以 `npx skills add heygen-com/hyperframes` 選 Core Skills；非互動腳本可 `npx hyperframes skills update` 安裝核心組，且官方警告某些非互動 `skills add` 可能安裝全部 21 Skills。Plugin 路徑應避免再使用 standalone update 命令污染 Skill 版本；Pin package/Plugin release，驗證工作區相依與 third-party code。Repo 高權限／安裝腳本／外部媒體網站內容需先檢查來源，完成前實測 preview、lint/check 與 MP4 視聽，不能只靠 Agent 宣稱。不是 text-to-video 生成模型，不保證零 API 成本或一定不需外部素材。未在使用者電腦安裝、未產出影片，也沒有驗證網站 Studio 或 Cloud 的實際產品可用性。"
+    },
+    {
+      "schemaVersion": 2,
       "id": "hindsight",
       "entityType": "resource",
       "title": "Hindsight",
@@ -6480,6 +6559,83 @@
         "directory",
         "ecosystem",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "heygen-com-hyperframes-agent-skills",
+      "entityType": "skill",
+      "title": "HyperFrames Agent Skills — HTML Video Production Router & 21 Workflows",
+      "purpose": "提供可安裝於 Claude Code、Codex、Cursor 等 Coding Agent 的 HyperFrames 影片產線：`/hyperframes` Router 判定產品宣傳、無人出鏡解說、動態特效、現有影片字幕／重剪、PR 解說、音樂同步、投影片、Remotion 移植或一般影片等任務，再按需載入相應 Skills，以設計 Brief → HTML Composition → 媒體 → 動畫 → 預覽 → Lint／Check → Render → 檢查完成製作。",
+      "problem": "Coding Agent 熟悉網頁但容易把 HTML 畫面直接當影片，忽略分鏡時間、可 seek 動畫、音畫同步、逐格 determinism、素材授權與輸出品質；把所有視頻能力一次載入又可能浪費 Context 和相依資源。",
+      "inputs": [
+        "影片用途、目標觀眾、秒數與縱橫比／解析度",
+        "授權的產品頁、截圖、Logo、腳本、音樂、影片與圖像素材",
+        "既有設計系統、字體、配色與品牌詞彙（可採 frame.md）",
+        "Node.js 22+、FFmpeg、支援的 CLI/Plugin 執行環境",
+        "素材與 API 預算、是否可使用外部雲端渲染／聲音或模型"
+      ],
+      "outputs": [
+        "可修改且可重複 render 的 HTML composition + 媒體與音訊資產索引",
+        "來源真實資訊、版型、動畫／時間軸、旁白／字幕規則與執行版本",
+        "CLI Preview、Lint/Check、渲染 MP4 及檢視證據",
+        "未查證的素材來源、license/cost、性能／畫面缺陷與下一輪修復清單"
+      ],
+      "execution": "官方 21 個發布 Skills 共存在 heygen-com/hyperframes 的 skills/，核心入口 `skills/hyperframes/SKILL.md`；可在 Claude Code Terminal 用 `claude plugin marketplace add heygen-com/hyperframes`，再 `claude plugin install hyperframes@hyperframes`，重開／Reload Plugin 並呼叫 `/hyperframes:hyperframes`。Standalone 可 `npx skills add heygen-com/hyperframes` 並在 picker 選 Core Skills；CI / 非互動建議官方 `npx hyperframes skills update`，不要在 Plugin 裡混用該命令；如只想單一 Skill，`npx skills add heygen-com/hyperframes --skill motion-graphics`。手動 CLI `npx hyperframes init my-video` → `npx hyperframes preview` → `npx hyperframes lint/check` → `npx hyperframes render`（先讀 CLI 幫助確認當前版本指令），檢驗成品與失敗回報。請先審核 npm 包與安裝權限，第三方媒體、模型／雲端成本、影音權利與外送資料政策。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "heygen-com-hyperframes"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "agentic-media-pipeline"
+        },
+        {
+          "type": "concept",
+          "id": "content-production-pipeline"
+        },
+        {
+          "type": "concept",
+          "id": "source-grounded-product-media"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "motion-interaction-layer"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-21",
+      "updatedAt": "2026-10-21",
+      "tags": [
+        "hyperframes",
+        "agent-skills",
+        "skill-router",
+        "html-to-video",
+        "claude-code",
+        "codex",
+        "cursor",
+        "deterministic-animation",
+        "product-launch-video",
+        "faceless-explainer",
+        "music-to-video",
+        "motion-graphics",
+        "captions",
+        "pr-to-video",
+        "remotion-port",
+        "video-qa",
+        "render-validation",
+        "apache-2.0"
       ]
     },
     {
