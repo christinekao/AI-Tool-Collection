@@ -6547,6 +6547,64 @@
     },
     {
       "schemaVersion": 2,
+      "id": "anthropics-claude-api-prompt-audit",
+      "entityType": "skill",
+      "title": "Anthropic Claude API — Prompt Audit",
+      "purpose": "使用 Anthropic 官方 claude-api Skill 的 prompt-audit 子指令，稽核專案內的系統提示、工具描述、Agent/Skill 規則與 Harness 設定，辨識過時、重複、相互衝突或無必要的指令。",
+      "problem": "舊模型時代的提示設計、重複強調語句與已失效的 Harness 規則可能持續佔用 context，甚至妨礙新版 Claude 的行為；只做文字刪減又可能誤傷有效的專案約束。",
+      "inputs": [
+        "可存取的專案工作目錄與其 Prompt、CLAUDE.md／AGENTS.md、Skills、commands、subagent 設定、工具描述及相關請求程式碼",
+        "稽核範圍與目標模型；若未提供，依官方稽核流程由環境推定並註明假設"
+      ],
+      "outputs": [
+        "具備檔案與行號、問題模式、理由與信心程度的稽核報告",
+        "可逐項審核的 proposed diff；未經要求不應直接修改檔案"
+      ],
+      "execution": "在有 Anthropic 官方 claude-api Skill 且支援該子指令的執行環境中使用 `/claude-api prompt-audit`；依 skills/claude-api/shared/prompt-audit.md 對專案提示面做稽核。此子指令屬於 claude-api Skill，非獨立內建指令。使用前需確認 Skill 可用；僅收錄，不代表已安裝或在本專案實測。",
+      "resourceRefs": [],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "constraint-bounded-editing"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md",
+        "skillUrl": "https://github.com/anthropics/skills/blob/main/skills/claude-api/SKILL.md",
+        "type": "Official Anthropic GitHub Skill / claude-api subcommand",
+        "summary": "Anthropic 官方 claude-api Skill 在 Subcommands 表提供 prompt-audit；shared/prompt-audit.md 要求涵蓋 prompt、tool descriptions、agent settings，產出稽核報告與 proposed diff。來源已核對，但未安裝或執行。"
+      },
+      "status": "active",
+      "addedAt": "2026-10-23",
+      "updatedAt": "2026-10-23",
+      "tags": [
+        "anthropic",
+        "claude",
+        "claude-api",
+        "prompt-audit",
+        "harness",
+        "agent-config",
+        "prompt-engineering",
+        "deduplication",
+        "migration",
+        "read-only-audit",
+        "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "ayueh0102-ronnier-skill",
       "entityType": "skill",
       "title": "Ayueh0102/Ronnier-skill",
@@ -8077,6 +8135,38 @@
     },
     {
       "schemaVersion": 2,
+      "id": "reverse-skill",
+      "entityType": "skill",
+      "title": "reverse-skill",
+      "purpose": "Reverse engineering / security expertise",
+      "problem": "",
+      "inputs": [],
+      "outputs": [],
+      "execution": "See source resource and its skill/protocol documentation.",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "reverse-skill"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "reverse-engineering",
+        "security",
+        "skills",
+        "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "reverse-skill-2",
       "entityType": "skill",
       "title": "Reverse Skill",
@@ -8123,38 +8213,6 @@
         "routing",
         "evidence",
         "cross-harness",
-        "skill"
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "reverse-skill",
-      "entityType": "skill",
-      "title": "reverse-skill",
-      "purpose": "Reverse engineering / security expertise",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
-      "resourceRefs": [
-        {
-          "type": "resource",
-          "id": "reverse-skill"
-        }
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "reusable-agent-skills"
-        }
-      ],
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "reverse-engineering",
-        "security",
-        "skills",
         "skill"
       ]
     },
@@ -10876,6 +10934,79 @@
     }
   ],
   "prompts": [
+    {
+      "schemaVersion": 2,
+      "id": "claude-5-5-harness-cleanup-and-hook-guardrails",
+      "entityType": "prompt",
+      "title": "Claude 5.5 Harness 稽核與精簡（Hooks 防漂移）",
+      "category": "01 Agentic Coding & Harness",
+      "promptType": "Harness Cleanup / Configuration Governance Prompt",
+      "problem": "多個 Harness、CLAUDE.md、AGENTS.md、Skills 和設定規則可能逐漸重複、衝突或持續常駐載入；往後 Agent 寫入新設定也可能使格式和規範漂移。",
+      "goal": "參照 Claude 5.5 官方建議，檢視現有 Harness 並以最小必要修改精簡、去重、消除衝突、按需載入，設計可驗證的 Hooks 以降低後續設定格式漂移。",
+      "prompt": "上網看看官方推薦5.5 harness要怎麼寫\n然後回來幫我優化所有現行的harness\n優先考慮簡化、去重、避免衝突、按需載入\n並且加上hook避免未來寫入格式飄移",
+      "whenToUse": [
+        "升級或調整 Claude 5.5 的 Coding Agent／Harness 設定",
+        "已有多份 CLAUDE.md、AGENTS.md、rules、Skills 或 subagent 定義需要去重與解決衝突",
+        "希望在後續自動寫入時使用 Hooks、格式檢查及驗證規則降低設定漂移"
+      ],
+      "inputs": [
+        "可存取的現有 Harness 設定與相關檔案",
+        "目標 Claude 5.5 模型、官方文件及版本",
+        "預期保持不變的專案限制、現有驗收機制及可用 Hook 事件"
+      ],
+      "expectedOutput": "依官方文件完成現況盤點、矛盾與重複項目分析、按需載入方案、具體修改 diff，以及適用於現有環境的 Hook／格式驗證設計與可重現測試結果；不得把尚未執行的設定修改或測試回報為完成。",
+      "resourceRefs": [],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "anthropics-claude-api-prompt-audit"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "constraint-bounded-editing"
+        }
+      ],
+      "referenceUrls": [
+        "https://platform.claude.com/docs/zh-TW/build-with-claude/prompt-engineering/prompting-claude-opus-5-5",
+        "https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md",
+        "https://code.claude.com/docs/en/hooks"
+      ],
+      "source": {
+        "type": "User-provided social recommendation excerpt (original post URL not supplied)",
+        "summary": "使用者提供以 `/claude-api prompt-audit` 稽核提示內容的推薦，以及一段更口語的 Harness 優化 Prompt。本筆逐字保存後者；「5.5」依來源脈絡以 Claude 5.5 為目標，但執行時仍應確認型號及文件。尚未對任何 Harness 進行實際修改或設定 Hooks。"
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-10-23",
+      "updatedAt": "2026-10-23",
+      "tags": [
+        "claude-5-5",
+        "opus-5-5",
+        "harness",
+        "prompt-audit",
+        "hooks",
+        "configuration-governance",
+        "prompt-optimization",
+        "deduplication",
+        "lazy-loading",
+        "context-efficiency",
+        "format-validation",
+        "agent-instructions"
+      ]
+    },
     {
       "schemaVersion": 2,
       "id": "continuity-first-product-motion-film",

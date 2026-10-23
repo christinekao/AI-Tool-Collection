@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "id": "anthropics-claude-api-prompt-audit",
+  "entityType": "skill",
+  "title": "Anthropic Claude API — Prompt Audit",
+  "purpose": "使用 Anthropic 官方 claude-api Skill 的 prompt-audit 子指令，稽核專案內的系統提示、工具描述、Agent/Skill 規則與 Harness 設定，辨識過時、重複、相互衝突或無必要的指令。",
+  "problem": "舊模型時代的提示設計、重複強調語句與已失效的 Harness 規則可能持續佔用 context，甚至妨礙新版 Claude 的行為；只做文字刪減又可能誤傷有效的專案約束。",
+  "inputs": [
+    "可存取的專案工作目錄與其 Prompt、CLAUDE.md／AGENTS.md、Skills、commands、subagent 設定、工具描述及相關請求程式碼",
+    "稽核範圍與目標模型；若未提供，依官方稽核流程由環境推定並註明假設"
+  ],
+  "outputs": [
+    "具備檔案與行號、問題模式、理由與信心程度的稽核報告",
+    "可逐項審核的 proposed diff；未經要求不應直接修改檔案"
+  ],
+  "execution": "在有 Anthropic 官方 claude-api Skill 且支援該子指令的執行環境中使用 `/claude-api prompt-audit`；依 skills/claude-api/shared/prompt-audit.md 對專案提示面做稽核。此子指令屬於 claude-api Skill，非獨立內建指令。使用前需確認 Skill 可用；僅收錄，不代表已安裝或在本專案實測。",
+  "resourceRefs": [],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "constraint-bounded-editing"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md",
+    "skillUrl": "https://github.com/anthropics/skills/blob/main/skills/claude-api/SKILL.md",
+    "type": "Official Anthropic GitHub Skill / claude-api subcommand",
+    "summary": "Anthropic 官方 claude-api Skill 在 Subcommands 表提供 prompt-audit；shared/prompt-audit.md 要求涵蓋 prompt、tool descriptions、agent settings，產出稽核報告與 proposed diff。來源已核對，但未安裝或執行。"
+  },
+  "status": "active",
+  "addedAt": "2026-10-23",
+  "updatedAt": "2026-10-23",
+  "tags": [
+    "anthropic",
+    "claude",
+    "claude-api",
+    "prompt-audit",
+    "harness",
+    "agent-config",
+    "prompt-engineering",
+    "deduplication",
+    "migration",
+    "read-only-audit",
+    "skill"
+  ]
+}
