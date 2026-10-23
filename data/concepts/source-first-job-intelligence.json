@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 2,
+  "id": "source-first-job-intelligence",
+  "entityType": "concept",
+  "title": "Source-First Job Intelligence: ATS Provenance, Dedup & Evidence-Gated Applications",
+  "coreProblem": "傳統求職入口常將同一職缺跨網站重發、重新上架與第三方中介轉載，搜尋者不易判斷來源、招聘是否仍進行、工作地點與技能標籤是否正確，造成重複、過期或錯誤投遞；資料量大並不代表高可信度與高匹配度。",
+  "solutionMethods": [
+    "將 Employer ATS／官方 Careers、第三方 Job Aggregators、公司直連 RSS／feeds 分類並附來源 Link 與收錄時間；當來源混合時避免對外宣稱全部是一手職缺",
+    "以標準 Job Schema（company identity、board id、source id、posting url、remote/country/city、salary、last seen）清理異構資料，再用 stable identity/dedup fingerprint 合併跨版貼文但保留來源與原始連結",
+    "維護 open／closed／last-seen 的 soft-close lifecycle；提交前驗證 Employer ATS 原頁面是否仍接受申請，而非只相信第三方聚合站時間戳記",
+    "以 curated dictionary 或可信的結構化抽取處理 seniority、salary currency、work-mode 和 skills；不確定時保留未知、不要猜測薪資／遠端政策",
+    "LLM 協助匹配和 CV tailoring 必須回溯到候選人已確認的真實證據，不得生成不存在的經歷；Agent 的搜尋應 read-only by default，申請／帳戶修改需另行批准",
+    "將查詢條件（地理 OR/AND 語意、未知 Filter 被忽略、remote 跨境合法性與薪資幣別）列入檢查，保留 JSON 查詢、取得日期與結果 URL，便於自動化去重",
+    "將過期風險、Evergreen/ghost-like signal 作可解釋的指標而非雇主欺詐判定，最後以回覆率、有效職缺、投遞成本與申請轉換驗證系統效益"
+  ],
+  "tradeoffs": [
+    "企業 ATS 一手來源減少部分轉載與重複，卻無法覆蓋全市場（部分公司仍只用代理招聘或封閉平台）",
+    "來源標示與重複合併對錯誤貼文有幫助，但 fingerprint 可能誤合併不同分店／國家／職級，亦可能錯過改寫的同一職缺",
+    "嚴格 curated facet 降低猜測錯標，會使少數特殊描述漏掉類別",
+    "持續爬取與多語模型 enrichment 增加運維、合規與成本，不能將搜尋筆數直接等同可投遞且有薪資的職缺數"
+  ],
+  "signals": [
+    "求職市場充滿重複、轉載及疑似已關閉職缺",
+    "希望按 Company ATS／官方頁面搜尋職位並每日追蹤新公告",
+    "需要遠端工作、薪資、城市、技能精準篩選並交給 AI Agent 批次比對",
+    "以多市場招聘職缺建立求職 CRM、履歷 Evidence Bank 或職缺推薦服務"
+  ],
+  "antiPatterns": [
+    "將聚合平台報告的多百萬職缺數直接當作完全即時、全數雇主一手、完全去重保證",
+    "根據工作名稱一樣就合併不同國家、職級及分店的職缺",
+    "忽略 query 被服務端拒絕或略過的 filter，卻以為查詢精準",
+    "把 ghost-job 風險訊號描述成雇主已經確實造假",
+    "讓 Agent 在未審閱的情況下修改履歷、上傳個資或送出真實工作申請"
+  ],
+  "exampleRefs": [
+    {
+      "type": "resource",
+      "id": "strelov1-freehire"
+    },
+    {
+      "type": "resource",
+      "id": "strelov1-freehire-mcp"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-23",
+  "updatedAt": "2026-10-23",
+  "tags": [
+    "ats",
+    "job-discovery",
+    "source-provenance",
+    "deduplication",
+    "recruitment-data",
+    "data-quality",
+    "soft-close",
+    "job-freshness",
+    "job-search-agent",
+    "cv-evidence",
+    "salary-filter",
+    "remote-jobs",
+    "privacy",
+    "human-approval"
+  ]
+}

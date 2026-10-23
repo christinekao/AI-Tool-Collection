@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 2,
+  "id": "strelov1-freehire",
+  "entityType": "resource",
+  "title": "freehire — Source-Aware Job Search, ATS Ingestion & Application Workspace",
+  "canonicalName": "strelov1/freehire",
+  "category": "05 Data & Ingestion",
+  "resourceType": "MIT open-source job search engine, ATS aggregation pipeline, career application tracker and HTTP API",
+  "purpose": "統一大量企業 ATS（Workday／Greenhouse／Lever／Ashby／iCIMS 等）、官方 Career Sites、Aggregators／Job Boards 和 Telegram feeds 的招聘資料：crawl → normalize → stable-key dedup → enrichment → Postgres → Meilisearch／pgvector；可依工作地區、remote／hybrid、年資、技能、薪資、職類、來源篩選。平台另提供 saved searches / email & Telegram digests、ghost-job 風險訊號、CV 製作及 evidence-backed CV tailoring、履歷匹配、申請追蹤、Recruiter inbox、職缺市場分析、公共 API，以及另有獨立 Repo 的 CLI 和 MCP Server。",
+  "recommendation": "適合想減少重複職缺、在遠端／香港／新加坡等市場搜尋職位，或建立自動化求職掃描 Agent 的使用者。先使用 freehire.me 的搜尋和公開唯讀 API／MCP，再依自己的國家、remote、薪資、技能進行精確篩選，檢查 ignored filters 並到雇主原始招聘頁確認職缺仍開放、工作地點／remote 授權與薪資。需要履歷／Gmail 或可寫 MCP 時，應先審核隱私政策和金鑰權限，不在未批准下自動申請或上傳機密履歷。注意官方主頁的職缺數字是持續變動的統計量，不是永續承諾，更不是直接雇主來源百分之百。",
+  "url": "https://github.com/strelov1/freehire",
+  "repo": "strelov1/freehire",
+  "status": "active",
+  "addedAt": "2026-10-23",
+  "updatedAt": "2026-10-23",
+  "tags": [
+    "freehire",
+    "job-search",
+    "recruitment",
+    "ats",
+    "workday",
+    "greenhouse",
+    "lever",
+    "ashby",
+    "job-aggregation",
+    "deduplication",
+    "job-source",
+    "salary-filter",
+    "remote-work",
+    "resume-tailoring",
+    "applicant-tracking",
+    "job-alerts",
+    "api",
+    "cli",
+    "mcp",
+    "career",
+    "open-source",
+    "mit-license",
+    "job-data-provenance",
+    "ghost-job-signal",
+    "meilisearch",
+    "postgresql",
+    "pgvector"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "source-first-job-intelligence"
+    },
+    {
+      "type": "concept",
+      "id": "data-ingestion-normalization"
+    },
+    {
+      "type": "concept",
+      "id": "semantic-layer-for-ai"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "confidence-gated-automation"
+    }
+  ],
+  "notes": "2026-10-23 查核官方 README.md、docs/features.md、docs/sources.md、SECURITY.md、官方 freehire.me 首頁與公開 `GET /api/v1/jobs` 實際回應，MIT license。2026-10-20 官方 Repo 來源快照顯示 3,371,563 個 unique open jobs／477,323 companies／320 sources（其中 ATS platforms 117 with postings、aggregators/job boards 133、direct company feeds 52）；2026-10-23 官網首頁顯示 3,825,526 unique jobs、513,975 companies、335 sources、136 ATS platforms。不同日期數字不得混用作單日總量／假設所有 job 都是雇主直接發佈，因為實際包含 Adzuna、JobStreet、Telegram 等轉發來源。官方首頁及 API 可搜出 source=telegram 的真實資料，與 marketing 標語 'no recruiters / no reposts / no dead links' 有差異；應當作產品目標而非已驗證全面承諾。系統用 stable-key dedup 與軟關閉 job lifecycle；並不保證消滅所有近重複、虛假、過期或被其他網站轉發的職缺。Ghost-job signal 依 repost 行為、貼文老化與網站可見性附證據，不等於證實雇主惡意或職缺已不存在。Skills／薪資等 Facet 採 curated dictionaries；未辨識值不應猜測，所以可能漏標。資料搜尋 API 為免 Key 公開讀取；私人 CV、追蹤、郵件、AI matching 等功能需要帳戶和某些計量額度，LLM 功能亦可在自架環境另外配置。Go/Fiber、PostgreSQL/pgvector、Meilisearch、Redis、S3-compatible、SvelteKit、Docker Compose。安全邊界涉及 OAuth/JWT、API keys、招聘文本 LLM input prompt injection、可自動填寫表單的 Browser Extension、第三方履歷和郵件個資；自架切勿暴露資料庫、Meilisearch 金鑰及弱 JWT_SECRET。職缺內容及第三方連結皆為不可信輸入。官方 CLI 獨立 Repo https://github.com/strelov1/freehire-cli；官方 MCP 獨立 Repo https://github.com/strelov1/freehire-mcp （另收錄 Resource）。GitHub stars 約 2.8k 非品質保證。尚未下載、安裝或連接個人帳號，未投遞任何履歷或職缺。"
+}
