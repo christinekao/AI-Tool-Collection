@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "entityType": "skill",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "oh-my-mermaid"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "research-to-structured-visualization"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "id": "oh-my-mermaid-omm-push",
+  "title": "Oh My Mermaid /omm-push — GitHub OAuth & Cloud Architecture Sync",
+  "purpose": "在使用者同意上傳後，檢查登入與專案連結狀態，將 `.omm/` 架構文件推送至 ohmymermaid.com 服務。",
+  "problem": "需要在團隊之間遠端分享生成的 Mermaid 架構文件，且需處理 OAuth 登入、連結 Project 與錯誤狀態。",
+  "inputs": [
+    "已生成 `.omm/` 文件",
+    "GitHub OAuth 使用者登入",
+    "外部雲端上傳與分享授權",
+    "服務方案與目標 Project"
+  ],
+  "outputs": [
+    "上傳結果與檔案數",
+    "ohmymermaid.com 的雲端 Project URL",
+    "適用時的共享連結"
+  ],
+  "execution": "官方 skills/omm-push/SKILL.md：`/omm-push` 會先查 `omm share` 登入狀態，若需要則 `omm login` 使用 GitHub OAuth，再 `omm link` 設定 Project Slug，最後 `omm push` 實際傳檔。未通過 OAuth、沒有資料外送授權或觸發限額時不得宣稱完成；401、403、Network Error 等需如實回報。與 `/omm-view` 不同，此 Skill 明確會連線及傳送架構文件至第三方雲端，不適合未審查的公司內部架構。此輪未執行。",
+  "source": {
+    "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-push/SKILL.md",
+    "type": "Official agent SKILL.md",
+    "summary": "Official login/link/push sequence and errors verified, not run."
+  },
+  "tags": [
+    "oh-my-mermaid",
+    "omm-push",
+    "cloud-sharing",
+    "oauth",
+    "github-login",
+    "data-egress",
+    "privacy",
+    "sharing",
+    "external-upload",
+    "skill"
+  ]
+}
