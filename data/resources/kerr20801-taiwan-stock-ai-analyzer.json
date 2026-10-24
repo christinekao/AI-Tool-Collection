@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "id": "kerr20801-taiwan-stock-ai-analyzer",
+  "entityType": "resource",
+  "title": "Taiwan Stock AI Analyzer — 台股多模型量化研究、選股與模擬交易",
+  "canonicalName": "kerr20801/taiwan-stock-ai-analyzer",
+  "category": "05 Data & Ingestion",
+  "resourceType": "MIT open-source Python quantitative stock research / machine-learning ensemble, market screening, paper-trading and scheduled analysis system",
+  "purpose": "整合台股市場資料擷取、技術指標與法人／產業資訊研究；使用 LSTM、XGBoost、LightGBM、Random Forest、ARIMA 五種預測器及依近期方向預測／勝率／Sharpe 表現調整的 Dynamic Weight Learner；透過 CLI 執行盤前、盤後、股票篩選、模型訓練、盤中模擬撮合與定時巡檢，支援 Ollama 本機 LLM 生成報告、Telegram 發送訊號及 SQLite 紀錄模擬投資組合。",
+  "recommendation": "適合作為台股資料／ML Ensemble／盤前盤後研究 Pipeline 的 Python 參考專案，不應直接視為驗證過的自動獲利交易系統。使用前請審查依賴、合法行情資料來源、資料延遲、台股交易日曆、券商稅費與撮合假設；先針對少量歷史資料做可重現的 train/test、walk-forward/out-of-sample、lookahead/repaint/survivorship bias 檢查，再使用隔離的紙上模擬環境。訓練與技術評分不等於證明預測品質，Telegram Token/Chat ID 應以受保護環境變數管理；勿提供真實券商下單權限。",
+  "url": "https://github.com/kerr20801/taiwan-stock-ai-analyzer",
+  "repo": "kerr20801/taiwan-stock-ai-analyzer",
+  "notes": "2026-10-24 檢查 GitHub Repository Metadata、README.md、LICENSE、requirements.txt、.env.example、main.py、realtime_trading_system/realtime_trading_main.py、enhanced_llm_analyzer.py 與 backtest 目錄。上游活躍，GitHub Meta 顯示 2026-10-24 最近推送與 MIT 授權。README 宣稱五大預測模型、近期 30–60 天指標動態權重、08:30 盤前、09:00–13:30 模擬交易、15:00 盤後、yfinance/twstock/營收資料、Ollama 與 Telegram；相對應 Python 入口與子目錄可見，但未驗證全部端到端可用，亦未證明勝率或績效。CLI 命令包括 `python main.py pre-market`、`post-market`、`realtime`、`screener`、`train --symbol ...`、`train --all`、`schedule`、`test`；其中 `test` 在程式碼會 import 依賴、嘗試連線 localhost Ollama 並建立本機資料夾，不應當作無副作用的唯讀測試。README 的 clone 範例 `github.com/your-username/...` 是占位符，實際專案為 `github.com/kerr20801/taiwan-stock-ai-analyzer`。README 宣稱本機 Ollama『數據絕不上傳外部雲端』只適用於特定本機模型處理路徑；上游行情 requests/yfinance/twstock 擷取及 Telegram 發送仍對外連線，新聞/第三方來源也依配置而定。`.env.example` 包含 TG_BOT_TOKEN/TG_CHAT_ID、OLLAMA_BASE_URL/MODEL；需保護 secrets。README 表示不接入真實券商 API 下單而是 SQLite 模擬交易，仍可能誤用過時或延遲報價。部分模型依賴（TensorFlow/PyTorch、LightGBM、XGBoost）及 Python 环境可能有較高安裝成本；requirements.txt 需自行核對相容性。`main.py` 的多個 cmd_* 函數 catch Exception 並只印錯誤，故 CI 不能只以零 Exit Code 或文字顯示為成功判斷全部工作正確；尤其要另驗證行情覆蓋、時區、交易日曆、成交稅費與真實歷史對帳。此輪僅收錄，未 Clone、pip 安裝、訓練、下載行情、啟動排程、登入 Ollama、使用 Telegram 或進行回測。",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "taiwan-stocks",
+    "台股",
+    "quant-research",
+    "machine-learning",
+    "ensemble",
+    "lstm",
+    "xgboost",
+    "lightgbm",
+    "random-forest",
+    "arima",
+    "dynamic-weight-learner",
+    "python",
+    "stock-screener",
+    "technical-indicators",
+    "rsi",
+    "macd",
+    "market-data",
+    "yfinance",
+    "twstock",
+    "pre-market",
+    "post-market",
+    "realtime-paper-trading",
+    "sqlite",
+    "ollama",
+    "local-llm",
+    "telegram",
+    "backtesting",
+    "risk-controls",
+    "open-source",
+    "mit"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "data-ingestion-normalization"
+    },
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "local-first-sensitive-data-processing"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/kerr20801/taiwan-stock-ai-analyzer",
+    "type": "Original GitHub repo README, license, dependencies and selected Python source files",
+    "summary": "Verified codebase structure and published features on 2026-10-24; installation, models, real-time data quality and financial performance have not been tested."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
