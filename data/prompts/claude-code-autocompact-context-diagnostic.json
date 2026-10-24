@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "id": "claude-code-autocompact-context-diagnostic",
+  "entityType": "prompt",
+  "title": "Claude Code Auto-compact 門檻與 Context 用量檢查",
+  "category": "01 Agent Runtime & Harness",
+  "promptType": "Configuration Audit / Reusable Guardrails Prompt",
+  "problem": "Claude Code 可能依版本、方案或實驗設定在小於模型最大窗口的門檻自動 Compact，導致使用者混淆 Context Window 與 Compact Threshold。",
+  "goal": "以官方可查環境資料確認有效門檻，再決定是否調整而不盲目追求極大 Context。",
+  "prompt": "請先確認當前 Claude Code 版本、實際所選模型、方案以及 /context 顯示的有效上下文視窗；不要只因模型宣稱支援 1M Token 就認為本 Session 可以用滿。\n檢查 Auto-compact 的目前門檻及是否支援 /autocompact 調整；若環境／版本不支援，請清楚說明，不可假裝已套用。比較目前門檻與較高門檻在保留上下文、延遲、額度和可能的摘要錯誤上的利弊。\n先提供唯讀診斷、建議設定與回復方式，等我同意後才修改；保留現有重要指令與交接資訊，並在變更後以 /context 或官方相當機制確認實際生效值。",
+  "whenToUse": [
+    "以官方可查環境資料確認有效門檻，再決定是否調整而不盲目追求極大 Context。"
+  ],
+  "inputs": [
+    "既有環境與設置清單（不包含任何實際秘密值）"
+  ],
+  "expectedOutput": "以現況證據為基礎的唯讀稽核報告、風險、具體調整建議和可逆回復流程；未經確認不得修改。",
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "capability-cost-routing"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "source": {
+    "type": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+    "visibleExcerpts": [
+      "/autocompact 400k，把上下文窗口鎖死在 40 萬（而非原本的 100 萬）以節省額度。"
+    ],
+    "summary": "Screenshot practice reformulated into a safe, reusable audit. Not a literal original prompt.",
+    "verificationNotes": "GitHub anthropics/claude-code issue #54056 及其 collaborator 討論指出部分版本提供 `/autocompact` 設定，門檻與實際有效窗口依版本／實驗而異；40萬並非所有 Opus 版本通用的最佳值，也不保證一定節省額度。"
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "claude-code",
+    "autocompact",
+    "context-window",
+    "tokens",
+    "threshold",
+    "opus",
+    "context-governance",
+    "settings"
+  ]
+}

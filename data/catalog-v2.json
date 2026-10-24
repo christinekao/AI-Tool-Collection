@@ -12798,6 +12798,62 @@
     },
     {
       "schemaVersion": 2,
+      "id": "agent-api-key-budget-and-revocation-guardrails",
+      "entityType": "prompt",
+      "title": "多 Agent／多平台 API Key、用量上限與撤銷防護",
+      "category": "01 Agent Runtime & Harness",
+      "promptType": "Configuration Audit / Reusable Guardrails Prompt",
+      "problem": "不同服務共用 API Key、沒有預算/權限隔離或撤銷程序，可能擴大濫用、金額損失與資料外流。",
+      "goal": "建立可驗證且最小權限的 AI 多服務 API Key 管理、預算與撤銷規範。",
+      "prompt": "請盤點我現有 AI 開發專案所使用的模型 Provider、AI Gateway、MCP 和第三方 API，但不要要求我貼出任何 API Key 的實際值。\n1. 將每個外部平台的金鑰分開管理，標明服務、環境、使用者、可用 Scope、資料出站地點、預算負責人與撤銷方式。\n2. 機密值僅存於受保護環境變數／Secret Manager，避免寫入 Git、AGENTS.md、SKILL.md、聊天紀錄與前端程式碼。\n3. 列出各 Provider 的每月用量上限、預算通知與異常使用監控；清楚區分硬上限與僅通知的軟限制，不假設每個 Provider 都有相同能力。\n4. 為異常流量或金鑰外洩設計停用／輪替／檢查操作，說明操作前後如何確認服務沒有意外中斷。\n5. 請先提供設定對照表和建議，不要實際讀取 Secret、修改金鑰、連線或付款。",
+      "whenToUse": [
+        "建立可驗證且最小權限的 AI 多服務 API Key 管理、預算與撤銷規範。"
+      ],
+      "inputs": [
+        "既有環境與設置清單（不包含任何實際秘密值）"
+      ],
+      "expectedOutput": "以現況證據為基礎的唯讀稽核報告、風險、具體調整建議和可逆回復流程；未經確認不得修改。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "capability-cost-routing"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "source": {
+        "type": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+        "visibleExcerpts": [
+          "每個平台都用獨立的 API Key，並在供應商後台設好每月用量上限，就算外洩也能把損失控制在最小，發現異常立刻撤銷重發就好。"
+        ],
+        "summary": "Screenshot practice reformulated into a safe, reusable audit. Not a literal original prompt."
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "api-key",
+        "ai-providers",
+        "budget-limit",
+        "rate-limit",
+        "credential-isolation",
+        "incident-response",
+        "secrets",
+        "provider"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "chat-history-actionable-productivity-audit",
       "entityType": "prompt",
       "title": "近月聊天紀錄 → 工作洞察與有用的小工具",
@@ -12918,6 +12974,59 @@
         "context-efficiency",
         "format-validation",
         "agent-instructions"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "claude-code-autocompact-context-diagnostic",
+      "entityType": "prompt",
+      "title": "Claude Code Auto-compact 門檻與 Context 用量檢查",
+      "category": "01 Agent Runtime & Harness",
+      "promptType": "Configuration Audit / Reusable Guardrails Prompt",
+      "problem": "Claude Code 可能依版本、方案或實驗設定在小於模型最大窗口的門檻自動 Compact，導致使用者混淆 Context Window 與 Compact Threshold。",
+      "goal": "以官方可查環境資料確認有效門檻，再決定是否調整而不盲目追求極大 Context。",
+      "prompt": "請先確認當前 Claude Code 版本、實際所選模型、方案以及 /context 顯示的有效上下文視窗；不要只因模型宣稱支援 1M Token 就認為本 Session 可以用滿。\n檢查 Auto-compact 的目前門檻及是否支援 /autocompact 調整；若環境／版本不支援，請清楚說明，不可假裝已套用。比較目前門檻與較高門檻在保留上下文、延遲、額度和可能的摘要錯誤上的利弊。\n先提供唯讀診斷、建議設定與回復方式，等我同意後才修改；保留現有重要指令與交接資訊，並在變更後以 /context 或官方相當機制確認實際生效值。",
+      "whenToUse": [
+        "以官方可查環境資料確認有效門檻，再決定是否調整而不盲目追求極大 Context。"
+      ],
+      "inputs": [
+        "既有環境與設置清單（不包含任何實際秘密值）"
+      ],
+      "expectedOutput": "以現況證據為基礎的唯讀稽核報告、風險、具體調整建議和可逆回復流程；未經確認不得修改。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "capability-cost-routing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "source": {
+        "type": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+        "visibleExcerpts": [
+          "/autocompact 400k，把上下文窗口鎖死在 40 萬（而非原本的 100 萬）以節省額度。"
+        ],
+        "summary": "Screenshot practice reformulated into a safe, reusable audit. Not a literal original prompt.",
+        "verificationNotes": "GitHub anthropics/claude-code issue #54056 及其 collaborator 討論指出部分版本提供 `/autocompact` 設定，門檻與實際有效窗口依版本／實驗而異；40萬並非所有 Opus 版本通用的最佳值，也不保證一定節省額度。"
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "claude-code",
+        "autocompact",
+        "context-window",
+        "tokens",
+        "threshold",
+        "opus",
+        "context-governance",
+        "settings"
       ]
     },
     {
