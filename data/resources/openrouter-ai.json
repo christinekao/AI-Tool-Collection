@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "id": "openrouter-ai",
+  "entityType": "resource",
+  "title": "OpenRouter — Unified LLM API & Model Routing Gateway",
+  "canonicalName": "OpenRouter",
+  "category": "02 Agent Orchestration",
+  "resourceType": "Commercial hosted multi-provider LLM API gateway / model marketplace & routing service",
+  "purpose": "以單一 OpenAI-compatible API 及 API Key 存取多家供應商的語言與多模態模型，依模型 ID、供應商與設定執行請求路由、模型／Provider 備援、串流、工具呼叫、結構化輸出及用量／成本管理；支援 Bring Your Own Key (BYOK) 與可選資料政策式路由（含 Zero Data Retention 限制）。",
+  "recommendation": "適合已開發 AI App、Agent 或多模型工作流程，想用單一整合端點快速切換模型並設定成本／路由政策的開發者。先用非敏感測試資料和受限制額度的 API Key 驗證，固定預期的模型與必要供應商、配置預算／rate limit 及隱私路由規則，再導入工作環境。OpenRouter 是中介 API 服務，不是免安裝即可讓 Claude/Codex 原生訂閱免費互通的工具；不應與自架模型 Router 或純開源代理套件混淆。",
+  "url": "https://openrouter.ai/",
+  "repo": "",
+  "notes": "2026-10-24 查核官方開發者入口、Pricing、Support、Privacy Policy、Zero Data Retention 及 Provider 清單：統一端點 https://openrouter.ai/api/v1，可支援不同模型 Provider 與路由／fallback；提供 OpenAI-compatible API，亦有官方 SDK、Agent SDK、MCP Server 和 Cookbook。官方 pricing 有免費模型／免費 API 額度、按使用量計費及可選 BYOK；模型費率、免費額度、加值手續費和 BYOK 費率依最新方案與實際模型變動，不能以單一價格概括所有模型。官方 Support 表示 API 基本 metadata 會記錄，預設不保存 prompts/completions；但可選 prompt logging，而請求內容會送到實際承接的模型供應商。ZDR 可限制符合要求的供應商不保留 inference prompt/response，但不代表資料完全不出站、不經過 OpenRouter，也不涵蓋自己的 Logs、Tools、Plugins 或持久檔案儲存。模型供應商在 retention、訓練及所在地上有所不同，對敏感資料應明確確認 Provider 與 Policy 並閱讀服務條款。雖然官方有 OpenRouterTeam/openrouter-examples 等公開範例 Repo，這不代表 OpenRouter 託管 API 服務本身是完整開源專案；故 Repo 欄位保持空白。需保存 API Key 並管理額度與洩露／濫用風險；如啟用自動路由或 fallback，請求可能改由不同 Provider 處理，應以 policy 過濾與回傳模型資訊核實。僅完成資料收錄，不曾登入、建立或測試 API Key，亦未呼叫付費模型。",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "openrouter",
+    "llm-api-gateway",
+    "model-routing",
+    "multi-model",
+    "multi-provider",
+    "openai-compatible-api",
+    "model-marketplace",
+    "api",
+    "automatic-fallback",
+    "provider-selection",
+    "byok",
+    "usage-billing",
+    "cost-control",
+    "privacy-routing",
+    "zero-data-retention",
+    "zdr",
+    "tool-calling",
+    "streaming",
+    "agents",
+    "mcp",
+    "hosted-saas",
+    "data-egress",
+    "api-key-security"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "vendor-agnostic-orchestration"
+    },
+    {
+      "type": "concept",
+      "id": "capability-cost-routing"
+    },
+    {
+      "type": "concept",
+      "id": "capability-aggregation-gateway"
+    },
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    }
+  ],
+  "source": {
+    "url": "https://openrouter.ai/developers",
+    "pricingUrl": "https://openrouter.ai/pricing",
+    "privacyUrl": "https://openrouter.ai/privacy",
+    "referenceUrls": [
+      "https://openrouter.ai/support",
+      "https://openrouter.ai/blog/insights/zero-data-retention/"
+    ],
+    "type": "Official OpenRouter developer platform, pricing, support, and privacy documentation",
+    "summary": "Reviewed published capabilities, routing, plans and privacy boundaries on 2026-10-24; claims not independently performance-tested."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
