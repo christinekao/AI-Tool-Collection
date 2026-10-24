@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 2,
+  "id": "ibkr-weekly-export-risk-adjusted-review",
+  "entityType": "workflow",
+  "title": "IBKR Statements → Weekly Risk-adjusted Portfolio Review",
+  "goal": "建立每週從 IBKR 帳戶報表到指標、圖表、風險檢視的有證據工作流，不依賴未驗證的 Connector 欄位。",
+  "problem": "散落於 Activity Statements 和 PortfolioAnalyst 的資料不一定能被第三方 Plugin 全部取得；現金流與策略績效可能混淆。",
+  "solutionStrategy": "官方報表匯出→資料完整性及隱私核對→分類與基準對齊→驗算風險指標→繪圖與人類覆核→留存來源與計算依據。",
+  "stages": [
+    {
+      "id": "obtain-report",
+      "title": "Obtain Exported Statements",
+      "purpose": "確認 PortfolioAnalyst/Activity Statements 內確實有需要的項目，選定期間並下載有權使用的報表",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "ibkr-portfolioanalyst"
+        }
+      ],
+      "outputs": [
+        "報表與資料來源清單"
+      ],
+      "gate": "不宣稱未驗證的 API 已可取回全部資料"
+    },
+    {
+      "id": "normalize",
+      "title": "Normalize Dates, Currency & Asset Types",
+      "purpose": "隱藏敏感帳號資訊，整理 Stock/ETF/Options/Cash、交易成本、股息與現金流，完成加總對帳",
+      "uses": [],
+      "outputs": [
+        "清洗表格",
+        "對帳差異"
+      ],
+      "gate": "來源可追溯、缺失值不虛構"
+    },
+    {
+      "id": "risk-report",
+      "title": "Calculate Risk & Benchmark Metrics",
+      "purpose": "在頻率與幣別一致的條件下比較 SPY，計算可支持的 Sharpe/Sortino/Alpha/Beta、Weekly Return 和 Rolling Window",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "ibkr-weekly-risk-adjusted-performance"
+        }
+      ],
+      "outputs": [
+        "指標明細與基準比較"
+      ],
+      "gate": "TWR/MWR、無風險利率和樣本量正確揭露"
+    },
+    {
+      "id": "visualize",
+      "title": "Plot Trends and Distribution",
+      "purpose": "繪製週/月 Rolling 趨勢與 Box Plot；標註樣本不足或不可計算者",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "ibkr-weekly-risk-adjusted-performance"
+        }
+      ],
+      "outputs": [
+        "可查證圖表"
+      ],
+      "gate": "每張圖可對應資料來源、計算規則"
+    },
+    {
+      "id": "archive",
+      "title": "Archive and Review",
+      "purpose": "整理週度報告、風險與已知限制，保存報表版本及待查項目",
+      "uses": [],
+      "outputs": [
+        "週度觀察紀錄"
+      ],
+      "gate": "不自動執行交易與未授權排程"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "ibkr-portfolioanalyst"
+    }
+  ],
+  "promptRefs": [
+    {
+      "type": "prompt",
+      "id": "ibkr-weekly-risk-adjusted-performance"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "data-ingestion-normalization"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    }
+  ],
+  "useCases": [
+    "週末投資績效回顧",
+    "IBKR Activity Statement 下載分析",
+    "風險調整報酬與 SPY 比較"
+  ],
+  "notes": "根據 Threads 截圖整理。原作者表示 Plugin/Connector 未能直接抓到 PortfolioAnalyst 特定 Financial Instrument 資料，故採匯出報表餵給 LLM；並非本工具已完成連接或投資分析。本輪未讀取用戶 IBKR 帳號。",
+  "source": {
+    "type": "User-provided Threads screenshots and official IBKR reporting",
+    "url": "https://www.interactivebrokers.com/en/whyib/reporting.php"
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "ibkr",
+    "investing",
+    "weekly-review",
+    "portfolioanalyst",
+    "risk-adjusted-return",
+    "reporting"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "id": "herdr-agent-terminal-skill",
+  "entityType": "skill",
+  "title": "Herdr Agent Skill — Pane & Agent Coordination",
+  "purpose": "僅在使用者明確要求 Herdr，且 Agent 真正位於 Herdr Pane（HERDR_ENV=1）時，使用 CLI 檢查/管理工作區、相鄰 agents、終端輸出及可批准的操作。",
+  "problem": "多 Agent 跨視窗工作需要可查證狀態及可受控的終端協調工具。",
+  "inputs": [
+    "Herdr 已安裝與授權的 Session",
+    "HERDR_ENV=1",
+    "明確的 Pane/Agent 操作範圍"
+  ],
+  "outputs": [
+    "Pane/Agent 狀態",
+    "授權後的分割視窗、CLI 操作或等待結果"
+  ],
+  "execution": "依 `herdrdev/herdr/skills/herdr/SKILL.md`，先驗證 HERDR_ENV=1，再使用本機 `herdr --help` 找正確指令。Agent Skill 將讀取 Pane 內容、可能執行命令，不能在非 Herdr Session 假裝已連線。此輪只收錄，未啟用。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "herdrdev-herdr"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "agent-organization-control-plane"
+    }
+  ],
+  "source": {
+    "type": "Official Herdr SKILL.md",
+    "url": "https://github.com/herdrdev/herdr/blob/master/skills/herdr/SKILL.md"
+  },
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "herdr",
+    "skill",
+    "HERDR_ENV",
+    "terminal",
+    "orchestration"
+  ]
+}

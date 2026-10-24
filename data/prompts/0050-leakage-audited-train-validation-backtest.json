@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 2,
+  "id": "0050-leakage-audited-train-validation-backtest",
+  "entityType": "prompt",
+  "title": "0050 買進持有對照：訓練／驗證隔離回測",
+  "category": "Reusable Methods & Prompt Templates",
+  "promptType": "Reusable Prompt",
+  "problem": "回測成效可能是未來資訊洩漏、過度調參或不合理報酬假設造成。",
+  "goal": "限制參數搜尋、用時間正確的資料完成 out-of-sample 驗證。",
+  "prompt": "請用我提供的行情與交易規則建立策略回測，並與 0050 買進持有比較。原貼文建議 1980–2021 為訓練、2022–現在為驗證，但務必先檢查 0050 與各標的真正上市、可交易及數據起日：不存在的期間不可補虛構價格，應揭露並調整有效樣本期間。最多調整 3 個參數，各最多試 5 個值；驗證集不可用於調參，若反覆使用需揭露資料污染。訓練與驗證期分別報告 CAGR、最大回撤、Sharpe、勝率、盈虧比、交易次數、平均持有天數、曝險時間、交易費用與滑價。執行回測前，先列出 Look-ahead Bias、Survivorship Bias、資料修正、成分股前視、同根 K 棒交易、未來收盤價使用等風險及預防方式。最後比較驗證期是否惡化，提供可重現程式碼和資料來源；未核對資料時不能稱結果有效。",
+  "whenToUse": [
+    "限制參數搜尋、用時間正確的資料完成 out-of-sample 驗證。"
+  ],
+  "inputs": [
+    "使用者提供的相關資料或已授權的資訊",
+    "所需權限與預期驗收結果"
+  ],
+  "expectedOutput": "有明確資料來源、限制與驗證條件的可用報告、規格或分析結果。",
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "resourceRefs": [],
+  "source": {
+    "type": "User-provided Threads screenshots (original post URLs unavailable)",
+    "visibleExcerpts": [
+      "1980 到 2021 當訓練期找參數，2022 到今天當驗證期，兩段分開報告，跟 0050 買進持有比較。",
+      "年化報酬、最大回撤、夏普值、勝率、盈虧比、交易次數、平均持有天數、暴露時間。",
+      "參數最多調3個、每個最多試5種值；先列出所有可能偷看未來的地方，逐一說明避免，再跑結果。"
+    ],
+    "summary": "Prompts are synthesized reusable versions, NOT claimed to be complete verbatim text of the truncated screenshots. Unexecuted."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "0050",
+    "backtest",
+    "out-of-sample",
+    "look-ahead-bias",
+    "strategy",
+    "validation"
+  ]
+}

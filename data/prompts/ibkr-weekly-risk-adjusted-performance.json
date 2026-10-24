@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "id": "ibkr-weekly-risk-adjusted-performance",
+  "entityType": "prompt",
+  "title": "IBKR 每週風險調整投資績效 × SPY",
+  "category": "Reusable Methods & Prompt Templates",
+  "promptType": "Reusable Prompt",
+  "problem": "只看資產增長可能混淆市場報酬、現金流、選擇權損益與風險調整後表現。",
+  "goal": "每週使用可追溯 IBKR 報表比較與 SPY 的風險／報酬。",
+  "prompt": "請依照我提供的 IBKR PortfolioAnalyst / Activity Statement 匯出報表，分析每週投資績效。先檢查資料完整性、期間、幣別、金融工具分類（Stock、ETF、Options、Cash）及現金流，不要假設你能直接存取缺失的 API 資料。若有足夠逐日資訊，計算 Sharpe Ratio、Sortino Ratio、Jensen's Alpha、Beta、Weekly Return 與最大回撤；選用與相同期間及幣別的 SPY 含股息總報酬比較。每個主要指標分別製作 3/5 週（約 15/25 交易日）與 3/5 月（約 63/105 交易日）的 Rolling 趨勢圖和分布 Box Plot；說明期數不足時不顯示原因。標明無風險利率、TWR/MWR、Benchmark、年化與複利方法、衍生品損益和成本假設；不能從沒有逐日資料的摘要報表假造歷史序列。最後輸出重點發現、風險、資料缺口及可復算的依據，不提供未經要求的交易建議。",
+  "whenToUse": [
+    "每週使用可追溯 IBKR 報表比較與 SPY 的風險／報酬。"
+  ],
+  "inputs": [
+    "使用者提供的相關資料或已授權的資訊",
+    "所需權限與預期驗收結果"
+  ],
+  "expectedOutput": "有明確資料來源、限制與驗證條件的可用報告、規格或分析結果。",
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "data-ingestion-normalization"
+    },
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "ibkr-portfolioanalyst"
+    }
+  ],
+  "source": {
+    "type": "User-provided Threads screenshots (original post URLs unavailable)",
+    "visibleExcerpts": [
+      "Connect to my IBKR and utilize attachment to generate trend charts for risk-adjusted performance vs SPY. Metrics: Sharpe, Sortino, Alpha (Jensen's), Beta.",
+      "3-Week rolling (15-day); 5-Week rolling (25-day); 3-Month rolling (63-day); 5-Month rolling (105-day)."
+    ],
+    "summary": "Prompts are synthesized reusable versions, NOT claimed to be complete verbatim text of the truncated screenshots. Unexecuted."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "ibkr",
+    "spy",
+    "investment",
+    "weekly-review",
+    "sharpe",
+    "sortino",
+    "alpha",
+    "beta"
+  ]
+}
