@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 2,
+  "id": "dual-agent-website-handoff-and-verification",
+  "entityType": "workflow",
+  "title": "Dual Agent Website Build — Planner → Handoff → Implementer → Reviewer",
+  "goal": "讓規劃 Agent 與實作 Agent 共用一份可追溯專案交接文件，完成 Landing Page、素材與 SEO 實作後再由獨立 Reviewer 驗證。",
+  "problem": "同一個 Agent 規劃、寫網頁、產生素材與自我驗證可能使需求丟失、變更無法稽核，並浪費高階模型費用。",
+  "solutionStrategy": "使用單一 handoff.md 作為任務及驗收界線。規劃 Agent 只產出任務與驗收要求；實作 Agent 在既有 Repo 中執行；QA 在實際瀏覽器及工具中確認；寫回證據後交規劃／Review Agent 決定接受或下一輪。角色可用 Codex、Claude Code、MiniMax Code 等實際授權模型替換，不強制特定模型版本。",
+  "stages": [
+    {
+      "id": "define-spec",
+      "title": "Planner creates scoped handoff",
+      "purpose": "先確認網站目標、使用者、區塊順序、文案、CTA、素材需求與成功條件；寫入 handoff.md，但不直接實作",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "mattpocock-grill-with-docs"
+        },
+        {
+          "type": "skill",
+          "id": "mattpocock-handoff"
+        }
+      ],
+      "outputs": [
+        "handoff.md",
+        "需求、素材和驗收標準"
+      ],
+      "gate": "需求與驗收可被另一 Agent 重現"
+    },
+    {
+      "id": "implement-assets-site",
+      "title": "Implement UI, assets & SEO",
+      "purpose": "實作 Agent 讀 handoff.md，在 Repo 建立頁面及素材、SEO/GEO、可選 Pitch Deck；五個 MiniMax market skills 屬社群名稱參考、未驗證可安裝性，不作執行承諾",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "minimax-code"
+        }
+      ],
+      "outputs": [
+        "網站程式碼",
+        "實際素材",
+        "基本 SEO 結構"
+      ],
+      "gate": "檔案、路由和資產完整，沒有未經授權外部讀寫"
+    },
+    {
+      "id": "browser-check",
+      "title": "Browser QA and responsive verification",
+      "purpose": "實際瀏覽器檢查桌面／手機、404、Console、互動控制與核心流程，必要時記錄 Playwright 結果",
+      "uses": [],
+      "outputs": [
+        "Browser QA evidence",
+        "待修問題"
+      ],
+      "gate": "無阻礙級錯誤；未執行的檢查不得宣稱通過"
+    },
+    {
+      "id": "handoff-verify",
+      "title": "Review back against acceptance criteria",
+      "purpose": "實作 Agent 將異動檔案、測試證據、未完成事項寫回交接文件；Reviewer 逐項驗收，決定是否繼續",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "mattpocock-handoff"
+        }
+      ],
+      "outputs": [
+        "完整交接與 QA 事實",
+        "Review 決策"
+      ],
+      "gate": "驗收清單有證據支持，敏感資訊未寫入 Repo"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "minimax-code"
+    }
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "mattpocock-handoff"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "cross-agent-harness-portability"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "design-to-code-loop"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "useCases": [
+    "網頁翻新",
+    "Landing Page",
+    "個人品牌網站",
+    "多 Agent UI 專案",
+    "模型成本分工"
+  ],
+  "notes": "來源為社群四張 Threads 截圖，描述高階 Agent 規劃與 MiniMax Code 實作，共用 handoff.md 五階段。圖中模組與成本實際可用性為作者個人宣稱；5 個 MiniMax Skill 名稱未取得可確認 package，故 Stage 只引用官方可驗證的 MiniMax Code Resource，不假裝已安裝這些 Skill。檢查最終頁面、SEO 和可用性必須由實測驗收，不能由預設模型口頭保證。",
+  "source": {
+    "type": "User-provided Threads screenshots; verified model and platform sources",
+    "url": "https://agent.minimax.io/",
+    "summary": "Reusable workflow abstraction, not a report of a finished build."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "dual-agent",
+    "website",
+    "minimax",
+    "handoff.md",
+    "spec",
+    "review",
+    "mobile",
+    "desktop",
+    "seo",
+    "ui",
+    "model-routing",
+    "verification"
+  ]
+}
