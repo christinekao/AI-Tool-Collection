@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "entityType": "skill",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "cursor-pstack-poteto"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "id": "cursor-pstack-maintain-verification-skill",
+  "title": "pstack /maintain-verification-skill — Source & Live Feature Map Maintenance",
+  "purpose": "功能、路徑或 App UI 變動後，稽核現有 Verification Skill 和 Feature Map 是否仍符合實作；以每項功能的 Source Audit 加單一 Live Pass 覆蓋所有功能，修正工具／文件漂移並留下回歸測試證據。",
+  "problem": "一次生成的 Verification Skill 會因 App 入口、按鈕、認證、資料或 Feature 更新而失效，且錯誤的 Feature Map 會誤導後續 Agent。",
+  "inputs": [
+    "已存在的 project-local verify-<app> Skill 和 features/ Feature Map",
+    "最新 Repo 與可安全運行的 App 測試環境",
+    "相關 Feature Acceptance Criteria 與 Evidence Store"
+  ],
+  "outputs": [
+    "clean/changed/blocked 結論",
+    "所有 Feature 的 Source 與 Live 驗證覆蓋紀錄",
+    "如果確有經驗證的差異，最多一筆修改 Verification Skill 的 PR",
+    "未能驗證的前提條件及產品真實 Regression 的分離報告"
+  ],
+  "execution": "依 pstack 官方 `/maintain-verification-skill` 在已安裝且授權的環境執行。先定位 verify Skill，確認 Feature Map 索引與檔案一致；每 Feature 的讀碼研究可平行，但只有 Coordinator 統一操作 Live App。每一個 Feature 都應真正驗證，不得只看原始碼。僅允許改 Verification Skill 目錄；產品問題回報而不私自更改產品程式碼。結果分類為 clean、changed（一筆經實測 PR）或 blocked。未經用戶要求不要自動安排週期排程，本次沒有執行。",
+  "source": {
+    "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/maintain-verification-skill/SKILL.md",
+    "type": "Official original Skill",
+    "summary": "Verified maintenance semantics, all-feature live coverage and scope."
+  },
+  "tags": [
+    "pstack",
+    "verification",
+    "maintain-verification-skill",
+    "feature-map",
+    "drift",
+    "source-review",
+    "live-test",
+    "regression",
+    "evidence",
+    "skill-maintenance"
+  ]
+}

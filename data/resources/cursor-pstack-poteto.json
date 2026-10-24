@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 2,
+  "id": "cursor-pstack-poteto",
+  "entityType": "resource",
+  "title": "pstack (poteto) — Verification-First Coding Agent Skill Stack",
+  "canonicalName": "cursor/plugins/pstack",
+  "category": "01 Agent Runtime & Harness",
+  "resourceType": "MIT open-source Cursor/Claude Code Agent Skills plugin with verification, planning, research and software delivery playbooks",
+  "purpose": "由 Lauren Tan（@poteto）開發的 Agent Coding Workflow 套件，以 /poteto-mode 選擇適當的研究、Debugging、Feature、Review、QA、Release Playbooks；核心 Verification Infrastructure 提供 /create-verification-skill 產生專案特定的 App 驅動技能與 Feature Map，以及 /maintain-verification-skill 保持工具和 Feature Map 符合持續變動的 App。",
+  "recommendation": "適合讓 Coding Agent 在修改程式後自行啟動真實 App、操作使用者路徑、收集結果證據並在失敗時重試，降低人工每一輪測試成本。先確認測試帳號、獨立測試資料、端口、資產、環境變數與最小權限，並由使用者提供不變的 Acceptance Criteria；正式導入前檢查會執行的 Helpers、Browser/CDP/PTY/HTTP 工具與讀取資料範圍。與已收錄的 michael-denyer/pstack-claude（跨 Harness 移植）用途相近但為不同 Repo，避免同環境安裝重複/衝突的版本。",
+  "url": "https://github.com/cursor/plugins/tree/main/pstack",
+  "repo": "cursor/plugins",
+  "notes": "2026-10-24 實際核對 cursor/plugins/pstack/README.md、pstack/LICENSE、兩份 Skills 官方 SKILL.md。上游 pstack 為 MIT（Copyright 2026 Lauren Tan），Cursor 插件安裝指令 /add-plugin pstack；官方 README 另提供 Claude Code 安裝途徑與 /pstack: 命令前綴，部分 Cursor 原生功能在 Claude Code 會略過，並不保證完全等效。建立 Verification Skill 會盤點 Repo、選擇現有測試工具優先，再依 App Surface 產生 .cursor/skills/verify-<app>/SKILL.md，包含 Launch/Doctor/Drive/Evidence/Cleanup/Helpers，並建立 features/README.md 與每個功能的 Feature Map。要求至少實際端到端執行一條功能路徑，驗證 Evidence 在 Cleanup 後仍存在；未執行的生成結果是 Draft。Maintain 流程必須覆蓋所有 Feature 的 Source 和 Live 驗證；輸出 clean/changed/blocked，僅改驗證技能目錄，確認有差異時最多開一筆 PR，不改產品程式碼。運行可能打開 Browser/CDP、啟動服務、寫入隔離測試資料或登入測試帳號，應避免連正式環境或泄漏憑證。CLI 的 todo-tool 命令在用戶提供的文章中只是示例，**不是 pstack 內建 CLI**。此輪只做索引收錄，沒有安裝、執行或建立任何專案驗證 Skill。",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "pstack",
+    "poteto",
+    "lauren-tan",
+    "cursor",
+    "claude-code",
+    "coding-agent",
+    "verification",
+    "agentic-testing",
+    "feature-map",
+    "app-harness",
+    "runtime-evidence",
+    "browser-automation",
+    "quality-gates",
+    "acceptance-criteria",
+    "inner-loop",
+    "outer-loop",
+    "plugin",
+    "mit"
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "cursor-pstack-create-verification-skill"
+    },
+    {
+      "type": "skill",
+      "id": "cursor-pstack-maintain-verification-skill"
+    }
+  ],
+  "workflowRefs": [
+    {
+      "type": "workflow",
+      "id": "verification-first-agent-inner-loop"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/cursor/plugins/tree/main/pstack",
+    "createSkillUrl": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+    "maintainSkillUrl": "https://github.com/cursor/plugins/blob/main/pstack/skills/maintain-verification-skill/SKILL.md",
+    "docsUrl": "https://github.com/cursor/plugins/blob/main/pstack/docs/guide/06-verify-and-ship.md",
+    "type": "Original official cursor/plugins pstack README, MIT license and SKILL.md plus user-provided long-form explanation",
+    "summary": "Read original upstream sources 2026-10-24; no installation or execution."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "id": "pstack-create-verification-todo-persistence-example",
+  "entityType": "prompt",
+  "title": "pstack Todo Verification — 新增資料並重新整理後仍保留",
+  "category": "01 Agent Runtime & Harness",
+  "promptType": "Project-specific Acceptance-Criteria Verification Prompt",
+  "problem": "UI 當下顯示新增成功不能證明資料已持久保存；只有程式碼或新增後的 Screenshot 也無法回答重新整理後的行為。",
+  "goal": "以可回放的 App 實測證據，證明按一次新增後恰好只有一筆指定 Todo，Reload 後仍存在，且其他 Todo 未受影響。",
+  "prompt": "/create-verification-skill\n先從新增 todo 開始：輸入「買牛奶」並儲存，重新整理頁面後應保留一筆相同內容的 todo。\n先確認你對需求的理解，再建立需要的工具與 Feature Map。\n實際操作一次，回報預期、結果與證據；無法執行的部分請標明。",
+  "whenToUse": [
+    "已安裝 pstack，想為 Todo App 初步建立驗證能力",
+    "需要確認新增資料在重新整理後仍保留，且不破壞既有資料"
+  ],
+  "inputs": [
+    "已授權的 Todo App 測試環境",
+    "安全的測試帳號與獨立測試資料",
+    "App 實際操作入口及既有工具"
+  ],
+  "expectedOutput": "Feature Map、驗證 CLI/Harness、一次新增/Reload/讀取的證據與逐項 PASS/FAIL/UNVERIFIED 結果；需注意 todo-tool 僅是文章說明用的假想命令。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "cursor-pstack-poteto"
+    }
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "cursor-pstack-create-verification-skill"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "source": {
+    "type": "User-provided pstack Verification Skills article excerpt; example prompt faithfully preserved",
+    "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+    "summary": "Prompt text from article preserved. Todo app and `todo-tool` CLI are hypothetical and were not executed."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "pstack",
+    "verification",
+    "todo",
+    "persistence",
+    "reload",
+    "acceptance-criteria",
+    "feature-map",
+    "example-prompt"
+  ]
+}

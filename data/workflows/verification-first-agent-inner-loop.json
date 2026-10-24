@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 2,
+  "id": "verification-first-agent-inner-loop",
+  "entityType": "workflow",
+  "title": "pstack Verification First — Change → Drive → Evidence → Fix → Retest",
+  "goal": "讓 Coding Agent 在有人設定 Acceptance Criteria 與權限邊界後，自行反覆操作真實 App、發現問題並重測，減少每輪都要人類手動點測的瓶頸。",
+  "problem": "Agent 只根據程式碼說『修好了』，人仍須逐次開 App 點測，導致多 Agent 並行變成排隊等待人工 QA；測試工具和 Feature Map 也會隨版本漂移。",
+  "solutionStrategy": "先由人決定功能目標、不可破壞的使用者行為與安全邊界，再建立 Project Verification Skill、Feature Map 和可機器讀取的控制工具；Agent 以 App 實際行為收集證據，不符則修改後重跑同路徑；專案功能變動時重新維護驗證資料與工具。",
+  "stages": [
+    {
+      "id": "acceptance",
+      "title": "Define Acceptance & Test Boundary",
+      "purpose": "人類確認目標、不可壞掉的功能、測試帳號、隔離資料與可執行權限；不能用 Agent 猜測代替驗收標準",
+      "uses": [],
+      "outputs": [
+        "Acceptance Criteria",
+        "隔離驗證範圍"
+      ],
+      "gate": "Criteria 具體可觀察；不使用未授權正式資料"
+    },
+    {
+      "id": "bootstrap",
+      "title": "Create Verification Skill & Feature Map",
+      "purpose": "使用 pstack generator 盤點 App、沿用現有測試工具，產生 Launch/Doctor/Drive/Evidence/Cleanup 與 Feature Map，實測一條功能路徑",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "cursor-pstack-create-verification-skill"
+        }
+      ],
+      "outputs": [
+        "Project Verification SKILL.md",
+        "Feature Map",
+        "測試 Helper/CLI"
+      ],
+      "gate": "至少一條路徑實測，未執行者不能標記 PASS"
+    },
+    {
+      "id": "change-drive",
+      "title": "Change and Drive Real App",
+      "purpose": "按需求修改程式，使用隔離實例操作完整使用者路徑，而不是僅讀程式或觸發 Test-only API",
+      "uses": [],
+      "outputs": [
+        "修改版本",
+        "真正的使用者操作紀錄"
+      ],
+      "gate": "Doctor 正常、變更明確、沒有誤操作共享實例"
+    },
+    {
+      "id": "evidence-compare",
+      "title": "Compare Observed Evidence to Acceptance",
+      "purpose": "同時檢查 UI、Log、回應及 DB/持久副作用；以 Todo 新增並 Reload 為例，確認恰好新增一筆且原資料不變",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "pstack-create-verification-todo-persistence-example"
+        }
+      ],
+      "outputs": [
+        "PASS/FAIL/UNVERIFIED",
+        "Screenshot/Log/狀態證據"
+      ],
+      "gate": "PASS 必須有可回查的觀測，無法執行不得假裝通過"
+    },
+    {
+      "id": "fix-retest",
+      "title": "Fix & Rerun, Preserve Artifacts",
+      "purpose": "未通過則定位原因、修正後重跑同一驗證流程並保留 Evidence；Cleanup 不能刪除已產生的證據",
+      "uses": [],
+      "outputs": [
+        "修復及重測記錄",
+        "存留的驗證證據"
+      ],
+      "gate": "需以重測證明，而非單次程式碼審查"
+    },
+    {
+      "id": "maintain",
+      "title": "Maintain Verification Map After App Changes",
+      "purpose": "App 增改功能或驗證工具發生漂移時，對所有 Map Feature 完成 Source 與 Live 覆蓋；僅調整驗證資料/工具，不以文件修正掩蓋產品 Bug",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "cursor-pstack-maintain-verification-skill"
+        }
+      ],
+      "outputs": [
+        "clean/changed/blocked",
+        "更新後的 Feature Map 或未能驗證報告"
+      ],
+      "gate": "涵蓋所有 Feature；必要時最多一筆 Verified PR"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "cursor-pstack-poteto"
+    }
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "cursor-pstack-create-verification-skill"
+    },
+    {
+      "type": "skill",
+      "id": "cursor-pstack-maintain-verification-skill"
+    }
+  ],
+  "promptRefs": [
+    {
+      "type": "prompt",
+      "id": "pstack-create-verification-todo-persistence-example"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    }
+  ],
+  "useCases": [
+    "Web App UI 互動／Reload 持久化測試",
+    "Mobile/CLI/API 的 User Behavior 驗證",
+    "CI/Agent 執行後獨立證據檢查",
+    "Project Verification Skill 版本維護"
+  ],
+  "notes": "依使用者提供的長篇 pstack 教學與官方 SKILL.md 實作契約整理為可重用 Workflow。`todo-tool open/add/reload/list/screenshot` 為文章中純假想示意，**不是**官方 pstack CLI。流程沒有在使用者的任何 App 建立或驗證，也沒有設置自動排程。",
+  "source": {
+    "type": "User-provided tutorial and official pstack verification SKILL.md",
+    "url": "https://github.com/cursor/plugins/tree/main/pstack",
+    "summary": "Normalized from verified sources, unexecuted."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "pstack",
+    "verification-skill",
+    "feature-map",
+    "acceptance-criteria",
+    "cli",
+    "runtime-testing",
+    "test-evidence",
+    "inner-loop",
+    "outer-loop",
+    "developer-experience",
+    "agent-autonomy"
+  ]
+}

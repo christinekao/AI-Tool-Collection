@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "entityType": "skill",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "cursor-pstack-poteto"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "id": "cursor-pstack-create-verification-skill",
+  "title": "pstack /create-verification-skill — Build App Verification Harness & Feature Map",
+  "purpose": "針對專案真實使用者功能，自動盤點 App 啟動與控制方式，建立可重複執行的驗證 Skill（Launch、Doctor、Drive、Evidence、Cleanup、Helpers）及 Feature Map，並以一條實際功能路徑證明 Skill 可用。",
+  "problem": "Agent 改完程式碼後缺少可啟動 App、操作功能、確認副作用和保存證據的專案特定 Runtime Verification Harness。",
+  "inputs": [
+    "專案 Repo、App 入口、啟動指令與相關依賴",
+    "可以隔離的測試帳號、資料、環境變數及權限",
+    "至少一項可觀察的 Acceptance Criteria"
+  ],
+  "outputs": [
+    ".cursor/skills/verify-<app>/SKILL.md",
+    "features/README.md 與每個 Feature 的原始碼/操作/證據路徑",
+    "可執行 Helpers 或既有測試工具的調用方式",
+    "至少一條 Launch→Doctor→Drive→Evidence→Cleanup 的實際執行證據，或具體未驗證標示"
+  ],
+  "execution": "在已安裝原始 pstack 且對專案有足夠授權的 Cursor Agent 執行 `/create-verification-skill`（Claude Code 插件的命令前綴以實際安裝為準）。官方 SKILL.md 要求優先既有 Playwright/Cypress/PTY/HTTP Harness，生成 SKILL.md + Feature Map 之後，必須端到端實測至少一條路徑、保留 Evidence 並清理啟動的程序。這個 Skill 可能建立測試資料、執行本機命令或修改專案 Skills；本次沒有執行。",
+  "source": {
+    "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+    "type": "Official original Skill",
+    "summary": "Verified official five-step creation contract."
+  },
+  "tags": [
+    "pstack",
+    "verification",
+    "create-verification-skill",
+    "feature-map",
+    "CLI",
+    "playwright",
+    "harness",
+    "doctor",
+    "evidence",
+    "cleanup",
+    "app-test"
+  ]
+}

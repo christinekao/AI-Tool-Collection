@@ -2008,6 +2008,91 @@
     },
     {
       "schemaVersion": 2,
+      "id": "cursor-pstack-poteto",
+      "entityType": "resource",
+      "title": "pstack (poteto) — Verification-First Coding Agent Skill Stack",
+      "canonicalName": "cursor/plugins/pstack",
+      "category": "01 Agent Runtime & Harness",
+      "resourceType": "MIT open-source Cursor/Claude Code Agent Skills plugin with verification, planning, research and software delivery playbooks",
+      "purpose": "由 Lauren Tan（@poteto）開發的 Agent Coding Workflow 套件，以 /poteto-mode 選擇適當的研究、Debugging、Feature、Review、QA、Release Playbooks；核心 Verification Infrastructure 提供 /create-verification-skill 產生專案特定的 App 驅動技能與 Feature Map，以及 /maintain-verification-skill 保持工具和 Feature Map 符合持續變動的 App。",
+      "recommendation": "適合讓 Coding Agent 在修改程式後自行啟動真實 App、操作使用者路徑、收集結果證據並在失敗時重試，降低人工每一輪測試成本。先確認測試帳號、獨立測試資料、端口、資產、環境變數與最小權限，並由使用者提供不變的 Acceptance Criteria；正式導入前檢查會執行的 Helpers、Browser/CDP/PTY/HTTP 工具與讀取資料範圍。與已收錄的 michael-denyer/pstack-claude（跨 Harness 移植）用途相近但為不同 Repo，避免同環境安裝重複/衝突的版本。",
+      "url": "https://github.com/cursor/plugins/tree/main/pstack",
+      "repo": "cursor/plugins",
+      "notes": "2026-10-24 實際核對 cursor/plugins/pstack/README.md、pstack/LICENSE、兩份 Skills 官方 SKILL.md。上游 pstack 為 MIT（Copyright 2026 Lauren Tan），Cursor 插件安裝指令 /add-plugin pstack；官方 README 另提供 Claude Code 安裝途徑與 /pstack: 命令前綴，部分 Cursor 原生功能在 Claude Code 會略過，並不保證完全等效。建立 Verification Skill 會盤點 Repo、選擇現有測試工具優先，再依 App Surface 產生 .cursor/skills/verify-<app>/SKILL.md，包含 Launch/Doctor/Drive/Evidence/Cleanup/Helpers，並建立 features/README.md 與每個功能的 Feature Map。要求至少實際端到端執行一條功能路徑，驗證 Evidence 在 Cleanup 後仍存在；未執行的生成結果是 Draft。Maintain 流程必須覆蓋所有 Feature 的 Source 和 Live 驗證；輸出 clean/changed/blocked，僅改驗證技能目錄，確認有差異時最多開一筆 PR，不改產品程式碼。運行可能打開 Browser/CDP、啟動服務、寫入隔離測試資料或登入測試帳號，應避免連正式環境或泄漏憑證。CLI 的 todo-tool 命令在用戶提供的文章中只是示例，**不是 pstack 內建 CLI**。此輪只做索引收錄，沒有安裝、執行或建立任何專案驗證 Skill。",
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "pstack",
+        "poteto",
+        "lauren-tan",
+        "cursor",
+        "claude-code",
+        "coding-agent",
+        "verification",
+        "agentic-testing",
+        "feature-map",
+        "app-harness",
+        "runtime-evidence",
+        "browser-automation",
+        "quality-gates",
+        "acceptance-criteria",
+        "inner-loop",
+        "outer-loop",
+        "plugin",
+        "mit"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "cursor-pstack-create-verification-skill"
+        },
+        {
+          "type": "skill",
+          "id": "cursor-pstack-maintain-verification-skill"
+        }
+      ],
+      "workflowRefs": [
+        {
+          "type": "workflow",
+          "id": "verification-first-agent-inner-loop"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/cursor/plugins/tree/main/pstack",
+        "createSkillUrl": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+        "maintainSkillUrl": "https://github.com/cursor/plugins/blob/main/pstack/skills/maintain-verification-skill/SKILL.md",
+        "docsUrl": "https://github.com/cursor/plugins/blob/main/pstack/docs/guide/06-verify-and-ship.md",
+        "type": "Original official cursor/plugins pstack README, MIT license and SKILL.md plus user-provided long-form explanation",
+        "summary": "Read original upstream sources 2026-10-24; no installation or execution."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "davinci-resolve",
       "entityType": "resource",
       "title": "DaVinci Resolve",
@@ -4389,6 +4474,39 @@
     },
     {
       "schemaVersion": 2,
+      "id": "motion-dev",
+      "entityType": "resource",
+      "title": "Motion.dev",
+      "canonicalName": "Motion.dev",
+      "category": "08 UI & Design Engineering",
+      "resourceType": "Animation Runtime",
+      "purpose": "React / JS animations、gesture、layout",
+      "recommendation": "適合需要 React/JS 動畫、gesture 與 layout 互動時研究。",
+      "url": "",
+      "repo": "",
+      "notes": "",
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "animation",
+        "gestures",
+        "layout",
+        "react"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "motion-interaction-layer"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "motion-dev-animations-skill",
       "entityType": "resource",
       "title": "motion-dev-animations-skill",
@@ -4420,39 +4538,6 @@
         {
           "type": "concept",
           "id": "reusable-agent-skills"
-        }
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "motion-dev",
-      "entityType": "resource",
-      "title": "Motion.dev",
-      "canonicalName": "Motion.dev",
-      "category": "08 UI & Design Engineering",
-      "resourceType": "Animation Runtime",
-      "purpose": "React / JS animations、gesture、layout",
-      "recommendation": "適合需要 React/JS 動畫、gesture 與 layout 互動時研究。",
-      "url": "",
-      "repo": "",
-      "notes": "",
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "animation",
-        "gestures",
-        "layout",
-        "react"
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "explicit-visual-system"
-        },
-        {
-          "type": "concept",
-          "id": "motion-interaction-layer"
         }
       ]
     },
@@ -6018,6 +6103,34 @@
     },
     {
       "schemaVersion": 2,
+      "id": "reverse-skill",
+      "entityType": "resource",
+      "title": "reverse-skill",
+      "canonicalName": "reverse-skill",
+      "category": "06 Skills",
+      "resourceType": "Security Skill",
+      "purpose": "Reverse engineering / security expertise",
+      "recommendation": "適合研究 reverse engineering 與 security expertise 如何封裝成 Skill。",
+      "url": "",
+      "repo": "",
+      "notes": "",
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "reverse-engineering",
+        "security",
+        "skills"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "reverse-skill-2",
       "entityType": "resource",
       "title": "Reverse Skill",
@@ -6060,34 +6173,6 @@
         {
           "type": "concept",
           "id": "quality-gates-verification"
-        }
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "reverse-skill",
-      "entityType": "resource",
-      "title": "reverse-skill",
-      "canonicalName": "reverse-skill",
-      "category": "06 Skills",
-      "resourceType": "Security Skill",
-      "purpose": "Reverse engineering / security expertise",
-      "recommendation": "適合研究 reverse engineering 與 security expertise 如何封裝成 Skill。",
-      "url": "",
-      "repo": "",
-      "notes": "",
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "reverse-engineering",
-        "security",
-        "skills"
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "reusable-agent-skills"
         }
       ]
     },
@@ -6649,62 +6734,6 @@
     },
     {
       "schemaVersion": 2,
-      "id": "strelov1-freehire-mcp",
-      "entityType": "resource",
-      "title": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools",
-      "canonicalName": "strelov1/freehire-mcp",
-      "category": "12 Developer Tools",
-      "resourceType": "MIT TypeScript MCP server and hosted Streamable HTTP endpoint for freehire job search / application tracking / CV workflows",
-      "purpose": "以 Model Context Protocol 將 freehire 職缺 API 的 facets、search、market_fit、job、company 等搜尋功能交給 Claude Code／Claude Desktop／MCP Agent；另提供經登入的 save、apply（將職缺標記為已申請）、stage、note、履歷證據庫、CV tailoring 和部分管理工具。官方提供免登入的遠端唯讀 MCP `https://freehire.me/api/v1/mcp`，及可用 `npx -y freehire-mcp` 搭配 Freehire personal API key 運行的本機 MCP server。",
-      "recommendation": "想用 Coding Agent 查找新加坡／香港遠端或其他職缺時，先用官方 Hosted Read-Only MCP，不需要交出履歷、API Token 或啟用修改權限；驗證 facets 後再帶國家、remote、薪資、年資與技能篩選，注意 country + region + city 對應 OR 地理條件而非 AND，未識別的欄位可能被忽略、造成搜索範圍放大。升級到有 Key 的本地 MCP 才使用 save、stage、CV 和 applicant tracking，每項有副作用的操作都應有可檢查的預覽與批准，不應自行填寫投遞或偽造履歷成就。",
-      "url": "https://github.com/strelov1/freehire-mcp",
-      "repo": "strelov1/freehire-mcp",
-      "status": "active",
-      "addedAt": "2026-10-23",
-      "updatedAt": "2026-10-23",
-      "tags": [
-        "freehire",
-        "mcp",
-        "job-search",
-        "claude-code",
-        "claude-desktop",
-        "readonly",
-        "job-api",
-        "faceted-search",
-        "job-alerts",
-        "market-fit",
-        "career-agent",
-        "cv-tailoring",
-        "evidence-backed-resume",
-        "authentication",
-        "api-key",
-        "remote-jobs",
-        "mit-license",
-        "filter-validation",
-        "prompt-injection"
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "source-first-job-intelligence"
-        },
-        {
-          "type": "concept",
-          "id": "agent-native-tool-abstraction"
-        },
-        {
-          "type": "concept",
-          "id": "agent-credential-isolation"
-        },
-        {
-          "type": "concept",
-          "id": "quality-gates-verification"
-        }
-      ],
-      "notes": "官方 `strelov1/freehire-mcp` README.md（2026-10-23）及 package.json（v0.6.0）、skills/find-tech-jobs/SKILL.md 查證 MIT。README 介紹 `https://freehire.me/api/v1/mcp` Hosted Read-Only endpoint（Streamable HTTP），其中 GET 方法回傳 HTTP 405 符合非一般網頁端點的行為，但本輪沒有用 MCP 握手或真正執行工具驗證在線功能；不能僅依 GET 405 宣稱不可用。Claude Code 文件示例 `/plugin install freehire --marketplace strelov1/freehire-mcp`，實際需在已支援的 marketplace／plugin manager 確認版本；本地 MCP `npx -y freehire-mcp` 可讀 `FREEHIRE_TOKEN` 或 `~/.freehire/creds.json`，API Token 必須妥善保管避免聊天／日誌中出現。用戶操作 tools 包含 `save`、`apply`、`stage`、`note`、`cv_tailor`、`cv_edit`、`experience_remove_*` 等；其中 apply 係標記已申請，不表示送出雇主官網表單，而 CV 和 Experience 移除可能無 Undo。`facets` 應先查支援值；ignored params 可放寬結果不能默認生效；地理 country/region/city 採 OR，應避免不小心擴大。CV 成就必須有手動／使用者主張之 evidence_id，不能使用 agent_inferred 來捏造。注意 companion skill `find-tech-jobs` 的工具表使用 `search_jobs` / `get_job` 等名稱與目前 MCP 主 README `search` / `job` 不完全一致，Skill 內容主張全部 read-only 但主 README 說 authenticated server 有寫入 tools；使用時要以實際安裝版本和 tools/list 返回為準。它不是 main Repo 內建程式而是作者另行維護的獨立 MCP Repo；也不是所有 ChatGPT 模式原生提供的 plugin。尚未安裝或授權個人帳戶、未測試本地 npm 程式。"
-    },
-    {
-      "schemaVersion": 2,
       "id": "strelov1-freehire",
       "entityType": "resource",
       "title": "freehire — Source-Aware Job Search, ATS Ingestion & Application Workspace",
@@ -6770,6 +6799,62 @@
         }
       ],
       "notes": "2026-10-23 查核官方 README.md、docs/features.md、docs/sources.md、SECURITY.md、官方 freehire.me 首頁與公開 `GET /api/v1/jobs` 實際回應，MIT license。2026-10-20 官方 Repo 來源快照顯示 3,371,563 個 unique open jobs／477,323 companies／320 sources（其中 ATS platforms 117 with postings、aggregators/job boards 133、direct company feeds 52）；2026-10-23 官網首頁顯示 3,825,526 unique jobs、513,975 companies、335 sources、136 ATS platforms。不同日期數字不得混用作單日總量／假設所有 job 都是雇主直接發佈，因為實際包含 Adzuna、JobStreet、Telegram 等轉發來源。官方首頁及 API 可搜出 source=telegram 的真實資料，與 marketing 標語 'no recruiters / no reposts / no dead links' 有差異；應當作產品目標而非已驗證全面承諾。系統用 stable-key dedup 與軟關閉 job lifecycle；並不保證消滅所有近重複、虛假、過期或被其他網站轉發的職缺。Ghost-job signal 依 repost 行為、貼文老化與網站可見性附證據，不等於證實雇主惡意或職缺已不存在。Skills／薪資等 Facet 採 curated dictionaries；未辨識值不應猜測，所以可能漏標。資料搜尋 API 為免 Key 公開讀取；私人 CV、追蹤、郵件、AI matching 等功能需要帳戶和某些計量額度，LLM 功能亦可在自架環境另外配置。Go/Fiber、PostgreSQL/pgvector、Meilisearch、Redis、S3-compatible、SvelteKit、Docker Compose。安全邊界涉及 OAuth/JWT、API keys、招聘文本 LLM input prompt injection、可自動填寫表單的 Browser Extension、第三方履歷和郵件個資；自架切勿暴露資料庫、Meilisearch 金鑰及弱 JWT_SECRET。職缺內容及第三方連結皆為不可信輸入。官方 CLI 獨立 Repo https://github.com/strelov1/freehire-cli；官方 MCP 獨立 Repo https://github.com/strelov1/freehire-mcp （另收錄 Resource）。GitHub stars 約 2.8k 非品質保證。尚未下載、安裝或連接個人帳號，未投遞任何履歷或職缺。"
+    },
+    {
+      "schemaVersion": 2,
+      "id": "strelov1-freehire-mcp",
+      "entityType": "resource",
+      "title": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools",
+      "canonicalName": "strelov1/freehire-mcp",
+      "category": "12 Developer Tools",
+      "resourceType": "MIT TypeScript MCP server and hosted Streamable HTTP endpoint for freehire job search / application tracking / CV workflows",
+      "purpose": "以 Model Context Protocol 將 freehire 職缺 API 的 facets、search、market_fit、job、company 等搜尋功能交給 Claude Code／Claude Desktop／MCP Agent；另提供經登入的 save、apply（將職缺標記為已申請）、stage、note、履歷證據庫、CV tailoring 和部分管理工具。官方提供免登入的遠端唯讀 MCP `https://freehire.me/api/v1/mcp`，及可用 `npx -y freehire-mcp` 搭配 Freehire personal API key 運行的本機 MCP server。",
+      "recommendation": "想用 Coding Agent 查找新加坡／香港遠端或其他職缺時，先用官方 Hosted Read-Only MCP，不需要交出履歷、API Token 或啟用修改權限；驗證 facets 後再帶國家、remote、薪資、年資與技能篩選，注意 country + region + city 對應 OR 地理條件而非 AND，未識別的欄位可能被忽略、造成搜索範圍放大。升級到有 Key 的本地 MCP 才使用 save、stage、CV 和 applicant tracking，每項有副作用的操作都應有可檢查的預覽與批准，不應自行填寫投遞或偽造履歷成就。",
+      "url": "https://github.com/strelov1/freehire-mcp",
+      "repo": "strelov1/freehire-mcp",
+      "status": "active",
+      "addedAt": "2026-10-23",
+      "updatedAt": "2026-10-23",
+      "tags": [
+        "freehire",
+        "mcp",
+        "job-search",
+        "claude-code",
+        "claude-desktop",
+        "readonly",
+        "job-api",
+        "faceted-search",
+        "job-alerts",
+        "market-fit",
+        "career-agent",
+        "cv-tailoring",
+        "evidence-backed-resume",
+        "authentication",
+        "api-key",
+        "remote-jobs",
+        "mit-license",
+        "filter-validation",
+        "prompt-injection"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "source-first-job-intelligence"
+        },
+        {
+          "type": "concept",
+          "id": "agent-native-tool-abstraction"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "notes": "官方 `strelov1/freehire-mcp` README.md（2026-10-23）及 package.json（v0.6.0）、skills/find-tech-jobs/SKILL.md 查證 MIT。README 介紹 `https://freehire.me/api/v1/mcp` Hosted Read-Only endpoint（Streamable HTTP），其中 GET 方法回傳 HTTP 405 符合非一般網頁端點的行為，但本輪沒有用 MCP 握手或真正執行工具驗證在線功能；不能僅依 GET 405 宣稱不可用。Claude Code 文件示例 `/plugin install freehire --marketplace strelov1/freehire-mcp`，實際需在已支援的 marketplace／plugin manager 確認版本；本地 MCP `npx -y freehire-mcp` 可讀 `FREEHIRE_TOKEN` 或 `~/.freehire/creds.json`，API Token 必須妥善保管避免聊天／日誌中出現。用戶操作 tools 包含 `save`、`apply`、`stage`、`note`、`cv_tailor`、`cv_edit`、`experience_remove_*` 等；其中 apply 係標記已申請，不表示送出雇主官網表單，而 CV 和 Experience 移除可能無 Undo。`facets` 應先查支援值；ignored params 可放寬結果不能默認生效；地理 country/region/city 採 OR，應避免不小心擴大。CV 成就必須有手動／使用者主張之 evidence_id，不能使用 agent_inferred 來捏造。注意 companion skill `find-tech-jobs` 的工具表使用 `search_jobs` / `get_job` 等名稱與目前 MCP 主 README `search` / `job` 不完全一致，Skill 內容主張全部 read-only 但主 README 說 authenticated server 有寫入 tools；使用時要以實際安裝版本和 tools/list 返回為準。它不是 main Repo 內建程式而是作者另行維護的獨立 MCP Repo；也不是所有 ChatGPT 模式原生提供的 plugin。尚未安裝或授權個人帳戶、未測試本地 npm 程式。"
     },
     {
       "schemaVersion": 2,
@@ -8037,6 +8122,127 @@
         "product-context",
         "agent-skill",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "skill",
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "cursor-pstack-poteto"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        }
+      ],
+      "id": "cursor-pstack-create-verification-skill",
+      "title": "pstack /create-verification-skill — Build App Verification Harness & Feature Map",
+      "purpose": "針對專案真實使用者功能，自動盤點 App 啟動與控制方式，建立可重複執行的驗證 Skill（Launch、Doctor、Drive、Evidence、Cleanup、Helpers）及 Feature Map，並以一條實際功能路徑證明 Skill 可用。",
+      "problem": "Agent 改完程式碼後缺少可啟動 App、操作功能、確認副作用和保存證據的專案特定 Runtime Verification Harness。",
+      "inputs": [
+        "專案 Repo、App 入口、啟動指令與相關依賴",
+        "可以隔離的測試帳號、資料、環境變數及權限",
+        "至少一項可觀察的 Acceptance Criteria"
+      ],
+      "outputs": [
+        ".cursor/skills/verify-<app>/SKILL.md",
+        "features/README.md 與每個 Feature 的原始碼/操作/證據路徑",
+        "可執行 Helpers 或既有測試工具的調用方式",
+        "至少一條 Launch→Doctor→Drive→Evidence→Cleanup 的實際執行證據，或具體未驗證標示"
+      ],
+      "execution": "在已安裝原始 pstack 且對專案有足夠授權的 Cursor Agent 執行 `/create-verification-skill`（Claude Code 插件的命令前綴以實際安裝為準）。官方 SKILL.md 要求優先既有 Playwright/Cypress/PTY/HTTP Harness，生成 SKILL.md + Feature Map 之後，必須端到端實測至少一條路徑、保留 Evidence 並清理啟動的程序。這個 Skill 可能建立測試資料、執行本機命令或修改專案 Skills；本次沒有執行。",
+      "source": {
+        "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+        "type": "Official original Skill",
+        "summary": "Verified official five-step creation contract."
+      },
+      "tags": [
+        "pstack",
+        "verification",
+        "create-verification-skill",
+        "feature-map",
+        "CLI",
+        "playwright",
+        "harness",
+        "doctor",
+        "evidence",
+        "cleanup",
+        "app-test"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "skill",
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "cursor-pstack-poteto"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        }
+      ],
+      "id": "cursor-pstack-maintain-verification-skill",
+      "title": "pstack /maintain-verification-skill — Source & Live Feature Map Maintenance",
+      "purpose": "功能、路徑或 App UI 變動後，稽核現有 Verification Skill 和 Feature Map 是否仍符合實作；以每項功能的 Source Audit 加單一 Live Pass 覆蓋所有功能，修正工具／文件漂移並留下回歸測試證據。",
+      "problem": "一次生成的 Verification Skill 會因 App 入口、按鈕、認證、資料或 Feature 更新而失效，且錯誤的 Feature Map 會誤導後續 Agent。",
+      "inputs": [
+        "已存在的 project-local verify-<app> Skill 和 features/ Feature Map",
+        "最新 Repo 與可安全運行的 App 測試環境",
+        "相關 Feature Acceptance Criteria 與 Evidence Store"
+      ],
+      "outputs": [
+        "clean/changed/blocked 結論",
+        "所有 Feature 的 Source 與 Live 驗證覆蓋紀錄",
+        "如果確有經驗證的差異，最多一筆修改 Verification Skill 的 PR",
+        "未能驗證的前提條件及產品真實 Regression 的分離報告"
+      ],
+      "execution": "依 pstack 官方 `/maintain-verification-skill` 在已安裝且授權的環境執行。先定位 verify Skill，確認 Feature Map 索引與檔案一致；每 Feature 的讀碼研究可平行，但只有 Coordinator 統一操作 Live App。每一個 Feature 都應真正驗證，不得只看原始碼。僅允許改 Verification Skill 目錄；產品問題回報而不私自更改產品程式碼。結果分類為 clean、changed（一筆經實測 PR）或 blocked。未經用戶要求不要自動安排週期排程，本次沒有執行。",
+      "source": {
+        "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/maintain-verification-skill/SKILL.md",
+        "type": "Official original Skill",
+        "summary": "Verified maintenance semantics, all-feature live coverage and scope."
+      },
+      "tags": [
+        "pstack",
+        "verification",
+        "maintain-verification-skill",
+        "feature-map",
+        "drift",
+        "source-review",
+        "live-test",
+        "regression",
+        "evidence",
+        "skill-maintenance"
       ]
     },
     {
@@ -9943,6 +10149,38 @@
     },
     {
       "schemaVersion": 2,
+      "id": "reverse-skill",
+      "entityType": "skill",
+      "title": "reverse-skill",
+      "purpose": "Reverse engineering / security expertise",
+      "problem": "",
+      "inputs": [],
+      "outputs": [],
+      "execution": "See source resource and its skill/protocol documentation.",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "reverse-skill"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "reverse-engineering",
+        "security",
+        "skills",
+        "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "reverse-skill-2",
       "entityType": "skill",
       "title": "Reverse Skill",
@@ -9989,38 +10227,6 @@
         "routing",
         "evidence",
         "cross-harness",
-        "skill"
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "reverse-skill",
-      "entityType": "skill",
-      "title": "reverse-skill",
-      "purpose": "Reverse engineering / security expertise",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
-      "resourceRefs": [
-        {
-          "type": "resource",
-          "id": "reverse-skill"
-        }
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "reusable-agent-skills"
-        }
-      ],
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "reverse-engineering",
-        "security",
-        "skills",
         "skill"
       ]
     },
@@ -13676,6 +13882,71 @@
     },
     {
       "schemaVersion": 2,
+      "id": "pstack-create-verification-todo-persistence-example",
+      "entityType": "prompt",
+      "title": "pstack Todo Verification — 新增資料並重新整理後仍保留",
+      "category": "01 Agent Runtime & Harness",
+      "promptType": "Project-specific Acceptance-Criteria Verification Prompt",
+      "problem": "UI 當下顯示新增成功不能證明資料已持久保存；只有程式碼或新增後的 Screenshot 也無法回答重新整理後的行為。",
+      "goal": "以可回放的 App 實測證據，證明按一次新增後恰好只有一筆指定 Todo，Reload 後仍存在，且其他 Todo 未受影響。",
+      "prompt": "/create-verification-skill\n先從新增 todo 開始：輸入「買牛奶」並儲存，重新整理頁面後應保留一筆相同內容的 todo。\n先確認你對需求的理解，再建立需要的工具與 Feature Map。\n實際操作一次，回報預期、結果與證據；無法執行的部分請標明。",
+      "whenToUse": [
+        "已安裝 pstack，想為 Todo App 初步建立驗證能力",
+        "需要確認新增資料在重新整理後仍保留，且不破壞既有資料"
+      ],
+      "inputs": [
+        "已授權的 Todo App 測試環境",
+        "安全的測試帳號與獨立測試資料",
+        "App 實際操作入口及既有工具"
+      ],
+      "expectedOutput": "Feature Map、驗證 CLI/Harness、一次新增/Reload/讀取的證據與逐項 PASS/FAIL/UNVERIFIED 結果；需注意 todo-tool 僅是文章說明用的假想命令。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "cursor-pstack-poteto"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "cursor-pstack-create-verification-skill"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "source": {
+        "type": "User-provided pstack Verification Skills article excerpt; example prompt faithfully preserved",
+        "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+        "summary": "Prompt text from article preserved. Todo app and `todo-tool` CLI are hypothetical and were not executed."
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "pstack",
+        "verification",
+        "todo",
+        "persistence",
+        "reload",
+        "acceptance-criteria",
+        "feature-map",
+        "example-prompt"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "single-file-svg-motion-prototype",
       "entityType": "prompt",
       "title": "Single-File SVG Motion Prototype — Logo / Loading / Chart",
@@ -17222,6 +17493,167 @@
         "cost",
         "human-in-the-loop",
         "workflow"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "verification-first-agent-inner-loop",
+      "entityType": "workflow",
+      "title": "pstack Verification First — Change → Drive → Evidence → Fix → Retest",
+      "goal": "讓 Coding Agent 在有人設定 Acceptance Criteria 與權限邊界後，自行反覆操作真實 App、發現問題並重測，減少每輪都要人類手動點測的瓶頸。",
+      "problem": "Agent 只根據程式碼說『修好了』，人仍須逐次開 App 點測，導致多 Agent 並行變成排隊等待人工 QA；測試工具和 Feature Map 也會隨版本漂移。",
+      "solutionStrategy": "先由人決定功能目標、不可破壞的使用者行為與安全邊界，再建立 Project Verification Skill、Feature Map 和可機器讀取的控制工具；Agent 以 App 實際行為收集證據，不符則修改後重跑同路徑；專案功能變動時重新維護驗證資料與工具。",
+      "stages": [
+        {
+          "id": "acceptance",
+          "title": "Define Acceptance & Test Boundary",
+          "purpose": "人類確認目標、不可壞掉的功能、測試帳號、隔離資料與可執行權限；不能用 Agent 猜測代替驗收標準",
+          "uses": [],
+          "outputs": [
+            "Acceptance Criteria",
+            "隔離驗證範圍"
+          ],
+          "gate": "Criteria 具體可觀察；不使用未授權正式資料"
+        },
+        {
+          "id": "bootstrap",
+          "title": "Create Verification Skill & Feature Map",
+          "purpose": "使用 pstack generator 盤點 App、沿用現有測試工具，產生 Launch/Doctor/Drive/Evidence/Cleanup 與 Feature Map，實測一條功能路徑",
+          "uses": [
+            {
+              "type": "skill",
+              "id": "cursor-pstack-create-verification-skill"
+            }
+          ],
+          "outputs": [
+            "Project Verification SKILL.md",
+            "Feature Map",
+            "測試 Helper/CLI"
+          ],
+          "gate": "至少一條路徑實測，未執行者不能標記 PASS"
+        },
+        {
+          "id": "change-drive",
+          "title": "Change and Drive Real App",
+          "purpose": "按需求修改程式，使用隔離實例操作完整使用者路徑，而不是僅讀程式或觸發 Test-only API",
+          "uses": [],
+          "outputs": [
+            "修改版本",
+            "真正的使用者操作紀錄"
+          ],
+          "gate": "Doctor 正常、變更明確、沒有誤操作共享實例"
+        },
+        {
+          "id": "evidence-compare",
+          "title": "Compare Observed Evidence to Acceptance",
+          "purpose": "同時檢查 UI、Log、回應及 DB/持久副作用；以 Todo 新增並 Reload 為例，確認恰好新增一筆且原資料不變",
+          "uses": [
+            {
+              "type": "prompt",
+              "id": "pstack-create-verification-todo-persistence-example"
+            }
+          ],
+          "outputs": [
+            "PASS/FAIL/UNVERIFIED",
+            "Screenshot/Log/狀態證據"
+          ],
+          "gate": "PASS 必須有可回查的觀測，無法執行不得假裝通過"
+        },
+        {
+          "id": "fix-retest",
+          "title": "Fix & Rerun, Preserve Artifacts",
+          "purpose": "未通過則定位原因、修正後重跑同一驗證流程並保留 Evidence；Cleanup 不能刪除已產生的證據",
+          "uses": [],
+          "outputs": [
+            "修復及重測記錄",
+            "存留的驗證證據"
+          ],
+          "gate": "需以重測證明，而非單次程式碼審查"
+        },
+        {
+          "id": "maintain",
+          "title": "Maintain Verification Map After App Changes",
+          "purpose": "App 增改功能或驗證工具發生漂移時，對所有 Map Feature 完成 Source 與 Live 覆蓋；僅調整驗證資料/工具，不以文件修正掩蓋產品 Bug",
+          "uses": [
+            {
+              "type": "skill",
+              "id": "cursor-pstack-maintain-verification-skill"
+            }
+          ],
+          "outputs": [
+            "clean/changed/blocked",
+            "更新後的 Feature Map 或未能驗證報告"
+          ],
+          "gate": "涵蓋所有 Feature；必要時最多一筆 Verified PR"
+        }
+      ],
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "cursor-pstack-poteto"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "cursor-pstack-create-verification-skill"
+        },
+        {
+          "type": "skill",
+          "id": "cursor-pstack-maintain-verification-skill"
+        }
+      ],
+      "promptRefs": [
+        {
+          "type": "prompt",
+          "id": "pstack-create-verification-todo-persistence-example"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "useCases": [
+        "Web App UI 互動／Reload 持久化測試",
+        "Mobile/CLI/API 的 User Behavior 驗證",
+        "CI/Agent 執行後獨立證據檢查",
+        "Project Verification Skill 版本維護"
+      ],
+      "notes": "依使用者提供的長篇 pstack 教學與官方 SKILL.md 實作契約整理為可重用 Workflow。`todo-tool open/add/reload/list/screenshot` 為文章中純假想示意，**不是**官方 pstack CLI。流程沒有在使用者的任何 App 建立或驗證，也沒有設置自動排程。",
+      "source": {
+        "type": "User-provided tutorial and official pstack verification SKILL.md",
+        "url": "https://github.com/cursor/plugins/tree/main/pstack",
+        "summary": "Normalized from verified sources, unexecuted."
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "pstack",
+        "verification-skill",
+        "feature-map",
+        "acceptance-criteria",
+        "cli",
+        "runtime-testing",
+        "test-evidence",
+        "inner-loop",
+        "outer-loop",
+        "developer-experience",
+        "agent-autonomy"
       ]
     },
     {
