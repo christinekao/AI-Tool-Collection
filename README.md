@@ -189,7 +189,29 @@ GitHub Pages：完成 / 進行中 / 排隊中 / 失敗 / 未確認
 
 ## 7. 新 Session 啟動 Prompt（複製使用）
 
-以下文字可直接貼到新的 ChatGPT、Claude、Codex 對話：
+### 精簡版：新 Session 直接複製
+
+以下是使用者確認的**快速接續 Prompt**。只需貼這段，新 Session 就能依本 README 的詳細規格開始收錄：
+
+```text
+請繼續維護我的 AI Tool Collection V2：
+
+https://github.com/christinekao/AI-Tool-Collection
+
+請先閱讀 Repository 根目錄的 README.md，並依照其中的「新 Session 啟動 Prompt」及現行 Schema V2 規則繼續工作。
+
+這個 Session **只負責收錄新工具、GitHub Repo、Skills、Prompts、Concepts 與 Workflows**。
+
+之後我會直接貼名稱、網址、文章或截圖。請自行研究、查重、分類、更新 Canonical JSON，並驗證 GitHub Actions 與 Pages 部署。
+
+不要修改網站 UI、安裝或實測外部工具，也不要重複建立既有資料。
+
+請從 GitHub 最新狀態接續，不要假設前次對話的收錄數量或部署版本仍然有效。
+```
+
+### 完整版：包含詳細檢查項目
+
+以下文字是詳細版，也可以直接貼到新的 ChatGPT、Claude、Codex 對話：
 
 ```text
 請接續維護我的 AI Tool Collection V2：
