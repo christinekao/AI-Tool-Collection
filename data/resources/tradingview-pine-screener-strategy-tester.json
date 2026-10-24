@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "id": "tradingview-pine-screener-strategy-tester",
+  "entityType": "resource",
+  "title": "TradingView — Pine Screener, Pine Script & Strategy Tester",
+  "canonicalName": "TradingView",
+  "category": "05 Data & Ingestion",
+  "resourceType": "Commercial web charting / market screening / Pine Script indicator and backtest platform",
+  "purpose": "透過 TradingView 圖表及市場資料研究股票與 ETF，使用 Stock Screener 初篩；以 Pine Script 自訂 RSI、量能、均線、突破訊號，並透過 Pine Screener 對 Watchlist／支援的指數成分套用自訂指標掃描，最後在 Strategy Tester 以 strategy() 的 Broker Emulator 模擬進出場、交易成本、滑價和回測績效。",
+  "recommendation": "適合以台股量價及技術條件建立可重複研究流程。先確認台股市場資料、交易時段、資料延遲、可選市場及方案權限；篩選只產生候選而非買賣建議。自訂 Pine 指標與策略分離：Pine Screener 不支援直接掃描 strategy() 策略，而 Strategy Tester 的歷史成交是模擬，需檢查 lookahead、bar close、填單時點、費用、交易稅、滑價和 OOS 時段。",
+  "url": "https://www.tradingview.com/",
+  "repo": "",
+  "notes": "2026-10-24 核對 TradingView 官方 Pine Screener 'key features and requirements'、Pine Script v6 Execution Model、Strategies、Broker Emulator 文件。Pine Screener 支援 Watchlist/指數來源，可使用包含 plot() 或 alertcondition() 的 favorite Pine 指標；不能直接使用 strategy()、不支援自訂任意 timeframe，指標只以最近 500 根 Bar 計算，單次掃描一個指標，最多 40 個獨立 request.*() calls（TradingView 2026-10-23 更新），並有多項輸入／Request 限制。一般 Stock Screener 不能直接套任意 Pine Script；兩者不宜混稱。Strategy Tester 由 Broker Emulator 模擬成交，可能與真實成交不同，策略的 realtime / history 執行行為亦有差別；台股日內訊號應在收盤已確認 bar 評估且不得取用尚未發生的資料。台股不同標的、交易方式的手續費、證交稅、流動性、漲跌停及市場資料權限不能假設一致；需依官方/券商最新規定自行配置或另行核實。來源文字提供 RSI 低於30與爆量作候選條件，並無任何經驗證的勝率或超額報酬。本輪未登入 TradingView、使用 Pine Editor、付費、訂閱行情或執行回測。",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "tradingview",
+    "pine-script-v6",
+    "pine-screener",
+    "strategy-tester",
+    "stock-screener",
+    "backtest",
+    "technical-analysis",
+    "rsi",
+    "volume",
+    "taiwan-stocks",
+    "twse",
+    "tpex",
+    "watchlist",
+    "market-data",
+    "broker-emulator",
+    "lookahead-bias",
+    "transaction-cost",
+    "commercial-saas"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "data-ingestion-normalization"
+    },
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "source": {
+    "url": "https://www.tradingview.com/",
+    "pineScreenerDocs": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
+    "strategyDocs": "https://www.tradingview.com/pine-script-docs/concepts/strategies/",
+    "executionDocs": "https://www.tradingview.com/pine-script-docs/language/execution-model/",
+    "feesDocs": "https://www.tradingview.com/support/solutions/43000786181-broker-emulator/",
+    "type": "Official TradingView guides and user-provided Taiwanese stock strategy article",
+    "summary": "Official platform capabilities verified 2026-10-24. Source article is a research workflow, not validated trading advice."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "id": "tradingview-twstock-signal-to-backtest-audit",
+  "entityType": "prompt",
+  "title": "台股量價訊號 → TradingView 策略回測與偏差檢查",
+  "category": "Finance / Quantitative Research",
+  "promptType": "Pine Script Strategy Design / Backtest Validation Prompt",
+  "problem": "技術指標標記只反映一段歷史條件，沒有定義入場、出場、止損、成交成本和樣本外驗證就不能據此判斷交易策略有效。",
+  "goal": "將初篩訊號轉為可檢驗的候選交易規則，明確區分訊號、確認、模擬填單與風險管理，產出含成本/敏感度/樣本外驗證的報告。",
+  "prompt": "我目前有台股候選條件：RSI < 30、當根成交量 > 前 20 根已完成 K 棒平均量的 2 倍。請先檢查它只是候選指標而非直接進場訊號。\n請先以文字列出可測試的進場確認（如價量止跌、重新站回關鍵價格、突破回測支撐），以及出場、停損、部位、單筆最大風險、行情周期、交易限制的待決條件；如果缺少關鍵資料，列出明確假設。\n再建立獨立 Pine Script v6 strategy() 回測，不能混用 Pine Screener indicator 與 strategy()。需設定買進／賣出的手續費、依交易品種與日期適用的台灣證交稅、滑價、最小下單與市場流動性等可調假設。不要把當根收盤才確認的訊號當作當根開盤就已可交易；檢查 Strategy Tester Broker Emulator 的成交時點、非即時歷史 bars、lookahead、repaint，以及跨週期 request.security() 的資料未來洩漏。\n分不同市場條件、產業和標的測試，至少列出交易數、勝率、盈虧比、Profit Factor、最大回撤、年化／期間報酬、平均持有時間、曝險與成本敏感度；選取訓練與未參與調參的樣本外區間，記錄是否出現過度擬合，避免以過少交易或單一上升行情宣稱策略穩健。\n請將結果分成『可由提供資料驗證』『缺資料無法判斷』『僅假設／社群主張』，並說明 RSI 超賣、成交量放大不能直接推論法人、大戶買賣，也不保證反彈或未來報酬。不要替我執行交易。",
+  "whenToUse": [
+    "TradingView 已有 Pine 指標，想獨立建立進出場策略",
+    "比較台股不同時間區間的訊號品質及風險",
+    "需要紀錄回測邊界、交易稅費、滑價、前視/重繪偏差"
+  ],
+  "inputs": [
+    "已確認的指標/時間序列",
+    "進出場停損規則和標的範圍",
+    "實際可用市場資料、交易成本、歷史限制和樣本外區間"
+  ],
+  "expectedOutput": "可審查的 Pine v6 strategy、假設與風險矩陣、回測報告、OOS/多標的/成本敏感度驗證方案和不足項目；未實際執行時不宣稱回測通過。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "tradingview-pine-screener-strategy-tester"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "source": {
+    "type": "User-provided Taiwanese trading-research article, normalized as reusable strategy backtest prompt",
+    "summary": "Adapted research method, not a backtest result, personal financial advice or verified alpha."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "tradingview",
+    "pine-script",
+    "strategy-tester",
+    "taiwan-stocks",
+    "stock-screening",
+    "technical-analysis",
+    "risk-management",
+    "lookahead-bias",
+    "repainting",
+    "transaction-costs",
+    "out-of-sample",
+    "backtest"
+  ]
+}

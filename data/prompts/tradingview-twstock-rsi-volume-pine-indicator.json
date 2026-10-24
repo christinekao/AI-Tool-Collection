@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 2,
+  "id": "tradingview-twstock-rsi-volume-pine-indicator",
+  "entityType": "prompt",
+  "title": "台股 Pine Script｜RSI 超賣 × 前 20 根均量 2 倍訊號",
+  "category": "Finance / Quantitative Research",
+  "promptType": "Pine Script v6 Indicator Generation and Verification Prompt",
+  "problem": "依直覺描述超賣與異常成交量，容易在 Pine Script 中誤用當根成交量的移動平均、未收盤 K 棒或未明確設定條件，導致訊號不一致。",
+  "goal": "將 RSI 低於 30 與當根量大於前 20 根 K 棒平均成交量 2 倍轉成可參數化、可檢查、不偷看未來的 Pine Script v6 指標。",
+  "prompt": "請用 TradingView Pine Script v6 建立一個可在台股圖表使用的指標，判斷 RSI 低於 30，且當根 K 棒成交量大於「前 20 根已完成 K 棒的平均成交量 × 2」，並在圖表上標記候選訊號。\n規格：\n1. RSI 週期、超賣門檻、成交量均量週期、倍數、均線趨勢條件，都要可由 input 調整；RSI 週期可先假設 14，但要註明是預設假設而非原文指定。\n2. 比較基準須排除當根量，避免不小心以包含當根的平均量稀釋爆量條件；請解釋公式和是否取上一根的均量。\n3. 預設只在 K 棒確認收盤時標記候選訊號；不要使用 future data、lookahead_on 或不可重現的即時狀態。\n4. 可選均線趨勢過濾，但不能把 RSI 超賣＋爆量當成「必然反彈」或「法人進場」。\n5. 請提供 alertcondition() 及可供 Pine Screener 篩選的適當 plot()，說明 Screener 必須從已支援的 Watchlist／指數來源選擇標的，且與普通 Stock Screener 不同。\n6. 提供完整有註解的 Pine Script、如何在 Pine Editor 編譯／加入圖表、如何用不同台股、日線與可用的分 K 驗證，及失敗時回報哪些編譯錯誤和觀察結果。\n請先產出指標而非 strategy()；若需要回測，另外列出進場、出場、停損與資金控管的未決條件。",
+  "whenToUse": [
+    "利用 TradingView 追蹤台股 RSI 超賣與異常量能候選股",
+    "請 AI 協助產生／修正 Pine 指標，而不誤把訊號當作可成交的回測策略",
+    "需要將自訂指標輸出到 Pine Screener 篩選 Watchlist"
+  ],
+  "inputs": [
+    "股票／市場與時間週期",
+    "RSI 週期、門檻、成交量均量週期及倍數",
+    "可用 TradingView 帳號、行情與測試環境"
+  ],
+  "expectedOutput": "Pine Script v6 indicator 程式碼、輸入參數、alertcondition/plot 篩選欄、編譯/跨標的驗證步驟及限制；不提供已實測的虛假結果。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "tradingview-pine-screener-strategy-tester"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    }
+  ],
+  "source": {
+    "type": "User-provided Traditional Chinese trading-research article; adapted prompt",
+    "visibleOriginalPrompt": "請用 Pine Script 建立一個指標，當 RSI 低於 30、成交量超過前 20 根 K 棒均量的 2 倍時，在圖表標記訊號，並加入均線趨勢條件。",
+    "summary": "Original short instruction preserved in source; this runnable template adds explicit prior-20-bar, closed-bar, alert, scan and testing constraints. Not executed."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "taiwan-stock",
+    "rsi",
+    "volume",
+    "pine-script-v6",
+    "tradingview",
+    "volume-surge",
+    "indicator",
+    "screener",
+    "closed-bar",
+    "lookahead",
+    "moving-average",
+    "research-only"
+  ]
+}

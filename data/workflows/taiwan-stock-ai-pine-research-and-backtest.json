@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "id": "taiwan-stock-ai-pine-research-and-backtest",
+  "entityType": "workflow",
+  "title": "台股 AI 量價研究｜篩選 → Pine 指標 → 圖表驗證 → 策略回測",
+  "goal": "用 Claude/ChatGPT 協助將台股技術研究需求寫成可檢查的條件，使用 TradingView 搜尋候選、驗證行情、建立 Pine 指標和模擬策略，避免把熱議訊號直接當成可交易建議。",
+  "problem": "台股短線日常研究耗時在反覆看不同個股、計算條件、手工檢查量價與進場規則；一旦單靠 RSI/放量便交易，也容易忽略流動性、成本與過度擬合。",
+  "solutionStrategy": "AI 協助規格化選股和產生可審查 Pine Script；先使用 Stock Screener 或 Pine Screener 在支援標的中產生候選，再透過實際圖表檢查支撐、突破延續及其他資料，最後定義完整進出場規則並使用 Strategy Tester/可再現的市場資料比較樣本內／樣本外表現。人類保留選股、風險及是否交易的最終決策。",
+  "stages": [
+    {
+      "id": "define-universe",
+      "title": "Define Research Universe & Conditions",
+      "purpose": "確認是上市/上櫃股票或 ETF、日線或分 K、資料延遲與成交量範圍；將 RSI<30、前20根均量2倍等語義轉成可檢查公式",
+      "uses": [],
+      "outputs": [
+        "研究股票池",
+        "價格/量能欄位與閾值"
+      ],
+      "gate": "資料來源、時間週期與篩選條件明確；不因有訊號宣稱反彈"
+    },
+    {
+      "id": "scan",
+      "title": "Generate Candidates with Supported Screener",
+      "purpose": "基本條件先用 Stock Screener，自訂 Pine 指標需 Pine Screener 且符合支援的 Watchlist/plots/時間框架限制",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "tradingview-pine-screener-strategy-tester"
+        }
+      ],
+      "outputs": [
+        "候選股票及日期",
+        "篩選規則版本"
+      ],
+      "gate": "依實際 TradingView 方案與可選市場確認支持，沒有掃描則不偽稱結果"
+    },
+    {
+      "id": "build-indicator",
+      "title": "Generate & Compile Pine Script Indicator",
+      "purpose": "用 AI 產生 Pine v6 Indicator、排除當根的歷史均量，確保收盤確認後觸發並可在 Pine Screener 輸出",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "tradingview-twstock-rsi-volume-pine-indicator"
+        }
+      ],
+      "outputs": [
+        "指標碼、編譯與跨股票/時間週期檢查",
+        "Signal plots"
+      ],
+      "gate": "實際在 Pine Editor 編譯並核對至少數個歷史及即時條件，沒有執行則記為 UNVERIFIED"
+    },
+    {
+      "id": "chart-confirm",
+      "title": "Confirm Structure & Optional External Evidence",
+      "purpose": "對候選檢查支撐/壓力、量價止跌、突破後持續性、族群同步表現；法人籌碼／營收另取得可靠資料，不能從 K 棒推論",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "tradingview-pine-screener-strategy-tester"
+        }
+      ],
+      "outputs": [
+        "逐股觀察紀錄",
+        "外部數據來源與缺口"
+      ],
+      "gate": "從訊號轉為候選假設；不將未經驗證的籌碼情報當真"
+    },
+    {
+      "id": "strategy-test",
+      "title": "Define Entries/Exits & Backtest",
+      "purpose": "明確進出場、停損、成交成本、交易品種、漲跌停／流動性及模擬成交假設，獨立建立 strategy() 並執行 Strategy Tester",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "tradingview-twstock-signal-to-backtest-audit"
+        }
+      ],
+      "outputs": [
+        "策略規則",
+        "回測報告與逐筆交易資料"
+      ],
+      "gate": "進場時點可達成、成本稅費已配置，無 lookahead/repaint 的有利偏差"
+    },
+    {
+      "id": "review-robustness",
+      "title": "Validate Robustness and Archive",
+      "purpose": "以不同期間/股票/族群、樣本外與成本敏感度檢查策略穩健性，整理交易數、勝率、Profit Factor、最大回撤、相對比較與不足",
+      "uses": [],
+      "outputs": [
+        "OOS/敏感度檢查",
+        "研究筆記與可複現版本"
+      ],
+      "gate": "沒有足夠交易和樣本外驗證不能宣稱策略獲利；未自動下單"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "tradingview-pine-screener-strategy-tester"
+    }
+  ],
+  "promptRefs": [
+    {
+      "type": "prompt",
+      "id": "tradingview-twstock-rsi-volume-pine-indicator"
+    },
+    {
+      "type": "prompt",
+      "id": "tradingview-twstock-signal-to-backtest-audit"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "data-ingestion-normalization"
+    },
+    {
+      "type": "concept",
+      "id": "robust-backtest-validation"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "useCases": [
+    "台股短線/波段 AI 輔助量價選股研究",
+    "TradingView Pine 指標開發與除錯",
+    "Strategy Tester 投資策略證據檢查"
+  ],
+  "notes": "源自使用者貼出的台股 Claude + TradingView 技術研究文章。其三大步驟為篩選（RSI<30、前20根均量×2）、Pine Script 指標、獨立策略回測；社群後段另附 LINE 入群宣傳，與工具及方法無關，不收錄該推廣識別碼。訊號不能代表法人買入或未來反彈，短線和波段要求不同；未實際篩選任何台股、沒有下載資料、沒有產生可驗證交易績效或操作交易帳戶。",
+  "source": {
+    "type": "User-provided Taiwanese stock AI research method (social article without original URL) and official TradingView docs",
+    "url": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
+    "summary": "Method captured as a research workflow, not trading advice or an executed result."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "twstock",
+    "taiwan-stocks",
+    "tradingview",
+    "claude",
+    "pine-script",
+    "rsi",
+    "volume",
+    "stock-screener",
+    "pine-screener",
+    "strategy-tester",
+    "quant-research",
+    "backtest",
+    "risk-control"
+  ]
+}
