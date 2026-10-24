@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 2,
+  "id": "cyyeh-agent-loop-visualizer",
+  "entityType": "resource",
+  "title": "Agent Loop Visualizer — Local LLM Agent Loop & Token-Level Inspection",
+  "canonicalName": "cyyeh/agent-loop-visualizer",
+  "category": "10 Reference Applications",
+  "resourceType": "Apache-2.0 open-source local Streamlit educational Agent Runtime / Harness visualization demo",
+  "purpose": "以左側對話介面與右側 Step-by-Step 迴圈圖，展示 Coding/Tool-using Agent 的「Context → LLM Token Generation → Tool Call Parsing / Schema Validation → Harness Approval / Execution → Tool Result → Next Context → Stop」完整流程；可在本機切換 Gemma 4 E2B 與 Qwen3.5 0.8B，檢視 Prompt/Tool Schema、逐 Token Probability/Rank/Top-k/Top-p、特殊 Token、Prefill 和解碼速率，以及 14 階段程式碼說明。",
+  "recommendation": "適合學習 LLM Agent 系統如何實際運作、比較不同模型家族的工具呼叫格式、理解 Harness/模型責任分界與工具執行前 Approval Gate；不適合當成可直接取代 Claude Code/Codex 的生產力 Agent 平台。可把架構/視覺表現作為教育展示與 Debugging 參考，但應先審查 Python 依賴、模型權重下載、硬體資源與網路工具權限；模型輸出機率是特定本機權重、解碼設定下的分布，不能直接等同真實產品的模型可解釋性或品質保證。",
+  "url": "https://github.com/cyyeh/agent-loop-visualizer",
+  "repo": "cyyeh/agent-loop-visualizer",
+  "notes": "2026-10-24 查核原始 GitHub Repo Metadata、README.md、LICENSE、pyproject.toml、tools.py 及 Root Contents。2026-10-24 當日建立、當日仍更新，尚屬極新的教育示範（核對時 0 stars），程式碼 Apache-2.0。專案是 Agent Atlas 技術導讀的範例，不是可重複呼叫的 SKILL.md／Agent Skill，故本次只建立一筆 Resource；已存在同作者 cyyeh/jit-learning-loop，但兩者作用不同，不能去重合併。README 顯示採 Streamlit/Python/uv/Hugging Face Transformers/Torch，本機可切換 google/gemma-4-E2B-it 與 Qwen/Qwen3.5-0.8B，採用同一套 agent.py Harness、llm.py 逐 Token Decoder、families/ 模型家族 Parser、render.py 視覺化。展示使用者允許/拒絕 Tool、schema 驗證、重複工具呼叫、步數/token 上限與停止原因；tools.py 可見 calculator 的 AST whitelist、get_current_time 和 Wikipedia 的外部 HTTP 搜尋/讀取。README 主張本機推論、不向雲端模型傳送聊天內容，但安裝套件／下載模型權重會連外、Wikipedia 工具請求會將搜尋內容傳到 Wikipedia，並非全流程離線。首次下載模型權重約 Gemma 10 GB、Qwen 1.8 GB；README 建議 Gemma MPS/CUDA 至少 16 GB RAM，CPU 載入可能需更多，硬體及 PyTorch 版本有相容性要求，需以當下模型卡與實際環境驗證。pyproject.toml 宣告 Python >=3.11、Streamlit >=1.66.1、Transformers >=5.5、Torch >=2.6；README 另說明 uv 可取得 Python 3.12。README 列出 fakes-based pytest、可選 RUN_MODEL_TESTS=1 實模型測試；這些是作者提供的測試流程，本輪未安裝、未啟動、未跑測試，不能宣稱本環境驗證通過。模型小、回答品質與工具呼叫可能不穩，Repository README 有列已知限制。尚未對上游來源做獨立依賴掃描或全面程式碼安全稽核。本次純收錄，不下載模型、執行 Python、開啟本機 Web App 或修改本 Collections 網站 UI。",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "agent-loop-visualizer",
+    "cyyeh",
+    "agent-atlas",
+    "agent-runtime",
+    "agent-harness",
+    "llm",
+    "streamlit",
+    "python",
+    "local-llm",
+    "gemma-4",
+    "qwen3.5",
+    "transformers",
+    "token-probabilities",
+    "top-k",
+    "top-p",
+    "prefill",
+    "decode",
+    "context-window",
+    "tool-calling",
+    "function-calling",
+    "schema-validation",
+    "human-in-the-loop",
+    "approval-gate",
+    "agent-observability",
+    "interpretability",
+    "interactive-education",
+    "model-comparison",
+    "open-source",
+    "apache-2.0"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "deterministic-execution-boundary"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-preserving-visual-abstraction"
+    },
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    },
+    {
+      "type": "concept",
+      "id": "research-to-structured-visualization"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/cyyeh/agent-loop-visualizer",
+    "learningSeries": "https://cyyeh.github.io/agent-atlas-learning/",
+    "type": "Original maintainer GitHub README, license, repository metadata, pyproject.toml and selected Python tool source",
+    "summary": "Source checked on 2026-10-24. Feature descriptions are based on official README and files, not an installation, runtime demonstration or independent token-decoding verification."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
