@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 2,
+  "id": "chat-to-pythonanywhere-manual-vibe-coding-loop",
+  "entityType": "workflow",
+  "title": "Chat → PythonAnywhere：低額度 Vibe Coding 手動交付迭代",
+  "goal": "在沒有 Coding Agent 可用額度或只需維護小型 Python Web App 時，仍能用聊天模型協助理解需求、產生小範圍程式碼，再透過既有雲端執行環境逐步驗證與交付。",
+  "problem": "一旦 Codex 等 Coding Agent 額度用盡，習慣讓 Agent 直接讀檔、寫檔、執行測試的開發者會缺少自動化能力；若改成直接複製整份 AI 程式碼進 Console，容易出現誤寫、秘密外洩、版本無法回復及測試不足。",
+  "solutionStrategy": "保留『定義需求 → 了解現況 → 明確差異 → 小量產生代碼 → 人工審查與備份 → 測試部署 → Reload 驗收 → 回報錯誤與繼續迭代』的閉環。Chat 負責分析及提供可審查程式碼；人類決定執行與版本變更，PythonAnywhere 負責提供瀏覽器上的 Python／Bash 開發與部署環境。",
+  "stages": [
+    {
+      "id": "define-product-and-current-state",
+      "title": "Define Scope & Current Behavior",
+      "purpose": "先描述產品功能、現有運作、原始檔案與確切要修改的功能，不急著要求 AI 寫程式",
+      "uses": [],
+      "outputs": [
+        "產品目標",
+        "目前行為",
+        "期望行為",
+        "不變條件"
+      ],
+      "gate": "能清楚說出現況、目標和成功判準"
+    },
+    {
+      "id": "request-small-diff",
+      "title": "Request Reviewable Code Changes",
+      "purpose": "把現有程式碼的必要片段和修改要求給 Chat，要求輸出檔案定位、小範圍差異與驗證方法",
+      "uses": [],
+      "outputs": [
+        "最小修改 diff",
+        "依賴或設定變更",
+        "測試步驟"
+      ],
+      "gate": "程式碼與操作指令可閱讀、與需求一致，未包含不必要刪除或秘密資料"
+    },
+    {
+      "id": "review-backup-apply",
+      "title": "Review, Backup & Apply in Test Environment",
+      "purpose": "在 PythonAnywhere 的檔案介面或 Bash Console 檢查路徑、環境與備份，人工套用確認過的程式碼；絕不把未審查指令直接貼到正式環境",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "pythonanywhere"
+        }
+      ],
+      "outputs": [
+        "可還原的前版",
+        "更新後測試檔案",
+        "變更紀錄"
+      ],
+      "gate": "備份與 diff 已確認，未包含憑證或未授權資料"
+    },
+    {
+      "id": "reload-test-observe",
+      "title": "Reload & Verify",
+      "purpose": "在測試環境 Reload 網站，測基本流程、預期行為及錯誤紀錄，必要時執行語法／單元測試",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "pythonanywhere"
+        }
+      ],
+      "outputs": [
+        "測試結果",
+        "網站輸出",
+        "log 摘要"
+      ],
+      "gate": "證據顯示需求成功且未破壞既有功能；若失敗則停下並回復或修正"
+    },
+    {
+      "id": "iterate-with-observed-errors",
+      "title": "Iterate from Evidence",
+      "purpose": "將實際錯誤、必要程式碼上下文及重現方法回傳給 Chat，拆小修正，重複驗證而非一次大量替換",
+      "uses": [],
+      "outputs": [
+        "修正需求",
+        "下一次最小 diff",
+        "已知限制"
+      ],
+      "gate": "每輪修正有可追溯原因與結果"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "design-to-code-loop"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "deterministic-execution-boundary"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "pythonanywhere"
+    }
+  ],
+  "useCases": [
+    "Coding Agent 用量耗盡後維護小型 Python 專案",
+    "用 Chat 提供程式碼、人工部署及除錯",
+    "在免費或輕量雲端 Python 環境迭代 Flask/Django 小工具"
+  ],
+  "notes": "源自 2026-10-24 使用者提供的 Threads 截圖：作者描述無 Codex 額度時，以 Chat 先定義產品現況和期望，要求程式碼後在 PythonAnywhere Bash Console 複製貼上、Reload 看結果，再逐輪拆解問題。此 Workflow 抽象為可重用、安全優先的人工交付流程；備份／diff／測試環境與驗收閘道是為降低原方法直接貼指令的風險而新增，不應誤稱原貼文曾實作這些保護。來源未附原始 URL，不是已在本環境執行過的流程。Chat 為通用聊天模型能力，不綁定特定供應商。",
+  "source": {
+    "type": "User-provided Threads screenshot without source URL",
+    "summary": "Social discussion about continuing small Python product Vibe Coding after Codex quota exhaustion using Chat, manual copy/paste in PythonAnywhere Bash Console and Reload."
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "vibe-coding",
+    "manual-coding",
+    "chat-driven-development",
+    "pythonanywhere",
+    "bash-console",
+    "copy-paste",
+    "low-agent-quota",
+    "small-web-app",
+    "requirements-first",
+    "iterative-debugging",
+    "manual-review",
+    "backup",
+    "reload",
+    "verification"
+  ]
+}
