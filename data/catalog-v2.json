@@ -5032,6 +5032,96 @@
     },
     {
       "schemaVersion": 2,
+      "id": "oh-my-mermaid",
+      "entityType": "resource",
+      "title": "Oh My Mermaid — AI Codebase Architecture Maps & Recursive Mermaid Viewer",
+      "canonicalName": "oh-my-mermaid/oh-my-mermaid",
+      "category": "12 Developer Tools",
+      "resourceType": "MIT open-source Node.js CLI, architecture-documentation viewer and cross-agent skills",
+      "purpose": "讓 Coding Agent 分析程式碼並將架構變成可展開的 Mermaid 圖表及 Markdown 說明。透過多種 perspective（overall architecture、request lifecycle、data flow、dependency map、external integrations 等）建立 `.omm/` 階層文件，節點可遞迴鑽取；本機 viewer 依資料夾結構呈現，並可選擇用 OAuth 登入後將架構文件推送到 ohmymermaid.com 雲端。",
+      "recommendation": "適合為現有程式庫建立 Architecture Overview、資料流、外部整合、路由／模組依賴的導覽文件，供新接手開發者或跨 Session Coding Agent 理解系統。先在非敏感 Repo 建立 `.omm/`，用真實 Source Code／路徑驗證每個圖節點，因 AI 生成的架構文件可能有誤。使用 `/omm-push` 前確認是否有機密程式碼、內部 Host、資料表或敏感架構，不應在未經明確授權下上傳外部雲端；建議依不同 Harness 與權限審查 Skills 及自動安裝行為。",
+      "url": "https://github.com/oh-my-mermaid/oh-my-mermaid",
+      "repo": "oh-my-mermaid/oh-my-mermaid",
+      "notes": "2026-10-24 核對官方 GitHub Repository Metadata、README.md、MIT LICENSE、package.json、.claude-plugin/plugin.json、skills/omm-scan/SKILL.md、skills/omm-view/SKILL.md、skills/omm-push/SKILL.md 與 docs/ROADMAP.md。Package 版本 0.2.0，Node.js >=18，npm CLI 為 `omm`。官方 README 記載 `npm install -g oh-my-mermaid && omm setup` 可註冊 Claude Code、Codex、Cursor、OpenClaw、Antigravity 等 Coding Tools，`/omm-scan` 會讀取程式庫、使用 `omm write` 建立 `.omm/<perspective>/diagram.mmd`、description/context/constraint/concern/todo/note 等資料；`/omm-view` 以 `omm list` 確認文件後用本機 viewer 瀏覽（預設 http://localhost:3000），該 viewer 僅顯示不改動 `.omm/`；`/omm-push` 透過 login（GitHub OAuth）、link、push 將 `.omm/` 架構文件傳到外部雲端，說明中提到服務有免費與付費方案、分享和公開選項，未獨立核實當期價格額度。這三個 Skill 都有獨立官方 SKILL.md，故各建 Skill Entity；是否能在不同 Agent Harness 直接使用需要依實際安裝檢驗。Skill 中若發現 `omm` 不存在會提示／嘗試全域 npm 安裝，具有執行指令與讀取專案檔案的能力，不可視為低權限唯讀工具；資料上雲尤其需要個別批准。`/omm-scan` 生成的架構描述是 AI 推斷而非靜態分析的百分百正確結論。官方 Roadmap 的 Sub-agent 並行掃描、Incremental Analysis、Natural Language Search 及 `/omm-guide` 為 planned，不能宣稱當前正式支援。專案和已收錄的 `research-to-diagram` 功能互補，但不是同一個 Repo。此輪僅建立資料庫索引，未安裝、執行任何 `omm` 命令、授權 GitHub OAuth、分析私人 Codebase、推送雲端或修改工具收藏網站 UI。",
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "oh-my-mermaid",
+        "omm",
+        "mermaid",
+        "architecture-documentation",
+        "codebase-analysis",
+        "repository-map",
+        "system-diagrams",
+        "data-flow",
+        "external-integrations",
+        "recursive-drilldown",
+        "interactive-viewer",
+        "nodejs",
+        "npm",
+        "claude-code",
+        "codex",
+        "cursor",
+        "openclaw",
+        "antigravity",
+        "agent-skills",
+        "local-files",
+        "cloud-sync",
+        "oauth",
+        "privacy",
+        "mit",
+        "open-source"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "research-to-structured-visualization"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-preserving-visual-abstraction"
+        },
+        {
+          "type": "concept",
+          "id": "codebase-knowledge-graph"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "oh-my-mermaid-omm-scan"
+        },
+        {
+          "type": "skill",
+          "id": "oh-my-mermaid-omm-view"
+        },
+        {
+          "type": "skill",
+          "id": "oh-my-mermaid-omm-push"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/oh-my-mermaid/oh-my-mermaid",
+        "scan": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-scan/SKILL.md",
+        "viewer": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-view/SKILL.md",
+        "cloud": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-push/SKILL.md",
+        "type": "Official GitHub README, MIT LICENSE, package manifest and three SKILL.md source files",
+        "summary": "Verified source files and documentation on 2026-10-24. No installation, runtime testing or cloud transfer."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
       "updatedAt": "2026-10-18",
@@ -10235,6 +10325,180 @@
         "skill-security",
         "scanner",
         "governance",
+        "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "skill",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "oh-my-mermaid"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "research-to-structured-visualization"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "id": "oh-my-mermaid-omm-push",
+      "title": "Oh My Mermaid /omm-push — GitHub OAuth & Cloud Architecture Sync",
+      "purpose": "在使用者同意上傳後，檢查登入與專案連結狀態，將 `.omm/` 架構文件推送至 ohmymermaid.com 服務。",
+      "problem": "需要在團隊之間遠端分享生成的 Mermaid 架構文件，且需處理 OAuth 登入、連結 Project 與錯誤狀態。",
+      "inputs": [
+        "已生成 `.omm/` 文件",
+        "GitHub OAuth 使用者登入",
+        "外部雲端上傳與分享授權",
+        "服務方案與目標 Project"
+      ],
+      "outputs": [
+        "上傳結果與檔案數",
+        "ohmymermaid.com 的雲端 Project URL",
+        "適用時的共享連結"
+      ],
+      "execution": "官方 skills/omm-push/SKILL.md：`/omm-push` 會先查 `omm share` 登入狀態，若需要則 `omm login` 使用 GitHub OAuth，再 `omm link` 設定 Project Slug，最後 `omm push` 實際傳檔。未通過 OAuth、沒有資料外送授權或觸發限額時不得宣稱完成；401、403、Network Error 等需如實回報。與 `/omm-view` 不同，此 Skill 明確會連線及傳送架構文件至第三方雲端，不適合未審查的公司內部架構。此輪未執行。",
+      "source": {
+        "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-push/SKILL.md",
+        "type": "Official agent SKILL.md",
+        "summary": "Official login/link/push sequence and errors verified, not run."
+      },
+      "tags": [
+        "oh-my-mermaid",
+        "omm-push",
+        "cloud-sharing",
+        "oauth",
+        "github-login",
+        "data-egress",
+        "privacy",
+        "sharing",
+        "external-upload",
+        "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "skill",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "oh-my-mermaid"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "research-to-structured-visualization"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "id": "oh-my-mermaid-omm-scan",
+      "title": "Oh My Mermaid /omm-scan — Recursive Codebase Architecture Documentation",
+      "purpose": "AI 依程式庫內容辨識 overall architecture、data flow、request lifecycle 等值得分析的 perspectives，逐層生成 Mermaid 圖和對應 Markdown 欄位到 `.omm/`；節點擁有內部結構時遞迴鑽取。",
+      "problem": "長期由 AI 新增功能的專案，程式碼架構／資料流／依賴關係可能缺少能提供給人理解與維護的完整地圖。",
+      "inputs": [
+        "授權讀取的專案原始碼與 Manifest",
+        "已安裝 `omm` CLI 和相容 Agent",
+        "希望保留的架構 Perspective 與文件語言"
+      ],
+      "outputs": [
+        ".omm/<perspective>/diagram.mmd",
+        "每個節點的 description/context/constraint/concern/todo/note（適用時）",
+        "按子資料夾拆分的可展開架構文件"
+      ],
+      "execution": "依官方 skills/omm-scan/SKILL.md：在 AI Coding Tool 中使用 `/omm-scan`。Skill 會確認 `omm` CLI，必要時含 npm 全域安裝備案；讀取程式庫內容，從適合的 Perspective 開始，逐項使用 `omm write` 寫入架構。每個 Mermaid Diagram 節點 ID 對應子目錄名稱。要求不重寫未變更的節點、不建立父子循環。此輪未執行。",
+      "source": {
+        "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-scan/SKILL.md",
+        "type": "Official agent SKILL.md",
+        "summary": "Original instruction and defined perspectives verified; not executed."
+      },
+      "tags": [
+        "oh-my-mermaid",
+        "omm-scan",
+        "architecture",
+        "mermaid",
+        "codebase",
+        "recursive-analysis",
+        "skill",
+        "documentation",
+        "read-write",
+        "npm"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "skill",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "oh-my-mermaid"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "research-to-structured-visualization"
+        },
+        {
+          "type": "concept",
+          "id": "context-governance"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "id": "oh-my-mermaid-omm-view",
+      "title": "Oh My Mermaid /omm-view — Local Interactive Architecture Viewer",
+      "purpose": "啟動本機 Web Viewer 導覽既有 `.omm/` Mermaid 架構文件與階層 Node，適合查看不同 perspectives 並逐層展開。",
+      "problem": "僅用 Markdown 或一張大圖難以直觀探索有多層模組的專案架構，閱讀程式碼時需要互動導覽介面。",
+      "inputs": [
+        "既存 `.omm/` 架構文件與可用的 `omm` CLI",
+        "可選 viewer 埠號"
+      ],
+      "outputs": [
+        "本機瀏覽器中的互動式架構圖",
+        "預設 http://localhost:3000 viewer 地址"
+      ],
+      "execution": "官方 skills/omm-view/SKILL.md：Agent Tool 中使用 `/omm-view`；先 `omm list` 確認文件存在（否則提示用 `/omm-scan`），再 `omm view` 或 `omm view --port <port>`。文件會自動刷新；官方 Skill 宣稱 Viewer 不改動 `.omm/`。會啟動本機 Server，未安裝不可宣稱成功啟動。此輪未執行。",
+      "source": {
+        "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-view/SKILL.md",
+        "type": "Official agent SKILL.md",
+        "summary": "Source confirms local viewer, default port and no mutation of docs."
+      },
+      "tags": [
+        "oh-my-mermaid",
+        "omm-view",
+        "interactive-viewer",
+        "local-server",
+        "architecture-map",
+        "mermaid",
+        "read-only-viewer",
         "skill"
       ]
     },
