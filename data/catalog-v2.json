@@ -2174,6 +2174,155 @@
     },
     {
       "schemaVersion": 2,
+      "id": "garrytan-gbrain",
+      "entityType": "resource",
+      "title": "GBrain — Cross-Agent Persistent Memory & Evidence-backed Knowledge",
+      "canonicalName": "garrytan/gbrain",
+      "category": "04 Knowledge & Memory",
+      "resourceType": "MIT open-source local-first persistent memory / MCP knowledge service for multiple AI agents",
+      "purpose": "為 Codex、Claude Code、OpenClaw、Hermes 等現有 Agent 提供跨工作階段可共用的持久記憶；以明確事實及來源、校正／撤回、關鍵字查詢為起點，可選擇加入 Embedding／語意搜尋、帶引文的跨資料整合、人物／公司／議題知識圖譜、背景彙整與維護。",
+      "recommendation": "適合希望在多個 AI Agent 之間保留決策、偏好與研究資料來源，又不想依賴單一對話脈絡的人。建議先用獨立測試 Brain 啟動 keyless、no-embedding 的本機模式；確認新增／查詢／修正／撤回及新的 Session 回讀，然後才考慮遠端 MCP、共享權限與付費 AI enrichment。對含公司資料或個資的來源先做資料分區及存取控制，勿自動全面匯入郵件、會議或程式碼。",
+      "url": "https://github.com/garrytan/gbrain",
+      "repo": "garrytan/gbrain",
+      "notes": "2026-10-24 已核對 GitHub 官方 README.md、LICENSE、SECURITY.md、docs/guides/memory-boundaries.md、repo metadata；MIT 授權。README 明定 Bun >=1.4；npm 上同名 gbrain package 不是本 Repo，不可誤用；支援 Bun GitHub install、release binary、本機 PGLite、PostgreSQL、MCP Remote 與可選 hosted gbrain.io。核心資料以顯性記憶及來源追溯為目標；`forget` 是從主動召回撤回，不等於刪掉歷史來源及備份。自動擷取、語意 Embedding、抽取、synthesis、雲端模型 enrichment、持續背景 daemon 都是需考慮成本與資料出站的選配；部分配置的自動 extraction 可能消耗模型 API，不能一概聲稱所有模式免費／全離線。可用關鍵字方式 keyless 開始；第三方云端 embeddings、reranking、抽取、綜合摘要可能接觸文字資料，已 recall 的內容也會傳給使用中的 Agent 模型。Agent 共享記憶≠共享執行權限，配置／憑證應留在 runtime/local 而非寫入記憶頁。README 分開說明 remote HTTP caller 的授權、來源與可見性隔離與本機信任邊界；不應當成 universal leak prevention。安裝腳本／repo code 與 host 權限需審查，release binary 具 attestations 的官方流程。作者 README 的量化案例屬作者描述，非經本次實機驗證。未安裝、未連接私人資料。",
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "gbrain",
+        "persistent-memory",
+        "cross-agent-memory",
+        "mcp",
+        "codex",
+        "claude-code",
+        "openclaw",
+        "hermes",
+        "provenance",
+        "knowledge-graph",
+        "knowledge-retrieval",
+        "citations",
+        "corrections",
+        "withdrawal",
+        "local-first",
+        "pglite",
+        "semantic-search",
+        "optional-cloud-api",
+        "privacy",
+        "permission-boundary",
+        "open-source",
+        "mit"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "persistent-agent-memory"
+        },
+        {
+          "type": "concept",
+          "id": "cross-agent-memory-portability"
+        },
+        {
+          "type": "concept",
+          "id": "cross-agent-shared-memory"
+        },
+        {
+          "type": "concept",
+          "id": "retrieval-grounded-knowledge-layer"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/garrytan/gbrain",
+        "type": "Official GitHub README, Security Policy, memory boundaries and LICENSE",
+        "summary": "Primary-source research on 2026-10-24; untested"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
+      "id": "garrytan-gstack",
+      "entityType": "resource",
+      "title": "gstack — Opinionated Agent Skills for Product-to-Release Coding Workflow",
+      "canonicalName": "garrytan/gstack",
+      "category": "01 Agent Runtime & Harness",
+      "resourceType": "MIT open-source multi-role Coding Agent Skill/Command Suite with browser, QA, review and release helpers",
+      "purpose": "以可呼叫的角色化 Skills／Commands 將軟體構想到上線分工為產品需求挑戰（CEO/office hours）、工程計畫與架構、設計、程式碼 Review、真實瀏覽器 QA、安全審查、PR 與 Release；官方 README 描述 23 specialists 和 8 power tools，並提供 Claude Code 主線與 Codex、OpenCode、Cursor 等實驗性 host setup。",
+      "recommendation": "適合想讓 AI 協助完整軟體交付，但仍希望在 Planning → Implementation → Review → QA → Release 間設置人工決策與驗收的團隊／個人。若已有自訂 Harness、CLAUDE.md、AGENTS.md、Hooks 與 Browser Automation，先做 Dry-run 對照避免規則重複、全域安裝覆寫、權限升級及瀏覽器登入資料存取；先用非敏感 Repository 試一小段 review/qa 流程。",
+      "url": "https://github.com/garrytan/gstack",
+      "repo": "garrytan/gstack",
+      "notes": "2026-10-24 核對官方 README.md、LICENSE、SECURITY.md、repo metadata；MIT 授權，官方 README 稱 23 個 specialist roles／8 個 power tools。需求含 Git、Bun（README 推薦>=1.4.2，舊版某些情況有 .env 讀取風險）、Claude Code；跨 Agent 安裝 `./setup --host ...` 對 Codex、OpenCode、Cursor 等標記 experimental，不可當作所有 Agent 已完整支援。包含 /office-hours、/plan-ceo-review、/review、/qa、/ship 與 /cso 等；實作視宿主、browser、scanner、登入及環境而定。依 README 安裝會 clone、build、寫入使用者 ~/.claude/skills 與 CLAUDE.md，Team mode 會在專案設定自動更新；部分瀏覽器操作會使用真實登入 session（若選擇 Aside），Security scan / QA 可能執行本機工具、存取 source/env 及掃描網站，必須先驗證 Trust boundary 及權限。各 host 的 hook enforcement 不同，Codex 等 experimental hosts 多為 advisory，不能聲稱同等強制保護。套件內 Skills 是相互配合的可重用能力，此 Repo 也有獨立 Skill entity 以供發現。作者關於效率、速度與產出數據為作者聲明，不代表普遍保證；此輪未安裝或實測。",
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "gstack",
+        "garry-tan",
+        "coding-agent",
+        "harness",
+        "agent-skills",
+        "software-development-lifecycle",
+        "planning",
+        "architecture",
+        "review",
+        "qa",
+        "browser",
+        "security-audit",
+        "release",
+        "git",
+        "claude-code",
+        "codex",
+        "opencode",
+        "cursor",
+        "mit",
+        "risk-review",
+        "local-code-execution"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "garrytan-gstack"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        },
+        {
+          "type": "concept",
+          "id": "agent-organization-control-plane"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/garrytan/gstack",
+        "type": "Official GitHub README, LICENSE and SECURITY.md",
+        "summary": "Primary-source research on 2026-10-24; untested"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "gbro-collage-broll",
       "entityType": "resource",
       "title": "gbro-collage-broll",
@@ -3723,26 +3872,44 @@
       "title": "mattpocock/skills",
       "canonicalName": "mattpocock/skills",
       "category": "06 Skills",
-      "resourceType": "Skill Collection",
-      "purpose": "工程實戰 Skills",
-      "recommendation": "適合參考工程實務導向的 Skill 寫法。",
-      "url": "",
-      "repo": "",
-      "notes": "",
+      "resourceType": "MIT open-source compact composable engineering & productivity agent skills collection",
+      "purpose": "Matt Pocock 的工程實戰 Skills：/grill-me、/grill-with-docs 先釐清需求、建立團隊共同詞彙與 ADR；/tdd 以 Red→Green 小步開發，/diagnosing-bugs 做結構化除錯，並支援多種 coding agents。",
+      "recommendation": "適合想保留自主開發流程、不導入重量級外部 Project Orchestrator，但希望建立需求釐清、測試與除錯品質慣例的人。選擇 Plugin 或可編輯 Skills 單一路徑，不要同時安裝造成重複 Skill；正式套用前審查即將讀取的專案檔案、腳本與允許執行的命令。",
+      "url": "https://github.com/mattpocock/skills",
+      "repo": "mattpocock/skills",
+      "notes": "2026-10-24 官方 README.md、LICENSE、skills/engineering/tdd/SKILL.md 與 GitHub metadata 核對：MIT 授權，跨 Claude Code、Codex、Copilot、Gemini CLI 與多種 Agent 的官方安裝方式不同。README 明示使用 Plugin 和 skills.sh/npx skills 兩種路徑，應擇一，否則會重複安裝；/setup-matt-pocock-skills 會詢問 ticket 系統、標籤及文件位置。各技能描述與文件提供具體使用案例；真正的讀取範圍與資料出站由執行環境及工具權限決定，不能因為 Skill 以 Markdown 存在就假設零風險。較新版本會改動 SKILL.md，現有自訂修改需留意更新覆蓋風險。未實機安裝或測試。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-10-24",
       "tags": [
         "skills",
         "engineering",
-        "patterns"
+        "patterns",
+        "mattpocock",
+        "grill-me",
+        "grill-with-docs",
+        "tdd",
+        "debugging",
+        "skill-collection",
+        "composable",
+        "mit",
+        "plugin",
+        "project-setup",
+        "skills-sh"
       ],
       "conceptRefs": [
         {
           "type": "concept",
           "id": "reusable-agent-skills"
         }
-      ]
+      ],
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed",
+      "source": {
+        "url": "https://github.com/mattpocock/skills",
+        "type": "Official repository README, LICENSE and TDD skill",
+        "summary": "Updated existing entry from primary source 2026-10-24; untested"
+      }
     },
     {
       "schemaVersion": 2,
@@ -3845,6 +4012,39 @@
     },
     {
       "schemaVersion": 2,
+      "id": "motion-dev",
+      "entityType": "resource",
+      "title": "Motion.dev",
+      "canonicalName": "Motion.dev",
+      "category": "08 UI & Design Engineering",
+      "resourceType": "Animation Runtime",
+      "purpose": "React / JS animations、gesture、layout",
+      "recommendation": "適合需要 React/JS 動畫、gesture 與 layout 互動時研究。",
+      "url": "",
+      "repo": "",
+      "notes": "",
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "animation",
+        "gestures",
+        "layout",
+        "react"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "motion-interaction-layer"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "motion-dev-animations-skill",
       "entityType": "resource",
       "title": "motion-dev-animations-skill",
@@ -3876,39 +4076,6 @@
         {
           "type": "concept",
           "id": "reusable-agent-skills"
-        }
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "motion-dev",
-      "entityType": "resource",
-      "title": "Motion.dev",
-      "canonicalName": "Motion.dev",
-      "category": "08 UI & Design Engineering",
-      "resourceType": "Animation Runtime",
-      "purpose": "React / JS animations、gesture、layout",
-      "recommendation": "適合需要 React/JS 動畫、gesture 與 layout 互動時研究。",
-      "url": "",
-      "repo": "",
-      "notes": "",
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "animation",
-        "gestures",
-        "layout",
-        "react"
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "explicit-visual-system"
-        },
-        {
-          "type": "concept",
-          "id": "motion-interaction-layer"
         }
       ]
     },
@@ -5336,6 +5503,34 @@
     },
     {
       "schemaVersion": 2,
+      "id": "reverse-skill",
+      "entityType": "resource",
+      "title": "reverse-skill",
+      "canonicalName": "reverse-skill",
+      "category": "06 Skills",
+      "resourceType": "Security Skill",
+      "purpose": "Reverse engineering / security expertise",
+      "recommendation": "適合研究 reverse engineering 與 security expertise 如何封裝成 Skill。",
+      "url": "",
+      "repo": "",
+      "notes": "",
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "reverse-engineering",
+        "security",
+        "skills"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "reverse-skill-2",
       "entityType": "resource",
       "title": "Reverse Skill",
@@ -5378,34 +5573,6 @@
         {
           "type": "concept",
           "id": "quality-gates-verification"
-        }
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "reverse-skill",
-      "entityType": "resource",
-      "title": "reverse-skill",
-      "canonicalName": "reverse-skill",
-      "category": "06 Skills",
-      "resourceType": "Security Skill",
-      "purpose": "Reverse engineering / security expertise",
-      "recommendation": "適合研究 reverse engineering 與 security expertise 如何封裝成 Skill。",
-      "url": "",
-      "repo": "",
-      "notes": "",
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "reverse-engineering",
-        "security",
-        "skills"
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "reusable-agent-skills"
         }
       ]
     },
@@ -5874,62 +6041,6 @@
     },
     {
       "schemaVersion": 2,
-      "id": "strelov1-freehire-mcp",
-      "entityType": "resource",
-      "title": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools",
-      "canonicalName": "strelov1/freehire-mcp",
-      "category": "12 Developer Tools",
-      "resourceType": "MIT TypeScript MCP server and hosted Streamable HTTP endpoint for freehire job search / application tracking / CV workflows",
-      "purpose": "以 Model Context Protocol 將 freehire 職缺 API 的 facets、search、market_fit、job、company 等搜尋功能交給 Claude Code／Claude Desktop／MCP Agent；另提供經登入的 save、apply（將職缺標記為已申請）、stage、note、履歷證據庫、CV tailoring 和部分管理工具。官方提供免登入的遠端唯讀 MCP `https://freehire.me/api/v1/mcp`，及可用 `npx -y freehire-mcp` 搭配 Freehire personal API key 運行的本機 MCP server。",
-      "recommendation": "想用 Coding Agent 查找新加坡／香港遠端或其他職缺時，先用官方 Hosted Read-Only MCP，不需要交出履歷、API Token 或啟用修改權限；驗證 facets 後再帶國家、remote、薪資、年資與技能篩選，注意 country + region + city 對應 OR 地理條件而非 AND，未識別的欄位可能被忽略、造成搜索範圍放大。升級到有 Key 的本地 MCP 才使用 save、stage、CV 和 applicant tracking，每項有副作用的操作都應有可檢查的預覽與批准，不應自行填寫投遞或偽造履歷成就。",
-      "url": "https://github.com/strelov1/freehire-mcp",
-      "repo": "strelov1/freehire-mcp",
-      "status": "active",
-      "addedAt": "2026-10-23",
-      "updatedAt": "2026-10-23",
-      "tags": [
-        "freehire",
-        "mcp",
-        "job-search",
-        "claude-code",
-        "claude-desktop",
-        "readonly",
-        "job-api",
-        "faceted-search",
-        "job-alerts",
-        "market-fit",
-        "career-agent",
-        "cv-tailoring",
-        "evidence-backed-resume",
-        "authentication",
-        "api-key",
-        "remote-jobs",
-        "mit-license",
-        "filter-validation",
-        "prompt-injection"
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "source-first-job-intelligence"
-        },
-        {
-          "type": "concept",
-          "id": "agent-native-tool-abstraction"
-        },
-        {
-          "type": "concept",
-          "id": "agent-credential-isolation"
-        },
-        {
-          "type": "concept",
-          "id": "quality-gates-verification"
-        }
-      ],
-      "notes": "官方 `strelov1/freehire-mcp` README.md（2026-10-23）及 package.json（v0.6.0）、skills/find-tech-jobs/SKILL.md 查證 MIT。README 介紹 `https://freehire.me/api/v1/mcp` Hosted Read-Only endpoint（Streamable HTTP），其中 GET 方法回傳 HTTP 405 符合非一般網頁端點的行為，但本輪沒有用 MCP 握手或真正執行工具驗證在線功能；不能僅依 GET 405 宣稱不可用。Claude Code 文件示例 `/plugin install freehire --marketplace strelov1/freehire-mcp`，實際需在已支援的 marketplace／plugin manager 確認版本；本地 MCP `npx -y freehire-mcp` 可讀 `FREEHIRE_TOKEN` 或 `~/.freehire/creds.json`，API Token 必須妥善保管避免聊天／日誌中出現。用戶操作 tools 包含 `save`、`apply`、`stage`、`note`、`cv_tailor`、`cv_edit`、`experience_remove_*` 等；其中 apply 係標記已申請，不表示送出雇主官網表單，而 CV 和 Experience 移除可能無 Undo。`facets` 應先查支援值；ignored params 可放寬結果不能默認生效；地理 country/region/city 採 OR，應避免不小心擴大。CV 成就必須有手動／使用者主張之 evidence_id，不能使用 agent_inferred 來捏造。注意 companion skill `find-tech-jobs` 的工具表使用 `search_jobs` / `get_job` 等名稱與目前 MCP 主 README `search` / `job` 不完全一致，Skill 內容主張全部 read-only 但主 README 說 authenticated server 有寫入 tools；使用時要以實際安裝版本和 tools/list 返回為準。它不是 main Repo 內建程式而是作者另行維護的獨立 MCP Repo；也不是所有 ChatGPT 模式原生提供的 plugin。尚未安裝或授權個人帳戶、未測試本地 npm 程式。"
-    },
-    {
-      "schemaVersion": 2,
       "id": "strelov1-freehire",
       "entityType": "resource",
       "title": "freehire — Source-Aware Job Search, ATS Ingestion & Application Workspace",
@@ -5995,6 +6106,62 @@
         }
       ],
       "notes": "2026-10-23 查核官方 README.md、docs/features.md、docs/sources.md、SECURITY.md、官方 freehire.me 首頁與公開 `GET /api/v1/jobs` 實際回應，MIT license。2026-10-20 官方 Repo 來源快照顯示 3,371,563 個 unique open jobs／477,323 companies／320 sources（其中 ATS platforms 117 with postings、aggregators/job boards 133、direct company feeds 52）；2026-10-23 官網首頁顯示 3,825,526 unique jobs、513,975 companies、335 sources、136 ATS platforms。不同日期數字不得混用作單日總量／假設所有 job 都是雇主直接發佈，因為實際包含 Adzuna、JobStreet、Telegram 等轉發來源。官方首頁及 API 可搜出 source=telegram 的真實資料，與 marketing 標語 'no recruiters / no reposts / no dead links' 有差異；應當作產品目標而非已驗證全面承諾。系統用 stable-key dedup 與軟關閉 job lifecycle；並不保證消滅所有近重複、虛假、過期或被其他網站轉發的職缺。Ghost-job signal 依 repost 行為、貼文老化與網站可見性附證據，不等於證實雇主惡意或職缺已不存在。Skills／薪資等 Facet 採 curated dictionaries；未辨識值不應猜測，所以可能漏標。資料搜尋 API 為免 Key 公開讀取；私人 CV、追蹤、郵件、AI matching 等功能需要帳戶和某些計量額度，LLM 功能亦可在自架環境另外配置。Go/Fiber、PostgreSQL/pgvector、Meilisearch、Redis、S3-compatible、SvelteKit、Docker Compose。安全邊界涉及 OAuth/JWT、API keys、招聘文本 LLM input prompt injection、可自動填寫表單的 Browser Extension、第三方履歷和郵件個資；自架切勿暴露資料庫、Meilisearch 金鑰及弱 JWT_SECRET。職缺內容及第三方連結皆為不可信輸入。官方 CLI 獨立 Repo https://github.com/strelov1/freehire-cli；官方 MCP 獨立 Repo https://github.com/strelov1/freehire-mcp （另收錄 Resource）。GitHub stars 約 2.8k 非品質保證。尚未下載、安裝或連接個人帳號，未投遞任何履歷或職缺。"
+    },
+    {
+      "schemaVersion": 2,
+      "id": "strelov1-freehire-mcp",
+      "entityType": "resource",
+      "title": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools",
+      "canonicalName": "strelov1/freehire-mcp",
+      "category": "12 Developer Tools",
+      "resourceType": "MIT TypeScript MCP server and hosted Streamable HTTP endpoint for freehire job search / application tracking / CV workflows",
+      "purpose": "以 Model Context Protocol 將 freehire 職缺 API 的 facets、search、market_fit、job、company 等搜尋功能交給 Claude Code／Claude Desktop／MCP Agent；另提供經登入的 save、apply（將職缺標記為已申請）、stage、note、履歷證據庫、CV tailoring 和部分管理工具。官方提供免登入的遠端唯讀 MCP `https://freehire.me/api/v1/mcp`，及可用 `npx -y freehire-mcp` 搭配 Freehire personal API key 運行的本機 MCP server。",
+      "recommendation": "想用 Coding Agent 查找新加坡／香港遠端或其他職缺時，先用官方 Hosted Read-Only MCP，不需要交出履歷、API Token 或啟用修改權限；驗證 facets 後再帶國家、remote、薪資、年資與技能篩選，注意 country + region + city 對應 OR 地理條件而非 AND，未識別的欄位可能被忽略、造成搜索範圍放大。升級到有 Key 的本地 MCP 才使用 save、stage、CV 和 applicant tracking，每項有副作用的操作都應有可檢查的預覽與批准，不應自行填寫投遞或偽造履歷成就。",
+      "url": "https://github.com/strelov1/freehire-mcp",
+      "repo": "strelov1/freehire-mcp",
+      "status": "active",
+      "addedAt": "2026-10-23",
+      "updatedAt": "2026-10-23",
+      "tags": [
+        "freehire",
+        "mcp",
+        "job-search",
+        "claude-code",
+        "claude-desktop",
+        "readonly",
+        "job-api",
+        "faceted-search",
+        "job-alerts",
+        "market-fit",
+        "career-agent",
+        "cv-tailoring",
+        "evidence-backed-resume",
+        "authentication",
+        "api-key",
+        "remote-jobs",
+        "mit-license",
+        "filter-validation",
+        "prompt-injection"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "source-first-job-intelligence"
+        },
+        {
+          "type": "concept",
+          "id": "agent-native-tool-abstraction"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "notes": "官方 `strelov1/freehire-mcp` README.md（2026-10-23）及 package.json（v0.6.0）、skills/find-tech-jobs/SKILL.md 查證 MIT。README 介紹 `https://freehire.me/api/v1/mcp` Hosted Read-Only endpoint（Streamable HTTP），其中 GET 方法回傳 HTTP 405 符合非一般網頁端點的行為，但本輪沒有用 MCP 握手或真正執行工具驗證在線功能；不能僅依 GET 405 宣稱不可用。Claude Code 文件示例 `/plugin install freehire --marketplace strelov1/freehire-mcp`，實際需在已支援的 marketplace／plugin manager 確認版本；本地 MCP `npx -y freehire-mcp` 可讀 `FREEHIRE_TOKEN` 或 `~/.freehire/creds.json`，API Token 必須妥善保管避免聊天／日誌中出現。用戶操作 tools 包含 `save`、`apply`、`stage`、`note`、`cv_tailor`、`cv_edit`、`experience_remove_*` 等；其中 apply 係標記已申請，不表示送出雇主官網表單，而 CV 和 Experience 移除可能無 Undo。`facets` 應先查支援值；ignored params 可放寬結果不能默認生效；地理 country/region/city 採 OR，應避免不小心擴大。CV 成就必須有手動／使用者主張之 evidence_id，不能使用 agent_inferred 來捏造。注意 companion skill `find-tech-jobs` 的工具表使用 `search_jobs` / `get_job` 等名稱與目前 MCP 主 README `search` / `job` 不完全一致，Skill 內容主張全部 read-only 但主 README 說 authenticated server 有寫入 tools；使用時要以實際安裝版本和 tools/list 返回為準。它不是 main Repo 內建程式而是作者另行維護的獨立 MCP Repo；也不是所有 ChatGPT 模式原生提供的 plugin。尚未安裝或授權個人帳戶、未測試本地 npm 程式。"
     },
     {
       "schemaVersion": 2,
@@ -6191,26 +6358,46 @@
       "title": "VoltAgent/awesome-agent-skills",
       "canonicalName": "VoltAgent/awesome-agent-skills",
       "category": "06 Skills",
-      "resourceType": "Directory",
-      "purpose": "跨 Claude / Codex / Cursor 等 Skills 索引",
-      "recommendation": "適合做跨工具的 Agent Skills 目錄式探索。",
-      "url": "",
-      "repo": "",
-      "notes": "",
+      "resourceType": "MIT open-source curated GitHub directory of external AI Agent Skills",
+      "purpose": "聚合多家開發團隊與社群的 Agent Skills 來源，依官方／社群提供者與技能領域分類，方便搜尋適用於 Claude Code、Codex、Cursor、OpenCode、Gemini CLI 等工具的可重用技能及其原始文件。",
+      "recommendation": "作為 AI Skill Discovery 的候選來源之一，而非經安全審計的商店；從清單跳到個別 Skill 官方 Repository，再逐項驗證 README、更新、Issue、權限、外部傳輸、授權與安裝指令。不要因為 Awesome List 收錄就直接整批安裝。",
+      "url": "https://github.com/VoltAgent/awesome-agent-skills",
+      "repo": "VoltAgent/awesome-agent-skills",
+      "notes": "2026-10-24 官方 GitHub README、LICENSE、repo metadata 核對：MIT 授權屬索引倉庫本身；README 顯示 1497+ 相關 Skills（數量隨時變動），按照來源團隊整理包含官方與社群 Skill。此 Repo 是策展清單，不代表每個連結都具相同 License、安全審查或維護品質；各 Skill 的安裝方式、權限、資料處理須回到真正的上游維護者查核。屬索引目錄而非單一可執行 Runtime，未安裝或測試任何下游技能。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-10-24",
       "tags": [
         "skills",
         "directory",
-        "ecosystem"
+        "ecosystem",
+        "voltagent",
+        "awesome-list",
+        "ai-agent-skills",
+        "skill-directory",
+        "official-and-community",
+        "claude-code",
+        "codex",
+        "cursor",
+        "opencode",
+        "gemini-cli",
+        "skills-discovery",
+        "mit",
+        "supply-chain-review"
       ],
       "conceptRefs": [
         {
           "type": "concept",
           "id": "reusable-agent-skills"
         }
-      ]
+      ],
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed",
+      "source": {
+        "url": "https://github.com/VoltAgent/awesome-agent-skills",
+        "type": "Official repository README and LICENSE",
+        "summary": "Updated original indexed Resource 2026-10-24; untested"
+      }
     },
     {
       "schemaVersion": 2,
@@ -7042,6 +7229,65 @@
         "frontend",
         "design-skill",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "garrytan-gstack",
+      "entityType": "skill",
+      "title": "gstack — Product, Engineering, Design, QA and Release Agent Skills",
+      "purpose": "提供具角色與執行順序的 Agent Commands/Skills，協助需求挑戰、工程計畫、設計、Code Review、真實瀏覽器 QA、安全檢查與 PR Release。",
+      "problem": "獨立 Coding Agent 常缺乏完整的產品決策、分階段審查與真實環境 QA，容易直接修改程式卻未形成可驗收的交付流程。",
+      "inputs": [
+        "Coding Agent 的既有專案與 Git Repo",
+        "要實作的功能／問題及必要人工決策",
+        "實際測試 URL、權限與安全邊界（僅在有權測試時）"
+      ],
+      "outputs": [
+        "需求／計畫／設計審視",
+        "程式碼 Review 與 QA／安全性報告（按需要執行）",
+        "可供人工驗收的 Git diff、PR 或 Release 證據"
+      ],
+      "execution": "參照官方 gstack README 的宿主差異；Claude Code 可使用 /office-hours、/review、/qa、/ship 等指令，其他宿主需依官方 `--host` 支援等級設定。僅收錄 Skill，尚未安裝、測試或執行任何命令。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "garrytan-gstack"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/garrytan/gstack",
+        "type": "Official GitHub Repo, README and security policy"
+      },
+      "status": "active",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "gstack",
+        "agent-skills",
+        "claude-code",
+        "coding",
+        "review",
+        "qa",
+        "design",
+        "security",
+        "release",
+        "skill-pack",
+        "workflow"
       ]
     },
     {
@@ -8263,6 +8509,38 @@
     },
     {
       "schemaVersion": 2,
+      "id": "reverse-skill",
+      "entityType": "skill",
+      "title": "reverse-skill",
+      "purpose": "Reverse engineering / security expertise",
+      "problem": "",
+      "inputs": [],
+      "outputs": [],
+      "execution": "See source resource and its skill/protocol documentation.",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "reverse-skill"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-09-16",
+      "updatedAt": "2026-09-22",
+      "tags": [
+        "reverse-engineering",
+        "security",
+        "skills",
+        "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "reverse-skill-2",
       "entityType": "skill",
       "title": "Reverse Skill",
@@ -8309,38 +8587,6 @@
         "routing",
         "evidence",
         "cross-harness",
-        "skill"
-      ]
-    },
-    {
-      "schemaVersion": 2,
-      "id": "reverse-skill",
-      "entityType": "skill",
-      "title": "reverse-skill",
-      "purpose": "Reverse engineering / security expertise",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
-      "resourceRefs": [
-        {
-          "type": "resource",
-          "id": "reverse-skill"
-        }
-      ],
-      "conceptRefs": [
-        {
-          "type": "concept",
-          "id": "reusable-agent-skills"
-        }
-      ],
-      "status": "active",
-      "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
-      "tags": [
-        "reverse-engineering",
-        "security",
-        "skills",
         "skill"
       ]
     },
@@ -11237,6 +11483,77 @@
         "traceability",
         "poster",
         "photo-riso-poster"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "github-ai-skill-discovery-and-risk-comparison",
+      "entityType": "prompt",
+      "title": "GitHub AI Skill 搜尋、候選比較與安裝風險審查",
+      "category": "06 Skills",
+      "promptType": "Skill Discovery / Source Verification / Security Risk Review Prompt",
+      "problem": "只用單一關鍵字找 Skills 容易漏掉合適候選；未檢查最近維護、實際案例、Issue 回應、安裝所需權限與資料出站風險，容易誤用過時或高權限的第三方 Skills。",
+      "goal": "先把自然語言需求轉成多種 GitHub 搜尋語義，找出 3–5 個可用 AI Skills，查核維護、文件、實例、Issue、資料與權限風險後比較並給出一個推薦，所有安裝及執行都須等待使用者確認。",
+      "prompt": "請到 GitHub 幫我找可以完成「［填入你的需求］」的 AI Skill。\n不要只搜尋一個關鍵字。請先理解我的目的，把需求改寫成多種搜尋說法，再找出 3～5 個適合的候選。\n請逐一檢查：最近是否還有人更新、使用說明是否清楚、有沒有實際範例、使用者問題是否有人處理、安裝後會讀取哪些資料、需要哪些權限，以及是否可能把資料傳到外部。\n請用一般人看得懂的表格比較，說明適合情境與風險，最後推薦最適合我的一個。先不要安裝或執行任何東西，等我確認後再進行。",
+      "whenToUse": [
+        "想找符合特定需求的現成 GitHub AI Skill，避免從零開發",
+        "需要比較多個 Skill 的維護活躍度、說明、示例與使用者回報",
+        "想在安裝前確認本機權限、可讀取資料、第三方資料出站與供應鏈風險"
+      ],
+      "inputs": [
+        "［填入你的需求］（使用者目標、約束與平台）"
+      ],
+      "expectedOutput": "繁體中文、一般人可讀的 3–5 個 Skill 比較表，包含官方 GitHub 來源、最後更新、README/使用案例、Issue 維護狀態、讀取資料範圍、權限、可能對外傳送資訊、情境與風險，以及一個具依據的首選；不安裝、不執行任何候選。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "voltagent-awesome-agent-skills"
+        },
+        {
+          "type": "resource",
+          "id": "mattpocock-skills"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "task-aware-skill-routing"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        }
+      ],
+      "source": {
+        "type": "User-provided Traditional Chinese prompt (no original post URL supplied)",
+        "summary": "2026-10-24 使用者在對話提供可貼給 Claude 或 ChatGPT 的 Skill 搜尋 Prompt；保留原始句子與全形替代文字［填入你的需求］，僅移除貼上尾端非文字物件占位符；為未執行範本。"
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-10-24",
+      "updatedAt": "2026-10-24",
+      "tags": [
+        "github",
+        "agent-skills",
+        "skill-discovery",
+        "multi-query-search",
+        "comparison",
+        "source-validation",
+        "risk-assessment",
+        "privacy",
+        "permissions",
+        "data-exfiltration",
+        "maintenance",
+        "issue-triage",
+        "no-install",
+        "traditional-chinese"
       ]
     },
     {

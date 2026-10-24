@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "id": "github-ai-skill-discovery-and-risk-comparison",
+  "entityType": "prompt",
+  "title": "GitHub AI Skill 搜尋、候選比較與安裝風險審查",
+  "category": "06 Skills",
+  "promptType": "Skill Discovery / Source Verification / Security Risk Review Prompt",
+  "problem": "只用單一關鍵字找 Skills 容易漏掉合適候選；未檢查最近維護、實際案例、Issue 回應、安裝所需權限與資料出站風險，容易誤用過時或高權限的第三方 Skills。",
+  "goal": "先把自然語言需求轉成多種 GitHub 搜尋語義，找出 3–5 個可用 AI Skills，查核維護、文件、實例、Issue、資料與權限風險後比較並給出一個推薦，所有安裝及執行都須等待使用者確認。",
+  "prompt": "請到 GitHub 幫我找可以完成「［填入你的需求］」的 AI Skill。\n不要只搜尋一個關鍵字。請先理解我的目的，把需求改寫成多種搜尋說法，再找出 3～5 個適合的候選。\n請逐一檢查：最近是否還有人更新、使用說明是否清楚、有沒有實際範例、使用者問題是否有人處理、安裝後會讀取哪些資料、需要哪些權限，以及是否可能把資料傳到外部。\n請用一般人看得懂的表格比較，說明適合情境與風險，最後推薦最適合我的一個。先不要安裝或執行任何東西，等我確認後再進行。",
+  "whenToUse": [
+    "想找符合特定需求的現成 GitHub AI Skill，避免從零開發",
+    "需要比較多個 Skill 的維護活躍度、說明、示例與使用者回報",
+    "想在安裝前確認本機權限、可讀取資料、第三方資料出站與供應鏈風險"
+  ],
+  "inputs": [
+    "［填入你的需求］（使用者目標、約束與平台）"
+  ],
+  "expectedOutput": "繁體中文、一般人可讀的 3–5 個 Skill 比較表，包含官方 GitHub 來源、最後更新、README/使用案例、Issue 維護狀態、讀取資料範圍、權限、可能對外傳送資訊、情境與風險，以及一個具依據的首選；不安裝、不執行任何候選。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "voltagent-awesome-agent-skills"
+    },
+    {
+      "type": "resource",
+      "id": "mattpocock-skills"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "task-aware-skill-routing"
+    },
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    }
+  ],
+  "source": {
+    "type": "User-provided Traditional Chinese prompt (no original post URL supplied)",
+    "summary": "2026-10-24 使用者在對話提供可貼給 Claude 或 ChatGPT 的 Skill 搜尋 Prompt；保留原始句子與全形替代文字［填入你的需求］，僅移除貼上尾端非文字物件占位符；為未執行範本。"
+  },
+  "status": "unreviewed",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "github",
+    "agent-skills",
+    "skill-discovery",
+    "multi-query-search",
+    "comparison",
+    "source-validation",
+    "risk-assessment",
+    "privacy",
+    "permissions",
+    "data-exfiltration",
+    "maintenance",
+    "issue-triage",
+    "no-install",
+    "traditional-chinese"
+  ]
+}
