@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "id": "charonyuu-myoffice",
+  "entityType": "skill",
+  "title": "myoffice — Live Local Coding-Agent Status Skill",
+  "purpose": "使用 /myoffice 叫出由 whatsmyagentdoing 提供的本機即時 Agent 辦公室狀態面板；可查詢 Claude Code、Codex、Gemini CLI Session 狀態，依需求改成清單、隱私模式或一次性 JSON 快照。",
+  "problem": "同時開多個 Coding Agents 時，很難判斷目前誰在執行、哪個停住、哪些已完成，逐一切換終端或桌面程式效率低。",
+  "inputs": [
+    "已合法存取的本機 Claude Code/Codex/Gemini CLI JSONL Session Logs",
+    "Node.js 18+ 與可啟動本機 127.0.0.1 Web Server 的環境",
+    "可選隱私模式 --private、--hours、--demo、--json 與端口"
+  ],
+  "outputs": [
+    "本機 2D/3D/清單 Agent Session Dashboard",
+    "每個 Session 的狀態、最近活動、完成/錯誤提示與 Resume 指令（依可用 log）",
+    "--json 模式輸出一次性結構化快照"
+  ],
+  "execution": "依官方 SKILL.md，clone 或安裝後在 Claude Code/Codex 載入 myoffice Skill，使用 `/myoffice` 執行 `node <skill-base-directory>/bin/cli.js`；僅在使用者要求時執行 `/myoffice update`（可能 git pull）或 `/myoffice stop`。為了螢幕分享可使用 --private 隱藏 Prompt/Reply；資料來源為 Agent 本機 Logs。Skill 內容已讀取，但沒有在此環境安裝或執行。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "charonyuu-whatsmyagentdoing"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "agent-organization-control-plane"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/SKILL.md",
+    "type": "Official repository Agent Skill"
+  },
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "myoffice",
+    "agent-skill",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "agent-monitoring",
+    "session-status",
+    "local-dashboard",
+    "read-only",
+    "private-mode",
+    "json",
+    "resumable"
+  ]
+}

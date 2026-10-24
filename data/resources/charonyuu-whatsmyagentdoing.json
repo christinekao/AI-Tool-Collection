@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 2,
+  "id": "charonyuu-whatsmyagentdoing",
+  "entityType": "resource",
+  "title": "whatsmyagentdoing — Live Claude Code / Codex / Gemini CLI Agent Office",
+  "canonicalName": "Charonyuu/whatsmyagentdoing",
+  "category": "12 Developer Tools",
+  "resourceType": "MIT open-source local Agent Session Monitoring Dashboard / Node.js Web UI and Claude Code/Codex Skill",
+  "purpose": "把本機 Claude Code、Codex、Gemini CLI 的 Session JSONL 事件即時轉成工作狀態，於 2D 手繪／3D 虛擬辦公室或清單檢視哪些 Agent 正在思考、執行工具、輸出回覆、等待人類批准、已完成、出錯或中斷；顯示當前任務、工具類型、回覆摘要、計時與 Resume 指令，並可用 /myoffice 開啟。",
+  "recommendation": "適合同時開多個 Codex／Claude Code 工作階段，想快速查看誰在執行測試、哪個 Agent 等待介入或已完成的開發者。建議先使用 --demo 確認 UI，再對真實工作階段視需要以 --private 遮蔽 Prompt／回覆。只在可信賴的本機使用，因為 Session Log 可能包含程式碼、工作路徑、私人輸入、機密或其他敏感資料；勿透過不安全反向代理公開 localhost dashboard。此工具是狀態觀察器，不是跨 Agent 排程／執行控制平台。",
+  "url": "https://github.com/Charonyuu/whatsmyagentdoing",
+  "repo": "Charonyuu/whatsmyagentdoing",
+  "notes": "2026-10-24 核對官方 GitHub README.md、SKILL.md、package.json、LICENSE、bin/cli.js、src/server.js、scenes.json 和 GitHub 元資料。主 repo 為 MIT，package.json 版本 0.2.2、Node.js>=18，專案於 2026-10-23 建立，仍屬極新專案（當時約 63 stars），不能以範例動畫推定穩定性。支援 Claude Code CLI/desktop/IDE、Codex CLI/desktop/IDE、Gemini CLI 的本機 JSONL session logs；不支援 Google Antigravity 的未公開 binary conversation store。READ-only 監視既有 Session Logs，不需要 Agent Hooks、模型 API Key 或新 npm runtime install；從 Clone 後使用 node bin/cli.js 啟動，技能 /myoffice 是可獨立收錄的 SKILL.md。2D 無 runtime dependencies；3D bundled three.js/CC0 Kenney assets 只在使用者切換 High 3D 時載入；選擇其他場景時才從 GitHub Releases 下載 SHA-256 驗證素材。服務預設 127.0.0.1:4545（埠佔用改用下一個），檢查 Host header 防 DNS rebinding；但 /api/sessions 與 /events 在本機不要求額外帳號認證，能連本機埠的程式／使用者可能讀取 Session 內容。--private 會隱藏 prompt、reply、title 並縮減 activity，但標準模式可展示敏感程式碼路徑、User Prompt 與 Reply，應在螢幕分享前啟用。雖 README 宣稱 'nothing leaves your machine'，版本檢查預設每約半小時連 GitHub 取 package.json；--update/頁面 Update 可能執行 git pull 並重啟；場景下載亦會對外連網。對外請求不代表 Session Logs 必定上傳；現有程式碼檢查不能保證全部隱私邊界無漏洞。模型 API 本身仍依原有 Agent 與 Provider 資料政策。Claude Code 對 Permission Prompt 並不記錄到 JSONL，故畫面可能維持 Running 而不是 Waiting；log event 並非逐 Token 即時。此輪只收錄，不在使用者電腦安裝、執行或讀取任何真實 Session Logs。",
+  "status": "active",
+  "addedAt": "2026-10-24",
+  "updatedAt": "2026-10-24",
+  "tags": [
+    "whatsmyagentdoing",
+    "myoffice",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "multi-agent",
+    "agent-monitoring",
+    "observability",
+    "session-logs",
+    "jsonl",
+    "live-dashboard",
+    "local-first",
+    "browser-dashboard",
+    "2d",
+    "3d",
+    "threejs",
+    "nodejs",
+    "skill",
+    "read-only",
+    "privacy-mode",
+    "server-sent-events",
+    "resume",
+    "local-only",
+    "open-source",
+    "mit",
+    "experimental"
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "charonyuu-myoffice"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-organization-control-plane"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/Charonyuu/whatsmyagentdoing",
+    "type": "Official GitHub README, SKILL.md, source files, package metadata and LICENSE",
+    "summary": "Primary repository verified on 2026-10-24; not installed or tested."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
