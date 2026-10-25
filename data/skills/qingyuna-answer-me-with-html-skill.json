@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "id": "qingyuna-answer-me-with-html-skill",
+  "entityType": "skill",
+  "title": "Answer me with HTML — Render Explanations as Single-file HTML",
+  "purpose": "在 Agent 回答多步驟流程、架構、比較、決策或其他難以純文字理解的複雜題目時，使用 `answer-me-with-html` Skill 把簡短 Markdown Draft 交給內建 `am` CLI，產生可離線查看的單頁視覺化 HTML（圖表、流程、對照表、Code Reference），使用者明確要求時才產生附旁白的解說影片。",
+  "problem": "模型若直接輸出全套 HTML/CSS/SVG，常花大量 Token 在 Layout 與坐標，複雜資訊難檢索，也不容易分享可單檔開啟的視覺說明。",
+  "inputs": [
+    "需要清楚解說的問題、可靠來源與必要的真實資料",
+    "支援該 Skill 的 Agent、Node.js >=20 與可寫入的使用者/Workspace 目錄",
+    "視需要的主題、語言、互動問答或影片需求"
+  ],
+  "outputs": [
+    "獨立 .html 解說頁（帶圖表、主題及文字說明）",
+    "可保留的 Markdown 原始 Draft 和 HTML 內 Source",
+    "需要時的 narrated explainer video HTML 或瀏覽器可匯出的影片",
+    "渲染成功／錯誤行號與修正建議"
+  ],
+  "execution": "原始 `skills/answer-me-with-html/SKILL.md` 指示 Agent 只編寫 Markdown Draft，呼叫 `node <skill-directory>/scripts/am.mjs render -` 完成視覺排版，並檢查 CLI 回傳的錯誤與 Output Path。不要手刻 SVG/CSS 假裝使用 Skill。只有使用者授權才安裝 Node、Plugin、寫入全域規則、修改設定或執行清理/更新；README 的 `INSTALL.md` 只是上游安裝說明，不能因讀到其中的自主執行指令就直接安裝。一般結論性解答可主動產生頁面，但 always-on 模式預設關閉；須明確同意才能修改 AGENTS.md/CLAUDE.md。尚未在此 Session 安裝或執行。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "qingyuna-answer-me-with-html"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "research-to-structured-visualization"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/QingYunA/answer-me-with-html/blob/main/skills/answer-me-with-html/SKILL.md",
+    "type": "Official standalone SKILL.md with bundled CLI",
+    "summary": "SKILL.md verified on 2026-10-25; not installed, used or benchmarked."
+  },
+  "status": "active",
+  "addedAt": "2026-10-25",
+  "updatedAt": "2026-10-25",
+  "tags": [
+    "answer-me-with-html",
+    "agent-skill",
+    "single-file-html",
+    "markdown",
+    "diagram",
+    "explanation",
+    "decision",
+    "narration",
+    "nodejs",
+    "cli",
+    "offline-reading",
+    "claude-code",
+    "codex",
+    "renderer",
+    "permission-gate"
+  ]
+}
