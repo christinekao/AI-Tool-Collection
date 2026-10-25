@@ -604,6 +604,90 @@
     },
     {
       "schemaVersion": 2,
+      "id": "anthropics-financial-services",
+      "entityType": "resource",
+      "title": "Anthropic Claude for Financial Services — Reference Agents, Financial Skills & Managed Agent Templates",
+      "canonicalName": "anthropics/financial-services",
+      "category": "06 Skills",
+      "resourceType": "Apache-2.0 open-source Claude Cowork/Claude Code plugin marketplace with financial-agent templates, vertical skills, commands, MCP connector manifests and Claude Managed Agents cookbooks",
+      "purpose": "Anthropic 金融服務業專用的參考 Agent 與 Skills 集合，支援 Claude Cowork 插件、Claude Code Plugin Marketplace 及 Claude Managed Agents API 模板。涵蓋投資銀行、股票研究、私募股權、財富管理、基金行政、財務結帳與 KYC 作業；內含自成一體的 Pitch Agent、Meeting Prep Agent、Market Researcher、Earnings Reviewer、Model Builder、Valuation Reviewer、GL Reconciler、Month-End Closer、Statement Auditor、KYC Screener，以及 financial-analysis 核心技能（DCF、LBO、Comps、3-statement、Excel audit、Deck QA）與不同 Vertical Plugin。",
+      "recommendation": "適合作為金融分析自動化與資料治理、專業 Agent/Skill 架構及 MCP 整合的參考範本。先用文件範例和非敏感測試資料評估，不要假設已取得 FactSet、Morningstar、PitchBook、LSEG、Box 等供應商授權或資料存取權。建置前要驗證 .mcp.json、Plugin Manifest 與 Skill 相容性；金融模型、估值、投資報告、KYC、會計結帳等仍需專業人員覆核與法規檢查，不允許讓範例 Agent 直接進行交易、批准開戶、過帳或代表公司做最終風險決定。",
+      "url": "https://github.com/anthropics/financial-services",
+      "repo": "anthropics/financial-services",
+      "notes": "2026-10-25 核對 Anthropic 官方 GitHub Repo Metadata、README.md、LICENSE、.claude-plugin/marketplace.json、plugins/agent-plugins 目錄、plugins/vertical-plugins/financial-analysis/{skills,.mcp.json}。Repo 為 Apache-2.0，與此前收錄的 `anthropics/knowledge-work-plugins` 不同；這裡專注金融服務，並在 README 提供 Cowork 插件 + Claude Managed Agents API 兩條部署方式。官方 Marketplace 實際列出 19 個插件，包括核心 financial-analysis、investment-banking、equity-research、private-equity、fund-admin、operations、10 個 named Agents、2 個金融資料商合作插件和 M365 Add-in 管理工具。README 的 Investment Banking/Equity Research/PE Skills 包括 /comps、/dcf、/lbo、/earnings、/ic-memo、/screen 等命令；核心技能目錄列出 13 個技能。若只收錄整套 Marketplace，不應把每個 vertical 的 SKILL.md 或管理型 Agent 重複收錄成新的 Skill；日後使用者指定單一 Skill 可逐項展開。README 列出金融數據/文檔 MCP 提供商 Daloopa、Morningstar、S&P Global、FactSet、Moody's、MT Newswires、Aiera、LSEG、PitchBook、Chronograph、Egnyte、Box，訂閱／認證／資料授權及供應商條款須另外核實。重要品質註記：查看本次 main 分支 `plugins/vertical-plugins/financial-analysis/.mcp.json`，在 egnyte 區塊結尾與 box 區塊間發現缺少逗號，使該檔案按標準 JSON 解析會出錯；應先確認 upstream 是否已修復，再使用任何自動安裝/部署流程，不能直接宣稱所有連接器已即插即用。README 也把 Managed Agents `callable_agents` 標為 Research Preview，需檢查帳號可用性，不可推定各使用者已有相同 entitlement。Managed Agent templates `agent.yaml`、leaf-worker、handoff events 與 scripts/deploy-managed-agent.sh 是可選部署參考；未執行腳本、未開啟 MCP 或讀取私人金融資料。這些 Agent 產出草稿、估值模型和對帳供具資格人員審核；不屬投資/稅務/法律/會計建議或交易權限。此輪僅收錄，不安裝、連線或修改金融系統。",
+      "status": "active",
+      "addedAt": "2026-10-25",
+      "updatedAt": "2026-10-25",
+      "tags": [
+        "anthropic",
+        "financial-services",
+        "claude-cowork",
+        "claude-code",
+        "managed-agents",
+        "agent-templates",
+        "financial-analysis",
+        "investment-banking",
+        "equity-research",
+        "private-equity",
+        "wealth-management",
+        "fund-admin",
+        "accounting",
+        "kyc",
+        "lbo",
+        "dcf",
+        "comps",
+        "three-statement-model",
+        "mcp",
+        "data-connectors",
+        "excel",
+        "valuation",
+        "financial-modeling",
+        "risk",
+        "human-signoff",
+        "plugin-marketplace",
+        "apache-2.0",
+        "finance"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "agent-native-tool-abstraction"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/anthropics/financial-services",
+        "marketplaceManifest": "https://github.com/anthropics/financial-services/blob/main/.claude-plugin/marketplace.json",
+        "readme": "https://github.com/anthropics/financial-services/blob/main/README.md",
+        "coreSkills": "https://github.com/anthropics/financial-services/tree/main/plugins/vertical-plugins/financial-analysis/skills",
+        "mcpConfig": "https://github.com/anthropics/financial-services/blob/main/plugins/vertical-plugins/financial-analysis/.mcp.json",
+        "type": "Official Anthropic Repository README, GitHub License/Metadata, marketplace, core financial skills and MCP manifest",
+        "summary": "2026-10-25 static source and manifest verified; not installed, executed, accessed provider data or tested financial conclusions."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "anthropics-knowledge-work-plugins",
       "entityType": "resource",
       "title": "Anthropic Knowledge Work Plugins — Claude Cowork & Claude Code Plugin Marketplace",
