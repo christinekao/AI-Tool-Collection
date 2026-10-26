@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "id": "anthropics-single-agent-loop",
+  "entityType": "skill",
+  "title": "Single Agent Loop — Audit, Measure & Fold Subagents",
+  "purpose": "把官方 Single Agent Loop Kit 的分階段、可中斷續作遷移規程交給 Coding Agent：盤點 Subagents 與責任、建立全鏈路 Baseline、按逐一比較結果決定 Merge／Fold／As Tool／Keep，最後精簡 Prompt 和 Skill。",
+  "problem": "在缺少完整任務測試與回歸證據下重構多 Agent 架構，可能遺失必須的 Handoff、違反業務規則，或只改善平均延遲卻破壞關鍵任務。",
+  "inputs": [
+    "已有 Router／Orchestrator／Subagents 的程式碼、Prompts、Tool 定義與可用的 Trace／Eval",
+    "不觸及正式系統的測試執行入口、授權測試資料與各情境的正確結果定義",
+    "使用者對 Agent 歸屬、風險條件、付費模型執行與每次架構變更的明確決策"
+  ],
+  "outputs": [
+    "single-loop/inventory.tsv 與 PLAN.md（Agent 盤點、分流判斷、評估缺口、遷移項目）",
+    "Baseline 與每個變體的 Task Completion、Task Flip、Latency、Model Calls、Tokens 和 Cost 對照",
+    "將一個 Subagent 改為 Skill／Tool 或保留為結構化 Tool Call 的可回滾更動",
+    "人員確認的 Keep／Fix／Revert 決策與遷移後 Prompt、Skill／Tool 所有權規範"
+  ],
+  "execution": "依官方 release 分支 skill/SKILL.md，每次只載入當前 step：00-audit 盤點並給出 fold/merge/as-tool/keep 判斷，經人工確認；01-baseline 建立端到端 Eval，包含 production chain coverage、critical negative cases 及多次重跑，人工確認分數與所有付費測試；02-merge、03-fold、04-as-tool 按 PLAN.md 每次只變動一個 Agent／一對耦合 Agent，記錄版本並與上一個保留版本比較，經人工同意 Keep／Fix／Revert；05-upkeep 在穩定後稽核系統 Prompt、失效 Skills 與成本。若沒有任何新 Skill 知識需保留，Fold 可以僅變成 Tool；若測試無法證明變更有效，保留 Subagent 是合理結果。未經使用者明確授權，不執行 Git 初始化、修改程式、存取私有系統或運行任何測試／付費模型。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "anthropics-single-agent-loop-kit"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "eval-gated-subagent-consolidation"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "workflowRefs": [
+    {
+      "type": "workflow",
+      "id": "eval-gated-subagent-consolidation-workflow"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/anthropics/single-agent-loop-kit/blob/release/skill/SKILL.md",
+    "type": "Official Anthropic agent skill and six step files",
+    "summary": "Read original SKILL.md and steps on 2026-10-26, not installed/executed. Repo marked unmaintained; real-model testing limited to two example runs as disclosed in README."
+  },
+  "status": "active",
+  "addedAt": "2026-10-26",
+  "updatedAt": "2026-10-26",
+  "tags": [
+    "anthropic",
+    "agent-skill",
+    "single-agent-loop",
+    "subagent-migration",
+    "claude-code",
+    "eval",
+    "stepwise",
+    "human-approval",
+    "skills",
+    "mcp",
+    "tool-calling",
+    "test-coverage",
+    "apache-2.0"
+  ]
+}

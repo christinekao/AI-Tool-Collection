@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 2,
+  "id": "eval-gated-subagent-consolidation-workflow",
+  "entityType": "workflow",
+  "title": "Measured Subagent Consolidation — Audit → Baseline → Fold/Merge → Eval",
+  "goal": "安全且可回滾地評估多 Agent 架構是否能簡化，僅在端到端任務品質不退化、成本與延遲有實測支持的情況下，逐項合併或將 Subagent 轉成主 Agent 可按需載入的 Skill／Tool。",
+  "problem": "組織依專家角色堆疊 Router、Planner 和 Subagents，造成上下文在轉交時流失與多餘模型呼叫；但未經評估就把 Agent 全併入主 Loop 也可能破壞必要的操作依賴、權限或專家判斷。",
+  "solutionStrategy": "採 Anthropic 2026-10-22 官方方法及 Single Agent Loop Kit 的測試導向遷移：先盤點與 Baseline，再一次改動一個 Subagent 或高度耦合的一對；遵守 Chain Coverage、權限、付費與人工核准 Gate，並根據 Task Flip 與實際指標保留、修正或回滾。這是通用的工作流程描述，不等於已在特定使用者系統執行。",
+  "stages": [
+    {
+      "id": "inventory-and-decision",
+      "title": "Audit Agent Topology",
+      "purpose": "盤點 Router、每個 Subagent 的 Prompt／Tools、Context、呼叫鏈、流量、資料與負責人，分類 fold／merge／as-tool／keep；保留來源證據。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "anthropics-single-agent-loop"
+        }
+      ],
+      "outputs": [
+        "Inventory",
+        "候選分類與待核對規則"
+      ],
+      "gate": "使用者已檢查並確認每個 Subagent 的分類；未改動正式程式。"
+    },
+    {
+      "id": "end-to-end-baseline",
+      "title": "Build End-to-End Eval Baseline",
+      "purpose": "沿用並補齊可執行的 Golden Tasks、End-to-End 評分、關鍵 Agent Chain 與負面限制；蒐集多次執行的品質、延遲、模型呼叫與成本。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "anthropics-single-agent-loop"
+        }
+      ],
+      "outputs": [
+        "Baseline tasks and rubric",
+        "Chain coverage",
+        "Measured baseline"
+      ],
+      "gate": "有安全測試環境、正確結果定義和付費使用許可；Baseline 能覆蓋將被修改的 Chain。"
+    },
+    {
+      "id": "candidate-migration",
+      "title": "Merge, Fold or Preserve One Boundary",
+      "purpose": "針對一個候選，選擇合併耦合 Agent、將 Domain Procedure 轉成 Skill 並把 API 轉成 Tools、保留原 Subagent 或將它改為 Structured Tool Call；一次一項可回滾變更。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "anthropics-single-agent-loop"
+        },
+        {
+          "type": "resource",
+          "id": "anthropics-single-agent-loop-kit"
+        }
+      ],
+      "outputs": [
+        "Single scoped change",
+        "Skill／Tool 規格或保留理由"
+      ],
+      "gate": "不存在未涵蓋的關鍵 Chain／業務限制；每個可寫入 Tool 有必要的權限與確認。"
+    },
+    {
+      "id": "compare-and-approve",
+      "title": "Run Eval, Compare and Decide",
+      "purpose": "與上一個獲准保留的版本比較總體 Task Completion、個別 Task Flip、延遲、Token、模型呼叫與成本；抽查 Regression 並要求人工判定 Keep、Fix、Revert 或 Rerun。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "anthropics-single-agent-loop"
+        }
+      ],
+      "outputs": [
+        "Per-task comparison",
+        "Human decision and rollback evidence"
+      ],
+      "gate": "關鍵任務無未接受 Regression，結果與付費模型執行得到人工批准；否則不視為成功遷移。"
+    },
+    {
+      "id": "continuous-upkeep",
+      "title": "Maintain Skills, Prompts and Ownership",
+      "purpose": "在各候選均有記錄與決策後，精簡過時 Prompt、檢查 Skill 觸發和成本，定義共同 System Prompt／Eval 與各 Domain Skill／Tool 的維護責任。",
+      "uses": [
+        {
+          "type": "skill",
+          "id": "anthropics-single-agent-loop"
+        },
+        {
+          "type": "skill",
+          "id": "anthropics-claude-api-prompt-audit"
+        }
+      ],
+      "outputs": [
+        "Updated Prompt/Skill governance",
+        "Regression eval record",
+        "Owner assignments"
+      ],
+      "gate": "變更後仍以端到端 Eval 驗證；保留未通過或尚未執行的項目狀態。"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "eval-gated-subagent-consolidation"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "anthropics-single-agent-loop-kit"
+    }
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "anthropics-single-agent-loop"
+    }
+  ],
+  "useCases": [
+    "既有企業客服／內部知識 Agent 系統的 Router／專家 Agent 精簡",
+    "多 Agent 系統評估保留獨立驗證、平行研究或分工所需的 Context",
+    "讓 Domain Teams 透過 Skills／Tools 參與同一主 Agent，而非各自維護一套 Agent",
+    "模型升級後，重新評估舊 Agent 架構與舊 Prompt 是否仍有必要"
+  ],
+  "notes": "Official primary guide: https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop (2026-10-22), official Kit: https://github.com/anthropics/single-agent-loop-kit (default branch release, Apache-2.0, unmaintained). User supplied secondary news page https://www.aiposthub.com/fold-subagents-ai-news-20261025/ was not directly retrievable and was not used for unsupported claims. Official repo discloses two real-model sample runs only, other migration steps and outside systems unvalidated. Workflow is a documented method; no code, models, external scripts or private systems were run.",
+  "status": "active",
+  "addedAt": "2026-10-26",
+  "updatedAt": "2026-10-26",
+  "tags": [
+    "agent-architecture",
+    "subagent-migration",
+    "single-agent-loop",
+    "evaluation",
+    "benchmark",
+    "human-approval",
+    "progressive-disclosure",
+    "skill-tool-separation",
+    "rollback",
+    "workflow"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "id": "eval-gated-subagent-consolidation",
+  "entityType": "concept",
+  "title": "Eval-Gated Subagent Consolidation",
+  "coreProblem": "多 Agent 架構隨團隊擴張容易產生過度路由、重複 Agent、額外延遲與 Context 在 Handoff 時流失；但一味刪除 Subagents 也可能讓重要的獨立驗證、平行作業或業務規則失效。缺少端到端證據時，無法判斷最適切的 Agent 邊界。",
+  "solutionMethods": [
+    "先蒐集完整流量、上下游耦合關係與業務規則，建立可重跑的端到端 Task Completion Baseline，包括負面條件、關鍵 Agent Chain 及重複執行",
+    "依共享資料、依賴路徑與頻繁連用關係辨識可合併的 Subagents；按 Context 需求而非部門或職稱劃分邊界",
+    "將可依需求載入的專業程序轉為 Skills，將讀寫即時資料、API 操作與硬性權限檢查放到 Tool／MCP，避免把整套規則常駐 System Prompt",
+    "一次只遷移一個 Agent／一組緊密耦合 Agent，對比每項任務由 Pass→Fail 或 Fail→Pass 的變化，以及成本、延遲、Token 和 Tool Calls",
+    "保留真正有價值的獨立 Context、平行研究或第二意見；必要時讓主 Agent 將 Subagent 當成有結構化輸出的 Tool 呼叫",
+    "以明確的人類核准、寫入門檻、成本限制、回滾計畫與跨團隊的共同 Eval 治理調整架構，不因平均分數改善忽略重大失敗"
+  ],
+  "tradeoffs": [
+    "單一主 Agent 可減少跨 Agent 的有損摘要與多次模型呼叫，但過長 Context、Tool 選擇負荷或指令衝突仍可能拖垮品質",
+    "Subagents 有隔離與平行優勢，卻可能增加延遲、權限面與維護成本",
+    "評估結果受任務集、模型版本與測試環境影響，不代表任何部署均有相同性能收益"
+  ],
+  "signals": [
+    "頻繁出現專家 Agent 串接且共享相同資料",
+    "跨 Agent Handoff 導致關鍵細節遺失",
+    "Router／Planner 的專用模型呼叫成為明顯延遲或成本",
+    "端到端評估能辨認重構前後任務是否成功"
+  ],
+  "antiPatterns": [
+    "把每個部門、功能或提示詞都做成獨立 Subagent",
+    "尚無可驗證的任務完成定義就直接重構",
+    "只看平均得分或通過率，不檢查 critical-task regressions",
+    "為精簡數量而移除真正需要平行 Context／獨立驗證的 Agent"
+  ],
+  "examples": [
+    "Anthropic Single Agent Loop Kit (2026-10-22 technical guidance; reference implementation, not maintained)"
+  ],
+  "exampleRefs": [
+    {
+      "type": "resource",
+      "id": "anthropics-single-agent-loop-kit"
+    },
+    {
+      "type": "workflow",
+      "id": "eval-gated-subagent-consolidation-workflow"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-10-26",
+  "updatedAt": "2026-10-26",
+  "tags": [
+    "agent-architecture",
+    "subagents",
+    "single-agent-loop",
+    "eval-gated",
+    "progressive-disclosure",
+    "migration",
+    "context-boundaries",
+    "latency",
+    "quality",
+    "human-in-the-loop"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "id": "anthropics-single-agent-loop-kit",
+  "entityType": "resource",
+  "title": "Anthropic Single Agent Loop Kit — Eval-Gated Subagent Migration",
+  "canonicalName": "Single Agent Loop Kit",
+  "category": "02 Agent Orchestration",
+  "resourceType": "Official Reference Implementation / Agent Architecture Migration Kit / Reusable Skill",
+  "purpose": "Anthropic 官方釋出的 Agent 架構精簡參考實作：盤點 Router、Planner 與 Subagents，先建立端到端 Eval Baseline，再逐一合併高度耦合的 Agent，或將專業規則拆成 Skills、API 動作拆成 Tools；對確實需要獨立 Context 的 Subagent 則改為 Structured Tool Call，並用相同測試集比較品質、延遲、Token 與成本。",
+  "recommendation": "適合已經有多層 Router／Orchestrator／Subagents，且可安全執行測試請求、取得實際完成標準的 Agent 專案。先依 trace 與 eval 判斷，而非盲目追求單一 Agent；平行研究、獨立驗證、Context 膨脹造成可量測品質退化時仍應保留 Subagent。沒有 Subagents 的專案可先參考 reference_loop，不需要做遷移。",
+  "url": "https://github.com/anthropics/single-agent-loop-kit",
+  "repo": "anthropics/single-agent-loop-kit",
+  "notes": "Verified official Claude article (Diane Sarkis, 2026-10-22), GitHub README, skill/SKILL.md, steps/00-audit.md through 05-upkeep.md and LICENSE on 2026-10-26. Repository default branch at review: release (not main). License Apache-2.0; preserve required license/notice obligations when redistributing. Official README explicitly says 'Reference implementation. Not maintained and not accepting contributions'; issues/PRs are not monitored. Includes stepwise skill, Python scripts (coupling_map, chain_coverage, compare, estimate), reference_loop/loop.py, tests and support-desk example. Official README reports only two real-model example runs by one person on one model; merge/upkeep, complete single-loop example, no-eval setup, real-world migration and updated wording are not verified with a real model. Offline fake-model smoke check is not scored. Paid evals call models and incur cost; kit reads agent code/prompts and may access traces or customer data if authorized, so use isolated sandbox/test data, scoped credentials, write approval gates and human confirmation before running. Vendor examples of faster/cheaper single loop are not universal independent benchmarks. User-supplied secondary article URL retained as an unverified pointer only, because its page could not be directly retrieved: https://www.aiposthub.com/fold-subagents-ai-news-20261025/ ; primary source: https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop. Not installed or executed.",
+  "status": "active",
+  "addedAt": "2026-10-26",
+  "updatedAt": "2026-10-26",
+  "tags": [
+    "anthropic",
+    "single-agent-loop",
+    "subagents",
+    "agent-migration",
+    "agent-architecture",
+    "agent-orchestration",
+    "evaluation",
+    "skills",
+    "mcp",
+    "tool-calling",
+    "progressive-disclosure",
+    "latency",
+    "context-management",
+    "reference-implementation",
+    "unmaintained",
+    "apache-2.0"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "eval-gated-subagent-consolidation"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "anthropics-single-agent-loop"
+    }
+  ],
+  "workflowRefs": [
+    {
+      "type": "workflow",
+      "id": "eval-gated-subagent-consolidation-workflow"
+    }
+  ]
+}
