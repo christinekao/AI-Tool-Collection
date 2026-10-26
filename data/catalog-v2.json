@@ -19635,6 +19635,223 @@
     },
     {
       "schemaVersion": 2,
+      "id": "policy-first-reversible-ai-email-triage",
+      "entityType": "workflow",
+      "title": "Policy-First Reversible AI Email Triage — Outlook / Gmail → SQLite → Rules → Jev → Executor",
+      "goal": "以規則優先、低成本 AI 補充分類、人工作業門檻及可回滾操作，整理大量電子郵件；對重要寄件者與敏感通知採保護預設，避免模型誤判直接觸發刪信或退訂。",
+      "problem": "信箱整理若每封都交給昂貴 LLM 處理，會增加成本、延遲與敏感資料暴露；若直接依 AI 分類刪信或退訂，則可能誤傷客戶郵件、銀行、帳單與登入通知，且缺乏逐封紀錄、二次驗證與復原能力。",
+      "solutionStrategy": "依使用者提供的架構截圖，將郵件服務 Provider（讀與受限寫入）、僅含標頭中繼資料的本機 SQLite Index、非 AI 證據 Signals、由上至下 first-match-wins 的 Policy、僅處理未命中案件的 Jev 類別判斷、dry-run Action Plan，以及唯一能修改信箱且先重查狀態的 Executor 分離。大量例行分類交給固定規則或低成本結構化模型，Claude 只抽查分類結果並建議修訂規則，而非逐封重新閱讀；任何破壞性操作與退訂均另設可審核的權限與驗收階段。這是收錄使用者提供的設計模式，不代表系統已建置或測試。",
+      "stages": [
+        {
+          "id": "mail-provider-adapters",
+          "title": "Provider Adapter & Permission Boundary",
+          "purpose": "抽象 Outlook（Microsoft Graph）及未來可能接入的 Gmail。規劃中的讀取介面提供郵件列表、標題及判斷需要的最少 metadata；寫入介面僅容許移動郵件及建立資料夾。原圖標註 Gmail「還沒做」，不可描述為已完成整合。",
+          "uses": [],
+          "outputs": [
+            "Normalized message metadata",
+            "Provider read/write capability contract"
+          ],
+          "gate": "每種 Provider 的真實 read/write 權限需分別確認；不可自行登入、授權或取得郵件內容。"
+        },
+        {
+          "id": "local-metadata-index",
+          "title": "Local SQLite Metadata Index",
+          "purpose": "以本機 SQLite 記錄寄件者、主旨、訊息識別碼、保護聯絡人、個別決策、規則、待確認佇列、動作日誌及 Jev 分類結果；原設計不儲存郵件本文。考量主旨與寄件者仍可能含個資。",
+          "uses": [],
+          "outputs": [
+            "Local searchable metadata index",
+            "Protection list",
+            "Rules and decision history"
+          ],
+          "gate": "限制權限及保存期限；如需送雲端模型，先確認最小化資料欄位與處理政策。"
+        },
+        {
+          "id": "non-ai-signal-extraction",
+          "title": "Deterministic Message Signals",
+          "purpose": "先使用不依賴 AI 的線索，例如群發證據、收據與驗證碼標籤、SPF／DKIM 等驗證風險，作為規則的輸入；信件真偽或可刪性不可僅由單一標籤判定。",
+          "uses": [],
+          "outputs": [
+            "Typed evidence flags",
+            "Authentication risk indicators"
+          ],
+          "gate": "標籤只能作為判斷線索，不得單獨解除重要郵件的保護。"
+        },
+        {
+          "id": "priority-first-match-policy",
+          "title": "First-Match-Wins Policy Decision",
+          "purpose": "嚴守圖片中的六級優先序，首個命中即停止：1 客戶／使用者已通信或聯絡人→客戶資料夾且不刪；2 使用者逐封做過的決定；3 使用者規則（寄件者、網域、網域+主旨，較具體者優先）；4 內建規則（例如電子發票、對帳單及舊登入通知，圖片中將部分通知列為刪除候選）；5 僅未命中時使用 Jev（促銷→刪除候選、電子報→電子報資料夾、其餘→不動）；6 其他→封存，不刪。",
+          "uses": [],
+          "outputs": [
+            "Policy decision with matched rule and priority",
+            "Protected and candidate actions"
+          ],
+          "gate": "重要聯絡人／銀行／帳單／合約／驗證及安全通知列保護清單，優先於刪除候選；圖片的刪除分類僅表示建議，非核准自動刪除。"
+        },
+        {
+          "id": "low-cost-jev-classification",
+          "title": "Jev Typed Classification for Unmatched Messages",
+          "purpose": "對前面高優先級規則未命中的信件，再以 Jev 類別判斷促銷、電子報或不動；保存分類、信心與理由可查證性（若 API 能提供），低信心或高風險歸待確認。不得推論 Jev 已接通，或分類精度已獲驗證。",
+          "uses": [
+            {
+              "type": "resource",
+              "id": "typesafe-ai-jev"
+            }
+          ],
+          "outputs": [
+            "Model classification candidate",
+            "Review-needed flag"
+          ],
+          "gate": "需先查證確切 Jev 模型及服務、計費、資料外送範圍與可用欄位；置信度要在真實樣本上校準，不能直接當可靠度保證。"
+        },
+        {
+          "id": "dry-run-action-plan",
+          "title": "Generate Action Plan Without Mailbox Writes",
+          "purpose": "Policy 僅產出將保留、搬移、標籤、封存、待確認或刪除候選的計畫及每筆判斷依據，絕不直接呼叫寫入 Provider。第一階段只貼標籤或移至待確認資料夾，不做永久刪除。",
+          "uses": [],
+          "outputs": [
+            "Auditable dry-run plan",
+            "Protected/uncertain/deletion-candidate queues"
+          ],
+          "gate": "計畫和真正執行的權限分離；不得由模型自由文字觸發刪除。"
+        },
+        {
+          "id": "claude-sampled-audit-and-approval",
+          "title": "Sample Audit, Rule Review & Human Approval",
+          "purpose": "Claude 抽查規則命中與 Jev 分類的樣本，找出誤判原因並提出規則修改；以各類別及高風險案例追蹤誤判率。使用者確認規則變更與高風險操作，誤判未穩定時維持待確認流程。",
+          "uses": [],
+          "outputs": [
+            "Sampled QA findings",
+            "Rule adjustment proposals",
+            "Approval and exception record"
+          ],
+          "gate": "Claude 的抽查建議不是已驗證正確；銀行、帳單、合約、客戶、安全驗證信不得因抽查結果被自動退訂或刪除。"
+        },
+        {
+          "id": "single-writer-reversible-executor",
+          "title": "Single-Writer Executor With Read-Back",
+          "purpose": "只有 Executor 有權呼叫受限寫入 Provider。執行前重新比對保護清單，移動前重新確認郵件仍在原資料夾；逐封記錄原/新位置與識別碼、支援整批回滾，並對 API 寫入限速、重試與異常中止。",
+          "uses": [],
+          "outputs": [
+            "Per-message action audit log",
+            "Provider read-back result",
+            "Rollback mapping"
+          ],
+          "gate": "先做可逆搬移與驗證；任何移至垃圾桶、永久刪除或不可逆動作需要額外核准且確認復原限制，不能直接按分類模型結果執行。"
+        },
+        {
+          "id": "unsubscribe-separate-track",
+          "title": "Separate Unsubscribe Policy",
+          "purpose": "把退訂與郵件分類／搬移分成獨立工作，僅可對已確認的行銷郵件及合適退訂方式進行操作；白名單排除銀行、帳單、合約、客戶及重要服務通知。",
+          "uses": [],
+          "outputs": [
+            "Approved marketing unsubscribe candidates",
+            "Excluded service/sensitive sender list"
+          ],
+          "gate": "預設不自動退訂；需驗證發信來源與退訂網址安全性，避免惡意連結、錯誤退訂或洩漏收件地址。"
+        },
+        {
+          "id": "cli-mcp-review-interface",
+          "title": "CLI / MCP Interface For Inspecting Plans",
+          "purpose": "架構圖末端預留 CLI 與 MCP 伺服器，供使用者或 AI 查詢規則、待確認結果與可審核計畫；AI 不直接繞過 Policy 和 Executor。",
+          "uses": [],
+          "outputs": [
+            "Inspectable plan and operation logs",
+            "Controlled management interface"
+          ],
+          "gate": "MCP 介面須分離 read-only 與寫入能力並設身分驗證及操作範圍；目前僅為架構設計，未核實實作。"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "system-1-decision-layer"
+        },
+        {
+          "type": "concept",
+          "id": "confidence-gated-automation"
+        },
+        {
+          "type": "concept",
+          "id": "deterministic-execution-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "local-first-sensitive-data-processing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "capability-cost-routing"
+        }
+      ],
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "typesafe-ai-jev"
+        }
+      ],
+      "useCases": [
+        "大量 Outlook 郵件分批整理及重要信件保護",
+        "未來增加 Gmail Provider 時保持 Policy 與 Executor 可重用",
+        "先低成本分類再抽查、調整規則，降低大模型逐封處理成本",
+        "保留可復原的郵件搬移紀錄與高風險人工確認"
+      ],
+      "architecture": {
+        "provenance": "User-supplied architecture screenshot and explanatory text, 2026-10-27. Not an official software release or verified running system.",
+        "flow": "Outlook (Microsoft Graph; read stage shown) / Gmail (marked not built) → Provider read/list and restricted move/create-folder contract → local SQLite metadata only → non-AI signals → priority policy.decide + Jev fallback → dry-run plan → separate Executor with protection recheck/read-back/reversible logs → CLI or MCP interface",
+        "policyPriority": [
+          "1. 客戶（已通信/聯絡人）：客戶資料夾，永不刪",
+          "2. 使用者個別做過的決定",
+          "3. 使用者規則（寄件者/網域/網域+主旨；更具體優先）",
+          "4. 內建規則（電子發票/對帳單/舊登入通知；原圖可能分類部分通知為刪除候選，實際不得無審核刪除）",
+          "5. Jev（促銷/電子報/其他）；只有前面未命中才使用",
+          "6. 剩餘封存，不刪"
+        ],
+        "modelRoles": {
+          "jev": "高頻、低成本分類建議；不是 Executor。",
+          "claude": "抽樣稽核、提出規則修正，不逐封常態重讀。"
+        },
+        "reversibility": "先標籤或待確認資料夾，不永久刪信；受控執行前重新讀取郵件位置與保護清單，逐封記錄新舊 ID/位置，限速並可整批回滾。",
+        "status": "Proposed architecture; screenshot makes no demonstrable claim that it has been deployed or tested; Gmail is explicitly not yet done."
+      },
+      "notes": "資料來源為使用者直接貼出的架構圖與安全補充文字，並非有官方授權／效能結果的獨立 GitHub 工具。圖中列 Microsoft Graph / Outlook、Gmail 尚未實作、SQLite（僅寄件者／主旨／訊息 ID）、訊號、policy.decide、Jev、Executor、CLI / MCP。使用者補充：大量分類由低成本模型處理，Claude 只抽樣檢查與修規則；初期不刪除而搬至待確認，誤判率穩定後再評估清理；退訂應與分類分開且對銀行／帳單／合約等寄件者設保護白名單。Jev 暫連結已收錄的 TypeSafe AI Jev 作為名稱對應，實際模型版本、部署形態與 API 使用尚待查核，不可與 jev-router 混淆。圖片提到『刪除』應視為候選意圖；API move-to-trash 不保證永久可逆，也不等於核准刪除。未存儲郵件本文不代表無個資，郵件主旨與寄件者仍可能涉及敏感內容。此文件只保存架構與安全建議，沒有接通 Gmail/Outlook、執行 Jev/Claude、安裝任何工具、刪信、退訂或實測。",
+      "status": "unreviewed",
+      "addedAt": "2026-10-27",
+      "updatedAt": "2026-10-27",
+      "tags": [
+        "email-triage",
+        "inbox-zero",
+        "mailbox-automation",
+        "outlook",
+        "microsoft-graph",
+        "gmail-planned",
+        "sqlite",
+        "metadata-only",
+        "jev",
+        "claude-review",
+        "policy-engine",
+        "deterministic-rules",
+        "first-match-wins",
+        "confidence-gate",
+        "human-in-the-loop",
+        "dry-run",
+        "rollback",
+        "reversible-execution",
+        "mcp",
+        "cli",
+        "architecture-reference",
+        "unverified"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "reference-agent-implementation",
       "entityType": "workflow",
       "title": "Reference → Agent → Implementation",
