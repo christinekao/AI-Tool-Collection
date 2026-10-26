@@ -2549,6 +2549,66 @@
     },
     {
       "schemaVersion": 2,
+      "id": "elayadesign-ai-design-skills",
+      "entityType": "resource",
+      "title": "AI Design Skills — Landing Page Design & Design to Motion",
+      "canonicalName": "AI Design Skills",
+      "category": "06 Skills",
+      "resourceType": "Cross-Harness AI Design Skill Collection / Markdown SKILL.md",
+      "purpose": "Elaya 維護的 AI 前端設計指令集，將 Landing Page 規劃、轉換導向文案與明確視覺規範，以及從靜態 Figma／UI 畫面重建高保真動態展示、輸出影片與 GIF 的操作流程，拆成兩個可獨立使用的 SKILL.md。",
+      "recommendation": "適合使用 Claude Code、Cursor、Codex、Windsurf 等 AI coding 工具時，希望用可複用規範產出 Landing Page 或將 UI 畫面製成動態產品展示的人；應先核對既有品牌、實際產品證據與可及性規範。",
+      "url": "https://github.com/elayadesign/ai-design-skills",
+      "repo": "elayadesign/ai-design-skills",
+      "notes": "Official README, two SKILL.md files, folder list and root LICENSE checked on 2026-10-26. Contains skills/landing-page-design/SKILL.md and skills/design-to-motion/SKILL.md; each folder currently contains only its SKILL.md, not executable scripts. Official installation examples copy rules into Claude Code/Cursor/Codex/Windsurf, but no tool was installed or run. Repository license: MIT, including permission for commercial use subject to preserving copyright and license notices in copies/substantial portions. landing-page-design includes prescriptive fonts/layout/motion constraints and recommends realistic sample numbers, names and testimonials: generated sample claims must not be represented as verified facts. design-to-motion describes optional Figma API access with a user credential, exported design assets, browser rendering and FFmpeg: privacy, local commands and dependencies require separate permission and review. No quality, conversion gains, export fidelity or security claims were independently tested.",
+      "status": "active",
+      "addedAt": "2026-10-26",
+      "updatedAt": "2026-10-26",
+      "tags": [
+        "agent-skills",
+        "ai-design",
+        "landing-page",
+        "conversion-copy",
+        "frontend-design",
+        "visual-system",
+        "design-to-motion",
+        "figma",
+        "motion-design",
+        "gif",
+        "mp4",
+        "cross-harness",
+        "claude-code",
+        "cursor",
+        "codex",
+        "windsurf",
+        "mit-license"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "elayadesign-landing-page-design"
+        },
+        {
+          "type": "skill",
+          "id": "elayadesign-design-to-motion"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "electron",
       "entityType": "resource",
       "title": "Electron",
@@ -9533,6 +9593,146 @@
         "documentation",
         "integration",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "elayadesign-design-to-motion",
+      "entityType": "skill",
+      "title": "Design to Motion — Pixel-Fidelity UI Showcase & Motion Export",
+      "purpose": "將 Figma frame、Dashboard、App UI、Bento Card 或靜態畫面重建為可動態展示的高保真介面，先驗證靜態畫面，再安排 loading、視覺敘事、無縫循環與 MP4／GIF 輸出。",
+      "problem": "單純把整張設計圖移動或淡入無法保留可分層、可講述狀態變化的 UI；畫面重建、動作節奏、循環接縫與輸出解析度也容易缺乏可檢查的驗收標準。",
+      "inputs": [
+        "來源 Figma 節點連結或參考圖片（必要時取得授權的 Figma API Token）",
+        "展示用途（Showcase 或 Website）、頁面/圖層結構、是否需保持照片背景不動",
+        "預期展示的介面狀態、輸出尺寸及可及性要求",
+        "可供執行的前端/錄製/編碼環境（僅實際執行時需要）"
+      ],
+      "outputs": [
+        "與來源畫面比對的靜態 UI 重建及品質記錄",
+        "由空狀態進入內容、元件呈現行為並循環的 Showcase 或網站視覺區塊",
+        "Showcase 預設的 MP4（X）、網站 GIF 與 800×500 GIF；網站情境則預設只交付動畫區塊",
+        "PSNR／溢位／循環接縫等檢查結果與無法完全重建之處（需實際運行才能確認）"
+      ],
+      "execution": "依官方 skills/design-to-motion/SKILL.md：先判斷 Showcase 或 Website；Part A 從 Figma API／參考圖取得結構、分層並比對重建後的 still frame，背景保持不動；Part B 依元素安排 empty → load → element story → seamless loop，區分完整 Showcase 與網站局部動效，遵守 prefers-reduced-motion、離開 viewport 暫停等規則；Part C 僅 Showcase 或明確要求輸出時錄製並以 FFmpeg 匯出 MP4／GIF。文件描述需 Figma API access token、瀏覽器截圖/錄製與影片編碼工作環境，這些只是流程需求，未經使用者另行授權不得讀取私有設計、提供憑證、執行程式或對外傳送素材。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "elayadesign-ai-design-skills"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "motion-interaction-layer"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "reference-as-prompt-evidence"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/elayadesign/ai-design-skills/blob/main/skills/design-to-motion/SKILL.md",
+        "type": "Official repository SKILL.md",
+        "summary": "Read official 3-part protocol and MIT LICENSE on 2026-10-26; export formats are documented specifications, not tested outputs."
+      },
+      "status": "active",
+      "addedAt": "2026-10-26",
+      "updatedAt": "2026-10-26",
+      "tags": [
+        "design-to-motion",
+        "motion-design",
+        "figma",
+        "design-fidelity",
+        "animated-ui",
+        "dashboard",
+        "product-showcase",
+        "gif",
+        "mp4",
+        "ffmpeg",
+        "animation",
+        "agent-skill",
+        "accessibility",
+        "mit-license"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "elayadesign-landing-page-design",
+      "entityType": "skill",
+      "title": "Landing Page Design — Offer, Copy, Structure & Visual System",
+      "purpose": "把單一受眾、單一 Offer 與單一主要 CTA 轉成 Landing Page 架構、文案、SEO/AEO 決策與可檢查的設計規則，包含 typography、spacing、radius、motion、互動狀態、responsive/a11y 與交付檢查。",
+      "problem": "AI 直接生成行銷頁面時，容易缺少明確轉換目標與證據，文案空泛、視覺 tokens 不一致，且忽略 loading/error/focus、SEO 或行動版品質。",
+      "inputs": [
+        "主要 Offer、受眾、目標轉換與流量來源",
+        "使用者提供的產品功能、實際佐證、品牌素材、限制與既有 Design System",
+        "現有網站或專案技術脈絡（若為修改工作）"
+      ],
+      "outputs": [
+        "頁面大綱、Hero 文案、利益點、操作步驟、FAQ 與單一 CTA",
+        "SEO/AEO、索引與版型建議",
+        "遵循明確 typography、spacing、radius、色彩、動效與互動狀態規則的前端實作或檢查清單"
+      ],
+      "execution": "依官方 skills/landing-page-design/SKILL.md：先執行 Part A intake／內容策略，決定 one offer → one audience → one primary action、頁面區塊及 copy；再執行 Part B typography、spacing、corner radius、background、hero、icons、motion、states 與 ship requirements；按 Hero → Benefits → How it works → Proof → FAQ → Final CTA 分段實作並核對 checklist。作者列出可複製 SKILL.md 至各 AI coding 工具的方式，並非保證所有工具原生支援相同格式。視覺設計規則相當強制，應以使用者明確需求、既有品牌與可及性標準優先；Skill 的 content-realism 建議可能生成看似真實的範例名稱、數字或證言，必須明確標記為示例，不能冒充實際驗證數據。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "elayadesign-ai-design-skills"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/elayadesign/ai-design-skills/blob/main/skills/landing-page-design/SKILL.md",
+        "type": "Official repository SKILL.md",
+        "summary": "Read official skill and MIT LICENSE on 2026-10-26; no installation, execution or output testing."
+      },
+      "status": "active",
+      "addedAt": "2026-10-26",
+      "updatedAt": "2026-10-26",
+      "tags": [
+        "landing-page",
+        "conversion-copywriting",
+        "design-system",
+        "typography",
+        "spacing",
+        "seo",
+        "aeo",
+        "frontend",
+        "ai-coding-skill",
+        "accessibility",
+        "claude-code",
+        "cursor",
+        "codex",
+        "mit-license"
       ]
     },
     {
