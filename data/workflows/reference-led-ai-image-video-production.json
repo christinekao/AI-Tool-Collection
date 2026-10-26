@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 2,
+  "id": "reference-led-ai-image-video-production",
+  "entityType": "workflow",
+  "title": "參考素材 → AI 圖片／影片製作 → 後製｜Claude × Google Flow",
+  "goal": "將圖片、影片參考、品牌商品或店面照片轉成可製作的圖片或短影音；區分純生圖、有參考影片及無參考影片三種路徑，透過 Claude 協助需求釐清／Prompt／分鏡、Google Flow 生成及可選後製完成。",
+  "problem": "沒有事先確認主題、參考素材權利、分鏡和必須保留的品牌元素，AI 產出的角色、商品、場景、字幕及聲音容易不一致；把參考影片直接交給 AI、修改區段或建立個人分身等功能又可能因實際產品或權限而受限。",
+  "solutionStrategy": "保存使用者貼出的 Notion 操作筆記：先從 Artlist／Higgsfield／Pinterest／MeiGen 尋找參考（或使用既有圖片），圖片可指定風格重新生成；影片有參考時先由 Claude 釐清需求，產生 Gemini Omni／Google Flow 適用的 Prompt 與分鏡，再在 Flow 產生影片，不滿意時可迭代或改以 Claude Code 協調外部影音編修工具；無參考影片時先由 Claude 設計三個候選腳本及影片 Prompt，視需要用 Nano Banana 產出分鏡圖，再交給 Google Flow 製片；另將本人 Avatar 視為可選進階功能。原筆記為使用者的示範方法，非已完成或測試的系統。保留原句，並以獨立注意事項說明可用性、版權和處理限制。",
+  "stages": [
+    {
+      "id": "source-references",
+      "title": "蒐集與篩選參考素材",
+      "purpose": "從 Artlist／Higgsfield／Pinterest／MeiGen 尋找構圖、剪接節奏、角色與配樂的參考，或直接使用自有店外觀照、商品／Logo、現成圖片或授權影片。區分參考風格與真正要上傳／改編的檔案。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "artlist"
+        },
+        {
+          "type": "resource",
+          "id": "higgsfield-ai"
+        },
+        {
+          "type": "resource",
+          "id": "pinterest-visual-reference"
+        },
+        {
+          "type": "resource",
+          "id": "meigen-ai"
+        }
+      ],
+      "outputs": [
+        "參考圖、參考影片或素材來源連結",
+        "風格／鏡位／商品識別條件",
+        "授權及上傳許可確認"
+      ],
+      "gate": "公開網站可以當靈感來源，不代表其影片／圖片獲准下載、直接投入第三方模型、仿作或商用。"
+    },
+    {
+      "id": "image-reference-generation",
+      "title": "路徑 A｜圖片生成（有參考圖片）",
+      "purpose": "提供參考圖片給支援視覺輸入的 AI，描述希望借鑑的風格、光線、構圖、畫面比例與實際要生成的新內容，並避免直接複製具識別性的第三方作品。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "google-flow"
+        }
+      ],
+      "outputs": [
+        "生圖指令",
+        "AI 生成／編輯的圖片",
+        "與參考圖差異檢查"
+      ],
+      "gate": "輸入具足夠授權的圖片；圖片文字、Logo、實體外觀和細節需人工檢查。",
+      "appliesTo": [
+        "image-only"
+      ]
+    },
+    {
+      "id": "video-with-reference-brief",
+      "title": "路徑 B｜有參考影片：Claude 釐清需求及分鏡",
+      "purpose": "先請 Claude 確認影片用途、長度、鏡頭、人物、產品置換、旁白、配樂、字幕、格式等條件，再寫給 Gemini Omni／Google Flow 的 Prompt 和分鏡圖指令。原筆記案例把參考影片內的車子替換為圖一吐司照片。",
+      "uses": [],
+      "outputs": [
+        "經使用者確認的 Creative Brief",
+        "Prompt 與分鏡／Shot List",
+        "置換主體和時間軸指令"
+      ],
+      "gate": "Claude 一般上傳支援清單只明列文件與圖片，未確認所有 Claude 客戶端可以直接分析影片檔；必要時先轉為獲授權的影格、分鏡或逐字稿。確認用途、人物與商品置換的授權。",
+      "appliesTo": [
+        "video-with-reference"
+      ]
+    },
+    {
+      "id": "video-no-reference-concepts",
+      "title": "路徑 C｜無參考影片：三個腳本候選",
+      "purpose": "依使用者提供的角色與場景資訊，請 Claude 提出三個可選的短影音腳本，以及包含配樂、字幕、旁白與鏡位的生成 Prompt；原例為騎車吐司人搭配店外觀照片。「爆紅」屬創作目標，不能保證觀看量或社群成效。",
+      "uses": [],
+      "outputs": [
+        "三個腳本提案",
+        "選定腳本與完整拍攝／影片生成 Prompt"
+      ],
+      "gate": "使用者確認腳本、視覺元素、實際服務或商品宣稱後再開始生成。",
+      "appliesTo": [
+        "video-without-reference"
+      ]
+    },
+    {
+      "id": "optional-nano-banana-storyboards",
+      "title": "可省略｜Nano Banana 視覺分鏡",
+      "purpose": "將選定腳本／Prompt 轉成具有場景和主體一致性的分鏡圖，用於後續 Google Flow 的 Images、Ingredients 或 Frames；不做此步也可以只提供文字指令。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "google-flow"
+        }
+      ],
+      "outputs": [
+        "可選分鏡圖",
+        "Characters／Props／Location 一致性參考"
+      ],
+      "gate": "角色與商品特徵需人工核對；同一角色在跨鏡頭生成時可能仍有漂移。",
+      "appliesTo": [
+        "video-without-reference",
+        "video-with-reference"
+      ]
+    },
+    {
+      "id": "google-flow-generate",
+      "title": "Google Flow｜Omni／Veo 影片生成與迭代",
+      "purpose": "將 Prompt、分鏡、參考圖片或合規影片交給 Flow；根據可用模型選 Omni Flash、Veo 與 Inputs，產生影片並檢查主體是否正確被替換。對可修改的段落嘗試 Flow 原生對話修改／Scenebuilder，並保留可回復的歷史版本。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "google-flow"
+        }
+      ],
+      "outputs": [
+        "影片候選及歷史版本",
+        "鏡頭連續性／字幕／音效問題清單"
+      ],
+      "gate": "生成前確認功能、區域、模型、點數與權限；Google Flow 各模型並非同時具備相同工具與聲音能力。音樂、旁白與字幕即使列於 Prompt 也不保證所有模型一次產出。",
+      "appliesTo": [
+        "video-with-reference",
+        "video-without-reference"
+      ]
+    },
+    {
+      "id": "optional-post-production-claude-code",
+      "title": "可選｜Claude Code 協調時間碼後製",
+      "purpose": "若生成影片需要重新配音、特定秒數加入 Logo、字幕、文字等，依明確時間碼與原始素材提供可執行編修規格，再由獲授權的程式／FFmpeg／影音編輯器完成並檢查；原筆記表示可交 Claude Code 處理。",
+      "uses": [],
+      "outputs": [
+        "Timecode Edit Decision List",
+        "重配音／字幕／Logo 時間表",
+        "經實際工具編碼輸出的影片（僅真正執行才有）"
+      ],
+      "gate": "Claude Code 並非預設可直接在聊天中完成任意秒數影片剪輯；需有受支援的檔案讀取、影音工具及可寫入工作目錄。不可假設需要固定一種付費方案或所有功能都內建，執行需另行授權。",
+      "appliesTo": [
+        "video-with-reference",
+        "optional-video-revision"
+      ]
+    },
+    {
+      "id": "avatar-optional",
+      "title": "進階可選｜Google Flow 本人 Avatar",
+      "purpose": "若要在影片中出現創作者本人，先使用 Google Flow 官方建立 Avatar 流程並在支援的提示框用 @me 引用，增加同一角色與聲線一致性。",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "google-flow"
+        }
+      ],
+      "outputs": [
+        "本人同意並建立的 Avatar",
+        "含本人 Avatar 的影片場景（若已執行）"
+      ],
+      "gate": "必須是本人自願建立，且須符合官方年齡／地區／身分與肖像政策。官方說明 EEA、英國及瑞士不支援，建立需手機流程；未執行或驗證實際效果。",
+      "appliesTo": [
+        "optional-avatar"
+      ]
+    },
+    {
+      "id": "final-qa-and-rights",
+      "title": "發布前品質／權利檢查",
+      "purpose": "核對畫面比例、Logo、商品正確性、配音時間碼、字幕錯字、聲音來源、音樂著作權、來源素材與模型輸出的商用許可，避免把尚未跑出的輸出標記為已完成。",
+      "uses": [],
+      "outputs": [
+        "輸出 QA 清單",
+        "未通過與待查事項",
+        "允許發布的最終檔案（若實際完成）"
+      ],
+      "gate": "未經產物預覽、播放與授權核對，不可宣稱影片品質、商業權利或社群成效已驗證。"
+    }
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "artlist"
+    },
+    {
+      "type": "resource",
+      "id": "higgsfield-ai"
+    },
+    {
+      "type": "resource",
+      "id": "pinterest-visual-reference"
+    },
+    {
+      "type": "resource",
+      "id": "meigen-ai"
+    },
+    {
+      "type": "resource",
+      "id": "google-flow"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reference-as-prompt-evidence"
+    },
+    {
+      "type": "concept",
+      "id": "content-production-pipeline"
+    },
+    {
+      "type": "concept",
+      "id": "agentic-media-pipeline"
+    },
+    {
+      "type": "concept",
+      "id": "episodic-character-asset-consistency"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "prompt-to-output-comparative-learning"
+    }
+  ],
+  "useCases": [
+    "以參考圖片風格生成新的原創圖片",
+    "以現成影片的鏡頭節奏為參考，置換為商品主體製作短片",
+    "店面外觀照片＋角色設定生成社群短片",
+    "AI 分鏡圖輔助提高角色、道具和鏡頭一致性",
+    "明確秒數的配音、文字、Logo、字幕後製",
+    "本人 Avatar 出現在原創短片中"
+  ],
+  "examples": {
+    "image": "拿想參考的圖片給 AI，並說明「參考圖一的風格，幫我產生……」。",
+    "videoWithReference": "先把參考影片丟給 AI，說明要用 Gemini Omni 做影片，請它寫出 prompt 並產生分鏡圖，且要把影片中的車子替換成圖一的吐司照片。開始製作前，請它先問我問題以確認需求。",
+    "videoWithoutReference": "我想做爆紅影片，主角是騎車的吐司人，附檔是我的店外觀照，請幫我想 3 個爆紅腳本；我要用 Gemini Omni 做影片，請幫我寫出 prompt（記得寫明要有配樂、字幕、旁白配音）。",
+    "postProduction": "第幾秒到第幾秒的配音重配（要有磅礡的氣勢）、第幾秒到第幾秒要加上 LOGO、文字、字幕……"
+  },
+  "branches": [
+    {
+      "id": "image-only",
+      "route": [
+        "source-references",
+        "image-reference-generation",
+        "final-qa-and-rights"
+      ]
+    },
+    {
+      "id": "video-with-reference",
+      "route": [
+        "source-references",
+        "video-with-reference-brief",
+        "optional-nano-banana-storyboards",
+        "google-flow-generate",
+        "optional-post-production-claude-code",
+        "final-qa-and-rights"
+      ]
+    },
+    {
+      "id": "video-without-reference",
+      "route": [
+        "source-references",
+        "video-no-reference-concepts",
+        "optional-nano-banana-storyboards",
+        "google-flow-generate",
+        "final-qa-and-rights"
+      ]
+    },
+    {
+      "id": "optional-avatar",
+      "route": [
+        "avatar-optional",
+        "google-flow-generate",
+        "final-qa-and-rights"
+      ]
+    }
+  ],
+  "notes": "使用者於 2026-10-27 直接貼出 Notion 筆記全文供收錄；原 Notion URL 曾因存取受限而無法讀取，本次以使用者貼文為唯一筆記原始內容，不宣稱已重新讀取該頁。網站來源 Artlist、Higgsfield、Pinterest、MeiGen、Google Flow，官方功能及授權條款另行查核於 2026-10-27。官方 Google 資料確認 Gemini Omni Flash 是 Flow 支援模型、Nano Banana 可生圖、Characters/Avatar 可引用；不同方案和模型有條件限制。Claude Help 2026-07-23 的上傳清單為文件與圖片，沒有確認所有 Claude 前端可以直接讀取影片；Claude Code 後製需依靠實際工具，不能捏造已完成剪輯或直接影片輸入支援。參考圖片／影片、音樂、品牌、肖像及 AI 訓練／公開分享授權需個別判斷；Artlist 的下載 Asset 與 AI Output 使用限制不同；Pinterest 參考內容不是免費素材。此項為使用者提供的操作方法而非有成功率證據的專業 SOP，未進行生成、剪輯、訂閱、登入、連接任何帳號、安裝或跑模型。原文的示範 Prompt 保存在 examples；未獨立抽取成 Prompt Entity，因沒有足夠證據其脫離工作流後仍需獨立收藏。",
+  "status": "unreviewed",
+  "addedAt": "2026-10-27",
+  "updatedAt": "2026-10-27",
+  "tags": [
+    "ai-video",
+    "image-generation",
+    "reference-image",
+    "reference-video",
+    "storyboard",
+    "scriptwriting",
+    "gemini-omni",
+    "nano-banana",
+    "google-flow",
+    "claude",
+    "claude-code",
+    "video-postproduction",
+    "timecode",
+    "avatar",
+    "artlist",
+    "higgsfield",
+    "pinterest",
+    "meigen",
+    "asset-rights",
+    "workflow"
+  ]
+}
