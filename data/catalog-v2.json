@@ -4073,6 +4073,124 @@
     },
     {
       "schemaVersion": 2,
+      "id": "hirakujira-pokeep",
+      "entityType": "resource",
+      "title": "Pokeep — Pokémon GO Local iPhone Collection Scanner & Safety-Gated Transfer Assistant",
+      "canonicalName": "hirakujira/Pokeep",
+      "category": "10 Reference Applications",
+      "resourceType": "Local-first Next.js / SQLite app, iPhone Use USB automation, Apple Vision OCR, OpenAI vision-assisted collection analysis",
+      "purpose": "在 Mac 本機的網頁操作介面中，透過 iPhone Use 及 USB 控制 iPhone，分段擷取 Pokémon GO 寶可夢盒子、能力與評價畫面；使用 Apple Vision 本機 OCR、像素 IV 量測與必要裁圖的 AI 視覺核對，結合 PvPoke、Game Master PvE、養成資源、進化／收藏規則，分析值得保留或可放生的寶可夢。提供暫停／續掃、人工核對、證據截圖，以及經使用者勾選及多重安全確認後才嘗試批次放生。",
+      "recommendation": "適合作為本機優先的『裝置 UI 擷取 → 本機文字/像素辨識 → 少量 AI 校對 → 結構化評估 → 人工確認 → 不可逆操作安全閘門』案例，用來研究高風險自動化的授權、身分再驗證、確認點與停止策略。實際用於 Pokémon GO 存在第三方自動操作的服務條款與停權風險；建議先研究架構與模擬測試，不要把示範流程當作官方授權的遊戲自動化工具。",
+      "url": "https://github.com/hirakujira/Pokeep",
+      "repo": "hirakujira/Pokeep",
+      "notes": "2026-10-27 已直接核對 GitHub master README.md、package.json、THIRD_PARTY_NOTICES.md、src/lib/iphone-safety.ts、iphone-transfer.ts、openai-config.ts，並查看 tests/iphone.test.ts、tests/core.test.ts 的測試案例名稱；未執行任何測試，不能聲稱通過。Repo 無根目錄 LICENSE，package.json private:true 不等於發佈授權，作者未明確對整體原始碼提供 MIT/Apache 等授權；THIRD_PARTY_NOTICES.md 內的 MIT 只屬 PvPoke，遊戲資料、素材與商標另受權利人保護。Mac Node.js 24 LTS、USB iPhone、Apple 開發團隊／Xcode WDA、Python 3.9+、iPhone Use 依賴，以及 OpenAI API Key 或相容 Responses API（圖片及 JSON 格式輸出）為官方條件；API 按實際使用量另計，與 ChatGPT 訂閱無關。使用 SQLite 儲存於未版控 .data/，官方聲稱僅把必要裁切圖送 AI 且 store:false；仍應視 API Provider 及畫面可能含非預期資訊而檢查資料安全，store:false 不保證所有服務端沒有其他留存。PvP 評級來源 PvPoke；PvE 用 Game Master 簡化 DPS，不是完整團體戰模擬；稀有或不明狀態不可自動放生，作者實作了人工確認、前景 App 檢查、搜尋結果唯一 CP 校驗、操作前 durable journal 及結果不明暫停而不重送。掃描和放生仍依賴可變的 iPhone UI，OCR 與座標可能錯配，放生通常不可復原。Pokémon GO 官方遊戲公平政策可能將第三方自動控制、bots 或未授權軟體視為違規，可停權或永久封禁；這不是官方 Pokémon GO 工具。沒有登入、連結設備、使用 API Key、安裝 iPhone Use、執行程式、測試辨識或觸發放生。Repo main branch 不是預設，此原始 Repo default branch 為 master。",
+      "source": {
+        "url": "https://github.com/hirakujira/Pokeep",
+        "readmeUrl": "https://github.com/hirakujira/Pokeep/blob/master/README.md",
+        "thirdPartyUrl": "https://github.com/hirakujira/Pokeep/blob/master/THIRD_PARTY_NOTICES.md",
+        "safetyCodeUrl": "https://github.com/hirakujira/Pokeep/blob/master/src/lib/iphone-safety.ts",
+        "policyUrl": "https://scopelyexplore.helpshift.com/hc/en/5-pokemon-go/faq/1305-gameplay-fairness-policy/",
+        "type": "Official project README, code, tests and third-party notices; official Pokémon GO gameplay fairness policy",
+        "summary": "Sources inspected 2026-10-27. No root LICENSE; testing and real-world safety unverified."
+      },
+      "architecture": {
+        "provenance": "Source repository README and actual source files reviewed read-only on 2026-10-27.",
+        "flow": "Mac local Next.js UI + SQLite → USB iPhone Use / WDA screen capture → Apple Vision OCR and pixel IV measurement → selected crops to OpenAI Responses-compatible image model → cross-check & structured collection assessment (PvPoke and Game Master) → human review / protected exclusions → unique target & CP recheck / non-retry safety-gated batch transfer",
+        "components": [
+          {
+            "name": "Device adapter",
+            "responsibility": "iPhone Use controls an actual USB-connected iPhone with Xcode-signed WDA; screenshots and navigation depend on foreground Pokémon GO portrait UI."
+          },
+          {
+            "name": "Local evidence",
+            "responsibility": "Apple Vision OCR, cropped screenshot evidence, deterministic pixel IV measurement and local .data/ SQLite state / checkpoints."
+          },
+          {
+            "name": "AI corroboration",
+            "responsibility": "Optional configured OpenAI-compatible vision model verifies only necessary cropped portions; API is external and billed separately."
+          },
+          {
+            "name": "Rule-driven decision",
+            "responsibility": "Evaluate combat role, PvP IV ranking, simplified raid DPS, evolution/candy/dust cost, move TM, shiny/costume/legendary/unique collection priorities."
+          },
+          {
+            "name": "Human-in-the-loop",
+            "responsibility": "Keep uncertain, locked, special, incomplete or conflict observations out of automatic transfer. Require explicit user selection for transfer candidates."
+          },
+          {
+            "name": "Single execution boundary",
+            "responsibility": "Recheck Pokémon identity and uniqueness on phone immediately before transfer; use durable sent journal, stop batch when result is uncertain, never blindly retry."
+          }
+        ],
+        "irreversibleActionGate": "Transferring a Pokémon is generally irreversible; safe protocol must not infer authorization from an AI label alone. The repo offers multiple safeguards, but actual failure rates have not been measured.",
+        "status": "Documented implementation with unexecuted source review; real hardware, account safety and gameplay policy compliance not validated."
+      },
+      "licenseStatus": "No root project LICENSE found on inspected master branch; upstream component licensing does not license entire project.",
+      "riskFlags": [
+        "Third-party gameplay automation may violate Pokémon GO policy or risk account sanctions",
+        "Irreversible game account action: transferring Pokémon",
+        "Image crops sent to external AI may expose unexpected private information",
+        "Root repo license unspecified; third-party game assets and trademarks",
+        "Device automation requires sensitive Xcode / WDA permissions and local API keys"
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "deterministic-execution-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "confidence-gated-automation"
+        },
+        {
+          "type": "concept",
+          "id": "local-first-sensitive-data-processing"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        },
+        {
+          "type": "concept",
+          "id": "agent-native-tool-abstraction"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-27",
+      "updatedAt": "2026-10-27",
+      "tags": [
+        "pokeep",
+        "pokemon-go",
+        "local-first",
+        "iphone-use",
+        "iphone-automation",
+        "usb",
+        "wda",
+        "macos",
+        "nextjs",
+        "sqlite",
+        "apple-vision",
+        "ocr",
+        "computer-vision",
+        "openai-responses-api",
+        "structured-evidence",
+        "pvp",
+        "raid-dps",
+        "iv-ranking",
+        "human-in-the-loop",
+        "execution-gates",
+        "irreversible-actions",
+        "account-risk",
+        "license-unspecified",
+        "reference-application"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "hkuds-vimax",
       "entityType": "resource",
       "title": "ViMax — Agentic Idea2Video / Script2Video / Novel2Video",
