@@ -6,13 +6,13 @@
   "canonicalName": "heygen-com/hyperframes",
   "category": "11 Media / Video",
   "resourceType": "Apache-2.0 open-source HTML/CSS/JS-to-video framework, CLI, Studio, render engine and agent-skill catalog",
-  "purpose": "以 HTML、CSS、影片／音訊資產與 seekable 動畫定義 clips、tracks、timing、transitions 與 composition，透過 headless Chrome/Puppeteer 擷取逐格影像並用 FFmpeg 混音與輸出 MP4。提供 CLI、瀏覽器 Studio、視覺特效 Catalog、frame.md 設計語言、21 個 Agent Skills（產品影片、無人出鏡解說、動態圖表、字幕、PR 影片、音樂節奏、投影片等）與選配 AWS Lambda／HeyGen cloud 渲染。",
+  "purpose": "以 HTML、CSS、影片／音訊資產與 seekable 動畫定義 clips、tracks、timing、transitions 與 composition，透過 headless Chrome/Puppeteer 擷取逐格影像並用 FFmpeg 混音與輸出 MP4。提供 CLI、瀏覽器 Studio、視覺特效 Catalog、frame.md 設計語言、7 個公開發布的 Agent Skills（4 Core：hyperframes、hyperframes-cli、hyperframes-registry、media-use；3 按需：figma、slideshow、remotion-to-hyperframes）與選配 AWS Lambda／HeyGen cloud 渲染。",
   "recommendation": "適合 AI 程式化製作產品介紹影片、作品集 Demo、工程 PR 摘要影片、數據視覺化與可批次重算的社群短影音。優先先用本地 CLI／/hyperframes Skill 製作 5–10 秒小樣，檢查 Node 22+、FFmpeg 與 Chromium 等需求、實際 render 耗時、1080p 品質及音訊授權；通過驗證後再導入多場景、批次、CI 或雲端。與 OneTake 著重鏡頭連續性不同，HyperFrames 主要是具組合時間軸與確定性輸出的影片框架。使用產品網站、人物、影音、Logo／配樂前應查權限，來源資料與輸出的片段逐格檢查文字、事實、畫面及聲音；外部 AI / 雲端生成額外計費。",
   "url": "https://github.com/heygen-com/hyperframes",
   "repo": "heygen-com/hyperframes",
   "status": "active",
   "addedAt": "2026-10-21",
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-10-27",
   "tags": [
     "hyperframes",
     "heygen",
@@ -75,5 +75,10 @@
       "id": "heygen-com-hyperframes-agent-skills"
     }
   ],
-  "notes": "2026-10-21 核對官方 README、LICENSE、packages/cli/package.json、skills-manifest.json、skills/hyperframes/SKILL.md、docs/quickstart.mdx、docs/guides/plugins.mdx 與 GitHub 元資料。官方 Apache-2.0；CLI @hyperframes/cli v0.8.183，需 Node.js >=22、FFmpeg，實際預覽/渲染涉及 headless Chrome／Puppeteer 與本機計算資源。渲染方式是 HTML DOM 時間定位、adapter seek-safe 動畫及逐格 capture + FFmpeg encoding；相同 frozen inputs 才能比較 deterministic，動態網頁、外部 CDN、隨機動畫、未固定版本或未授權媒體會破壞可重現性。提供本地 preview/render（本地渲染不扣 HeyGen credits）與選配 cloud render/AWS Lambda、TTS／音樂／影片外部服務，這些可能單獨付費或外送資料。官方 21 個已發布 Skills 使用 /hyperframes 作 router，與可獨立安裝的單一專用 Skill 不同；採一個 Skill 套件條目連結，不將 21 項拆成 21 個目錄項以避免膨脹。官方安裝 Claude Code 插件 `claude plugin marketplace add heygen-com/hyperframes` 和 `claude plugin install hyperframes@hyperframes`；或以 `npx skills add heygen-com/hyperframes` 選 Core Skills；非互動腳本可 `npx hyperframes skills update` 安裝核心組，且官方警告某些非互動 `skills add` 可能安裝全部 21 Skills。Plugin 路徑應避免再使用 standalone update 命令污染 Skill 版本；Pin package/Plugin release，驗證工作區相依與 third-party code。Repo 高權限／安裝腳本／外部媒體網站內容需先檢查來源，完成前實測 preview、lint/check 與 MP4 視聽，不能只靠 Agent 宣稱。不是 text-to-video 生成模型，不保證零 API 成本或一定不需外部素材。未在使用者電腦安裝、未產出影片，也沒有驗證網站 Studio 或 Cloud 的實際產品可用性。"
+  "notes": "2026-10-21 核對官方 README、LICENSE、packages/cli/package.json、skills-manifest.json、skills/hyperframes/SKILL.md、docs/quickstart.mdx、docs/guides/plugins.mdx 與 GitHub 元資料。官方 Apache-2.0；CLI（實際版本依使用時查證），需 Node.js >=22、FFmpeg，實際預覽/渲染涉及 headless Chrome／Puppeteer 與本機計算資源。渲染方式是 HTML DOM 時間定位、adapter seek-safe 動畫及逐格 capture + FFmpeg encoding；相同 frozen inputs 才能比較 deterministic，動態網頁、外部 CDN、隨機動畫、未固定版本或未授權媒體會破壞可重現性。提供本地 preview/render（本地渲染不扣 HeyGen credits）與選配 cloud render/AWS Lambda、TTS／音樂／影片外部服務，這些可能單獨付費或外送資料。2026-10-27 官方 main 目前公開發布 7 個 Skills（4 Core + 3 On-demand），另有 6 個 Repo 內部 Skills；本 Catalog 繼續將其作為單一 Skill 套件收錄。官方安裝 Claude Code 插件 `claude plugin marketplace add heygen-com/hyperframes` 和 `claude plugin install hyperframes@hyperframes`；或以 `npx skills add heygen-com/hyperframes` 選 Core Skills；非互動腳本可 `npx hyperframes skills update` 安裝核心組，且官方警告某些非互動 `skills add` 可能安裝全部 7 個已發布 Skills。Plugin 路徑應避免再使用 standalone update 命令污染 Skill 版本；Pin package/Plugin release，驗證工作區相依與 third-party code。Repo 高權限／安裝腳本／外部媒體網站內容需先檢查來源，完成前實測 preview、lint/check 與 MP4 視聽，不能只靠 Agent 宣稱。不是 text-to-video 生成模型，不保證零 API 成本或一定不需外部素材。未在使用者電腦安裝、未產出影片，也沒有驗證網站 Studio 或 Cloud 的實際產品可用性。 2026-10-27 更新：最新 main 的技能數量與安裝模式已重新核對，公開 7 種技能；其 4 個 Core 才是一般任務的建議預設，非互動使用 `npx hyperframes skills update`，其餘按需安裝。",
+  "source": {
+    "url": "https://github.com/heygen-com/hyperframes",
+    "type": "Official current README and skills/hyperframes/SKILL.md",
+    "summary": "Reverified 2026-10-27: 7 published skills, previously 21 noted in older record. Not run."
+  }
 }

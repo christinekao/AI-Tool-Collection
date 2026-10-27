@@ -2,8 +2,8 @@
   "schemaVersion": 2,
   "id": "heygen-com-hyperframes-agent-skills",
   "entityType": "skill",
-  "title": "HyperFrames Agent Skills — HTML Video Production Router & 21 Workflows",
-  "purpose": "提供可安裝於 Claude Code、Codex、Cursor 等 Coding Agent 的 HyperFrames 影片產線：`/hyperframes` Router 判定產品宣傳、無人出鏡解說、動態特效、現有影片字幕／重剪、PR 解說、音樂同步、投影片、Remotion 移植或一般影片等任務，再按需載入相應 Skills，以設計 Brief → HTML Composition → 媒體 → 動畫 → 預覽 → Lint／Check → Render → 檢查完成製作。",
+  "title": "HyperFrames Agent Skills — 7 Published Skills (4 Core + 3 Optional)",
+  "purpose": "HyperFrames 現行 7 個公開 Skills：4 個 Core `/hyperframes`、`/hyperframes-cli`、`/hyperframes-registry`、`/media-use`，以及 3 個按需 `/figma`、`/slideshow`、`/remotion-to-hyperframes`。指引 Coding Agent 從影片規格、可 seek 的 HTML 動畫、素材與音訊到 Check、Snapshot、Preview、Render，並依來源進行品質驗證。",
   "problem": "Coding Agent 熟悉網頁但容易把 HTML 畫面直接當影片，忽略分鏡時間、可 seek 動畫、音畫同步、逐格 determinism、素材授權與輸出品質；把所有視頻能力一次載入又可能浪費 Context 和相依資源。",
   "inputs": [
     "影片用途、目標觀眾、秒數與縱橫比／解析度",
@@ -18,7 +18,7 @@
     "CLI Preview、Lint/Check、渲染 MP4 及檢視證據",
     "未查證的素材來源、license/cost、性能／畫面缺陷與下一輪修復清單"
   ],
-  "execution": "官方 21 個發布 Skills 共存在 heygen-com/hyperframes 的 skills/，核心入口 `skills/hyperframes/SKILL.md`；可在 Claude Code Terminal 用 `claude plugin marketplace add heygen-com/hyperframes`，再 `claude plugin install hyperframes@hyperframes`，重開／Reload Plugin 並呼叫 `/hyperframes:hyperframes`。Standalone 可 `npx skills add heygen-com/hyperframes` 並在 picker 選 Core Skills；CI / 非互動建議官方 `npx hyperframes skills update`，不要在 Plugin 裡混用該命令；如只想單一 Skill，`npx skills add heygen-com/hyperframes --skill motion-graphics`。手動 CLI `npx hyperframes init my-video` → `npx hyperframes preview` → `npx hyperframes lint/check` → `npx hyperframes render`（先讀 CLI 幫助確認當前版本指令），檢驗成品與失敗回報。請先審核 npm 包與安裝權限，第三方媒體、模型／雲端成本、影音權利與外送資料政策。",
+  "execution": "依官方 2026-10-27 README 與 skills/hyperframes/SKILL.md：Claude Code Plugin 使用其官方 marketplace 安裝，Standalone 可用 `npx skills add heygen-com/hyperframes` 互動挑選；一般 Core 使用 `npx hyperframes skills update` 安裝 4 項，明確需求才按需安裝 `/figma`、`/slideshow`、`/remotion-to-hyperframes`，完整 7 項要刻意以 `--all` 選擇。影片製作依 `/hyperframes` Router 與 References 準備 source、Design Brief 與 Composition，執行 `npx hyperframes check --json`、`npx hyperframes snapshot --review`、Studio Preview，再依確認條件 Render。現行完整的 7 個公開技能與原記載 21 個不同；工作區 checkout 與安裝目錄重疊時可能覆寫未提交變更。未安裝或測試。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -53,7 +53,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-21",
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-10-27",
   "tags": [
     "hyperframes",
     "agent-skills",
@@ -73,5 +73,10 @@
     "video-qa",
     "render-validation",
     "apache-2.0"
-  ]
+  ],
+  "source": {
+    "url": "https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md",
+    "type": "Official Skill and updated GitHub README",
+    "summary": "Checked 2026-10-27; 7 public skills, 4 core and 3 on demand."
+  }
 }
