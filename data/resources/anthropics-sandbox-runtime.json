@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 2,
+  "id": "anthropics-sandbox-runtime",
+  "entityType": "resource",
+  "title": "Anthropic Sandbox Runtime (srt) — OS-Level Filesystem & Network Isolation for Agents",
+  "status": "active",
+  "addedAt": "2026-10-27",
+  "updatedAt": "2026-10-27",
+  "tags": [
+    "anthropic",
+    "sandbox-runtime",
+    "srt",
+    "os-sandbox",
+    "linux",
+    "macos",
+    "windows-alpha",
+    "bubblewrap",
+    "sandbox-exec",
+    "wfp",
+    "network-proxy",
+    "filesystem-permissions",
+    "mcp",
+    "agent-security",
+    "least-privilege",
+    "apache-2.0"
+  ],
+  "canonicalName": "Anthropic Sandbox Runtime",
+  "category": "07 Security & Governance",
+  "resourceType": "Apache-2.0 OS process sandbox / Node.js CLI & library / HTTP+SOCKS network mediation",
+  "purpose": "提供獨立於完整 Container 的 Agent 執行權限邊界：以 macOS sandbox-exec/Seatbelt、Linux bubblewrap 和 Windows（Alpha）受限帳戶與 WFP 防火牆機制，限制 CLI 命令、Agent / MCP Server 等子程序所能讀寫的檔案路徑、連線的網域／埠與本機 Socket；可作 CLI `srt` 或 TypeScript library 使用，支援違規紀錄。",
+  "recommendation": "適合研究讓高權限 Coding Agent 或 MCP Server 在工作目錄內安全執行的 Architecture／Harness：分離工具可見的環境、檔案讀寫／憑證存取政策、域名允許清單與失敗回報。採最小權限配置並在實際目標 OS 測試，再交給 Agent 操作第三方程式；研究預覽版本及 Windows Alpha 都不能視為成熟且絕對安全的隔離。",
+  "url": "https://github.com/anthropics/sandbox-runtime",
+  "repo": "anthropics/sandbox-runtime",
+  "notes": "2026-10-27 核對官方 main README、package.json（@anthropic-ai/sandbox-runtime v0.0.81，Node >=22.12）、LICENSE（Apache-2.0）。官方明列 Beta Research Preview，介面與配置可變；Windows 為 Alpha，需額外本機帳戶、Windows Filtering Platform 與 ACL 操作，安裝有管理員權限提示且 Shared Windows Machines 有額外風險。macOS 使用 Seatbelt sandbox-exec，Linux 使用 bubblewrap、socat、ripgrep 並依 User Namespace / 版本配置；Network 透過 HTTP/SOCKS5 Proxy 設 Domain/Port Allowlist，某些 Windows WFP 通道如系統服務代理、SMB／WSL 與更換 Thread Token 可能繞過，README 自行揭露。重要配置：預設 read access 幾乎全域可讀，敏感內容必須額外設定 denyRead/allowRead 和 credentials；預設 no allowedDomains 不連網，預設只對明確列出的目錄允許 Write；即使叫 Sandbox 亦不代表能防所有 Kernel、環境逃逸與 Prompt Injection。應遵從最小權限、範圍有限、選擇性允許 Domain / 本機 socket、隔離 Secrets 與檢測被沙箱限制的必要執行流程。只核對官方 Source/README，不安裝或執行，也未對目標 OS 做安全測試。",
+  "architecture": {
+    "source": "Anthropic README and TypeScript package metadata, read on 2026-10-27",
+    "flow": "Untrusted Agent, MCP Server or command → SRT CLI / TypeScript SandboxManager → OS filesystem and process boundary (macOS Seatbelt / Linux bubblewrap / Windows SID+ACL) + TCP network redirection to local HTTP/SOCKS proxies → Domain/port access policy & credential exclusions → Limited filesystem and network activity + sandbox violations",
+    "boundaries": {
+      "filesystem": "Deny/read/allow rule ordering differs for read vs write. Default read widely open unless configured; write allow-only.",
+      "network": "Empty allowedDomains denies connections. HTTP/SOCKS proxies mediate permitted TCP; special-case/local sockets and address-resolution require policy and platform validation.",
+      "process": "Sandboxed process tree inherits enforced OS boundary, subject to platform- and kernel-specific limitations.",
+      "policy": "Static initial filesystem settings plus selected runtime network controls; updates via control-fd are not full live filesystem policy changes."
+    },
+    "supportedPlatforms": [
+      "macOS sandbox-exec / Seatbelt",
+      "Linux bubblewrap and namespace/proxy",
+      "Windows Alpha with dedicated srt-sandbox SID, WFP filters and token/ACL controls"
+    ],
+    "versionAtReview": "0.0.81",
+    "status": "Vendor-described beta implementation; unexecuted and not penetration-tested."
+  },
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    },
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    },
+    {
+      "type": "concept",
+      "id": "deterministic-execution-boundary"
+    },
+    {
+      "type": "concept",
+      "id": "reversible-privacy-boundary"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/anthropics/sandbox-runtime",
+    "readmeUrl": "https://github.com/anthropics/sandbox-runtime/blob/main/README.md",
+    "licenseUrl": "https://github.com/anthropics/sandbox-runtime/blob/main/LICENSE",
+    "type": "Official Anthropic GitHub README, package.json and Apache-2.0 license",
+    "summary": "Validated first-party documented architecture and published package metadata on 2026-10-27; no sandbox execution or hardening test."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
