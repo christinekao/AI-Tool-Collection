@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 2,
+  "id": "unclebob-ub-mode",
+  "entityType": "skill",
+  "title": "UB Mode — First Make it Work → Make it Right → Practice",
+  "purpose": "在 Coding Agent 修改程式碼時遵循測試先行、最小變更、根因修復、量化品質閘門與可追蹤的提交紀律；透過可選品質測量工具而非單憑模型主觀評估驗收。",
+  "problem": "AI Coding Agent 常直接改程式、跳過失敗測試、掩蓋根因或留下過度複雜／重複的實作，且沒有可驗證的完成證據與復原能力。",
+  "inputs": [
+    "明確且已授權的程式需求、Repo 與現有測試入口",
+    "業務資料模型、邊界、現有架構與測試環境",
+    "可選 crapper/dryer/mutator 工具及其已核對的安裝／可執行路徑",
+    "團隊分支政策、允許的測試／重構範圍與提交/推送權限"
+  ],
+  "outputs": [
+    "先失敗後通過的行為測試證據（如果可以真實執行）",
+    "小範圍且可回復的程式修改與重構",
+    "複雜度、重複率、mutation score／未通過項目（只有實際工具輸出才填）",
+    "帶有操作原因、驗證結果與尚未解決問題的日誌；經授權的小批次 Commit"
+  ],
+  "execution": "依原始 master/SKILL.md 三步：① First Make it Work：single decision/smallest fix、domain data shape、TDD 先見預期失敗、邊界驗證／型別與冪等設計、避免可分離的 shared mutable state；② Then Make it Right：重現並修根因，把工作拆成可驗證小單位，以使用者看得到的行為測試；按官方要求以 crapper 測 CRAP < 10、dryer 找相似度 >=0.8 的結構重複、mutator 補出 Mutation Testing 漏洞，再重構且證明行為未變；③ Practice：記錄每個動作與理由、保護上下文、檢查 worktree、安全清理，最後在**已授權且遵守團隊流程**的情況下小批次 commit/push。上游要求『Push to the main line at the end』不是本 Catalog 給予實際 push 權限；外部工具需要另外安裝/執行及授權，若工具缺失應明確列出未驗證，而非捏造測試結果。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "unclebob-ub-mode"
+    },
+    {
+      "type": "resource",
+      "id": "cursor-pstack-poteto"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "deterministic-execution-boundary"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/unclebob/ub-mode/blob/master/SKILL.md",
+    "type": "Official root standalone agent SKILL.md",
+    "summary": "Read-only verification 2026-10-28; upstream has no root LICENSE or skill version, and no external dependencies were executed."
+  },
+  "status": "active",
+  "addedAt": "2026-10-28",
+  "updatedAt": "2026-10-28",
+  "tags": [
+    "coding",
+    "software-engineering",
+    "tdd",
+    "test-first",
+    "ub-mode",
+    "quality-gates",
+    "crap-score",
+    "duplication",
+    "mutation-testing",
+    "refactoring",
+    "behavior-based-tests",
+    "idempotency",
+    "context-governance",
+    "worktree",
+    "commit-discipline",
+    "no-execution"
+  ]
+}
