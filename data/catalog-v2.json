@@ -7860,6 +7860,133 @@
     },
     {
       "schemaVersion": 2,
+      "id": "pomerado-pomerado",
+      "entityType": "resource",
+      "title": "Pomerado — Build Deterministic Website-to-MCP Integrations with Browser Exploration",
+      "canonicalName": "Pomerado",
+      "category": "03 MCP / Tool Integration",
+      "resourceType": "Open-source MIT local MCP integration minter / native Playwright browser exploration / deterministic generated operation modules",
+      "purpose": "將缺乏公開 API、需要瀏覽器登入／二階段驗證的網站操作轉換為可重複執行的 MCP Tools：用自然語言描述網站與工作，Mint Agent 透過真實 Chromium／Playwright 瀏覽探索及建立 `src/` 操作模組；Guardian 在建立期間審核工具呼叫、操作及輸出程式，最後讓 Agent 經本機 MCP Server 調用生成的確定性程式，避免每一輪都重新以模型視覺操作網頁。",
+      "recommendation": "適合研究 Website → Tool → MCP 的 Agent 工具化方式，尤其只有 Web UI、沒有穩定公開 API 的服務。先選唯讀、低敏感度、可檢查的操作建立 Proof of Concept，檢查產出的程式、輸出 Schema 與網站權限，再逐步考慮修改流程。對付款、提交表單、編修、刪除等寫入操作，額外加上每次調用的使用者授權、Dry Run、冪等鍵／防重、操作日誌與實際結果核對，不可只依靠 Mint 時 Guardian 審查。",
+      "url": "https://github.com/Pomerado/pomerado",
+      "repo": "Pomerado/pomerado",
+      "notes": "2026-10-28 核對官方 README、docs/how-it-works.md、docs/getting-started.md、docs/agent-setup.md、根目錄 LICENSE、package.json。官方主分支 package.json 版本 0.4.0，MIT 授權；README 註明 0.1.2 或更舊版為 AGPL-3.0-only、third-party adapted code 仍依各自條款。支援 Mac/Linux、Node 24.21+ 且低於 25、需 Playwright Chromium 與可用 OpenAI API key（建立和審核整合時使用 OpenAI 模型，與操控 Pomerado 的 Claude/Codex/其他 Agent 可不同）；啟動服務和列工具不會使用模型，Mint 呼叫才涉及費用／真實瀏覽。流程 Mint Agent → Chromium／Native Playwright 探索和完成一個範例 → 整理成 src/* 確定性 operation modules → Guardian 行為與 Publication Review、read 筆案例驗證 → 輸出 pomerado.json/schema、deployment.json、MCP 啟動程式、部署／驗證紀錄，讓每次後續 Tool Run 執行生成程式、不需再呼叫模型。Minter 的 `mint/get_job/provide_input/cancel_job` 分別啟動、追進度、答疑和停止工作；官方 Read／Write Authority 在 Mint 時選擇，Write Mint 會實際操作一次，可能對真實網站產生效果，Cancel 亦不保證已送出的動作可撤回；Read Mint 若認為必須寫入會請求升級。重要限制（官方 README 直述）：『A run doesn't check authority or intent, and edits to src/ or deployment.json aren't reviewed』；日後 Run 若是可寫 Tool，並不會再次強制使用者批准，每次高後果操作應由外部 Host／Human-in-the-Loop 控制；自架 MCP 整合可能因網站改版、權限、驗證碼、bot protection 而失效。登入資料由使用者在網站上提供，官網表示不儲存值，但不檢查網站本身 script 將所輸入內容送往何處；只檢查登入表單／提交 Origin，故使用前應評估 phishing、網站腳本與不可信頁面注入。完整 MIT 原始核心包含 Minter、Guardian、runtime、local host；Pomerado Cloud 另提供託管、OAuth／儲存登入、Access Control、Bot Protection、Repair 等服務，不能把 Cloud 功能誤認為免費本機版內建。作者的『deterministic / faster / more reliable than computer use』是官方設計主張，本輪未執行基準測試或安全審計。勿隨便把 Pomerado 連到內部 HR、財務等敏感系統，需依組織政策與合約核准。沒有安裝、執行 CLI、連接網站、登入、讀取金鑰或操作外部系統。",
+      "architecture": {
+        "provenance": "Official Pomerado/pomerado README, docs/how-it-works.md and source tree; read-only inspection 2026-10-28.",
+        "phases": [
+          {
+            "stage": "Describe & Authorize",
+            "details": "User names target URL, concrete task, example inputs and read/write authority. Write authority must be deliberately approved before Mint."
+          },
+          {
+            "stage": "Minter — Model + Browser",
+            "details": "Model-driven Mint Agent explores real Chromium with Playwright, completes concrete example(s), writes deterministic operation modules to src/ and creates input/output schema."
+          },
+          {
+            "stage": "Guardian & Outcome Review",
+            "details": "Guardian screens edits/browser actions during build and reviews publication. Read integrations may run generated live tests. Tests and guardian gates belong to build-time, not guaranteed per future call."
+          },
+          {
+            "stage": "Local Artifact",
+            "details": "Generates pomerado.json, src/, deployment.json, auth-fill.json when signed in, mcp.mjs, mcp.json, README.md; source code saved in user's chosen local folder."
+          },
+          {
+            "stage": "Deterministic MCP Run",
+            "details": "Runs generated operations through local MCP server, without another OpenAI model call. Agent invokes integration as a tool; authentication may be requested each run."
+          },
+          {
+            "stage": "Separate Cloud Option",
+            "details": "Optional hosted Pomerado Cloud offers integration hosting, saved logins/OAuth brokerage, permissions and site-breakage repair. Not included automatically in local runtime."
+          }
+        ],
+        "safety": {
+          "mintRead": "Choose read for access that only observes site data; if action requires mutation, confirm upgrade before creating it.",
+          "mintWrite": "Write mint performs one example operation against the site during build. Cancellation cannot roll back an already sent action.",
+          "invocationBoundary": "Generated integration Run does not independently recheck authority/intent. Modifying src/ or deployment.json bypasses Mint-time Guardian review.",
+          "safeguardsRecommended": [
+            "Require authorization and explicit confirmation at call time for high-impact writes",
+            "Review generated code and its network/credential handling",
+            "Keep separate low-permission test accounts and read-only proof-of-concept",
+            "Verify final state before retrying ambiguous writes",
+            "Audit scopes, data transfers and destination scripts"
+          ]
+        },
+        "runtimeRequirements": "macOS or Linux; Node 24.21.x–24.x; Playwright Chromium; OpenAI API key for Mint; local MCP stdio host.",
+        "status": "First-party documented implementation; no runtime or actual website tests conducted."
+      },
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-native-tool-abstraction"
+        },
+        {
+          "type": "concept",
+          "id": "deterministic-execution-boundary"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-before-execution"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-28",
+      "updatedAt": "2026-10-28",
+      "tags": [
+        "pomerado",
+        "mcp",
+        "browser-automation",
+        "website-to-api",
+        "website-to-mcp",
+        "agent-tools",
+        "integration-minter",
+        "playwright",
+        "chromium",
+        "deterministic-execution",
+        "generated-source",
+        "guardian",
+        "code-review",
+        "read-write-scope",
+        "authentication",
+        "two-factor",
+        "user-approval",
+        "idempotency",
+        "local-first",
+        "openai-api",
+        "claude-code",
+        "codex",
+        "mit-license",
+        "cloud-versus-selfhost"
+      ],
+      "source": {
+        "url": "https://github.com/Pomerado/pomerado",
+        "readmeUrl": "https://github.com/Pomerado/pomerado/blob/main/README.md",
+        "docsUrl": "https://github.com/Pomerado/pomerado/blob/main/docs/how-it-works.md",
+        "gettingStartedUrl": "https://github.com/Pomerado/pomerado/blob/main/docs/getting-started.md",
+        "licenseUrl": "https://github.com/Pomerado/pomerado/blob/main/LICENSE",
+        "type": "Official README, architecture docs, getting-started docs, package.json and MIT LICENSE",
+        "summary": "First-party reviewed 2026-10-28; version 0.4.0 in package.json. Not installed or executed."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "punk-skill",
       "entityType": "resource",
       "title": "Punk-skill",
