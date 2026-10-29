@@ -5774,6 +5774,140 @@
     },
     {
       "schemaVersion": 2,
+      "id": "letswrite-buzz-self-hosted-relay-guide",
+      "entityType": "resource",
+      "title": "LetsWrite — Buzz Self-hosted Docker Relay & Claude/Codex Agent Setup (Practical Guide)",
+      "canonicalName": "Buzz 自架教學：使用 Docker 架設 Relay 與設定 AI Agent 自動回覆 — Let's Write",
+      "category": "02 Agent Orchestration",
+      "resourceType": "Traditional Chinese third-party installation tutorial / practical self-hosted Buzz Relay and local Coding Agent setup notes",
+      "purpose": "以繁體中文實作筆記，依序說明如何在 macOS 以 Docker Compose 自架 block/buzz Relay、使用 Buzz Desktop 連上 Community、確認 Claude CLI 或 Codex CLI 與 Agent 整合，再從團隊 Channel 使用 @Fizz 等 Agent 取得回覆，並排除 Relay URL 不一致、Agent 未執行、收訊權限與模型未配置的問題。",
+      "recommendation": "作為自架 Buzz／建立 Human + AI Agent 共用頻道的入門與疑難排解參考。實際部署時以 block/buzz 最新官方 deploy/compose/.env.example、README 和 SECURITY.md 為權威設定來源。本文提供的是作者於 2026-07-31 的單一 Mac 測試經驗，範例中關閉認證／成員資格、放寬 Agent 接觸權限及純 ws/http 僅能作隔離本機測試，不應複製到公開或企業環境。不要把 ChatGPT/Claude 會員、CLI 登入與 API Key/模型費用視為同一種授權。任何安裝、修改本機 .env 或啟動 Agent 均需另行授權。",
+      "url": "https://www.letswrite.tw/buzz-install/",
+      "repo": "",
+      "notes": "2026-10-29 已直接讀取 LetsWrite 2026-07-31 文章完整內容，並交叉檢查官方 block/buzz main README.md、deploy/compose/README.md、deploy/compose/.env.example、SECURITY.md 及 LICENSE。作者的示例讓 Docker Postgres/Redis/MinIO/Relay 在 localhost:3300 啟動，生成各自隨機 Secret，設 RELAY_URL=ws://127.0.0.1:3300，安裝桌面 App，加入 Community，設定模型，檢查 Agents Ready、Running、Community Relay URL 一致、Who can talk to this agent 設 Anyone，再測試 @Fizz。這些是文章所記述的作者測試，不是本次已實際重現。重要安全差異：官方 production .env.example 為 BUZZ_REQUIRE_AUTH_TOKEN=true、BUZZ_REQUIRE_RELAY_MEMBERSHIP=true、BUZZ_ALLOW_NIP_OA_AUTH=true、BUZZ_GIT_CONFORMANCE_PROBE=true，另需設 64 位元十六進制 RELAY_OWNER_PUBKEY；文章的本機範例把前述四項設 false（包含 Git conformance probe），這會與官方正式部署政策不同。作者宣稱若 Probe 為 true 會 unhealthy，可能是當時版本特定症狀；不可當永久或通用修復，應優先排查當前官方故障紀錄及健康檢查設定。‘Anyone’ 只可在有明確限制的本機測試，不宜無條件授權所有成員向可執行命令的 Agent 發訊。127.0.0.1 只指各台機器自己的 loopback，其他團隊成員不能直接用該 localhost URL 連上伺服器；正式跨主機需要有 DNS／路由、防火牆與 TLS/wss。官方 production 文檔要求先換掉所有 CHANGE_ME、固定 Relay 私鑰和資料庫密碼、使用 image SHA 或 release tag 而非浮動 :main 並備份 Postgres、媒體及 Git 資料，不能直接把文章 .env 例子拿去部署 VPS。官方 SECURITY.md 另有 NIP-42/NIP-98 驗證及 channel membership 相關細節；Windows 未簽名安裝包不應不查來源就繞過系統警告。文章結尾作者也說 Codex/Claude Code Skills 在 Buzz UI 中未出現選單、無法確認實際有載入，故不能把 Skills 可用當成功驗收。此 Resource 專門保存教學本身，不再新增 block/buzz 同名工具或誤認一篇指南已構成可重用 Agent Skill。未安裝 Buzz、Docker、Agent、任何工具，也沒有更改配置、登入或訪問私人 Relay。",
+      "tutorialOutline": [
+        {
+          "step": 1,
+          "title": "準備環境",
+          "details": "macOS 上安裝 Git／Docker Desktop／Docker Compose；確認官方版本需求，原文寫 v2.24.4 以上。"
+        },
+        {
+          "step": 2,
+          "title": "取用官方原始碼與部署模板",
+          "details": "在 block/buzz 的 deploy/compose 目錄依照官方 .env.example 建立獨立 .env，分別產生金鑰與密碼、確認 Relay URL 與資料持久化目錄。"
+        },
+        {
+          "step": 3,
+          "title": "啟動服務與健康檢查",
+          "details": "作者使用 run.sh 啟動／查狀態，預期 Relay、Postgres、Redis、MinIO 顯示 healthy；實際部署時不應為通過健康檢查長期停用未經驗證的保護。"
+        },
+        {
+          "step": 4,
+          "title": "設定 Desktop Client 與 Community",
+          "details": "安裝適合平台的官方 Buzz Desktop Release，指定 Self-hosted Relay 位置，加入或建立 Community，確認 Relay URL 對應同一個 Service。"
+        },
+        {
+          "step": 5,
+          "title": "配置模型與 Agent",
+          "details": "確認 Claude Code 或 Codex CLI 已受權且可用、AI Agent 有正確模型和執行狀態；區分 CLI 會員、模型 API 配置、Buzz 原生 Agent。"
+        },
+        {
+          "step": 6,
+          "title": "測試 Channel @Agent",
+          "details": "在隔離測試頻道用 @Fizz 呼叫並觀察 Agent 是否收到、處理、回覆；依最小成員權限設定誰可以 @Agent。"
+        },
+        {
+          "step": 7,
+          "title": "正式部署前重新加固",
+          "details": "採官方 production membership/auth、owner pubkey、TLS/wss、固定映像版本、Secrets Backup 與資料備份，檢查網路暴露、Agent 工具權限和審計記錄。"
+        }
+      ],
+      "documentedPitfalls": [
+        "RELAY_URL 設定不同步造成 Agent 收不到事件",
+        "Agent UI 顯示 Ready 仍需核對模型選用、執行狀態和端對端 @ 測試",
+        "公開頻道的 Anyone 與寬鬆 Relay auth 會擴大任何人呼叫 Agent 的範圍",
+        "BUZZ_GIT_CONFORMANCE_PROBE=false 是舊文章中針對 unhealthy 的 workaround，不能無條件沿用",
+        "127.0.0.1/3300 是本機 loopback，其他團隊成員需可連通的 Relay 主機與安全通訊",
+        "作者未確認在 Buzz 呼叫時原本 Claude/Codex 已安裝的各個 Skills 都能實際載入"
+      ],
+      "riskFlags": [
+        "Production auth/membership disabled in tutorial sample",
+        "Agent audience Anyone may expose tool execution to untrusted senders",
+        "Unencrypted HTTP/WS example and localhost-only reachability",
+        "Floating :main container image and insufficient backup if copied unchanged",
+        "Unverified old unhealthy workaround and Agent skills availability"
+      ],
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "block-buzz"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-organization-control-plane"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "agent-credential-isolation"
+        },
+        {
+          "type": "concept",
+          "id": "security-as-workflow-gate"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-10-29",
+      "updatedAt": "2026-10-29",
+      "tags": [
+        "buzz",
+        "block-buzz",
+        "letswrite",
+        "self-hosting",
+        "tutorial",
+        "docker-compose",
+        "relay",
+        "nostr",
+        "macos",
+        "claude-code",
+        "codex",
+        "human-agent-workspace",
+        "channels",
+        "agent-permissions",
+        "security",
+        "credentials",
+        "local-network",
+        "wss",
+        "troubleshooting",
+        "traditional-chinese",
+        "2026-07"
+      ],
+      "source": {
+        "url": "https://www.letswrite.tw/buzz-install/",
+        "articleTitle": "Buzz 自架教學：使用 Docker 架設 Relay 與設定 AI Agent 自動回覆",
+        "author": "Let's Write / August",
+        "publishedAt": "2026-07-31",
+        "officialProjectUrl": "https://github.com/block/buzz",
+        "officialComposeEnvUrl": "https://github.com/block/buzz/blob/main/deploy/compose/.env.example",
+        "officialComposeDocsUrl": "https://github.com/block/buzz/blob/main/deploy/compose/README.md",
+        "securityUrl": "https://github.com/block/buzz/blob/main/SECURITY.md",
+        "type": "Third-party practical tutorial, cross-checked with official source and security documentation",
+        "summary": "Article and official project docs verified 2026-10-29; dated steps and risk-bearing sample configuration are described, not executed."
+      },
+      "researchStatus": "official-source-cross-checked",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "lieflat-less-ai-tone",
       "entityType": "resource",
       "title": "lieflat-less-ai-tone",
