@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 2,
+  "id": "chatgpt-opus-codex-oracle-multi-agent-development",
+  "entityType": "prompt",
+  "title": "ChatGPT → Opus → Codex｜多 Agent 專案規劃、隔離測試、獨立審查與進度回報",
+  "status": "unreviewed",
+  "addedAt": "2026-10-29",
+  "updatedAt": "2026-10-29",
+  "category": "01 Agentic Coding & Harness",
+  "promptType": "User-Provided Multi-Agent Software Development Playbook",
+  "tags": [
+    "chatgpt",
+    "claude",
+    "opus-5-5",
+    "codex",
+    "gpt-6-1-terra",
+    "github-issues",
+    "notion",
+    "docker",
+    "resource-limits",
+    "test-lock",
+    "oracle",
+    "ego-lite",
+    "herdr",
+    "moshi",
+    "t3-code",
+    "agent-orchestration",
+    "review-gate",
+    "hourly-status",
+    "original-prompt"
+  ],
+  "problem": "多個 AI 模型和 Agent 共同開發專案時，需求決策難同步、任務容易衝突、測試搶佔主機資源，且缺少獨立審查及可核對的進度證據。",
+  "goal": "保存使用者提出的完整多 Agent 開發協作構想，涵蓋 ChatGPT 規劃與文件交接、GitHub Issues、Opus 分層分工、Codex 實作、受限 Docker 測試、Oracle／ego(lite) 審查以及每小時追蹤。",
+  "prompt": "先用ChatGPT討論需求\n告訴他你想要什麼，請他帶著你一步一步規劃\n每規劃到一定個階段就請他整理進GitHub和Notion，並且在GitHub上拆task開issue\n然後請他生成給Opus 5.5的prompt\n生成後再次告知Opus 5.5很聰明，問prompt是否會影響Opus 5.5發揮\n\n在Claude安裝codex官方plugin\n設定好Opus 5.5做研究並拆分任務給 gpt-6.1-terra 去實作\n告訴 Opus 用 Docker 來跑測試並限制資源避免影響自己使用電腦\n專案多可以再加任務鎖，鎖釋放之後下個拿到鎖的才能進去跑測試\n\n安裝 Ego-lite 以及 GitHub 上的 Oracle \n請 Opus 5.5 讓 gpt-6.1-terra 實作完用 Oracle with ego-lite 開 Temporary 審查，審查完沒問題才回報給 Opus \n\n安裝 herdr + moshi 或 T3 Code\n這樣可以一個專案一個Opus總監，讓總監去管理另外幾個Opus部門主管\n\n最後在 ChatGPT 設定每個小時查看GitHub回報任務進度",
+  "originalUserInput": "先用ChatGPT討論需求\n告訴他你想要什麼，請他帶著你一步一步規劃\n每規劃到一定個階段就請他整理進GitHub和Notion，並且在GitHub上拆task開issue\n然後請他生成給Opus 5.5的prompt\n生成後再次告知Opus 5.5很聰明，問prompt是否會影響Opus 5.5發揮\n\n在Claude安裝codex官方plugin\n設定好Opus 5.5做研究並拆分任務給 gpt-6.1-terra 去實作\n告訴 Opus 用 Docker 來跑測試並限制資源避免影響自己使用電腦\n專案多可以再加任務鎖，鎖釋放之後下個拿到鎖的才能進去跑測試\n\n安裝 Ego-lite 以及 GitHub 上的 Oracle \n請 Opus 5.5 讓 gpt-6.1-terra 實作完用 Oracle with ego-lite 開 Temporary 審查，審查完沒問題才回報給 Opus \n\n安裝 herdr + moshi 或 T3 Code\n這樣可以一個專案一個Opus總監，讓總監去管理另外幾個Opus部門主管\n\n最後在 ChatGPT 設定每個小時查看GitHub回報任務進度",
+  "originalPromptPreservation": "prompt 與 originalUserInput 逐字保存使用者提供的原文；下列 suggestedRefinement、optimizationSuggestions、verificationNotes 為另外編輯的補充，不屬於原始 Prompt。",
+  "inputs": [
+    "專案目標、功能與不可變需求",
+    "現有 GitHub Repo 與 Notion Workspace（需使用者授權）",
+    "任務的驗收條件、依賴、模型／Agent 實際可用清單",
+    "Docker 主機 CPU／RAM／並行限制及測試隔離策略",
+    "已審核的 Oracle、ego(lite)、Herdr、Moshi 或 T3 Code 整合方式"
+  ],
+  "expectedOutput": "可追溯的需求與規格、GitHub Issues 與里程碑、Opus 任務委派、Codex 實作的 Commit／測試證據、獨立審查結果、整合驗收及定期進度報告；未實際完成的步驟須明確標示。",
+  "suggestedRefinement": "請先讀取現有 Repo、已授權的 GitHub／Notion 資料與專案規範；透過 ChatGPT 逐階段釐清需求並形成可追溯 Spec 和驗收條件，經使用者確認後同步文件與建立 Issues。由協調 Agent 根據實際可用模型與限制拆分任務，執行 Agent 在隔離 Worktree 完成實作；測試使用受限 Docker 容器及具超時／過期機制的互斥租約。實作後先取得獨立的唯讀 Code Review 與必要的可重現測試證據，失敗即修正重測；最後由協調 Agent 對照 Acceptance Criteria 和 Commit 再決定完成狀態。定期進度報告需根據 GitHub 實際資料，而非 Agent 自述。任何外部工具安裝、授權、排程及高權限操作，先個別核准。",
+  "optimizationSuggestions": [
+    "把『ChatGPT 討論／GitHub Issues／Notion 文件』的責任邊界與唯一正式 Spec 來源寫清楚，避免重複同步導致內容分歧。",
+    "請 Opus 評估指令是否限制其推理或規劃，而不是預設某個特定版本必然最佳；模型名稱要依當時實際可選用版本確認。",
+    "以 Issue 的依賴、驗收條件及 Git 分支／Worktree 區隔任務；實際修改同一份檔案時加上衝突偵測與人員決策點。",
+    "Docker 測試必須定義 CPU／記憶體／網路／檔案系統限制、逾時及清理；任務鎖須有 owner、TTL、心跳、故障回收，避免死鎖。",
+    "Oracle 的具體 Repo、版本、Temporary 審查意涵及能否與 ego(lite) 串接都需確認；ego(lite) 是瀏覽器操作能力，不等同程式碼審查器。",
+    "審查須區分純 Code Review、實際 UI／瀏覽器驗證和完整整合測試；提供 PASS／FAIL／UNVERIFIED 及可查證的證據。",
+    "多層 Opus 管理要權衡 Token 成本、上下文傳遞、延遲與管理層數，不必每個小專案都套用完整組織架構。",
+    "每小時 GitHub 進度回報只能在實際設定、授權且排程成功後宣稱啟用；以 Issue、Commit、PR、Actions 為資料來源，避免憑空描述進度。"
+  ],
+  "constraints": [
+    "這筆資料是使用者提供的工作構想，不代表任一系統、插件、模型名稱、整合或測試已完成。",
+    "不得把『Opus 5.5』『gpt-6.1-terra』這些使用者原句中的型號自動當作已驗證的可用供應商模型。",
+    "不得假定『Oracle with ego-lite Temporary』有原生整合；Oracle 專案身分及操作方式待明確核實。",
+    "安裝任何 GitHub Skill／Plugin、執行 Docker、變更使用者帳號權限或建立排程，均須另行授權，不屬於本次收錄操作。",
+    "分工與測試需保留錯誤路徑、資源上限及人工覆核；不能以 Agent 自我回報替代測試結果。"
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "openai-codex"
+    },
+    {
+      "type": "resource",
+      "id": "herdrdev-herdr"
+    },
+    {
+      "type": "resource",
+      "id": "pingdotgg-t3code"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-organization-control-plane"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "lease-based-agent-task-coordination"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-before-execution"
+    },
+    {
+      "type": "concept",
+      "id": "file-first-memory-source-of-truth"
+    },
+    {
+      "type": "concept",
+      "id": "vendor-agnostic-orchestration"
+    }
+  ],
+  "workflowRefs": [
+    {
+      "type": "workflow",
+      "id": "spec-multi-agent-delivery-evidence-qa-stack"
+    }
+  ],
+  "referenceUrls": [
+    "https://github.com/openai/codex-plugin-cc",
+    "https://www.egolite.app/document/en/docs/codex",
+    "https://github.com/herdrdev/herdr",
+    "https://github.com/pingdotgg/t3code"
+  ],
+  "verificationNotes": {
+    "reviewedAt": "2026-10-29",
+    "confirmed": "Repo 既有 Herdr、T3 Code、Codex Resource 與多 Agent 工作流的 Canonical 記錄；OpenAI Codex for Claude Code 插件與 ego(lite) Codex 使用說明可於各自公開文件查閱。",
+    "unconfirmed": "Moshi 的具體產品身分；Oracle GitHub Repo 身分及與 ego(lite) 的 Temporary 審查組合；使用者列出模型的可用性；系統是否支援每小時自動回報，尚未建立或測試。",
+    "execution": "本次僅做唯讀來源研究與 JSON 收錄；未安裝、未執行 Docker／Agent／Skill／插件或設定排程。"
+  },
+  "source": {
+    "type": "User-provided exact-text prompt",
+    "receivedAt": "2026-10-29",
+    "summary": "原始多 Agent 開發協作流程逐字保存；附加的改善建議與限制欄位由整理者獨立撰寫，並非來源作者原話。"
+  }
+}
