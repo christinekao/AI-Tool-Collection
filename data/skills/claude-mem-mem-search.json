@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "id": "claude-mem-mem-search",
+  "entityType": "skill",
+  "title": "Claude-Mem mem-search｜跨 Session 記憶的分層檢索",
+  "status": "active",
+  "addedAt": "2026-10-30",
+  "updatedAt": "2026-10-30",
+  "tags": [
+    "claude-mem",
+    "mem-search",
+    "agent-skill",
+    "mcp",
+    "cross-session",
+    "project-memory",
+    "progressive-disclosure",
+    "search",
+    "timeline",
+    "get-observations",
+    "token-efficiency",
+    "evidence",
+    "context-retrieval",
+    "standalone-skill"
+  ],
+  "purpose": "讓 Agent 在需要回想既有專案決策、Bug 修正或先前 Session 工作時，以低 Token 索引先定位，再用時間軸釐清前後文，最後只取回有關的完整 Observation；必要時補讀原始工具 I/O。",
+  "problem": "跨 Session 記憶若一次讀取大量原始對話／工具紀錄，會耗費 Token、混淆專案脈絡，且容易把摘要當成已驗證的精確證據。",
+  "inputs": [
+    "目前的問題、專案或日期範圍",
+    "已安裝並授權的 Claude-Mem Worker／MCP 或支援的原生 Host 工具",
+    "需要原始指令、Diff、API 回應等精確證據的判定標準"
+  ],
+  "outputs": [
+    "少量相關記憶的索引結果和 Observation ID",
+    "關鍵事件周圍的 Timeline",
+    "經篩選取得的完整 Observation 與來源標識",
+    "無法找到／尚未驗證的資訊，及必要時進一步追查原始工具 I/O 的理由"
+  ],
+  "execution": "依官方 plugin/skills/mem-search/SKILL.md：① search 以 Query／Project／Date／Type 取得精簡索引，不先讀整個資料庫；② timeline 以已選 Observation ID 或 Query 檢查前後事件；③ get_observations 一次批量取回必要 ID；僅當摘要不足以證明確切程式或輸出時，例外使用 get_tool_uses。實際 MCP 工具名稱與參數因 Claude Code、OpenCode、Pi、DeepSeek Harness、CMEM Pro 或 Server Runtime 而異，應以當下 Tool Schema 為準。不要把找不到的結果或記憶摘要當成有證據的完成紀錄；不得在未實際執行時宣稱節省 Token 或成功召回。",
+  "whenToUse": [
+    "使用者問『之前解決過嗎？』或需要回顧先前程式／架構決策",
+    "跨 Session 接續同一專案、調查過往 Bug 修復或工作交接",
+    "大量記憶紀錄中需要找出具有實際時間軸與細節的少數事件"
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "claude-mem"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "persistent-agent-memory"
+    },
+    {
+      "type": "concept",
+      "id": "progressive-context-recall"
+    },
+    {
+      "type": "concept",
+      "id": "point-in-time-retrieval"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/thedotmack/claude-mem/blob/main/plugin/skills/mem-search/SKILL.md",
+    "referenceUrl": "https://docs.claude-mem.ai/usage/search-tools",
+    "type": "Official independent reusable SKILL.md packaged in Claude-Mem",
+    "reviewedAt": "2026-10-30",
+    "summary": "The original instructions belong to upstream; this catalog records a factual summary, not a verbatim copy. No Skill installed or executed; token savings claim not independently benchmarked."
+  }
+}

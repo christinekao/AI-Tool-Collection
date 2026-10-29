@@ -5,26 +5,117 @@
   "title": "Claude-Mem",
   "canonicalName": "Claude-Mem",
   "category": "04 Knowledge & Memory",
-  "resourceType": "Persistent Agent Memory",
-  "purpose": "Persistent context across sessions for agents; captures, compresses, and retrieves relevant context.",
-  "recommendation": "適合想讓 Agent 跨 session 保留上下文的人。",
+  "resourceType": "Persistent cross-session Agent memory plugin / local worker, search Skill and optional cloud services",
+  "purpose": "跨 Claude Code 與其他已支援 Coding Agent Session 保存有來源的 Prompt、工具觀察、決策與摘要；透過 Lifecycle Hooks／原生整合蒐集資料，以摘要壓縮、SQLite／Chroma 混合檢索及分層 context injection，在後續工作找回相關歷史，不必將所有先前對話放入 Prompt。",
+  "recommendation": "適合長期開發同一專案、頻繁跨 Session 或切換 Coding Agent 的使用者；可先在非敏感測試 Repo 檢查 Hook 互通、memory 搜尋召回、注入範圍和 token 開銷。若專案涉及公司機密、客戶資料或憑證，應先評估 Prompt／工具輸出擷取範圍、模型 Provider 出站、Telemetry 和可選 Cloud Sync；只使用本機資料庫不等於完全離線。注意與現有 Claude／Codex Hooks、MCP Server、AGENTS.md 等設定的重複與衝突。",
   "url": "https://github.com/thedotmack/claude-mem",
   "repo": "thedotmack/claude-mem",
-  "notes": "Official repository confirmed; important to revisit because of a current related issue.",
+  "notes": "2026-10-30 重新查核官方 GitHub main README、package.json、SECURITY.md、LICENSE、v15.5.0 Release、官方安裝／搜尋／Telemetry／Cloud Sync／Private Tags／Auto-Redaction／T3 Code／My Work／TeamBrain 文件。官方最新確認 Release v15.5.0（2026-10-29 發布），Apache-2.0；package.json 的 Node engine 為 ^20.19.0 或 >=22.12.0，安裝也需評估 Bun、uv／Chroma 及主機相容性。安裝可註冊 Hooks、MCP 與本機 Worker（預設 localhost:37777），有檔案讀寫、背景 Process 與本機 HTTP API 權限；不應當成純文字 Prompt。資料庫及搜尋索引位於 ~/.claude-mem/，MCP mem-search 以 search → timeline → get_observations 分層讀取，必要時才回查原始工具 I/O；官方聲稱可節省約 10 倍 Token，這是示例／設計主張，並非本次實測。v15.5.0 的 My Work 可查看請求進度與交接、已記錄的 Deliverables；『In progress』是儲存狀態，不保證 Agent 當前執行；TeamBrain 為可選的團隊分享服務，使用者需選擇分享範圍。官方列出 Claude Code、Codex、OpenCode、T3 Code（Codex／Claude Code Provider）、OpenClaw、Gemini、Pi 及多種 Harness 整合，但不同整合的 Hook、安裝及權限行為不同，不能視為完全相同。安裝器互動模式預選 CMEM Pro，官方說明 30 天免費試用且試用後有訂閱或依條件回退路徑；另可選 Anthropic Plan、OpenRouter、Gemini、Host Observer 或 OpenAI-Compatible Endpoint，價格和成本依選擇而定。預設 Telemetry 含 PostHog 匿名分析及經遮罩之錯誤追蹤，官方可透過 DO_NOT_TRACK=1 或專用設定停用；錯誤訊息雖會遮罩，仍為自由文字且有不可選擇性撤回之風險。Cloud Sync 啟用後會把完整 User Prompt、Observations、Session Summaries 送至 cmem.ai Sync Hub，需另外確認資料處理政策。<private> 標記可避免內容寫入記憶庫，但不會阻止 Live Conversation 看見原文；自動秘密字串遮罩 CLAUDE_MEM_REDACT_ENABLED 為額外 Opt-in，不能當作預設防護已啟用。官方過去曾在 2025-12-16 修補 Command Injection（Issue #354），不能將歷史修補視為全面 Security Audit。未安裝／執行 Plugin、未登入、未實測跨 Agent 回憶、雲同步、Token 節省或安全保證。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-10-30",
   "tags": [
     "important",
     "revisit",
     "memory",
     "context",
-    "claude"
+    "claude",
+    "thedotmack",
+    "persistent-memory",
+    "cross-session",
+    "claude-code",
+    "codex",
+    "opencode",
+    "t3-code",
+    "openclaw",
+    "multi-agent",
+    "hooks",
+    "mcp",
+    "mem-search",
+    "sqlite",
+    "chroma",
+    "progressive-disclosure",
+    "context-injection",
+    "local-worker",
+    "optional-cloud-sync",
+    "cmem-pro",
+    "my-work",
+    "teambrain",
+    "telemetry",
+    "privacy",
+    "opt-in-auto-redaction",
+    "apache-2.0",
+    "v15.5.0"
   ],
   "conceptRefs": [
     {
       "type": "concept",
       "id": "persistent-agent-memory"
+    },
+    {
+      "type": "concept",
+      "id": "progressive-context-recall"
+    },
+    {
+      "type": "concept",
+      "id": "memory-observability"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
     }
-  ]
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "claude-mem-mem-search"
+    }
+  ],
+  "architecture": {
+    "provenance": "Official first-party README, docs and release v15.5.0 reviewed read-only 2026-10-30.",
+    "capture": "Claude Code Lifecycle Hooks and native host integrations observe Prompt／Tool events; differing integrations may expose different event scopes.",
+    "memory": "Local Bun-managed worker, SQLite sessions／observations／summaries; Chroma semantic index complements full-text search, subject to local configuration.",
+    "recall": "Context priming plus MCP mem-search Skill. Search compact index, inspect timeline, batch retrieve selected observation IDs, use raw tool I/O only if needed.",
+    "interfaces": "Local My Work viewer and memory/settings; optional TeamBrain and cmem.ai Cloud Sync; provider and network behavior must be chosen explicitly."
+  },
+  "securityAndPrivacy": {
+    "localFiles": "~/.claude-mem/ stores database, index, settings, logs and optional deliverables; default worker binds 127.0.0.1, port 37777; confirm permissions and network exposure.",
+    "providerEgress": "Observer inference may send session context to Anthropic, Gemini, OpenRouter, CMEM Pro, or configured OpenAI-compatible endpoint. A localhost inference endpoint is possible but not verified by this review.",
+    "sync": "Cloud Sync is separately configured; when enabled uploads prompts, compressed observations and session summaries to cmem.ai; user-selected TeamBrain can share project work.",
+    "telemetry": "PostHog usage analytics and error tracking are documented as opt-out. Error text is redacted but not zero-risk; check settings and DO_NOT_TRACK=1.",
+    "privacy": "<private> tags filter persistence but do not hide sensitive content from live Agent/Provider; automatic pattern redaction is opt-in and may miss unknown secret formats.",
+    "installation": "Installer may register plugins/hooks and install dependencies; external scripts and updates were not executed in this review.",
+    "securityHistory": "Upstream SECURITY.md reports fixed command-injection findings from 2025-12-16; no independent current security audit was performed."
+  },
+  "supportMatrixNote": "Official README lists cross-host support, but exact scope differs. T3 Code installer specifically configures native Claude Code/Codex homes and still requires permission/trust handling; remote agent usage must configure plugin on the executing host.",
+  "source": {
+    "url": "https://github.com/thedotmack/claude-mem",
+    "repoUrl": "https://github.com/thedotmack/claude-mem",
+    "releaseUrl": "https://github.com/thedotmack/claude-mem/releases/tag/v15.5.0",
+    "version": "15.5.0",
+    "verifiedAt": "2026-10-30",
+    "type": "Official GitHub README, package, LICENSE, SECURITY.md, mem-search SKILL.md, release notes and first-party docs",
+    "referenceUrls": [
+      "https://github.com/thedotmack/claude-mem/blob/main/SECURITY.md",
+      "https://github.com/thedotmack/claude-mem/blob/main/plugin/skills/mem-search/SKILL.md",
+      "https://docs.claude-mem.ai/installation",
+      "https://docs.claude-mem.ai/usage/search-tools",
+      "https://docs.claude-mem.ai/telemetry",
+      "https://docs.claude-mem.ai/cloud-sync",
+      "https://docs.claude-mem.ai/usage/private-tags",
+      "https://docs.claude-mem.ai/usage/auto-redaction",
+      "https://docs.claude-mem.ai/t3code-integration"
+    ],
+    "summary": "Updated existing resource with verified capabilities, current security limitations and standalone mem-search skill linkage. No external installation, login, model invocation or data movement."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
 }
