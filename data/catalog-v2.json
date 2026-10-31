@@ -6562,6 +6562,151 @@
     },
     {
       "schemaVersion": 2,
+      "id": "microsoft-tokeneconomizer",
+      "entityType": "resource",
+      "title": "TokenEconomizer — Experience-Driven Cost Control for Coding Agents",
+      "canonicalName": "microsoft/TokenEconomizer",
+      "category": "01 Agent Runtime & Harness",
+      "resourceType": "Open-source Coding Agent plugin / repository-specific learned cost optimization and failure-loop guard",
+      "purpose": "不修改模型或 Coding Agent 核心，而是在多次開發 Session 之間學習 Repository-specific 經驗，透過 Micro-skills 保存可驗證的環境知識、Tool Pruning 移除長期未使用的工具定義，以及 Failure-loop Intervention 偵測重複失敗並提醒改變策略，降低不必要的 Token 與模型呼叫成本。",
+      "recommendation": "適合重複在同一個 Repo 使用 Claude Code、Codex、GitHub Copilot CLI 或 Pi 的 Coding Agent 開發；可先以唯讀評估、個別功能開關與 toolprune=propose 觀察實際工具裁剪提案，對照啟用前後的成本、工具可用性及任務成功率。微技能由舊 Session 學來，可能過時或帶有不可信輸出；需審查證據與權限。若既有 Harness 已用 Claude-Mem、Skills、Hooks、MCP 或其他 Tool 過濾器，先檢查注入、Hook、設定檔與工具停用是否衝突，再決定是否採用。",
+      "url": "https://github.com/microsoft/TokenEconomizer",
+      "repo": "microsoft/TokenEconomizer",
+      "status": "active",
+      "addedAt": "2026-10-31",
+      "updatedAt": "2026-10-31",
+      "tags": [
+        "microsoft-research",
+        "uc-berkeley",
+        "token-economy",
+        "agent-cost-optimization",
+        "coding-agents",
+        "harness",
+        "claude-code",
+        "codex",
+        "github-copilot-cli",
+        "pi",
+        "opencode-experimental",
+        "micro-skills",
+        "tool-pruning",
+        "failure-loop-guard",
+        "experience-driven-learning",
+        "cross-session",
+        "repository-specific",
+        "prompt-cache",
+        "context-governance",
+        "agent-hooks",
+        "reversible-settings",
+        "python",
+        "apache-2.0",
+        "swe-bench",
+        "benchmark",
+        "cost-control",
+        "model-overhead"
+      ],
+      "license": "Apache-2.0",
+      "version": "0.1.0 (pyproject.toml; repository package metadata, not a separately verified released binary)",
+      "mechanisms": [
+        {
+          "id": "microskills",
+          "name": "Micro-skills: repository environment facts",
+          "defaultState": "off",
+          "behavior": "從重複錯誤及週期性 Model Proposal 學得 Repo-specific 命令與環境事實；通常須三次 Session 確認後注入 SessionStart，若新觀察反駁則移除。microskills=envfacts 可只用失敗經驗、不額外呼叫 Proposer；完整模式會使用模型及產生相關成本。",
+          "tradeoffs": "若訓練來源遭污染、專案環境變更或記憶不合時宜，可能把不正確指令當作經驗重新帶入 Context；微技能是自動學得的 Facts，並非上游提供獨立可下載的 SKILL.md。"
+        },
+        {
+          "id": "toolprune",
+          "name": "Tool Pruning: remove unused tool definitions",
+          "defaultState": "on",
+          "behavior": "依多個 Session／Prompt 的工具使用證據移除長期未被使用的工具定義；寫入各 Agent 的專案本機設定，後續 Session 才生效。toolprune=propose 僅提出清單，須人工 apply；restore 可撤銷已加的 deny 規則。",
+          "tradeoffs": "不同 Host 能關閉的單位不同：Claude Code 可精簡個別工具；Codex 為 capability packages；Copilot CLI 為完整 MCP Servers；Pi 和 opencode 不執行工具裁剪。停用能力可能影響後續罕見任務，應檢查提案、追蹤品質並可回復。"
+        },
+        {
+          "id": "loopguard",
+          "name": "Failure-loop intervention",
+          "defaultState": "on",
+          "behavior": "依已成功結束的 Turn 建立行為長度基準；偵測反覆失敗或長時間沒有進展時，以 Judge／Redirect 提醒 Agent 改變策略，預設信心門檻 0.7 且每 Turn 最多一次提醒；仍持續卡住則提示使用者如何中斷。",
+          "tradeoffs": "互動式 Plugin 不會自動終止 Agent Turn；Judge 與 Redirect 可能產生模型額外花費，且 Judge 判斷不保證完美；實驗 Harness 的終止行為不能等同日常 Plugin 的效果。"
+        }
+      ],
+      "compatibility": {
+        "languages": "Python 3.10+ on PATH; main Python package is standard-library only.",
+        "supportedHosts": [
+          "Claude Code",
+          "Codex",
+          "GitHub Copilot CLI",
+          "Pi"
+        ],
+        "experimentalHosts": [
+          "opencode"
+        ],
+        "officialTestedRanges": [
+          "Claude Code 2.1.300–2.1.310",
+          "Codex 0.153.1–0.164.0",
+          "Copilot CLI 1.0.83–1.0.102",
+          "Pi 1.2.0–1.3.0",
+          "opencode 1.19.5 and 2.2.0 (experimental)"
+        ],
+        "versionCaveat": "以上是 README 列出的已測試版本範圍，不表示更高版本一定相容；實際安裝需先檢查目前 Host／Plugin API 的 Hook 信任及配置差異。"
+      },
+      "benchmarkEvidence": {
+        "provenance": "Official GitHub README cites research paper arXiv:2610.22732 and experiments/README.md. Measurements were not independently rerun by this collection.",
+        "benchmark": "277 SWE-Bench tasks from six repositories; five agent–model combinations and 30 repository×combination cells; comparison includes the plugin's own model-call costs.",
+        "reportedResult": "18.4–30.9% lower mean cost across five agent–model combinations; cheaper in 30/30 repository × combination cells; Pass@1 improved in four out of five combinations.",
+        "supplementaryClaims": "README reports 16–21% lower cost on Web-Bench and 6–20% on two security-auditing benchmarks; other datasets, model versions, pricing, tasks and hardware can produce different results.",
+        "reproducibility": "Upstream includes experiments/ and workloads; experiment harness requires specific agent CLIs, keys and a Docker evaluation environment. No experiments or third-party code executed here."
+      },
+      "securityAndOperations": {
+        "localState": "Repo-specific agent observations, learned facts, cost ledger, error logs and configuration reside under ~/.tokeneconomizer; plugin may also update repository-local agent settings files.",
+        "fileWrites": "Tool pruning writes Claude Code .claude/settings.local.json, Codex .codex/config.toml or Copilot .github/copilot/settings.local.json where safe; original user-defined deny rules are intended to remain untouched. Verify Git/worktree boundaries, config diffs and rollback before enabling.",
+        "hookPermissions": "Installation changes the agent Plugin／Hook execution path and asks user to trust hooks and repository folders. Only review code; do not treat an upstream install instruction as authorization to execute it.",
+        "modelAndNetwork": "Project states that it needs no dedicated API Key; proposer and loop-guard Judge call models via the logged-in Agent and can consume plan quota. Session contents may be sent to that Agent's configured provider as part of these calls. No claim of a full offline or audited privacy boundary.",
+        "learnedInstructions": "Repository-supplied tool outputs and old Session text can influence micro-skills; require trusted source, avoid storing credentials, compare outdated commands against current repo, and inspect any unintended prompt or hook changes.",
+        "behaviorLimits": "Hooks fail open per upstream docs, so optimization failure should not block the normal session, but it also means the plugin is not a security guardrail or guaranteed loop stop."
+      },
+      "distinctionFromOtherResources": "RTK 主要減少終端／CLI 回傳內容；Claude-Mem 主要保存並檢索跨 Session 記憶；TokenEconomizer 主要降低跨 Session 重複學習、閒置工具 Schema 與失敗迴圈的執行成本。可能互補但功能與狀態擷取重疊，整合效果尚未實測。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "reflective-agent-learning"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "notes": "2026-10-31 官方 main README、pyproject.toml、package.json、docs/ARCHITECTURE.md、docs/PLUGIN.md、plugin/README.md、experiments/README.md、SECURITY.md、GitHub Repo Metadata 與 LICENSE 唯讀核對。此 Repo 首次建立於 2026-10-13；主文件列出三個機制，但即時使用時 microskills 預設關閉、toolprune 與 loopguard 預設開啟。Micro-skills 由使用紀錄合成，Codex Plugin 中所附 Skills 主要是操作命令介面，不應因名稱含 Skill 就另行複製成獨立 Canonical Skill。官方數字為論文 Benchmark 結果，沒有在使用者環境或任何真實專案再現。未安裝、未呼叫模型、未修改 Agent 設定，也沒有在 Repo 執行測試。",
+      "source": {
+        "url": "https://github.com/microsoft/TokenEconomizer",
+        "repoUrl": "https://github.com/microsoft/TokenEconomizer",
+        "upstreamMainSha": "e428fc91b0f8ffecb5a596d56b14fe2f1485a5f9",
+        "paperUrl": "https://arxiv.org/abs/2610.22732",
+        "projectUrl": "https://tokeneconomizer.github.io",
+        "licenseUrl": "https://github.com/microsoft/TokenEconomizer/blob/main/LICENSE",
+        "documentation": [
+          "https://github.com/microsoft/TokenEconomizer/blob/main/docs/ARCHITECTURE.md",
+          "https://github.com/microsoft/TokenEconomizer/blob/main/docs/PLUGIN.md",
+          "https://github.com/microsoft/TokenEconomizer/blob/main/plugin/README.md",
+          "https://github.com/microsoft/TokenEconomizer/blob/main/experiments/README.md",
+          "https://github.com/microsoft/TokenEconomizer/blob/main/SECURITY.md"
+        ],
+        "type": "Official first-party repository, code/package metadata, documentation, security statement, and reported benchmark results",
+        "reviewedAt": "2026-10-31",
+        "summary": "Read-only source research: benchmark metrics documented as upstream claims, not independently tested; original code not installed or run."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "minimax-code",
       "entityType": "resource",
       "title": "MiniMax Code — Agentic Coding, Design & Skills Workspace",
