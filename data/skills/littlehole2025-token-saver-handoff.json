@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "id": "littlehole2025-token-saver-handoff",
+  "entityType": "skill",
+  "title": "Token Saver /handoff｜建立新 Session 與安全交接封存",
+  "status": "active",
+  "addedAt": "2026-11-01",
+  "updatedAt": "2026-11-01",
+  "tags": [
+    "littlehole2025",
+    "token-saver",
+    "handoff",
+    "claude-code",
+    "claude-desktop",
+    "code-tab",
+    "session-management",
+    "new-session",
+    "archive",
+    "context-continuity",
+    "agent-skill",
+    "tool-permissions",
+    "uninstalled"
+  ],
+  "purpose": "在使用者明確輸入「換」、「開新」、「new」或「handoff」時，整理當前工程進度，以包含完成項目、未完成項目、下一步與重要規則的獨立摘要交給新 Session；在新 Session 成功建立後才封存原 Session。",
+  "problem": "長 Session 轉移時，若只有口頭說『另開新對話』，未完成 Task、驗證證據、Commit 或限制可能流失；若先封存而新對話建立失敗，更可能造成使用中斷。",
+  "inputs": [
+    "使用者要求切換 Session 的明確意圖",
+    "當前 Session 名稱及其可核實的專案進度",
+    "已授權且真正可用的 get_session、start_session、archive_session 工具"
+  ],
+  "outputs": [
+    "可獨立理解的 Handoff Brief（Done、Pending、Next、Rules、Repo/Commit 等）",
+    "若環境具備 Session 管理工具：建立的新 Session 與完成後的舊 Session 封存結果",
+    "若缺少必要工具：無操作副作用的手動交接摘要及限制說明"
+  ],
+  "execution": "依官方 skills/handoff/SKILL.md：① get_session(self) 讀目前對話名稱；② 將最後數字 +1，若沒有數字則尾端加 -2；③ start_session(context=fresh, title=新名稱, brief=自足交接摘要)；④ 檢查工具回傳確認新 Session 成功建立；⑤ 只有成功時才 archive_session(self)。如果沒有工具、權限被拒絕或開新失敗，不能封存原 Session，應改提供手動可複製的 Brief。勿虛構上述工具一定存在；需確認真實主機可用性。這是 Skill 的說明與人工可審核程序，不是本次實際執行結果。",
+  "whenToUse": [
+    "已安裝支援該 Skill 且提供 Session 工具的 Claude 桌面版 Code 分頁，使用者要求換新對話",
+    "長對話的階段性工作已完成，需要保留足以恢復工作的決策、文件、待辦與驗證紀錄"
+  ],
+  "constraints": [
+    "只在明確 Handoff 意圖下觸發，不應僅因達到提醒門檻就自行封存",
+    "確認新 Session 建立成功後才封存；對建立失敗、工具不可用、權限不足採安全退回",
+    "Handoff 摘要不可自行補造 Commit、已完成 Task 或執行成果；涉及憑證與機密內容應先排除",
+    "在 Terminal CLI 不可宣稱可以自動創建／封存，需回退至手動摘要",
+    "與 mattpocock-handoff 不同：本 Skill 專注 Claude Desktop Session 工具協作及封存行為；來源有獨立 SKILL.md，可獨立研究，但不保證在其他 Agent 可執行"
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "littlehole2025-token-saver"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/littlehole2025/token-saver/blob/main/skills/handoff/SKILL.md",
+    "reviewedAt": "2026-11-01",
+    "type": "Upstream standalone SKILL.md with Claude desktop session-management tool dependencies",
+    "summary": "Catalogued as distinct source-defined Skill. Not installed, triggered, or verified on any desktop host."
+  }
+}
