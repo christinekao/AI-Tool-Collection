@@ -6044,6 +6044,116 @@
     },
     {
       "schemaVersion": 2,
+      "id": "littlehole2025-token-saver",
+      "entityType": "resource",
+      "title": "littlehole2025/token-saver — 長對話 Token 提醒與 Session Handoff",
+      "canonicalName": "token-saver",
+      "category": "01 Agent Runtime & Harness",
+      "resourceType": "Claude Code plugin / long conversation token-usage reminder + desktop-only handoff skill",
+      "purpose": "透過 Claude Code UserPromptSubmit Hook 讀取 Transcript 最近一筆包含 usage 的 Assistant Message，估算 Token 數；達到設定門檻後提示使用者結束當前任務並開新 Session，以交接摘要減少長對話持續堆積的上下文。內附 Handoff Skill 可在有 Session 管理工具的 Claude 桌面版 Code 分頁中開新對話並封存舊對話。",
+      "recommendation": "適合長時間使用 Claude Code、希望在對話上下文增加時收到提醒，並在切換 Session 時保留已完成事項、待辦、規則與 Commit 資訊的使用者。先確認是否已使用自動 Compact、Claude-Mem、Handoff Skills 或同類 Hooks；提醒門檻應參考目前 Host/Model 的有效 Context、使用量、快取計費與工作型態，不宜把 150K 當成最佳值。對於涉及封存、改名及開新 Session 的操作，應先確認執行環境有相應工具、目前工作可安全中斷、交接摘要不洩漏秘密，且新對話建立成功後才封存。",
+      "url": "https://github.com/littlehole2025/token-saver",
+      "repo": "littlehole2025/token-saver",
+      "status": "active",
+      "addedAt": "2026-11-01",
+      "updatedAt": "2026-11-01",
+      "tags": [
+        "claude-code",
+        "plugin",
+        "session-handoff",
+        "context-governance",
+        "token-usage",
+        "long-conversation",
+        "session-management",
+        "handoff-skill",
+        "user-prompt-submit-hook",
+        "nodejs",
+        "transcript",
+        "context-threshold",
+        "manual-new-session",
+        "desktop-code-tab",
+        "mit-license",
+        "readme-verified",
+        "uninstalled",
+        "no-benchmark"
+      ],
+      "license": "MIT",
+      "version": "1.0.0 (from .claude-plugin/plugin.json; initial release, not independent stability certification)",
+      "mechanism": {
+        "reminder": "UserPromptSubmit Hook uses node and transcript_path to read the last up to 2 MB of the transcript; parses the last assistant usage it finds, summing input_tokens + cache_read_input_tokens + cache_creation_input_tokens. Outputs both systemMessage and hookSpecificOutput.additionalContext when at threshold.",
+        "defaultTokenThreshold": 150000,
+        "defaultReminderStep": 50000,
+        "defaultLanguage": "zh-TW (supports en)",
+        "configuration": [
+          "LONG_CHAT_TOKENS",
+          "LONG_CHAT_STEP",
+          "LONG_CHAT_LANG"
+        ],
+        "deduplication": "Stores the last announced threshold level in a per-session temporary file under the OS tmp directory, avoiding repeat notification for the same bucket.",
+        "trigger": "Reminders happen when the user submits a prompt; not a background monitor, not a guaranteed warning at the precise point the model window fills.",
+        "handoff": "Skill instructions recognize just 換／開新／new／handoff; in Claude desktop Code tab use get_session(self), start_session(context=fresh with incremented title and standalone brief), confirm creation, then archive_session(self). If these actions are missing, provide a handoff summary for manual paste instead.",
+        "hostLimits": "Automatic session creation and archival are documented only for Claude desktop Code tab; terminal CLI receives token warning but needs manual Session switch."
+      },
+      "verificationNotes": {
+        "observedSource": "Official README.md, hooks/hooks.json, hooks/long-chat-reminder.js, .claude-plugin/plugin.json, marketplace.json, skills/handoff/SKILL.md, LICENSE, GitHub repository metadata.",
+        "behaviorCaveats": [
+          "The hook-derived token number is an approximation based on the latest observed message usage, not an authoritative current effective context window size, remaining budget or billing forecast.",
+          "It cannot guarantee fewer paid tokens, lower end-to-end cost, quality improvements, or fewer errors; no benchmark was located in the reviewed repo.",
+          "New-session creation and archival depend on nonstandard host session-management capabilities; presence of the Skill alone does not confer access.",
+          "The hook records session threshold state in temp and reads the transcript on each submitted prompt; source and host compatibility should be reviewed before installation.",
+          "Hook can add context/instructions on trigger. It does not provide independent memory retrieval, general token compression, or dynamic tool pruning.",
+          "Automatically archiving the current session after the new session succeeds is a state-changing action; review the handoff and verify persistence and restore path before relying on it."
+        ]
+      },
+      "securityAndOperations": {
+        "permissions": "Node.js command is registered as Claude Code UserPromptSubmit Hook, reads local transcript file path supplied by host and writes a small per-session threshold marker to OS temporary storage.",
+        "sessionMutation": "Skill invokes desktop session-management tools to create/rename-related sessions and archive current session; this does not run automatically from the Hook without user-triggered Handoff intent.",
+        "contextPrivacy": "Handoff brief may contain project decisions, file paths, task state or other sensitive information; review and omit secrets before copying into a new Session.",
+        "runtimeCompatibility": "Requires Node.js and Claude Code plugin/hook support. Automatic desktop Handoff additionally requires get_session, start_session and archive_session; README does not establish availability in other Clients.",
+        "isolation": "Installation, Hook execution and desktop session management were not performed during cataloging; actual current-host functionality and security were not independently validated."
+      },
+      "relationship": "與 microsoft/TokenEconomizer（跨 Session 學習、移除閒置工具與失敗迴圈介入）不同；與 Claude-Mem（保存／檢索長期工作記憶）不同；與 mattpocock /handoff 類似但其 Handoff Skill 明確要求桌面 Session 工具進行建立／封存，並結合長對話 Token Reminder。各工具可能共存，但 Hook／Handoff 命名及操作需確認不衝突。",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "littlehole2025-token-saver-handoff"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/littlehole2025/token-saver",
+        "repoUrl": "https://github.com/littlehole2025/token-saver",
+        "upstreamMainSha": "95ddd6f400308a43c7dd6c0f51bf6ca2d22af132",
+        "reviewedAt": "2026-11-01",
+        "type": "Official upstream repository README, hook JavaScript, plugin manifests, standalone SKILL.md and MIT LICENSE",
+        "referenceUrls": [
+          "https://github.com/littlehole2025/token-saver/blob/main/README.md",
+          "https://github.com/littlehole2025/token-saver/blob/main/hooks/hooks.json",
+          "https://github.com/littlehole2025/token-saver/blob/main/hooks/long-chat-reminder.js",
+          "https://github.com/littlehole2025/token-saver/blob/main/skills/handoff/SKILL.md",
+          "https://github.com/littlehole2025/token-saver/blob/main/.claude-plugin/plugin.json"
+        ],
+        "summary": "Source inspected read-only. Claims of saved tokens, compatibility or successful automatic handoff not validated by installing or running."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed",
+      "notes": "2026-11-01 查核：GitHub 專案成立於 2026-10-31，官方描述與程式碼吻合主要提醒邏輯。Hook 以最近一次 assistant usage 的 input + cache_read_input + cache_creation_input 估算，數字不能直接視為模型精確上下文長度或實際成本。預設門檻 150K、遞增 50K，只有使用者送新訊息時執行；每個門檻級距使用 OS 暫存狀態避免重複提醒。一鍵開新與封存依賴 Claude Desktop Code 專有 Session 工具，不適用一般 Terminal CLI。技術上可和 Claude 自動 Context Compact 同時存在，但成效、衝突及計費變化未實測。此收錄不授權外部 Hook 安裝或執行。"
+    },
+    {
+      "schemaVersion": 2,
       "id": "llm",
       "entityType": "resource",
       "title": "LLM",
@@ -13770,6 +13880,80 @@
         "post-processing",
         "skill"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "littlehole2025-token-saver-handoff",
+      "entityType": "skill",
+      "title": "Token Saver /handoff｜建立新 Session 與安全交接封存",
+      "status": "active",
+      "addedAt": "2026-11-01",
+      "updatedAt": "2026-11-01",
+      "tags": [
+        "littlehole2025",
+        "token-saver",
+        "handoff",
+        "claude-code",
+        "claude-desktop",
+        "code-tab",
+        "session-management",
+        "new-session",
+        "archive",
+        "context-continuity",
+        "agent-skill",
+        "tool-permissions",
+        "uninstalled"
+      ],
+      "purpose": "在使用者明確輸入「換」、「開新」、「new」或「handoff」時，整理當前工程進度，以包含完成項目、未完成項目、下一步與重要規則的獨立摘要交給新 Session；在新 Session 成功建立後才封存原 Session。",
+      "problem": "長 Session 轉移時，若只有口頭說『另開新對話』，未完成 Task、驗證證據、Commit 或限制可能流失；若先封存而新對話建立失敗，更可能造成使用中斷。",
+      "inputs": [
+        "使用者要求切換 Session 的明確意圖",
+        "當前 Session 名稱及其可核實的專案進度",
+        "已授權且真正可用的 get_session、start_session、archive_session 工具"
+      ],
+      "outputs": [
+        "可獨立理解的 Handoff Brief（Done、Pending、Next、Rules、Repo/Commit 等）",
+        "若環境具備 Session 管理工具：建立的新 Session 與完成後的舊 Session 封存結果",
+        "若缺少必要工具：無操作副作用的手動交接摘要及限制說明"
+      ],
+      "execution": "依官方 skills/handoff/SKILL.md：① get_session(self) 讀目前對話名稱；② 將最後數字 +1，若沒有數字則尾端加 -2；③ start_session(context=fresh, title=新名稱, brief=自足交接摘要)；④ 檢查工具回傳確認新 Session 成功建立；⑤ 只有成功時才 archive_session(self)。如果沒有工具、權限被拒絕或開新失敗，不能封存原 Session，應改提供手動可複製的 Brief。勿虛構上述工具一定存在；需確認真實主機可用性。這是 Skill 的說明與人工可審核程序，不是本次實際執行結果。",
+      "whenToUse": [
+        "已安裝支援該 Skill 且提供 Session 工具的 Claude 桌面版 Code 分頁，使用者要求換新對話",
+        "長對話的階段性工作已完成，需要保留足以恢復工作的決策、文件、待辦與驗證紀錄"
+      ],
+      "constraints": [
+        "只在明確 Handoff 意圖下觸發，不應僅因達到提醒門檻就自行封存",
+        "確認新 Session 建立成功後才封存；對建立失敗、工具不可用、權限不足採安全退回",
+        "Handoff 摘要不可自行補造 Commit、已完成 Task 或執行成果；涉及憑證與機密內容應先排除",
+        "在 Terminal CLI 不可宣稱可以自動創建／封存，需回退至手動摘要",
+        "與 mattpocock-handoff 不同：本 Skill 專注 Claude Desktop Session 工具協作及封存行為；來源有獨立 SKILL.md，可獨立研究，但不保證在其他 Agent 可執行"
+      ],
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "littlehole2025-token-saver"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "context-governance"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/littlehole2025/token-saver/blob/main/skills/handoff/SKILL.md",
+        "reviewedAt": "2026-11-01",
+        "type": "Upstream standalone SKILL.md with Claude desktop session-management tool dependencies",
+        "summary": "Catalogued as distinct source-defined Skill. Not installed, triggered, or verified on any desktop host."
+      }
     },
     {
       "schemaVersion": 2,
