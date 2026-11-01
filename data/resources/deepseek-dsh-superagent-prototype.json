@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 2,
+  "status": "active",
+  "addedAt": "2026-11-02",
+  "updatedAt": "2026-11-02",
+  "id": "deepseek-dsh-superagent-prototype",
+  "entityType": "resource",
+  "title": "DeepSeek dsh-superagent — Proactive Coding Agent Harness 研究原型",
+  "canonicalName": "dsh-superagent",
+  "category": "01 Agent Runtime & Harness",
+  "resourceType": "DeepSeek Harness bundle / proactive coding agent research prototype",
+  "purpose": "監聽單一 GitHub Repository 的事件與選用 Feishu 訊息，透過 Source → Trigger → Eval → Ticket → Assignment → Executor Session → Report 將授權工作交由獨立 Agent Session 執行並回覆原對話。",
+  "recommendation": "適合研究 AI Agent Workspace、AI 軟體開發協作、Agent Harness、工作派發與授權邊界；重點參考事件評估、Mandate、獨立 Worker、持久化副作用佇列、重試與人工注意力最小化。",
+  "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+  "repo": "deepseek-ai/dsh-superagent-prototype",
+  "license": "MIT",
+  "tags": [
+    "deepseek",
+    "superagent",
+    "agent-harness",
+    "proactive-agent",
+    "coding-agent",
+    "orchestration",
+    "github",
+    "feishu",
+    "worker-sessions",
+    "authorization",
+    "ticket-lifecycle",
+    "event-driven",
+    "durable-queue",
+    "retries",
+    "human-in-the-loop",
+    "research-prototype"
+  ],
+  "architecture": {
+    "flow": "Source → Trigger → Eval → Ticket/Mandate → Assignment → Executor Session → Report/Channel",
+    "components": [
+      "Engine as sole writer of Triggers, Threads, Decisions, Tickets and Assignments",
+      "MasterAssessor for admission decisions",
+      "DshExecutor with per-Ticket Session and directory",
+      "Durable Effects queue and Outbox for side effects after transaction commit",
+      "GitHub Source plugin; optional Feishu Source plugin",
+      "Web panel prioritizes items needing human attention"
+    ],
+    "principles": [
+      "Act only on direct authorized requests or written proactive rules",
+      "Start unapproved proactive work in observation mode",
+      "Report only decisions, useful results and blockers",
+      "One concrete question at a time",
+      "Honest status reporting and no bypass of limits"
+    ]
+  },
+  "caveats": [
+    "Upstream explicitly labels the repository a research prototype, not an official DeepSeek product or production-ready implementation.",
+    "Published code differs from internal implementation and the accompanying design article; some future directions are not implemented.",
+    "Designed for one GitHub repository and DeepSeek Harness; not a generic drop-in multi-repository service.",
+    "Source includes two environment-specific SKILL.md files; these are not general-purpose standalone coding agents.",
+    "No code installed or executed, no end-to-end behavior independently verified."
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "deepseek-dsh-superagent-github"
+    },
+    {
+      "type": "skill",
+      "id": "deepseek-dsh-superagent-feishu"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+    "documentation": [
+      "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/README.md",
+      "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/docs/000-philosophy.md",
+      "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/docs/001-domain.md",
+      "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/docs/007-architecture.md"
+    ],
+    "reviewedAt": "2026-11-02",
+    "type": "Official repository and architecture documentation"
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}

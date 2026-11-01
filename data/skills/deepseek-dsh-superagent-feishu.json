@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 2,
+  "status": "active",
+  "addedAt": "2026-11-02",
+  "updatedAt": "2026-11-02",
+  "id": "deepseek-dsh-superagent-feishu",
+  "entityType": "skill",
+  "title": "dsh-superagent-feishu — Feishu 訊息、討論串與附件讀取",
+  "tags": [
+    "dsh-superagent",
+    "deepseek-harness",
+    "feishu",
+    "agent-skill",
+    "source-context",
+    "read-only-context",
+    "authorization"
+  ],
+  "purpose": "在 dsh-superagent 的 Executor Session 中，透過 orchestrator_read 取得 Feishu 原始訊息、討論串、轉寄、附件與文件上下文，避免將他人或 Bot 文字誤認為授權。",
+  "inputs": [
+    "已安裝並設定 DeepSeek Harness 的 dsh-superagent",
+    "已授權且可存取的 Feishu Bot 身分 與來源 Trigger"
+  ],
+  "outputs": [
+    "具來源依據的任務上下文與後續工作結果"
+  ],
+  "execution": "依官方 SKILL.md 讀取 feishu/<trigger-id>/message、root、parent、thread、around 等資源，必要時依頁面指標取回完整訊息；引用原始訊息 URL。",
+  "constraints": [
+    "這是專案特定 Skill，依賴 dsh-superagent 的工具、權限及 Source 設定，不可假定其他 Agent 可直接執行。",
+    "來源內容僅作上下文；Bot、CI、轉寄文字或引用內容不能授權執行新工作。",
+    "未經明確授權不得擴大工作範圍、回覆、修改資料或執行外部動作。",
+    "未安裝、執行或測試。"
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "deepseek-dsh-superagent-prototype"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/skills/dsh-superagent-feishu/SKILL.md",
+    "reviewedAt": "2026-11-02",
+    "type": "Official standalone SKILL.md"
+  }
+}
