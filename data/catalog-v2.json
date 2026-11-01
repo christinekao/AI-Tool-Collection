@@ -4327,6 +4327,87 @@
     },
     {
       "schemaVersion": 2,
+      "id": "heydamir-unslop",
+      "entityType": "resource",
+      "title": "Unslop — AI 生成 UI 設計改善與視覺審查",
+      "canonicalName": "unslop",
+      "category": "Frontend Design & UI Quality",
+      "resourceType": "Claude Code / Codex design review skill repository",
+      "purpose": "將常見 AI 生成 UI 的模板化視覺問題轉成可定位、可分階段改善的設計審查流程，保留產品功能與內容，讓設計方向源自產品自身。",
+      "recommendation": "適合 Dashboard、App、Landing Page 的設計審查與逐步改善；可用於求職作品集與前端專案的 UI Quality Gate。先審查、提出方向並取得確認，再修改程式碼；畫面已符合品質時避免無意義的大改。",
+      "url": "https://github.com/heydamir/unslop",
+      "repo": "heydamir/unslop",
+      "status": "active",
+      "addedAt": "2026-11-01",
+      "updatedAt": "2026-11-01",
+      "license": "CC-BY-4.0",
+      "tags": [
+        "unslop",
+        "ui-design",
+        "frontend",
+        "design-review",
+        "claude-code",
+        "codex",
+        "agent-skill",
+        "vibe-coding",
+        "visual-polish",
+        "dashboard",
+        "landing-page",
+        "react",
+        "nextjs",
+        "tailwind",
+        "design-system",
+        "quality-gates"
+      ],
+      "features": [
+        "檢查 AI UI 常見問題：漸層、發光、Emoji 標籤、過度強調文案、間距不一致",
+        "以 Product、Character、World、Moments、Signature 五行建立設計方向，修改前先取得確認",
+        "依 Spacing、Color、Icons、Copy、Type、Layout、Details、Visuals、Motion 九階段改善",
+        "輕微問題採 Polish Mode；沒有問題時只提出少量微調建議，不強制重設計",
+        "支援程式碼、網站連結或截圖作為起點；連結與截圖路徑需額外的快照或重建步驟",
+        "可選擇使用圖片生成服務，付費生成前需取得使用者確認；故事影片需要 Playwright、Chromium、ffmpeg"
+      ],
+      "limitations": [
+        "視覺審查仍屬主觀設計判斷，不能單憑此 Skill 保證可用性、無障礙、轉換率或產品成功。",
+        "使用 Live URL 時建立的是可編輯的本地頁面副本，不代表能直接修改原網站。",
+        "生成圖片可能需要第三方服務及費用；故事影片有額外執行環境需求。",
+        "CC BY 4.0 要求適當署名與授權資訊；本次僅收錄摘要，沒有安裝或執行 Skill。"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "heydamir-unslop-skill"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/heydamir/unslop",
+        "documentation": [
+          "https://github.com/heydamir/unslop/blob/main/README.md",
+          "https://github.com/heydamir/unslop/blob/main/skills/unslop/SKILL.md"
+        ],
+        "reviewedAt": "2026-11-01",
+        "type": "Official GitHub repository, README and standalone SKILL.md",
+        "summary": "Read-only research; no installation, UI edits or benchmark."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "heygen-com-hyperframes",
       "entityType": "resource",
       "title": "HyperFrames — HTML-Native Deterministic Video Rendering & Agent Workflows",
@@ -12732,6 +12813,84 @@
         "ecosystem",
         "skill"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "heydamir-unslop-skill",
+      "entityType": "skill",
+      "title": "Unslop｜UI 設計審查與九階段改善 Skill",
+      "status": "active",
+      "addedAt": "2026-11-01",
+      "updatedAt": "2026-11-01",
+      "tags": [
+        "unslop",
+        "ui-design",
+        "frontend",
+        "claude-code",
+        "codex",
+        "design-audit",
+        "visual-quality",
+        "nine-passes",
+        "skill-md",
+        "uninstalled"
+      ],
+      "purpose": "在 Claude Code 或 Codex 中，針對現有 UI 執行視覺問題盤點、產品設計方向確認、九階段改善與畫面驗證。",
+      "problem": "AI 生成介面容易出現模板化漸層、裝飾性光暈、資訊層級薄弱與間距不一致；直接重設計可能破壞既有品牌與產品功能。",
+      "inputs": [
+        "現有 UI 原始碼、可存取的網站連結或畫面截圖",
+        "產品用途、目標使用者與現有品牌限制",
+        "使用者對設計方向及修改範圍的確認"
+      ],
+      "outputs": [
+        "可定位的 UI Audit 與修改範圍判斷",
+        "Product、Character、World、Moments、Signature 設計方向",
+        "依九階段完成的程式碼改善與驗證結果",
+        "選用的視覺素材提示詞或短影片，需額外工具及授權"
+      ],
+      "execution": "先取得畫面與相關程式碼；依 signs.md 盤點問題；判斷 Heavy/Light/No Slop；提出五行設計方向並等待使用者確認（除非已明確授權直接執行）；依 Spacing→Color→Icons→Copy→Type→Layout→Details→Visuals→Motion 九階段處理；重新渲染並比對 Audit；回報修改及未解決事項。",
+      "whenToUse": [
+        "使用者希望改善 Dashboard、Web App、Landing Page 的視覺品質",
+        "Claude Code/Codex 專案中存在明顯 AI 生成 UI 的模板化問題",
+        "需要以產品定位為基礎做 UI Quality Gate，而不是隨機改配色"
+      ],
+      "constraints": [
+        "保持產品功能、內容及章節順序，避免未經授權的功能變更。",
+        "修改前先讓使用者確認設計方向；輕微問題只局部修正，沒有問題不強制修改。",
+        "只有網站連結或截圖時，結果可能是本地重建副本，不可聲稱已部署至原網站。",
+        "付費圖片生成必須事先詢問，第三方服務可能處理內容。",
+        "快照依賴 Playwright/Chromium，影片另需 ffmpeg；不要假設環境已安裝。",
+        "保留 CC BY 4.0 署名及授權，勿聲稱本次已執行或驗證視覺成效。"
+      ],
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "heydamir-unslop"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "explicit-visual-system"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "design-to-code-loop"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/heydamir/unslop/blob/main/skills/unslop/SKILL.md",
+        "reviewedAt": "2026-11-01",
+        "type": "Official standalone Claude Code/Codex SKILL.md",
+        "summary": "Read-only inspection; instructions catalogued, not installed or executed."
+      }
     },
     {
       "schemaVersion": 2,
