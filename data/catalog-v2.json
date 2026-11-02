@@ -3223,6 +3223,71 @@
     },
     {
       "schemaVersion": 2,
+      "id": "df3011212-codex-local-board",
+      "entityType": "resource",
+      "title": "Codex Local Board — 繁體中文本機工作進度與 Agent 分工看板",
+      "canonicalName": "Codex Local Board",
+      "category": "01 Agent Runtime & Harness",
+      "resourceType": "Local-first Codex conversation progress dashboard / agent status reporter",
+      "purpose": "透過本機唯讀 Codex 對話索引及 Codex 主動提交的結構化工作報告，整理每個聊天室的目標、目前進度、下一步、可驗證成果、任務關卡、專案階層與真實子代理分工。",
+      "recommendation": "適合研究多專案 Codex 工作監控、AI Agent Workspace 與 Harness 可觀測性。特別可借鏡證據導向驗收、結構化狀態回報、已完成關卡與整體專案分開計算、明確區分執行中與未知，以及手動確認的任務交接。",
+      "url": "https://github.com/df3011212/codex-local-board",
+      "repo": "df3011212/codex-local-board",
+      "website": "https://df3011212.github.io/codex-local-board/",
+      "demo": "https://df3011212.github.io/codex-local-board/demo/",
+      "license": "MIT (bundled codex-agent-view remains Apache-2.0)",
+      "status": "active",
+      "addedAt": "2026-11-02",
+      "updatedAt": "2026-11-02",
+      "tags": [
+        "codex",
+        "local-first",
+        "agent-workspace",
+        "agent-monitoring",
+        "task-progress",
+        "project-plan",
+        "subagent",
+        "structured-report",
+        "evidence-based",
+        "nodejs",
+        "sqlite",
+        "windows",
+        "traditional-chinese",
+        "agent-view",
+        "handoff",
+        "observability"
+      ],
+      "architecture": {
+        "core": "Node.js 18+ standard-library local HTTP board, read-only observation of Codex session metadata; Node 24.22.2 recommended for node:sqlite support; JSON files for semantic reports and project plans.",
+        "reporting": "Working Codex explicitly writes state-v2.json through agent_report.mjs; plan_report.mjs writes project-plans.json. Prior Codex chats can be summarized by a user-triggered Sync-All-Chats action that consumes existing Codex model quota.",
+        "refresh": "Browser refreshes state every five seconds; refresh does not itself invoke an AI model.",
+        "optional": "Codex Agent View hooks for explicit live execution/subagent/tool events, requiring separate install and trust review; Python v1 legacy checkpoints remain supported."
+      },
+      "verificationNotes": [
+        "The public GitHub Pages demo contains fixed sample data and does not read visitor local Codex chats.",
+        "Completed progress counts only done/passed/frozen checkpoints with evidence; tool calls, elapsed time or source_ready are not proof of completion.",
+        "Full project plan progress is separate from the current task's checkpoint ratio; unknown scope yields unknown overall completion.",
+        "Existing chat sync requires explicit execution, can consume model quota, and may omit conversations due to input limits.",
+        "Agent View is optional, externally licensed, and its event stream does not reconstruct past activity or guarantee every hook fires.",
+        "Local private summaries and configuration backups can contain sensitive information; do not publish them.",
+        "README describes a Windows portable launcher; no installation, execution or independent testing performed."
+      ],
+      "source": {
+        "url": "https://github.com/df3011212/codex-local-board",
+        "documentation": [
+          "https://github.com/df3011212/codex-local-board/blob/main/README.md",
+          "https://df3011212.github.io/codex-local-board/",
+          "https://df3011212.github.io/codex-local-board/demo/"
+        ],
+        "reviewedAt": "2026-11-02",
+        "type": "Official GitHub README, repository metadata and project website",
+        "summary": "Categorized as one Resource; no standalone project SKILL.md confirmed."
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "dominicrico-jev-router",
       "entityType": "resource",
       "title": "jev-router — Claude Code Model & Reasoning Effort Router",
