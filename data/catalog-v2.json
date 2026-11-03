@@ -10403,6 +10403,75 @@
     },
     {
       "schemaVersion": 2,
+      "id": "thu-maic-openmaic",
+      "entityType": "resource",
+      "title": "OpenMAIC — Multi-Agent Interactive Classroom",
+      "canonicalName": "OpenMAIC",
+      "category": "AI Learning & Multi-Agent Applications",
+      "resourceType": "Open-source multi-agent interactive classroom platform",
+      "purpose": "將主題或文件轉換為 AI 教師與 AI 同學參與的互動教室，產生投影片、測驗、互動 HTML 模擬、專題式學習、白板講解與語音內容。",
+      "recommendation": "適合研究多代理教學協作、互動學習內容生成、課程持久化、可重用 Agent Skill 與 Communication Gym 類型產品的技術設計；不代表內建特定的職場表達訓練或客製化評分能力。",
+      "url": "https://github.com/THU-MAIC/OpenMAIC",
+      "repo": "THU-MAIC/OpenMAIC",
+      "website": "https://open.maic.chat",
+      "license": "MIT",
+      "status": "active",
+      "addedAt": "2026-11-03",
+      "updatedAt": "2026-11-03",
+      "tags": [
+        "multi-agent",
+        "interactive-learning",
+        "ai-classroom",
+        "education",
+        "pbl",
+        "quiz",
+        "simulation",
+        "whiteboard",
+        "tts",
+        "agent-skill",
+        "codex",
+        "openclaw",
+        "course-generation",
+        "postgresql",
+        "nextjs",
+        "export"
+      ],
+      "features": [
+        "AI 教師及同學共同講授與即時討論",
+        "投影片、測驗、HTML 互動模擬與專題式學習",
+        "白板與語音教學",
+        "課程 PPTX、離線 HTML、ZIP 匯出",
+        "伺服器端課程生成與 PostgreSQL 持久化",
+        "多模型供應商與可設定的能力 slots",
+        "官方 OpenMAIC Skill 支援 OpenClaw、Codex 等工作環境"
+      ],
+      "constraints": [
+        "官方最新 README 要求 Node.js >=22.19、pnpm >=10 與 PostgreSQL 16，且伺服器需長時間運作。",
+        "從 1.2.0 起不支援以 Vercel 等純 Serverless 部署最新版本。",
+        "Docker Compose 預設單一使用者共用資料庫；對外公開必須設定存取保護。",
+        "部分生成能力依賴外部模型供應商、API Key 及可能產生的費用。",
+        "未安裝、執行或獨立測試。"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "thu-maic-openmaic-skill"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/THU-MAIC/OpenMAIC",
+        "documentation": [
+          "https://github.com/THU-MAIC/OpenMAIC/blob/main/README.md",
+          "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md"
+        ],
+        "reviewedAt": "2026-11-03",
+        "type": "Official upstream GitHub README and SKILL.md"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "tradingview-pine-screener-strategy-tester",
       "entityType": "resource",
       "title": "TradingView — Pine Screener, Pine Script & Strategy Tester",
@@ -16502,6 +16571,60 @@
         "code-to-design",
         "skill"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "thu-maic-openmaic-skill",
+      "entityType": "skill",
+      "title": "OpenMAIC Skill — 互動教室建置、生成與擴充",
+      "status": "active",
+      "addedAt": "2026-11-03",
+      "updatedAt": "2026-11-03",
+      "tags": [
+        "openmaic",
+        "agent-skill",
+        "interactive-classroom",
+        "openclaw",
+        "codex",
+        "guided-setup",
+        "education",
+        "sdk"
+      ],
+      "purpose": "引導 Agent 協助使用者選擇 OpenMAIC 線上示範、本機部署或二次開發模式，完成配置後建立多代理互動教室。",
+      "problem": "OpenMAIC 具有多階段安裝、模型配置、課程生成與擴充路徑，需要具授權確認的操作指引。",
+      "inputs": [
+        "使用者的使用模式選擇（Live Demo、本機、擴充）",
+        "可存取的 OpenMAIC 部署與必要授權",
+        "本機環境與模型設定（若適用）"
+      ],
+      "outputs": [
+        "依模式逐階段的設定指引",
+        "經授權提交的課程生成工作或二次開發指引"
+      ],
+      "execution": "依官方 skills/openmaic/SKILL.md 的 SOP 分階段確認模式、讀取相應 references、檢查既有設定並在使用者授權後操作；模型供應商選擇以 OpenMAIC 伺服器端設定為準。",
+      "whenToUse": [
+        "希望建立 AI 多代理互動教室",
+        "希望安裝或配置 OpenMAIC",
+        "希望透過 @openmaic/* SDK 或 Fork 擴充 OpenMAIC"
+      ],
+      "constraints": [
+        "任何會改變狀態的操作前需確認使用者授權。",
+        "不可假定 Agent 本身的模型或 API Key 可供 OpenMAIC 重用。",
+        "避免要求使用者在對話中貼出 API Key，優先引導本機配置。",
+        "此為 OpenMAIC 專用 Skill，不保證在所有 Agent Runtime 可直接使用。",
+        "未安裝或執行此 Skill。"
+      ],
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "thu-maic-openmaic"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md",
+        "reviewedAt": "2026-11-03",
+        "type": "Official upstream SKILL.md"
+      }
     },
     {
       "schemaVersion": 2,
