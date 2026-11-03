@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 2,
+  "id": "thu-maic-openmaic-skill",
+  "entityType": "skill",
+  "title": "OpenMAIC Skill — 互動教室建置、生成與擴充",
+  "status": "active",
+  "addedAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "tags": [
+    "openmaic",
+    "agent-skill",
+    "interactive-classroom",
+    "openclaw",
+    "codex",
+    "guided-setup",
+    "education",
+    "sdk"
+  ],
+  "purpose": "引導 Agent 協助使用者選擇 OpenMAIC 線上示範、本機部署或二次開發模式，完成配置後建立多代理互動教室。",
+  "problem": "OpenMAIC 具有多階段安裝、模型配置、課程生成與擴充路徑，需要具授權確認的操作指引。",
+  "inputs": [
+    "使用者的使用模式選擇（Live Demo、本機、擴充）",
+    "可存取的 OpenMAIC 部署與必要授權",
+    "本機環境與模型設定（若適用）"
+  ],
+  "outputs": [
+    "依模式逐階段的設定指引",
+    "經授權提交的課程生成工作或二次開發指引"
+  ],
+  "execution": "依官方 skills/openmaic/SKILL.md 的 SOP 分階段確認模式、讀取相應 references、檢查既有設定並在使用者授權後操作；模型供應商選擇以 OpenMAIC 伺服器端設定為準。",
+  "whenToUse": [
+    "希望建立 AI 多代理互動教室",
+    "希望安裝或配置 OpenMAIC",
+    "希望透過 @openmaic/* SDK 或 Fork 擴充 OpenMAIC"
+  ],
+  "constraints": [
+    "任何會改變狀態的操作前需確認使用者授權。",
+    "不可假定 Agent 本身的模型或 API Key 可供 OpenMAIC 重用。",
+    "避免要求使用者在對話中貼出 API Key，優先引導本機配置。",
+    "此為 OpenMAIC 專用 Skill，不保證在所有 Agent Runtime 可直接使用。",
+    "未安裝或執行此 Skill。"
+  ],
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "thu-maic-openmaic"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md",
+    "reviewedAt": "2026-11-03",
+    "type": "Official upstream SKILL.md"
+  }
+}
