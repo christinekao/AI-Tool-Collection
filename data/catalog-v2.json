@@ -5760,6 +5760,84 @@
     },
     {
       "schemaVersion": 2,
+      "id": "kubai087-kubai-icons",
+      "entityType": "resource",
+      "title": "Kubai Icons — 一致風格的動態與靜態 SVG 圖示生成工具",
+      "canonicalName": "Kubai Icons",
+      "category": "Design Tools & Icon Generation",
+      "resourceType": "Source-available icon generation system with Claude Code Skill",
+      "purpose": "以固定的幾何、分層、色彩與動作規則產生風格一致的產品功能圖示，可輸出動態 SVG + JavaScript 或獨立靜態 SVG。",
+      "recommendation": "適合需要統一產品視覺語言、產生多款圖示及自動化圖示視覺檢查的前端／設計工作流；商用前須注意 Kubai Icons License 並非開源授權，對規則與 Skill 的再散布有明確限制。",
+      "url": "https://github.com/kubai087/kubai-icons",
+      "repo": "kubai087/kubai-icons",
+      "website": "https://www.kubai.design/kubai-icons/",
+      "license": "Kubai Icons License (custom source-available; not OSI open-source)",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "details": [
+          "可用 Skill 為自己或客戶製作商業圖示，作者不主張對使用者自行產生的 Output 擁有權利，無須署名。",
+          "隨附範例圖示可用於產品，但不得獨立再散布成圖示集／素材包。",
+          "可將引擎、圖庫與檢查程式整合進產品，但必須保留複製檔案的版權聲明，且不得附上或改寫／翻譯 PROMPT.md、SKILL.md 作為生成工具再發行。",
+          "不得販售或重新授權 Skill 本身、散布修改或翻譯版規則，或冒用 Kubai／Lumno 品牌。"
+        ],
+        "licenseUrl": "https://github.com/kubai087/kubai-icons/blob/master/LICENSE",
+        "reviewRequiredBeforeCommercialRedistribution": true
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "policyUrl": "https://github.com/kubai087/kubai-icons/blob/master/SECURITY.md",
+        "risks": [
+          "Skill 指導 Coding Agent 讀取產品原始碼並修改目標專案，使用前應檢閱 SKILL.md 與 PROMPT.md，避免不受信任指令或過度權限。",
+          "安裝指引可 clone 或 pull 最新內容，建議固定已審查的 commit／release，避免未審核變更。",
+          "自檢程式會啟動本機 headless Chrome 並執行 Node.js；建議先在隔離環境測試。",
+          "尚未執行依賴／惡意程式掃描、程式碼安全稽核或本機安裝驗證。"
+        ],
+        "privacy": "未驗證是否存在外部資料傳輸；使用第三方 AI Agent 讀取產品原始碼時，需另評估模型供應商的資料處理條款。"
+      },
+      "features": [
+        "66 個官方示例圖示，支援滑鼠懸停動態與靜態 SVG 匯出",
+        "固定的前後分層、外描邊與單色衍生色板",
+        "src/engine.js 圖示引擎與 src/icons.js 範例",
+        "PROMPT.md 設計規則、SKILL.md 操作流程",
+        "scripts/check.mjs 以 Chrome 截圖驗證多尺寸、動態影格及色板"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "kubai087-kubai-icons-skill"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-11-04",
+      "updatedAt": "2026-11-04",
+      "tags": [
+        "icon-design",
+        "svg",
+        "animated-icons",
+        "claude-code",
+        "agent-skill",
+        "design-system",
+        "headless-chrome",
+        "commercial-license-restrictions",
+        "source-available",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/kubai087/kubai-icons",
+        "documentation": [
+          "https://github.com/kubai087/kubai-icons/blob/master/README.md",
+          "https://github.com/kubai087/kubai-icons/blob/master/LICENSE",
+          "https://github.com/kubai087/kubai-icons/blob/master/SECURITY.md",
+          "https://github.com/kubai087/kubai-icons/blob/master/SKILL.md"
+        ],
+        "reviewedAt": "2026-11-04",
+        "type": "Official repository README, custom license, security policy and SKILL.md"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "landing-love",
       "entityType": "resource",
       "title": "landing.love",
@@ -14305,6 +14383,67 @@
         "collection",
         "ai",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "kubai087-kubai-icons-skill",
+      "entityType": "skill",
+      "title": "Kubai Icons Skill — 動態／靜態 SVG 圖示生成",
+      "purpose": "指導 Claude Code 依既有幾何、分層、色彩、動效規則建立一致風格的功能圖示，執行視覺自檢並匯出 SVG。",
+      "problem": "AI 產生多個圖示時常有尺寸、描邊、色彩、動效不一致問題。",
+      "inputs": [
+        "功能列表或產品程式碼",
+        "圖示交付模式（動態／靜態）",
+        "目標專案與設計要求"
+      ],
+      "outputs": [
+        "一致風格的圖示定義、動態圖示或獨立 SVG",
+        "自檢截圖與檢查結果"
+      ],
+      "execution": "讀取 PROMPT.md 與最相近的範例圖示，沿用 src/engine.js 生成，透過 scripts/check.mjs 的 headless Chrome 視覺檢查後由 scripts/export.mjs 輸出靜態 SVG。",
+      "whenToUse": [
+        "為產品建立統一圖示集",
+        "為功能新增動態 hover 圖示",
+        "輸出可供 Figma 或原生 App 使用的靜態 SVG"
+      ],
+      "constraints": [
+        "Kubai Icons License 允許商用生成，但禁止散布修改或翻譯版 SKILL.md／PROMPT.md；商用再散布應逐條確認 LICENSE。",
+        "保留引擎等可散布檔案中的版權聲明，不得將範例圖示獨立販售成素材包。",
+        "在允許 Agent 讀取產品程式碼或執行腳本前，應審查檔案權限、指令與第三方依賴。",
+        "未安裝、執行或獨立安全稽核。"
+      ],
+      "license": "Kubai Icons License (custom source-available)",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/kubai087/kubai-icons/blob/master/LICENSE"
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "policyUrl": "https://github.com/kubai087/kubai-icons/blob/master/SECURITY.md"
+      },
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "kubai087-kubai-icons"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/kubai087/kubai-icons/blob/master/SKILL.md",
+        "reviewedAt": "2026-11-04",
+        "type": "Official upstream SKILL.md"
+      },
+      "status": "active",
+      "addedAt": "2026-11-04",
+      "updatedAt": "2026-11-04",
+      "tags": [
+        "claude-code",
+        "skill",
+        "svg",
+        "icons",
+        "design-system",
+        "commercial-license-restrictions",
+        "security-review"
       ]
     },
     {
