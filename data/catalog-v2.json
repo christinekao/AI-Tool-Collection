@@ -533,6 +533,90 @@
     },
     {
       "schemaVersion": 2,
+      "id": "alchaincyf-huashu-motion",
+      "entityType": "resource",
+      "title": "Huashu Motion — Agent 驅動的產品宣傳影片與動態設計",
+      "canonicalName": "huashu-motion",
+      "category": "AI Video & Motion Design",
+      "resourceType": "Code-driven motion graphics and product launch film toolkit",
+      "purpose": "讓 Coding Agent 以 HTML、GSAP、Canvas、SVG 等可編輯程式碼製作產品宣傳影片、解說動畫與音效配樂，並透過瀏覽器 Studio 針對畫面位置與時間點提供修改回饋。",
+      "recommendation": "適合產品發表影片、作品集 Demo、資料視覺化影片及 Agent 驅動的可編輯影片製作流程。特別可參考逐幀評論、Agent 修正迴圈、影片 QA 與本機渲染。",
+      "url": "https://github.com/alchaincyf/huashu-motion",
+      "repo": "alchaincyf/huashu-motion",
+      "license": "MIT (project code and docs only; bundled assets have separate licenses)",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "details": [
+          "MIT 程式與文件可商用，但須保留著作權與授權聲明。",
+          "內含 GSAP Standard no-charge license，需依其獨立條款評估具體使用及再散布情境。",
+          "隨附字型採 SIL OFL 1.1，須遵守各字型授權與著作權聲明。",
+          "Three.js 及部分內建引擎為 MIT。",
+          "作者的示範卡通角色「豆子花叔」不授權其他用途。",
+          "可選音色樣本含 CC0／CC-BY；模型下載、品牌素材、錄音及第三方影像需逐一核實權利。"
+        ],
+        "licenseUrl": "https://github.com/alchaincyf/huashu-motion/blob/main/LICENSE",
+        "thirdPartyUrl": "https://github.com/alchaincyf/huashu-motion/blob/main/THIRD_PARTY.md",
+        "reviewRequiredBeforeCommercialRelease": true
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "risks": [
+          "Skill 可指示 Agent 讀取產品網站、素材與本機原始碼；應限制授權範圍。",
+          "本機 CLI、Chrome 渲染與 FFmpeg 會執行程式，建議先審查並隔離測試。",
+          "Studio 以 127.0.0.1 啟動本機服務，需檢查監聽介面、可存取性及輸出檔內容。",
+          "可選語音／對齊模型與音色可能下載第三方檔案，需審查來源與授權。",
+          "未安裝、執行、掃描依賴或驗證資料外傳行為。"
+        ],
+        "privacy": "產品程式碼、截圖、品牌素材及個人錄音可能包含機密資訊；是否傳送至模型供應商依 Agent 設定而異，需另行確認。"
+      },
+      "features": [
+        "一支影片以 index.html 為可編輯程式碼",
+        "Studio 依時間點與畫面元素提供評論與精準修改",
+        "本機生成配樂與音效、可選口播與字幕",
+        "Chrome 逐幀渲染，FFmpeg 匯出 MP4、MOV、WebM、GIF",
+        "om check、om qa 視覺與節奏驗證",
+        "素材收集、場景編排、歷史版本與偏好回顧"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "alchaincyf-huashu-motion-skill"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-11-04",
+      "updatedAt": "2026-11-04",
+      "tags": [
+        "agent-skill",
+        "motion-graphics",
+        "product-launch-video",
+        "gsap",
+        "canvas",
+        "svg",
+        "ffmpeg",
+        "chrome",
+        "claude-code",
+        "codex",
+        "audio",
+        "commercial-license-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/alchaincyf/huashu-motion",
+        "documentation": [
+          "https://github.com/alchaincyf/huashu-motion/blob/main/README.en.md",
+          "https://github.com/alchaincyf/huashu-motion/blob/main/LICENSE",
+          "https://github.com/alchaincyf/huashu-motion/blob/main/THIRD_PARTY.md",
+          "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/SKILL.md"
+        ],
+        "reviewedAt": "2026-11-04",
+        "type": "Official upstream repository, license, third-party notices and SKILL.md"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "amp-agent-memory-protocol",
       "entityType": "resource",
       "title": "AMP — Agent Memory Protocol",
@@ -11836,6 +11920,67 @@
         "ui-design",
         "design-skill",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "alchaincyf-huashu-motion-skill",
+      "entityType": "skill",
+      "title": "huashu-motion — Agent 影片導演、製作與逐幀修改",
+      "purpose": "指導 Coding Agent 研究產品、提出影片方向、編寫可編輯動畫、同步配樂與口播、接受畫面評論並驗證輸出。",
+      "problem": "AI 影片產出不易局部精準修改，動態設計、配樂與驗收缺乏一致工作流。",
+      "inputs": [
+        "產品網址或本機素材",
+        "影片長度、比例、品牌與敘事要求",
+        "使用者對場景與畫面位置的回饋"
+      ],
+      "outputs": [
+        "可編輯的 HTML 動畫原始碼",
+        "經檢查的影片檔案與可選分享素材"
+      ],
+      "execution": "使用 om grab/new/studio/inbox/look/done/sound/check/qa/render 等 CLI 完成產品研究、導演規劃、逐幀修改及輸出。",
+      "whenToUse": [
+        "製作產品宣傳影片或解說動畫",
+        "製作資料故事與可編輯動態視覺",
+        "針對既有影片進行精準畫面修正"
+      ],
+      "constraints": [
+        "使用前審查第三方 GSAP、字型、音色、角色、商標及其他素材授權。",
+        "勿未經授權讀取或傳送機密原始碼、品牌素材與個人錄音。",
+        "需 Node.js 22+、Chrome 與 FFmpeg；README 表示主要在 macOS 實測。",
+        "本機腳本與 Agent 指令未經獨立安全稽核。",
+        "本次僅收藏，未安裝或執行。"
+      ],
+      "license": "MIT with separately licensed third-party components",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "thirdPartyUrl": "https://github.com/alchaincyf/huashu-motion/blob/main/THIRD_PARTY.md"
+      },
+      "security": {
+        "status": "not-independently-audited"
+      },
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "alchaincyf-huashu-motion"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/SKILL.md",
+        "reviewedAt": "2026-11-04",
+        "type": "Official upstream Agent Skill"
+      },
+      "status": "active",
+      "addedAt": "2026-11-04",
+      "updatedAt": "2026-11-04",
+      "tags": [
+        "agent-skill",
+        "motion-graphics",
+        "video-production",
+        "codex",
+        "claude-code",
+        "commercial-license-review",
+        "security-review"
       ]
     },
     {
