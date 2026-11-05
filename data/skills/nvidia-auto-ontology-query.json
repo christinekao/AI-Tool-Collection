@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "id": "nvidia-auto-ontology-query",
+  "entityType": "skill",
+  "title": "NVIDIA Auto Ontology Query — 查詢與 SQL 驗證",
+  "purpose": "讓 AI Agent 透過 MCP/REST 依序檢查就緒、檢索語意、判斷問題能否回答、產生並驗證 SQL 與結果。",
+  "whenToUse": [
+    "使用自然語言查詢企業資料、驗證 Text-to-SQL 及回答來源"
+  ],
+  "constraints": [
+    "必須驗證指標 population、grain、join、unit、SQL、rows 與 truncation，不能只看查詢是否成功。",
+    "不要直接公開或呼叫 FastAPI 3001 作為公共 API；使用受驗證的 Next.js Gateway。",
+    "無足夠資料時明確告知不能回答，不得編造或過度推論。"
+  ],
+  "license": "Apache-2.0",
+  "commercialUse": {
+    "status": "allowed-with-restrictions",
+    "licenseUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/LICENSE",
+    "details": [
+      "Skill 指令為 Apache-2.0；所驅動的資料庫、模型及第三方服務仍需另行審查。"
+    ]
+  },
+  "security": {
+    "status": "not-independently-audited",
+    "risks": [
+      "Agent Skill 可引導資料庫操作、API 呼叫或部署；須套用人員核准、機密管理及最小權限。",
+      "原文可信度與實際部署/運作需於使用時重新驗證；目前僅研究並收藏。"
+    ]
+  },
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "nvidia-auto-ontology"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-query/SKILL.md",
+    "reviewedAt": "2026-11-05",
+    "type": "Official NVIDIA Agent SKILL.md"
+  },
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "tags": [
+    "nvidia",
+    "auto-ontology",
+    "agent-skill",
+    "mcp",
+    "enterprise-data",
+    "semantic-layer",
+    "apache-2.0",
+    "commercial-license-review",
+    "security-review",
+    "nvidia-ontology-query"
+  ]
+}
