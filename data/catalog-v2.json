@@ -21034,6 +21034,108 @@
     },
     {
       "schemaVersion": 2,
+      "id": "career-profile-knowledge-base-step-1",
+      "entityType": "prompt",
+      "title": "求職 STEP 1｜建立個人履歷知識庫（Career Profile Knowledge Base）",
+      "category": "Career & Resume Preparation",
+      "promptType": "Career / Personal Resume Knowledge Base & Structured Interview Prompt",
+      "problem": "AI 直接修改單一履歷，可能忽略求職者的完整工作背景、可轉移能力與證據缺口，難以支援後續職缺分析及客製化履歷。",
+      "goal": "先以真實履歷建立可重複使用的 Markdown 職涯檔案，整理已證實經歷、競爭力、技能、合適職涯方向及待確認問題，再交給後續求職工作流使用。",
+      "prompt": "STEP 1｜建立個人履歷知識庫\n目標：讓 AI 真正了解求職者，而不只是讀完一份履歷。\n⭐提示詞⭐\n你現在是一位擁有 15 年經驗的資深人資顧問與職涯規劃師。\n\n我正在找工作，接下來會提供我的履歷。\n\n請先不要急著修改履歷，而是幫我建立一份完整的「個人求職資料庫」。\n\n請依序完成：\n\n1. 分析我的學歷、工作經歷、技能、證照及重要成果。\n2. 找出我的核心競爭力、可轉移技能及適合發展的職涯方向。\n3. 找出履歷中不清楚、缺乏數據或可能被面試官質疑的地方。\n4. 針對缺少的資訊，一次提出最多 5 個最重要的問題，等我回答後再繼續補強。\n5. 整理一份個人職涯檔案，包含：\n - 職涯摘要\n - 專業技能\n - 工作經歷與可證實成果\n - 個人優勢\n - 合適職務\n - 待確認資訊\n\n所有內容只能根據我提供的真實資料，不可自行虛構工作經歷、證照或業績。\n\n完成後請整理成可重複使用的 Markdown 個人求職檔案，供後續職缺分析及履歷客製化使用。\n\n以下是我的履歷：\n【貼上履歷內容或附上檔案】",
+      "inputs": [
+        "求職者自願提供的履歷全文或文件",
+        "已知工作經驗、技能、證照、學歷與成果證據",
+        "必要時回答最多五個優先補強問題"
+      ],
+      "expectedOutput": "一份可重複使用的 Markdown 個人職涯檔案：職涯摘要、專業技能、工作經歷與可證實成果、個人優勢、適合職務、待確認資訊；提出最多 5 個資訊補強問題，資料不足時先等待回覆。",
+      "workflowStages": [
+        "解析真實履歷並抽取學歷、工作經驗、技能、證照及成果",
+        "整理核心競爭力與可轉移技能，辨識可能職涯方向",
+        "找出描述模糊、成果缺證據或面試官可能追問的地方",
+        "最多提出五個高優先級問題，等待求職者答覆",
+        "輸出可供後續職缺比對及履歷客製化使用的 Markdown 職涯檔案"
+      ],
+      "constraints": [
+        "本次僅收藏提示詞，不分析任何人的真實履歷，也不要求使用者上傳履歷。",
+        "保留使用者提供的原始 Prompt 內容，補充的欄位非原文。",
+        "學經歷、證照、技能、任職時間及量化成果必須以使用者真實提供資料為準，不得捏造。",
+        "不能把推測的適合職務、優勢或成效描述成已驗證的客觀事實。",
+        "沒有佐證的數據應標示待確認；不可自行補造 KPI。",
+        "最多一次提出五個最重要的澄清問題，待回覆後再繼續補強。"
+      ],
+      "privacy": {
+        "riskLevel": "high-when-executed-with-real-resume",
+        "notes": [
+          "履歷可能包含姓名、電話、地址、電子郵件、任職公司、薪資及工作內容等個人或機敏資訊。",
+          "送交第三方 AI 服務前，建議移除不必要的個資、內部文件、公司機密和可識別客戶資訊。",
+          "輸出的 Markdown 職涯檔案應存於私有空間；不要直接公開至 GitHub 或作品集。",
+          "本次收藏只有提示詞模板，沒有儲存真實履歷或個人求職檔案。"
+        ]
+      },
+      "commercialUse": {
+        "status": "third-party-author-unknown",
+        "details": [
+          "使用者提供提示詞內容供收藏，但未提供原作者或公開授權來源；如計畫逐字商業再利用或公開販售模板，先確認著作權和授權。",
+          "作為自身求職工作流的參考或自行改寫，不等於取得第三方原文的商業再散布權。"
+        ]
+      },
+      "security": {
+        "status": "template-only",
+        "risks": [
+          "純文字提示詞不需要安裝或執行程式碼。",
+          "處理真實履歷時須注意資料隱私與外部 AI 平台的保存政策。",
+          "不可根據使用者資料直接執行求職網站操作、投遞或上傳外部服務，除非有明確授權。"
+        ]
+      },
+      "relatedPromptRefs": [
+        {
+          "type": "prompt",
+          "id": "job-application-cv-jd-gap-audit",
+          "relationship": "Downstream JD/CV gap analysis"
+        },
+        {
+          "type": "prompt",
+          "id": "weekly-ai-headhunter-job-search",
+          "relationship": "Downstream job discovery and matching"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "evidence-backed-agent-investigation"
+        }
+      ],
+      "source": {
+        "type": "User-submitted Traditional Chinese prompt (2026-11-05); original authorship and source not specified",
+        "summary": "STEP 1 prompt preserved in prompt field. Cataloging only: not executed and no resume data processed."
+      },
+      "status": "unreviewed",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "tags": [
+        "career",
+        "resume",
+        "cv",
+        "personal-knowledge-base",
+        "career-profile",
+        "job-search",
+        "skill-inventory",
+        "transferable-skills",
+        "evidence-based",
+        "markdown",
+        "clarification-questions",
+        "privacy-review",
+        "commercial-license-review",
+        "prompt-template",
+        "step-1"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "chat-history-actionable-productivity-audit",
       "entityType": "prompt",
       "title": "近月聊天紀錄 → 工作洞察與有用的小工具",
