@@ -1953,6 +1953,88 @@
     },
     {
       "schemaVersion": 2,
+      "id": "bi0h4z4rd88-pi-sidebar-tui",
+      "entityType": "resource",
+      "title": "Pi Sidebar TUI — Pi Coding Agent 即時 Context、Tokens 與 MCP 側邊欄",
+      "canonicalName": "pi-sidebar-tui",
+      "category": "AI Agent Observability & Developer Experience",
+      "resourceType": "Pi coding agent npm terminal UI extension",
+      "purpose": "在 Pi Coding Agent 終端機顯示 Session 模型與 Thinking Level、Context 使用量及剩餘估計、Token／Cost／Cache 統計、Todos、MCP Server 狀態和 Git Workspace 資訊。",
+      "recommendation": "搭配 Herdr Desktop 的 Pi Pane 或一般終端機使用，增強 Pi 內部的即時資訊；Herdr 負責多 Agent 工作區，Pi Sidebar 負責 Pi 自身狀態顯示。此套件不是獨立 Agent，也不是 SKILL.md。",
+      "url": "https://github.com/bi0h4z4rd88/pi-sidebar-tui",
+      "repo": "bi0h4z4rd88/pi-sidebar-tui",
+      "homepage": "https://pi.dev/packages/pi-sidebar-tui",
+      "npmPackage": "pi-sidebar-tui",
+      "versionReviewed": "1.7.8",
+      "license": "MIT declared in README/package.json/Pi package listing; GitHub root LICENSE file not found",
+      "commercialUse": {
+        "status": "allowed-with-license-file-verification",
+        "details": [
+          "README、package.json 及 Pi Packages 頁均宣告 MIT，可依授權條款商業使用與修改。",
+          "GitHub 儲存庫未提供獨立 LICENSE 檔，GitHub repository metadata 亦未辨識出授權；正式再散布時應確認 npm 發行包包含可適用的完整 MIT 授權文本。",
+          "Pi Coding Agent、Pi TUI、其他 MCP Servers、模型供應商與品牌素材另依其條款。"
+        ],
+        "reviewRequiredBeforeRedistribution": true
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "riskLevel": "medium-local-extension",
+        "risks": [
+          "安裝後以 TypeScript 在 Pi 程序內執行，不是沙箱中的靜態 UI。",
+          "mcp.ts 讀取本機 ~/.pi/agent/mcp.json 與 mcp-cache.json 以顯示 MCP 連線與工具數量；檔案可能含敏感設定。",
+          "workspace.ts 以 execSync 執行 Git 查詢以取得 Branch、未追蹤檔案與 Diff 數據；需評估非信任工作區風險。",
+          "設定檔由 config.ts 讀寫；自動標題功能可將首則使用者訊息的前 500 字元傳給已設定模型服務，對機密資料應特別留意。",
+          "尚未安裝、執行、比對 npm 發行包或進行獨立安全稽核。"
+        ],
+        "privacy": "主要讀取 Pi 本機工作階段、MCP 與 Git 資訊；自動標題功能可能使用外部模型，並非所有動作都必然離線。"
+      },
+      "features": [
+        "Session 模型、Thinking Level、執行與工具計時",
+        "Context 使用率、剩餘估計與 Auto Compact",
+        "Token Input/Output、Cost、Cache Hit、tok/s",
+        "MCP Server 狀態、工具數量及 Token Schema 估算",
+        "Todos 進度、Git 狀態和可調整的側邊欄"
+      ],
+      "requirements": [
+        "Pi Coding Agent >=0.74.0",
+        "Pi TUI >=0.74.0",
+        "Install via pi install npm:pi-sidebar-tui"
+      ],
+      "collectionDecision": "Pi 官方 Package 頁和 GitHub Repository 指向同一 Extension，僅新增 1 Resource，不重複建立 Skill。",
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "tags": [
+        "pi",
+        "pi-coding-agent",
+        "sidebar",
+        "terminal-ui",
+        "context-window",
+        "token-usage",
+        "mcp",
+        "git",
+        "observability",
+        "npm-extension",
+        "commercial-license-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/bi0h4z4rd88/pi-sidebar-tui",
+        "documentation": [
+          "https://pi.dev/packages/pi-sidebar-tui",
+          "https://github.com/bi0h4z4rd88/pi-sidebar-tui/blob/main/README.md",
+          "https://github.com/bi0h4z4rd88/pi-sidebar-tui/blob/main/package.json",
+          "https://github.com/bi0h4z4rd88/pi-sidebar-tui/blob/main/mcp.ts",
+          "https://github.com/bi0h4z4rd88/pi-sidebar-tui/blob/main/workspace.ts"
+        ],
+        "reviewedAt": "2026-11-05",
+        "type": "Official GitHub source and Pi package metadata"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "blader-humanizer",
       "entityType": "resource",
       "title": "Humanizer — Edit AI-Sounding Prose Without Fabricating Facts",
