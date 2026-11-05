@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 2,
+  "id": "anomalyco-opencode",
+  "entityType": "resource",
+  "title": "OpenCode — 開源 AI Coding Agent 與可自訂開發代理工作平台",
+  "canonicalName": "OpenCode",
+  "category": "AI Coding Agents & Developer Tools",
+  "resourceType": "Open-source coding agent for terminal, desktop, IDE and programmable agent workflows",
+  "purpose": "讓開發者使用可自行選擇的 LLM，在專案中進行程式碼探索、開發規劃、檔案修改、命令執行與除錯；以 Agents、Subagents、工具權限及擴充功能建構 AI 協作工作流程。",
+  "recommendation": "適合比較 Claude Code、Codex 與其他 Coding Agent 的架構，實作多代理工作分工、開發流程自動化、計畫與執行分離、權限審查和自訂 Agent。導入時先用測試專案及隔離執行環境。",
+  "url": "https://github.com/anomalyco/opencode",
+  "repo": "anomalyco/opencode",
+  "homepage": "https://opencode.ai",
+  "license": "MIT (project core; external models, plugins and third-party components retain their own terms)",
+  "commercialUse": {
+    "status": "allowed-with-restrictions",
+    "licenseUrl": "https://github.com/anomalyco/opencode/blob/dev/LICENSE",
+    "details": [
+      "OpenCode 主專案採 MIT，允許依條款商業使用、修改及再散布，須保留原授權和著作權聲明。",
+      "連接的 LLM 供應商、付費模型、OpenCode Zen、第三方 Plugin/MCP/Skill 依各自費率、使用條款及資料處理政策。",
+      "自行修改或重新發布品牌化版本時需確認名稱、標誌與商標使用；官方 README 要求相關第三方專案清楚聲明非官方。",
+      "供應鏈中第三方 dependencies 的授權仍需依最終發布產物進行核對。"
+    ],
+    "reviewRequiredBeforeCommercialDistribution": true
+  },
+  "security": {
+    "status": "official-security-policy-exists; not-independently-audited",
+    "riskLevel": "high-if-given-workstation-and-shell-access",
+    "risks": [
+      "官方 SECURITY.md 明確指出 OpenCode 不為 Agent 提供安全 Sandbox；permission 是提醒及審批操作的 UX 機制，而非安全隔離。",
+      "Build Agent 可編輯檔案與執行 Shell；模型或外部內容的 prompt injection 可能造成非預期指令、憑證讀取、原始碼改動及資料外傳。",
+      "V2 官方權限文件的基礎規則相對寬鬆；應對 bash/shell、edit、讀取 .env、external_directory、web 與第三方工具建立明確的 ask/deny 規則。",
+      "啟用 --auto 可能自動批准原本需詢問的操作；涉及企業程式碼、機密資料或重要儲存庫時不建議無限制自動核准。",
+      "Server Mode 為選用功能；官方表示未設定 OPENCODE_SERVER_PASSWORD 時可能以未驗證方式提供服務，須限制監聽介面與網路並啟用認證。",
+      "外部 MCP Servers、第三方擴充及模型供應商的行為和資料處理不一定在 OpenCode 的安全信任邊界內。",
+      "尚未安裝、執行、掃描依賴、測試 Sandbox 或進行獨立安全稽核。"
+    ],
+    "recommendedControls": [
+      "優先在 Docker 或 VM 及非機敏測試專案中評估。",
+      "採最小權限與明確的 ask/deny；對終端命令、git push、外部目錄、機密檔及網路存取進行額外審查。",
+      "Server Mode 若需開啟，設定密碼並限制僅可信網路可連線。",
+      "謹慎評估模型供應商是否會收到公司原始碼、日誌與機密內容。",
+      "安裝前確認 OpenCode 1 或 OpenCode 2 的文件及相應設定與相依性。"
+    ],
+    "privacy": "本機程式碼內容、命令結果及對話可能被送至設定的模型供應商；實際資料處理依使用者選擇的 LLM 服務條款與隱私設定。"
+  },
+  "features": [
+    "可使用不同模型供應商",
+    "終端機 TUI、桌面應用程式與 IDE 整合",
+    "Build/Plan 主 Agent 與專用 Subagents",
+    "自訂 Agent、工具與權限規則",
+    "可閱讀、修改程式碼並執行工作流程與終端命令",
+    "可配置 MCP 等外部工具整合"
+  ],
+  "versionCaveat": "2026-11-05 官方同時提供 OpenCode 1 和 OpenCode 2 文件。GitHub dev README 的安裝方式與最新文件偏向 V2；兩代使用相同 opencode 命令，但套件和權限細節可能不同，不能混用指南。",
+  "collectionDecision": "主專案為 Coding Agent 執行平台而非單一獨立 Agent SKILL.md；本次僅收錄 1 Resource，不執行安裝。",
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "tags": [
+    "opencode",
+    "coding-agent",
+    "ai-development",
+    "agent-harness",
+    "multi-agent",
+    "subagents",
+    "terminal",
+    "desktop",
+    "ide",
+    "mcp",
+    "claude-code-alternative",
+    "codex-alternative",
+    "mit",
+    "commercial-license-review",
+    "security-review",
+    "no-sandbox",
+    "permissions"
+  ],
+  "source": {
+    "url": "https://github.com/anomalyco/opencode",
+    "documentation": [
+      "https://github.com/anomalyco/opencode/blob/dev/README.md",
+      "https://github.com/anomalyco/opencode/blob/dev/LICENSE",
+      "https://github.com/anomalyco/opencode/blob/dev/SECURITY.md",
+      "https://opencode.ai/v2/docs",
+      "https://opencode.ai/v2/docs/permissions/",
+      "https://opencode.ai/v2/docs/agents/"
+    ],
+    "reviewedAt": "2026-11-05",
+    "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation"
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
