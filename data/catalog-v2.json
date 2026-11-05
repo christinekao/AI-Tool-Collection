@@ -4111,6 +4111,107 @@
     },
     {
       "schemaVersion": 2,
+      "entityType": "resource",
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed",
+      "id": "gagansd-herdr-insights",
+      "title": "Herdr Insights — Claude/Codex/OpenCode/Pi 歷史 Token 用量分析",
+      "canonicalName": "Herdr Insights",
+      "category": "AI Agent Observability & Token Analytics",
+      "resourceType": "Local-first Herdr analytics dashboard extension for coding agent sessions",
+      "purpose": "將 Pi、Claude Code、Codex 和 OpenCode 的本機工作階段用量資料整理成模型使用排行榜、Token 趨勢、每日熱圖、Cache 比例及連續活動紀錄。",
+      "recommendation": "適合評估不同 Coding Agent 和模型的長期 Token 消耗、分析開發使用習慣與建立多工具用量 Dashboard；開啟前需評估其對本機所有 Agent 工作階段路徑的讀取範圍。",
+      "url": "https://github.com/GaganSD/coding-agent-toolkit/tree/main/herdr-insights",
+      "repo": "GaganSD/coding-agent-toolkit",
+      "license": "MIT (parent repository and Herdr Insights package)",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/GaganSD/coding-agent-toolkit/blob/main/LICENSE",
+        "details": [
+          "Herdr Insights 程式碼採 MIT，商業使用、修改及再散布需保留授權聲明。",
+          "各 Provider 的 Logo、商標與使用者工作階段資料不因本專案 MIT 而獲得自由再散布授權。",
+          "商用部署需確認 Herdr、Node.js 與其他相依元件的授權及資料保護政策。"
+        ]
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "riskLevel": "medium-for-local-agent-session-data",
+        "risks": [
+          "模組讀取 ~/.pi/agent/sessions、~/.codex/sessions、~/.codex/archived_sessions、~/.claude/projects、~/.local/share/opencode 等原始工作階段／SQLite 資料。",
+          "專案宣稱僅保存 Token 用量 Metadata 至 Herdr data/insights/insights.json，不保留 Prompt/Response 文字，也不進行網路上傳；尚未獨立驗證執行時資料流。",
+          "本機工作階段資料可能包含敏感程式碼與個資，即使僅擷取 Metadata，讀取權限仍需限制。",
+          "Node 安裝程式會修改 Herdr 自訂 Layout、複製 Mod 並寫入安裝擁有權記錄；安裝前應檢視 install.mjs/uninstall.mjs 並備份 Layout。",
+          "需 Node.js 22.15+ 且已執行 Herdr；不應以高權限啟動或繞過衝突檢查。",
+          "未安裝、執行或檢查所有第三方相依性，也未進行獨立安全稽核。"
+        ],
+        "recommendedControls": [
+          "僅授予必要的本機 Session 讀取範圍，關閉不需要的資料來源。",
+          "先檢查來源路徑、腳本與輸出檔案內容，並確認不需要外傳。",
+          "使用最小權限的 Herdr 帳號；安裝前備份個人 Layout 與設定。"
+        ]
+      },
+      "features": [
+        "Pi/Codex/Claude Code/OpenCode 本機工作階段用量聚合",
+        "Token Usage 每日熱圖、26 週堆疊圖、模型排行榜",
+        "Input/Output/Cache usage、比較趨勢、Lifetime totals 和 Streaks",
+        "Period/provider/model filters、Config/Root editors、refresh 間隔",
+        "Herdr 個人 Layout 添加 Insights 按鈕，保留原本 Tabs/Keys"
+      ],
+      "requirements": [
+        "Herdr desktop app running",
+        "Node.js 22.15+",
+        "Locally available supported agents' session directories"
+      ],
+      "relatedResources": [
+        {
+          "type": "resource",
+          "id": "herdrdev-herdr",
+          "relationship": "Main Herdr agent workspace runtime, already cataloged"
+        },
+        {
+          "type": "resource",
+          "id": "herdr-mods-gallery",
+          "relationship": "Herdr community discovery gallery"
+        },
+        {
+          "type": "resource",
+          "id": "lakris2407-herdr-agent-quota",
+          "relationship": "Complementary real-time quota monitoring"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/GaganSD/coding-agent-toolkit/tree/main/herdr-insights",
+        "documentation": [
+          "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/README.md",
+          "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/INSTALL.md",
+          "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/RECIPE.md",
+          "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/package.json",
+          "https://github.com/GaganSD/coding-agent-toolkit/blob/main/LICENSE"
+        ],
+        "reviewedAt": "2026-11-05",
+        "type": "Official author repository README, install/recipe documentation, package metadata and license"
+      },
+      "tags": [
+        "herdr",
+        "mod",
+        "coding-agent",
+        "usage-analytics",
+        "token-usage",
+        "claude-code",
+        "codex",
+        "opencode",
+        "pi",
+        "dashboard",
+        "local-first",
+        "commercial-license-review",
+        "security-review"
+      ]
+    },
+    {
+      "schemaVersion": 2,
       "id": "garrytan-gbrain",
       "entityType": "resource",
       "title": "GBrain — Cross-Agent Persistent Memory & Evidence-backed Knowledge",
@@ -4829,6 +4930,90 @@
         }
       ],
       "notes": "官方主儲存庫授權：MIT。2026-10-22 查核官方 README.md 和 LICENSE：目前 MIT（作者 2026-06-08 公告移除過去 Apache2.0 的商業附加條款），不是仍有過去限制。提供繁中介面／文件、Windows、macOS、ARM64 Android、Docker、Bun 1.3.14 server。README 範例：2 分鐘成片約 2 小時製作，Seedance2.0 + GPT Image2 + Claude Opus4.6，模型費約人民幣 130（文本約10、影片120、圖片<1），僅該案例，不能當保證成本。第三方 API、cloud 轉接與模型生成有費用。服務端業務 3000 端口沒有獨立認證，若向公網開放必須自行保護；不可將共享編輯器視為安全多租戶服務。作者 README 描述功能，不代表已在使用者環境測試或確認產出效果；使用前需檢查來源、安裝程式／容器權限、模型 API 費用、所用小說／肖像／配音／素材授權、各平台 AI 標示及營利政策，實際短劇品質與可獲利性未受驗證。"
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "resource",
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed",
+      "id": "herdr-mods-gallery",
+      "title": "Herdr Mods Gallery — 社群 Agent Workspace 擴充模組索引",
+      "canonicalName": "Herdr Mods Gallery",
+      "category": "AI Agent Ecosystem & Extensions",
+      "resourceType": "Official community discovery gallery for Herdr desktop mods",
+      "purpose": "集中探索 Herdr 社群製作的狀態列、資訊面板、Agent 控制與工作流程擴充模組，連結作者的 GitHub 程式碼及 RECIPE.md，協助比較並自行選擇擴充功能。",
+      "recommendation": "適合發現 Herdr Agent Workspace 的模組、Dashboard 與使用者介面擴充；它是索引而非經安全審核的套件商店，安裝前必須逐一檢查來源程式、授權與權限。",
+      "url": "https://herdr.dev/gallery/?type=mods",
+      "homepage": "https://herdr.dev",
+      "license": "No single license for community listings; each linked mod has its own license; Herdr core/app licensing is separate",
+      "commercialUse": {
+        "status": "per-item-review-required",
+        "details": [
+          "Gallery 是第三方社群模組索引，不代表所有條目採同一授權。",
+          "可收藏並引用官方 Gallery 網址；模組程式碼、插圖、商標、內容與素材需逐筆確認授權及商業再散布權利。",
+          "不能因 Gallery 收錄而推定模組可商用或已獲 Herdr 官方安全驗證。"
+        ],
+        "reviewRequiredBeforeCommercialUse": true
+      },
+      "security": {
+        "status": "community-extensions-not-security-reviewed",
+        "riskLevel": "medium-high-when-installing-community-mods",
+        "risks": [
+          "Herdr 官方表示社群 Mods 未經官方程式碼審查；展示於 Gallery 不代表安全、可信任或已通過審核。",
+          "模組可能呼叫 shell、SSH、讀取憑證、存取本機專案或遠端主機。",
+          "RECIPE.md 是重建 Mod 的說明，不能代替原始碼審查；讓 AI 自動安裝第三方模組也需要人工檢查。",
+          "無法從網站列表統一驗證每個模組的授權、更新狀態與來源安全性。"
+        ],
+        "recommendedControls": [
+          "安裝前閱讀 README、RECIPE、mod.json、JS 腳本與外部套件授權。",
+          "限制第三方模組權限；先在測試環境驗證。",
+          "確認作者、原始來源與固定版本，避免直接執行未審查的安裝指令。"
+        ]
+      },
+      "features": [
+        "官方 Herdr Gallery：Layout 與 Mod 瀏覽",
+        "社群擴充模組探索與分類",
+        "外部 GitHub 作者與 RECIPE.md 重建說明的入口"
+      ],
+      "relatedResources": [
+        {
+          "type": "resource",
+          "id": "herdrdev-herdr",
+          "relationship": "Main Herdr agent workspace runtime, already cataloged"
+        },
+        {
+          "type": "resource",
+          "id": "lakris2407-herdr-agent-quota",
+          "relationship": "Example community quota mod"
+        },
+        {
+          "type": "resource",
+          "id": "gagansd-herdr-insights",
+          "relationship": "Example community token analytics mod"
+        }
+      ],
+      "source": {
+        "url": "https://herdr.dev/gallery/?type=mods",
+        "documentation": [
+          "https://herdr.dev/mods/",
+          "https://herdr.dev/gallery/"
+        ],
+        "reviewedAt": "2026-11-05",
+        "type": "Official Herdr community gallery and mod publishing guidance"
+      },
+      "tags": [
+        "herdr",
+        "mods",
+        "extensions",
+        "community-gallery",
+        "agent-workspace",
+        "discovery",
+        "commercial-license-review",
+        "security-review"
+      ]
     },
     {
       "schemaVersion": 2,
@@ -6376,6 +6561,100 @@
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
+      "entityType": "resource",
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed",
+      "id": "lakris2407-herdr-agent-quota",
+      "title": "Herdr Agent Quota — Claude/Codex 額度與系統負載狀態列",
+      "canonicalName": "Herdr Agent Quota",
+      "category": "AI Agent Observability & Usage Monitoring",
+      "resourceType": "Community Herdr status-bar mod for provider quota and optional system-load telemetry",
+      "purpose": "在 Herdr Desktop 狀態列顯示 Claude 的五小時和每週額度、Codex 與其他供應商的使用上限、重設時間、使用節奏，以及選配 CPU/RAM/GPU 系統負載。",
+      "recommendation": "適合多 Agent 開發時即時觀察供應商額度消耗、使用速度和遠端機器狀態；需先安裝並審查第三方 quota-axi。",
+      "url": "https://github.com/Lakris2407/herdr-mods/tree/main/quota",
+      "repo": "Lakris2407/herdr-mods",
+      "license": "MIT (Herdr quota mod); quota-axi is a separate MIT dependency; Herdr and provider terms apply",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/Lakris2407/herdr-mods/blob/main/LICENSE",
+        "details": [
+          "Quota Mod 本身採 MIT，商用、修改和再散布須保留授權與版權聲明。",
+          "配套 quota-axi 及可能讀取額度的第三方平台服務需遵守各自授權與 API／帳號使用條款。",
+          "Provider Icons 採 Herdr 內建來源，作者 Repo 未附上；商業發行圖示或品牌素材時需分別處理商標權。"
+        ],
+        "thirdPartyDependency": "https://github.com/kunchenguid/quota-axi"
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "riskLevel": "medium-high-with-provider-credentials",
+        "risks": [
+          "模組透過 Herdr exec 每兩分鐘呼叫 quota-axi --json，也可由使用者刷新；在選定的本機或遠端機器執行。",
+          "依專案說明，quota-axi 讀取本機 Claude、Codex 等 CLI 登入狀態並向 Provider 查詢用量；這會接觸與帳號認證相關的本機配置。",
+          "Herdr Mod 自身宣稱不儲存 Token、不進行網路請求，但不等於 quota-axi 沒有網路存取；需分別檢查兩者的程式碼與權限。",
+          "PATH 不可用時有 login shell fallback；遠端 Spaces 的呼叫也在遠端機器執行，必須確認目標及限制權限。",
+          "選配 system mod 會持續讀取本機/遠端的系統資訊並執行 shell 指令。",
+          "未安裝、執行、掃描依賴或獨立驗證其憑證處理。"
+        ],
+        "recommendedControls": [
+          "先審查 quota-axi 的實際來源、版本及登入資料存取方式。",
+          "測試環境安裝並固定版本；避免額外提供高權限機密。",
+          "如有多台機器，分別確認遠端 CLI 授權與執行主機。"
+        ]
+      },
+      "features": [
+        "Claude 5-hour/weekly、Codex weekly 與其他支持 Provider 的用量顯示",
+        "Reset time、消耗節奏及超速提示",
+        "狀態列/彈窗切換 used/remaining 百分比",
+        "同機或遠端機器觀測",
+        "選配 system mod 顯示 CPU/RAM/GPU"
+      ],
+      "relatedResources": [
+        {
+          "type": "resource",
+          "id": "herdrdev-herdr",
+          "relationship": "Main Herdr agent workspace runtime, already cataloged"
+        },
+        {
+          "type": "resource",
+          "id": "herdr-mods-gallery",
+          "relationship": "Herdr community discovery gallery"
+        },
+        {
+          "type": "resource",
+          "id": "gagansd-herdr-insights",
+          "relationship": "Complementary historical token usage analytics"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/Lakris2407/herdr-mods/tree/main/quota",
+        "documentation": [
+          "https://github.com/Lakris2407/herdr-mods/blob/main/quota/README.md",
+          "https://github.com/Lakris2407/herdr-mods/blob/main/quota/RECIPE.md",
+          "https://github.com/Lakris2407/herdr-mods/blob/main/LICENSE",
+          "https://github.com/Lakris2407/herdr-mods/tree/main/quota/mods"
+        ],
+        "reviewedAt": "2026-11-05",
+        "type": "Official author repository, quota README, recipe, executable mod structure and MIT license"
+      },
+      "tags": [
+        "herdr",
+        "mod",
+        "quota",
+        "usage-limits",
+        "claude-code",
+        "codex",
+        "quota-axi",
+        "status-bar",
+        "system-monitoring",
+        "commercial-license-review",
+        "security-review"
+      ]
     },
     {
       "schemaVersion": 2,
