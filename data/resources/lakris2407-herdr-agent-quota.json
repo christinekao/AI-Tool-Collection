@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 2,
+  "entityType": "resource",
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed",
+  "id": "lakris2407-herdr-agent-quota",
+  "title": "Herdr Agent Quota — Claude/Codex 額度與系統負載狀態列",
+  "canonicalName": "Herdr Agent Quota",
+  "category": "AI Agent Observability & Usage Monitoring",
+  "resourceType": "Community Herdr status-bar mod for provider quota and optional system-load telemetry",
+  "purpose": "在 Herdr Desktop 狀態列顯示 Claude 的五小時和每週額度、Codex 與其他供應商的使用上限、重設時間、使用節奏，以及選配 CPU/RAM/GPU 系統負載。",
+  "recommendation": "適合多 Agent 開發時即時觀察供應商額度消耗、使用速度和遠端機器狀態；需先安裝並審查第三方 quota-axi。",
+  "url": "https://github.com/Lakris2407/herdr-mods/tree/main/quota",
+  "repo": "Lakris2407/herdr-mods",
+  "license": "MIT (Herdr quota mod); quota-axi is a separate MIT dependency; Herdr and provider terms apply",
+  "commercialUse": {
+    "status": "allowed-with-restrictions",
+    "licenseUrl": "https://github.com/Lakris2407/herdr-mods/blob/main/LICENSE",
+    "details": [
+      "Quota Mod 本身採 MIT，商用、修改和再散布須保留授權與版權聲明。",
+      "配套 quota-axi 及可能讀取額度的第三方平台服務需遵守各自授權與 API／帳號使用條款。",
+      "Provider Icons 採 Herdr 內建來源，作者 Repo 未附上；商業發行圖示或品牌素材時需分別處理商標權。"
+    ],
+    "thirdPartyDependency": "https://github.com/kunchenguid/quota-axi"
+  },
+  "security": {
+    "status": "not-independently-audited",
+    "riskLevel": "medium-high-with-provider-credentials",
+    "risks": [
+      "模組透過 Herdr exec 每兩分鐘呼叫 quota-axi --json，也可由使用者刷新；在選定的本機或遠端機器執行。",
+      "依專案說明，quota-axi 讀取本機 Claude、Codex 等 CLI 登入狀態並向 Provider 查詢用量；這會接觸與帳號認證相關的本機配置。",
+      "Herdr Mod 自身宣稱不儲存 Token、不進行網路請求，但不等於 quota-axi 沒有網路存取；需分別檢查兩者的程式碼與權限。",
+      "PATH 不可用時有 login shell fallback；遠端 Spaces 的呼叫也在遠端機器執行，必須確認目標及限制權限。",
+      "選配 system mod 會持續讀取本機/遠端的系統資訊並執行 shell 指令。",
+      "未安裝、執行、掃描依賴或獨立驗證其憑證處理。"
+    ],
+    "recommendedControls": [
+      "先審查 quota-axi 的實際來源、版本及登入資料存取方式。",
+      "測試環境安裝並固定版本；避免額外提供高權限機密。",
+      "如有多台機器，分別確認遠端 CLI 授權與執行主機。"
+    ]
+  },
+  "features": [
+    "Claude 5-hour/weekly、Codex weekly 與其他支持 Provider 的用量顯示",
+    "Reset time、消耗節奏及超速提示",
+    "狀態列/彈窗切換 used/remaining 百分比",
+    "同機或遠端機器觀測",
+    "選配 system mod 顯示 CPU/RAM/GPU"
+  ],
+  "relatedResources": [
+    {
+      "type": "resource",
+      "id": "herdrdev-herdr",
+      "relationship": "Main Herdr agent workspace runtime, already cataloged"
+    },
+    {
+      "type": "resource",
+      "id": "herdr-mods-gallery",
+      "relationship": "Herdr community discovery gallery"
+    },
+    {
+      "type": "resource",
+      "id": "gagansd-herdr-insights",
+      "relationship": "Complementary historical token usage analytics"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/Lakris2407/herdr-mods/tree/main/quota",
+    "documentation": [
+      "https://github.com/Lakris2407/herdr-mods/blob/main/quota/README.md",
+      "https://github.com/Lakris2407/herdr-mods/blob/main/quota/RECIPE.md",
+      "https://github.com/Lakris2407/herdr-mods/blob/main/LICENSE",
+      "https://github.com/Lakris2407/herdr-mods/tree/main/quota/mods"
+    ],
+    "reviewedAt": "2026-11-05",
+    "type": "Official author repository, quota README, recipe, executable mod structure and MIT license"
+  },
+  "tags": [
+    "herdr",
+    "mod",
+    "quota",
+    "usage-limits",
+    "claude-code",
+    "codex",
+    "quota-axi",
+    "status-bar",
+    "system-monitoring",
+    "commercial-license-review",
+    "security-review"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "entityType": "resource",
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed",
+  "id": "gagansd-herdr-insights",
+  "title": "Herdr Insights — Claude/Codex/OpenCode/Pi 歷史 Token 用量分析",
+  "canonicalName": "Herdr Insights",
+  "category": "AI Agent Observability & Token Analytics",
+  "resourceType": "Local-first Herdr analytics dashboard extension for coding agent sessions",
+  "purpose": "將 Pi、Claude Code、Codex 和 OpenCode 的本機工作階段用量資料整理成模型使用排行榜、Token 趨勢、每日熱圖、Cache 比例及連續活動紀錄。",
+  "recommendation": "適合評估不同 Coding Agent 和模型的長期 Token 消耗、分析開發使用習慣與建立多工具用量 Dashboard；開啟前需評估其對本機所有 Agent 工作階段路徑的讀取範圍。",
+  "url": "https://github.com/GaganSD/coding-agent-toolkit/tree/main/herdr-insights",
+  "repo": "GaganSD/coding-agent-toolkit",
+  "license": "MIT (parent repository and Herdr Insights package)",
+  "commercialUse": {
+    "status": "allowed-with-restrictions",
+    "licenseUrl": "https://github.com/GaganSD/coding-agent-toolkit/blob/main/LICENSE",
+    "details": [
+      "Herdr Insights 程式碼採 MIT，商業使用、修改及再散布需保留授權聲明。",
+      "各 Provider 的 Logo、商標與使用者工作階段資料不因本專案 MIT 而獲得自由再散布授權。",
+      "商用部署需確認 Herdr、Node.js 與其他相依元件的授權及資料保護政策。"
+    ]
+  },
+  "security": {
+    "status": "not-independently-audited",
+    "riskLevel": "medium-for-local-agent-session-data",
+    "risks": [
+      "模組讀取 ~/.pi/agent/sessions、~/.codex/sessions、~/.codex/archived_sessions、~/.claude/projects、~/.local/share/opencode 等原始工作階段／SQLite 資料。",
+      "專案宣稱僅保存 Token 用量 Metadata 至 Herdr data/insights/insights.json，不保留 Prompt/Response 文字，也不進行網路上傳；尚未獨立驗證執行時資料流。",
+      "本機工作階段資料可能包含敏感程式碼與個資，即使僅擷取 Metadata，讀取權限仍需限制。",
+      "Node 安裝程式會修改 Herdr 自訂 Layout、複製 Mod 並寫入安裝擁有權記錄；安裝前應檢視 install.mjs/uninstall.mjs 並備份 Layout。",
+      "需 Node.js 22.15+ 且已執行 Herdr；不應以高權限啟動或繞過衝突檢查。",
+      "未安裝、執行或檢查所有第三方相依性，也未進行獨立安全稽核。"
+    ],
+    "recommendedControls": [
+      "僅授予必要的本機 Session 讀取範圍，關閉不需要的資料來源。",
+      "先檢查來源路徑、腳本與輸出檔案內容，並確認不需要外傳。",
+      "使用最小權限的 Herdr 帳號；安裝前備份個人 Layout 與設定。"
+    ]
+  },
+  "features": [
+    "Pi/Codex/Claude Code/OpenCode 本機工作階段用量聚合",
+    "Token Usage 每日熱圖、26 週堆疊圖、模型排行榜",
+    "Input/Output/Cache usage、比較趨勢、Lifetime totals 和 Streaks",
+    "Period/provider/model filters、Config/Root editors、refresh 間隔",
+    "Herdr 個人 Layout 添加 Insights 按鈕，保留原本 Tabs/Keys"
+  ],
+  "requirements": [
+    "Herdr desktop app running",
+    "Node.js 22.15+",
+    "Locally available supported agents' session directories"
+  ],
+  "relatedResources": [
+    {
+      "type": "resource",
+      "id": "herdrdev-herdr",
+      "relationship": "Main Herdr agent workspace runtime, already cataloged"
+    },
+    {
+      "type": "resource",
+      "id": "herdr-mods-gallery",
+      "relationship": "Herdr community discovery gallery"
+    },
+    {
+      "type": "resource",
+      "id": "lakris2407-herdr-agent-quota",
+      "relationship": "Complementary real-time quota monitoring"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/GaganSD/coding-agent-toolkit/tree/main/herdr-insights",
+    "documentation": [
+      "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/README.md",
+      "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/INSTALL.md",
+      "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/RECIPE.md",
+      "https://github.com/GaganSD/coding-agent-toolkit/blob/main/herdr-insights/package.json",
+      "https://github.com/GaganSD/coding-agent-toolkit/blob/main/LICENSE"
+    ],
+    "reviewedAt": "2026-11-05",
+    "type": "Official author repository README, install/recipe documentation, package metadata and license"
+  },
+  "tags": [
+    "herdr",
+    "mod",
+    "coding-agent",
+    "usage-analytics",
+    "token-usage",
+    "claude-code",
+    "codex",
+    "opencode",
+    "pi",
+    "dashboard",
+    "local-first",
+    "commercial-license-review",
+    "security-review"
+  ]
+}
