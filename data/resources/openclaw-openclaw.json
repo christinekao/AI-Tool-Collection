@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 2,
+  "id": "openclaw-openclaw",
+  "entityType": "resource",
+  "title": "OpenClaw — 跨平台個人 AI Agent Gateway 與自動化平台",
+  "canonicalName": "OpenClaw",
+  "category": "AI Agent Platforms & Automation",
+  "resourceType": "Self-hosted AI assistant, multi-channel agent gateway and extensible automation runtime",
+  "purpose": "在使用者自有設備上運行個人 AI Agent，透過 Gateway 統一管理模型、訊息通道、工作階段、工具、Skills、Plugins 與裝置動作，支援跨平台工作流程和可授權的實際操作。",
+  "recommendation": "適合研究個人 AI Agent 工作站、訊息通道整合、自動化作業、工具權限管控、Plugin/Skill 架構、Gateway 信任邊界和 Agent Harness 的實際設計；若接入企業或私人帳號，需優先進行隔離部署、憑證治理和安全審核。",
+  "url": "https://github.com/openclaw/openclaw",
+  "repo": "openclaw/openclaw",
+  "homepage": "https://openclaw.ai",
+  "license": "MIT (core code; third-party components, skills, plugins, services and model providers retain separate terms)",
+  "commercialUse": {
+    "status": "allowed-with-restrictions",
+    "licenseUrl": "https://github.com/openclaw/openclaw/blob/main/LICENSE",
+    "thirdPartyUrl": "https://github.com/openclaw/openclaw/blob/main/THIRD_PARTY_NOTICES.md",
+    "details": [
+      "核心程式採 MIT，原則上允許商用、修改、發布與再散布，但應保留授權與著作權聲明。",
+      "部分隨附程式碼、素材與第三方元件有獨立著作權或授權聲明；商業再散布前應檢查 NOTICE 與實際依賴。",
+      "ClawHub Skills、第三方 Plugins、雲端模型、訊息平台 API 與外部服務不會自動由主專案 MIT 授權涵蓋。",
+      "自架核心軟體與模型供應商、訊息服務、伺服器、語音或其他 API 的付費及商業條款應分開評估。",
+      "部署於商業環境仍需遵守客戶資料、個人資料、存取授權與通訊平台政策。"
+    ],
+    "reviewRequiredBeforeCommercialDistribution": true
+  },
+  "security": {
+    "status": "official-security-policy-and-advisories-exist; deployment-not-independently-audited",
+    "riskLevel": "high-with-host-execution-and-connected-accounts",
+    "risks": [
+      "官方安全文件指出，主要工作階段若未另行設定，工具可能直接在主機執行；agents.defaults.sandbox.mode 預設為 off，應啟用 sandbox 並限制高風險工具。",
+      "Gateway 採單一可信任操作邊界，不是隔離互不信任使用者的 multi-tenant 安全機制；混合信任角色應使用不同 Gateway、OS 帳號、容器或主機。",
+      "Slack、Telegram、WhatsApp、郵件、網頁與檔案輸入可能帶有 prompt injection；使用來源白名單、DM pairing、權限及人工核准防護。",
+      "若 Gateway 公開到網際網路、設定錯誤或外洩 shared secret，可能暴露完整 operator 能力；優先保持 loopback、認證與隔離網路連線。",
+      "授權安裝的 Plugin/Extension 可能擁有與主機本機程式碼相當的權限；第三方 Skills 也需審查來源、腳本、資料讀寫及工具呼叫。",
+      "Code Mode 的 Node node:vm 並非安全隔離邊界；對不受信任程式應採更強的執行隔離，例如 QuickJS-WASI 及 OS/容器隔離。",
+      "官方已公開多筆安全公告和修補紀錄；使用時須檢查當前發行版本與所有外掛的修補狀況。",
+      "未實際安裝、執行、進行滲透測試或獨立審計，官方宣稱的控制措施也未在本次實測。"
+    ],
+    "recommendedControls": [
+      "先以測試用帳號及隔離環境部署，預設不接入重要金融、企業與私人憑證。",
+      "檢查工具權限、Sandbox、網路及訊息允許清單，敏感執行動作需審核。",
+      "在官方來源核對下載路徑、版本與發布安全公告；避免直接執行未知來源安裝腳本。",
+      "部署後執行 openclaw security audit，並持續更新核心與 Plugin。",
+      "將模型供應商、通訊平台與第三方服務的資料流、日誌與保留期限納入隱私評估。"
+    ],
+    "privacy": "官方宣稱狀態、記憶及憑證主要保存在使用者設備，但使用者設定的模型供應商、訊息通道及診斷輸出仍可能接收 Prompt 和工作資料，並非所有處理都離線。"
+  },
+  "features": [
+    "跨平台 Gateway：集中管理 Agent、工作階段、通道、工具及事件",
+    "WhatsApp、Telegram、Slack、Discord、Teams、iMessage 等多通道整合",
+    "可替換的 Claude、Codex 與其他雲端／本機模型",
+    "CLI、TUI、Control UI 與支援平台的 Companion Apps",
+    "Skills／Plugins／ClawHub 外掛與裝置操作擴充",
+    "本機優先的自架架構，支援個人使用與在共同信任邊界內的團隊部署"
+  ],
+  "relatedResources": [
+    {
+      "type": "resource",
+      "id": "voltagent-awesome-openclaw-skills",
+      "relationship": "Third-party collection of OpenClaw skills; distinct from official core runtime"
+    }
+  ],
+  "collectionDecision": "新增 1 Resource。主 repo 內雖有大量 Skills／Plugins，但不是同一項獨立 Skill；不為此網址批量建立 SKILL records。",
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "tags": [
+    "openclaw",
+    "self-hosted-agent",
+    "ai-assistant",
+    "agent-gateway",
+    "agent-harness",
+    "multi-channel",
+    "messaging",
+    "automation",
+    "plugins",
+    "skills",
+    "claude",
+    "codex",
+    "local-first",
+    "mit",
+    "commercial-license-review",
+    "security-review",
+    "high-risk",
+    "sandbox",
+    "prompt-injection"
+  ],
+  "source": {
+    "url": "https://github.com/openclaw/openclaw",
+    "documentation": [
+      "https://github.com/openclaw/openclaw/blob/main/README.md",
+      "https://github.com/openclaw/openclaw/blob/main/LICENSE",
+      "https://github.com/openclaw/openclaw/blob/main/SECURITY.md",
+      "https://github.com/openclaw/openclaw/blob/main/THIRD_PARTY_NOTICES.md",
+      "https://docs.openclaw.ai/gateway/security",
+      "https://docs.openclaw.ai/gateway/sandboxing",
+      "https://openclaw.ai/security"
+    ],
+    "reviewedAt": "2026-11-05",
+    "type": "Official upstream README, MIT license, SECURITY.md, notices, GitHub metadata, and official security documentation",
+    "summary": "Source-only research. No installation or execution. No independent audit. GitHub URL tracking parameter removed."
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
