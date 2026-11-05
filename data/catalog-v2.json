@@ -8113,6 +8113,113 @@
     },
     {
       "schemaVersion": 2,
+      "id": "nvidia-auto-ontology",
+      "entityType": "resource",
+      "title": "NVIDIA Auto Ontology — 企業語意層、知識圖譜與可信 Text-to-SQL",
+      "canonicalName": "NVIDIA Auto Ontology",
+      "category": "Enterprise AI Data & Semantic Layer",
+      "resourceType": "Open-source semantic ontology, natural-language analytics and agent MCP platform",
+      "purpose": "從多個企業資料庫的 metadata 自動建立業務術語、SQL 指標屬性和資料關係，經人工校正/認證後，提供 AI Agent 受語意約束且可驗證的自然語言查詢。",
+      "recommendation": "適合研究跨系統業務指標一致性、企業資料治理、AI-ready semantic models、MCP 查詢整合與 Text-to-SQL 品質控制。",
+      "url": "https://github.com/NVIDIA/auto-ontology",
+      "repo": "NVIDIA/auto-ontology",
+      "versionReviewed": "1.1.0 (pyproject.toml)",
+      "license": "Apache-2.0 (core and official Skills; third-party licenses apply)",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/LICENSE",
+        "details": [
+          "Apache-2.0 允許商用及修改、再散布，須保留授權與版權聲明及適用的 NOTICE，並標示修改。",
+          "第三方依賴包含 MySQL Connector GPL-2.0 with Universal FOSS Exception、Psycopg LGPL-3.0 等，需依實際部署與再散布方式檢視。",
+          "NVIDIA NIM／其他模型供應商、資料庫、企業資料及模型 API 的使用另依相關服務與資料授權條款。"
+        ]
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "riskLevel": "medium-high-for-enterprise-data",
+        "risks": [
+          "UI 新增的資料庫連線，若未啟用 HashiCorp Vault，連線密碼會以未加密 JSON 形式保存在 PostgreSQL。",
+          "FastAPI 3001 使用前端轉送的 x-auto-ontology-user-id 信任 Header，不可公開暴露。",
+          "Ingestion Service 3002 的 ingest/delete/reset/compile 等端點未獨立驗證身分；應只允許私有網路存取。",
+          "Schema、欄位剖析、抽樣資料、embedding 與問答內容可能傳至配置的 NVIDIA NIM 或其他 LLM 端點，需確認資料分類、輸出範圍與合約。",
+          "部署 Helm／Docker Compose 前更換預設密碼與 API 金鑰，限制 pgAdmin／Postgres 對外暴露。",
+          "僅從原始碼與官方文件研究，尚未安裝、執行、掃描依賴或獨立測試防護。"
+        ],
+        "controls": [
+          "在私有網路部署 API 3001、Ingestion 3002、Postgres 5432。",
+          "正式環境啟用 HashiCorp Vault，避免將機密連線字串長期以明文儲存。",
+          "使用最小權限資料庫帳號、角色控管、資料來源 allowlist 與查詢逾時限制。",
+          "模型端點與資料取樣治理需經資安、隱私及資料擁有者核准。",
+          "定期檢查 NVIDIA Security PSIRT、第三方漏洞與供應鏈更新。"
+        ],
+        "privacy": "本專案會對連線資料庫執行 Schema 解析及欄位剖析，NIM Hosted 與第三方模型端點可能處理資料衍生內容；不是全離線工具。"
+      },
+      "features": [
+        "資料庫 metadata/欄位剖析、知識圖譜與 Ontology 產生",
+        "Business Terms、SQL Attributes、Join Relationships、證據/Lineage",
+        "人工認證術語及 SQL 指標定義，與 Apache Ossie 匯入匯出相容",
+        "透過 NVIDIA NIM 生成 Text-to-SQL，檢查 answerability、filter values、SQL 與資料結果",
+        "MCP 唯讀工具、REST API、Web UI、RBAC/SSO",
+        "Postgres+pgvector、FastAPI、Next.js、Docker Compose/Helm 部署",
+        "支援 PostgreSQL、MySQL、Snowflake、Databricks、ClickHouse、Trino、Kyuubi、HeavyDB、DuckDB、SQLite"
+      ],
+      "limitations": [
+        "自動產生的 Ontology 仍需人工審核，查詢成功並不等於計算意義正確。",
+        "MCP 為唯讀，模型寫入與發布必須透過受管制的 API。",
+        "依賴可用模型端點、企業資料庫與憑證管理，非純本機單檔工具。",
+        "SQL 正確性與查詢結果可信度需獨立驗證，不能保證零錯誤。"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "nvidia-auto-ontology-setup"
+        },
+        {
+          "type": "skill",
+          "id": "nvidia-auto-ontology-management"
+        },
+        {
+          "type": "skill",
+          "id": "nvidia-auto-ontology-query"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "tags": [
+        "nvidia",
+        "auto-ontology",
+        "ontology",
+        "semantic-layer",
+        "enterprise-data",
+        "text-to-sql",
+        "knowledge-graph",
+        "mcp",
+        "nvidia-nim",
+        "data-governance",
+        "lineage",
+        "apache-2.0",
+        "commercial-license-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/NVIDIA/auto-ontology",
+        "documentation": [
+          "https://github.com/NVIDIA/auto-ontology/blob/main/README.md",
+          "https://github.com/NVIDIA/auto-ontology/blob/main/LICENSE",
+          "https://github.com/NVIDIA/auto-ontology/blob/main/SECURITY.md",
+          "https://github.com/NVIDIA/auto-ontology/blob/main/THIRD_PARTY_NOTICES.md",
+          "https://github.com/NVIDIA/auto-ontology/blob/main/docs/connections.md",
+          "https://github.com/NVIDIA/auto-ontology/blob/main/AGENTS.md"
+        ],
+        "reviewedAt": "2026-11-05",
+        "type": "Official upstream GitHub README, licensing, security policy, dependencies, Skills and connection documentation"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "nvidia-skillspector",
       "entityType": "resource",
       "title": "NVIDIA/SkillSpector",
@@ -16901,6 +17008,174 @@
         "visual-guidance",
         "design-skill",
         "skill"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "nvidia-auto-ontology-management",
+      "entityType": "skill",
+      "title": "NVIDIA Auto Ontology Management — 語意模型管理與發布",
+      "purpose": "管理、審核及發布 Ontology 的商業術語、SQL 指標屬性、資料關係與模型匯入匯出。",
+      "whenToUse": [
+        "設計或修改企業語意模型、調整指標定義、審核模型及發布"
+      ],
+      "constraints": [
+        "MCP 為唯讀；修改必須透過有權限的 Next.js API。",
+        "不得將 API 成功回應視為模型正確或已完成認證。",
+        "import replace 與 semantic compilation reset 可能造成覆寫或重建，需先備份、確認與讀回驗證。"
+      ],
+      "license": "Apache-2.0",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/LICENSE",
+        "details": [
+          "Skill 指令為 Apache-2.0；所驅動的資料庫、模型及第三方服務仍需另行審查。"
+        ]
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "risks": [
+          "Agent Skill 可引導資料庫操作、API 呼叫或部署；須套用人員核准、機密管理及最小權限。",
+          "原文可信度與實際部署/運作需於使用時重新驗證；目前僅研究並收藏。"
+        ]
+      },
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "nvidia-auto-ontology"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-management/SKILL.md",
+        "reviewedAt": "2026-11-05",
+        "type": "Official NVIDIA Agent SKILL.md"
+      },
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "tags": [
+        "nvidia",
+        "auto-ontology",
+        "agent-skill",
+        "mcp",
+        "enterprise-data",
+        "semantic-layer",
+        "apache-2.0",
+        "commercial-license-review",
+        "security-review",
+        "nvidia-ontology-management"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "nvidia-auto-ontology-query",
+      "entityType": "skill",
+      "title": "NVIDIA Auto Ontology Query — 查詢與 SQL 驗證",
+      "purpose": "讓 AI Agent 透過 MCP/REST 依序檢查就緒、檢索語意、判斷問題能否回答、產生並驗證 SQL 與結果。",
+      "whenToUse": [
+        "使用自然語言查詢企業資料、驗證 Text-to-SQL 及回答來源"
+      ],
+      "constraints": [
+        "必須驗證指標 population、grain、join、unit、SQL、rows 與 truncation，不能只看查詢是否成功。",
+        "不要直接公開或呼叫 FastAPI 3001 作為公共 API；使用受驗證的 Next.js Gateway。",
+        "無足夠資料時明確告知不能回答，不得編造或過度推論。"
+      ],
+      "license": "Apache-2.0",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/LICENSE",
+        "details": [
+          "Skill 指令為 Apache-2.0；所驅動的資料庫、模型及第三方服務仍需另行審查。"
+        ]
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "risks": [
+          "Agent Skill 可引導資料庫操作、API 呼叫或部署；須套用人員核准、機密管理及最小權限。",
+          "原文可信度與實際部署/運作需於使用時重新驗證；目前僅研究並收藏。"
+        ]
+      },
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "nvidia-auto-ontology"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-query/SKILL.md",
+        "reviewedAt": "2026-11-05",
+        "type": "Official NVIDIA Agent SKILL.md"
+      },
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "tags": [
+        "nvidia",
+        "auto-ontology",
+        "agent-skill",
+        "mcp",
+        "enterprise-data",
+        "semantic-layer",
+        "apache-2.0",
+        "commercial-license-review",
+        "security-review",
+        "nvidia-ontology-query"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "nvidia-auto-ontology-setup",
+      "entityType": "skill",
+      "title": "NVIDIA Auto Ontology Setup — 部署與連線",
+      "purpose": "部署 NVIDIA Auto Ontology（Helm 或 Docker Compose）、配置資料來源、執行語意編譯、檢查服務就緒及 MCP 連線。",
+      "whenToUse": [
+        "部署、設定、連線、攝取、語意編譯或排錯"
+      ],
+      "constraints": [
+        "不可要求在聊天中貼出密碼、API Key 或連線字串；請使用權限受控的 .env／values file。",
+        "使用官方部署流程，勿自行創造安裝指令。",
+        "部署前應檢查 Vault、資料庫密碼和容器服務網路隔離。"
+      ],
+      "license": "Apache-2.0",
+      "commercialUse": {
+        "status": "allowed-with-restrictions",
+        "licenseUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/LICENSE",
+        "details": [
+          "Skill 指令為 Apache-2.0；所驅動的資料庫、模型及第三方服務仍需另行審查。"
+        ]
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "risks": [
+          "Agent Skill 可引導資料庫操作、API 呼叫或部署；須套用人員核准、機密管理及最小權限。",
+          "原文可信度與實際部署/運作需於使用時重新驗證；目前僅研究並收藏。"
+        ]
+      },
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "nvidia-auto-ontology"
+        }
+      ],
+      "source": {
+        "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-setup/SKILL.md",
+        "reviewedAt": "2026-11-05",
+        "type": "Official NVIDIA Agent SKILL.md"
+      },
+      "status": "active",
+      "addedAt": "2026-11-05",
+      "updatedAt": "2026-11-05",
+      "tags": [
+        "nvidia",
+        "auto-ontology",
+        "agent-skill",
+        "mcp",
+        "enterprise-data",
+        "semantic-layer",
+        "apache-2.0",
+        "commercial-license-review",
+        "security-review",
+        "nvidia-ontology-setup"
       ]
     },
     {
