@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 2,
+  "id": "role-reversal-meta-prompt-generator",
+  "entityType": "prompt",
+  "title": "Role Reversal × Meta Prompting｜讓 GPT 反推高品質 Prompt",
+  "category": "Prompt Engineering & Agent Collaboration",
+  "promptType": "Prompt Generator / Role-Reversal Meta Prompt",
+  "problem": "使用者只有粗略需求時，直接要求 AI 執行容易缺少背景、驗收標準及必要限制，造成結果不精準或反覆修改。",
+  "goal": "讓 AI 模擬提出需求的人類，反向設計可直接使用、清楚且可驗證的 Prompt，再做缺漏與品質檢查。",
+  "prompt": "你是一位擅長 Prompt Engineering 的專家。\n\n現在請交換角色：\n- 你是要完成任務的人類。\n- 我是負責執行任務的 AI。\n\n我的任務是：\n【在這裡填入想完成的事情】\n\n請站在人類使用者的角度，設計一份能讓 AI 高品質完成這項任務的 Prompt。\n\n請依照以下流程：\n1. 理解目標：分析真正要解決的問題，而不是只改寫我的描述。\n2. 找出缺失資訊：若有重要資訊不足，最多提出 3 個真正影響結果的問題；其他細節提出可更改的合理預設。\n3. 產出完整 Prompt：包含任務背景、目標、輸入資料、執行步驟、限制、輸出格式與驗收標準；角色設定只在確實有幫助時使用。\n4. 檢查 Prompt 品質：找出模糊、重複、矛盾或不必要的指令，精簡修改。\n5. 提供最終版本：輸出可直接複製使用的 Prompt。\n\n原則：\n- 不捏造未知資訊，假設須明確標示。\n- 不為複雜而增加無意義步驟。\n- 能用簡單指令完成的事情，就不要過度設計。\n- 最終 Prompt 應清楚、具體、可驗證。",
+  "inputs": [
+    "使用者想完成的任務與基本背景",
+    "目標讀者或使用者、期望成果、限制與輸出格式（若已知）"
+  ],
+  "expectedOutput": "可直接使用的繁體中文 Prompt，含必要的背景、任務目標、輸入、執行要求、限制、輸出格式與驗收標準；如必要可先提出最多三個關鍵問題。",
+  "constraints": [
+    "這是提示詞設計方法，角色反轉不保證產出品質一定優於一般需求描述。",
+    "若使用者有重要限制或事實尚未確認，須保留未知狀態，不能以角色扮演自行捏造。",
+    "本次僅收藏 Prompt，不執行提示詞所描述的下游任務。",
+    "避免使用不可信外部文字指示模型執行敏感操作或外傳資料。"
+  ],
+  "method": "以人類與 AI 角色互換來反推任務指令，搭配需求釐清、可驗證輸出規範及簡化檢查；屬 Meta Prompting，亦可稱 Role-Reversal Prompt Design。",
+  "example": "任務：撰寫一篇介紹 AI Token Saving 機制的技術文章。用本模板請 GPT 先規劃受眾、範圍、技術準確性、參考來源與篇章結構，產生指令而非直接寫文章。",
+  "commercialUse": {
+    "status": "assistant-authored-template",
+    "details": [
+      "本紀錄中的改良 Prompt 為依使用者提供的方法重新撰寫，非第三方截圖原文完整轉載。",
+      "第三方截圖原作者及原文授權未確認；如須重製或商業再利用原始截圖，應另外取得必要許可。"
+    ]
+  },
+  "security": {
+    "status": "low-risk-text-only",
+    "risks": [
+      "本 Prompt 不需安裝或執行程式碼。",
+      "執行其他任務時仍須對外部內容、秘密與工具權限進行獨立審查。"
+    ]
+  },
+  "source": {
+    "type": "User-provided screenshot illustrating a third-party role-reversal prompting tip (2026-11-05); revised template authored during this conversation",
+    "summary": "Original example asked GPT, while roleplaying the human, how it would instruct an AI to write an article on token-saving mechanisms. Catalog preserves a distinct improved template rather than copying the screenshot verbatim. Original attribution and license unknown."
+  },
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "tags": [
+    "prompt-engineering",
+    "meta-prompting",
+    "role-reversal",
+    "prompt-generator",
+    "requirements-clarification",
+    "quality-criteria",
+    "token-saving",
+    "agent-collaboration",
+    "commercial-license-review",
+    "security-review"
+  ]
+}
