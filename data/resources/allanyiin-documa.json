@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 2,
+  "id": "allanyiin-documa",
+  "entityType": "resource",
+  "title": "Documa — AI Agent 結構化文件理解與可驗證檢索",
+  "canonicalName": "Documa",
+  "category": "AI Agent Document Retrieval & Context Engineering",
+  "resourceType": "Local document parser, evidence search, MCP toolkit and dynamic skill loader",
+  "purpose": "將 PDF、Word、Excel、PowerPoint、HTML、Email、Notebook、Markdown 等文件轉成統一 DocumentIR，以 block tree、搜尋、有界讀取和可驗證引用降低 Agent Context 負擔。",
+  "recommendation": "適合建構文件證據檢索、跨文件問答、長文件處理、Agent Harness Skill 動態載入以及本機程式碼關聯分析。",
+  "url": "https://github.com/AllanYiin/Documa",
+  "repo": "AllanYiin/Documa",
+  "versionReviewed": "0.9.0",
+  "license": "MIT for core project; vendored native parsers and models retain own notices/terms",
+  "commercialUse": {
+    "status": "allowed-with-restrictions",
+    "licenseUrl": "https://github.com/AllanYiin/Documa/blob/main/LICENSE",
+    "details": [
+      "MIT 允許核心程式商用、修改及散布，需保留原著作權和授權聲明。",
+      "原生 PDF、Office、LingXi 組件提供獨立 LICENSE／THIRD_PARTY_NOTICES 文件，須按發布物逐一審查。",
+      "LingXi README 中列出的三個模型資產，官方聲稱已核准再散布且由 SHA-256 控管；授權判斷僅適用指定雜湊，模型變更須重新審查。",
+      "使用者輸入文件、第三方檔案與雲端服務內容並不因 Documa 的 MIT 授權而可商業重製或任意再發布。"
+    ],
+    "reviewRequiredBeforeCommercialDistribution": true
+  },
+  "security": {
+    "status": "not-independently-audited",
+    "riskLevel": "medium-for-untrusted-documents-and-agent-integration",
+    "risks": [
+      "安裝 Python 依賴、Rust 原生擴充、預建 wheel 或 Agent Plugin 屬執行程式碼，應釘選版本、檢查供應鏈與來源。",
+      "惡意或不受信任的 PDF/Office/Email/HTML 可含特殊解析路徑，需使用隔離環境、大小限制和權限控管。",
+      "文件處理、索引、extractive summary 官方表示在本機且不呼叫 LLM；但 Agent 最終將讀取結果交給外部 LLM 時仍有資料外傳風險。",
+      "支援 HTTP(S)/Google Drive PDF 下載及 OAuth token；需審查 URL、權杖與權限，官方聲稱有公開 IP、重導向、TLS 等限制但未獨立驗證。",
+      "Dynamic Skill Loader 可向 Agent 呈現受信任目錄中的原始指令，需防止 prompt injection、不受信任 roots 或無授權外部操作。",
+      "本次未安裝、執行、掃描供應鏈或獨立驗證安全控制。"
+    ],
+    "privacy": "本機檢索不代表完整 Agent 工作流程離線；處理企業文件時需確認 MCP host、LLM、雲端 Drive Connector 的資料路徑與保留策略。"
+  },
+  "features": [
+    "統一 DocumentIR，涵蓋 PDF/Word/Excel/PPT/HTML/EML/MSG/IPYNB/Markdown",
+    "block-tree、search-blocks、bounded block read、source/page/bbox citations",
+    "SQLite FTS5 跨文件搜尋與本機 LingXi 抽取式摘要",
+    "MCP、CLI、Python API、OpenAI function calling",
+    "Dynamic Skill Loader：精簡 Skill routing、token-budget 及來源依賴",
+    "ContextIR、CodeGraphIndex、變更影響與證據讀取",
+    "Codex、Claude Code、Hermes Agent、OpenClaw host integrations"
+  ],
+  "limitations": [
+    "0 LLM tokens 僅指工具內部解析與檢索；主模型仍消耗 context/output tokens。",
+    "Collection retrieval 主要是詞彙及統計搜尋，不保證同義詞、跨語言或語義檢索。",
+    "掃描 PDF 需要選配 OCR；成功產生 IR 不保證掃描圖像已被轉成文字。",
+    "README benchmark 為官方示例，不可當作所有文件一定節省相同 tokens。"
+  ],
+  "skillRefs": [
+    {
+      "type": "skill",
+      "id": "allanyiin-documa-evidence"
+    },
+    {
+      "type": "skill",
+      "id": "allanyiin-documa-codegraph"
+    },
+    {
+      "type": "skill",
+      "id": "allanyiin-documa-maintenance"
+    },
+    {
+      "type": "skill",
+      "id": "allanyiin-documa-skill-loader"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-11-05",
+  "updatedAt": "2026-11-05",
+  "tags": [
+    "documa",
+    "document-understanding",
+    "local-retrieval",
+    "mcp",
+    "agent-harness",
+    "dynamic-skill-loader",
+    "context-engineering",
+    "token-optimization",
+    "codegraph",
+    "rust",
+    "python",
+    "mit",
+    "commercial-license-review",
+    "security-review"
+  ],
+  "source": {
+    "url": "https://github.com/AllanYiin/Documa",
+    "documentation": [
+      "https://github.com/AllanYiin/Documa/blob/main/README.md",
+      "https://github.com/AllanYiin/Documa/blob/main/LICENSE",
+      "https://github.com/AllanYiin/Documa/blob/main/plugins/README.md",
+      "https://github.com/AllanYiin/Documa/blob/main/native/README.md",
+      "https://github.com/AllanYiin/Documa/blob/main/native/lingxi/ASSETS.md",
+      "https://github.com/AllanYiin/Documa/blob/main/pyproject.toml"
+    ],
+    "reviewedAt": "2026-11-05",
+    "type": "Official upstream project README, plugin Skills, license and bundled native-component notices"
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
