@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 2,
+  "id": "zed-industries-zed",
+  "entityType": "resource",
+  "title": "Zed — Rust 高效能程式碼編輯器與 AI Agent 協作介面",
+  "canonicalName": "Zed",
+  "category": "Developer Tools & Code Editors",
+  "resourceType": "Open-source GPU-accelerated code editor with real-time collaboration and AI agent integration",
+  "purpose": "提供以 Rust 建構、支援 GPU 加速的跨平台程式碼編輯體驗，重視低延遲、多人協作、語言伺服器、終端機、Git 與 AI Agent 開發工作流。",
+  "recommendation": "適合測試取代或搭配 VS Code 的快速編輯器，並研究原生 Zed Agent、ACP 外部 Agents（Claude/Codex/OpenCode）和終端機 Agent 整合。效能應在同機、相同專案與擴充條件下比較，而非直接假定任何場景更快。",
+  "url": "https://github.com/zed-industries/zed",
+  "repo": "zed-industries/zed",
+  "homepage": "https://zed.dev",
+  "license": "Source code primarily GPL-3.0-or-later; components marked Apache-2.0; third-party dependencies carry separate terms",
+  "commercialUse": {
+    "status": "allowed-with-copyleft-redistribution-obligations",
+    "licenseUrl": "https://github.com/zed-industries/zed/blob/main/LICENSE-GPL",
+    "details": [
+      "官方 README 表明 Zed 原始碼主要為 GPL-3.0-or-later，部分明確標示元件為 Apache-2.0；不是 MIT 授權。",
+      "一般使用編輯器進行商業或付費軟體開發可行；自行修改後重新散布 GPL 涵蓋之二進位或衍生程式時，須符合相應 GPL 原始碼與著作權授權義務。",
+      "若在自家專有產品中整合 Zed 原始碼，應先辨識 GPL／Apache 代碼邊界並審查 Copyleft 影響。",
+      "Personal 編輯器方案官方標示免費；託管 AI、Pro／Business 方案或自備 API Key 可能有額外費用，依當期服務條款。",
+      "額外擴充套件、模型及第三方工具和其素材另依各自授權及服務條款。"
+    ],
+    "reviewRequiredBeforeCommercialRedistribution": true,
+    "secondaryLicenseUrl": "https://github.com/zed-industries/zed/blob/main/LICENSE-APACHE"
+  },
+  "security": {
+    "status": "not-independently-audited",
+    "riskLevel": "medium-for-editor; higher-with-agent-execution-and-sensitive-projects",
+    "risks": [
+      "Zed Agent 可能讀取、修改或刪除專案檔案、執行終端機命令，亦可透過 MCP 連接第三方工具；務必設定各工具 allow/deny/confirm 規則。",
+      "模型提供者或 Zed 託管 AI 會處理透過 Agent 送出的程式碼與 Prompt；用戶自行接入的外部 Agent、API 或第三方服務隱私政策可能不同。",
+      "官方預設可收集匿名使用指標與崩潰診斷；可在設定停用 metrics 與 diagnostics，但 Zed 託管 AI／協作服務所需的伺服器端資料另有記錄。",
+      "官方表示 Zed 託管 AI 預設不保存 Prompt/程式碼且要求供應商不以其訓練；對特定模型的短期安全保留和自願提交反饋／訓練資料存在例外，企業部署需確認合約。",
+      "Extensions、Language Servers、任務命令、Agent 工具及下載項目可能執行程式碼，應採可信來源、最小權限與必要時容器或測試環境。",
+      "尚未下載、安裝、執行、驗證特定 release 檔案或獨立進行安全稽核。"
+    ],
+    "recommendedControls": [
+      "在非機密測試專案先試用並比較啟動速度、記憶體、檔案搜尋及語言伺服器體驗。",
+      "Zed Agent 的終端命令、外部網路、敏感檔案及 MCP tools 使用確認或明確禁止規則。",
+      "如無必要，可設定 telemetry.metrics=false、telemetry.diagnostics=false。",
+      "企業專案使用 AI 前核對實際模型供應商、資料傳輸、保留及訓練政策。",
+      "擴充套件與本機語言伺服器需確認安裝來源及依賴供應鏈。"
+    ],
+    "privacy": "本機程式碼編輯不表示 AI Agent 工作流程完全離線；Zed Hosted AI、自備模型、外部 Agents 與 Collaboration 有不同資料處理邊界。"
+  },
+  "features": [
+    "以 Rust 與 GPU 加速為核心的編輯器",
+    "多人即時協作",
+    "整合 Git、終端機、LSP、擴充套件",
+    "Zed 原生 Agent、Inline Assistant、Edit Prediction",
+    "ACP 外部 Coding Agents，例如 Claude、Codex 與 OpenCode",
+    "Parallel Agents、MCP、Skills、工具權限"
+  ],
+  "compatibility": {
+    "platforms": [
+      "macOS",
+      "Windows",
+      "Linux"
+    ],
+    "macOS": "官方 2026-11 文件：macOS 12+；支援 Intel x86_64 與 Apple Silicon；部分舊版 macOS 12 不支援分享畫面",
+    "notes": "具體最低系統版本與下載架構請以官方安裝頁為準。"
+  },
+  "comparisonCaveat": "官方定位為高效能編輯器，但本次沒有在相同硬體、專案及擴充條件下對 Zed vs VS Code 執行效能 benchmark；不可把行銷敘述當成已證實通用性能排名。",
+  "status": "active",
+  "addedAt": "2026-11-07",
+  "updatedAt": "2026-11-07",
+  "tags": [
+    "zed",
+    "code-editor",
+    "rust",
+    "gpu-accelerated",
+    "developer-tools",
+    "vs-code-alternative",
+    "multiplayer",
+    "ai-coding",
+    "agent-harness",
+    "acp",
+    "codex",
+    "claude",
+    "open-code",
+    "gpl-3.0-or-later",
+    "apache-2.0",
+    "commercial-license-review",
+    "security-review",
+    "telemetry",
+    "privacy"
+  ],
+  "source": {
+    "url": "https://github.com/zed-industries/zed",
+    "documentation": [
+      "https://github.com/zed-industries/zed/blob/main/README.md",
+      "https://github.com/zed-industries/zed/blob/main/LICENSE-GPL",
+      "https://github.com/zed-industries/zed/blob/main/LICENSE-APACHE",
+      "https://zed.dev/docs/installation",
+      "https://zed.dev/docs/telemetry",
+      "https://zed.dev/docs/ai/overview",
+      "https://zed.dev/docs/ai/tool-permissions",
+      "https://zed.dev/docs/ai/privacy-and-security",
+      "https://zed.dev/pricing"
+    ],
+    "reviewedAt": "2026-11-07",
+    "type": "Official Zed GitHub README and licenses, installation, telemetry, AI and pricing documentation"
+  },
+  "researchStatus": "official-source-verified",
+  "displayStatus": "listed"
+}
