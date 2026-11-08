@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 2,
+  "id": "workflow-agent-system-agent-os-three-layer-architecture",
+  "entityType": "concept",
+  "title": "Workflow × Agent System × Agent OS — AI 自動化三層架構",
+  "coreProblem": "AI 自動化經常把固定流程、Agent 的自主決策能力，以及執行權限與資源治理混成同一層，導致架構責任不清、驗收困難、難以擴充且可能出現權限風險。",
+  "definition": "Workflow 定義任務步驟及流程邊界；Agent System 依情境推理、選擇工具、取得補充資訊並驗證成果；Agent OS（概念稱呼）提供 Runtime、身份及權限、預算、稽核、監控、排程與擴展能力，不一定是作業系統本身。",
+  "layers": [
+    {
+      "layer": "Workflow",
+      "role": "流程編排與業務步驟",
+      "keyQuestion": "要做哪些步驟？",
+      "example": "收到客服客訴信 → 分類 → 查訂單 → 回信 → 結案",
+      "mechanisms": [
+        "事件觸發",
+        "規則、分支與重試",
+        "流程狀態與結案條件"
+      ],
+      "tests": [
+        "事件是否進入正確流程",
+        "每步輸入與輸出可否驗證",
+        "異常是否有重試／轉人工路徑"
+      ]
+    },
+    {
+      "layer": "Agent System",
+      "role": "自主決策與品質驗證",
+      "keyQuestion": "情況不清楚時該如何選擇下一步？",
+      "example": "客訴原因不明時，決定先查物流還是退款紀錄；資料不足則主動詢問；回信前檢查語氣與事實。",
+      "mechanisms": [
+        "模型推理與工具選擇",
+        "依證據調整行動",
+        "必要時要求補充資訊",
+        "答案品質檢查"
+      ],
+      "tests": [
+        "是否正確判斷缺漏資訊",
+        "查詢結果是否有證據",
+        "是否避免自行承諾退款或捏造訂單狀態",
+        "回信是否遵守服務政策"
+      ]
+    },
+    {
+      "layer": "Agent OS / Runtime Governance",
+      "role": "執行環境、安全治理與調度",
+      "keyQuestion": "如何安全、持續、可控且可擴展地執行？",
+      "example": "Agent 僅可讀取經授權的客服資料；不可刪除訂單；設定每日 Token／費用上限；記錄全部操作；高負載時在權限邊界內擴充第二個 Agent。",
+      "mechanisms": [
+        "身份、角色與工具允許清單",
+        "執行時權限政策及沙箱/隔離",
+        "Token／費用配額與使用監控",
+        "稽核 Log、追蹤與告警",
+        "工作佇列、Agent 調度及伸縮"
+      ],
+      "tests": [
+        "是否在工具與資料庫層阻止刪除訂單",
+        "是否強制預算與操作速率上限",
+        "事件是否有可追溯日誌",
+        "新增 Agent 是否沿用最小權限與資料隔離"
+      ]
+    }
+  ],
+  "exampleScenario": "自動處理客服客訴：流程層負責收信分類、查詢、回覆與結案；系統層處理模糊需求、查詢選擇、客戶澄清與回信品質；運行治理層負責權限、Token 預算、稽核與多 Agent 調度。",
+  "solutionMethods": [
+    "先定義固定的業務流程，再區分哪些環節必須讓 Agent 自主判斷。",
+    "將 Agent 決策與工具執行分開；模型可以提議動作，但不可直接繞過 API、資料庫或執行環境的權限。",
+    "設定高風險操作的人工核准、資料最小權限與不可變更的工具政策。",
+    "為每個步驟設計可觀測性、輸入輸出紀錄、失敗重試和結案驗收。",
+    "統一管理模型用量、預算、佇列及跨 Agent 工作分派，避免高負載時重複處理同一客訴。",
+    "將用於管理和運行 Agent 的多種服務視為架構性 Agent OS，而非宣稱必然存在一個特定 OS 產品。"
+  ],
+  "tradeoffs": [
+    "Workflow 容易預測與驗收，但不擅長處理長尾模糊情境。",
+    "Agent System 更靈活，但推理結果可能不穩定，需持續驗證與人工升級路徑。",
+    "Agent Runtime 與治理能力提高安全性及可觀測性，但增加整合、維護與基礎設施成本。",
+    "多 Agent 擴充提升吞吐量，但須防範重複寄送、競態、配額超支與權限擴散。"
+  ],
+  "signals": [
+    "客服客訴存在大量非固定情況且需選擇不同調查路徑。",
+    "客服系統需要可追溯的查詢證據、回覆理由和結案狀態。",
+    "導入 Agent 後需要強制執行最小權限、Token 限額和負載調度。"
+  ],
+  "antiPatterns": [
+    "只把權限規則寫在 Prompt，卻未在真正的工具或資料庫層阻擋危險操作。",
+    "將一段固定步驟的 Workflow 直接稱為具備完整自主決策能力的 Agent。",
+    "讓 Agent 在缺乏證據時自行承諾退款、修改訂單或直接結案。",
+    "高負載時啟動第二個 Agent，卻未做佇列、冪等與責任歸屬管理。",
+    "把 Agent OS 當作正式且單一的業界產品標準，而忽略 Runtime、Orchestrator 和 Governance 可以拆成不同服務。"
+  ],
+  "examples": [
+    "客服客訴：收信 → 分類 → 查訂單 → 客戶澄清 → 回覆 → 結案",
+    "工作流／自主 Agent／Runtime 治理責任邊界"
+  ],
+  "relatedConceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "vendor-agnostic-orchestration"
+    },
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    }
+  ],
+  "originalNote": "Flow\n\n任務：自動處理客服客訴。\n\nWorkflow 層：收到信、分類、查訂單、回信、結案。\nSystem 層：一個客服 Agent 收到模糊的客訴，自己決定要先查物流還是先查退款紀錄，發現資訊不足就主動問客戶，寫完回信還會自己檢查語氣。\nOS 層：提供這個客服 Agent 運行的環境，限制它只能讀客服資料庫、不能刪訂單、每天最多花多少 Token、所有操作都要留 Log、忙不過來時自動開第二個 Agent 分擔。",
+  "notes": "使用者的 OS 一詞指 Agent 的運作環境與治理能力，不等同傳統作業系統。需要保留資料查詢與刪除的實際存取控制、Token／費用 Budget、Log 與多人/多 Agent 調度之間的工程責任邊界。本次只整理概念，未實作任何客服系統。",
+  "status": "active",
+  "addedAt": "2026-11-08",
+  "updatedAt": "2026-11-08",
+  "tags": [
+    "agent-architecture",
+    "workflow",
+    "agent-system",
+    "agent-os",
+    "runtime",
+    "agent-harness",
+    "orchestration",
+    "governance",
+    "access-control",
+    "customer-support",
+    "customer-complaints",
+    "token-budget",
+    "audit-log",
+    "multi-agent",
+    "workflow-vs-agent",
+    "security"
+  ]
+}
