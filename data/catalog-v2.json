@@ -3728,6 +3728,96 @@
     },
     {
       "schemaVersion": 2,
+      "id": "danyuchn-claude-work-mode",
+      "entityType": "resource",
+      "title": "Claude Work Mode｜Claude Code Auto、Out、Wrap 工作模式與 Hook Gates",
+      "canonicalName": "claude-work-mode",
+      "category": "AI Agent Workflow & Claude Code Plugins",
+      "resourceType": "Claude Code function-hook session workflow plugin",
+      "purpose": "透過 /work-mode 在當前 Claude Code Session 切換 auto（可復原任務自主執行）、out（委派可驗證批次工作）、wrap（收斂及收尾）或 off（停用），可另外安裝 work-mode-gates 檢查文件、Git 與決策格式。",
+      "recommendation": "適合研究多 Agent 委派、減少重複確認與專案工作收尾。先在測試專案使用基本插件，確認權限策略後才開啟選用的 Shell Hooks。",
+      "url": "https://github.com/danyuchn/claude-work-mode",
+      "repo": "danyuchn/claude-work-mode",
+      "license": "MIT (project); Claude Code and external CLI/model services separately licensed",
+      "commercialUse": {
+        "status": "allowed-with-third-party-terms",
+        "licenseUrl": "https://github.com/danyuchn/claude-work-mode/blob/main/LICENSE",
+        "details": [
+          "MIT 允許商用、修改與散布，需保留授權與著作權聲明。",
+          "Claude Code 與外部 Codex、Gemini 等 CLI 另依提供者服務條款、費率及企業政策。"
+        ]
+      },
+      "security": {
+        "status": "not-independently-audited",
+        "riskLevel": "medium-high",
+        "risks": [
+          "Function Hooks 可改變模型與工具工作流程，須信任並審核插件來源。",
+          "auto 模式僅是給模型的指令，不是 Sandbox，也不能取代 Claude Code 原生工具權限審核。",
+          "work-mode-gates 使用 Bash、jq、Git、Python3，會在 PreToolUse／Stop 執行 Shell Hooks；依賴缺失時部分檢查會放行。",
+          "選用設定 extraRules、dispatch.instructions、autoCloseCommand 可改變 Agent 行為及後續命令。",
+          "out 模式可能把程式碼或日誌送至其他子代理或外部模型，需評估資料隱私。",
+          "未安裝、執行、測試或獨立稽核。"
+        ],
+        "recommendedControls": [
+          "敏感行動（憑證、刪除、部署、付費、權限及外傳）保留人工核准。",
+          "在測試專案閱讀並驗證 Hook 腳本和設定。",
+          "限制外部 CLI 存取範圍，固定已審核的版本。"
+        ]
+      },
+      "features": [
+        "auto 自主完成可復原操作，將需要核准的決策集中",
+        "out 委派子代理或外部 CLI，主線負責驗收",
+        "wrap 專注收尾、不啟動新分支，列出待決事項",
+        "off 恢復一般行為",
+        "選裝 work-mode-gates：Git 安全提交、避免多餘摘要檔、決策標籤檢查",
+        "模式僅限當前 Session，可組合並支援繁體中文",
+        "提示詞於模式切換及必要時重新注入，避免每回合重複佔用 Context"
+      ],
+      "requirements": [
+        "Claude Code 2.1.314+ 支援 function hooks",
+        "選裝 Gates 需 bash、jq、git 和 python3"
+      ],
+      "installationNotes": "官方：/plugin install work-mode --marketplace danyuchn/claude-work-mode；選裝 work-mode-gates。未執行安裝。",
+      "limitations": [
+        "不是安全沙箱或原生權限管理。",
+        "out 模式不保證可用的外部工具或節省成本。",
+        "Repo 有兩個 Plugin 但無獨立 SKILL.md，因此只新增 Resource。"
+      ],
+      "status": "active",
+      "addedAt": "2026-11-08",
+      "updatedAt": "2026-11-08",
+      "tags": [
+        "claude-code",
+        "work-mode",
+        "agent-workflow",
+        "hooks",
+        "auto",
+        "delegation",
+        "wrap",
+        "subagents",
+        "human-in-the-loop",
+        "git-safety",
+        "mit",
+        "commercial-license-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/danyuchn/claude-work-mode",
+        "documentation": [
+          "https://github.com/danyuchn/claude-work-mode/blob/main/README.zh-TW.md",
+          "https://github.com/danyuchn/claude-work-mode/blob/main/README.md",
+          "https://github.com/danyuchn/claude-work-mode/blob/main/LICENSE",
+          "https://github.com/danyuchn/claude-work-mode/blob/main/plugins/work-mode/hooks/tempo.ts",
+          "https://github.com/danyuchn/claude-work-mode/blob/main/plugins/work-mode-gates/hooks/hooks.json"
+        ],
+        "reviewedAt": "2026-11-08",
+        "type": "Official project README, license, plugin manifests and Hook implementation"
+      },
+      "researchStatus": "official-source-verified",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "davinci-resolve",
       "entityType": "resource",
       "title": "DaVinci Resolve",
