@@ -25745,6 +25745,221 @@
     },
     {
       "schemaVersion": 2,
+      "id": "claude-code-animation-reels-production-workflow",
+      "entityType": "workflow",
+      "title": "Claude Code 動畫 Reels｜從風格、Fish Audio 配音到 9:16 MP4 的六步驟 Workflow",
+      "goal": "以一個痛點和一個解法為主題，使用 Claude Code 協調原創風格設計、腳本、Fish Audio 配音、時間戳、分鏡、動態畫面與 MP4 驗收，並將格式與流程規則重用於下一支 Reels。",
+      "problem": "手動分散建立專案、風格圖、TTS、時間軸、分鏡和輸出規格，容易遺漏依賴安裝審核、授權、對時與最終成片驗收。",
+      "solutionStrategy": "先建立單一專案資料夾並確認工具與原創風格，再以腳本和時間戳串聯 TTS、分鏡、動畫渲染；將 9:16、安全區、文字行數、每卡停留、輸出與驗收作為明確交付條件；僅在確有可執行、可測試的 SKILL.md 後才另建 Skill 實作。",
+      "stages": [
+        {
+          "id": "stage-0",
+          "title": "準備主題與環境",
+          "purpose": "安裝 Claude Desktop Code 功能、建立獨立專案資料夾；選擇一個痛點及一個解法",
+          "uses": [],
+          "unresolvedUses": [
+            "Claude Code Desktop"
+          ],
+          "outputs": [
+            "專案資料夾",
+            "主題描述"
+          ],
+          "gate": "確認本次影片主題、目標觀眾、Reels 時長與專案位置"
+        },
+        {
+          "id": "stage-1",
+          "title": "初始化影片專案",
+          "purpose": "在指定資料夾建立 assets、script、audio、storyboard、frames、render 等工作結構",
+          "uses": [],
+          "unresolvedUses": [
+            "Claude Code"
+          ],
+          "outputs": [
+            "專案結構與檔案命名規則"
+          ],
+          "gate": "檢查所有檔案僅在指定專案資料夾內，不改動其他專案"
+        },
+        {
+          "id": "stage-2",
+          "title": "檢查及核准依賴",
+          "purpose": "檢查 Node.js、FFmpeg 與 Fish Audio API/CLI 可用性；缺少軟體時先提安裝方案及成本，再經使用者允許安裝",
+          "uses": [],
+          "unresolvedUses": [
+            "Node.js",
+            "FFmpeg",
+            "Fish Audio"
+          ],
+          "outputs": [
+            "依賴版本表",
+            "驗證結果",
+            "待核准安裝或服務費用清單"
+          ],
+          "gate": "不得自行安裝、貼出 API 金鑰或在未確認授權下使用聲音複製功能"
+        },
+        {
+          "id": "stage-3",
+          "title": "建立原創視覺風格",
+          "purpose": "從參考圖片萃取色彩、排版、線條和情緒，生成原創設計示意圖並等待使用者核准後才製作整支動畫",
+          "uses": [],
+          "unresolvedUses": [
+            "Pinterest 或自有合法設計參考",
+            "Image generation capability"
+          ],
+          "outputs": [
+            "參考資料授權備註",
+            "風格板或示意圖",
+            "風格核准"
+          ],
+          "gate": "勿直接複製原作畫面；須確認參考素材和生成素材可用於預計的商業用途"
+        },
+        {
+          "id": "stage-4",
+          "title": "撰寫台詞、配音和對時",
+          "purpose": "台詞保存為純文字；使用合法授權的聲音模型產出配音、逐句時間戳及音訊檔",
+          "uses": [],
+          "unresolvedUses": [
+            "Fish Audio TTS"
+          ],
+          "outputs": [
+            "script.txt",
+            "narration.wav 或 mp3",
+            "timestamps.json"
+          ],
+          "gate": "核對發音與逐句時間戳；若 API 缺少對齊值需另做校正，不可虛構時間"
+        },
+        {
+          "id": "stage-5",
+          "title": "分鏡及動畫",
+          "purpose": "將時間戳對齊大標題、痛點情境、解法三點和 CTA；製作可重現的動態畫面",
+          "uses": [],
+          "unresolvedUses": [
+            "Video renderer and motion framework (to be selected)"
+          ],
+          "outputs": [
+            "storyboard.json",
+            "畫面素材",
+            "可編輯動畫原始檔"
+          ],
+          "gate": "逐鏡核對音畫同步和實際素材授權，避免字詞溢出與畫面過度擁擠"
+        },
+        {
+          "id": "stage-6",
+          "title": "影片驗收、修正與輸出",
+          "purpose": "完成 9:16 的 MP4，透過實際影片影格和音訊檢驗字幕安全範圍、停留時間、畫面錯誤和語音同步",
+          "uses": [],
+          "unresolvedUses": [
+            "FFmpeg",
+            "Video QA tooling"
+          ],
+          "outputs": [
+            "final.mp4",
+            "QA 檢查紀錄",
+            "可重用規則（待獨立建立 Skill）"
+          ],
+          "gate": "手機 9:16，字幕與圖像不超出安全區；每卡最多兩行，至少停留 2 秒；測試結果支持後才宣稱已完成"
+        }
+      ],
+      "acceptanceCriteria": [
+        "輸出可播放 MP4，縱向 9:16（例如 1080×1920），內容與音訊完整",
+        "所有可視元素位於可用安全範圍；文字最多兩行且無裁切",
+        "每張文字卡停留至少 2 秒，且分鏡與語音時間軸一致",
+        "配音內容與 script.txt 一致，時間戳可透過實測或可靠對齊結果驗證",
+        "素材授權、聲音使用權、模型服務商用條款可確認",
+        "安全審查：不擅自安裝套件、不洩露 API Key、不盲目執行外部腳本",
+        "輸出前以影格截圖、音訊播放、檔案探測與 QA Checklist 實際驗證，不能只由 Agent 自評"
+      ],
+      "commercialUse": {
+        "status": "depends-on-each-tool-and-asset",
+        "details": [
+          "原始內容使用者提供但作者/授權來源未知，原文做收藏用途；不推定可以逐字再販售或再發布。",
+          "Claude Code 是專有服務，需符合 Anthropic 方案/授權及帳號權限。",
+          "Node.js 及所選動畫框架使用個別開源授權。",
+          "FFmpeg 主要 LGPL-2.1+，若建置啟用可選 GPL 元件則適用 GPL；分發程式需注意合規。",
+          "Fish Audio 官方商用規則依方案與授權的聲音類型不同；免費方案不代表可商用，Premium verified-owned voices 可用於商業用途，API/使用模型條件另查。",
+          "Pinterest 等參考圖與字型、音效、Logo、商標為第三方內容，不可因能瀏覽或下載就推定可商用。"
+        ]
+      },
+      "security": {
+        "status": "workflow-not-executed",
+        "riskLevel": "medium",
+        "risks": [
+          "提示詞「缺了就幫我裝好」可能導致 Agent 未經確認安裝 Node.js、FFmpeg、第三方 CLI 或執行下載腳本。",
+          "Fish Audio API Key/登入憑證應由使用者在本機安全配置，不能貼在對話或加入 Git。",
+          "以自身講課風格或他人聲線合成時，需遵守聲音授權與同意；不得冒用他人聲音。",
+          "外部參考圖與素材有著作權/隱私問題；不應直接複製或重新散布原始視覺素材。",
+          "必須實際執行影片 QA；單靠文字規則「自己檢查」不保證畫面安全區、時間軸或 MP4 正確。",
+          "本次只保存工作流，未安裝、登入、配音、生成素材或渲染影片。"
+        ],
+        "controls": [
+          "安裝前列出套件、來源、用途、成本與所需權限，取得使用者同意。",
+          "使用專案隔離工作資料夾，對每支影片固定存放台詞、素材、時間戳與驗收紀錄。",
+          "選用具明確授權的圖片、字型、音效與音色，保留來源。",
+          "使用 ffprobe 檢查輸出格式，必要時以影格擷取、字幕區域檢查與人工抽驗落實 QA。"
+        ]
+      },
+      "useCases": [
+        "社群短影音 Reels",
+        "個人教學與知識型短片",
+        "AI 生成動畫與 Podcast 精華短片",
+        "可重複製作的直式動畫內容"
+      ],
+      "originalUserWorkflow": "Claude Code 動畫 Reels 操作清單\n \n準備：先開好這 3 個東西\n- 電腦裝好 Claude Code 桌面版\n- 開一個資料夾，例如 「2026-11-AI動畫-01」\n- 決定今天這支的主題：\n一個痛點 + 一個解法就好，不要貪心\n \n---\n \nStep 1：開專案\n在 Claude Code 裡輸入：\n\n> 在這個資料夾幫我建立一個 AI 動畫專案，之後所有素材、台詞、成片都存在這裡。\n \nStep 2：一次裝好工具\n直接貼這句給它：\n\n> 幫我檢查並安裝做動畫需要的工具：Node.js、FFmpeg、Fish Audio。\n如果缺了就幫我裝好，裝完告訴我哪些可以用了。\n\nFish Audio 第一次會要你登入，\n照它指示走一次就好，之後就不用重複。\n \nStep 3：定風格，不要抄別人\n \n去 Pinterest 搜這 3 個關鍵字，\n挑 3-5 張你喜歡的：\n \neditorial illustration animation / flat illustration animation / minimal podcast animation\n\n存下來後丟給 Claude：\n\n> 這是我喜歡的風格參考，請幫我做一張示意圖：主角是XX，溫暖、知性、但不要太卡通。配色用奶油色 + 深藍 + 一點橘色。先給我看一張，風格 OK 我才往下做。\n \nStep 4：寫台詞，格式直接給台詞文字檔，AI 才對得上時間：\n\n然後下指令：\n\n> 請用 Fish Audio 幫這份台詞配音，語氣像我平常講課，親切、有節奏、不要像機器人。配完幫我列出每一句的開始跟結束時間戳。\n \nStep 5：讓 AI 做分鏡\n> 根據台詞跟時間戳，幫我做分鏡：\n> 第 1 鏡：大標題卡\n> 第 2 鏡：痛點情境，一個人對著電腦發呆\n> 第 3 鏡：解法，出現 3 個重點\n> 第 4 鏡：CTA，叫大家留言\n> 每個畫面都要對上台詞時間\n\nStep 6：給它規則，之後就不用再講\n這段存成Skill，以後每一支直接叫它套用：\n \n> 請遵守我的動畫規則：\n> 1. 字不能超出畫面，手機直式 9:16 安全範圍內\n> 2. 一張卡最多 2 行字，停留至少 2 秒\n> 3. 做完自己檢查一次，有錯自動修正，不用問我\n> 4. 完成後輸出成 mp4，存在同一個資料夾\n> 請把這組規則存成 skill，名稱叫「XX動畫」\n \n下次你只要說：「用XX動畫 skill，做一支主題是 XXX 的 Reels」就好。",
+      "reusableSkillIdea": {
+        "name": "XX動畫",
+        "description": "使用者原文提出未來把動畫規則包成 Skill；本次只記錄構想，尚未建立有效 SKILL.md 或可執行的動畫工具。",
+        "rules": [
+          "9:16 手機安全範圍",
+          "每卡最多 2 行、停留至少 2 秒",
+          "自動 QA 並修正可安全處理的錯誤",
+          "輸出 MP4 至當前專案資料夾"
+        ],
+        "status": "idea-only"
+      },
+      "workflowRefs": [
+        {
+          "type": "workflow",
+          "id": "agentic-video-production-stack",
+          "relationship": "Related agentic video production lifecycle"
+        }
+      ],
+      "tags": [
+        "claude-code",
+        "reels",
+        "short-form-video",
+        "animation",
+        "fish-audio",
+        "tts",
+        "ffmpeg",
+        "storyboard",
+        "time-alignment",
+        "motion",
+        "visual-design",
+        "qa",
+        "9-16",
+        "mp4",
+        "social-media",
+        "commercial-license-review",
+        "privacy-review",
+        "workflow",
+        "future-agent-skill"
+      ],
+      "notes": "此記錄源自使用者提供的製作清單；使用者原文保存於 originalUserWorkflow。Fish Audio 有提供帶時間戳的 TTS endpoint，但 alignment 可能缺值且必須校驗。原流程未指定可渲染動態影片的框架或工具，因此實作時應先確定 renderer（如支援影片的自建渲染程式或框架），不能把只有 Claude Code、Node、FFmpeg、Fish Audio 直接等同完成動畫的工具鏈。Claude Desktop Code 功能依付費方案存取。上述工具與素材的授權及平台更新可能變動。",
+      "source": {
+        "type": "User-provided workflow text (2026-11-08), preserved; official Anthropic Claude Code, Fish Audio API and FFmpeg docs used for independent safety and licensing caveats.",
+        "documentation": [
+          "https://support.claude.com/en/articles/14554922-claude-code-user-faq",
+          "https://github.com/fishaudio/docs/blob/main/api-reference/endpoint/openapi-v1/text-to-speech-stream-with-timestamps.mdx",
+          "https://fish.audio/plan/",
+          "https://ffmpeg.org/legal.html"
+        ],
+        "reviewedAt": "2026-11-08"
+      },
+      "status": "active",
+      "addedAt": "2026-11-08",
+      "updatedAt": "2026-11-08"
+    },
+    {
+      "schemaVersion": 2,
       "id": "codebase-agent-context-stack",
       "entityType": "workflow",
       "title": "大型 Codebase Agent Context Stack",
