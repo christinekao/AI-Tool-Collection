@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 2,
+  "id": "multi-model-interview-followup-and-feedback-practice",
+  "entityType": "workflow",
+  "title": "履歷導向模擬面試｜多模型追問比較 → 自主回答 → 弱點回饋",
+  "goal": "將履歷與目標職缺 JD 轉成高相關面試問題，透過不同角度的模型提問找出盲點，再讓求職者自行練習回答並獲得具體、可驗證的回饋。",
+  "problem": "只看一次 AI 生成的題庫與標準答案，容易造成背稿式準備，也無法訓練真實面試的追問、即時反應和對 JD 的精準表達。",
+  "solutionStrategy": "先產出履歷／JD 對應的十題及考察重點，再視可用工具及隱私條件分別從 HR、主管、專案技術、反方質疑等角度取得問題；去重、合併後由求職者逐題回答，AI 評估邏輯、具體證據、溝通品質與職務匹配，並重複練習薄弱處。",
+  "stages": [
+    {
+      "id": "stage-1",
+      "title": "提供履歷與目標職缺 JD",
+      "purpose": "確認履歷內容、職務要求與已驗證專案素材；不補造實習、工作成果或未提出的需求",
+      "uses": [],
+      "unresolvedUses": [
+        "Resume or sanitized career profile",
+        "Job description"
+      ],
+      "outputs": [
+        "履歷／JD 條目與能力對應"
+      ],
+      "gate": "如使用外部模型，先移除不必要的個資與公司機密。"
+    },
+    {
+      "id": "stage-2",
+      "title": "產生 10 個個人化面試題",
+      "purpose": "涵蓋能力、工作／實習、專案以及職位理解，並以履歷證據與 JD 對應，標出考察重點",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "cv-jd-tailored-interview-questions-deep-followups"
+        }
+      ],
+      "unresolvedUses": [],
+      "outputs": [
+        "10 題面試題",
+        "各題考察重點",
+        "履歷經歷的深度追問"
+      ],
+      "gate": "缺少實習時改用真實工作／專案；不把猜測題目當作企業確定會問的題目。"
+    },
+    {
+      "id": "stage-3",
+      "title": "不同模型／角色交叉追問",
+      "purpose": "比較 HR、技術主管、專案審查及 JD 能力落差的提問角度，去除重複題與低價值追問",
+      "uses": [],
+      "unresolvedUses": [
+        "ChatHub（原始分享列舉工具，未驗證其當期支援模型數或隱私政策）",
+        "其他可使用的 AI 模型或角色提示"
+      ],
+      "outputs": [
+        "多視角追問表",
+        "合併後的高價值問題與不同模型觀察"
+      ],
+      "gate": "每次傳送資料前確認第三方模型和多模型服務之隱私政策與資料處理範圍。"
+    },
+    {
+      "id": "stage-4",
+      "title": "逐題模擬回答",
+      "purpose": "由求職者自行回答，訓練對追問的即時反應，而非要求 AI 預先寫完可背的全部答案",
+      "uses": [
+        {
+          "type": "prompt",
+          "id": "interactive-one-question-mock-interview"
+        }
+      ],
+      "unresolvedUses": [],
+      "outputs": [
+        "實際口說或文字回答紀錄",
+        "需要補強的履歷證據"
+      ],
+      "gate": "評估前須等待真實回答，不能替使用者捏造工作成果、專案例子和量化數字。"
+    },
+    {
+      "id": "stage-5",
+      "title": "找出弱點並迭代",
+      "purpose": "按邏輯結構、表達清晰度、JD 匹配度、具體證據和追問反應提出修改建議，再重練弱題",
+      "uses": [],
+      "unresolvedUses": [],
+      "outputs": [
+        "逐題回饋",
+        "薄弱點清單",
+        "下一輪練習優先序"
+      ],
+      "gate": "評分只是練習用途，不是錄取機率；若只有文字答案，不能推斷語速或口語聲調。"
+    }
+  ],
+  "originalSharedText": "2️⃣讓 AI 生成面試問題\n可以直接用這個 Prompt：你現在是一名有豐富招聘經驗的面試官，請根據我提供的個人履歷和職位 JD，模擬一場真實的求職面試。\n要求：\n1. 整理出 10 個最可能被問到的面試問題；\n2. 問題需要涵蓋專業能力、實習經歷、專案經驗和職位理解；\n3. 針對我的每段實習經歷，設計可能出現的深度追問；\n4. 標註每個問題背後的考察重點；\n5. 不要只給常規問題，要結合我的實際經歷進行提問。￼\n\n\n3️⃣多角度模擬，提前準備追問\n我最近會用 ChatHub 做這一步，因為可以把同一個問題同時發給 6 個 AI。有的模型更擅長挖掘履歷裡的細節，有的會從 HR 的角度提問，還有的比較喜歡追問專案中的具體困難和解決方案。把不同模型的問題放在一起比較，就能發現很多自己原本沒想到的面試角度。￼\n\n\n4️⃣進行模擬回答，找出自己的薄弱點\n不要只看 AI 給的問題，最好自己先回答一遍，再讓 AI 從邏輯、表達、職位匹配度等方面評價，看看哪些地方回答得太空泛，哪些經歷還需要補充細節。我覺得這個方法最有用的地方，不是提前背好所有答案，而是讓自己習慣被追問，真正面試的時候不至於一緊張就不知道說什麼。\n希望大家也都能順利拿到自己心儀的 Offer！！🥹￼",
+  "notes": "使用者分享的是社群貼文的 2️⃣、3️⃣、4️⃣ 段落，未提供第 1 段，故沒有自行補寫。原文提到 ChatHub 可以同時把題目送給六個 AI，該數字僅作為原文記錄，未獨立核對當前功能。原文要求針對每段實習追問，但若是已有完整工作經驗的求職者，應依實際履歷內容調整而非創造實習。",
+  "useCases": [
+    "求職面試準備",
+    "技術／HR 雙視角面試",
+    "轉職時對照 CV 與 JD",
+    "專案成果深度追問",
+    "英語或中文口說模擬練習"
+  ],
+  "privacy": {
+    "riskLevel": "high-if-personal-data-used",
+    "notes": [
+      "履歷為個人資料；在 ChatHub 等多模型服務輸入前，須評估資料分發給哪些模型及保存政策。",
+      "面試練習紀錄可能包含個人與公司機敏資訊，應採私人保存而非公開倉庫。"
+    ]
+  },
+  "commercialUse": {
+    "status": "third-party-source-unknown",
+    "details": [
+      "分享內容的原始作者／授權不明；此紀錄用於整理學習流程，不代表可販售或公開再散布原文字。"
+    ]
+  },
+  "security": {
+    "status": "workflow-not-executed",
+    "risks": [
+      "多模型工具可能將履歷內容轉送到多個第三方供應商。",
+      "不應連接公司私人系統或在未授權情況下讀取內部 JD、績效及人資資料。",
+      "本次未啟動 ChatHub、沒有讀取履歷、沒有進行模擬面試。"
+    ]
+  },
+  "promptRefs": [
+    {
+      "type": "prompt",
+      "id": "cv-jd-tailored-interview-questions-deep-followups"
+    },
+    {
+      "type": "prompt",
+      "id": "interactive-one-question-mock-interview"
+    }
+  ],
+  "status": "active",
+  "addedAt": "2026-11-09",
+  "updatedAt": "2026-11-09",
+  "tags": [
+    "mock-interview",
+    "multi-model",
+    "chathub",
+    "cv",
+    "jd",
+    "deep-followups",
+    "interview-practice",
+    "job-search",
+    "career",
+    "feedback-loop",
+    "hr",
+    "technical-manager",
+    "privacy-review",
+    "workflow"
+  ]
+}
