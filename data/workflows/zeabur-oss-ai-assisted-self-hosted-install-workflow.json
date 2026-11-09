@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 2,
+  "id": "zeabur-oss-ai-assisted-self-hosted-install-workflow",
+  "entityType": "workflow",
+  "title": "Zeabur OSS｜AI Agent SSH 安裝、自架部署計畫審批與診斷",
+  "goal": "由 Claude Code、Codex 等 AI Agent 協助使用者在自己控制的 Linux 主機上安全安裝 Zeabur OSS，保留明確的人工作業授權、Release 驗證與首位叢集管理員註冊權。",
+  "problem": "在 Linux 伺服器上建立 Kubernetes 與 Zeabur 管理介面涉及 SSH、網域、憑證、Release 簽章、資源檢查與安裝診斷，對不熟 Linux／DevOps 的使用者門檻高且誤操作風險大。",
+  "solutionStrategy": "將安裝拆成主機準備、SSH 金鑰登入、完整 Release 驗證、網域與設定檔、plan 人工批准、apply 安裝、doctor 診斷、使用者自行建立首位管理員。對任何驗證失敗、權限不足、危險變更或未核准行動採 Fail Closed。",
+  "stages": [
+    {
+      "id": "stage-1",
+      "title": "確認安裝目標與主機條件",
+      "purpose": "確認擁有主機管理權、可用 Linux amd64/arm64、至少 4 GiB RAM（團隊安裝）、磁碟空間與連接埠；選擇測試或正式環境",
+      "uses": [],
+      "unresolvedUses": [
+        "Cloud VPS or existing Linux host"
+      ],
+      "outputs": [
+        "主機檢查表",
+        "安裝風險與預算"
+      ],
+      "gate": "未確認管理授權、主機條件或備份前不得開始安裝。"
+    },
+    {
+      "id": "stage-2",
+      "title": "設定 SSH 金鑰登入",
+      "purpose": "使用者在本機生成或選擇 SSH 金鑰，於主機安全設置公鑰，測試可正常登入及使用 sudo",
+      "uses": [],
+      "unresolvedUses": [
+        "SSH client and key",
+        "Claude Code or Codex"
+      ],
+      "outputs": [
+        "SSH 連線測試結果"
+      ],
+      "gate": "不將私鑰、主機密碼或憑證交給外部模型或寫入公開日誌。"
+    },
+    {
+      "id": "stage-3",
+      "title": "下載及驗證官方 Installer",
+      "purpose": "從 zeabur-oss/zeabur 官方 Release 選擇 linux-amd64/arm64 安裝包；核對 SHA256SUMS 的簽章、檔案雜湊及建置來源",
+      "uses": [
+        {
+          "type": "resource",
+          "id": "zeabur-oss-ai-agent-installer-guide"
+        }
+      ],
+      "unresolvedUses": [
+        "Zeabur installer release"
+      ],
+      "outputs": [
+        "版本／架構／校驗值",
+        "簽章及 provenance 驗證結果"
+      ],
+      "gate": "所有來源和完整性驗證均通過才執行；失敗立即停止，不得降級驗證。"
+    },
+    {
+      "id": "stage-4",
+      "title": "配置網域與安裝設定",
+      "purpose": "使用者決定 Zeabur 與 Identity 的兩個網域；沒有網域可依官方文件使用 sslip.io；私有主機採 local mode；寫入 /etc/zeabur-installer/config.yaml",
+      "uses": [],
+      "unresolvedUses": [
+        "DNS/sslip.io",
+        "Installer config"
+      ],
+      "outputs": [
+        "config.yaml",
+        "域名與網路計畫"
+      ],
+      "gate": "確認 DNS、HTTPS、網路入口、資料保護及埠使用與預期一致。"
+    },
+    {
+      "id": "stage-5",
+      "title": "產生 Plan 並取得核准",
+      "purpose": "執行 sudo zeabur-installer plan，將所有變更、失敗檢查及警告以簡明語句列給使用者",
+      "uses": [],
+      "unresolvedUses": [
+        "zeabur-installer plan"
+      ],
+      "outputs": [
+        "計畫與風險摘要",
+        "使用者授權記錄"
+      ],
+      "gate": "使用者明確核准前不得執行 apply；檢查失敗時需修正及重新顯示計畫。"
+    },
+    {
+      "id": "stage-6",
+      "title": "安裝與診斷",
+      "purpose": "使用已核准設定執行 sudo zeabur-installer apply；如出錯先查明並在同一設定下重試；最後執行 doctor",
+      "uses": [],
+      "unresolvedUses": [
+        "zeabur-installer apply",
+        "zeabur-installer doctor"
+      ],
+      "outputs": [
+        "安裝結果",
+        "診斷報告",
+        "服務網址"
+      ],
+      "gate": "若需要改變原核准範圍、額外付費或危險修復，重新要求使用者審批。"
+    },
+    {
+      "id": "stage-7",
+      "title": "由使用者註冊首位管理員",
+      "purpose": "Agent 只將首位管理員註冊網址原樣提供使用者，使用者親自以瀏覽器開啟並註冊 Passkey",
+      "uses": [],
+      "unresolvedUses": [
+        "Zeabur Identity",
+        "User browser"
+      ],
+      "outputs": [
+        "完成的管理員註冊",
+        "後續維護與備份建議"
+      ],
+      "gate": "Agent 不得點開或使用初始管理連結，也不能代註冊 Passkey；連結不應公開或記錄在可共享檔案中。"
+    }
+  ],
+  "acceptanceCriteria": [
+    "確認使用者合法擁有伺服器管理權且主機符合官方需求",
+    "安裝包經過簽章、SHA-256 與 build provenance 三項驗證",
+    "對 apply 前的完整變更計畫有可辨識的使用者核准",
+    "安裝後 doctor 無未解決的重大問題且管理網域、Identity 連線可用",
+    "首位管理員註冊只由使用者完成，初始註冊連結不在公開文件、程式庫及日誌中",
+    "記錄實際採用的版本、檢查結果、錯誤與修復方式，不虛構執行成功"
+  ],
+  "privacy": {
+    "riskLevel": "high-when-server-access-or-credentials-used",
+    "notes": [
+      "不要把 SSH 私鑰、Passkey、初始管理連結、Kubeconfig、資料庫密碼或其他 Secret 分享給 Agent 或外部服務。",
+      "AI 服務可能處理指令及工具輸出，需限制輸出中的敏感資料。"
+    ]
+  },
+  "security": {
+    "status": "workflow-template-only",
+    "riskLevel": "high",
+    "risks": [
+      "此工作流可能對伺服器執行 sudo 操作、建立 Kubernetes 和變更對外服務，須由獲授權的人員批准。",
+      "第三方安裝檔及遠端下載須完整驗證，禁止忽略驗證失敗。",
+      "自架系統部署後仍有更新、備份、監控、RBAC 與網路保護等責任。",
+      "本次只是保存流程，沒有部署或執行任何 SSH、sudo 命令。"
+    ]
+  },
+  "commercialUse": {
+    "status": "Apache-2.0 core; hosting costs and third-party licenses separate",
+    "notes": "自架 PaaS 核心依 Apache-2.0 商用；主機費用和上游 Helm Charts、Images、Applications 的獨立授權需分別評估。"
+  },
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "zeabur-oss-ai-agent-installer-guide"
+    }
+  ],
+  "useCases": [
+    "新 Linux VPS 的 AI 輔助 Kubernetes/PaaS 自架",
+    "以 Agent 練習 DevOps plan/apply/doctor 人工審批",
+    "測試環境中學習 SSH、安裝簽章驗證與 Passkey 登入"
+  ],
+  "notes": "依官方 Install with an AI Agent 頁面意旨重新摘要安裝流程，不逐字再刊登完整官方 Prompt。不是可直接安裝的 SKILL.md；本紀錄未安裝或操作使用者機器。與 Zeabur 商業代管平台的內建 Zeabur Agent 分開記錄。",
+  "source": {
+    "url": "https://oss.zeabur.com/zh-TW/docs/zeabur/get-started/ai-agent/",
+    "type": "Official Zeabur OSS installation guide and associated release/security/quickstart documentation",
+    "reviewedAt": "2026-11-09"
+  },
+  "status": "active",
+  "addedAt": "2026-11-09",
+  "updatedAt": "2026-11-09",
+  "tags": [
+    "zeabur-oss",
+    "ai-agent",
+    "devops",
+    "self-hosted",
+    "ssh",
+    "kubernetes",
+    "installation",
+    "security-gate",
+    "plan-apply",
+    "human-approval",
+    "checksum-verification",
+    "passkey",
+    "workflow",
+    "claude-code",
+    "codex"
+  ]
+}
