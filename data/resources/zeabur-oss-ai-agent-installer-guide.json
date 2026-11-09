@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 2,
+  "id": "zeabur-oss-ai-agent-installer-guide",
+  "entityType": "resource",
+  "title": "Zeabur OSS — 讓 Claude Code／Codex 透過 SSH 安裝自架 PaaS",
+  "canonicalName": "Zeabur OSS — Install with an AI Agent",
+  "category": "AI DevOps & Self-Hosted Infrastructure",
+  "resourceType": "Official installation guide for open-source self-hosted Kubernetes PaaS using an AI coding agent",
+  "purpose": "提供一份可由 Claude Code 或 Codex 執行的官方自架安裝流程：使用 SSH 金鑰登入 Linux 主機、驗證 installer 的簽章／SHA-256／建置來源、配置雙網域、先審核計畫再套用、執行診斷，最後由使用者親自註冊首位叢集管理員。",
+  "recommendation": "適合學習 AI Agent 如何安全執行 DevOps 及自架平台、Kubernetes 叢集管理。只適合已有可獨立控管的 Linux VPS 或測試環境時試用；若目標只是部署一個網站，應先評估 Zeabur 代管或其他較簡單的 Git 自動部署方式，避免自架 Kubernetes 維運成本。此頁與 Zeabur 雲端平台內建的 Zeabur Agent 是不同產品流程。",
+  "url": "https://oss.zeabur.com/zh-TW/docs/zeabur/get-started/ai-agent/",
+  "homepage": "https://oss.zeabur.com/zh-TW/",
+  "repo": "zeabur-oss/zeabur",
+  "license": "Apache-2.0 (Zeabur OSS core); upstream installed applications, Helm charts, container images and dependencies may use separate licenses",
+  "commercialUse": {
+    "status": "open-source-commercial-use-allowed-with-license-compliance",
+    "licenseUrl": "https://github.com/zeabur-oss/zeabur/blob/main/LICENSE",
+    "details": [
+      "Zeabur OSS 官方網站與 GitHub Repository 標示 Apache-2.0，允許依授權條款商業使用、修改與散布；如涉及重新散布需保留授權與必要聲明。",
+      "Zeabur Catalog 的上游開源／source-available 應用、映像檔及 Charts 保留各自授權，例如部分元件可採 BUSL 或 SSPL。",
+      "OSS 程式免費不等於 VPS、雲端運算、儲存、備份、網域、外部模型或其他基礎設施免費；費用依供應商與用量。",
+      "本頁提供的 Agent 安裝流程屬官方文件，不等於可以無條件複製並對外再販售全部文件文字。"
+    ]
+  },
+  "security": {
+    "status": "official-documentation-reviewed-not-executed",
+    "riskLevel": "high-if-executed-on-live-server",
+    "risks": [
+      "Claude Code 或 Codex 需利用 SSH 和 sudo 取得 Linux 主機上的高權限，錯誤命令可能破壞既有 Kubernetes、服務或網路配置。",
+      "首位管理員註冊連結具有建立叢集管理員身份的高敏感性；必須由使用者親自開啟並註冊 Passkey，不能由 Agent 自行啟用、曝光、寫入日誌或貼到公開平台。",
+      "SSH 私鑰、主機憑證、機密設定、Kubernetes kubeconfig 和管理權杖不可貼進聊天、Git 或開放日誌；權限需最小化。",
+      "必須核對官方 Release 的簽章、SHA-256 與 build provenance，任何一項失敗都必須停止，不能繞過驗證。",
+      "sudo zeabur-installer plan 必須先檢視變更、警告與失敗檢查，再由使用者明確核准執行 apply。",
+      "平台會開放控制／登入網域及 Kubernetes 服務，必須檢查 HTTPS、DNS、網路暴露、Firewall、RBAC、備份與更新策略。",
+      "文件列出的安裝要求是 Linux amd64/arm64、團隊用至少 4 GiB 記憶體；非所有現存主機都適合直接安裝。",
+      "本次未執行 SSH、下載 installer、建立伺服器、操作憑證或驗證環境安全。"
+    ],
+    "recommendedControls": [
+      "先使用獨立測試 VPS；針對現有正式環境先做備份和變更核准。",
+      "採 SSH 金鑰並限制 sudo 權限／來源 IP，不要將私鑰交給模型。",
+      "驗證 GitHub Release 的簽章、Checksum 與建置來源，不下載不明鏡像。",
+      "列出計畫並批准後才套用；人工完成首位管理員 Passkey 註冊。",
+      "安裝後用 doctor、權限檢查、日誌、備份與入站網路測試確認服務狀態。"
+    ]
+  },
+  "privacy": "部署與服務資料儲存在使用者控制的伺服器和 Kubernetes；但 Claude Code／Codex 可能向各自供應商傳送使用者提供的 Prompt、執行輸出或部分伺服器資訊，應檢查 Agent 設定及服務資料政策。",
+  "features": [
+    "官方提供可貼給 Claude Code、Codex 的自然語言安裝指令",
+    "在自己的 Linux 主機上安裝 Zeabur OSS 自架管理介面與 Kubernetes 支援元件",
+    "SSH Key 登入，安裝檔簽章、SHA256 和來源驗證",
+    "網域與 Identity 設定，無公有網域可用 sslip.io 或 Local Mode",
+    "先用 zeabur-installer plan 人工審核變更，再 apply，最後 doctor 診斷",
+    "管理員必須自行以 Passkey 完成註冊",
+    "可搭配 Zeabur OSS 的 Builder、Identity、Catalog 等元件"
+  ],
+  "requirements": [
+    "Linux amd64 或 arm64、具備 systemd、root/sudo 權限",
+    "團隊安裝至少 4 GiB 記憶體，/var/lib/rancher 至少 10 GiB 可用空間",
+    "從本機連線到遠端主機的 SSH 金鑰登入",
+    "Claude Code 或 Codex 等可操作終端機的 Agent",
+    "管理網域與登入網域；若尚無可依官方流程使用 sslip.io 或 local mode"
+  ],
+  "compatibility": {
+    "linux": "Server/installer: Linux amd64 and arm64",
+    "macOS": "zeaburctl 官方預編譯版提供 macOS arm64，不提供 macOS Intel；但本機 CLI Agent 可透過 SSH 控制遠端 Linux 主機",
+    "windows": "官方建議 Windows 使用 WSL 的 Linux zeaburctl"
+  },
+  "limitations": [
+    "此連結是安裝 Zeabur OSS 的 AI Agent 操作指南，不是 Claude Code 可安裝的 SKILL.md，也不是 Zeabur 商業雲端平台的內建 Agent 功能。",
+    "自架 Kubernetes 需要維護、安全更新、監控和備份；不是零成本、零維護的部署平台。",
+    "官方 OSS 網站曾標示 v0.1.0、API 可能變動，實際部署前需重新核對 GitHub Releases 最新版本與相容性。",
+    "本次只核對官方文件與 GitHub Metadata，未實際部署或稽核 Installer。"
+  ],
+  "collectionDecision": "新增 1 Resource 記錄官方 Zeabur OSS 文件入口，另以 Workflow 保存可驗證的安裝步驟；不建立不存在的獨立 Agent Skill，也不逐字複製網站整份 Prompt。",
+  "status": "active",
+  "addedAt": "2026-11-09",
+  "updatedAt": "2026-11-09",
+  "tags": [
+    "zeabur",
+    "zeabur-oss",
+    "kubernetes",
+    "self-hosting",
+    "devops",
+    "ai-agent",
+    "claude-code",
+    "codex",
+    "ssh",
+    "sudo",
+    "installer",
+    "supply-chain-verification",
+    "plan-apply-doctor",
+    "passkey",
+    "rbac",
+    "apache-2.0",
+    "security-review",
+    "commercial-license-review",
+    "privacy-review",
+    "infra-automation"
+  ],
+  "source": {
+    "url": "https://oss.zeabur.com/zh-TW/docs/zeabur/get-started/ai-agent/",
+    "documentation": [
+      "https://oss.zeabur.com/zh-TW/",
+      "https://oss.zeabur.com/zh-TW/docs/zeabur/reference/releases/",
+      "https://oss.zeabur.com/zh-TW/docs/zeabur/reference/security/",
+      "https://oss.zeabur.com/zh-TW/docs/zeabur/get-started/quickstart/",
+      "https://github.com/zeabur-oss/zeabur",
+      "https://oss.zeabur.com/docs/catalog/reference/licenses/"
+    ],
+    "reviewedAt": "2026-11-09",
+    "type": "Official Zeabur OSS docs, licensing reference and GitHub repo metadata"
+  },
+  "researchStatus": "official-source-verified-not-executed",
+  "displayStatus": "listed"
+}
