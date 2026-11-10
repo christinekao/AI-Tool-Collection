@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "id": "mermaid-happy-error-path-code-test-evidence-audit",
+  "entityType": "prompt",
+  "title": "Mermaid 正常／異常流程 → 程式碼對照 → 測試涵蓋分析 Prompt",
+  "category": "AI-assisted Code Review & Test Verification",
+  "promptType": "Read-only Code Flow Mapping and Error-Handling Coverage Audit",
+  "problem": "AI 容易只繪製正常流程圖，忽略逾時、空資料、重試耗盡與失敗處理；流程圖也可能描述程式實際未實作的邏輯，且缺乏測試證據。",
+  "goal": "只讀取專案程式與測試，將 Happy Path 和 Error Path 的實際行為畫成 Mermaid，逐步對照檔案／函式與測試案例，找出程式未實作、測試未涵蓋及證據不足的情境。",
+  "prompt": "請分析目前的程式碼，並完成以下工作：\n\n1. 使用 Mermaid 畫出正常流程（Happy Path）。\n2. 補充異常流程（Error Path）：\n   - Timeout：逾時後如何處理？\n   - Empty Response：回傳空資料時怎麼辦？\n   - Retry：什麼情況重試？最多幾次？\n   - Failure：重試失敗後如何處理？\n3. 對照實際程式碼，標示每個流程對應的檔案與函式。\n4. 檢查現有測試是否涵蓋上述情境。\n5. 列出缺少的錯誤處理與測試案例。\n\n**重要規則：**\n\n- 不可假設程式已實作不存在的功能。\n- 區分「已實作」、「未實作」、「無法確認」。\n- 流程圖必須反映目前程式的實際行為。\n- 不要修改程式碼，先提供分析結果。",
+  "originalUserNote": "## 筆記｜AI 協作：從流程圖到程式驗證\n\n核心觀念：不要只讓 AI 畫正常流程，也要讓 AI 畫出錯誤處理流程（Error Handling Flow）。\n\n### 1. AI 協作方式\n\n1. 理解流程：請 AI 閱讀程式碼，畫出目前的流程圖。\n2. 補上異常情境：包含逾時（Timeout）、空資料（Empty Response）、重試（Retry）、執行失敗（Failure）。\n3. 對照程式碼：確認流程圖中的每個處理步驟都有實際程式邏輯。\n4. 對照測試：確認異常情境有對應的測試案例。\n5. 找出缺口：列出尚未處理或尚未測試的情境。\n\n### 2. 可重複使用的 AI Prompt\n\n請分析目前的程式碼，並完成以下工作：\n\n1. 使用 Mermaid 畫出正常流程（Happy Path）。\n2. 補充異常流程（Error Path）：\n   - Timeout：逾時後如何處理？\n   - Empty Response：回傳空資料時怎麼辦？\n   - Retry：什麼情況重試？最多幾次？\n   - Failure：重試失敗後如何處理？\n3. 對照實際程式碼，標示每個流程對應的檔案與函式。\n4. 檢查現有測試是否涵蓋上述情境。\n5. 列出缺少的錯誤處理與測試案例。\n\n**重要規則：**\n\n- 不可假設程式已實作不存在的功能。\n- 區分「已實作」、「未實作」、「無法確認」。\n- 流程圖必須反映目前程式的實際行為。\n- 不要修改程式碼，先提供分析結果。\n\n### 3. 預期產出\n\n|   |\n| - |\n\n產出\n\n|   |\n| - |\n\n用途\n\n|   |\n| - |\n\nHappy Path Diagram\n\n|   |\n| - |\n\n理解正常執行流程\n\n|   |\n| - |\n\nError Flow Diagram\n\n|   |\n| - |\n\n理解失敗時的處理方式\n\n|   |\n| - |\n\nCode Mapping\n\n|   |\n| - |\n\n確認圖與程式一致\n\n|   |\n| - |\n\nTest Coverage Matrix\n\n|   |\n| - |\n\n確認測試涵蓋範圍\n\n|   |\n| - |\n\nGap Analysis\n\n|   |\n| - |\n\n找出缺少的實作與測試\n\n重點：AI 畫圖只是第一步，真正的價值是用流程圖反向驗證程式與測試是否完整。",
+  "inputs": [
+    "使用者有權檢查的專案原始碼或 Repository",
+    "執行入口、相關模組、API 或任務流程的範圍",
+    "專案現有測試檔、測試設定與可取得的測試執行結果"
+  ],
+  "expectedOutput": "五項交付：Happy Path Diagram、Error Flow Diagram、Code Mapping、Test Coverage Matrix、Gap Analysis；逐項附可追溯程式／測試證據，不修改程式碼。",
+  "outputs": [
+    {
+      "title": "Happy Path Diagram",
+      "purpose": "理解目前正常執行流程",
+      "format": "Mermaid"
+    },
+    {
+      "title": "Error Flow Diagram",
+      "purpose": "理解 Timeout、Empty Response、Retry、Failure 的實際分支",
+      "format": "Mermaid"
+    },
+    {
+      "title": "Code Mapping",
+      "purpose": "流程步驟 ↔ 對應檔案／函式／行號和可查證證據",
+      "format": "Mapping table"
+    },
+    {
+      "title": "Test Coverage Matrix",
+      "purpose": "異常情境 ↔ 測試檔／案例／斷言／執行狀態",
+      "format": "Coverage table"
+    },
+    {
+      "title": "Gap Analysis",
+      "purpose": "區分缺少實作、缺少測試與無法確認的缺口，依風險排序",
+      "format": "Findings table"
+    }
+  ],
+  "constraints": [
+    "只根據實際可讀的程式碼與測試繪圖，不可把設計預期或理想流程寫成已實作。",
+    "缺少程式證據時使用「無法確認」；在已完整檢查指定範圍且證據充分時才能標示「未實作」，並明確交代範圍。",
+    "測試存在與測試執行通過不同：未執行的測試不可宣稱 PASS；有測試檔但尚未檢查斷言時不得視為情境已覆蓋。",
+    "逐節點列出具體檔案與函式；行號僅在實際讀到位置時列出，否則標示待確認，不能虛構。",
+    "發現 Timeout、Empty Response、Retry、Failure 分支不存在時，圖中標示「無實作證據」，並列入 Gap Analysis；不能用假想分支取代真實流程。",
+    "若使用者未授權執行測試，只分析原始碼及測試檔；若測試需網路、資料庫、刪除或費用，取得明確核准再執行。",
+    "不要直接修改程式碼、設定、測試或 CI；本 Prompt 只提供分析結果。",
+    "不輸出機密憑證、API Key 或其他機敏資料；錯誤訊息與證據片段須去識別化。"
+  ],
+  "optionalEnhancements": [
+    "如重試邏輯存在，補查最大次數、退避間隔、重試條件、冪等性、取消／逾時優先順序與失敗後處置，但不得把這些當作原文已要求或已實作。",
+    "測試若已執行，另記 PASS／FAIL／NOT_EXECUTED／UNPROVEN 及執行環境，與程式實作狀態分開。",
+    "重大缺口可提出建議新增的測試名稱及驗收條件，但不自動新增或修改測試。"
+  ],
+  "relatedWorkflowRefs": [
+    {
+      "type": "workflow",
+      "id": "diagram-to-code-error-handling-test-coverage-audit"
+    }
+  ],
+  "relatedConceptRefs": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-preserving-visual-abstraction"
+    }
+  ],
+  "source": {
+    "type": "User-submitted Traditional Chinese note and reusable prompt, 2026-11-10",
+    "summary": "Prompt 原文保留於 prompt，完整筆記（包括原始損壞的表格排版）保留於 originalUserNote；outputs 額外重建正確的五項預期產出。未讀取使用者任何實際程式碼。"
+  },
+  "security": {
+    "status": "prompt-only-not-executed",
+    "riskLevel": "low-for-reading; potentially higher for running tests",
+    "notes": [
+      "本次僅收藏文字與範本；沒有讀取私人 Repository、執行測試或修改程式。",
+      "實際使用時須限制讀取權限與憑證輸出；測試或網路操作需按使用者授權範圍進行。"
+    ]
+  },
+  "commercialUse": {
+    "status": "user-submitted-note-provenance-not-specified",
+    "notes": "未提供外部原作者或商用授權來源；收藏供參考及自用，不宣稱可直接轉售其他人原文。"
+  },
+  "status": "active",
+  "addedAt": "2026-11-10",
+  "updatedAt": "2026-11-10",
+  "tags": [
+    "agent-coding",
+    "mermaid",
+    "happy-path",
+    "error-handling",
+    "error-path",
+    "timeout",
+    "empty-response",
+    "retry",
+    "failure",
+    "code-mapping",
+    "test-coverage",
+    "gap-analysis",
+    "evidence-gated",
+    "read-only-review",
+    "prompt-template"
+  ]
+}
