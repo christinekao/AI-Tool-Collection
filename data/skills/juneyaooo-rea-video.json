@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 2,
+  "id": "juneyaooo-rea-video",
+  "entityType": "skill",
+  "title": "rea-video｜AI 逐鏡影片拆解、來源判斷與重製方案 Agent Skill",
+  "purpose": "指導 Claude Code、Codex 或其他 Coding Agent 使用 rea-video CLI 拆解參考影片，透過逐鏡的影格與聲音測量、VLM 或人工看圖複核，交付有證據的分鏡、音訊、字幕、拍攝方式及原創重製方案。",
+  "problem": "僅看影片很難判斷每個鏡頭是實拍、AI 生成、3D、程式動畫或混合素材，容易誤以單一影片生成模型可以重做所有內容，也容易漏掉字幕時間軸、拍攝場景、音效和素材來源。",
+  "inputs": [
+    "擁有檢視權限的參考影片檔案，例如 MP4",
+    "偏好的報告語言（支援 zh/en，後續回答應使用使用者語言）",
+    "可選的模型 API Key 和合法可用的 VLM；未配置時可使用離線工具與 Agent 看圖",
+    "是否希望提出拍攝／AI 生成／Remotion 的重製方案，以及是否擁有原始素材或發布授權"
+  ],
+  "outputs": [
+    "逐鏡製作方式結論、概率或不確定性，和可定位的證據",
+    "分鏡與時序摘要、文字／字幕 SRT/ASS、音訊／拍攝分析及素材清單",
+    "breakdown.json、storyboard.jpg、report.html/Markdown 等具體本地檔案（只在實際執行成功後產生）",
+    "按實拍場次、AI 生成單元、程式碼動效劃分的重製工作項及未確認事項"
+  ],
+  "execution": "官方 skills/rea-video/SKILL.md：先執行 rea-video --help 檢查環境；有授權且安裝完成後，rea-video decompose input.mp4 -o output（可選 --vlm、--env-file、--lang）；再用 rea-video summary 閱讀摘要，rea-video review 產生逐鏡複核任務，人工／可看圖 Agent 填答後使用 rea-video apply-review 合併結果；最後核對音訊、字幕、實拍與真實素材及不確定鏡頭。重製需額外參考 references/remake.md，付費生成前要 dry-run 並取得明確核准。不能在未讀取影片與未執行工具時宣稱已分析或輸出報告。",
+  "versionReviewed": "main / 2026-11-11 (pyproject.toml 0.1.0; no independent version tag validation)",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "juneyaooo-rea-video"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-preserving-visual-abstraction"
+    }
+  ],
+  "commercialUse": {
+    "status": "Apache-2.0 source, third-party media and model restrictions",
+    "details": [
+      "程式與 Skill 主原始碼 Apache-2.0，可依條款商用及改作；素材與第三方模型各有獨立授權。",
+      "此 Skill 用來學習與規劃新的合法影片，不能推定參考影片、音樂、肖像或商標有權重新發布。"
+    ]
+  },
+  "security": {
+    "status": "source-read-no-install-or-execution",
+    "riskLevel": "medium-to-high-if-scripts-or-cloud-models-used",
+    "risks": [
+      "scripts/install_skill.sh 會 pip 安裝依賴、調整 OpenCV 套件並將 Skill Symlink 到多個 Agent 目錄，可能影響共享 Python 環境；建議先審閱並使用隔離的虛擬環境。",
+      "首次執行可能自動下載音訊／OCR 模型，需檢查來源、空間與授權。",
+      "啟用外部 VLM 會把影片內容傳送到模型供應商；要先核准隱私、著作權和費用。",
+      "capsule-cinema 等影片生成工具可能產生模型 API 費用；使用者同意前不可執行付費重製。",
+      "AI 或實拍來源判斷屬有誤差的分析結果；平台轉碼、壓縮與未知類別應標示待確認。"
+    ]
+  },
+  "constraints": [
+    "每個鏡頭的來源判斷都要有可查核的證據；低信心時標註無法確認，不得臆測確定答案。",
+    "不得把攝影機拍攝、真實素材、AI 生成與軟體程式動效混為一談。",
+    "不把元資料缺失當成非 AI 的證據，亦不能僅根據畫風判定來源。",
+    "未經核准不可安裝套件、連接外部模型、生成付費影片或對外散布參考素材。",
+    "若僅閱讀程式與文件，需明示未對任何實際影片進行分析與評測。"
+  ],
+  "source": {
+    "url": "https://github.com/JuneYaooo/rea-video/blob/main/skills/rea-video/SKILL.md",
+    "type": "Official upstream Agent SKILL.md; README, scripts/install_skill.sh, docs/cli.md and eval/RESULTS.md consulted",
+    "reviewedAt": "2026-11-11"
+  },
+  "status": "active",
+  "addedAt": "2026-11-11",
+  "updatedAt": "2026-11-11",
+  "tags": [
+    "rea-video",
+    "agent-skill",
+    "video-reverse-engineering",
+    "video-analysis",
+    "shot-detection",
+    "vlm",
+    "ffmpeg",
+    "ocr",
+    "audio-analysis",
+    "storyboard",
+    "remotion",
+    "claude-code",
+    "codex",
+    "apache-2.0",
+    "privacy-review",
+    "security-review",
+    "commercial-license-review"
+  ]
+}
