@@ -8,9 +8,9 @@
   "resourceType": "Local-first multi-agent group chat and orchestration UI for coding CLI agents",
   "purpose": "在本機以群組聊天室整合 Claude Code、Codex 與 Grok CLI，按對話指定每位 Agent 的角色、模型、推理強度、輪次與權限，並顯示各 Agent 的回覆、工具呼叫、檔案 Diff 與執行結果。",
   "recommendation": "適合研究多模型工作分工、Codex/Claude 交叉審查、平行編碼與 AI Agent Cowork 模式。初次使用建議從唯讀模式及非機密測試專案開始，確認每個 Agent 的權限、工作目錄和模型費用。",
-  "url": "https://github.com/Agentic-System-Lab/harness-relay",
+  "url": "https://agentic-system-lab.github.io/harness-relay/zh-TW/",
   "repo": "Agentic-System-Lab/harness-relay",
-  "versionReviewed": "0.1.0 (package.json, main branch)",
+  "versionReviewed": "0.1.0 (package.json, main branch; official README updated and reviewed 2026-11-10)",
   "license": "Apache-2.0 (project code); third-party CLIs, model providers, scripts and dependencies have separate licenses and service terms",
   "commercialUse": {
     "status": "allowed-with-restrictions",
@@ -34,7 +34,12 @@
       "即使使用 git worktree 隔離平行 Agent 改動，也不能防止惡意程式、外部網路呼叫或機密資料存取；Worktree 並非安全 Sandbox。",
       "使用模型提供者與外部 CLI 時，程式碼、對話、圖片或附件可能送至對應雲端模型；本機優先不代表端對端離線。",
       "專案自動初始化 Git，並保存 Diff 或工作快照；對原有專案或其他同時進行的修改，需留意副作用及回復策略。",
-      "本次僅從官方原始碼儲存庫與文件檢查，未執行安裝、依賴稽核、滲透測試或安全隔離測試。"
+      "本次僅從官方原始碼儲存庫與文件檢查，未執行安裝、依賴稽核、滲透測試或安全隔離測試。",
+      "新功能允許透過 GitHub secret gist 產生公開可存取的分享連結：secret 不等於私密授權控制，只要持有 URL 就可能讀取對話與選擇附加的檔案；刪除後 GitHub 快取可能短暫保留。",
+      "透過 Tailscale serve 開放到 tailnet 後，該 tailnet 中可連接服務的設備可操作 Agent；應限制 tailnet 成員與裝置權限，避免直接暴露至公網。",
+      "排程工作在使用者不在場時仍可能執行，官方預設拒絕超權限操作，但已授權的指令仍可修改檔案或耗用模型用量。",
+      "可選的語音輸入會在初次使用時安裝 whisper.cpp 引擎與模型；下載來源、供應鏈與額外儲存空間需另核對。",
+      "共享工具庫將 MCP、Skills 及記憶提供給多個 CLI／Agent；若啟用過寬可能造成權限擴散、Prompt Injection 或意外外傳。"
     ],
     "recommendedControls": [
       "以 Read-only 權限及非敏感測試專案起步；只有在確定需要修改時才使用 Edit，不任意使用 Full access。",
@@ -42,9 +47,13 @@
       "避免對不受信任專案或輸入進行自動指令執行；必要時另以容器或 VM 隔離。",
       "使用作業系統憑證庫，不在聊天訊息和可公開儲存庫內儲存 API Key 或秘密。",
       "檢查三套 CLI 的登入方式、模型成本、外傳資料政策與整體 Token 使用量。",
-      "本機服務不應直接暴露至公開網路；本專案並非多租戶認證服務。"
+      "本機服務不應直接暴露至公開網路；本專案並非多租戶認證服務。",
+      "不將機密程式碼、憑證、客戶資訊或未授權檔案放入公開分享的 secret gist，並審核附檔清單。",
+      "排程先從 read-only 與短任務開始，確認失敗通知、成本與工具權限；避免無人值守 Full Access。",
+      "共用 MCP／Skills 逐項審核各 Agent 實際可存取權限，優先採最小權限與測試專案。",
+      "使用 Tailscale 時僅對可信任設備開放，避免公開反向代理，必要時額外配置認證。"
     ],
-    "privacy": "對話歷史和附件主要保留在本機 SQLite/檔案；當 CLI 呼叫雲端 Claude、Codex、Grok 時，輸入內容及所讀檔案仍可能送往對應模型服務。"
+    "privacy": "對話歷史和附件主要保留在本機 SQLite/檔案；當 CLI 呼叫雲端 Claude、Codex、Grok 時，輸入內容及所讀檔案仍可能送往對應模型服務。 選擇「公開分享」會將對話文字或附加檔案上傳 GitHub Gist／gistpreview.github.io，持有連結者可閱覽；本機語音輸入由 whisper.cpp 執行，但需使用者同意下載元件。"
   },
   "features": [
     "Claude Code、Codex CLI、Grok CLI 在同一個多 Agent 群組聊天室討論與工作",
@@ -55,12 +64,26 @@
     "Live streaming 顯示文字、工具呼叫、推理摘要與執行狀態",
     "Git Worktree 隔離平行修改、Diff 查看與人工挑選成果",
     "依 read-only、edit、full access 範圍顯示操作核准",
-    "本機 SQLite 儲存對話狀態；Server 綁定 localhost"
+    "本機 SQLite 儲存對話狀態；Server 綁定 localhost",
+    "首席 Agent 依每個問題、歷史、團隊和範本重新設計角色與模型，經使用者確認後執行",
+    "可複製與編輯五種預設團隊範本，每一輪可變更成員、模型及推理強度",
+    "多輪對話中途插話、@指定成員、工具批准一次或本對話、以及 Stop/Retry",
+    "排程：一次、每天、指定星期幾或每隔數小時；預設拒絕超出授權權限的無人值守操作",
+    "共用 MCP Server、Skills 和記憶工具庫，可按 CLI 或成員設定啟用；API 金鑰優先放在 OS Keyring",
+    "選用 whisper.cpp 本機語音轉文字；首次使用時會下載引擎及模型",
+    "公開分享：透過 GitHub CLI 建立 secret gist；支援選擇附加檔案（每檔最多 50 MB），持有連結者可存取",
+    "可用 Tailscale serve 透過私有 tailnet 在手機操作，不應直接公開本機 HTTP 服務",
+    "在聊天室預覽或下載工作目錄、Git Worktree 中的程式碼、Markdown、圖片、影片及 ZIP 資料夾",
+    "可選用 AgentsView 查看各 CLI Session、工具呼叫及 Token／成本",
+    "繁體中文官方教學站與互動示範：agentic-system-lab.github.io/harness-relay/zh-TW/"
   ],
   "requirements": [
     "Node.js 22.13+",
     "至少安裝一個已登入的 claude、codex 或 grok CLI；不需全部三種",
-    "需自行準備各 CLI 的登入及可能的 API／訂閱費用"
+    "需自行準備各 CLI 的登入及可能的 API／訂閱費用",
+    "選用語音輸入：本機 whisper.cpp，macOS 需 Homebrew；安裝元件須授權",
+    "選用公開分享：GitHub CLI 2.66.0+ 並登入；附檔時另需 git",
+    "選用手機連線：Tailscale tailnet 與 tailscale serve，僅適合受信任設備"
   ],
   "limitations": [
     "不是一個獨立的新模型，也不是沒有 CLI 就可運作的雲端平台。",
@@ -68,12 +91,15 @@
     "Git Worktree 不是安全隔離；平行模式中忽略檔案與巢狀儲存庫可能無法完整納入快照。",
     "Roundtable/Relay 的檔案變更歸因會將同一回合中人手修改也算進該 Agent；並非嚴格審計記錄。",
     "官方文件沒有獨立安全測試保證；其他工具直接修改同一工作目錄時也可能競爭。",
-    "本次只收藏主專案，不額外建立獨立 Agent Skill，因未發現專案提供可單獨分發的 SKILL.md。"
+    "本次只收藏主專案，不額外建立獨立 Agent Skill，因未發現專案提供可單獨分發的 SKILL.md。",
+    "此工具不是免費提供 Claude/Codex/Grok 模型額度的服務，仍使用使用者各自登入／API 計費。",
+    "公開分享連結的 secret gist 可被持有連結者打開，且撤銷後可能有快取延遲；不應視為私人文件庫。",
+    "團隊選擇、排程與外部工具的可用性依 CLI／作業系統環境；本次未驗證全部跨平台功能。"
   ],
-  "collectionDecision": "新建 1 Resource。以 Agentic-System-Lab/harness-relay 的確切 owner/repo 區分同名但功能不同的 sebastian-software/harness-relay。",
+  "collectionDecision": "原 Resource 已存在；2026-11-10 更新使用者分享的官方繁體中文網站連結與近期 README 顯示的排程、共用 MCP/Skills/記憶、語音、公開分享、手機連線及權限風險，未重複新增 Resource。",
   "status": "active",
   "addedAt": "2026-11-08",
-  "updatedAt": "2026-11-08",
+  "updatedAt": "2026-11-10",
   "tags": [
     "harness-relay",
     "agentic-system-lab",
@@ -105,11 +131,16 @@
       "https://github.com/Agentic-System-Lab/harness-relay/blob/main/LICENSE",
       "https://github.com/Agentic-System-Lab/harness-relay/blob/main/docs/architecture.md",
       "https://github.com/Agentic-System-Lab/harness-relay/blob/main/docs/user-guide.md",
-      "https://github.com/Agentic-System-Lab/harness-relay/blob/main/docs/developer-guide.md"
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/main/docs/developer-guide.md",
+      "https://agentic-system-lab.github.io/harness-relay/zh-TW/",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/main/docs/remote-access.zh-TW.md",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/main/site/zh-TW/index.html"
     ],
-    "reviewedAt": "2026-11-08",
-    "type": "Official exact upstream repository README, Traditional Chinese README, architecture/security, user guide, package metadata and Apache-2.0 license"
+    "reviewedAt": "2026-11-10",
+    "type": "Official project Traditional Chinese GitHub Pages path confirmed in README and source, latest upstream Chinese README, package.json, license and GitHub commit metadata; not runtime audited"
   },
   "researchStatus": "official-source-verified",
-  "displayStatus": "listed"
+  "displayStatus": "listed",
+  "homepage": "https://agentic-system-lab.github.io/harness-relay/",
+  "originalRepoUrl": "https://github.com/Agentic-System-Lab/harness-relay"
 }
