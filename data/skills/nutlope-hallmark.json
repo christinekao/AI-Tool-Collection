@@ -1,13 +1,26 @@
 {
   "schemaVersion": 2,
   "id": "nutlope-hallmark",
+  "status": "active",
+  "addedAt": "2026-09-16",
+  "updatedAt": "2026-11-10",
   "entityType": "skill",
-  "title": "Nutlope/hallmark",
-  "purpose": "UI visual / design guidance",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "title": "Hallmark v2｜Anti-AI-Slop 網頁設計、重製與品質驗收 Skill",
+  "purpose": "指導 AI Coding Agent 選擇主題或自訂設計方向，生成有品牌辨識度的 UI，再以 Sloplint 及實際瀏覽器驗收固定底線、避免 AI 模板痕跡並進行設計審查。",
+  "problem": "AI 生成網站易重複漸層、三卡片、抽象標語、無用 CTA，或犧牲內容真實性、鍵盤焦點與手機版可用性。",
+  "inputs": [
+    "品牌、頁面目標與受眾、要完成的主要操作",
+    "真實文案、數據、產品畫面、照片或使用者同意使用的替代素材",
+    "現有設計程式／路徑（重製或 Audit 時）",
+    "可選的現有 DESIGN.md、設計 Tokens、希望的風格和技術框架"
+  ],
+  "outputs": [
+    "選定主題或自訂方向、內容／視覺決策紀錄",
+    "可編輯的頁面原始碼與 CSS Tokens",
+    "Sloplint 靜態／瀏覽器檢查結果及修復記錄",
+    "Redesign 前後對照與互動／文案保存驗證，或 Audit 報告"
+  ],
+  "execution": "官方 Hallmark SKILL.md version 2.0.0：先檢查專案與既有 DESIGN.md、品牌真實素材；按頁面用途決定資訊架構；從 50 種主題抽出三個候選或明確選 custom；先做 Hero、實際渲染與審查，再完成整頁。最後用 node skills/hallmark/scripts/sloplint.mjs <path> --render 檢查 Floor/Reflex/Finish；重製用 /hallmark redesign <path> 並驗證內容/連線沒有遺失；純審查用 /hallmark audit <path>。官方安裝為 npx skills add nutlope/hallmark -g（可移除 -g 僅專案安裝），Node.js >=18，瀏覽器檢查另需 Chrome + puppeteer-core。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,15 +35,48 @@
     {
       "type": "concept",
       "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
     }
   ],
-  "status": "active",
-  "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "versionReviewed": "2.0.0",
+  "commercialUse": {
+    "status": "MIT core; photo asset licenses separate",
+    "notes": "Skill 程式與文件 MIT 商用可用並須保留授權；其中所選 Wikimedia Commons 圖片可能為 CC BY/CC BY-SA，逐項核對授權與署名義務。"
+  },
+  "security": {
+    "status": "not-executed",
+    "riskLevel": "medium",
+    "risks": [
+      "安裝 CLI、Install hooks、修改網站程式、啟動 Chrome 或連線外部 API 均需先確認工作範圍與安全性。",
+      "需保護專案內容及 API 金鑰，不能只依賴模型的自評。"
+    ]
+  },
+  "source": {
+    "url": "https://github.com/Nutlope/hallmark/blob/main/skills/hallmark/SKILL.md",
+    "reviewedAt": "2026-11-10",
+    "type": "Official Hallmark 2.0.0 SKILL.md, README, LICENSE and scripts"
+  },
   "tags": [
     "ui-design",
     "visual-guidance",
     "design-skill",
-    "skill"
+    "skill",
+    "hallmark",
+    "sloplint",
+    "web-design",
+    "frontend",
+    "agent-skill",
+    "design-audit",
+    "redesign",
+    "claude-code",
+    "codex",
+    "cursor",
+    "opencode",
+    "mit",
+    "commercial-license-review",
+    "security-review"
   ]
 }
