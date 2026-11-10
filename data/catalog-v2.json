@@ -961,6 +961,140 @@
     },
     {
       "schemaVersion": 2,
+      "id": "allanyiin-toolanything",
+      "entityType": "resource",
+      "title": "AllanYiin ToolAnything — Python Tool Contract → MCP／OpenAI／CLI",
+      "canonicalName": "ToolAnything",
+      "category": "AI Agent Tooling & MCP Infrastructure",
+      "resourceType": "Python tool integration runtime and MCP server toolkit",
+      "purpose": "以一份 Python ToolContract 註冊 Python function/class method、HTTP API、SQL 或模型推論，跨 MCP server、OpenAI tool schema/runtime 和 CLI 共用，並提供 doctor、inspect 與工具治理機制，減少協議橋接和驗證重複工作。",
+      "recommendation": "適合需要將企業 API、SQL 資料源、Python 自動化或模型推論整合到 Claude／OpenAI Agent 的開發團隊。若只有一次性的單一 Python MCP function，先比較較輕量的 MCP SDK／FastMCP；ToolAnything 不提供 Agent 記憶、規劃或整體工作流編排。",
+      "url": "https://github.com/AllanYiin/ToolAnything",
+      "repo": "AllanYiin/ToolAnything",
+      "packageUrl": "https://pypi.org/project/toolanything/",
+      "license": "MIT for repository; third-party dependencies and connected services use separate licenses",
+      "commercialUse": {
+        "status": "mit-commercial-use-allowed-subject-to-conditions",
+        "licenseUrl": "https://github.com/AllanYiin/ToolAnything/blob/main/LICENSE",
+        "details": [
+          "MIT 允許使用、修改、商業使用及再散布，需保留授權及著作權聲明。",
+          "Python 相依套件、OpenAI API、資料庫、模型權重以及遠端 HTTP 服務可能存在獨立授權與費用，需另外確認。"
+        ]
+      },
+      "security": {
+        "status": "official-documentation-and-skill-source-reviewed-not-executed",
+        "riskLevel": "medium-to-high-when-exposing-real-tools",
+        "risks": [
+          "ToolAnything MCP server 可以暴露 Python function、HTTP、SQL 及模型呼叫，若授予寫入、敏感資料庫或外網權限，可能產生未預期副作用；工具契約與 Metadata 不等於真正的登入驗證與權限控管。",
+          "內建 Standard Tools 可操作檔案、URL 和資料轉換。官方稱檔案存取採 root 限制、Web Fetch 包含 SSRF 防護；實際安全性尚未獨立測試，應以網路出口防火牆／認證／存取控制補強。",
+          "預設 Standard Tools 只提供唯讀；寫入需明確啟用 include_write_tools=True 並配置 writable root，覆寫受 SHA-256 guard 防護；仍需防範輸入錯誤及內容傳播。",
+          "不要直接將 MCP Streamable HTTP 綁定至 0.0.0.0 或公開網路；需要額外處理認證、Origin、TLS、權限與 IP 限制。預設僅在 127.0.0.1 測試。",
+          "OpenAIChatRuntime 可能向雲端模型送出提示詞與工具 schema／工具結果；企業／員工資料需經過資料最小化及權限核准。OPENAI_API_KEY 不能加入 Git 或輸出日誌。",
+          "官方平台管理 Skill 的腳本會從本機 wheel 強制重裝 ToolAnything、同步多個 Agent 的本機 Skills、修改 AGENTS.md 並可調整 shared server／開機啟動設定；在未審核及使用者明確授權前不得執行。",
+          "標示版本不一致：主分支 README 稱 0.0.7，pyproject.toml 0.1.0，PyPI 搜尋結果顯示 0.6.0；正式安裝前需重新核對 PyPI Release、Git Tag、requirements 與環境相容性。",
+          "本次只閱讀官方檔案，未 pip install、執行工具、開啟 MCP port 或確認安全掃描及完整測試結果。"
+        ],
+        "recommendedControls": [
+          "將工具來源、讀寫權限、角色、租戶、成本與副作用寫成明確契約，搭配真正的 runtime execution policy。",
+          "對 SQL 採低權限憑證、允許查詢／參數化及操作限制；對 HTTP 和檔案採限定路徑、網段和白名單。",
+          "預設用 127.0.0.1、只開唯讀工具；需寫入時使用人類批准與 sandbox。",
+          "以 serve → doctor → inspect 針對真實 host 測試工具清單、schema、arguments 和應答，且保留檢查結果。",
+          "安裝前審閱 pyproject.toml、wheel、標準工具及 Skill 內的 install_local_bundle.py，避免不知情的全域設定更動。"
+        ]
+      },
+      "privacy": "本機執行 MCP 不代表工具結果一定保留在本機；使用 OpenAI 等模型或 HTTP／SQL 來源可能傳送敏感資料。應檢查資料分流、日誌、權限與外部服務的保存政策。",
+      "features": [
+        "Python function 或 class method 以 @tool 裝飾並產出工具 contract",
+        "source-based HTTP、SQL、ONNX、PyTorch Model 工具",
+        "MCP stdio、Streamable HTTP，以及為舊版 Client 保留的傳輸模式",
+        "共用 registry 與 adapter 輸出 OpenAI tool schema，並可在 OpenAIChatRuntime 執行 tool loop",
+        "toolanything doctor 檢查 tool discovery／tools/list／tools/call，inspect 以 Web UI 調試工具和 MCP transcript",
+        "CLI export 將同一工具契約轉成命令列介面",
+        "Standard Tools：Web、Filesystem、JSON/CSV/Markdown 等，唯讀為預設，寫入明確 opt-in",
+        "MetadataToolPolicy／GovernedToolPolicy 支援 Scopes、Approval、Side-effect、Tenant 與 Cost Governance（依配置）",
+        "官方 repo 包含 3 個 Skill 目錄：MCP Router、Platform Ops、舊名 Tool Wrapper（僅相容轉接）"
+      ],
+      "requirements": [
+        "Python >=3.10，主分支 README 與 pyproject 另列出 <3.14；請依安裝版本確認",
+        "若需實際呼叫 OpenAI，必須配置 OPENAI_API_KEY 及負擔模型 API 費用",
+        "若要對外提供 MCP server，需要額外處理 TLS、身份驗證及網路邊界"
+      ],
+      "versionNote": "2026-11-10 查詢：主分支 README 說 0.0.7；pyproject.toml 說 0.1.0；PyPI 搜尋結果顯示 0.6.0；不能單憑單一來源宣稱最新穩定版本。",
+      "limitations": [
+        "不是完整 Agent Framework，不提供 Memory、Planning、Orchestration 或產品 UI。",
+        "Python 3.14 不在官方 README 標示的支援範圍；專案仍屬 Beta。",
+        "安全性與成熟度未經獨立執行或確認，README 的 PASS gate 為作者測試聲明。",
+        "Platform Ops Skill 涉及高影響本機操作，不是初次試用的最小入門路徑。"
+      ],
+      "skillRefs": [
+        {
+          "type": "skill",
+          "id": "allanyiin-toolanything-mcp-router"
+        },
+        {
+          "type": "skill",
+          "id": "allanyiin-toolanything-platform-ops"
+        }
+      ],
+      "legacySkill": "toolanything-tool-wrapper (compatibility alias only; not added as a separate independently useful Skill)",
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-11-10",
+      "updatedAt": "2026-11-10",
+      "tags": [
+        "toolanything",
+        "allan-yiin",
+        "mcp",
+        "python",
+        "tool-calling",
+        "openai-tools",
+        "tool-schema",
+        "tool-registry",
+        "tool-governance",
+        "api-adapter",
+        "sql-tools",
+        "model-tools",
+        "claude-desktop",
+        "cli",
+        "doctor",
+        "inspect",
+        "mit",
+        "commercial-license-review",
+        "security-review",
+        "privacy-review"
+      ],
+      "source": {
+        "url": "https://github.com/AllanYiin/ToolAnything",
+        "documentation": [
+          "https://github.com/AllanYiin/ToolAnything/blob/main/README.md",
+          "https://github.com/AllanYiin/ToolAnything/blob/main/pyproject.toml",
+          "https://github.com/AllanYiin/ToolAnything/blob/main/LICENSE",
+          "https://github.com/AllanYiin/ToolAnything/blob/main/docs/standard-tools.md",
+          "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-mcp-router/SKILL.md",
+          "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-platform-ops/SKILL.md",
+          "https://pypi.org/project/toolanything/"
+        ],
+        "reviewedAt": "2026-11-10",
+        "type": "Official GitHub repository, README, pyproject, MIT license, standard tools documentation, three skills metadata and PyPI listing"
+      },
+      "researchStatus": "official-github-and-pypi-reviewed-not-installed",
+      "displayStatus": "listed"
+    },
+    {
+      "schemaVersion": 2,
       "id": "alsyundawy-microsoft-office-for-macos",
       "entityType": "resource",
       "title": "Microsoft Office for macOS — 第三方安裝版本索引與授權風險參考",
@@ -15302,6 +15436,156 @@
         "commercial-license-review",
         "security-review",
         "documa-skill-loader"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "allanyiin-toolanything-mcp-router",
+      "entityType": "skill",
+      "title": "ToolAnything MCP Router — MCP／OpenAI 工具整合決策與最小驗證",
+      "purpose": "幫 Agent 判斷適合使用 ToolAnything 或更輕量的 MCP 方案，為 Python Callable、HTTP API、SQL、Model 選擇 @tool 或 Source-based 註冊，再驗證 MCP tools/list 與 tools/call。",
+      "problem": "重複替 MCP、OpenAI 和 CLI 寫不同的 Tool Schema，或為一次性 MCP 函式套用過重的工具層。",
+      "inputs": [
+        "要封裝的 Python 函式、HTTP/SQL/API 或模型來源",
+        "要支援的 MCP Host/OpenAI 工具呼叫或 CLI 整合需求",
+        "是否需要持久部署、Doctor、Inspector、Shared Server"
+      ],
+      "outputs": [
+        "選擇 ToolAnything 或較小方案的理由",
+        "工具註冊設計和可執行的 MCP 測試方式",
+        "serve→doctor 或 inspect 的驗證紀錄",
+        "是否需交由 Platform Ops 負責部署與主機設定"
+      ],
+      "execution": "讀取官方 skills/toolanything-mcp-router/SKILL.md。能用一個 MCP-only Python callable 完成的一次性原型，可優先考慮輕量實作；需要可重用 ToolContract、MCP + OpenAI schema、HTTP／SQL／model Source、診斷／CLI 時採 ToolAnything。穩定函式用 @tool，HTTP/SQL/Model 用 source-based API。驗證時先啟動 localhost Streamable HTTP，再用 toolanything doctor 檢查；若涉及安裝、AGENTS 規則、Host Sync 或 Shared Server，再移交 toolanything-platform-ops。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "allanyiin-toolanything"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "security": {
+        "status": "source-reviewed-not-executed",
+        "riskLevel": "medium-when-running-real-tools",
+        "notes": [
+          "此 Skill 可能建議 pip 安裝並啟動 MCP Server，實際安裝／建立網路服務前應取得明確使用者授權。",
+          "只在授權專案範圍配置工具；SQL/HTTP/Model tool 需要額外權限和資料保護。",
+          "安裝或對外暴露 MCP server 時需檢查套件版本與授權、限制 localhost，並使用 doctor 的實測結果。"
+        ]
+      },
+      "commercialUse": {
+        "status": "MIT license; tool endpoints and third-party models separately licensed"
+      },
+      "source": {
+        "url": "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-mcp-router/SKILL.md",
+        "type": "Official SKILL.md, version 2026.3.17",
+        "reviewedAt": "2026-11-10"
+      },
+      "status": "active",
+      "addedAt": "2026-11-10",
+      "updatedAt": "2026-11-10",
+      "tags": [
+        "toolanything",
+        "mcp-router",
+        "agent-skill",
+        "mcp",
+        "openai-tools",
+        "python",
+        "source-based-tools",
+        "tool-selection",
+        "doctor",
+        "mit",
+        "security-review"
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "allanyiin-toolanything-platform-ops",
+      "entityType": "skill",
+      "title": "ToolAnything Platform Ops — 本機安裝、跨 Agent Skills 同步與 Shared MCP Server 管理",
+      "purpose": "在 ToolAnything MCP Router 已確認採用 ToolAnything 後，執行受控的本機 Wheel 安裝、Claude Code/Codex/OpenClaw Skills 同步、AGENTS.md 設定整合以及 Shared MCP Server 管理及驗證。",
+      "problem": "持久 MCP 工具若每個 Agent Host 各自安裝、修改 AGENTS 和建立長期 Server，會產生權限、設定及版本漂移。",
+      "inputs": [
+        "授權安裝或修改的作業系統與 Agent Host（Claude Code、Codex、OpenClaw）",
+        "來源可信且已審核的 Local Bundle/Wheel",
+        "目標 Skills 目錄、AGENTS.md 與 Shared Server 配置及現有備份",
+        "對套件重裝、修改 Host 規則和 Auto-start 的明確使用者同意"
+      ],
+      "outputs": [
+        "實際 Wheel／Import Path／Host 和安裝位置驗證",
+        "AGENTS.md 及 Skills 同步差異與更新記錄",
+        "Shared MCP server（localhost、port 9092）設定及工具呼叫驗證結果",
+        "未通過的檢查、保留待核准或失敗項"
+      ],
+      "execution": "官方 skills/toolanything-platform-ops/SKILL.md version 2026.3.17：以 toolanything-mcp-router 作初始判斷，再依明確授權處理本機 wheel 安裝、Skills sync、AGENTS.md 規則、Shared Server 與 auto-start。預設 Root ~/.toolanything/agent-mcp/、127.0.0.1:9092 Streamable HTTP。該 Skill 的 install_local_bundle.py 宣稱會 force reinstall 套件並更新設定；必須先檢查腳本、備份與核對權限，未授權不能執行。最後用 doctor、inspect 和 /health 等驗證。",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "allanyiin-toolanything"
+        }
+      ],
+      "conceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        },
+        {
+          "type": "concept",
+          "id": "reusable-agent-skills"
+        }
+      ],
+      "security": {
+        "status": "source-reviewed-not-executed",
+        "riskLevel": "high-for-install-and-config-mutation",
+        "notes": [
+          "此 Skill 會建議執行本機 Wheel Installer，可能強制重新安裝 Python 套件、修改 Claude/Codex/OpenClaw Skills 或 AGENTS.md，且可能設定開機啟動與 Shared Server。",
+          "所有會修改本機設定或執行 Shell/Python 的動作，應先由使用者檢查實際腳本和 diff 並核准；若 Wheel 缺少，停止操作。",
+          "避免擴大到未授權主機設定、憑證與資料庫；MCP Server 預設綁 localhost，外網存取必須另採驗證與權限控管。"
+        ]
+      },
+      "commercialUse": {
+        "status": "MIT repository; dependent runtime and hosted AI APIs may impose additional license/cost conditions"
+      },
+      "source": {
+        "url": "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-platform-ops/SKILL.md",
+        "type": "Official SKILL.md, version 2026.3.17; install script not executed",
+        "reviewedAt": "2026-11-10"
+      },
+      "status": "active",
+      "addedAt": "2026-11-10",
+      "updatedAt": "2026-11-10",
+      "tags": [
+        "toolanything",
+        "platform-ops",
+        "agent-skill",
+        "mcp",
+        "shared-server",
+        "host-sync",
+        "claude-code",
+        "codex",
+        "openclaw",
+        "installation",
+        "python",
+        "security-review",
+        "mit",
+        "config-management"
       ]
     },
     {
