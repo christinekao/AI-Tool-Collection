@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "id": "allanyiin-toolanything-mcp-router",
+  "entityType": "skill",
+  "title": "ToolAnything MCP Router — MCP／OpenAI 工具整合決策與最小驗證",
+  "purpose": "幫 Agent 判斷適合使用 ToolAnything 或更輕量的 MCP 方案，為 Python Callable、HTTP API、SQL、Model 選擇 @tool 或 Source-based 註冊，再驗證 MCP tools/list 與 tools/call。",
+  "problem": "重複替 MCP、OpenAI 和 CLI 寫不同的 Tool Schema，或為一次性 MCP 函式套用過重的工具層。",
+  "inputs": [
+    "要封裝的 Python 函式、HTTP/SQL/API 或模型來源",
+    "要支援的 MCP Host/OpenAI 工具呼叫或 CLI 整合需求",
+    "是否需要持久部署、Doctor、Inspector、Shared Server"
+  ],
+  "outputs": [
+    "選擇 ToolAnything 或較小方案的理由",
+    "工具註冊設計和可執行的 MCP 測試方式",
+    "serve→doctor 或 inspect 的驗證紀錄",
+    "是否需交由 Platform Ops 負責部署與主機設定"
+  ],
+  "execution": "讀取官方 skills/toolanything-mcp-router/SKILL.md。能用一個 MCP-only Python callable 完成的一次性原型，可優先考慮輕量實作；需要可重用 ToolContract、MCP + OpenAI schema、HTTP／SQL／model Source、診斷／CLI 時採 ToolAnything。穩定函式用 @tool，HTTP/SQL/Model 用 source-based API。驗證時先啟動 localhost Streamable HTTP，再用 toolanything doctor 檢查；若涉及安裝、AGENTS 規則、Host Sync 或 Shared Server，再移交 toolanything-platform-ops。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "allanyiin-toolanything"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "security": {
+    "status": "source-reviewed-not-executed",
+    "riskLevel": "medium-when-running-real-tools",
+    "notes": [
+      "此 Skill 可能建議 pip 安裝並啟動 MCP Server，實際安裝／建立網路服務前應取得明確使用者授權。",
+      "只在授權專案範圍配置工具；SQL/HTTP/Model tool 需要額外權限和資料保護。",
+      "安裝或對外暴露 MCP server 時需檢查套件版本與授權、限制 localhost，並使用 doctor 的實測結果。"
+    ]
+  },
+  "commercialUse": {
+    "status": "MIT license; tool endpoints and third-party models separately licensed"
+  },
+  "source": {
+    "url": "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-mcp-router/SKILL.md",
+    "type": "Official SKILL.md, version 2026.3.17",
+    "reviewedAt": "2026-11-10"
+  },
+  "status": "active",
+  "addedAt": "2026-11-10",
+  "updatedAt": "2026-11-10",
+  "tags": [
+    "toolanything",
+    "mcp-router",
+    "agent-skill",
+    "mcp",
+    "openai-tools",
+    "python",
+    "source-based-tools",
+    "tool-selection",
+    "doctor",
+    "mit",
+    "security-review"
+  ]
+}
