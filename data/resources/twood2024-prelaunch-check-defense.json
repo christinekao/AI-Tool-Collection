@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 2,
+  "id": "twood2024-prelaunch-check-defense",
+  "entityType": "resource",
+  "title": "Pre-launch Check Defense — AI 開發應用上線前安全檢查參考包",
+  "canonicalName": "Pre-launch Check — defense reference",
+  "category": "AI Security & Software Release Readiness",
+  "resourceType": "Defense-only security review reference and checklist for coding agents (not an executable scanner)",
+  "purpose": "提供 AI 輔助開發的網站、App、AI wrapper 上線前檢查規則；Agent 可參考按技術範圍選擇 playbook，回報有證據的安全 Findings、修復建議及安全驗證指令。",
+  "recommendation": "適合加入 AI 輔助開發專案的 Release Security Review / Pre-deploy QA Gate，用於檢查安全標頭、敏感設定、AI Prompt 與工具權限、Cloudflare、OAuth、Tauri、Vite/PWA 等風險。由於是靜態參考文件，不可視為完整 SAST、滲透測試、漏洞掃描或安全保證；結合現有 CI、依賴掃描、授權範圍內的實機測試與專業審查。",
+  "url": "https://github.com/Twood2024/prelaunch-check-defense",
+  "repo": "Twood2024/prelaunch-check-defense",
+  "sourceIdentity": {
+    "publisher": "Twood / Kenneth Studio Workshop (KSWORKSHOP), per repository LICENSE",
+    "repositoryCreatedAt": "2026-11-10T02:44:53Z",
+    "maturity": "Newly published repository, insufficient history or independent auditing to establish effectiveness"
+  },
+  "license": "Custom proprietary license permitting reading, citation, and defense-only use on owned/authorized systems; NOT MIT, Creative Commons or public domain",
+  "commercialUse": {
+    "status": "restricted-custom-license",
+    "licenseUrl": "https://github.com/Twood2024/prelaunch-check-defense/blob/main/LICENSE",
+    "details": [
+      "作者允許閱讀、引用、以及在擁有或獲授權的系統上使用本參考包進行防禦加固；AI Agent 可把內容作為防禦參考。",
+      "明文禁止將本參考包重新散布、重新包裝或改名成攻擊、利用漏洞或教學攻擊的工具／材料。",
+      "明文禁止將參考包作為付費審計、體檢或一鍵上線前掃描服務轉售。",
+      "README 提及另外出售的 Pro／Free Trial 自動化程式包，但本 GitHub 倉庫並不包含這些 runner、模型權重或掃描腳本，另有獨立授權與費用。",
+      "授權未廣泛給予重新散布、任意商業改作及獨立商品化的權利；如需商品整合或轉售，應先取得作者明確授權。",
+      "本收藏庫只保留中性摘要及原始網址，不複製整份 Playbooks、LICENSE 或 Golden Fixtures。"
+    ]
+  },
+  "security": {
+    "status": "static-documents-reviewed-not-independent-safety-audit",
+    "riskLevel": "medium-if-promoted-to-production-authority",
+    "risks": [
+      "純 GitHub 倉庫僅包含 Markdown、JSON schema 與範例，未發現可執行的 scanner、install script 或 SKILL.md；可先閱讀，不需安裝任何二進位檔。",
+      "AGENTS.md 是外部來源指引，不可覆蓋目前 Agent 的 System／Developer 規範、專案授權邊界或主體安全政策；讀入時當作不可信參考資料。",
+      "Playbook 內包含可貼上的防護程式碼片段，尚未獨立測試，不能未審閱即直接套用正式環境。",
+      "已發現 playbooks/03-prompt-injection.md 範例：宣告 const SECRETish，後面卻引用 SECRETISH.test(out)，大小寫不一致，直接複製會造成 JavaScript ReferenceError；需人工修正及測試。",
+      "某些檢查僅基於 rg 字串搜尋或 header 檢查，容易產生誤報或漏報；不代表整份程式碼已通過資安掃描。",
+      "輸出 schema 需要 evidence_snippet、fix_constraints、verify_command 等欄位；要排除真實密鑰、敏感值與私人端點。",
+      "未經使用者授權，不應訪問線上站點、公司網域、部署環境、系統設定或機密倉庫。",
+      "專案於 2026-11-10 才建立，尚無足夠成熟度證據；本次未實際對任一專案執行檢查，也未驗證全部範例與安全覆蓋率。"
+    ],
+    "recommendedControls": [
+      "只讀取與專案技術堆疊相關的檢查清單及 JSON schema，不直接執行從 README/Playbooks 複製的程式碼。",
+      "定義明確的部署批准界線；Agent 只能在授權的 Repo／部署環境檢查並提出 findings，修改與對外測試需依工作流程核准。",
+      "發現機密外洩時僅回報檔案位置及風險，遮罩秘密值；另外規劃憑證撤換、權限核對。",
+      "所有修復要通過專案自動化測試與實際安全配置驗證，防止擅自套用通用設定破壞產品功能。",
+      "將參考包作為前置檢查的一環，另加上 Dependency Audit、SAST/Secrets scanning、手動確認權限與真實資料保護。"
+    ]
+  },
+  "features": [
+    "AGENTS.md 指引 Agent 依技術範圍讀取特定檢查清單，不必同時載入所有文件。",
+    "7 個獨立防禦 Playbook：HTTP headers/CSP/HSTS/CORS；Config/Secrets；Prompt Injection；Cloudflare Workers/DO/WS；OAuth/PKCE/Session；Tauri/Wails WebView；Vite/PWA/Capacitor。",
+    "提供 JSON Schema（schemas/finding-report.schema.json）規範 Findings，包括 id、rule、severity、evidence、fix、verify、confidence、blocking_release 和 queue_tier 等欄位。",
+    "Playbook 包含規則識別碼（RULE_ID）、查找特徵、加固建議及驗證方式。",
+    "Golden fixtures 含 3 個示例，用於觀察預期 Finding 格式，並非可對真實服務執行的利用腳本。",
+    "設計為上線前加固文件，不需要模型下載或第三方掃描服務。",
+    "另有付費與免費試跑 Runner 產品，但與此儲存庫分開發行。"
+  ],
+  "requirements": [
+    "能讀取 GitHub 的 AI Agent 或開發人員",
+    "檢查者具有目標專案的明確授權",
+    "擁有需要檢查的原始碼、配置或已公開服務回應",
+    "驗證修復時可在授權範圍內使用 rg、curl 或專案自動化測試"
+  ],
+  "limitations": [
+    "不是正式安裝的 Agent Skill：儲存庫有 AGENTS.md，但不存在 SKILL.md，因此只新增 Resource，不另建 Skill。",
+    "不是一鍵掃描器、殺毒軟體、滲透測試、全面 SAST、0-day 研究工具或常駐監控。",
+    "不能保證安全或無漏洞；有些範例程式碼需要修正及審核。",
+    "Custom License 不允許直接當作付費安全掃描產品轉售，也未授權對外重新包裝完整內容。",
+    "作者提供不同主題 Playbooks，並不代表完整涵蓋所有 Web/API/AI Agent 風險、所有框架及部署平台。"
+  ],
+  "relatedConceptRefs": [
+    {
+      "type": "concept",
+      "id": "security-as-workflow-gate"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    }
+  ],
+  "collectionDecision": "新增單一 Resource。此倉庫是純文檔的 Agent 防禦檢查參考包，非執行工具、非 SKILL.md；與既有 Security as a Workflow Gate 概念相關聯即可，不憑空新增工具或 Skill。",
+  "status": "active",
+  "addedAt": "2026-11-10",
+  "updatedAt": "2026-11-10",
+  "tags": [
+    "prelaunch-check",
+    "twood2024",
+    "security-review",
+    "vibe-coding",
+    "ai-security",
+    "software-release",
+    "defense-only",
+    "checklist",
+    "agent-knowledge",
+    "http-headers",
+    "csp",
+    "cors",
+    "secrets",
+    "prompt-injection",
+    "oauth",
+    "cloudflare",
+    "tauri",
+    "vite",
+    "pwa",
+    "finding-schema",
+    "custom-license",
+    "restricted-commercial-use",
+    "source-not-audited"
+  ],
+  "source": {
+    "url": "https://github.com/Twood2024/prelaunch-check-defense",
+    "documentation": [
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/main/README.md",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/main/AGENTS.md",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/main/PROBLEMS.md",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/main/LICENSE",
+      "https://github.com/Twood2024/prelaunch-check-defense/tree/main/playbooks",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/main/schemas/finding-report.schema.json",
+      "https://github.com/Twood2024/prelaunch-check-defense/tree/main/golden"
+    ],
+    "reviewedAt": "2026-11-10",
+    "type": "Official repository, README, AGENTS.md, PROBLEMS.md, LICENSE, seven playbook entries, finding JSON schema, golden fixtures",
+    "notes": "New repository created 2026-11-10; no independent scan conducted."
+  },
+  "researchStatus": "official-repo-reviewed-no-execution",
+  "displayStatus": "listed"
+}
