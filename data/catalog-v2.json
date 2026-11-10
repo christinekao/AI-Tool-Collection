@@ -21344,6 +21344,178 @@
     },
     {
       "schemaVersion": 2,
+      "id": "ai-coding-stack-agent-ade-model-gateway-spec-architecture-knowledge",
+      "entityType": "concept",
+      "title": "AI Coding Tool Stack｜Coding Agent × ADE × Model Gateway × OpenSpec × ADR 的責任分層",
+      "coreProblem": "AI 開發工具容易被全部稱為 Agent、Orchestrator 或 Harness，難以分辨誰實際修改程式、誰啟動和監督平行工作區、誰提供模型 API、誰管理需求與任務、誰保留架構決策理由，導致重複導入與責任混淆。",
+      "definition": "將 AI Coding 工具分成五種互補的職責：Coding Agent/Harness 執行讀寫程式與工具呼叫；ADE/Workspace/Orchestration 管理工作樹、平行 Agent 會話和 Diff；Model Gateway 統一模型存取與選定的路由政策；Spec/SDD 管理改動需求、設計與任務；Architecture Knowledge（如 ADR）記錄重要決策背景、取捨和後果。這是理解工具的邏輯分類，不是所有產品強制包含的分層架構，也非所有工具必然互相整合。",
+      "layers": [
+        {
+          "id": "coding-agent",
+          "name": "Coding Agent / Agent Harness",
+          "responsibility": "實際讀取與修改程式碼、操作本機工具、執行測試；部分 Agent 也提供 subagent、LSP、Browser 與 Skills。",
+          "tools": [
+            "OMP / Oh My Pi",
+            "OpenCode",
+            "Codex",
+            "Claude Code"
+          ],
+          "boundary": "這些工具位於同一職責層，但功能和能力覆蓋各有不同；不是宣稱完全等價。",
+          "evidence": "OMP 官方文件顯示 LSP、瀏覽器、subagent 與 Skills；OpenCode、Codex、Claude Code 為使用者列舉的 Coding Agent。"
+        },
+        {
+          "id": "ade",
+          "name": "Agent Development Environment (ADE) / Workspace / Orchestration",
+          "responsibility": "管理 Git worktree、啟動和安排多個 Coding Agent、平行工作階段、終端機與 Diff 比較及整合。",
+          "tools": [
+            "Orca"
+          ],
+          "boundary": "Orca 也有整合工作區與 Agent 操作介面，但並不等於底下 Coding Agent 所有能力由 Orca 實作。",
+          "evidence": "Orca 官方網站與首個多 Agent Session 教學確認 Worktree、Agent 啟動與 Diff Review。"
+        },
+        {
+          "id": "model-gateway",
+          "name": "Model Gateway / Unified LLM API",
+          "responsibility": "以共用端點接入多模型／Provider，依應用設定、Provider 規則或可用備援設定決定實際的請求路由。",
+          "tools": [
+            "OpenRouter"
+          ],
+          "boundary": "模型可以由使用者或 Agent 明確選擇；OpenRouter 不一定自主決定該用哪一個模型，也不是所有 Coding Agent 都必須經過 OpenRouter。",
+          "evidence": "OpenRouter 官方文件及既有 Collection Resource 說明多模型 API、Provider 選擇與 Fallback。"
+        },
+        {
+          "id": "spec-sdd",
+          "name": "Spec / Spec-Driven Development",
+          "responsibility": "以 Proposal、Specs、Design、Tasks 紀錄需求變更、技術方案與實作清單，協助 AI 與人對齊功能範圍。",
+          "tools": [
+            "OpenSpec"
+          ],
+          "boundary": "OpenSpec 的 artifact 依賴可以視專案流程變通，不要求所有階段不可逆地順序執行；它本身不是執行 coding task 的 Agent。",
+          "evidence": "OpenSpec 官方 README / docs 概念說明 Proposal→Specs→Design→Tasks，及增量 Spec。"
+        },
+        {
+          "id": "architecture-knowledge",
+          "name": "Architecture Knowledge / Decision Records",
+          "responsibility": "保留架構重大決策的背景、選項、理由、權衡、結果與後續替代關係，讓後續開發人員和 Agent 理解設計原因。",
+          "tools": [
+            "ADR / Architecture Decision Records",
+            "Decision Log",
+            "Solution Notes"
+          ],
+          "boundary": "ADR 是記錄架構決策的方法；Decision Log 是紀錄集合；Solution Notes 是泛稱，三者不是相同軟體工具，也不必都跟 OpenSpec 共用同一套格式。",
+          "evidence": "AWS ADR Guidance 確認 ADR 紀錄決策背景、內容、後果，且有 Accepted/Superseded 等生命週期。"
+        }
+      ],
+      "suggestedIntegration": "示意而非已驗證工具整合：需求 → 用 OpenSpec 撰寫 proposal/specs/design/tasks → Orca 建立多個 Git worktrees 並啟動 OMP/OpenCode/Codex/Claude Code → Coding Agent 執行改動與測試（可選擇透過 OpenRouter 接入模型，也可能直接連模型提供者）→ Orca 檢視 diff 並整合 → 將重要設計取捨記成 ADR，並以測試與交付驗收完成。",
+      "solutionMethods": [
+        "從工作角色而非品牌分層：先確認是 Coding Agent、工作區協調器、模型閘道、需求文件工具或決策知識庫。",
+        "清楚區分產品功能重疊與核心責任：Orca 可以管理 Agent，Coding Agent 自身也可能支援 subagent；分層用來表達主要用途，不是硬性排他。",
+        "OpenRouter 的 Provider Routing、Fallback 與自動模型選擇是不同設定，不應將模型選擇能力誤歸於 Gateway 的必然行為。",
+        "OpenSpec 的 Specification 管理「需要做什麼與怎麼做」，ADR 管理「為什麼採用這個重大架構決策」，兩者相輔相成。",
+        "只有在產品或用戶工作流程已實際配置連接器、模型 Key、Agent CLI 和安全權限時才可宣稱整合成功；本次僅分類工具。",
+        "以 Git worktree、diff、測試與可檢查證據驗證平行開發的結果，不以多 Agent 同時完成的數量當作品質指標。"
+      ],
+      "tradeoffs": [
+        "Orchestration 及多 Worktree 提高平行度，但帶來資源成本、衝突與整合審查負擔。",
+        "Model Gateway 可統一提供者與備援，但增加資料流轉、API Key、費用與可觀測性治理要求。",
+        "Spec 和 ADR 能保留脈絡，但需要持續更新；過量文件可能妨礙小型任務效率。",
+        "不同 Coding Agent 能互換部分執行任務，但在工具、模型相容性和權限邊界仍存在差異。"
+      ],
+      "signals": [
+        "同一專案使用 OMP、Codex、Claude Code、OpenCode 中的多個 Coding Agent。",
+        "想平行處理 Feature、Bugfix 與 Code Review 並以 Worktree 隔離。",
+        "希望統一多個模型的 API 存取、Provider 選擇或 Fallback。",
+        "需求和設計跨多個工作階段，希望 Spec 與重要決策可長期追溯。"
+      ],
+      "antiPatterns": [
+        "把 Orca 視為與 Codex 完全相同的 Coding Agent，忽略 Workspace 和會話協調能力。",
+        "把 OpenRouter 當作不經配置就會自動替所有 Agent 決定模型。",
+        "只寫 Spec 不保存重要架構取捨，也不透過測試／Diff 驗證實作。",
+        "把 ADR／Solution Notes 當作必然可直接執行的 Agent 工具。",
+        "尚未實際安裝配置即聲稱這些產品已串成一套可運作的整合平台。"
+      ],
+      "originalUserTable": "| 工具                            | 定位                                    | 主要負責                                             |\n| ----------------------------- | ------------------------------------- | ------------------------------------------------ |\n| **OMP / Oh My Pi**            | Coding Agent / Agent Harness          | 讀 code、改 code、跑工具、呼叫 subagent、LSP、browser、skills |\n| **OpenCode**                  | Coding Agent                          | 跟 OMP 同一層，直接執行 coding task                       |\n| **Codex / Claude Code**       | Coding Agent                          | 也是同一層                                            |\n| **Orca**                      | ADE / Agent Workspace / Orchestration | 建 worktree、開 agent、平行執行、看 diff、管理 session        |\n| **OpenRouter**                | Model Gateway                         | 決定 agent 背後接 GPT / Claude / Gemini / DeepSeek 等  |\n| **OpenSpec**                  | Spec / SDD                            | Proposal → Spec → Design → Tasks                 |\n| **ADR / Decision / Solution** | Architecture Knowledge                | 保存「為什麼這樣設計」                                      |",
+      "originalNote": "使用者提供一張工具定位表，本文逐字保留於 originalUserTable；補充內容和外部來源屬後續核對，不修改原始表述。",
+      "relatedResourceRefs": [
+        {
+          "type": "resource",
+          "id": "orca"
+        },
+        {
+          "type": "resource",
+          "id": "openrouter-ai"
+        },
+        {
+          "type": "resource",
+          "id": "openai-codex"
+        }
+      ],
+      "relatedConceptRefs": [
+        {
+          "type": "concept",
+          "id": "agent-runtime-harness"
+        },
+        {
+          "type": "concept",
+          "id": "vendor-agnostic-orchestration"
+        },
+        {
+          "type": "concept",
+          "id": "workflow-agent-system-agent-os-three-layer-architecture"
+        },
+        {
+          "type": "concept",
+          "id": "quality-gates-verification"
+        }
+      ],
+      "examples": [
+        "一份 OpenSpec 變更說明交給 Orca 開三個 Worktree，分別使用三個 Coding Agents 產出 diff，再由人工 Review 與測試決定採用哪個實作。"
+      ],
+      "status": "active",
+      "addedAt": "2026-11-10",
+      "updatedAt": "2026-11-10",
+      "tags": [
+        "ai-coding",
+        "agent-stack",
+        "coding-agent",
+        "agent-harness",
+        "omp",
+        "oh-my-pi",
+        "opencode",
+        "codex",
+        "claude-code",
+        "orca",
+        "ade",
+        "agent-workspace",
+        "orchestration",
+        "openrouter",
+        "model-gateway",
+        "openspec",
+        "spec-driven-development",
+        "adr",
+        "decision-log",
+        "solution-knowledge",
+        "worktree",
+        "architecture",
+        "responsibility-boundaries"
+      ],
+      "source": {
+        "type": "User-supplied classification table with official public verification of OMP, Orca, OpenSpec, ADR and model gateway responsibility",
+        "reviewedAt": "2026-11-10",
+        "documentation": [
+          "https://github.com/can1357/oh-my-pi",
+          "https://www.onorca.dev/",
+          "https://www.onorca.dev/docs/first-session",
+          "https://openrouter.ai/",
+          "https://github.com/Fission-AI/OpenSpec",
+          "https://github.com/Fission-AI/OpenSpec/blob/main/docs/concepts.md",
+          "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html"
+        ]
+      },
+      "researchStatus": "conceptual-classification-official-source-verified-no-integration-tested"
+    },
+    {
+      "schemaVersion": 2,
       "id": "capability-aggregation-gateway",
       "entityType": "concept",
       "title": "Capability Aggregation Gateway",
