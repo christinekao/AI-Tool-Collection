@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "allanyiin-toolanything-platform-ops",
+  "entityType": "skill",
+  "title": "ToolAnything Platform Ops — 本機安裝、跨 Agent Skills 同步與 Shared MCP Server 管理",
+  "purpose": "在 ToolAnything MCP Router 已確認採用 ToolAnything 後，執行受控的本機 Wheel 安裝、Claude Code/Codex/OpenClaw Skills 同步、AGENTS.md 設定整合以及 Shared MCP Server 管理及驗證。",
+  "problem": "持久 MCP 工具若每個 Agent Host 各自安裝、修改 AGENTS 和建立長期 Server，會產生權限、設定及版本漂移。",
+  "inputs": [
+    "授權安裝或修改的作業系統與 Agent Host（Claude Code、Codex、OpenClaw）",
+    "來源可信且已審核的 Local Bundle/Wheel",
+    "目標 Skills 目錄、AGENTS.md 與 Shared Server 配置及現有備份",
+    "對套件重裝、修改 Host 規則和 Auto-start 的明確使用者同意"
+  ],
+  "outputs": [
+    "實際 Wheel／Import Path／Host 和安裝位置驗證",
+    "AGENTS.md 及 Skills 同步差異與更新記錄",
+    "Shared MCP server（localhost、port 9092）設定及工具呼叫驗證結果",
+    "未通過的檢查、保留待核准或失敗項"
+  ],
+  "execution": "官方 skills/toolanything-platform-ops/SKILL.md version 2026.3.17：以 toolanything-mcp-router 作初始判斷，再依明確授權處理本機 wheel 安裝、Skills sync、AGENTS.md 規則、Shared Server 與 auto-start。預設 Root ~/.toolanything/agent-mcp/、127.0.0.1:9092 Streamable HTTP。該 Skill 的 install_local_bundle.py 宣稱會 force reinstall 套件並更新設定；必須先檢查腳本、備份與核對權限，未授權不能執行。最後用 doctor、inspect 和 /health 等驗證。",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "allanyiin-toolanything"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-runtime-harness"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "reusable-agent-skills"
+    }
+  ],
+  "security": {
+    "status": "source-reviewed-not-executed",
+    "riskLevel": "high-for-install-and-config-mutation",
+    "notes": [
+      "此 Skill 會建議執行本機 Wheel Installer，可能強制重新安裝 Python 套件、修改 Claude/Codex/OpenClaw Skills 或 AGENTS.md，且可能設定開機啟動與 Shared Server。",
+      "所有會修改本機設定或執行 Shell/Python 的動作，應先由使用者檢查實際腳本和 diff 並核准；若 Wheel 缺少，停止操作。",
+      "避免擴大到未授權主機設定、憑證與資料庫；MCP Server 預設綁 localhost，外網存取必須另採驗證與權限控管。"
+    ]
+  },
+  "commercialUse": {
+    "status": "MIT repository; dependent runtime and hosted AI APIs may impose additional license/cost conditions"
+  },
+  "source": {
+    "url": "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-platform-ops/SKILL.md",
+    "type": "Official SKILL.md, version 2026.3.17; install script not executed",
+    "reviewedAt": "2026-11-10"
+  },
+  "status": "active",
+  "addedAt": "2026-11-10",
+  "updatedAt": "2026-11-10",
+  "tags": [
+    "toolanything",
+    "platform-ops",
+    "agent-skill",
+    "mcp",
+    "shared-server",
+    "host-sync",
+    "claude-code",
+    "codex",
+    "openclaw",
+    "installation",
+    "python",
+    "security-review",
+    "mit",
+    "config-management"
+  ]
+}
