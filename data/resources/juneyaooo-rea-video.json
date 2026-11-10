@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "id": "juneyaooo-rea-video",
+  "entityType": "resource",
+  "title": "rea-video — AI Agent 逐鏡影片逆向拆解與重製規劃",
+  "canonicalName": "rea-video",
+  "category": "AI Video Analysis & Reverse Engineering",
+  "resourceType": "Open-source Python CLI and coding-agent skill for shot-level video decomposition",
+  "purpose": "逐鏡分析影片底層製作方式（實拍、AI 生成、3D、程式動效、錄影、靜圖等）、分鏡切點、攝影、打光、文字疊加、字幕、聲音及真正需要的素材；輸出有證據與置信度的 HTML/Markdown 報告和重製計畫，供 Claude Code、Codex 或其他 Agent 使用。",
+  "recommendation": "適合研究短影音、產品展示、教學影片、MG／UI 動效和混合素材製作，將參考影片拆解成可執行的拍攝、AI 生成、Remotion 程式段與音訊工作項。適用於學習製作技術及原創改編，不應拿未獲授權的影片／音樂／人物肖像直接重製或公開散布。把 AI/實拍判別視為推測，低置信或平台重壓影片須人工逐鏡確認。",
+  "url": "https://github.com/JuneYaooo/rea-video",
+  "repo": "JuneYaooo/rea-video",
+  "homepage": "https://www.reavideo.ai/",
+  "versionReviewed": "0.1.0 (pyproject.toml, main; 2026-11-11)",
+  "license": "Apache-2.0 for repository software; third-party video, music, models, media and generated outputs have independent rights",
+  "commercialUse": {
+    "status": "allowed-for-code-under-apache-2.0-subject-to-media-rights",
+    "licenseUrl": "https://github.com/JuneYaooo/rea-video/blob/main/LICENSE",
+    "details": [
+      "Repository 正式採 Apache-2.0，允許依條款商業使用、修改及散布軟體；如散布衍生版本需保留 LICENSE／NOTICE、適當註明修改及必要歸屬。",
+      "軟體授權不賦予原始參考影片、演員／真人肖像、字型、音樂、音效、品牌或平台內容的使用權，公開重製或改編前需確認權利。",
+      "FFmpeg、OpenCV、OCR、音訊模型及可選 VLM／影片生成服務有各自套件、媒體、模型及雲端使用條款。",
+      "README 中公開範例與比較影片僅作學習說明；不可將其視為可自由轉用的商業素材。"
+    ]
+  },
+  "security": {
+    "status": "official-sources-and-installer-script-reviewed-not-installed-executed-or-audited",
+    "riskLevel": "medium-before-local-install-or-sending-media-to-models",
+    "risks": [
+      "官方 scripts/install_skill.sh 會執行 pip install -e (含 OCR extras) 並將 Skill 建立符號連結至 ~/.claude/skills、~/.codex/skills 和／或 ~/.agents/skills；會修改本地 Python 套件與 Agent 設定。",
+      "安裝腳本若偵測 opencv-python，可能解除安裝並強制重裝 opencv-python-headless；不建議在共用 Python／主要工作環境直接執行，應先採隔離 venv 或 pipx 及備份。",
+      "離線人聲分離第一次使用需下載約 67 MB 模型，還可能下載 OCR 模型。應確認來源、雜湊／供應鏈、空間與模型授權。",
+      "啟用 Gemini、Doubao 或其他 VLM 時，影片片段與畫面／音訊可能傳送到第三方服務；使用前應取得素材權限並檢查隱私與費用。",
+      "自動重製需額外安裝 capsule-cinema 及使用付費影片模型，應先 Dry Run、顯示預估成本並取得明確核准；這不是 rea-video 單獨具備的功能。",
+      "AI／實拍來源分類可能因平台壓縮、轉碼、光線、資料集偏差而誤判；不應把輸出置信度當作法律或真實來源證明。",
+      "本次未下載影片或安裝依賴、沒有執行 CLI、測試、模型 API 或影片生成。"
+    ],
+    "recommendedControls": [
+      "先審閱 scripts/install_skill.sh、requirements、專案授權與模型載入行為；使用專用 venv、非敏感測試影片和固定 Git commit。",
+      "未取得使用者許可前不啟用 --vlm 或付費重製；API Key 使用本地環境安全保存，不提交 Git。",
+      "逐鏡複核低信心、平台轉碼後的混合畫面，區分可測得的證據、模型推斷及無法確認的部分。",
+      "產出的字幕／提示詞／角色參考圖／音效只能在原始素材授權範圍內使用；不直接重製他人作品對外發布。",
+      "保留原始來源、時間線、測試版本、分析設定與不確定點，避免只依靠高準確率的宣傳數字。"
+    ]
+  },
+  "privacy": "純離線 CLI 模式可在本機分析影片；但安裝或模型下載會連網。啟用 VLM／外部模型時可能傳送影片片段、影格或音訊，需確認第三方資料保護條款與原始素材是否包含機敏資料、肖像或未公開內容。",
+  "features": [
+    "11 類逐鏡底層製作方式判斷：實拍、影視片段、AI 影片、數字人、3D、2D 動畫、定格動畫、程式／模板渲染、錄影／截圖、靜圖運鏡、靜態畫格；其中若干類須 VLM／Agent 看圖才能辨別。",
+    "利用 FFmpeg、OpenCV、OCR、影格節奏、雜訊、Metadata 等測量逐鏡分割並提供來源證據及置信度。",
+    "分析實拍的景別、機位、打光、調色與拍攝場次；分析 UI/程式動效的文字、版面與動畫時間。",
+    "整片字幕時間軸與 SRT／ASS、文字疊加、貼紙、畫中畫及音效對齊；音訊包含人聲、背景配樂、BPM 和調性。",
+    "產出 breakdown.json、report.html、report.md、storyboard.jpg、audio.png、shots、stems 等檔案，並附重製方案。",
+    "可用 CLI／Agent 看圖複核低置信鏡頭，透過 review → apply-review 將修正回填報告。",
+    "重製建議可按 AI 生成單元、實拍場景、程式動效與自有素材分工；可選外部 capsule-cinema 進行部分生成／拼接。",
+    "提供可讀的 Agent SKILL.md，支援 Claude Code、Codex 等可操作 CLI 的代理。"
+  ],
+  "evaluation": {
+    "status": "developer-reported-not-independently-reproduced",
+    "notes": [
+      "README 宣稱在部分原始影片的製作方式分類可達 98–99% 以上；數據以鏡頭時長加權，不等同普遍使用情境的獨立準確率。",
+      "eval/RESULTS.md 承認最初 holdout 由觀察錯誤後調整規則而不完全獨立，後續部分 holdout2 錯例亦曾用來改規則；評測數據需要按當時版本及資料集理解。",
+      "文檔列出 2D 動畫、定格動畫、數字人等部分類別沒有獨立真值樣本；配樂是否 AI 生成、輕音效、壓縮影片等有已知盲點。",
+      "本次未實際執行或獨立重算評測。"
+    ]
+  },
+  "compatibility": {
+    "python": "Python >=3.10",
+    "system": "需要 FFmpeg/ffprobe；主體 Python，可在支援依賴的平台執行",
+    "agent": "Claude Code、Codex 及能使用 shell 與閱讀 SKILL.md 的 Agent"
+  },
+  "requirements": [
+    "Python >=3.10 與 FFmpeg／ffprobe",
+    "本機 Python 環境、Python 套件（numpy、opencv-python-headless、Pillow、PyYAML、onnxruntime；OCR extras 可選）",
+    "若使用 VLM，需合法可用的多模態模型 API endpoint 與 Key，並承擔費用及資料傳輸",
+    "若要自動生成新影片，需另外選用並設定 capsule-cinema／生成模型，非工具單獨完成"
+  ],
+  "limitations": [
+    "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。",
+    "測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。",
+    "模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。",
+    "部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。"
+  ],
+  "relatedSkillRefs": [
+    {
+      "type": "skill",
+      "id": "juneyaooo-rea-video"
+    }
+  ],
+  "relatedWorkflowRefs": [
+    {
+      "type": "workflow",
+      "id": "claude-code-animation-reels-production-workflow"
+    },
+    {
+      "type": "workflow",
+      "id": "agentic-video-production-stack"
+    },
+    {
+      "type": "workflow",
+      "id": "reference-to-reusable-video-pattern"
+    }
+  ],
+  "relatedConceptRefs": [
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
+    },
+    {
+      "type": "concept",
+      "id": "quality-gates-verification"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-preserving-visual-abstraction"
+    }
+  ],
+  "collectionDecision": "新增官方源碼的 Resource 與實際存在的 SKILL.md Skill；不另建立與已有影片生產工作流高度重疊的 Workflow。",
+  "status": "active",
+  "addedAt": "2026-11-11",
+  "updatedAt": "2026-11-11",
+  "tags": [
+    "rea-video",
+    "juneyaooo",
+    "video-analysis",
+    "video-reverse-engineering",
+    "shot-detection",
+    "ai-generated-video",
+    "aigc-detection",
+    "claude-code",
+    "codex",
+    "agent-skill",
+    "ffmpeg",
+    "opencv",
+    "vlm",
+    "ocr",
+    "remotion",
+    "audio-analysis",
+    "subtitles",
+    "storyboard",
+    "remake-plan",
+    "capsule-cinema",
+    "apache-2.0",
+    "privacy-review",
+    "commercial-license-review",
+    "security-review"
+  ],
+  "source": {
+    "url": "https://github.com/JuneYaooo/rea-video",
+    "documentation": [
+      "https://github.com/JuneYaooo/rea-video/blob/main/README.md",
+      "https://github.com/JuneYaooo/rea-video/blob/main/skills/rea-video/SKILL.md",
+      "https://github.com/JuneYaooo/rea-video/blob/main/scripts/install_skill.sh",
+      "https://github.com/JuneYaooo/rea-video/blob/main/eval/RESULTS.md",
+      "https://github.com/JuneYaooo/rea-video/blob/main/docs/replicate.md",
+      "https://github.com/JuneYaooo/rea-video/blob/main/LICENSE",
+      "https://github.com/JuneYaooo/rea-video/blob/main/NOTICE"
+    ],
+    "reviewedAt": "2026-11-11",
+    "type": "Official GitHub repository, license/NOTICE, pyproject, README, SKILL.md, selected docs and installer script",
+    "limitations": "Not installed, executed, independently security-audited or evaluated"
+  },
+  "researchStatus": "official-repo-reviewed-not-executed",
+  "displayStatus": "listed"
+}
