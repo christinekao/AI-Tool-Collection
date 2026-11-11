@@ -2,22 +2,42 @@
   "schemaVersion": 2,
   "id": "graphify-labs-graphify",
   "entityType": "resource",
-  "title": "Graphify-Labs/graphify",
-  "canonicalName": "Graphify-Labs/graphify",
+  "title": "Graphify — Codebase／文件 → 可查詢 Knowledge Graph（v3 版）",
+  "canonicalName": "Graphify (Graphify-Labs/graphify)",
   "category": "03 Code Intelligence",
-  "resourceType": "Knowledge Graph",
-  "purpose": "Codebase → Knowledge Graph",
-  "recommendation": "適合把 codebase 關係整理成可查詢的 knowledge graph。",
-  "url": "",
-  "repo": "",
-  "notes": "",
+  "resourceType": "Knowledge Graph, GraphRAG-style context extraction CLI and Agent Skill",
+  "purpose": "將 Codebase、文件、PDF、圖片及可選影片／音訊轉成可查詢且可保存的知識圖譜，透過確定性 AST、AI 語意擷取與 Graph 社群偵測連接函式依賴、架構理由、引用關係及跨文件概念。可以輸出互動 HTML、Graph JSON、分析報告，也可以供 Coding Agent 或 MCP 存取。",
+  "recommendation": "適合接手陌生專案、跨模組系統設計審查、技術交接及大型文件知識整理。先在非敏感、具讀取權限的測試 Repository 試用，檢查 EXTRACTED／INFERRED／AMBIGUOUS 標註和實際路徑；留意使用 AI 子代理處理文件／圖片時可能向模型供應商傳送資料。使用 v3 分支時應固定此分支的 Commit／Package 版本，不要誤用預設 v8 分支的授權與行為。",
+  "url": "https://github.com/Graphify-Labs/graphify/tree/v3",
+  "repo": "Graphify-Labs/graphify",
+  "notes": "原網址 https://github.com/safishamsi/graphify/tree/v3 轉址至 Graphify-Labs/graphify；v3 為 0.3.29、MIT，而 Repo default v8 顯示 Apache-2.0。僅完成官方文件與 Python Package metadata 檢視，未執行或實測。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-11",
   "tags": [
     "code-graph",
     "knowledge-graph",
-    "codebase"
+    "codebase",
+    "graphify",
+    "graphify-v3",
+    "tree-sitter",
+    "ast",
+    "mcp",
+    "claude-code",
+    "codex",
+    "cursor",
+    "opencode",
+    "context-engineering",
+    "graph-rag",
+    "graph-search",
+    "leiden",
+    "code-intelligence",
+    "mit-v3",
+    "model-egress",
+    "install-hook-risk",
+    "privacy-review",
+    "commercial-license-review",
+    "security-review"
   ],
   "conceptRefs": [
     {
@@ -27,6 +47,105 @@
     {
       "type": "concept",
       "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
     }
-  ]
+  ],
+  "homepage": "https://www.graphify.com",
+  "branchReviewed": "v3",
+  "branchCommitReviewed": "e03c4604fb782d84cdb0e53e81d31707e54152a3",
+  "versionReviewed": "graphifyy 0.3.29 (v3 pyproject.toml; this is NOT the current default branch)",
+  "defaultBranchAtReview": "v8 (separate version, license and behavior; not reviewed in depth here)",
+  "license": "MIT on v3 branch. Current default v8 branch metadata shows Apache-2.0. Check branch-specific LICENSE before redistribution.",
+  "commercialUse": {
+    "status": "allowed-for-v3-under-mit-terms",
+    "licenseUrl": "https://github.com/Graphify-Labs/graphify/blob/v3/LICENSE",
+    "details": [
+      "v3 分支 LICENSE 為 MIT，准許依條款商業使用、改作與再散布，需保留原作者及 MIT 授權聲明。",
+      "GitHub Repo 預設 v8 分支標示 Apache-2.0，不能把 v3 的 MIT 直接視為所有分支／版本皆適用。",
+      "可選 Tree-sitter 語言套件、Whisper／Faster-whisper、LLM API 及 Neo4j 等各有依賴授權及可能的使用費用；依實際版本、資料與部署方式確認。",
+      "原始輸入的文件、圖片、影音和程式碼可能受其原作者授權、企業保密義務及個資規範限制，Graphify 軟體授權不賦予內容的散布權。"
+    ]
+  },
+  "security": {
+    "status": "official-v3-docs-and-skill-reviewed-not-installed-or-audited",
+    "riskLevel": "medium-for-install-hooks-and-private-data-model-egress",
+    "risks": [
+      "v3 的 /graphify Skill 有自動安裝流程，包括 pip install graphifyy，並在失敗時可能使用 --break-system-packages；於共用 Python 環境執行有修改／衝突風險。先審閱安裝指令並使用虛擬環境。",
+      "graphify claude/codex/opencode/gemini install 可寫入 CLAUDE.md、AGENTS.md、.codex/hooks.json、settings.json、OpenCode Plugin 或其他 Always-on Rules；安裝前應備份並審閱 Diff，未授權不得改寫既有 Agent 設定。",
+      "v3 讀取的程式碼由本地 Tree-sitter AST 處理；但 README 也說文件、PDF、圖片及本機轉錄後的影音文字會交由 Claude／其他 Agent 模型進行語意擷取，可能離開本機；不可宣稱整個分析流程均完全離線。",
+      "原始碼、文件或外部下載的網頁文字可能包含機密資訊或 Prompt Injection；必須先設定 .graphifyignore、存取授權及擷取範圍，且不把外部文字中的指令視為有權擴大操作。",
+      "v3 SECURITY.md 宣稱具備 URL SSRF 防護、檔案大小限制、Graph Path 驗證與 XSS 標籤處理，這些均為開發者說明，尚未獨立重現測試。",
+      "啟用 URL／YouTube ingest 會從網路下載內容；使用 --neo4j-push、--mcp、Git Hooks 或 --watch 可能啟動額外服務、寫入圖譜或持續處理專案內容。",
+      "v3 文件記錄過 XSS、MCP 路徑驗證與 Hook 相容性修復；若用於正式或敏感環境，必須審查實際安裝版本和後續安全更新。",
+      "本次未安裝 graphifyy、未執行 Skill、分析私人原始碼或呼叫任何模型 API。"
+    ],
+    "recommendedControls": [
+      "以 Git 固定 v3 指定 Commit 並使用獨立虛擬環境，不允許未審核的 pip install --break-system-packages。",
+      "先以只含授權公開程式碼的資料夾測試，使用 .graphifyignore 排除 .env、Keys、個資、秘密與無關的大型目錄；另確認工具本身確實尊重排除規則。",
+      "不為方便使用就直接啟用各 Agent 的 Always-on Hooks／規則；先審核將寫入的設定差異。",
+      "對 INFERRED 與 AMBIGUOUS 的圖譜邊另外查證，關鍵系統設計結論必須能回溯原始檔案及程式碼。",
+      "使用語意 LLM 擷取前，確認資料外送權限、API Key、用量預算及模型供應商隱私政策。"
+    ]
+  },
+  "privacy": "v3 Code AST 解析與影音 Whisper 轉錄宣稱在本機進行；但為取得文件、圖片、論文及逐字稿的概念與關係，Skill 將其提供給 Claude／Codex 等代理模型處理。任何企業內部文件及未公開原始碼都應事先確認模型資料政策和是否具有外送權限。",
+  "features": [
+    "Tree-sitter 支援 Python、JavaScript、TypeScript、Go、Rust、Java、C/C++、Ruby、C#、Kotlin、Scala、PHP、Swift、Lua、Zig、PowerShell、Elixir、Objective-C、Julia 等程式語言的 AST 結構擷取。",
+    "可整合 Markdown、PDF、Office 文件、圖片及可選影片／音訊轉錄，再經模型進行語意關係擷取。",
+    "輸出 graphify-out/graph.html、graph.json、GRAPH_REPORT.md 與 SHA-256 快取目錄；提供互動式知識圖譜與可追溯來源。",
+    "以 EXTRACTED（直接擷取）、INFERRED（推論）、AMBIGUOUS（待確認）區分邊的證據性質與風險。",
+    "Leiden 等社群偵測協助連結跨文件概念；不必建立獨立向量資料庫。",
+    "CLI 提供 query／path／explain、--update／--watch、--wiki、--obsidian、GraphML、Neo4j 與 MCP stdio 模式。",
+    "可安裝 Claude Code／Codex／OpenCode／Cursor／Gemini CLI 等 Agent 的 Skill 與選用 Hook，讓 Agent 優先檢視既有 Graph Report。",
+    "提供以特定 Corpus 進行的 Token Reduction 比較範例，但效益因 Corpus 規模、內容及首次建圖成本而不同。"
+  ],
+  "metrics": {
+    "status": "author-reported-not-independently-reproduced",
+    "claims": [
+      "v3 README 使用 Karpathy Repository、論文與圖片混合資料集，報告 71.5x 較少每次查詢 Token 的示例；該數字不代表所有專案都達到此程度。",
+      "首次語意擷取仍有模型 Token 與執行成本，只有後續查詢重用圖譜才能攤銷。"
+    ]
+  },
+  "requirements": [
+    "Python >=3.10",
+    "官方 v3 PyPI 套件名稱 graphifyy（CLI 命令 graphify；不要和其他 graphify* 套件混淆）",
+    "語意擷取需能執行相應 Coding Agent／模型環境，PDF、Office、Whisper／影音、MCP 等為可選相依套件",
+    "用大型文件或內部專案時必須有明確資料存取及模型外送權限"
+  ],
+  "limitations": [
+    "這是使用者提供之 v3 分支，並非目前預設分支 v8；授權、功能與安全性更新不能跨分支混用。",
+    "不是對每個圖譜邊都能保證真實的程式碼分析器；AST 擷取和模型推論應分開驗證。",
+    "71.5x Token reduction 來自官方樣本與比較設定，尚無獨立實測支持普遍效果。",
+    "使用圖譜可降低重讀文件成本，但不取代工程師對核心流程的程式碼檢查、整合測試和安全審核。"
+  ],
+  "relatedSkillRefs": [
+    {
+      "type": "skill",
+      "id": "graphify-labs-graphify-v3"
+    }
+  ],
+  "relatedWorkflowRefs": [
+    {
+      "type": "workflow",
+      "id": "codebase-agent-context-stack"
+    }
+  ],
+  "source": {
+    "url": "https://github.com/Graphify-Labs/graphify/tree/v3",
+    "documentation": [
+      "https://github.com/Graphify-Labs/graphify/blob/v3/README.md",
+      "https://github.com/Graphify-Labs/graphify/blob/v3/graphify/skill.md",
+      "https://github.com/Graphify-Labs/graphify/blob/v3/pyproject.toml",
+      "https://github.com/Graphify-Labs/graphify/blob/v3/LICENSE",
+      "https://github.com/Graphify-Labs/graphify/blob/v3/SECURITY.md",
+      "https://github.com/Graphify-Labs/graphify/blob/v3/CHANGELOG.md",
+      "https://github.com/Graphify-Labs/graphify/blob/v3/ARCHITECTURE.md"
+    ],
+    "reviewedAt": "2026-11-11",
+    "type": "Official v3 GitHub branch source, architecture, changelog and security docs; current default v8 branch metadata for contrast"
+  },
+  "researchStatus": "official-v3-source-reviewed-not-executed",
+  "displayStatus": "listed"
 }
