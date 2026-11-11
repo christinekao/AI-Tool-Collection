@@ -9917,6 +9917,121 @@
     },
     {
       "schemaVersion": 2,
+      "id": "minchenlee-loadsketch",
+      "entityType": "resource",
+      "title": "LoadSketch — 互動式 System Design 流量與故障模擬器",
+      "canonicalName": "minchenlee/loadsketch",
+      "category": "03 Code Intelligence",
+      "resourceType": "Open-source system design simulator and interactive distributed-systems learning tool",
+      "purpose": "在可拖曳的系統架構畫布上串接 API、負載平衡器、資料庫、快取、佇列等元件，以離散事件模擬逐筆請求、流量突波、逾時、重試、Circuit Breaker、Queue Backlog、故障、擴容與復原，協助理解架構決策及失效模式。",
+      "recommendation": "適合 System Design 面試準備、分散式系統基礎教學與 Error Path／Retry Storm／故障復原的概念驗證。可先從 three-tier、retry-storm、async-queue、cache-stampede、slow-dependency 等範例出發，修改流量、Concurrency、Timeout、Retry、Queue、Cache Hit Ratio 等參數比較差異；輸出結果僅為模型估算，不能代替真實負載測試。",
+      "url": "https://loadsketch.mclee.dev",
+      "repo": "minchenlee/loadsketch",
+      "githubUrl": "https://github.com/minchenlee/loadsketch",
+      "versionReviewed": "0.1.0 (main/package.json; not independently deployed version)",
+      "license": "MIT",
+      "commercialUse": {
+        "status": "allowed-under-mit-terms",
+        "licenseUrl": "https://github.com/minchenlee/loadsketch/blob/main/LICENSE",
+        "details": [
+          "原始碼 MIT，允許依條款商業使用、修改、散布，需保留著作權及授權聲明。",
+          "雲端服務或範例中出現的品牌、價格及系統架構只是模擬參考，不能推定第三方商標、原始系統或價格資料授權。"
+        ]
+      },
+      "features": [
+        "React Flow 互動式架構畫布，包含 15 類元件；可調 Instances、Concurrency、Timeout、Retry、Circuit Breaker、Cache Hit Rate、Queue 等參數。",
+        "離散事件模擬（Discrete-event Simulation）：請求依事件時序通過各元件，追蹤佇列、成功率、錯誤率、延遲、p99、瓶頸與復原。",
+        "每次執行附時間順序的 Why it happened 診斷，以及與 M/G/c 排隊理論的比較。",
+        "官方 README 列出 46 個範例、8 個 On-call Incident、6 個 Design Brief、3 個預算與複雜度限制題。",
+        "範例包含 Retry Storm、Cache Stampede、Gray Failure、Split Brain、Bad Config Rollout、Outbox、FIFO Poison Message、Region Cutover、Autoscale 等。",
+        "Terraform Plan JSON 匯入，進行容量檢查並把發現轉成模擬情境；不等同於完整還原雲端部署。",
+        "CLI 可執行 run／validate／fmt／import；JSON Schema 格式 loadsketch/design@1 與 loadsketch/scenario@1，便於 AI Agent 或程式產生測試情境。",
+        "分享連結將設計及情境壓縮在 URL Fragment（#），作者宣稱該片段不送至伺服器；仍需注意把連結分享給其他人的資料外洩風險。",
+        "介面與文件提供繁體中文和英文，並支援深色／淺色主題。"
+      ],
+      "requirements": [
+        "線上版可透過瀏覽器使用（本次網站無法直接連線驗證，GitHub README 已確認官方 URL）",
+        "自行安裝需 Node.js >=22.18、Git 與 npm；開發執行為 npm install、npm run dev",
+        "CLI：node cli/loadsketch.ts run examples/designs/three-tier.json --scenario examples/scenarios/spike.json",
+        "測試命令：npm run test:quick、npm run test:slow、npm run e2e、npm run build"
+      ],
+      "limitations": [
+        "屬於學習／設計比較用的簡化離散事件模擬；真實服務延遲、容量、資源競爭、故障模式和成本可能不同。",
+        "官方 README 對知名服務的架構範例明示為依公開資料簡化，不代表任何公司真實內部架構。",
+        "模型結果依元件參數、流量分佈、隨機種子和假設決定；不可作為雲端實際 SLA 或壓力測試證據。",
+        "本次直接讀取 https://loadsketch.mclee.dev 失敗，但官方 GitHub repo metadata、README 和 package.json 均一致指向此網址；未實際開啟網站或執行模擬。"
+      ],
+      "security": {
+        "status": "official-source-reviewed-not-executed",
+        "riskLevel": "low-to-medium-depending-on-input-data",
+        "risks": [
+          "Terraform Plan JSON 可能包含環境拓樸、資源名稱、IP、設定及機敏資訊；使用線上匯入前須確認資料是否留在本機，並對輸入去識別化。",
+          "分享網址 Fragment 可包含整份設計與情境；即使不會在一般 HTTP Request 中傳送給伺服器，分享連結仍可能洩露架構細節。",
+          "自行執行 npm install、Playwright 或 Wrangler Deploy 會安裝依賴或觸發網路／部署操作；未經授權不要在敏感工作環境執行。",
+          "網站實際服務的網路請求與安全性未獨立稽核，不能僅因作者宣稱不需伺服器而保證沒有資料外送。",
+          "本次未安裝依賴、執行模擬、讀取 Terraform 私人資料或部署。"
+        ],
+        "recommendedControls": [
+          "用虛構架構與範例先測試，勿直接匯入企業正式 Terraform Plan。",
+          "若需要保密架構，優先本機運行並自行檢查瀏覽器網路請求與來源碼。",
+          "所有模擬指標均標註模型假設，正式容量規劃仍需真實量測和負載測試。"
+        ]
+      },
+      "relatedConcepts": [
+        "System Design",
+        "Discrete-event Simulation",
+        "Queueing Theory",
+        "Failure Injection",
+        "Retry Storm",
+        "Circuit Breaker",
+        "Chaos Engineering",
+        "Capacity Planning"
+      ],
+      "researchStatus": "official-github-source-and-license-reviewed-not-run; live-site-inaccessible",
+      "displayStatus": "listed",
+      "status": "active",
+      "addedAt": "2026-11-12",
+      "updatedAt": "2026-11-12",
+      "tags": [
+        "loadsketch",
+        "system-design",
+        "simulation",
+        "discrete-event-simulation",
+        "distributed-systems",
+        "retry-storm",
+        "error-path",
+        "fault-injection",
+        "queueing-theory",
+        "circuit-breaker",
+        "capacity-planning",
+        "p99",
+        "latency",
+        "oncall-training",
+        "terraform",
+        "cli",
+        "json-schema",
+        "react-flow",
+        "traditional-chinese",
+        "mit",
+        "commercial-license-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/minchenlee/loadsketch",
+        "homepage": "https://loadsketch.mclee.dev",
+        "documentation": [
+          "https://github.com/minchenlee/loadsketch/blob/main/README.md",
+          "https://github.com/minchenlee/loadsketch/blob/main/README.zh-TW.md",
+          "https://github.com/minchenlee/loadsketch/blob/main/docs/model.md",
+          "https://github.com/minchenlee/loadsketch/blob/main/LICENSE",
+          "https://github.com/minchenlee/loadsketch/blob/main/package.json"
+        ],
+        "reviewedAt": "2026-11-12",
+        "type": "Official GitHub README, Traditional Chinese documentation, simulation model and MIT license; homepage not independently fetched"
+      }
+    },
+    {
+      "schemaVersion": 2,
       "id": "minimax-code",
       "entityType": "resource",
       "title": "MiniMax Code — Agentic Coding, Design & Skills Workspace",
