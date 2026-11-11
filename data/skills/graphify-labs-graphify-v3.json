@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 2,
+  "id": "graphify-labs-graphify-v3",
+  "entityType": "skill",
+  "title": "Graphify v3｜程式碼與跨文件 Knowledge Graph Agent Skill",
+  "purpose": "提供 Coding Agent 一套可執行流程：讀取指定程式碼、文件或多媒體資料夾，透過本機 AST 與語意擷取建構可保存的知識圖譜，產生來源標註、架構分析、社群與可查詢的 Graph Report。",
+  "problem": "初次接手 Codebase 或大量技術文件時，Agent 容易反覆讀整份原始資料，缺少可追溯、跨檔案的架構關係與持久上下文。",
+  "inputs": [
+    "具有存取權限且已排除敏感檔案的本機資料夾",
+    "欲解析的專案原始碼、Markdown、PDF、圖片或選用影音資料",
+    "AI Coding Assistant 或可用的 LLM 環境（如需語意擷取）",
+    "是否需要圖譜輸出（HTML、JSON、Obsidian、Wiki、Neo4j）與隱私／花費上限"
+  ],
+  "outputs": [
+    "graphify-out/graph.html：可視化交互圖譜",
+    "graphify-out/graph.json：持久關係圖資料",
+    "graphify-out/GRAPH_REPORT.md：架構和關鍵節點解說",
+    "graphify-out/cache：變更檢查與增量重新處理",
+    "依參數選配 Wiki、Obsidian Vault、MCP、GraphML 及查詢結果"
+  ],
+  "execution": "依 v3 graphify/skill.md 中的 /graphify 工作流，先確認使用者允許處理的目錄與資料外送邊界，再檢查 graphify CLI 與 Python 套件及相依工具是否已安裝。安裝若需要 pip install graphifyy、--break-system-packages、修改 AGENTS.md／CLAUDE.md 或啟用 Hook，應先經使用者核准。實際操作為偵測可用檔案，對程式碼使用 Tree-sitter AST，本機轉錄影音（選用），對文件／圖片與逐字稿使用 Agent 語意擷取（可能傳到模型 API），經 NetworkX 與 Leiden 構圖及社群偵測，輸出 HTML／JSON／報告；之後按需查詢子圖，避免每次把整個 graph.json 塞給 Agent。輸出邊標註 EXTRACTED/INFERRED/AMBIGUOUS，所有推論需能追溯來源。",
+  "versionReviewed": "v3 branch, package graphifyy 0.3.29 (not default v8)",
+  "sourceBranch": "v3",
+  "branchCommitReviewed": "e03c4604fb782d84cdb0e53e81d31707e54152a3",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "graphify-labs-graphify"
+    }
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "codebase-knowledge-graph"
+    },
+    {
+      "type": "concept",
+      "id": "context-governance"
+    },
+    {
+      "type": "concept",
+      "id": "evidence-backed-agent-investigation"
+    }
+  ],
+  "commercialUse": {
+    "status": "MIT v3 branch, separate content and dependency terms",
+    "details": [
+      "v3 版本核心 MIT 允許依條款商用，需保留 License/著作權聲明。",
+      "輸入文件、影音、程式碼的授權、依賴工具及第三方模型 API 有獨立限制。"
+    ]
+  },
+  "security": {
+    "status": "skill-source-reviewed-not-executed",
+    "riskLevel": "medium-to-high-if-local-settings-or-sensitive-docs-accessed",
+    "risks": [
+      "Skill 文件含自動 Python 套件安裝命令，必要時可能嘗試 pip --break-system-packages；在共用環境中有安裝污染與依賴衝突風險。",
+      "可選 always-on 設定會寫入 Agent 的 CLAUDE.md、AGENTS.md、Cursor/Gemini 規則或 PreToolUse Hooks 等，務必先審核 Diff、權限及卸載方式。",
+      "文件與圖片的語意擷取會經由代理模型處理，可能向雲端 Provider 傳送原始內容；本機 AST 不等於整個流程都本機封閉。",
+      "外部導入的 GitHub、URL、YouTube 或其他文件可能含 Prompt Injection；不得視為操作授權或設定指令。",
+      "不要未經確認啟用 --watch、Git Hooks、Neo4j Push、URL Ingest、MCP Server 或大範圍資料索引。",
+      "本次未安裝、執行 Skill、測試其安全限制或分析任何私人檔案。"
+    ],
+    "recommendedControls": [
+      "固定 v3 指定 Commit 並在隔離環境安裝，避免 --break-system-packages。",
+      "建立 .graphifyignore 並搭配實際存取邊界，排除憑證、機敏資料及未授權的文件。",
+      "每種資料來源分開核准本機分析與模型外送；限制 API 成本，關鍵節點由人檢查原文。",
+      "非必要不修改本機 Agent Always-on Hooks；必要時先備份、審核 Diff。"
+    ]
+  },
+  "limitations": [
+    "EXTRACTED 是來源擷取，不表示所有圖譜邊皆經獨立程式執行驗證；INFERRED 只是合理推論。",
+    "Skill 依賴第三方 Coding Agent 能力及 API，對多模態語意擷取有時間與費用成本。",
+    "README 的 71.5 倍 Token 節省是特定 Corpus 的作者評測，不能推定所有專案。"
+  ],
+  "status": "active",
+  "addedAt": "2026-11-11",
+  "updatedAt": "2026-11-11",
+  "tags": [
+    "graphify",
+    "graphify-v3",
+    "agent-skill",
+    "code-knowledge-graph",
+    "tree-sitter",
+    "ast",
+    "codebase-navigation",
+    "graph-rag",
+    "claude-code",
+    "codex",
+    "opencode",
+    "cursor",
+    "mcp",
+    "graph-json",
+    "architecture",
+    "evidence-backed",
+    "context-engineering",
+    "mit",
+    "commercial-license-review",
+    "model-egress",
+    "security-review"
+  ],
+  "source": {
+    "url": "https://github.com/Graphify-Labs/graphify/blob/v3/graphify/skill.md",
+    "type": "Official v3 Agent skill source, README, SECURITY.md, pyproject.toml and LICENSE",
+    "reviewedAt": "2026-11-11"
+  }
+}
