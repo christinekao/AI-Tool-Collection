@@ -5602,6 +5602,109 @@
     },
     {
       "schemaVersion": 2,
+      "id": "googlechrome-modern-web-guidance",
+      "entityType": "resource",
+      "title": "Modern Web Guidance｜現代 Web 平台最佳實務與 Coding Agent 指引",
+      "canonicalName": "GoogleChrome/modern-web-guidance",
+      "category": "03 Code Intelligence",
+      "resourceType": "Official web platform guidance CLI and coding-agent skills",
+      "purpose": "透過可搜尋、可擷取的現代 HTML／CSS／DOM／JavaScript 指引及瀏覽器相容性資訊，協助 Coding Agent 在實作 UI 時優先使用適當的原生 Web API，並兼顧效能、無障礙、安全與必要的回退方案。",
+      "recommendation": "適合 Next.js、React、TypeScript、原生 CSS 的前端實作、重構及 Code Review。針對具體功能先 search 再 retrieve 相關 Guide，按瀏覽器支援情況加入 Fallback；只在進行整體舊版程式碼現代化檢查時使用 legacy-scan，不能取代真實跨瀏覽器與 E2E 測試。",
+      "url": "https://github.com/GoogleChrome/modern-web-guidance",
+      "repo": "GoogleChrome/modern-web-guidance",
+      "homepage": "https://developer.chrome.com/docs/modern-web-guidance",
+      "versionReviewed": "package.json 1.0.0; Skill 指定 guidance 版本 2026_11_09-5bcc021b",
+      "license": "Apache-2.0",
+      "commercialUse": {
+        "status": "allowed-under-apache-2.0-terms",
+        "licenseUrl": "https://github.com/GoogleChrome/modern-web-guidance/blob/main/LICENSE",
+        "details": [
+          "Apache-2.0 允許依條款商用、修改及再散布；保留必要授權與 NOTICE，並注意專利授權與商標限制。",
+          "這是程式開發指南與 Skill，並非付費 API；使用的 Coding Agent、CI、外部服務可能另有成本。"
+        ]
+      },
+      "features": [
+        "官方 README 列出 250 個 Web 平台功能與 203 個真實開發情境（依檢視時版本）。",
+        "CLI search 和 retrieve 依使用情境回傳精簡指引，避免每次把全部文件塞入 Agent Context。",
+        "涵蓋 Container Queries、Subgrid、CSS Nesting、View Transitions、Anchor Positioning、Dialog、Popover 等現代 Web API。",
+        "涵蓋效能指標 LCP、INP、資源優先順序、排程、圖片最佳化、無障礙、表單與安全性。",
+        "包含瀏覽器原生 AI（如 Translator、Summarizer、Language Detector）相關指引；實際可用性依瀏覽器及版本而異。",
+        "提供 legacy-scan 用於廣泛掃描舊版 Web 寫法，官方註明僅涵蓋部分 Guidance Corpus。",
+        "提供安裝精靈與多種 Agent／Editor 的插件或 Skill 設定，含 Claude、Codex、Cursor、Gemini 等。"
+      ],
+      "requirements": [
+        "Node.js >=22（package.json）",
+        "CLI 可使用 npx modern-web-guidance@latest search / retrieve / legacy-scan",
+        "安裝精靈：npx modern-web-guidance@latest install；執行前應先審查套件與修改範圍"
+      ],
+      "limitations": [
+        "Skill 的 MANDATORY 指示是第三方 Skill 自訂工作流程，不代表對所有任務必須安裝或遵循。",
+        "新 Web API 可能仍屬實驗性、瀏覽器支援不一致；必須依目標瀏覽器做 Compatibility Check 與 Fallback。",
+        "legacy-scan 是部分模式掃描，不等於完整靜態分析、資安掃描、無障礙稽核或跨瀏覽器測試。",
+        "官方提供的指引會隨版本更新；@latest 的結果不可保證可重現。"
+      ],
+      "security": {
+        "status": "official-source-and-skill-reviewed-not-installed",
+        "riskLevel": "low-to-medium-depending-on-install-and-code-scan",
+        "risks": [
+          "npx @latest 會下載並執行 npm 套件；安裝精靈可能寫入各 Agent 的 Skill、插件或專案設定。",
+          "legacy-scan 會讀取指定目錄的程式碼，應避免在含憑證或未授權專案中執行；如後續接入外部 Agent 模型，專案內容可能依模型政策外送。",
+          "Skill.md 以 MANDATORY 指示 Agent 先執行指引檢索；屬專案自訂指示，應遵循使用者及專案既有規則，不應盲目覆蓋安全限制。",
+          "本次未安裝 npm 套件、執行 legacy-scan、修改本機 Agent 設定或驗證瀏覽器相容性。"
+        ],
+        "recommendedControls": [
+          "先檢視官方 SKILL.md、package.json 與安裝流程，正式專案固定 npm 版本與 Lockfile。",
+          "先用 search/retrieve 在測試環境驗證，不必立即執行 install。",
+          "針對使用的 Web API 逐一查證 MDN／Baseline 相容性與 Fallback，並進行 E2E／無障礙測試。",
+          "只掃描具有權限的 Repository，避免把敏感原始碼或憑證傳送給外部模型。"
+        ]
+      },
+      "privacy": "CLI 查詢指南可能涉及 npm 下載；專案掃描需授權。若 Coding Agent 使用雲端模型，專案上下文可能依供應商條款處理；未驗證完全離線。",
+      "relatedSkillRefs": [
+        {
+          "type": "skill",
+          "id": "googlechrome-modern-web-guidance"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-11-12",
+      "updatedAt": "2026-11-12",
+      "tags": [
+        "modern-web-guidance",
+        "googlechrome",
+        "web-platform",
+        "frontend",
+        "css",
+        "html",
+        "javascript",
+        "accessibility",
+        "performance",
+        "browser-compatibility",
+        "baseline",
+        "codex",
+        "claude-code",
+        "cursor",
+        "agent-skill",
+        "legacy-scan",
+        "apache-2.0",
+        "commercial-license-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/GoogleChrome/modern-web-guidance",
+        "documentation": [
+          "https://developer.chrome.com/docs/modern-web-guidance",
+          "https://github.com/GoogleChrome/modern-web-guidance/blob/main/README.md",
+          "https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/SKILL.md",
+          "https://github.com/GoogleChrome/modern-web-guidance/blob/main/package.json",
+          "https://github.com/GoogleChrome/modern-web-guidance/blob/main/LICENSE"
+        ],
+        "reviewedAt": "2026-11-12",
+        "type": "Official GitHub README, SKILL.md, package.json and license; no execution"
+      }
+    },
+    {
+      "schemaVersion": 2,
       "id": "graft",
       "entityType": "resource",
       "title": "Graft",
@@ -17635,6 +17738,86 @@
         "content",
         "skill"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "googlechrome-modern-web-guidance",
+      "entityType": "skill",
+      "title": "Modern Web Guidance｜現代 Web API 檢索與實作檢查 Skill",
+      "purpose": "在 Coding Agent 進行 HTML、CSS、Web UI、Client-side JS、可存取性或效能修改前，先依功能意圖搜尋官方整理的現代 Web 指引，擷取相應 Guide 並以相容性與 Fallback 驗證實作。",
+      "problem": "Coding Agent 可能沿用訓練資料中的舊版前端模式，忽略現代瀏覽器原生 API、效能、無障礙與跨瀏覽器相容性。",
+      "inputs": [
+        "具體前端需求（例如 Responsive Table、Dialog、Form Validation、View Transition）",
+        "目標瀏覽器與相容性要求",
+        "需要更新的前端原始碼；整體現代化任務可指定受控掃描目錄"
+      ],
+      "outputs": [
+        "相關 Guide 的搜尋 ID 與內容",
+        "基於指引的實作選擇、相容性／Fallback 檢查與變更說明",
+        "僅在整體舊版程式碼掃描時可輸出 legacy-scan 診斷"
+      ],
+      "execution": "依官方 SKILL.md：將單一需求轉為 2–5 字、動作導向且不含框架名稱的 Web 平台搜尋語句；以 modern-web-guidance search 查詢，結果匹配時 retrieve 對應 ID 與必要的總覽指南；若沒有適當結果則改寫搜尋一次，再視需要 list，不得硬套不相關指南；實作後確認 Web API 相容性、Fallback、需求與驗證結果；最終簡述採用的指南與避免的問題。對無指定功能的整體現代化檢查才使用 legacy-scan，勿在單一功能修正時無故掃描整個專案。",
+      "versionReviewed": "SKILL.md pinned guidance version 2026_11_09-5bcc021b; package.json 1.0.0",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "googlechrome-modern-web-guidance"
+        }
+      ],
+      "commercialUse": {
+        "status": "Apache-2.0",
+        "details": [
+          "官方專案 Apache-2.0，可依條款商用，保留必要授權與 NOTICE。",
+          "npm、Agent 使用及外部服務費用另計。"
+        ]
+      },
+      "security": {
+        "status": "official-skill-reviewed-not-executed",
+        "riskLevel": "low-to-medium",
+        "risks": [
+          "使用 npx @latest 會取得及執行外部 npm 套件，且安裝精靈可能修改 Agent 設定。",
+          "legacy-scan 可讀取整個指定資料夾，應先限制目錄、確認權限與敏感檔案排除。",
+          "官方 SKILL.md 自訂的 MANDATORY 規則不可覆蓋使用者、企業政策或其他安全要求。",
+          "部分最新 Web API 在不同瀏覽器可能未支援，不能直接當成跨平台通用方案。",
+          "本次未安裝、執行 Skill 或掃描任何程式碼。"
+        ],
+        "recommendedControls": [
+          "固定已審查 npm 版本，先在隔離專案測試 search/retrieve。",
+          "優先查 MDN Baseline／瀏覽器支援資訊，實作 Fallback 並跑真實測試。",
+          "避免在含機密資料的 Repo 執行未審查的全域掃描或外部模型處理。"
+        ]
+      },
+      "limitations": [
+        "不是自動完成程式碼修改或相容性測試的工具。",
+        "legacy-scan 只涵蓋部分舊版模式。",
+        "Guide 選擇及應用仍需工程師審核。"
+      ],
+      "status": "active",
+      "addedAt": "2026-11-12",
+      "updatedAt": "2026-11-12",
+      "tags": [
+        "modern-web-guidance",
+        "agent-skill",
+        "frontend",
+        "html",
+        "css",
+        "javascript",
+        "web-api",
+        "browser-compatibility",
+        "performance",
+        "accessibility",
+        "security",
+        "codex",
+        "claude-code",
+        "apache-2.0",
+        "commercial-license-review",
+        "privacy-review"
+      ],
+      "source": {
+        "url": "https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/SKILL.md",
+        "type": "Official upstream SKILL.md, README, package.json and Apache-2.0 license",
+        "reviewedAt": "2026-11-12"
+      }
     },
     {
       "schemaVersion": 2,
