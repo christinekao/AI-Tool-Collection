@@ -169,6 +169,7 @@ try{
  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
  await evaluate('document.querySelector("#topics [data-topic=learning] strong").click();true');
  await waitFor('location.hash==="#/explore/learning" && document.querySelector("#result-title")?.textContent==="學習與教材"','Topic route');
+ await waitFor('document.querySelector("#result-header")?.getBoundingClientRect().top>=-4 && document.querySelector("#result-header")?.getBoundingClientRect().top<=40','Desktop topic results scroll');
  const topicState=await evaluate('({selected:document.querySelector("#topics [data-topic=learning]")?.getAttribute("aria-pressed"),feedback:document.querySelector("#topic-selection-feedback")?.textContent,resultTop:document.querySelector("#result-header")?.getBoundingClientRect().top,visible:document.querySelector("#app .card")!==null})');
  assert.equal(topicState.selected,'true');
  assert.match(topicState.feedback,/學習與教材/);
@@ -180,6 +181,7 @@ try{
  await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
  await evaluate('document.querySelector("#topics [data-topic=agents] .topic-count").click();true');
  await waitFor('location.hash==="#/explore/agents" && document.querySelector("#result-title")?.textContent==="AI Agent 與 Skills"','Mobile topic');
+ await waitFor('document.querySelector("#result-header")?.getBoundingClientRect().top>=-4 && document.querySelector("#result-header")?.getBoundingClientRect().top<=40','Mobile topic results scroll');
  const mobileTopic=await evaluate('({top:document.querySelector("#result-header").getBoundingClientRect().top,selected:document.querySelector("#topics [data-topic=agents]").getAttribute("aria-pressed"),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})');
  assert.ok(mobileTopic.top>=-4&&mobileTopic.top<=40,'Mobile results not in view: '+JSON.stringify(mobileTopic));
  assert.equal(mobileTopic.selected,'true');
