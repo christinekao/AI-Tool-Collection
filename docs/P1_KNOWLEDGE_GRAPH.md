@@ -1,19 +1,23 @@
 # P1｜Problem-Centric Knowledge Graph MVP
 
 > 狀態：**MVP IMPLEMENTED** · 日期：2026-11-12 · 分支：`main`  
-> 目標：使用者從問題出發，找到已收藏的概念、工具、Skills、Prompts、Combinations 與 Workflows；不依賴工具名稱或主題關鍵字猜測關聯。
+> 目標：所有主題都能搜尋 Resource、Concept、Skill、Prompt、Combination、Workflow，並探索既有引用。人工整理的 Problem 是品質較高的補充入口，不是網站必要前提；**AI 影片製作只是示範**。
 
 ## 已上線的體驗
 
+- **跨領域通用入口**：開啟頁面預設為全庫探索（不是影片專區），可搜尋任何既有資料（例如 AI Agent、前端、資料分析、自動化、影片）。
+- **從任意節點展開**：不用先建立該領域的 Problem，也能從搜尋結果開啟一筆 Resource、Skill、Concept、Prompt、Combination 或 Workflow，探索它實際存在的入站／出站引用。
+- **區分搜尋與證實的關聯**：文字相似的項目是「搜尋結果」，不產生推測的 SOLVES、COMPLEMENTS 或替代關係。真正的 Problem 關聯仍需有原因及來源欄位。
+
 - [問題探索頁](https://christinekao.github.io/AI-Tool-Collection/knowledge.html)
 - 入口已加入首頁與網站導覽列，舊版全部收藏與詳情頁仍保留。
-- 目前五個經過人工整理的影片製作問題：
+- **僅作為示範案例**的五個影片製作 Problem（預設收合，不決定搜尋範圍）：
   - 學習與製作 AI 影片（總覽）
   - 從文字與參考素材生成 AI 影片
   - 將長影片剪成 Shorts／Reels
   - 製作可修改的產品宣傳影片
   - 製作角色與場景一致的 AI 短劇
-- 互動：選擇問題 → 查看相關 Concepts、Resources、Skills、Prompts、Combinations／Workflows → 點選節點 → 查看雙向引用與原有收藏詳情。
+- 互動：搜尋所有知識 → 開啟任意節點 → 查看雙向引用與詳情；也可以展開示範 Problem → 查看人工確認的跨類型關聯。
 - Mobile：選擇問題後自動定位到相應內容，並將焦點移到所選問題。
 
 ## 資料責任邊界
@@ -77,10 +81,10 @@ node scripts/test-knowledge-browser.mjs
 
 ## 已知限制與後續工作
 
-1. **Problem Coverage**：目前只整理影片製作的五個示範問題，其他主題尚無完整問題路徑。
+1. **Problem Coverage**：目前只整理影片製作的五個示範問題；其他主題雖然可透過通用搜尋與原始 Typed References 探索，但**尚未建立經人工審查的正式 Problem 解決路徑**。
 2. **Alternatives / Capabilities**：尚未建立有來源的 `ALTERNATIVE_TO`、`COMPLEMENTS` 等語意邊；不把現有 Combinations 或推薦工具誤當成互換工具。
 3. **Source Freshness**：Graph 表示已收藏內容的關聯，不會自動查證第三方工具目前是否停更、價格或功能已改變。
 4. **Knowledge Quality**：初期保留全部 V2 Typed References；高價值節點未來仍應依據來源補充有意義的 Relation、限制與實際使用情境。
 5. **Graph Visualization**：目前使用以所選 Problem 為中心的局部關聯圖與可點選鄰居，不在單一畫布塞進 550 個節點，避免難以操作。
 
-P2 可優先擴展「網站開發」、「AI Agent／Skills」、「資料分析」三類需求；另外設計可追溯的能力比較與替代方案模型。在更新 Schema 前先定義驗證條件與資料維護成本，避免重複資料來源。
+下一階段可依使用者需求擴展「網站開發」、「AI Agent／Skills」、「資料分析」等 Problem 範例，而不是預先認定某一領域優先；另外設計可追溯的能力比較與替代方案模型。在更新 Schema 前先定義驗證條件與資料維護成本，避免重複資料來源。
