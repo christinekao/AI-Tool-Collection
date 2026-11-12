@@ -855,6 +855,106 @@
     },
     {
       "schemaVersion": 2,
+      "id": "alexyc9381-hiring-panel-skill",
+      "entityType": "resource",
+      "title": "Hiring Panel Skill｜七視角履歷審查與重寫",
+      "canonicalName": "alexyc9381/hiring-panel-skill",
+      "category": "04 Career & Productivity",
+      "resourceType": "Claude Code resume review agent skill",
+      "purpose": "對指定履歷與職缺進行 ATS 可讀性／關鍵字模擬、主管面試判斷及五位獨立角色的履歷評估，合併拒絕理由、依嚴重度排序、依既有事實重寫並重新模擬 ATS 結果。",
+      "url": "https://github.com/alexyc9381/hiring-panel-skill",
+      "repo": "alexyc9381/hiring-panel-skill",
+      "versionReviewed": "1.0.0",
+      "license": "MIT",
+      "commercialUse": {
+        "status": "allowed-under-MIT-terms",
+        "details": [
+          "MIT 授權可依條款商用、修改與散布，須保留授權及著作權聲明。",
+          "Claude Code 使用量及模型費用依個人方案計算，免費 Skill 不代表模型執行零成本。"
+        ]
+      },
+      "features": [
+        "ATS 模擬檢查格式、日期、職缺關鍵字與聯絡資訊",
+        "Hiring Manager 模擬前十秒判斷及面試追問",
+        "五位獨立視角：主管、其他求職者、CEO、Recruiter、未來同事",
+        "合併七位審查者問題並排序，標註對應履歷原文",
+        "禁止編造經歷、職稱、日期、技能與成果數字；缺漏以 [ADD: ...] 標示",
+        "重寫履歷後重新執行 ATS 模擬，輸出 PANEL.md 與 RESUME-IMPROVED.md"
+      ],
+      "requirements": [
+        "Claude Code 與可用的模型使用額度",
+        "履歷 PDF 路徑或純文字",
+        "目標職缺或 JD；若無職缺需先詢問",
+        "官方宣稱每次執行八次子 Agent 呼叫，可能增加模型用量"
+      ],
+      "limitations": [
+        "七位審查者是 AI 模擬角色，不是真實企業 ATS 或 HR，也不保證面試。",
+        "同一模型生成的多視角評估不代表真正獨立的人類共識。",
+        "不應把關鍵字匹配當成所有 ATS 的通用演算法。",
+        "若只有履歷沒有完整 JD，關鍵字缺漏評估會較不準確。"
+      ],
+      "security": {
+        "status": "official-skill-source-reviewed-not-installed",
+        "riskLevel": "medium-for-personal-data-and-file-writing",
+        "risks": [
+          "履歷可能包含姓名、電話、電子郵件、地址、工作經歷及企業內部資料；提供給 Claude Code 時可能依模型服務政策傳輸與處理。",
+          "Skill 會在執行目錄建立 .hiring-panel/<date>-<name>/ 並寫入 PANEL.md 與 RESUME-IMPROVED.md；避免在公開 Git Repository 中意外提交個資。",
+          "從 GitHub 安裝第三方 Skill 前應審閱 SKILL.md、外部依賴與檔案寫入範圍；本次未安裝或實際執行。"
+        ],
+        "recommendedControls": [
+          "履歷先移除不必要的個資與機密專案內容。",
+          "在非公開資料夾執行並將 .hiring-panel/ 加入 .gitignore。",
+          "重寫後逐項核對職稱、日期、成果數字及工具經驗，未確認事項維持 [ADD: ...]。"
+        ]
+      },
+      "relatedSkillRefs": [
+        {
+          "type": "skill",
+          "id": "alexyc9381-hiring-panel"
+        }
+      ],
+      "relatedPromptRefs": [
+        {
+          "type": "prompt",
+          "id": "star-resume-experience-three-rewrites"
+        },
+        {
+          "type": "prompt",
+          "id": "cv-jd-tailored-interview-questions-deep-followups"
+        }
+      ],
+      "status": "active",
+      "addedAt": "2026-11-12",
+      "updatedAt": "2026-11-12",
+      "tags": [
+        "hiring-panel",
+        "claude-code",
+        "resume",
+        "cv",
+        "ats-simulation",
+        "recruiter",
+        "hiring-manager",
+        "career",
+        "job-search",
+        "resume-rewrite",
+        "agent-skill",
+        "mit",
+        "commercial-license-review",
+        "privacy-review"
+      ],
+      "source": {
+        "url": "https://github.com/alexyc9381/hiring-panel-skill",
+        "documentation": [
+          "https://github.com/alexyc9381/hiring-panel-skill/blob/main/README.md",
+          "https://github.com/alexyc9381/hiring-panel-skill/blob/main/skills/hiring-panel/SKILL.md",
+          "https://github.com/alexyc9381/hiring-panel-skill/blob/main/LICENSE"
+        ],
+        "reviewedAt": "2026-11-12",
+        "type": "Official GitHub README, Skill source and LICENSE; no execution"
+      }
+    },
+    {
+      "schemaVersion": 2,
       "id": "allanyiin-documa",
       "entityType": "resource",
       "title": "Documa — AI Agent 結構化文件理解與可驗證檢索",
@@ -15721,6 +15821,81 @@
         "commercial-license-review",
         "security-review"
       ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "alexyc9381-hiring-panel",
+      "entityType": "skill",
+      "title": "Hiring Panel｜七視角履歷審查 Claude Code Skill",
+      "purpose": "讓 Claude Code 依據履歷和目標職缺模擬 ATS、主管與五種不同審查視角，找出具原文證據的淘汰原因、合併問題、重寫履歷並比較修改前後的模擬結果。",
+      "problem": "求職者難以判斷履歷為何無法取得面試，以及 ATS 可讀性、招聘主管的十秒印象、成果量化與團隊合作描述是否存在問題。",
+      "inputs": [
+        "履歷 PDF 或可讀文字",
+        "明確目標職缺或 JD（缺少時先詢問）",
+        "必要時由使用者補充缺少的真實經歷與成果"
+      ],
+      "outputs": [
+        ".hiring-panel/<date>-<name>/PANEL.md：七位審查者結論、問題排序及履歷原文依據",
+        ".hiring-panel/<date>-<name>/RESUME-IMPROVED.md：依已知事實改寫的履歷",
+        "ATS 模擬 PASS／REJECT 修改前後比較；待補資料 [ADD: ...]"
+      ],
+      "execution": "官方 /hiring-panel Skill：先取得履歷與職缺；第一個子 Agent 模擬 ATS；第二個模擬招聘主管；接著五個獨立子 Agent 從主管、競爭求職者、CEO、Recruiter、未來同事視角審查，彼此不可看其他角色筆記；合併七位評語並依嚴重度排序，逐項引用原文；不捏造事實地改寫履歷；再啟動 ATS 子 Agent 重評；只寫入 .hiring-panel/<date>-<name>/ 下兩份 Markdown 文件。官方 README 表示每次約八次子 Agent 呼叫。",
+      "versionReviewed": "1.0.0",
+      "resourceRefs": [
+        {
+          "type": "resource",
+          "id": "alexyc9381-hiring-panel-skill"
+        }
+      ],
+      "commercialUse": {
+        "status": "MIT",
+        "details": [
+          "原始碼 MIT，可依條款商用並保留授權聲明。",
+          "Claude Code 模型使用額度及費用另外計算。"
+        ]
+      },
+      "security": {
+        "status": "official-skill-read-not-installed",
+        "riskLevel": "medium",
+        "risks": [
+          "履歷個資、內部公司專案或敏感資料可能被提供給 Claude Code 模型服務，須事先確認授權及資料處理政策。",
+          "結果會寫入本機 .hiring-panel/；若執行於公開 Git 專案，須避免提交含個資的輸出。",
+          "多子 Agent 的角色判斷不等於真實企業 ATS 或 HR 評分，不能聲稱保證錄取。",
+          "本次未安裝、未讀取使用者履歷、未執行任何審查。"
+        ],
+        "recommendedControls": [
+          "使用非公開工作資料夾，先去識別化履歷，將輸出加入 .gitignore。",
+          "所有改寫以已驗證事實為準；缺少數字或經歷時保留 [ADD: ...] 並詢問。",
+          "使用實際 JD 做針對性評估，結果須由使用者逐項確認。"
+        ]
+      },
+      "limitations": [
+        "ATS 為模型模擬，不是真實招聘系統。",
+        "同一模型的多視角評估可能共享偏差。",
+        "八次子 Agent 呼叫可能增加用量，視方案與執行環境而定。"
+      ],
+      "status": "active",
+      "addedAt": "2026-11-12",
+      "updatedAt": "2026-11-12",
+      "tags": [
+        "hiring-panel",
+        "claude-code-skill",
+        "resume-review",
+        "ats",
+        "hiring-manager",
+        "career",
+        "job-search",
+        "multi-agent",
+        "resume-rewrite",
+        "mit",
+        "privacy-review",
+        "security-review"
+      ],
+      "source": {
+        "url": "https://github.com/alexyc9381/hiring-panel-skill/blob/main/skills/hiring-panel/SKILL.md",
+        "type": "Official upstream SKILL.md, README and MIT license",
+        "reviewedAt": "2026-11-12"
+      }
     },
     {
       "schemaVersion": 2,
