@@ -96,7 +96,7 @@ function refsHtml(refs){
   if(!item||!item.type||!item.id||!SINGULAR[item.type])return '<span class="tag">'+esc(item?.label||item?.id||String(item))+'</span>';
   const target=state.byType[item.type]?.get(item.id);
   return target?'<a class="ref-link" href="'+esc(routeFor(item.type,item.id))+'"><span class="ref-type">'+esc(item.type)+'</span>'+esc(target.title)+'</a>':'<span class="tag" title="尚未收錄">'+esc(item.id)+' · 尚未收錄</span>';
- }).join('')+'</div>';
+ }).join('');
 }
 function examples(x){
  const rows=list(x.examples).map(e=>{
@@ -173,7 +173,7 @@ function readRoute(){
  if(tab){state.topic='all';state.type=tab[1]}
 }
 function topicCards(){
- return '<div class="topic-grid">'+TOPICS.map(t=>{
+ return TOPICS.map(t=>{
   const count=state.items.filter(x=>matchTopic(x,t.id)).length;
   return '<button class="topic-card'+(state.topic===t.id?' selected':'')+'" data-topic="'+t.id+'" aria-pressed="'+(state.topic===t.id)+'"><span class="topic-symbol">'+t.icon+'</span><strong>'+t.name+'</strong><span class="topic-desc">'+t.desc+'</span><span class="topic-count">'+count+' 筆相關收藏 →</span></button>';
  }).join('')+'</div>';
