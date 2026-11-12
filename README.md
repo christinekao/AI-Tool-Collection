@@ -33,7 +33,7 @@
 
 **架構現況：** 目前只有六種 V2 Entity。Problem 和 Solution 先是知識分析維度／既有記錄的欄位與 Goal，不代表已經建立新的獨立資料類型或 Graph UI；新增 Graph Schema 屬於後續階段。
 
-**P0 維護與清理：** [資料架構盤點、V1 退役風險與驗收條件](docs/P0_DATA_AUDIT.md)。任何舊版資料清理都必須先通過完整性檢查，不可因為已有 Catalog 就直接刪除來源檔。
+**P0 已完成（2026-11-12）：** 已通過舊資料一致性稽核並退役根目錄的 V1 資料與過時遷移流程。原始檔保留於 [清理前備份分支](https://github.com/christinekao/AI-Tool-Collection/tree/backup/p0-before-legacy-cleanup-20261112)，詳細證據參見 [P0 Data Audit](docs/P0_DATA_AUDIT.md)。正式 Source of Truth 只有各個 V2 單筆 JSON。
 
 ---
 
@@ -73,9 +73,10 @@
 | 4 | [data/](data/) | **唯一 V2 Canonical Source**：一筆實體一個 JSON |
 | 5 | [scripts/build-v2.mjs](scripts/build-v2.mjs) | 驗證單筆原始檔並產生 Catalog／Manifest |
 | 6 | [.github/workflows/v2-catalog-sync.yml](.github/workflows/v2-catalog-sync.yml) | `main` 分支更新原始檔時的自動同步 |
-| 7 | [COLLECTION_WORKFLOW.md](COLLECTION_WORKFLOW.md) | 長期整理理念與早期收錄原則；有部分 **Legacy V1 描述** |
+| 7 | [scripts/validate-v2.mjs](scripts/validate-v2.mjs) | 只讀驗證 Source／Catalog／Manifest 與 Typed References |
+| 8 | [docs/P0_DATA_AUDIT.md](docs/P0_DATA_AUDIT.md) | V1 退役核對、備份分支及資料保留紀錄 |
 
-**規則衝突時：**以當前 `data/` Canonical Entity、`SCHEMA_V2.md`、`data/schema-v2.json`、`scripts/build-v2.mjs` 的現行實作為準。尤其 `COLLECTION_WORKFLOW.md` 仍提過「Workflow 嵌在 Combination」及直接修改舊版 `*.json`：**這是舊版設計，現在 Workflow 已是 V2 獨立實體。**
+**唯一維護規則：**以 `data/` 的 Canonical JSON、`SCHEMA_V2.md`、`data/schema-v2.json` 與 `scripts/build-v2.mjs` 為準。舊版直接寫入根目錄 `*.json`、把 Workflow 嵌入 Combination 的流程均已退役。歷史內容可從備份分支查閱。
 
 ## 3. V2 資料結構與分類
 
@@ -184,7 +185,7 @@ node scripts/validate-v2.mjs
 git diff -- data/catalog-v2.json data/manifest-v2.json
 ```
 
-`scripts/validate-v2.mjs` 是額外檢查；注意歷史 Migration 報告及相關 Legacy 規則，不要把它當成全面取代 `build-v2.mjs`。
+`scripts/validate-v2.mjs` 是獨立、只讀的完整性驗證工具，不再依賴歷史 Migration Report。`build-v2.mjs` 負責從單筆資料重建索引；兩者用途不同。GitHub Actions 會對正式 V2 資料自動執行檢查。
 
 每次 Push 後：
 
@@ -272,5 +273,5 @@ Website: https://christinekao.github.io/AI-Tool-Collection/
 
 ---
 
-**最後核對日期：2026-10-24（Asia/Taipei）**。此文件描述的是當時核實的 Repo 結構，未來若 Schema 或 Actions 改變，應以最新程式碼與 Schema 為準更新 README。
+**最後核對日期：2026-11-12（Asia/Taipei）**。此文件描述的是當時核實的 Repo 結構，未來若 Schema 或 Actions 改變，應以最新程式碼與 Schema 為準更新 README。
 

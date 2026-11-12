@@ -46,7 +46,7 @@ Allowed reference types are the six canonical entity types above.
 
 ### Resource
 
-Recommended fields: `canonicalName`, `category`, `resourceType`, `purpose`, `recommendation`, `url`, `repo`, `notes`, `conceptRefs`, `skillRefs`, `workflowRefs`.
+Recommended fields: `canonicalName`, `category`, `resourceType`, `purpose`, `recommendation`, `url`, `repo`, `notes`, `conceptRefs`, `skillRefs`, `workflowRefs`. Optional `legacyMetadata` preserves dated V1 provenance and historical review labels separately from the current `status`. Do not treat historical `installed` or `researchStatus` as present-day facts.
 
 ### Skill
 
@@ -100,29 +100,16 @@ Workflow stages may reference a Combination when several interchangeable tools i
 6. One Workflow can use many Combinations; one Combination can support many Workflows.
 7. Tool replacement should normally require changing references/alternatives, not rewriting the Concept or Workflow.
 
-## Migration source precedence
+## V1 retirement and historical provenance (2026-11-12)
 
-Legacy files remain read-only migration sources until parity is verified:
+V1 root-level aggregate and intake JSON files were retired from the default branch after the P0 strict parity audit passed. They remain available through Git history and the [P0 pre-cleanup backup branch](https://github.com/christinekao/AI-Tool-Collection/tree/backup/p0-before-legacy-cleanup-20261112).
 
-1. Canonical modular record already under `data/` (highest precedence)
-2. `*.updates.json`
-3. `*.intake.json`
-4. Legacy canonical aggregate (`resources.json`, `concepts.json`, `combinations.json`, `prompts.json`)
-
-Merge by stable ID where available; otherwise normalize repo/URL/name and flag ambiguous collisions for review. Never silently discard conflicting non-empty fields.
-
-## Migration acceptance
-
-Migration is complete only when:
-
-- every legacy record is represented by a V2 canonical record or an explicit dedupe/alias decision;
-- no dangling typed references exist;
-- duplicate repo/URL/IDs are reported and resolved;
-- Workflow records are first-class files;
-- existing structured workflow information is preserved when extracted from legacy Combinations;
-- legacy and V2 record counts reconcile through a generated migration report;
-- the website reads V2 data and all six entity views work;
-- old aggregate/intake/update files are retained until the above checks pass.
+- **One source of truth:** edit only `data/<type>/<id>.json` for normal ingestion.
+- **Generated views:** `data/catalog-v2.json` and `data/manifest-v2.json` are build outputs.
+- **Historical metadata:** Resource `legacyMetadata` preserves legacy display/research status, concept review time, other historical fields and the original source-file names. These fields are historical evidence, not current verification.
+- **Historical workflow:** a `legacyPurpose` may preserve an older stage description without overwriting a later improved `purpose`.
+- **Identity scope:** do not equate an entire repository (e.g. `anthropics/skills`) with one of its component Skills (e.g. `frontend-design`).
+- **Parity evidence:** the strict source audit and cleanup record are in [docs/P0_DATA_AUDIT.md](docs/P0_DATA_AUDIT.md). Legacy migration scripts must not be re-run on the current V2 source.
 
 ## Future intake rule
 

@@ -1,24 +1,24 @@
-name: P0 Data Audit
+name: V2 Data Validate
 
 on:
   push:
     branches: [main]
     paths:
       - 'data/**'
-      - 'scripts/audit-p0.mjs'
-      - '.github/workflows/p0-data-audit.yml'
+      - 'scripts/validate-v2.mjs'
+      - '.github/workflows/v2-data-validate.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  audit:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Audit V2 source, catalog, manifest, references and legacy parity
-        run: node scripts/audit-p0.mjs --strict-legacy
+      - name: Verify canonical JSON, catalog, manifest and references
+        run: node scripts/validate-v2.mjs
