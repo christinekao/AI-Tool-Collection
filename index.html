@@ -87,7 +87,8 @@ const hrefFor = r => '#/' + PLURAL[r.type] + '/' + encodeURIComponent(r.id);
 function initIndex(){
   byType = {};
   aliases = new Map();
-  for(const [plural,rows] of Object.entries(C)){
+  for(const plural of Object.keys(L)){
+    const rows = C[plural] || [];
     const singular = Object.keys(PLURAL).find(k => PLURAL[k] === plural);
     byType[singular] = new Map((rows || []).map(x => [x.id,x]));
     if(!['resource','skill'].includes(singular))continue;
