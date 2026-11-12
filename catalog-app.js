@@ -4,9 +4,9 @@ const SINGULAR={resource:'resources',skill:'skills',concept:'concepts',prompt:'p
 const TOPICS=[
 {id:'learning',name:'學習與教材',desc:'課程、教學文件、練習工具與知識整理',icon:'◉',rx:/學習|教學|教材|課程|教案|教練|練習|培訓|教育|訓練|入門|tutorial|course|curriculum|education|learning|teaching|training|study.guide|study.plan|learn.by|interview.practice|oncall.training|knowledge.transfer|flashcard/i},
 {id:'agents',name:'AI Agent 與 Skills',desc:'Agent 架構、工具調用、協作與可重用技能',icon:'◇',rx:/agent|multi.agent|mcp|skill|harness|orchestrat|codex|claude.code|tool.use|context.engineer|代理|智能體|代理人|多代理/i},
-{id:'coding',name:'程式開發',desc:'Coding Agent、測試、程式品質與開發流程',icon:'⌘',rx:/coding|codebase|code.review|software|develop|programming|git|debug|testing|test.automation|ci.cd|developer|程式|開發|除錯|測試|重構/i},
+{id:'coding',name:'程式開發',desc:'Coding Agent、測試、程式品質與開發流程',icon:'⌘',rx:/coding|codebase|code.review|software|develop|programming|\bgit\b|github|gitlab|debug|testing|test.automation|ci.cd|developer|程式|開發|除錯|測試|重構/i},
 {id:'frontend',name:'前端與 UI 設計',desc:'網頁、React、CSS、元件與視覺設計',icon:'▣',rx:/frontend|front.end|web.design|web.platform|\bui\b|\bux\b|react|next.js|css|html|design.system|figma|tailwind|landing.page|網站|前端|介面|設計|視覺/i},
-{id:'data',name:'資料與分析',desc:'資料工程、BI、研究、視覺化與分析工具',icon:'▥',rx:/data|analytics|analysis|dashboard|database|sql|etl|pipeline|visualization|research|\brag\b|search|資料|分析|研究|儀表板|向量/i},
+{id:'data',name:'資料與分析',desc:'資料工程、BI、研究、視覺化與分析工具',icon:'▥',rx:/\bdata\b|dataset|data.engineer|data.pipeline|analytics|analysis|dashboard|database|sql|etl|pipeline|visualization|research|\brag\b|search|資料|分析|研究|儀表板|向量/i},
 {id:'automation',name:'自動化與流程',desc:'工作流程、Agent 協作、排程與整合',icon:'↗',rx:/automat|workflow|pipeline|integration|orchestrat|scheduled|cron|power.automat|n8n|自動化|工作流程|排程|串接|整合/i},
 {id:'career',name:'求職與面試',desc:'履歷、職缺、面試與職涯能力提升',icon:'◎',rx:/career|resume|recruit|hiring|job.search|job.application|cv|interview|headhunt|portfolio|履歷|求職|面試|職涯|職缺|作品集/i},
 {id:'content',name:'內容與創作',desc:'文章、影片、社群、影像與創作工作流',icon:'✧',rx:/content|video|youtube|social|post|media|image|illustrat|animation|writing|creative|marketing|seo|影片|社群|寫作|創作|圖片|影像|動畫/i},
