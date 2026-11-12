@@ -41,7 +41,11 @@ export function buildKnowledgeGraph(catalog,problems=[]){
    if(rec.entityType!==type||!clean(rec.id)||!clean(rec.title))throw Error('Invalid '+plural+' record');
    const name=key(type,rec.id);
    recordIndex.set(name,rec);
-   node({key:name,type,id:rec.id,title:rec.title,summary:snippet(rec.coreProblem||rec.problem||rec.goal||rec.purpose||rec.recommendation),...(clean(rec.url)?{url:rec.url}:{})});
+   node({key:name,type,id:rec.id,title:rec.title,summary:snippet(rec.coreProblem||rec.problem||rec.goal||rec.purpose||rec.recommendation),
+    tags:Array.isArray(rec.tags)?rec.tags.filter(t=>typeof t==='string'):[],
+    searchText:snippet([rec.title,rec.canonicalName,rec.category,rec.resourceType,rec.purpose,rec.goal,rec.problem,rec.coreProblem,rec.recommendation,...(Array.isArray(rec.tags)?rec.tags:[]),...(Array.isArray(rec.useCases)?rec.useCases:[])].filter(v=>typeof v==='string').join(' '),1800),
+    updatedAt:clean(rec.updatedAt),
+    ...(clean(rec.url)?{url:rec.url}:{})});
   }
  }
  for(const p of problems){
@@ -49,7 +53,7 @@ export function buildKnowledgeGraph(catalog,problems=[]){
    throw Error('Incomplete Problem record: '+(p.id||'<missing id>'));
   if(!Array.isArray(p.links)||!Array.isArray(p.relatedProblems)||!Array.isArray(p.tags))
    throw Error('Problem must contain links, relatedProblems and tags: '+p.id);
-  node({key:key('problem',p.id),type:'problem',id:p.id,title:p.title,summary:snippet(p.description),question:p.question,outcome:p.outcome,tags:p.tags});
+  node({key:key('problem',p.id),type:'problem',id:p.id,title:p.title,summary:snippet(p.description),question:p.question,outcome:p.outcome,tags:p.tags,searchText:snippet([p.title,p.question,p.description,p.outcome,...p.tags].join(' '),1800)});
  }
  function addEdge(edge){
   if(!nodeIndex.has(edge.from)||!nodeIndex.has(edge.to))throw Error('Dangling graph edge '+edge.from+' → '+edge.to+' at '+edge.via);
