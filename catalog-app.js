@@ -12,7 +12,7 @@ const TOPICS=[
 {id:'content',name:'內容與創作',desc:'文章、影片、社群、影像與創作工作流',icon:'✧',rx:/content|video|youtube|social|post|media|image|illustrat|animation|writing|creative|marketing|seo|影片|社群|寫作|創作|圖片|影像|動畫/i},
 {id:'security',name:'安全與治理',desc:'權限、隱私、風險、驗證與治理',icon:'⬡',rx:/secur|privacy|pii|credential|secret|permission|governance|audit|compliance|guardrail|risk|安全|隱私|權限|稽核|合規|治理/i}
 ];
-const state={topic:'all',type:'all',query:'',limit:24,detail:null,returnHash:'#/explore',data:null,items:[],byType:{},aliases:new Map()};
+const state={topic:'all',type:'all',query:'',limit:24,detail:null,returnHash:'#/explore',data:null,items:[],byType:{},aliases:new Map(),focusResultsOnRoute:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const text=s=>typeof s==='string'?s.trim():'';
@@ -156,7 +156,25 @@ function detail(x){
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
  return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2><p>'+esc(short(s.what,320))+'</p><div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
-function navTo(hash){if(location.hash===hash){readRoute();render()}else location.hash=hash}
+function scrollToResults(){
+ const header=$('#result-header');
+ if(!header||header.hidden)return;
+ header.focus({preventScroll:true});
+ header.scrollIntoView({block:'start',behavior:'auto'});
+}
+function navTo(hash){
+ if(location.hash===hash){
+  readRoute();render();
+  if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scrollToResults()}
+ }else location.hash=hash;
+}
+function selectTopic(topic){
+ state.topic=topic;
+ state.type='all';
+ state.limit=24;
+ state.focusResultsOnRoute=true;
+ navTo(topic==='all'?'#/explore':'#/explore/'+topic);
+}
 function readRoute(){
  const hash=location.hash||'#/explore';
  const m=hash.match(/^#\/(resources|skills|concepts|prompts|combinations|workflows)\/(.+)$/);
@@ -176,7 +194,7 @@ function topicCards(){
  return TOPICS.map(t=>{
   const count=state.items.filter(x=>matchTopic(x,t.id)).length;
   return '<button class="topic-card'+(state.topic===t.id?' selected':'')+'" data-topic="'+t.id+'" aria-pressed="'+(state.topic===t.id)+'"><span class="topic-symbol">'+t.icon+'</span><strong>'+t.name+'</strong><span class="topic-desc">'+t.desc+'</span><span class="topic-count">'+count+' 筆相關收藏 →</span></button>';
- }).join('')+'</div>';
+ }).join('');
 }
 function render(){
  if(!state.data)return;
@@ -190,6 +208,9 @@ function render(){
  $('#type-tabs').innerHTML='<button data-type="all" class="'+(state.type==='all'?'active':'')+'">全部類型</button>'+Object.entries(TYPES).map(([k,v])=>'<button data-type="'+k+'" class="'+(state.type===k?'active':'')+'">'+v+'</button>').join('');
  const rows=filtered(),shown=rows.slice(0,state.limit);
  const topicName=TOPICS.find(t=>t.id===state.topic)?.name||'全部收藏';
+ const feedback=$('#topic-selection-feedback');
+ feedback.hidden=state.topic==='all';
+ feedback.textContent=feedback.hidden?'':'目前主題：'+topicName+' · '+rows.length+' 筆符合條件的收藏；下方顯示篩選結果。';
  $('#result-title').textContent=state.query?'搜尋結果':topicName;
  $('#result-count').textContent='符合條件：'+rows.length+' 筆 · 顯示 '+shown.length+' 筆';
  $('#active-filters').innerHTML=(state.topic!=='all'?'<button data-clear="topic">主題：'+esc(topicName)+' ×</button>':'')+(state.type!=='all'?'<button data-clear="type">類型：'+esc(TYPES[state.type])+' ×</button>':'')+(state.query?'<button data-clear="query">搜尋：'+esc(state.query)+' ×</button>':'');
@@ -207,15 +228,19 @@ async function copyPrompt(id,button){
  }catch{$('#status').textContent='無法自動複製，請手動選取文字。'}
 }
 function wire(){
- $('#topics').addEventListener('click',e=>{const b=e.target.closest('[data-topic]');if(!b)return;state.topic=b.dataset.topic;state.type='all';state.limit=24;navTo('#/explore/'+state.topic)});
- $('#all-topic').addEventListener('click',()=>{state.topic='all';state.type='all';state.limit=24;navTo('#/explore')});
+ $('#topics').addEventListener('click',e=>{const b=e.target.closest('[data-topic]');if(b)selectTopic(b.dataset.topic)});
+ $('#all-topic').addEventListener('click',()=>selectTopic('all'));
  $('#type-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-type]');if(!b)return;state.type=b.dataset.type;state.limit=24;render()});
  $('#q').addEventListener('input',e=>{state.query=e.target.value;state.limit=24;render()});
  $('#more').addEventListener('click',()=>{state.limit+=24;render()});
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
  $('#app').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyPrompt(b.dataset.copy,b);else if(e.target.closest('[data-reset]'))reset();else if(e.target.closest('.title-link,.view-link'))state.returnHash=state.topic==='all'?'#/explore':'#/explore/'+state.topic});
- window.addEventListener('hashchange',()=>{readRoute();render();window.scrollTo({top:0,behavior:'auto'})});
+ window.addEventListener('hashchange',()=>{
+  readRoute();render();
+  if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scrollToResults()}
+  else window.scrollTo({top:0,behavior:'auto'});
+ });
 }
 async function init(){
  try{

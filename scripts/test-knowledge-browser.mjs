@@ -164,6 +164,27 @@ try{
  await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
  const fit=await evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})');
  assert.ok(fit.scroll<=fit.client+3,'Main index overflows at 375px '+JSON.stringify(fit));
+
+ // Verify a topic click is actually visible to the user, not just a green border.
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.querySelector("#topics [data-topic=learning] strong").click();true');
+ await waitFor('location.hash==="#/explore/learning" && document.querySelector("#result-title")?.textContent==="學習與教材"','Topic route');
+ const topicState=await evaluate('({selected:document.querySelector("#topics [data-topic=learning]")?.getAttribute("aria-pressed"),feedback:document.querySelector("#topic-selection-feedback")?.textContent,resultTop:document.querySelector("#result-header")?.getBoundingClientRect().top,visible:document.querySelector("#app .card")!==null})');
+ assert.equal(topicState.selected,'true');
+ assert.match(topicState.feedback,/學習與教材/);
+ assert.ok(topicState.resultTop>=-4&&topicState.resultTop<=40,'Results not visible after click: '+JSON.stringify(topicState));
+ assert.ok(topicState.visible);
+ console.log('PASS: Desktop topic click opens filtered results');
+ await evaluate('document.querySelector("#all-topic").click();true');
+ await waitFor('location.hash==="#/explore" && document.querySelector("#result-title")?.textContent==="全部收藏"','Reset topic');
+ await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.querySelector("#topics [data-topic=agents] .topic-count").click();true');
+ await waitFor('location.hash==="#/explore/agents" && document.querySelector("#result-title")?.textContent==="AI Agent 與 Skills"','Mobile topic');
+ const mobileTopic=await evaluate('({top:document.querySelector("#result-header").getBoundingClientRect().top,selected:document.querySelector("#topics [data-topic=agents]").getAttribute("aria-pressed"),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})');
+ assert.ok(mobileTopic.top>=-4&&mobileTopic.top<=40,'Mobile results not in view: '+JSON.stringify(mobileTopic));
+ assert.equal(mobileTopic.selected,'true');
+ assert.ok(mobileTopic.overflow<=3);
+ console.log('PASS: Mobile topic click opens filtered results');
  assert.deepEqual(errors,[],'Uncaught browser exceptions: '+errors.join('; '));
  console.log('PASS: Index navigation, direct topic grid, 375px layout, no JS exceptions');
 }finally{
