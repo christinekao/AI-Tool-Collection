@@ -32,7 +32,7 @@ for (const [plural, singular] of Object.entries(kinds)) {
   counts[plural] = { source: files.length, catalog: rows.length, manifest: (manifest.entities?.[plural] ?? []).length };
 
   if (ids[plural].size !== rows.length) errors.push(plural + ': duplicate catalog IDs');
-  if (!isDeepStrictEqual(filenames.map(name => name.slice(0, -5)), [...ids[plural]].sort())) {
+  if (!isDeepStrictEqual(filenames.map(name => name.slice(0, -5)).sort(), [...ids[plural]].sort())) {
     errors.push(plural + ': source filenames and catalog IDs differ');
   }
   if (!isDeepStrictEqual([...ids[plural]].sort(), [...(manifest.entities?.[plural] ?? [])].sort())) {
