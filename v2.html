@@ -1,1 +1,250 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kao · AI Tool Collection V2</title><style>:root{--bg:#0b0d10;--p:#12161b;--t:#e9eef4;--m:#9aa6b2;--l:#28313b;--a:#d8ff5f}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:Inter,system-ui,"Noto Sans TC",sans-serif}.w{max-width:1280px;margin:auto;padding:32px 20px 80px}h1{font-size:clamp(30px,5vw,58px);margin:0}.sub,.muted{color:var(--m);line-height:1.6}.bar{position:sticky;top:0;background:var(--bg);padding:14px 0;display:flex;gap:8px;flex-wrap:wrap;z-index:2}input,button{background:var(--p);border:1px solid var(--l);color:var(--t);padding:10px 12px;border-radius:10px}input{flex:1;min-width:220px}button.active{border-color:var(--a);color:var(--a)}.stats{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 24px}.chip,.tag{border:1px solid var(--l);border-radius:999px;padding:5px 8px;color:var(--m);font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--p);border:1px solid var(--l);border-radius:15px;padding:16px}.card h3{margin:0 0 8px}.label{color:var(--a);font-size:11px;text-transform:uppercase;margin:12px 0 5px}.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.stage{border:1px solid var(--l);border-radius:10px;padding:9px;margin-top:7px}.prompt{white-space:pre-wrap;max-height:260px;overflow:auto;font-size:12px;background:#0c1014;padding:10px;border-radius:9px}@media(max-width:760px){.grid{grid-template-columns:1fr}}</style></head><body><main class="w"><h1>AI Tool Collection V2</h1><p class="sub">Resource、Skill、Concept、Prompt、Combination、Workflow 都是獨立實體。</p><div class="bar"><input id="q" placeholder="搜尋…"><span id="tabs"></span></div><div id="stats" class="stats"></div><div id="app" class="grid"></div></main><script>let C,type='resources';const L={resources:'Resources',skills:'Skills',concepts:'Concepts',prompts:'Prompts',combinations:'Combinations',workflows:'Workflows'},E=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])),T=a=>'<div class="tags">'+(a||[]).map(x=>'<span class="tag">'+E(x)+'</span>').join('')+'</div>',R=a=>T((a||[]).map(x=>x.id||x.label||x));function card(x){let b='';if(x.entityType==='resource')b='<div class="muted">'+E(x.resourceType)+'</div><p>'+E(x.purpose)+'</p><div class="label">Concepts</div>'+R(x.conceptRefs);if(x.entityType==='skill')b='<p>'+E(x.purpose)+'</p><div class="label">Resources</div>'+R(x.resourceRefs);if(x.entityType==='concept')b='<div class="label">核心問題</div><p class="muted">'+E(x.coreProblem)+'</p><div class="label">解法</div><ul>'+((x.solutionMethods||[]).map(v=>'<li>'+E(v)+'</li>').join(''))+'</ul><div class="label">Examples</div>'+T(x.examples);if(x.entityType==='combination')b='<p class="muted">'+E(x.goal)+'</p><div class="label">Members</div>'+R(x.members)+(x.unresolvedMembers?.length?'<div class="label">Unresolved</div>'+T(x.unresolvedMembers):'');if(x.entityType==='workflow')b='<div class="label">Goal</div><p class="muted">'+E(x.goal)+'</p>'+((x.stages||[]).map((s,i)=>'<div class="stage"><b>'+(i+1)+'. '+E(s.title)+'</b><div class="muted">'+E(s.purpose)+'</div>'+R(s.uses)+'</div>').join(''));if(x.entityType==='prompt')b='<p class="muted">'+E(x.problem)+'</p><div class="prompt">'+E(x.prompt)+'</div>';return '<article class="card"><h3>'+E(x.title)+'</h3>'+b+T(x.tags)+'</article>'}function render(){const q=document.querySelector('#q').value.toLowerCase(),rows=(C[type]||[]).filter(x=>!q||JSON.stringify(x).toLowerCase().includes(q));app.innerHTML=rows.map(card).join('')||'<div class="muted">沒有符合條件的資料。</div>';document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('active',b.dataset.t===type))}async function init(){C=await(await fetch('data/catalog-v2.json',{cache:'no-store'})).json();tabs.innerHTML=Object.keys(L).map(k=>'<button data-t="'+k+'">'+L[k]+'</button>').join('');stats.innerHTML=Object.keys(L).map(k=>'<span class="chip">'+L[k]+'：<b>'+C[k].length+'</b></span>').join('');document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{type=b.dataset.t;render()});q.oninput=render;render()}init()</script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kao · AI Tool Collection V2</title>
+<style>
+:root{--bg:#0b0d10;--p:#12161b;--t:#e9eef4;--m:#9aa6b2;--l:#28313b;--a:#d8ff5f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font-family:Inter,system-ui,"Noto Sans TC",sans-serif}
+.w{max-width:1280px;margin:auto;padding:32px 20px 80px}
+h1{font-size:clamp(30px,5vw,58px);margin:0}
+.sub,.muted{color:var(--m);line-height:1.6}
+.bar{position:sticky;top:0;background:var(--bg);padding:14px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;z-index:2}
+input,button{background:var(--p);border:1px solid var(--l);color:var(--t);padding:10px 12px;border-radius:10px;font:inherit}
+input{flex:1;min-width:220px}
+button{cursor:pointer}
+button.active{border-color:var(--a);color:var(--a)}
+button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--a);outline-offset:3px}
+#tabs{display:flex;gap:7px;flex-wrap:wrap}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 24px}
+.chip,.tag{border:1px solid var(--l);border-radius:999px;padding:5px 8px;color:var(--m);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:var(--p);border:1px solid var(--l);border-radius:15px;padding:16px;min-width:0}
+.card h3{margin:0 0 8px;overflow-wrap:anywhere}
+.card p{line-height:1.65}
+.label{color:var(--a);font-size:11px;text-transform:uppercase;margin:12px 0 5px;letter-spacing:.04em}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ref-link{display:inline-flex;gap:5px;align-items:center;max-width:100%;border:1px solid #4a6147;border-radius:999px;padding:6px 10px;background:#1b2b23;color:#d8ff5f;font-size:12px;text-decoration:none;overflow-wrap:anywhere}
+.ref-link:hover{border-color:var(--a);background:#273c25}
+.ref-missing{display:inline-flex;align-items:center;border:1px dashed #49525d;border-radius:999px;padding:6px 10px;color:var(--m);font-size:12px;overflow-wrap:anywhere}
+.ref-kind{opacity:.75;font-size:10px}
+.ref-note{color:var(--m);font-size:12px;line-height:1.5;margin-top:7px}
+.examples{margin:8px 0 0;padding-left:21px;line-height:1.7;color:var(--t)}
+.examples li{margin:5px 0;overflow-wrap:anywhere}
+.examples a{color:var(--a)}
+.stage{border:1px solid var(--l);border-radius:10px;padding:9px;margin-top:7px}
+.prompt{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;font-size:12px;background:#0c1014;padding:12px;border-radius:9px;line-height:1.65}
+.prompt-actions{display:flex;justify-content:flex-end;margin:8px 0}
+.copy-btn{border-color:#4a6147;color:var(--a);padding:7px 12px;font-size:12px}
+.copy-btn:hover{background:#243124}
+.detail-nav{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 4px}
+.detail-nav a{color:var(--a);text-decoration:none}
+.detail-nav span{color:var(--m);font-size:13px}
+#toast{position:fixed;bottom:16px;right:16px;z-index:10;background:#233127;color:#e9eef4;border:1px solid #718f50;border-radius:10px;padding:10px 14px;box-shadow:0 6px 25px #0007}
+#toast:empty{display:none}
+.grid.workflow-view,.grid.detail-view{grid-template-columns:1fr}
+.workflow-view .card,.detail-view .card{padding:22px}
+.flowchart{display:flex;flex-direction:column;align-items:center;gap:0;margin:20px auto;max-width:680px}
+.flow-node{width:min(100%,560px);border:1px solid #526c78;background:#18242d;border-radius:14px;padding:16px 20px;box-shadow:0 3px 0 #0b0d10}
+.flow-node strong{display:block;font-size:15px;color:#e9eef4}
+.flow-node .muted{margin-top:7px}
+.flow-node .tags{margin-top:9px}
+.flow-start,.flow-end{background:#243124;border:1px solid #7d9d53;border-radius:999px;padding:9px 24px;font-size:12px;color:#d8ff5f}
+.flow-edge{height:49px;width:2px;background:#8da5b2;position:relative;flex-shrink:0}
+.flow-edge:after{content:'';position:absolute;bottom:-1px;left:-5px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #8da5b2}
+.flow-gate{border:1px dashed #a9b57b;background:#242a1d;padding:10px 18px;border-radius:8px;text-align:center;max-width:85%;font-size:13px}
+.flow-node .label{margin-top:8px}
+.flow-empty{padding:16px;color:#9aa6b2}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.bar{position:static}.w{padding:24px 16px 60px}.workflow-view .card,.detail-view .card{padding:16px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="w">
+<h1>AI Tool Collection V2</h1>
+<p class="sub">Resource、Skill、Concept、Prompt、Combination、Workflow 都是獨立實體。點擊關聯項目可查看完整紀錄。</p>
+<div class="bar"><input id="q" type="search" aria-label="搜尋收藏" placeholder="搜尋…"><nav id="tabs" aria-label="收藏分類"></nav></div>
+<div id="stats" class="stats"></div>
+<div id="app" class="grid" aria-live="off"></div>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+let C = null;
+let type = 'resources';
+let byType = {};
+let aliases = new Map();
+const PLURAL = {resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
+const L = {resources:'Resources',skills:'Skills',concepts:'Concepts',prompts:'Prompts',combinations:'Combinations',workflows:'Workflows'};
+const E = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const tagList = a => '<div class="tags">' + (a || []).map(x => '<span class="tag">' + E(typeof x === 'string' ? x : (x.label || x.id || '')) + '</span>').join('') + '</div>';
+const normal = s => String(s || '').trim().toLowerCase();
+const validUrl = s => {try{const u = new URL(String(s));return ['https:','http:'].includes(u.protocol) ? u.href : ''}catch{return ''}};
+const hrefFor = r => '#/' + PLURAL[r.type] + '/' + encodeURIComponent(r.id);
+function initIndex(){
+  byType = {};
+  aliases = new Map();
+  for(const [plural,rows] of Object.entries(C)){
+    const singular = Object.keys(PLURAL).find(k => PLURAL[k] === plural);
+    byType[singular] = new Map((rows || []).map(x => [x.id,x]));
+    if(!['resource','skill'].includes(singular))continue;
+    for(const x of rows){
+      for(const key of [x.id,x.title,x.canonicalName,x.repo]){
+        if(!key)continue;
+        const k = normal(key);
+        if(!aliases.has(k))aliases.set(k,new Map());
+        aliases.get(k).set(singular + ':' + x.id,{type:singular,id:x.id});
+      }
+    }
+  }
+}
+function refHtml(ref,showType=false){
+  const r = typeof ref === 'string' ? null : ref;
+  if(!r || !PLURAL[r.type] || !r.id)return '<span class="ref-missing">' + E(typeof ref === 'string' ? ref : (ref?.id || '未指定')) + '</span>';
+  const item = byType[r.type]?.get(r.id);
+  if(!item)return '<span class="ref-missing" title="尚未收錄或關聯失效">' + E(r.id) + ' · 尚未收錄</span>';
+  const kind = showType ? '<span class="ref-kind">' + E(r.type) + '</span>' : '';
+  return '<a class="ref-link" href="' + E(hrefFor(r)) + '" title="查看 ' + E(item.title) + '">' + kind + E(item.title) + '</a>';
+}
+function refsHtml(refs,showType=false){
+  const a = Array.isArray(refs) ? refs : [];
+  return a.length ? '<div class="tags">' + a.map(r => refHtml(r,showType)).join('') + '</div>' : '<div class="ref-note">尚未建立關聯</div>';
+}
+function exampleHtml(example){
+  if(typeof example === 'object' && example && example.type && example.id)return refHtml(example,true);
+  const value = typeof example === 'string' ? example : String(example?.label || example?.title || '');
+  const matches = aliases.get(normal(value));
+  if(matches?.size === 1)return refHtml([...matches.values()][0],true);
+  const url = validUrl(value);
+  if(url)return '<a href="' + E(url) + '" target="_blank" rel="noopener noreferrer">' + E(value) + '</a>';
+  return E(value);
+}
+function examplesHtml(x){
+  const examples = Array.isArray(x.examples) ? x.examples : [];
+  const refs = Array.isArray(x.exampleRefs) ? x.exampleRefs : [];
+  if(!examples.length && !refs.length)return '<div class="ref-note">目前尚未補充案例</div>';
+  return '<ul class="examples">' + examples.map(e => '<li>' + exampleHtml(e) + '</li>').join('') + refs.map(r => '<li>' + refHtml(r,true) + '</li>').join('') + '</ul><div class="ref-note">案例可能是情境、產品或專案名稱；只有已建立關聯的收藏項目可以開啟詳情。</div>';
+}
+function stageTitle(s){
+  const t = String(s.title || '').trim();
+  if(t && !/^stage\s*\d+$/i.test(t))return t;
+  const p = String(s.purpose || '').trim();
+  if(!p)return '未命名階段';
+  const m = p.match(/^([^：:]{2,55})[：:]/);
+  if(m)return m[1].trim();
+  const v = p.split(/[，。；;]/)[0].trim();
+  return v.length > 42 ? v.slice(0,42) + '…' : v || '未命名階段';
+}
+function card(x){
+  let b = '';
+  if(x.entityType === 'resource'){
+    b = '<div class="muted">' + E(x.resourceType) + '</div><p>' + E(x.purpose) + '</p><div class="label">相關概念 Concepts</div>' + refsHtml(x.conceptRefs);
+  }
+  if(x.entityType === 'skill'){
+    b = '<p>' + E(x.purpose) + '</p><div class="label">相關資源 Resources</div>' + refsHtml(x.resourceRefs);
+  }
+  if(x.entityType === 'concept'){
+    b = '<div class="label">核心問題</div><p class="muted">' + E(x.coreProblem) + '</p><div class="label">解法</div><ul>' + (x.solutionMethods || []).map(v => '<li>' + E(v) + '</li>').join('') + '</ul><div class="label">案例與參考項目 Examples</div>' + examplesHtml(x);
+  }
+  if(x.entityType === 'combination'){
+    b = '<p class="muted">' + E(x.goal) + '</p><div class="label">組合成員 Members</div>' + refsHtml(x.members,true) + (x.unresolvedMembers?.length ? '<div class="label">尚未建立關聯的成員</div>' + tagList(x.unresolvedMembers) + '<div class="ref-note">這些是原始資料中的候選成員，尚無可導覽的正式收藏紀錄。</div>' : '') + (x.rationale ? '<div class="label">搭配原因</div><p>' + E(x.rationale) + '</p>' : '');
+  }
+  if(x.entityType === 'workflow'){
+    const stages = x.stages || [];
+    b = '<div class="label">Goal</div><p class="muted">' + E(x.goal) + '</p><div class="flowchart" aria-label="工作流程步驟"><div class="flow-start">開始</div>' + stages.map(s => '<div class="flow-edge" aria-hidden="true"></div><div class="flow-node"><strong>' + E(stageTitle(s)) + '</strong><div class="muted">' + E(s.purpose) + '</div>' + (s.uses?.length ? '<div class="label">使用工具</div>' + refsHtml(s.uses,true) : '') + (s.outputs?.length ? '<div class="label">輸出</div>' + tagList(s.outputs) : '') + '</div>' + (s.gate ? '<div class="flow-edge" aria-hidden="true"></div><div class="flow-gate">檢查條件：' + E(s.gate) + '</div>' : '')).join('') + (stages.length ? '<div class="flow-edge" aria-hidden="true"></div><div class="flow-end">完成</div>' : '<div class="flow-empty">尚未定義流程節點</div>') + '</div>';
+  }
+  if(x.entityType === 'prompt'){
+    b = '<p class="muted">' + E(x.problem) + '</p><div class="prompt-actions"><button type="button" class="copy-btn" data-copy="' + E(x.id) + '"' + (x.prompt ? '' : ' disabled') + '>複製 Prompt</button></div><div class="prompt">' + E(x.prompt) + '</div>';
+  }
+  return '<article class="card" id="item-' + E(x.id) + '"><h3>' + E(x.title) + '</h3>' + b + tagList(x.tags) + '</article>';
+}
+function route(){
+  const parts = location.hash.match(/^#\/(resources|skills|concepts|prompts|combinations|workflows)(?:\/(.+))?$/);
+  if(!parts)return {type:type,id:null};
+  let id = null;
+  if(parts[2]){try{id = decodeURIComponent(parts[2])}catch{id = parts[2]}}
+  return {type:parts[1],id};
+}
+function render(){
+  if(!C)return;
+  const r = route();
+  type = r.type;
+  const q = document.querySelector('#q').value.toLowerCase();
+  let rows = C[type] || [];
+  if(r.id)rows = rows.filter(x => x.id === r.id);
+  else if(q)rows = rows.filter(x => JSON.stringify(x).toLowerCase().includes(q));
+  const app = document.querySelector('#app');
+  app.classList.toggle('workflow-view',type === 'workflows');
+  app.classList.toggle('detail-view',!!r.id);
+  const nav = r.id ? '<div class="detail-nav"><a href="#/' + E(type) + '">← 返回 ' + E(L[type]) + '</a><span>' + E(rows[0]?.title || '找不到項目') + '</span></div>' : '';
+  app.innerHTML = nav + (rows.map(card).join('') || '<div class="muted">沒有符合條件的資料。</div>');
+  document.querySelectorAll('[data-t]').forEach(b => {
+    b.classList.toggle('active',b.dataset.t === type);
+    b.setAttribute('aria-pressed',String(b.dataset.t === type));
+  });
+}
+function copyFallback(value){
+  const ta = document.createElement('textarea');
+  ta.value = value;
+  ta.setAttribute('readonly','');
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try{ok = document.execCommand('copy')}finally{ta.remove()}
+  if(!ok)throw new Error('copy failed');
+}
+async function copyPrompt(id,button){
+  const prompt = byType.prompt?.get(id)?.prompt;
+  if(!prompt)return;
+  try{
+    if(navigator.clipboard && window.isSecureContext)await navigator.clipboard.writeText(prompt);
+    else copyFallback(prompt);
+    button.textContent = '已複製';
+    document.querySelector('#toast').textContent = 'Prompt 已複製到剪貼簿';
+  }catch{
+    document.querySelector('#toast').textContent = '複製失敗，請手動選取 Prompt 文字。';
+  }
+}
+async function init(){
+  try{
+    const res = await fetch('data/catalog-v2.json',{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP ' + res.status);
+    C = await res.json();
+    initIndex();
+    document.querySelector('#tabs').innerHTML = Object.keys(L).map(k => '<button type="button" data-t="' + k + '">' + L[k] + '</button>').join('');
+    document.querySelector('#stats').innerHTML = Object.keys(L).map(k => '<span class="chip">' + L[k] + '：<b>' + (C[k] || []).length + '</b></span>').join('');
+    document.querySelector('#tabs').addEventListener('click',e => {
+      const b = e.target.closest('[data-t]');
+      if(!b)return;
+      document.querySelector('#q').value = '';
+      if(location.hash === '#/' + b.dataset.t)render();
+      else location.hash = '#/' + b.dataset.t;
+    });
+    document.querySelector('#q').addEventListener('input',() => {
+      if(route().id)location.hash = '#/' + type;
+      else render();
+    });
+    document.querySelector('#app').addEventListener('click',e => {
+      const button = e.target.closest('[data-copy]');
+      if(button)copyPrompt(button.dataset.copy,button);
+    });
+    window.addEventListener('hashchange',() => {
+      document.querySelector('#q').value = '';
+      render();
+      window.scrollTo({top:0,behavior:'instant'});
+    });
+    render();
+  }catch(e){
+    document.querySelector('#app').innerHTML = '<div class="muted">載入收藏資料失敗，請稍後重試。</div>';
+    console.error('Catalog load failed',e);
+  }
+}
+init();
+</script>
+</body>
+</html>
