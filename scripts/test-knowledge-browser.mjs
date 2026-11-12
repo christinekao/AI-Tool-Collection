@@ -33,16 +33,32 @@ const appPort=server.address().port;
 const origin='http://127.0.0.1:'+appPort;
 let chromeLog='',send;
 try{
- chrome=spawn(chromeBin,[
-  '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
-  '--remote-allow-origins=*','--remote-debugging-port=0',
-  '--user-data-dir='+tmp,'--no-first-run','--no-default-browser-check','about:blank'
- ],{stdio:['ignore','ignore','pipe']});
- chrome.stderr.on('data',b=>{chromeLog+=String(b).slice(0,2000)});
- const portPath=path.join(tmp,'DevToolsActivePort');
- for(let i=0;i<90&&!fs.existsSync(portPath);i++){if(chrome.exitCode!==null)break;await pause(150);}
- assert.ok(fs.existsSync(portPath),'Chrome DevTools did not start: '+chromeLog.slice(-800));
- const debugPort=Number(fs.readFileSync(portPath,'utf8').split('\n')[0]);
+ let debugPort=0;
+ for(let attempt=1;attempt<=3;attempt++){
+  const profile=path.join(tmp,'chrome-attempt-'+attempt);
+  const portPath=path.join(profile,'DevToolsActivePort');
+  chromeLog='';
+  chrome=spawn(chromeBin,[
+   attempt===3?'--headless':'--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
+   '--disable-background-networking','--disable-extensions','--no-first-run','--no-default-browser-check',
+   '--remote-allow-origins=*','--remote-debugging-port=0',
+   '--user-data-dir='+profile,'about:blank'
+  ],{stdio:['ignore','ignore','pipe']});
+  chrome.stderr.on('data',b=>{chromeLog+=String(b).slice(0,2000)});
+  for(let i=0;i<95&&!fs.existsSync(portPath);i++){
+   if(chrome.exitCode!==null)break;
+   await pause(150);
+  }
+  if(fs.existsSync(portPath)){
+   debugPort=Number(fs.readFileSync(portPath,'utf8').split('\n')[0]);
+   if(debugPort>0)break;
+  }
+  const diagnostics='Chrome attempt '+attempt+' failed (exit='+chrome.exitCode+'): '+chromeLog.slice(-350);
+  console.warn(diagnostics);
+  chrome.kill('SIGKILL');
+  await pause(350);
+ }
+ assert.ok(debugPort>0,'Chrome DevTools did not start after three attempts: '+chromeLog.slice(-800));
  const page=await fetch('http://127.0.0.1:'+debugPort+'/json/new?'+encodeURIComponent(origin+'/knowledge.html'),{method:'PUT'}).then(x=>x.json());
  assert.ok(page.webSocketDebuggerUrl,'CDP page websocket unavailable');
  ws=new WebSocket(page.webSocketDebuggerUrl);
