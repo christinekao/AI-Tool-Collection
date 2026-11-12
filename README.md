@@ -37,6 +37,17 @@
 
 ---
 
+### P1｜Problem Layer 與 Knowledge Graph
+
+- `data/problems/<id>.json`：使用需求的獨立小檔，第一批從「AI 影片製作」建立五個有來源的 Problem。
+- `scripts/knowledge-graph-core.mjs`：驗證 Problem 與現有六類實體的 Typed References，產生雙向可探索的 Graph 投影。
+- `data/knowledge-graph-v1.json`：自動產生的索引，**不可當成新的維護來源**。
+- `node scripts/build-v2.mjs`：同時重建 Catalog、Manifest 及 Knowledge Graph。
+- `node scripts/validate-v2.mjs`：同步檢查三份輸出與 Canonical Source 是否一致。
+
+**防止誤分類：** Graph 不會把所有文字相近的工具視為替代品；新 Problem 關聯必須說明原因，並指定可追溯的既有欄位。
+
+
 ## 1. 最重要的工作範圍
 
 **此專案的日常工作只有「維護 AI 工具與方法知識庫」。**

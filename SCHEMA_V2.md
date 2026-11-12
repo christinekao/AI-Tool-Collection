@@ -15,6 +15,23 @@ Each canonical record is stored as one UTF-8 JSON file under `data/<entity-type>
 - `combinations/` — compatible capability bundles: what works together and why. They do not own execution order.
 - `workflows/` — problem-solving processes: how work gets done. Workflows contain ordered stages and may reference resources, skills, prompts, combinations and concepts.
 
+## Problem Layer and derived Graph (P1)
+
+Goal-oriented discovery is modeled as small curated files under `data/problems/<id>.json`. Problems are **not** a seventh V2 entity: the six V2 canonical types and existing stable IDs stay intact.
+
+A Problem record describes a specific user need and has `links` to existing entities, each with:
+
+- `type` + `id`: the exact existing V2 target
+- `relation`: `explained_by` (Concept), `supported_by` (Resource/Skill), `guided_by` (Workflow/Prompt), `combined_in` (Combination)
+- `why`: concrete rationale verified against the target
+- `evidenceField`: the target's V2 field supporting this relationship
+- `relatedProblems`: optional child problem links
+
+`data/knowledge-graph-v1.json` is a **generated read-only projection** of all V2 Typed References plus reviewed Problem links. Existing references become neutral `declared_reference` edges; they must **not** automatically be interpreted as proof that tools are interchangeable or solve the same problem.
+
+Only `data/<type>/<id>.json` and `data/problems/<id>.json` are hand-maintained. Run `node scripts/build-v2.mjs` to rebuild Catalog, Manifest and Graph, then `node scripts/validate-v2.mjs` to verify exact consistency.
+
+
 ## Identity and references
 
 Every record MUST have:

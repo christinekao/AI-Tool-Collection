@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
+import {readProblems,buildKnowledgeGraph} from './knowledge-graph-core.mjs';
 
 const kinds = {
   resources: 'resource', skills: 'skill', concepts: 'concept',
@@ -70,6 +71,14 @@ function inspect(value, location) {
 }
 for (const plural of Object.keys(kinds)) {
   for (const record of catalog[plural] ?? []) inspect(record, plural + '/' + record.id);
+}
+
+try {
+  const graph=JSON.parse(fs.readFileSync('data/knowledge-graph-v1.json','utf8'));
+  const expected=buildKnowledgeGraph(catalog,readProblems());
+  if (!isDeepStrictEqual(graph,expected)) errors.push('Knowledge Graph is stale or differs from canonical data');
+} catch(error) {
+  errors.push('Knowledge Graph validation failed: '+error.message);
 }
 
 const result = {

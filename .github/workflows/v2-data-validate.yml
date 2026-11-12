@@ -6,6 +6,8 @@ on:
     paths:
       - 'data/**'
       - 'scripts/validate-v2.mjs'
+      - 'scripts/knowledge-graph-core.mjs'
+      - 'scripts/test-knowledge-graph.mjs'
       - '.github/workflows/v2-data-validate.yml'
   workflow_dispatch:
 
@@ -20,5 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify canonical JSON, catalog, manifest and references
+      - name: Unit test graph rules
+        run: node --test scripts/test-knowledge-graph.mjs
+      - name: Verify canonical JSON, catalog, manifest, graph and references
         run: node scripts/validate-v2.mjs
