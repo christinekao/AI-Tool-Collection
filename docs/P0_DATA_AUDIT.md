@@ -28,6 +28,24 @@
 - V2 聚合檔是 Build Artifact，不是手動維護的原始檔。
 - Resource/Skill 同名有時代表不同實體，不可僅以標題去重。
 
+## P0 Audit 實際執行結果（2026-11-12）
+
+[GitHub Actions：P0 Data Audit #43184395258](https://github.com/christinekao/AI-Tool-Collection/actions/runs/43184395258)：**SUCCESS**（只讀結構稽核）。
+
+- V2 Source / Catalog / Manifest 一致，544 筆、1,701 個引用、0 個 dangling reference、0 個結構錯誤。
+- 舊 V1 的 Resource、Concept、Prompt、Combination **沒有找不到對應實體**；主要內容及 Concept append 初步檢查沒有缺口。
+- 歷史 metadata 仍有差異（以下為 V1 每筆欄位缺值的數量，**不可加總當成不重複項目數**）：
+
+| 歷史欄位 | V2 尚未保留的欄位筆數 |
+|---|---:|
+| `displayStatus` | 107 |
+| `conceptReviewedAt` | 112 |
+| `researchStatus` | 52 |
+| `researchInterest` | 1 |
+| `installed` | 1 |
+
+**結論：P0 結構驗證 PASS；Legacy 完整退役門檻 NOT MET。** 暫不刪舊資料。
+
 ## V1 盤點與內容保留
 
 仍存在根目錄的舊資料檔：
@@ -81,7 +99,8 @@ node scripts/validate-v2.mjs
 - [x] 對照單筆檔、Manifest、Catalog 的 ID 清單。
 - [x] 盤點 V1 原始資料檔、相依工具與遷移覆寫風險。
 - [x] 加入只讀 P0 稽核工具。
-- [ ] 完整執行 P0 稽核，處理資料與 metadata 差異。
+- [x] 在 GitHub Actions 完成 P0 結構稽核並取得結果。
+- [ ] 處理舊版資料與 metadata 差異，讓 strict legacy parity 通過。
 - [ ] 停用／封存舊 Migration 流程，排除重新清空 V2 的風險。
 - [ ] 更新含 V1 過時指示的文件。
 - [ ] 建立可還原的 Git Tag／備份，確認正式程式不再依賴 V1。
