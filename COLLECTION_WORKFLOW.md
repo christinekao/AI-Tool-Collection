@@ -1,5 +1,10 @@
 # AI Tool Collection — Collection Workflow
 
+> **歷史規範提醒（2026-11-12）：** 本文件保存 V1 時期的收錄理念與部分操作流程，並非目前資料寫入規格。
+> 新增／更新記錄請以 [README.md](README.md)、[SCHEMA_V2.md](SCHEMA_V2.md) 及 `data/<type>/<id>.json` 為準；不要繼續直接編輯根目錄的 V1 JSON，亦不要將 Workflow 嵌入 Combination。
+> V1 清理與驗收狀態參見 [P0 Data Audit](docs/P0_DATA_AUDIT.md)。
+
+
 This repository is a knowledge map, not only a tool bookmark list.
 
 ## Default Intake Flow
