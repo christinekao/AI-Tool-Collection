@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "id": "alexyc9381-hiring-panel",
+  "entityType": "skill",
+  "title": "Hiring Panel｜七視角履歷審查 Claude Code Skill",
+  "purpose": "讓 Claude Code 依據履歷和目標職缺模擬 ATS、主管與五種不同審查視角，找出具原文證據的淘汰原因、合併問題、重寫履歷並比較修改前後的模擬結果。",
+  "problem": "求職者難以判斷履歷為何無法取得面試，以及 ATS 可讀性、招聘主管的十秒印象、成果量化與團隊合作描述是否存在問題。",
+  "inputs": [
+    "履歷 PDF 或可讀文字",
+    "明確目標職缺或 JD（缺少時先詢問）",
+    "必要時由使用者補充缺少的真實經歷與成果"
+  ],
+  "outputs": [
+    ".hiring-panel/<date>-<name>/PANEL.md：七位審查者結論、問題排序及履歷原文依據",
+    ".hiring-panel/<date>-<name>/RESUME-IMPROVED.md：依已知事實改寫的履歷",
+    "ATS 模擬 PASS／REJECT 修改前後比較；待補資料 [ADD: ...]"
+  ],
+  "execution": "官方 /hiring-panel Skill：先取得履歷與職缺；第一個子 Agent 模擬 ATS；第二個模擬招聘主管；接著五個獨立子 Agent 從主管、競爭求職者、CEO、Recruiter、未來同事視角審查，彼此不可看其他角色筆記；合併七位評語並依嚴重度排序，逐項引用原文；不捏造事實地改寫履歷；再啟動 ATS 子 Agent 重評；只寫入 .hiring-panel/<date>-<name>/ 下兩份 Markdown 文件。官方 README 表示每次約八次子 Agent 呼叫。",
+  "versionReviewed": "1.0.0",
+  "resourceRefs": [
+    {
+      "type": "resource",
+      "id": "alexyc9381-hiring-panel-skill"
+    }
+  ],
+  "commercialUse": {
+    "status": "MIT",
+    "details": [
+      "原始碼 MIT，可依條款商用並保留授權聲明。",
+      "Claude Code 模型使用額度及費用另外計算。"
+    ]
+  },
+  "security": {
+    "status": "official-skill-read-not-installed",
+    "riskLevel": "medium",
+    "risks": [
+      "履歷個資、內部公司專案或敏感資料可能被提供給 Claude Code 模型服務，須事先確認授權及資料處理政策。",
+      "結果會寫入本機 .hiring-panel/；若執行於公開 Git 專案，須避免提交含個資的輸出。",
+      "多子 Agent 的角色判斷不等於真實企業 ATS 或 HR 評分，不能聲稱保證錄取。",
+      "本次未安裝、未讀取使用者履歷、未執行任何審查。"
+    ],
+    "recommendedControls": [
+      "使用非公開工作資料夾，先去識別化履歷，將輸出加入 .gitignore。",
+      "所有改寫以已驗證事實為準；缺少數字或經歷時保留 [ADD: ...] 並詢問。",
+      "使用實際 JD 做針對性評估，結果須由使用者逐項確認。"
+    ]
+  },
+  "limitations": [
+    "ATS 為模型模擬，不是真實招聘系統。",
+    "同一模型的多視角評估可能共享偏差。",
+    "八次子 Agent 呼叫可能增加用量，視方案與執行環境而定。"
+  ],
+  "status": "active",
+  "addedAt": "2026-11-12",
+  "updatedAt": "2026-11-12",
+  "tags": [
+    "hiring-panel",
+    "claude-code-skill",
+    "resume-review",
+    "ats",
+    "hiring-manager",
+    "career",
+    "job-search",
+    "multi-agent",
+    "resume-rewrite",
+    "mit",
+    "privacy-review",
+    "security-review"
+  ],
+  "source": {
+    "url": "https://github.com/alexyc9381/hiring-panel-skill/blob/main/skills/hiring-panel/SKILL.md",
+    "type": "Official upstream SKILL.md, README and MIT license",
+    "reviewedAt": "2026-11-12"
+  }
+}
