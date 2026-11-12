@@ -15,9 +15,9 @@ Each canonical record is stored as one UTF-8 JSON file under `data/<entity-type>
 - `combinations/` — compatible capability bundles: what works together and why. They do not own execution order.
 - `workflows/` — problem-solving processes: how work gets done. Workflows contain ordered stages and may reference resources, skills, prompts, combinations and concepts.
 
-## Problem Layer and derived Graph (P1)
+## Problem Layer and derived Graph (P1, cross-domain)
 
-Goal-oriented discovery is modeled as small curated files under `data/problems/<id>.json`. Problems are **not** a seventh V2 entity: the six V2 canonical types and existing stable IDs stay intact.
+The Explorer searches **all six V2 entity types** and opens the known inbound/outbound references of any record. It must work even when no curated Problem exists for a subject. Goal-oriented, reviewed discovery is an **optional enhancement** stored as small files under `data/problems/<id>.json`. The first five AI video Problems are only a demonstration, never the default or the site's scope. Problems are **not** a seventh V2 entity: the six V2 canonical types and existing stable IDs stay intact.
 
 A Problem record describes a specific user need and has `links` to existing entities, each with:
 

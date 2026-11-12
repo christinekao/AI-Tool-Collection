@@ -80,6 +80,18 @@ try{
  assert.ok(initial.results>=12,'Default shows diverse canonical entities');
  assert.equal(initial.graphHidden,true);
  console.log('PASS: Generic homepage is not hard-coded to video');
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ fs.mkdirSync(screenshotDir,{recursive:true});
+ let shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+ fs.writeFileSync(path.join(screenshotDir,'discovery-1440.png'),Buffer.from(shot.data,'base64'));
+ await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
+ await pause(120);
+ const initialMobile=await evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})');
+ assert.ok(initialMobile.scroll<=initialMobile.client+3,'Discovery overflows 375px: '+JSON.stringify(initialMobile));
+ shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+ fs.writeFileSync(path.join(screenshotDir,'discovery-375.png'),Buffer.from(shot.data,'base64'));
+ console.log('PASS: Generic discovery desktop/mobile screenshot + mobile overflow');
+
  await evaluate('document.querySelector("#kg-search").value="Agent";document.querySelector("#kg-search").dispatchEvent(new Event("input",{bubbles:true}));true');
  await waitFor('document.querySelector("#kg-results .kg-result-card")?.textContent.toLowerCase().includes("agent")','Non-video search');
  const nonVideo=await evaluate('[...document.querySelectorAll("#kg-results .kg-result-card")].some(x=>x.dataset.openNode?.startsWith("resource:")||x.dataset.openNode?.startsWith("skill:"))');
