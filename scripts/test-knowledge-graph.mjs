@@ -36,3 +36,12 @@ test('refuses unresolved subproblem',()=>{
  const p=problem();p.relatedProblems=[{id:'not-added',why:'Subtopic'}];
  assert.throws(()=>buildKnowledgeGraph(c,[p]),/Dangling graph edge/);
 });
+
+test('search index covers all V2 entities without manufacturing semantic links',()=>{
+ const c=empty();c.resources=[{...resource,category:'Automation',tags:['reusable-agent'],useCases:['build a web assistant']}];c.concepts=[concept];
+ const graph=buildKnowledgeGraph(c,[]);
+ const item=graph.nodes.find(n=>n.key==='resource:video-tool');
+ assert.match(item.searchText,/build a web assistant/);
+ assert.ok(item.tags.includes('reusable-agent'));
+ assert.equal(graph.counts.curatedEdges,0);
+});
