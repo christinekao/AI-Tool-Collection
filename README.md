@@ -10,6 +10,33 @@
 - **介面：** `index.html`（GitHub Pages 靜態網站）
 - **主要任務：** 接收使用者提供的工具名稱、GitHub 連結、官網、文章、截圖或 Prompt，依既有格式核實、分類、去重、收錄並發布
 
+## 核心理念｜Problem-Centric Knowledge Graph（以問題為核心的知識關聯圖）
+
+因為 AI 工具更新太快，真正值得長期保存的不是工具本身，而是：
+
+- **Problem**：當初要解決什麼問題？
+- **Concept**：背後有哪些長期有效的原理？
+- **Solution**：有哪些解決方式與取捨？
+- **Resource / Skill**：目前有哪些工具可以實現？
+- **Workflow / Prompt**：實際如何完成任務？
+- **Combination**：不同工具如何互補或替換？
+
+**Problems are durable. Concepts explain. Workflows operationalize. Tools implement.**
+
+### 設計原則
+
+1. **從問題出發，而不是從工具名稱出發。** 對每個新工具先分析它解決的問題、使用條件、實際能力與限制，再決定要連結哪些 Concept、Workflow、Skill、Prompt 或 Combination。
+2. **問題與方法長久保留，工具可以替換。** 工具停更、改版、收費或被取代時，更新其狀態、替代方案與相關關聯，不抹除仍有價值的 Concept／Workflow。
+3. **採多對多、可追溯的知識關聯。** 同一個 Problem 可以有多種解法；同一 Resource 可以參與多個 Workflow 或 Combination。關聯必須有實際依據，不能只憑標題、Tag 或關鍵字相似。
+4. **避免重複維護資料。** 一筆 Resource／Concept／Skill／Prompt／Combination／Workflow 只維護一個 V2 Canonical JSON；其他實體透過 Typed Reference 指向它。
+5. **從需求探索到實作。** 網站應協助使用者由「我想做什麼？」找到可用工具、相關 Concept、學習資源、完整 Workflow、可複用 Prompt 及不同解法的取捨。
+
+**架構現況：** 目前只有六種 V2 Entity。Problem 和 Solution 先是知識分析維度／既有記錄的欄位與 Goal，不代表已經建立新的獨立資料類型或 Graph UI；新增 Graph Schema 屬於後續階段。
+
+**P0 維護與清理：** [資料架構盤點、V1 退役風險與驗收條件](docs/P0_DATA_AUDIT.md)。任何舊版資料清理都必須先通過完整性檢查，不可因為已有 Catalog 就直接刪除來源檔。
+
+---
+
 ## 1. 最重要的工作範圍
 
 **此專案的日常工作只有「維護 AI 工具與方法知識庫」。**
