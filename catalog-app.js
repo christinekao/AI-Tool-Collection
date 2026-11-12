@@ -160,12 +160,17 @@ function scrollToResults(){
  const header=$('#result-header');
  if(!header||header.hidden)return;
  header.focus({preventScroll:true});
- header.scrollIntoView({block:'start',behavior:'auto'});
+ header.scrollIntoView({block:'start',behavior:'instant'});
+}
+function scheduleScrollToResults(){
+ // Browser hash navigation can restore the previous scroll position after hashchange.
+ // Wait until navigation and layout settle, then move to the filtered results.
+ requestAnimationFrame(()=>requestAnimationFrame(scrollToResults));
 }
 function navTo(hash){
  if(location.hash===hash){
   readRoute();render();
-  if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scrollToResults()}
+  if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scheduleScrollToResults()}
  }else location.hash=hash;
 }
 function selectTopic(topic){
@@ -238,7 +243,7 @@ function wire(){
  $('#app').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyPrompt(b.dataset.copy,b);else if(e.target.closest('[data-reset]'))reset();else if(e.target.closest('.title-link,.view-link'))state.returnHash=state.topic==='all'?'#/explore':'#/explore/'+state.topic});
  window.addEventListener('hashchange',()=>{
   readRoute();render();
-  if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scrollToResults()}
+  if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scheduleScrollToResults()}
   else window.scrollTo({top:0,behavior:'auto'});
  });
 }
