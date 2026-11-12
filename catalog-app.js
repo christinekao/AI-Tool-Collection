@@ -54,6 +54,9 @@ function score(x,topic,terms){
  if(t){if(t.rx.test(title))n+=12;if(t.rx.test(tags))n+=7;if(t.rx.test(desc))n+=2;}
  for(const term of terms){if(title.includes(term))n+=16;if(tags.includes(term))n+=7;if(desc.includes(term))n+=4;}
  if(x.entityType==='resource')n+=1;
+ if(text(x.purpose).length>65)n+=2;
+ if(text(x.recommendation).length>50)n+=3;
+ if(list(x.features).length)n+=2;
  return n;
 }
 function filtered(){
@@ -63,7 +66,7 @@ function filtered(){
 }
 function summary(x){
  if(x.entityType==='resource')return {what:text(x.purpose)||text(x.resourceType)||'尚未補充用途說明',fit:text(x.recommendation)};
- if(x.entityType==='skill')return {what:text(x.purpose)||text(x.problem)||'尚未補充用途說明',fit:text(x.execution)};
+ if(x.entityType==='skill')return {what:text(x.purpose)||text(x.problem)||'尚未補充用途說明',fit:text(x.problem)};
  if(x.entityType==='concept')return {what:text(x.coreProblem)||'尚未補充核心問題',fit:list(x.solutionMethods)[0]||''};
  if(x.entityType==='prompt')return {what:text(x.problem)||text(x.goal)||'尚未補充用途說明',fit:text(x.goal)};
  if(x.entityType==='combination')return {what:text(x.goal)||text(x.problem)||'尚未補充組合目標',fit:text(x.rationale)};
@@ -74,8 +77,8 @@ function card(x){
  const s=summary(x);
  return '<article class="card"><div class="card-top"><span class="type-label">'+esc(kindLabel(x))+'</span>'+(x.category?'<span class="category-label">'+esc(x.category.replace(/^\d+\s*/,''))+'</span>':'')+'</div>'+
  '<h3><a class="title-link" href="'+esc(routeFor(x.entityType,x.id))+'">'+esc(x.title)+'</a></h3>'+
- '<p class="card-summary">'+esc(short(s.what,180))+'</p>'+
- (s.fit&&s.fit!==s.what?'<p class="card-fit"><strong>適合：</strong>'+esc(short(s.fit,130))+'</p>':'')+
+ '<p class="card-summary">'+esc(short(s.what,180))+'</p>'+ (s.what.length<36&&!s.fit?'<p class="needs-description">用途說明待補充</p>':'')+
+ (s.fit&&s.fit!==s.what?'<p class="card-fit"><strong>'+esc(({resource:'適合',skill:'解決問題',concept:'解法',prompt:'目標',combination:'搭配原因',workflow:'執行方式'})[x.entityType]||'補充')+'：</strong>'+esc(short(s.fit,130))+'</p>':'')+
  '<div class="card-footer"><div class="tag-row">'+tags(x.tags,3)+'</div><a class="view-link" href="'+esc(routeFor(x.entityType,x.id))+'">查看詳情 →</a></div></article>';
 }
 function refsHtml(refs){
@@ -170,8 +173,8 @@ function topicCards(){
 function render(){
  if(!state.data)return;
  const view=$('#app');
- if(state.detail){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;view.innerHTML=detail(state.detail);return}
- if(state.detailMissing){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;view.innerHTML='<p>找不到這筆收藏。<a href="#/explore">返回全部收藏</a></p>';return}
+ if(state.detail){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML=detail(state.detail);return}
+ if(state.detailMissing){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML='<p>找不到這筆收藏。<a href="#/explore">返回全部收藏</a></p>';return}
  $('#discover').hidden=false;$('#filters').hidden=false;$('#result-header').hidden=false;
  $('#topics').innerHTML=topicCards();
  $('#all-topic').setAttribute('aria-pressed',String(state.topic==='all'));
