@@ -45,6 +45,9 @@ function matchTopic(x,topic){
  const t=TOPICS.find(t=>t.id===topic);if(!t)return true;
  const fields=[x.title,x.category,x.resourceType,...list(x.tags),x.purpose,x.goal,x.problem,x.coreProblem,x.recommendation].filter(Boolean).join(' ');
  if(topic==='learning'){
+  const technicalTraining=/machine.learning|deep.learning|reinforcement.learning|federated.learning|active.learning|model.training|training.model/i;
+  const teachingEvidence=/學習資源|教學|教材|課程|教案|教練|練習|培訓|教育|入門|tutorial|course|curriculum|education|teaching|study.guide|study.plan|learn.by|interview.practice|oncall.training|knowledge.transfer|flashcard/i;
+  if(technicalTraining.test(fields)&&!teachingEvidence.test(fields))return false;
   const explicit=/學習|教學|教材|課程|教案|教練|練習|培訓|教育|訓練|入門|tutorial|course|curriculum|education|teaching|training|study.guide|study.plan|learn.by|interview.practice|oncall.training|knowledge.transfer|flashcard/i;
   if(explicit.test(fields))return true;
   return /\blearning\b/i.test(fields)&&!/machine.learning|deep.learning|reinforcement.learning|federated.learning|active.learning/i.test(fields);
