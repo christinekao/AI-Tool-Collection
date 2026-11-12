@@ -7,6 +7,13 @@ on:
       - 'scripts/build-knowledge-graph.mjs'
       - 'scripts/test-knowledge-graph.mjs'
       - '.github/workflows/p1-graph-tests.yml'
+      - 'scripts/test-knowledge-browser.mjs'
+      - 'knowledge.html'
+      - 'knowledge-app.js'
+      - 'knowledge-style.css'
+      - 'index.html'
+      - 'catalog-app.js'
+      - 'catalog-style.css'
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,3 +27,13 @@ jobs:
           node-version: '22'
       - run: node --test scripts/test-knowledge-graph.mjs
       - run: node scripts/build-knowledge-graph.mjs
+      - run: node --check knowledge-app.js && node --check catalog-app.js
+      - name: Browser smoke (navigation, graph, 375 / 430 / 768 / 1440px)
+        run: node scripts/test-knowledge-browser.mjs
+      - name: Preserve browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-knowledge-graph-browser-check
+          path: artifacts/*.png
+          if-no-files-found: ignore
