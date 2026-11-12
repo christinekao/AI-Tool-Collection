@@ -103,6 +103,19 @@ try{
   }
   console.log('PASS: knowledge.html '+width+'px, no horizontal overflow');
  }
+ await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.querySelector("[data-problem=product-video-motion]").click();true');
+ await waitFor('document.querySelector("#kg-focus h2")?.textContent.includes("產品宣傳")','Mobile Problem switch');
+ let didScroll=false;
+ for(let i=0;i<30;i++){
+  const top=await evaluate('document.querySelector("#kg-focus").getBoundingClientRect().top');
+  if(Math.abs(top)<=3){didScroll=true;break}
+  await pause(100);
+ }
+ assert.ok(didScroll,'Mobile Problem switch must scroll to the selected knowledge content');
+ const mobileShot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+ fs.writeFileSync(path.join(screenshotDir,'knowledge-375-selected.png'),Buffer.from(mobileShot.data,'base64'));
+ console.log('PASS: mobile selection scrolls to knowledge and focuses selected Problem');
  await send('Page.navigate',{url:origin+'/index.html#/explore'});
  await waitFor('document.querySelectorAll("#topics > .topic-card").length===9','Catalog home topics');
  const home=await evaluate('({nested:document.querySelectorAll("#topics > .topic-grid").length,cta:!!document.querySelector(\'a.hero-main-cta[href="knowledge.html"]\')})');

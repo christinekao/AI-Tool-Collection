@@ -3,7 +3,7 @@
 const LABEL={problem:'問題',concept:'Concept',resource:'Resource / 工具',skill:'Skill',workflow:'Workflow',prompt:'Prompt',combination:'Combination'};
 const ROUTES={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
 const REL={explained_by:'解釋原理',supported_by:'適用工具／技能',guided_by:'實作流程／提示詞',combined_in:'相關工具組合',has_subproblem:'延伸問題',declared_reference:'原始資料引用'};
-const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],selectedProblem:'video-production',selectedNode:null,filter:''};
+const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],selectedProblem:'video-production',selectedNode:null,filter:'',scrollOnChange:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return ''}};
@@ -102,8 +102,14 @@ function chooseProblem(id){
  if(!KG.byKey.has('problem:'+id))return;
  KG.selectedNode=null;
  const hash='#/problem/'+encodeURIComponent(id);
- if(location.hash===hash){render();scrollTo({top:0,behavior:'auto'})}
+ KG.scrollOnChange=true;
+ if(location.hash===hash){render();KG.scrollOnChange=false;requestAnimationFrame(bringProblemIntoView)}
  else location.hash=hash;
+}
+function bringProblemIntoView(){
+ const el=$('#kg-focus');if(!el)return;
+ el.focus({preventScroll:true});
+ el.scrollIntoView({block:'start',behavior:'auto'});
 }
 function bind(){
  $('#kg-search').addEventListener('input',e=>{KG.filter=e.target.value;problemList()});
@@ -111,7 +117,7 @@ function bind(){
  $('#kg-subproblems').addEventListener('click',e=>{const el=e.target.closest('[data-problem]');if(el)chooseProblem(el.dataset.problem)});
  $('#kg-network').addEventListener('click',e=>{const el=e.target.closest('[data-node-key]');if(el){KG.selectedNode=el.dataset.nodeKey;graphView();inspect()}});
  $('#kg-inspector').addEventListener('click',e=>{const el=e.target.closest('[data-inspect-key]');if(!el)return;const n=KG.byKey.get(el.dataset.inspectKey);if(!n)return;if(n.type==='problem')chooseProblem(n.id);else{KG.selectedNode=n.key;graphView();inspect()}});
- window.addEventListener('hashchange',()=>{KG.selectedNode=null;render()});
+ window.addEventListener('hashchange',()=>{KG.selectedNode=null;render();if(KG.scrollOnChange){KG.scrollOnChange=false;requestAnimationFrame(bringProblemIntoView)}});
  window.addEventListener('resize',()=>requestAnimationFrame(drawConnections));
 }
 async function init(){
