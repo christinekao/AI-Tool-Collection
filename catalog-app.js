@@ -199,8 +199,8 @@ async function copyPrompt(id,button){
  }catch{$('#status').textContent='無法自動複製，請手動選取文字。'}
 }
 function wire(){
- $('#topics').addEventListener('click',e=>{const b=e.target.closest('[data-topic]');if(!b)return;state.topic=b.dataset.topic;state.limit=24;navTo('#/explore/'+state.topic)});
- $('#all-topic').addEventListener('click',()=>{state.topic='all';state.limit=24;navTo('#/explore')});
+ $('#topics').addEventListener('click',e=>{const b=e.target.closest('[data-topic]');if(!b)return;state.topic=b.dataset.topic;state.type='all';state.limit=24;navTo('#/explore/'+state.topic)});
+ $('#all-topic').addEventListener('click',()=>{state.topic='all';state.type='all';state.limit=24;navTo('#/explore')});
  $('#type-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-type]');if(!b)return;state.type=b.dataset.type;state.limit=24;render()});
  $('#q').addEventListener('input',e=>{state.query=e.target.value;state.limit=24;render()});
  $('#more').addEventListener('click',()=>{state.limit+=24;render()});
