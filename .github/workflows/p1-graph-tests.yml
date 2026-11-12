@@ -1,0 +1,22 @@
+name: P1 Graph Unit Tests
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/knowledge-graph-core.mjs'
+      - 'scripts/build-knowledge-graph.mjs'
+      - 'scripts/test-knowledge-graph.mjs'
+      - '.github/workflows/p1-graph-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test scripts/test-knowledge-graph.mjs
+      - run: node scripts/build-knowledge-graph.mjs
