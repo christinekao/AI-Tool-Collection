@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Kao 的 AI Tool Collection 知識探索：從問題找到相關概念、工具、Skills、Prompts、Combinations 和 Workflows。">
-<title>從問題探索知識 · AI Tool Collection</title>
+<meta name="description" content="AI Tool Collection 知識探索：依需求搜尋所有工具、Concepts、Skills、Prompts、Combinations 和 Workflows，再沿著真實引用探索關聯。">
+<title>知識探索 · AI Tool Collection</title>
 <link rel="stylesheet" href="catalog-style.css">
 <link rel="stylesheet" href="knowledge-style.css">
 <script defer src="knowledge-app.js"></script>
@@ -12,32 +12,58 @@
 <body>
 <header class="topbar"><div class="wrap topbar-inner">
 <a class="brand" href="index.html#/explore">Kao <span>/</span> AI Tool Collection</a>
-<nav class="top-nav" aria-label="主要導覽"><a aria-current="page" href="knowledge.html">問題探索</a><a href="index.html#/explore">全部收藏</a><a href="https://github.com/christinekao/AI-Tool-Collection" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+<nav class="top-nav" aria-label="主要導覽"><a aria-current="page" href="knowledge.html">知識探索</a><a href="index.html#/explore">全部收藏</a><a href="https://github.com/christinekao/AI-Tool-Collection" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 </div></header>
 <main class="wrap kg-page">
 <section class="kg-hero" aria-labelledby="kg-title">
-<div class="eyebrow">KNOWLEDGE GRAPH · PROBLEM FIRST</div>
-<h1 id="kg-title">從問題開始，連結知識與工具。</h1>
-<p>先選擇想完成的事，再查看相關概念、工具、Skills、Prompts、Combinations 與 Workflows。每條推薦關聯都會說明原因，不將名稱相近的工具直接視為替代品。</p>
-<div class="kg-meta"><span id="kg-count" class="count-badge">讀取知識圖譜中…</span><span class="kg-subtle">既有資料引用與人工整理的問題關聯分開標示</span></div>
+<div class="eyebrow">KNOWLEDGE DISCOVERY · PROBLEM FIRST</div>
+<h1 id="kg-title">你想學什麼、做什麼，或解決什麼問題？</h1>
+<p>從需求開始搜尋整個知識庫，不需要先知道工具名稱。找到相關資源後，再探索它連結的 Concept、Skill、Prompt、Workflow 與其他工具。</p>
+<div class="kg-meta"><span id="kg-count" class="count-badge">讀取知識圖譜中…</span><span class="kg-subtle">搜尋相符項目 ≠ 已確認可解決你的問題；只有明確建立的關聯才會顯示為知識連結</span></div>
 </section>
 <div class="kg-layout">
-<aside class="kg-sidebar" aria-label="選擇問題">
-<h2>你想解決什麼問題？</h2>
-<label for="kg-search">搜尋問題與學習目標</label>
-<input id="kg-search" type="search" autocomplete="off" placeholder="例如：影片、剪輯、產品宣傳…" aria-label="搜尋問題">
-<div id="kg-problems" class="kg-problem-list" aria-label="問題清單"></div>
-<p class="kg-sidebar-note">目前先提供 AI 影片製作的五個實例，其他主題會逐步以同一機制擴充。</p>
+<aside class="kg-sidebar" aria-label="知識搜尋與篩選">
+<h2>探索所有知識</h2>
+<label for="kg-search">輸入需求、問題、概念或工具</label>
+<input id="kg-search" type="search" autocomplete="off" placeholder="AI Agent、網頁設計、資料分析…" aria-label="搜尋所有知識">
+<div class="kg-type-heading">資料類型</div>
+<div id="kg-type-filters" class="kg-type-filters" aria-label="依資料類型篩選"></div>
+<details id="kg-examples" class="kg-examples">
+<summary>已整理的 Problem 範例</summary>
+<p class="kg-example-caption">目前五個影片製作情境僅用來示範如何連接問題與已有知識，不代表網站的主題範圍。</p>
+<div id="kg-problems" class="kg-problem-list"></div>
+</details>
 </aside>
-<section class="kg-content" aria-label="知識關聯探索">
+<section class="kg-content" aria-label="知識探索與關聯">
+<div id="kg-explore">
+<div class="kg-discover-hero">
+<span class="kg-kicker">DISCOVER THE ENTIRE COLLECTION</span>
+<h2>從任何主題開始</h2>
+<p>快速探索不同領域，或直接輸入你自己的問題。結果來自既有資料文字；點開節點後可查看實際的引用關係。</p>
+<div id="kg-suggestions" class="kg-suggestions" aria-label="範例搜尋">
+<button type="button" data-suggest="AI Agent">AI Agent</button>
+<button type="button" data-suggest="網站">網站與前端</button>
+<button type="button" data-suggest="資料分析">資料與分析</button>
+<button type="button" data-suggest="自動化">流程自動化</button>
+<button type="button" data-suggest="影片">影片製作</button>
+</div>
+</div>
+<div class="kg-section-head"><h2 id="kg-results-title">探索知識</h2><p id="kg-result-count"></p></div>
+<p class="kg-search-disclaimer">以下為文字搜尋／資料類型篩選，不是工具能力評分或已驗證的替代方案。</p>
+<div id="kg-results" class="kg-results" aria-live="polite"></div>
+<button id="kg-loadmore" class="kg-loadmore" type="button" hidden>載入更多</button>
+</div>
+<div id="kg-node-view" hidden>
+<button id="kg-back" class="kg-back" type="button">← 返回知識搜尋</button>
 <div id="kg-focus" class="kg-focus" tabindex="-1"></div>
-<div class="kg-section-head"><h2>知識關聯圖</h2><p>點選任何節點，查看它的來源、相關用途與雙向連結。</p></div>
-<div id="kg-network" class="kg-network" aria-label="目前問題的關聯節點"></div>
+<div class="kg-section-head"><h2>知識關聯圖</h2><p>節點皆來自正式資料；點擊查看雙向連結。</p></div>
+<div id="kg-network" class="kg-network" aria-label="目前節點的關聯圖"></div>
 <div id="kg-subproblems" class="kg-subproblems"></div>
 <section id="kg-inspector" class="kg-inspector" aria-label="節點詳細資訊" aria-live="polite"></section>
+</div>
 </section>
 </div>
 </main>
-<footer class="footer"><div class="wrap">這是從已收錄內容產生的知識關聯，不代表相關產品已安裝、實測或持續支援其描述功能。<a href="index.html#/explore">查看完整收藏</a></div></footer>
+<footer class="footer"><div class="wrap">本站整理第三方工具與知識，部分資訊未經實際操作驗證。查看原始來源、授權與最新功能後再使用。<a href="index.html#/explore">查看完整收藏</a></div></footer>
 </body>
 </html>

@@ -43,7 +43,7 @@ try{
  for(let i=0;i<90&&!fs.existsSync(portPath);i++){if(chrome.exitCode!==null)break;await pause(150);}
  assert.ok(fs.existsSync(portPath),'Chrome DevTools did not start: '+chromeLog.slice(-800));
  const debugPort=Number(fs.readFileSync(portPath,'utf8').split('\n')[0]);
- const page=await fetch('http://127.0.0.1:'+debugPort+'/json/new?'+encodeURIComponent(origin+'/knowledge.html#/problem/video-production'),{method:'PUT'}).then(x=>x.json());
+ const page=await fetch('http://127.0.0.1:'+debugPort+'/json/new?'+encodeURIComponent(origin+'/knowledge.html'),{method:'PUT'}).then(x=>x.json());
  assert.ok(page.webSocketDebuggerUrl,'CDP page websocket unavailable');
  ws=new WebSocket(page.webSocketDebuggerUrl);
  await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true})});
@@ -73,23 +73,35 @@ try{
   }
   throw Error('Timed out: '+description+'; last='+JSON.stringify(value));
  }
- await waitFor('document.querySelector("#kg-count")?.textContent.includes("5 個問題")','Graph fetch and render');
- const init=await evaluate('({links:document.querySelectorAll("#kg-network [data-node-key]").length,title:document.querySelector("#kg-focus h2")?.textContent})');
- assert.ok(init.links>=4,'Expected curated nodes in video overview');
- assert.match(init.title,/影片/);
- console.log('PASS: Graph loaded and rendered curated Problem links');
- await evaluate('document.querySelector("[data-problem=long-video-to-shorts]").click();true');
- await waitFor('document.querySelector("#kg-focus h2")?.textContent.includes("Shorts")','Problem navigation');
+ await waitFor('document.querySelector("#kg-count")?.textContent.includes("正式知識")','Graph fetch');
+ const initial=await evaluate('({title:document.querySelector("#kg-title")?.textContent,exampleOpen:document.querySelector("#kg-examples")?.open,results:document.querySelectorAll("#kg-results .kg-result-card").length,graphHidden:document.querySelector("#kg-node-view")?.hidden})');
+ assert.ok(initial.title.includes('你想學什麼')&&!initial.title.includes('影片'),'Default must be general-purpose');
+ assert.equal(initial.exampleOpen,false,'Curated video Problems should be opt-in, not the default');
+ assert.ok(initial.results>=12,'Default shows diverse canonical entities');
+ assert.equal(initial.graphHidden,true);
+ console.log('PASS: Generic homepage is not hard-coded to video');
+ await evaluate('document.querySelector("#kg-search").value="Agent";document.querySelector("#kg-search").dispatchEvent(new Event("input",{bubbles:true}));true');
+ await waitFor('document.querySelector("#kg-results .kg-result-card")?.textContent.toLowerCase().includes("agent")','Non-video search');
+ const nonVideo=await evaluate('[...document.querySelectorAll("#kg-results .kg-result-card")].some(x=>x.dataset.openNode?.startsWith("resource:")||x.dataset.openNode?.startsWith("skill:"))');
+ assert.ok(nonVideo,'Agent search must discover canonical records without any curated Agent Problem');
+ console.log('PASS: Non-video query searches all existing entity types');
+ await evaluate('document.querySelector("#kg-search").value="ChatCut";document.querySelector("#kg-search").dispatchEvent(new Event("input",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#kg-results [data-open-node="resource:chatcut"]\')!==null','Resource discovery');
+ await evaluate('document.querySelector(\'#kg-results [data-open-node="resource:chatcut"]\').click();true');
+ await waitFor('document.querySelector("#kg-focus h2")?.textContent.includes("ChatCut")','Open graph from any Resource');
+ const resource=await evaluate('({detail:!!document.querySelector(\'#kg-inspector a[href="index.html#/resources/chatcut"]\'),edges:document.querySelectorAll("#kg-network [data-node-key]").length})');
+ assert.ok(resource.detail&&resource.edges>0,'Source detail and existing graph relationships should be accessible');
+ console.log('PASS: Any Resource opens its inbound/outbound graph');
+ await evaluate('document.querySelector("#kg-examples").open=true;document.querySelector("[data-problem=long-video-to-shorts]").click();true');
+ await waitFor('document.querySelector("#kg-focus h2")?.textContent.includes("Shorts")','Curated sample navigation');
  const selected=await evaluate('[...document.querySelectorAll("#kg-network [data-node-key]")].map(x=>x.dataset.nodeKey)');
  assert.ok(selected.includes('resource:fomofly-ai')&&selected.includes('resource:chatcut'));
- console.log('PASS: Problem selection exposes correct source-backed Resources');
+ console.log('PASS: Video sample remains available as an optional curated scenario');
  await evaluate('document.querySelector("[data-node-key=\'resource:fomofly-ai\']").click();true');
  await waitFor('document.querySelector("#kg-inspector h2")?.textContent.includes("Fomofly")','Node detail');
  const links=await evaluate('({detail:!!document.querySelector(\'#kg-inspector a[href="index.html#/resources/fomofly-ai"]\'),related:document.querySelectorAll("#kg-inspector .kg-neighbor").length})');
- assert.ok(links.detail,'Resource detail link missing');
- assert.ok(links.related>0,'Graph inverse relationships missing');
- console.log('PASS: Clickable node, detail link and inverse graph relationships');
-
+ assert.ok(links.detail&&links.related>0);
+ console.log('PASS: Node detail and reverse references');
  for(const width of [375,430,768,1440]){
   await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
   await pause(120);
