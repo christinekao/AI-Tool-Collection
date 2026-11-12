@@ -28,6 +28,12 @@ jobs:
       - run: node --test scripts/test-knowledge-graph.mjs
       - run: node scripts/build-knowledge-graph.mjs
       - run: node --check knowledge-app.js && node --check catalog-app.js
+      - name: Ensure Traditional Chinese glyphs are available for visual QA
+        run: |
+          if ! fc-list :lang=zh family | grep -q .; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq fonts-noto-cjk
+          fi
       - name: Browser smoke (navigation, graph, 375 / 430 / 768 / 1440px)
         run: node scripts/test-knowledge-browser.mjs
       - name: Preserve browser screenshots
