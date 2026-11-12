@@ -210,7 +210,7 @@ for (const old of legacyCombinations) {
     if (!workflow || !list(workflow.stages).length) {
       parityGaps.push('Combination workflow missing: ' + combo.id);
     } else {
-      const migratedPurposes = list(workflow.stages).map(stage => stage.purpose);
+      const migratedPurposes = list(workflow.stages).flatMap(stage => [stage.purpose, stage.legacyPurpose].filter(Boolean));
       for (const stage of stages) {
         const originalPurpose = typeof stage === 'string' ? stage : stage.purpose;
         if (originalPurpose && !migratedPurposes.includes(originalPurpose)) {
