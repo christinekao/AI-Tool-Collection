@@ -111,20 +111,33 @@ for (const row of list(catalog.resources)) {
   if (row.url) indexResource(normalizedUrl(row.url), row);
 }
 function matchingResource(row) {
+  // Match the same ENTITY, not merely anything located somewhere in a repository.
+  // e.g. anthropics/skills (a repository) is NOT the frontend-design Skill inside it.
   const candidates = [
-    row.url ? normalizedUrl(row.url) : '',
-    row.repo, row.canonicalName, row.name, slug(row.canonicalName || row.name || row.repo)
+    [row.url ? normalizedUrl(row.url) : '', item => normalizedUrl(item.url)],
+    [normalized(row.repo), item => normalized(item.repo)],
+    [normalized(row.canonicalName), item => normalized(item.canonicalName)],
+    [normalized(row.name), item => normalized(item.title)],
+    [normalized(row.name), item => normalized(item.canonicalName)],
+    [slug(row.canonicalName || row.name || row.repo), item => item.id],
+    // Old name may be repo full-name; accept only its exact GitHub repo ROOT.
+    [row.name ? 'github.com/' + normalized(row.name) : '', item => normalizedUrl(item.url)]
   ];
-  for (const key of candidates) {
-    const matches = byResource.get(normalized(key));
-    if (matches?.size === 1) return [...matches][0];
+  for (const [key, accessor] of candidates) {
+    if (!key) continue;
+    const matches = list(catalog.resources).filter(item => accessor(item) === key);
+    if (matches.length > 1) {
+      errors.push('Ambiguous legacy resource identity: ' + (row.name || row.canonicalName));
+      return null;
+    }
+    if (matches.length === 1) return matches[0];
   }
   return null;
 }
 const missingLegacyResources = [];
 const legacyMetadataGaps = {};
 const missingContent = [];
-for (const old of uniqueLegacyResources.values()) {
+for (const old of legacyResources) {
   const current = matchingResource(old);
   if (!current) {
     missingLegacyResources.push(old.name || old.canonicalName || old.repo || old.url);
@@ -132,9 +145,14 @@ for (const old of uniqueLegacyResources.values()) {
   }
   // These historical metadata fields were not mapped by migrate-v2.mjs.
   for (const key of ['displayStatus', 'researchStatus', 'conceptReviewedAt', 'researchInterest', 'installed']) {
-    if (nonempty(old[key]) && !nonempty(current[key])) {
+    if (nonempty(old[key]) &&
+        !isDeepStrictEqual(old[key], current.legacyMetadata?.[key]) &&
+        !isDeepStrictEqual(old[key], current[key])) {
       legacyMetadataGaps[key] = (legacyMetadataGaps[key] || 0) + 1;
     }
+  }
+  if (nonempty(old.status) && old.status !== current.legacyMetadata?.legacyStatus) {
+    legacyMetadataGaps.legacyStatus = (legacyMetadataGaps.legacyStatus || 0) + 1;
   }
   for (const key of ['purpose', 'recommendation', 'url', 'notes']) {
     if (nonempty(old[key]) && !nonempty(current[key])) missingContent.push(current.id + ': ' + key);
@@ -167,6 +185,44 @@ for (const patch of list(optional('concepts.intake.json'))) {
   }
 }
 
+// Verify that legacy prompts and structured workflows survived their V2 extraction.
+// This complements identity checks, which by themselves cannot prove content parity.
+const parityGaps = [];
+for (const old of legacyPrompts) {
+  const current = list(catalog.prompts).find(item => item.id === old.id);
+  if (!current) continue; // reported separately
+  if (current.prompt !== old.promptContent) parityGaps.push('Prompt body: ' + old.id);
+  if (current.problem !== old.problemSolved) parityGaps.push('Prompt problem: ' + old.id);
+  if (current.expectedOutput !== old.expectedOutput) parityGaps.push('Prompt output: ' + old.id);
+}
+for (const old of legacyCombinations) {
+  const combo = list(catalog.combinations).find(item =>
+    item.title === (old.name || old.title) || item.goal === old.goal);
+  if (!combo) continue; // reported separately
+  const members = list(combo.members).length + list(combo.unresolvedMembers).length;
+  if (new Set(list(old.components)).size > members) {
+    parityGaps.push('Combination members: ' + (old.name || old.title));
+  }
+  const stages = list(old.workflow).length ? old.workflow : list(old.flow);
+  if (stages.length) {
+    const workflow = list(catalog.workflows).find(item => item.id === combo.id ||
+      list(item.combinationRefs).some(ref => ref.id === combo.id));
+    if (!workflow || !list(workflow.stages).length) {
+      parityGaps.push('Combination workflow missing: ' + combo.id);
+    } else {
+      const migratedPurposes = list(workflow.stages).map(stage => stage.purpose);
+      for (const stage of stages) {
+        const originalPurpose = typeof stage === 'string' ? stage : stage.purpose;
+        if (originalPurpose && !migratedPurposes.includes(originalPurpose)) {
+          parityGaps.push('Workflow stage not preserved: ' + combo.id);
+          break;
+        }
+      }
+    }
+  }
+}
+if (parityGaps.length) warnings.push('Legacy Prompt/Combination/Workflow content differences: ' + parityGaps.length);
+
 if (missingLegacyResources.length) warnings.push('Unmatched legacy Resource records: ' + missingLegacyResources.length);
 if (missingLegacyConcepts.length) warnings.push('Unmatched legacy Concept records: ' + missingLegacyConcepts.length);
 if (missingLegacyPrompts.length) warnings.push('Unmatched legacy Prompt records: ' + missingLegacyPrompts.length);
@@ -192,6 +248,7 @@ const result = {
     missingContent: missingContent.slice(0, 30),
     missingContentCount: missingContent.length,
     missingConceptAppendCount: conceptAppendGaps.length,
+    structuredContentParityGaps: parityGaps.slice(0,30),
     metadataGaps: legacyMetadataGaps
   },
   errors, warnings,
