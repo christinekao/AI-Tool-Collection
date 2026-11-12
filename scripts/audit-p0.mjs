@@ -38,7 +38,7 @@ for (const [plural, singular] of Object.entries(types)) {
   inventory[plural] = { files: fileIds.length, catalog: rowIds.length, manifest: indexIds.length };
 
   if (new Set(rowIds).size !== rowIds.length) errors.push(plural + ': duplicate catalog IDs');
-  if (!isDeepStrictEqual([...rowIds].sort(), fileIds)) errors.push(plural + ': catalog IDs do not match source files');
+  if (!isDeepStrictEqual([...rowIds].sort(), [...fileIds].sort())) errors.push(plural + ': catalog IDs do not match source files');
   if (!isDeepStrictEqual([...rowIds].sort(), [...indexIds].sort())) errors.push(plural + ': manifest IDs do not match catalog');
 
   for (const row of rows) {
