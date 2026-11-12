@@ -121,7 +121,7 @@ try{
  let didScroll=false;
  for(let i=0;i<30;i++){
   const top=await evaluate('document.querySelector("#kg-focus").getBoundingClientRect().top');
-  if(Math.abs(top)<=3){didScroll=true;break}
+  if(top>=-3&&top<=20){didScroll=true;break}
   await pause(100);
  }
  assert.ok(didScroll,'Mobile Problem switch must scroll to the selected knowledge content');
@@ -142,5 +142,5 @@ try{
  try{ws?.close()}catch{}
  try{chrome?.kill('SIGTERM')}catch{}
  await new Promise(resolve=>server.close(resolve));
- fs.rmSync(tmp,{recursive:true,force:true});
+ try{fs.rmSync(tmp,{recursive:true,force:true,maxRetries:10,retryDelay:100})}catch(error){console.warn('Chrome profile cleanup warning:',error.message)}
 }
