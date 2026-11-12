@@ -37,9 +37,11 @@
 
 ---
 
-### P1｜Problem Layer 與 Knowledge Graph
+### P1｜Problem Layer 與 Knowledge Graph（互動探索 MVP）
 
 - `data/problems/<id>.json`：使用需求的獨立小檔，第一批從「AI 影片製作」建立五個有來源的 Problem。
+- **互動網站：** [從問題探索](https://christinekao.github.io/AI-Tool-Collection/knowledge.html)（問題 → Concept → 工具／Skill → Workflow／Prompt／Combination）。
+- **完整維護與驗證紀錄：** [docs/P1_KNOWLEDGE_GRAPH.md](docs/P1_KNOWLEDGE_GRAPH.md)。
 - `scripts/knowledge-graph-core.mjs`：驗證 Problem 與現有六類實體的 Typed References，產生雙向可探索的 Graph 投影。
 - `data/knowledge-graph-v1.json`：自動產生的索引，**不可當成新的維護來源**。
 - `node scripts/build-v2.mjs`：同時重建 Catalog、Manifest 及 Knowledge Graph。
