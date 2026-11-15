@@ -169,6 +169,14 @@ data/
 - AI／投資／回測：模型結果、社群獲利截圖和 README 自稱的績效不構成已驗證證據。
 - 本 Session **只收錄**，不為了評估工具去實際運行陌生程式碼。
 
+### 無法讀取內容的來源：Pending Sources
+
+若使用者要求先「存」某個來源，但 X 貼文、文章或影片內容無法可靠存取，先存入 `data/pending-sources/<source-id>.json`，**不要根據網址虛構功能、標籤或 Graph 關聯**。
+
+- Pending Sources 是**待查證來源收件匣**，不是 V2 的第七種正式實體；不會自動進入 `catalog-v2.json` 或網站卡片。
+- 一個來源一個 JSON，保留原始來源網址、收藏日期與查證狀態；核實後去重，再決定是否建立或更新正式 V2 Entity。
+- 確認正式收錄之後，可在 Pending 項目保留對應 Canonical Entity ID 供追蹤，避免重新匯入和資訊遺失。
+
 ### Prompt、圖片與社群貼文
 
 - 有**完整原始 Prompt** 時，`prompt` 欄位應保存原文（可做必要字元清理，但不可悄悄改寫）。
