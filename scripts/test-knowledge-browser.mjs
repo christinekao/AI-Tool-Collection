@@ -190,7 +190,7 @@ try{
  await waitFor('document.querySelectorAll("#pg-editor .pg-step").length===1','Removing tool from free draft');
  assert.ok((await evaluate('document.querySelector("#pg-editor").textContent')).includes('未驗證'),'Free draft cannot imply compatible execution');
  await send('Page.navigate',{url:origin+'/playground.html'});
- await waitFor('document.querySelector("#pg-open-draft")!==null','Playground reload');
+ await waitFor('document.querySelector("#pg-editor .pg-feature")!==null && document.querySelector("#pg-flow-count")?.textContent.includes("36")','Playground ready after reload');
  await evaluate('document.querySelector("#pg-open-draft").click();true');
  await waitFor('document.querySelector("#pg-editor .pg-step strong")?.textContent.toLowerCase().includes("chatcut")','Free draft persists across navigation');
  console.log('PASS: Draft remains available across navigation and browser reload');
