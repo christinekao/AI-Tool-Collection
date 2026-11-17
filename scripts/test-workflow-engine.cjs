@@ -37,3 +37,33 @@ test('reject unknown tool and forward dependency',()=>{
  const changed=structuredClone(recipe);changed.stages[0].requires=['website-code'];
  assert.throws(()=>engine.validateRecipe(changed,catalog),/unavailable earlier output/);
 });
+
+const curatedRecipeIds=['website-build-review','agent-delivery-qa','enterprise-knowledge-qa'];
+const loadRecipe=id=>JSON.parse(fs.readFileSync('data/workflow-recipes/'+id+'.json','utf8'));
+test('all recommended recipes have traceable candidates and a structurally complete default plan',()=>{
+ for(const id of curatedRecipeIds){
+  const current=loadRecipe(id);
+  assert.equal(engine.validateRecipe(current,catalog),true,id+' has invalid evidence');
+  const plan=engine.compose(current,engine.defaultChoices(current));
+  assert.equal(plan.structurallyPlanned,true,id+' missing a required stage');
+  assert.equal(plan.verified,false,id+' must never claim executed verification');
+ }
+});
+test('agent delivery removing implementation prevents independent QA and delivery',()=>{
+ const current=loadRecipe('agent-delivery-qa');
+ const selections=engine.defaultChoices(current);
+ selections.coding=null;
+ const plan=engine.compose(current,selections);
+ assert.equal(plan.structurallyPlanned,false);
+ assert.equal(plan.steps.find(s=>s.id==='review').status,'blocked');
+ assert.equal(plan.steps.find(s=>s.id==='qa').status,'blocked');
+ assert.equal(plan.steps.find(s=>s.id==='delivery').status,'blocked');
+});
+test('enterprise knowledge without ingestion cannot complete retrieval or source review',()=>{
+ const current=loadRecipe('enterprise-knowledge-qa');
+ const selections=engine.defaultChoices(current);
+ selections.ingest=null;
+ const plan=engine.compose(current,selections);
+ assert.equal(plan.structurallyPlanned,false);
+ for(const id of ['index','answer','review'])assert.equal(plan.steps.find(s=>s.id===id).status,'blocked');
+});
