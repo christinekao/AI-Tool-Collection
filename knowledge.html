@@ -7,6 +7,7 @@
 <title>知識探索 · AI Tool Collection</title>
 <link rel="stylesheet" href="catalog-style.css">
 <link rel="stylesheet" href="knowledge-style.css">
+<script defer src="workflow-engine.js"></script>
 <script defer src="knowledge-app.js"></script>
 </head>
 <body>
@@ -18,7 +19,7 @@
 <section class="kg-hero" aria-labelledby="kg-title">
 <div class="eyebrow">KNOWLEDGE DISCOVERY · PROBLEM FIRST</div>
 <h1 id="kg-title">你想學什麼、做什麼，或解決什麼問題？</h1>
-<p>從需求開始搜尋整個知識庫，不需要先知道工具名稱。找到相關資源後，再探索它連結的 Concept、Skill、Prompt、Workflow 與其他工具。</p>
+<p>搜尋工具或問題，直接閱讀它解決什麼、如何使用、有哪些限制；在旁邊搭配其他工具規劃 Workflow。Graph 關聯可視需要展開，不再只看節點摘要。</p>
 <div class="kg-meta"><span id="kg-count" class="count-badge">讀取知識圖譜中…</span><span class="kg-subtle">搜尋相符項目 ≠ 已確認可解決你的問題；只有明確建立的關聯才會顯示為知識連結</span></div>
 </section>
 <div class="kg-layout">
@@ -56,10 +57,23 @@
 <div id="kg-node-view" hidden>
 <button id="kg-back" class="kg-back" type="button">← 返回知識搜尋</button>
 <div id="kg-focus" class="kg-focus" tabindex="-1"></div>
-<div class="kg-section-head"><h2>知識關聯圖</h2><p>節點皆來自正式資料；點擊查看雙向連結。</p></div>
-<div id="kg-network" class="kg-network" aria-label="目前節點的關聯圖"></div>
-<div id="kg-subproblems" class="kg-subproblems"></div>
-<section id="kg-inspector" class="kg-inspector" aria-label="節點詳細資訊" aria-live="polite"></section>
+<div class="kg-workspace-grid">
+<section id="kg-knowledge" class="kg-knowledge" aria-labelledby="kg-knowledge-heading">
+  <h2 id="kg-knowledge-heading">知識與實作筆記</h2>
+  <p class="kg-empty">讀取完整原始資料中…</p>
+</section>
+<aside id="kg-composer" class="kg-composer" aria-label="動態工作流程組合器">
+  <h2>Dynamic Workflow Builder</h2>
+  <p class="kg-empty">讀取流程與候選工具中…</p>
+</aside>
+</div>
+<details id="kg-graph-details" class="kg-graph-details">
+  <summary>探索 Graph 關聯與來源 <span>查看入站／出站引用</span></summary>
+  <div class="kg-section-head"><h2>知識關聯圖</h2><p>節點來自正式資料；引用不等於工具相容性。</p></div>
+  <div id="kg-network" class="kg-network" aria-label="目前節點的關聯圖"></div>
+  <div id="kg-subproblems" class="kg-subproblems"></div>
+  <section id="kg-inspector" class="kg-inspector" aria-label="節點詳細資訊" aria-live="polite"></section>
+</details>
 </div>
 </section>
 </div>
