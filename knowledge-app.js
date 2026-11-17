@@ -439,12 +439,11 @@ function bind(){
  $('#kg-problems').addEventListener('click',e=>{const x=e.target.closest('[data-problem]');if(x)navigateNode('problem:'+x.dataset.problem)});
  $('#kg-subproblems').addEventListener('click',e=>{const x=e.target.closest('[data-problem]');if(x)navigateNode('problem:'+x.dataset.problem)});
  $('#kg-results').addEventListener('click',e=>{const x=e.target.closest('[data-open-node]');if(x)navigateNode(x.dataset.openNode)});
- $('#kg-network').addEventListener('click',e=>{const x=e.target.closest('[data-node-key]');if(x){KG.selectedNode=x.dataset.nodeKey;graphView();inspect();renderKnowledge();renderComposer()}});
+ $('#kg-network').addEventListener('click',e=>{const x=e.target.closest('[data-node-key]');if(x)navigateNode(x.dataset.nodeKey)});
  $('#kg-inspector').addEventListener('click',e=>{
   const center=e.target.closest('[data-center-key]');if(center){navigateNode(center.dataset.centerKey);return;}
   const inspectKey=e.target.closest('[data-inspect-key]');if(!inspectKey)return;
-  const key=inspectKey.dataset.inspectKey;if(KG.byKey.get(key)?.type==='problem')navigateNode(key);
-  else{KG.selectedNode=key;graphView();inspect();}
+  navigateNode(inspectKey.dataset.inspectKey);
  });
  $('#kg-loadmore').addEventListener('click',()=>{KG.limit+=24;renderExplore()});
  $('#kg-back').addEventListener('click',()=>{KG.scrollOnChange=false;location.hash='#/explore'});
