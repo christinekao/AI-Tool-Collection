@@ -148,10 +148,10 @@ try{
  await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="visual"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
  await waitFor('document.querySelector(\'#kg-composer [data-stage-id="visual"]\')?.dataset.status==="skipped"','Skip optional design');
  assert.equal(await evaluate('document.querySelector(\'#kg-composer [data-stage-id="build"]\')?.dataset.status'),'planned');
- await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await evaluate('const buildRemoveEl=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');buildRemoveEl.value="";buildRemoveEl.dispatchEvent(new Event("change",{bubbles:true}));true');
  await waitFor('document.querySelector(\'#kg-composer [data-stage-id="review"]\')?.dataset.status==="blocked"','Removed build blocks QA');
  assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'false');
- await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');el.value="resource:openai-codex";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await evaluate('const buildSwapEl=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');buildSwapEl.value="resource:openai-codex";buildSwapEl.dispatchEvent(new Event("change",{bubbles:true}));true');
  await waitFor('document.querySelector(\'#kg-composer [data-stage-id="review"]\')?.dataset.status==="planned"','Swap tool and restore plan');
  assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'true');
  console.log('PASS: Dynamic Workflow Builder skips optional stage, blocks missing dependency and replans after replacement');
