@@ -211,9 +211,20 @@ function renderKnowledge(){
  const node=KG.byKey.get(KG.selectedNode||KG.focusKey),rec=recordFor(node);
  if(!node)return;
  if(node.type==='problem'){
-  section.innerHTML='<div class="kg-panel-heading"><span class="kg-kicker">PROBLEM / LEARNING BRIEF</span><h2 id="kg-knowledge-heading">這個問題該如何開始？</h2></div>'+
-  knowledgeSection('要解決的問題',node.question)+knowledgeSection('問題背景',node.summary)+knowledgeSection('期望成果',node.outcome)+
-  '<p class="kg-source-note">Problem 關聯是已整理的探索線索；並不代表工具已實測可互相串接。請從上方 Graph 或右側工具選單繼續探索。</p>';
+  const outgoing=(KG.outgoing.get(node.key)||[]).filter(e=>e.kind==='curated'&&e.relation!=='has_subproblem'&&KG.byKey.has(e.to));
+  const sections=[['workflow','推薦參考的 Workflow'],['concept','先理解的 Concept'],['resource','可以研究的工具'],['skill','可使用的 Skill'],['prompt','參考 Prompt'],['combination','可研究的工具組合']];
+  const recommended=sections.map(([type,heading])=>{
+   const rows=outgoing.filter(e=>KG.byKey.get(e.to)?.type===type);
+   if(!rows.length)return '';
+   return '<section class="kg-reading-section"><h3>'+esc(heading)+'</h3><div class="kg-reviewed-links">'+rows.map(edge=>{
+    const item=KG.byKey.get(edge.to);
+    return '<article class="kg-reviewed-link"><button class="kg-inline-ref" type="button" data-read-node="'+esc(item.key)+'">'+esc(item.title)+'</button><p>'+esc(edge.why||'與此問題有已整理的關聯')+'</p><small>'+esc(typeName(item))+' · 來源依據：'+esc(edge.evidenceField||'已整理關聯')+'</small></article>';
+   }).join('')+'</div></section>';
+  }).join('');
+  section.innerHTML='<div class="kg-panel-heading"><span class="kg-kicker">CURATED PROBLEM / VERIFIED REFERENCES</span><h2 id="kg-knowledge-heading">這個問題該如何開始？</h2></div>'+
+   knowledgeSection('要解決的問題',node.question)+knowledgeSection('問題背景',node.summary)+knowledgeSection('期望成果',node.outcome)+
+   recommended+
+   '<p class="kg-source-note">以上是對應既有原始資料的人工整理關聯，並非工具已實測相容。請選擇項目閱讀完整知識，或前往獨立 Playground 規劃流程。</p>';
   return;
  }
  if(!rec){
