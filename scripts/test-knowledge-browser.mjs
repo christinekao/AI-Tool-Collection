@@ -150,12 +150,12 @@ try{
  await waitFor('document.querySelector(\'#pg-editor [data-stage-id="visual"] select\')?.value==="skill:frontend-design"','Website recipe initial selection');
  const startPlan=await evaluate('({steps:document.querySelectorAll("#pg-editor .pg-step[data-stage-id]").length,planned:[...document.querySelectorAll("#pg-editor .pg-step")].every(x=>x.dataset.status==="planned")})');
  assert.equal(startPlan.steps,4);assert.equal(startPlan.planned,true);
- await evaluate('const el=document.querySelector(\'#pg-editor select[data-stage-choice="visual"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await evaluate('var visualChoiceEl=document.querySelector(\'#pg-editor select[data-stage-choice="visual"]\');visualChoiceEl.value="";visualChoiceEl.dispatchEvent(new Event("change",{bubbles:true}));true');
  await waitFor('document.querySelector(\'#pg-editor [data-stage-id="visual"]\')?.dataset.status==="skipped"','Skip optional design');
  assert.equal(await evaluate('document.querySelector(\'#pg-editor [data-stage-id="build"]\')?.dataset.status'),'planned');
- await evaluate('const el=document.querySelector(\'#pg-editor select[data-stage-choice="build"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await evaluate('var buildChoiceEl=document.querySelector(\'#pg-editor select[data-stage-choice="build"]\');buildChoiceEl.value="";buildChoiceEl.dispatchEvent(new Event("change",{bubbles:true}));true');
  await waitFor('document.querySelector(\'#pg-editor [data-stage-id="review"]\')?.dataset.status==="blocked"','Missing build blocks QA');
- await evaluate('const el=document.querySelector(\'#pg-editor select[data-stage-choice="build"]\');el.value="resource:openai-codex";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await evaluate('var buildSwapEl=document.querySelector(\'#pg-editor select[data-stage-choice="build"]\');buildSwapEl.value="resource:openai-codex";buildSwapEl.dispatchEvent(new Event("change",{bubbles:true}));true');
  await waitFor('document.querySelector(\'#pg-editor [data-stage-id="review"]\')?.dataset.status==="planned"','Restoring build restores QA');
  console.log('PASS: Dedicated website recipe supports optional step, blocking, and replacement');
 
