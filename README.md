@@ -31,7 +31,7 @@
 4. **避免重複維護資料。** 一筆 Resource／Concept／Skill／Prompt／Combination／Workflow 只維護一個 V2 Canonical JSON；其他實體透過 Typed Reference 指向它。
 5. **從需求探索到實作。** 網站應協助使用者由「我想做什麼？」找到可用工具、相關 Concept、學習資源、完整 Workflow、可複用 Prompt 及不同解法的取捨。
 
-**架構現況：** 目前只有六種 V2 Entity。Problem 和 Solution 先是知識分析維度／既有記錄的欄位與 Goal，不代表已經建立新的獨立資料類型或 Graph UI；新增 Graph Schema 屬於後續階段。
+**架構現況：** 正式 V2 Entity 仍只有六種；此外有獨立但不屬於 V2 Entity 的人工策展 Problem Layer，以及由原始資料產生的 Knowledge Graph 投影。
 
 **P0 已完成（2026-11-12）：** 已通過舊資料一致性稽核並退役根目錄的 V1 資料與過時遷移流程。原始檔保留於 [清理前備份分支](https://github.com/christinekao/AI-Tool-Collection/tree/backup/p0-before-legacy-cleanup-20261112)，詳細證據參見 [P0 Data Audit](docs/P0_DATA_AUDIT.md)。正式 Source of Truth 只有各個 V2 單筆 JSON。
 
@@ -39,8 +39,8 @@
 
 ### P1｜Problem Layer 與 Knowledge Graph（互動探索 MVP）
 
-- `data/problems/<id>.json`：針對重要問題逐筆策展的可維護資料；**目前影片製作的五筆只是示範案例，不是預設主題或知識庫範圍**。
-- **互動網站：** [跨領域知識探索](https://christinekao.github.io/AI-Tool-Collection/knowledge.html)：預設搜尋全部 Resource、Concept、Skill、Prompt、Combination、Workflow，並可從任一節點查看雙向關聯。影片製作僅放在可選的「已整理的 Problem 範例」內。搜尋文字相符不等於已確認問題適配。
+- `data/problems/<id>.json`：針對重要問題逐筆策展的可維護資料；**原有五筆影片製作案例已保留，另有跨領域 Problem；它們都不是知識庫的唯一主題**。
+- **互動網站：** [跨領域知識探索](https://christinekao.github.io/AI-Tool-Collection/knowledge.html)：預設搜尋全部 Resource、Concept、Skill、Prompt、Combination、Workflow，並可從任一節點查看雙向關聯。人工策展的跨領域 Problem 放在可選的「已整理的 Problem 範例」內。搜尋文字相符不等於已確認問題適配。
 - **完整維護與驗證紀錄：** [docs/P1_KNOWLEDGE_GRAPH.md](docs/P1_KNOWLEDGE_GRAPH.md)。
 - `scripts/knowledge-graph-core.mjs`：驗證 Problem 與現有六類實體的 Typed References，產生雙向可探索的 Graph 投影。
 - `data/knowledge-graph-v1.json`：自動產生的索引，**不可當成新的維護來源**。
@@ -62,6 +62,18 @@
 - **設計紀錄：** [docs/P2_DYNAMIC_WORKFLOW.md](docs/P2_DYNAMIC_WORKFLOW.md)。
 
 **重要限制：** 這是規劃工具，不會執行、安裝或自動串接候選 Tool。即使內部條件判斷為「結構可接續」，也**不代表實際 API、檔案格式、權限或輸出品質已驗證**。
+
+### P3｜獨立 Workflow Playground 與跨領域 Problem 策展（2026-11-17）
+
+> 本階段開發於 feature branch，合併及 GitHub Pages 部署須以實際 CI／PR 核准為準。
+
+- **[Knowledge Explorer](knowledge.html)：** 閱讀正式原始知識、查看 Graph、選擇已整理的跨領域 Problem。知識詳情不再嵌入編輯器，保留前往 Playground 的節點 Deep Link。
+- **[Workflow Playground](playground.html)：** 優先展示 Problem 連結的推薦 Flow，保留原本 36 筆 Workflow 階段可讀性；其中 3 筆有可編輯 Recipe（網站建置、Agent 開發交付、企業知識問答）。自由草稿可新增／移除／排序工具並在目前瀏覽器保存。
+- **原始六類維持不變：** 268 Resources／123 Skills／68 Concepts／34 Prompts／36 Workflows／17 Combinations，總共 546 筆 V2 Entity。原五筆 Problem 加 15 筆跨領域 Problem，共 20 筆；Problem 不屬於第七種 V2 Entity。
+- **保留證據界線：** Recipe 的 requires／produces 僅驗證規劃依賴；其他 Workflow 不虛構 Stage Tool，相關候選不等於可直接串接。
+- **完整盤點、變更邊界、待驗證項目：** [docs/P3_WORKFLOW_PLAYGROUND.md](docs/P3_WORKFLOW_PLAYGROUND.md)。
+
+
 
 ---
 
@@ -309,5 +321,5 @@ Website: https://christinekao.github.io/AI-Tool-Collection/
 
 ---
 
-**最後核對日期：2026-11-12（Asia/Taipei）**。此文件描述的是當時核實的 Repo 結構，未來若 Schema 或 Actions 改變，應以最新程式碼與 Schema 為準更新 README。
+**最後核對日期：2026-11-17（Asia/Taipei）**。此文件描述的是當時核實的 Repo 結構，未來若 Schema 或 Actions 改變，應以最新程式碼與 Schema 為準更新 README。
 
