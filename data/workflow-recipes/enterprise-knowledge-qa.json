@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "id": "enterprise-knowledge-qa",
+  "title": "企業 AI 知識問答｜擷取 → 索引 → 問答 → 來源檢查",
+  "description": "從已收藏的企業知識問答 Stack 整理文件與網站資料的流程。文件路徑與結構化資料路徑應分開設計；此範本先聚焦文件檢索。",
+  "domain": "資料／知識管理",
+  "sourceWorkflowRef": {
+    "type": "workflow",
+    "id": "stack"
+  },
+  "disclaimer": "這是工作流程規劃，不代表 MinerU、Crawl4AI、Onyx、RAGFlow 之間的 API／資料格式已完成整合；引用品質、權限及真實檢索結果需要另外測試。",
+  "stages": [
+    {
+      "id": "ingest",
+      "title": "擷取並整理來源文件",
+      "purpose": "依實際來源類型將文件或網站內容轉成可被索引的文字與結構化片段。",
+      "requires": [],
+      "produces": [
+        "prepared-source-content"
+      ],
+      "optional": false,
+      "gate": "確認資料授權、來源完整性、編碼與敏感資訊處理。",
+      "candidates": [
+        {
+          "type": "resource",
+          "id": "opendatalab-mineru",
+          "evidenceField": "purpose",
+          "why": "Resource 說明可將 PDF、掃描與表格轉成 LLM 可處理資料。"
+        },
+        {
+          "type": "resource",
+          "id": "unclecode-crawl4ai",
+          "evidenceField": "purpose",
+          "why": "Resource 說明可將網站整理為 Markdown／結構化內容。"
+        }
+      ]
+    },
+    {
+      "id": "index",
+      "title": "建立文件索引與檢索層",
+      "purpose": "建立文件知識索引與可查詢內容；保留來源引用。",
+      "requires": [
+        "prepared-source-content"
+      ],
+      "produces": [
+        "retrieval-index"
+      ],
+      "optional": false,
+      "gate": "能重現文件來源、查詢結果與權限邊界。",
+      "candidates": [
+        {
+          "type": "resource",
+          "id": "onyx",
+          "evidenceField": "purpose",
+          "why": "Resource 具備文件搜尋、RAG 及組織知識問答能力。"
+        },
+        {
+          "type": "resource",
+          "id": "infiniflow-ragflow",
+          "evidenceField": "purpose",
+          "why": "Resource 具備文件解析、索引、檢索與引用來源的知識問答能力。"
+        }
+      ]
+    },
+    {
+      "id": "answer",
+      "title": "回答與檢索證據檢查",
+      "purpose": "使用檢索結果回答問題，對不足的證據標示未知而不是補造內容。",
+      "requires": [
+        "retrieval-index"
+      ],
+      "produces": [
+        "grounded-answer-draft"
+      ],
+      "optional": false,
+      "gate": "答案能回到來源查證，查無證據時顯示缺口。",
+      "candidates": [
+        {
+          "type": "resource",
+          "id": "onyx",
+          "evidenceField": "purpose",
+          "why": "Resource 包含檢索問答與 Agentic RAG 能力。"
+        },
+        {
+          "type": "resource",
+          "id": "infiniflow-ragflow",
+          "evidenceField": "purpose",
+          "why": "Resource 包含具來源引用的知識問答能力。"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "title": "以來源與業務權限驗收",
+      "purpose": "檢查來源更新、誤答、權限洩漏與無答案情境。",
+      "requires": [
+        "grounded-answer-draft"
+      ],
+      "produces": [
+        "reviewed-qa-result"
+      ],
+      "optional": false,
+      "gate": "紀錄實際問題集的通過、失敗及無法驗證項目。",
+      "candidates": [
+        {
+          "type": "resource",
+          "id": "onyx",
+          "evidenceField": "purpose",
+          "why": "Resource 可作為檢索與來源回讀的候選平台，人工仍需執行驗收。"
+        },
+        {
+          "type": "resource",
+          "id": "infiniflow-ragflow",
+          "evidenceField": "purpose",
+          "why": "Resource 可作為檢索與來源回讀的候選平台，人工仍需執行驗收。"
+        }
+      ]
+    }
+  ]
+}
