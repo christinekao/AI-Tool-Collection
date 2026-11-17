@@ -176,7 +176,9 @@ try{
  await waitFor('document.querySelector("#pg-editor .pg-step strong")?.textContent.toLowerCase().includes("chatcut")','Free draft seed');
  await evaluate('const x=document.querySelector("#pg-tool-search");x.value="Davinci";x.dispatchEvent(new Event("input",{bubbles:true}));true');
  await waitFor('document.querySelector("#pg-tools [data-add-tool]")!==null','Search for second tool');
- await evaluate('document.querySelector("#pg-tools [data-add-tool]").click();true');
+ const availableOptions=await evaluate('[...document.querySelectorAll("#pg-tools [data-add-tool]")].map(x=>({key:x.dataset.addTool,disabled:x.disabled}))');
+ assert.ok(availableOptions.some(x=>!x.disabled),'Tool search should find a candidate not already in the draft: '+JSON.stringify(availableOptions));
+ await evaluate('document.querySelector("#pg-tools [data-add-tool]:not([disabled])").click();true');
  await waitFor('document.querySelectorAll("#pg-editor .pg-step").length===2','Adding tool to free draft');
  await evaluate('document.querySelectorAll("#pg-editor [data-remove-tool]")[1].click();true');
  await waitFor('document.querySelectorAll("#pg-editor .pg-step").length===1','Removing tool from free draft');
