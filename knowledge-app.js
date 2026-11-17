@@ -3,7 +3,7 @@
 const LABEL={problem:'Problem',concept:'Concept',resource:'Resource',skill:'Skill',workflow:'Workflow',prompt:'Prompt',combination:'Combination'};
 const ROUTES={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
 const REL={explained_by:'相關原理',supported_by:'適用工具／技能',guided_by:'相關流程／提示詞',combined_in:'工具組合',has_subproblem:'延伸問題',declared_reference:'原有資料引用'};
-const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map(),recipe:null,builder:null,builderSeed:null};
+const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map()};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return ''}};
@@ -14,7 +14,7 @@ const detailUrl=node=>node.type==='problem'?'#/problem/'+encodeURIComponent(node
 function setData(graph){
  if(graph?.schemaVersion!==1||!Array.isArray(graph.nodes)||!Array.isArray(graph.edges))throw Error('Unsupported knowledge graph');
  KG.graph=graph;KG.byKey=new Map(graph.nodes.map(n=>[n.key,n]));
- KG.problems=graph.nodes.filter(n=>n.type==='problem').sort((a,b)=>a.title.localeCompare(b.title,'zh-Hant'));
+ KG.problems=graph.nodes.filter(n=>n.type==='problem').sort((a,b)=>(a.domain||'影音與內容').localeCompare(b.domain||'影音與內容','zh-Hant')||a.title.localeCompare(b.title,'zh-Hant'));
  KG.incoming=new Map();KG.outgoing=new Map();
  for(const edge of graph.edges){
   if(!KG.byKey.has(edge.from)||!KG.byKey.has(edge.to))throw Error('Invalid graph edge: '+edge.from+' → '+edge.to);
@@ -318,7 +318,7 @@ async function init(){
   setData(data);KG.catalog=catalog;
   KG.recordIndex=WorkflowEngine.indexCatalog(catalog);
   bind();renderFilters();renderExamples();render();
-  $('#kg-count').textContent=(data.counts.nodes-data.counts.problems)+' 筆正式知識 · '+data.counts.problems+' 個示範問題 · '+(data.counts.canonicalEdges+data.counts.curatedEdges)+' 條既有關聯';
+  $('#kg-count').textContent=(data.counts.nodes-data.counts.problems)+' 筆正式知識 · '+data.counts.problems+' 個已整理 Problem · '+(data.counts.canonicalEdges+data.counts.curatedEdges)+' 條既有關聯';
  }catch(error){console.error('Knowledge Graph failed to load',error);
   $('#kg-count').textContent='知識圖譜載入失敗';
   $('#kg-results').innerHTML='<div class="kg-error">資料載入失敗，請檢查部署或稍後重新整理。</div>';
