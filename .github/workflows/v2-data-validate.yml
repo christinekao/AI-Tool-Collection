@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Verify source-backed Workflow composition rules
+        run: node --test scripts/test-workflow-engine.cjs
       - name: Unit test graph rules
         run: node --test scripts/test-knowledge-graph.mjs
       - name: Verify canonical JSON, catalog, manifest, graph and references

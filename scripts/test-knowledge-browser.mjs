@@ -130,6 +130,44 @@ try{
  const links=await evaluate('({detail:!!document.querySelector(\'#kg-inspector a[href="index.html#/resources/fomofly-ai"]\'),related:document.querySelectorAll("#kg-inspector .kg-neighbor").length})');
  assert.ok(links.detail&&links.related>0);
  console.log('PASS: Node detail and reverse references');
+
+ // A node must reveal useful source content, not just its graph title/summary.
+ await send('Page.navigate',{url:origin+'/knowledge.html#/node/prompt/japanese-storybook-travel-itinerary-single-html'});
+ await waitFor('document.querySelector("#kg-knowledge .kg-prompt-source")?.textContent.includes("日系繪本風")','Full Prompt source reading');
+ const promptReading=await evaluate('({length:document.querySelector("#kg-knowledge .kg-prompt-source")?.textContent.length,hasCopy:!!document.querySelector("#kg-knowledge [data-copy-prompt]"),hasSource:!!document.querySelector("#kg-knowledge .kg-reading-section")})');
+ assert.ok(promptReading.length>250,'Prompt must show its complete original instructions');
+ assert.ok(promptReading.hasCopy&&promptReading.hasSource);
+ console.log('PASS: Full Prompt body, inputs and learning notes are readable');
+
+ // Selecting a known Skill should automatically load the source-backed website recipe.
+ await send('Page.navigate',{url:origin+'/knowledge.html#/node/skill/frontend-design'});
+ await waitFor('document.querySelector(\'#kg-composer [data-stage-id="visual"] select\')?.value==="skill:frontend-design"','Recipe suggestion for existing Skill');
+ const startPlan=await evaluate('({steps:document.querySelectorAll("#kg-composer .kg-work-step").length,valid:document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid})');
+ assert.equal(startPlan.steps,4);
+ assert.equal(startPlan.valid,'true');
+ await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="visual"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#kg-composer [data-stage-id="visual"]\')?.dataset.status==="skipped"','Skip optional design');
+ assert.equal(await evaluate('document.querySelector(\'#kg-composer [data-stage-id="build"]\')?.dataset.status'),'planned');
+ await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#kg-composer [data-stage-id="review"]\')?.dataset.status==="blocked"','Removed build blocks QA');
+ assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'false');
+ await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');el.value="resource:openai-codex";el.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#kg-composer [data-stage-id="review"]\')?.dataset.status==="planned"','Swap tool and restore plan');
+ assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'true');
+ console.log('PASS: Dynamic Workflow Builder skips optional stage, blocks missing dependency and replans after replacement');
+
+ // Uncurated resources must still be usable in an explicitly UNVERIFIED freeform plan.
+ await send('Page.navigate',{url:origin+'/knowledge.html#/node/resource/chatcut'});
+ await waitFor('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid==="unknown"','Unknown compatibility draft');
+ const candidate=await evaluate('document.querySelector("#kg-composer [data-add-tool]")?.dataset.addTool||null');
+ assert.ok(candidate,'Expected source-related candidate for ChatCut');
+ await evaluate('document.querySelector("#kg-composer [data-add-tool]").click();true');
+ await waitFor('document.querySelectorAll("#kg-composer .kg-draft-item").length===2','Add candidate');
+ await evaluate('document.querySelectorAll("#kg-composer [data-remove-draft]")[1].click();true');
+ await waitFor('document.querySelectorAll("#kg-composer .kg-draft-item").length===1','Remove candidate');
+ assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'unknown');
+ console.log('PASS: Any Resource allows dynamic draft addition/removal without invented compatibility claims');
+
  for(const width of [375,430,768,1440]){
   await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
   await pause(120);
