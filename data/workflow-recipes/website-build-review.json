@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "website-build-review",
+  "title": "網站建置｜需求 → 設計 → 實作 → 驗證",
+  "description": "由已收藏的需求釐清、前端設計、Coding Agent 與 QA Skills 組成的示範工作流程。可跳過非必要設計步驟，但不能跳過網站實作直接驗證。",
+  "sourceWorkflowRef": {
+    "type": "workflow",
+    "id": "dual-agent-website-handoff-and-verification"
+  },
+  "disclaimer": "這是根據收藏文件整理的『流程規劃範本』。候選工具適用於對應階段，但輸入輸出格式、安裝狀態與實際跨工具相容性均尚未實測。",
+  "stages": [
+    {
+      "id": "scope",
+      "title": "釐清需求與交付目標",
+      "purpose": "確認受眾、網站範圍、內容、CTA 與可驗收的規格。",
+      "requires": [],
+      "produces": [
+        "scoped-brief"
+      ],
+      "optional": false,
+      "gate": "有可檢查的需求／驗收標準",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "mattpocock-grill-with-docs",
+          "evidenceField": "purpose",
+          "why": "來源描述會釐清需求並把決策寫成可追溯的文件。"
+        },
+        {
+          "type": "skill",
+          "id": "elayadesign-landing-page-design",
+          "evidenceField": "purpose",
+          "why": "對 Landing Page 可先定義受眾、Offer、CTA 與頁面結構。"
+        }
+      ]
+    },
+    {
+      "id": "visual",
+      "title": "建立視覺與前端設計",
+      "purpose": "在實作前產生可依循的設計方向，若不需要獨立設計階段可以略過。",
+      "requires": [
+        "scoped-brief"
+      ],
+      "produces": [
+        "design-guidance"
+      ],
+      "optional": true,
+      "gate": "設計方向與產品需求一致",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "frontend-design",
+          "evidenceField": "purpose",
+          "why": "Skill 目的是產生具品質的前端介面與視覺設計。"
+        },
+        {
+          "type": "skill",
+          "id": "akseolabs-seo-cinematic-ui",
+          "evidenceField": "purpose",
+          "why": "Skill 提供視覺研究、構圖、動態與網頁設計流程。"
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "title": "實作網站及可執行程式碼",
+      "purpose": "依需求建立可檢查的實際前端程式與頁面。若有設計產物，可供實作時參考；並非必須透過固定格式串接。",
+      "requires": [
+        "scoped-brief"
+      ],
+      "produces": [
+        "website-code"
+      ],
+      "optional": false,
+      "gate": "有可開啟的網站檔案與互動，非僅文字承諾",
+      "candidates": [
+        {
+          "type": "resource",
+          "id": "minimax-code",
+          "evidenceField": "purpose",
+          "why": "現有 Resource 描述支援 Coding Agent 與網站原型建置。"
+        },
+        {
+          "type": "resource",
+          "id": "openai-codex",
+          "evidenceField": "purpose",
+          "why": "現有 Resource 描述提供 Coding Agent、工具執行與開發環境。"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "title": "審查與實際瀏覽器 QA",
+      "purpose": "從真實頁面驗證手機／桌面、互動與驗收項目，並記錄證據。",
+      "requires": [
+        "website-code"
+      ],
+      "produces": [
+        "qa-findings"
+      ],
+      "optional": false,
+      "gate": "取得實際測試證據，所有重大問題已處理",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "garrytan-gstack",
+          "evidenceField": "purpose",
+          "why": "其 Skill 集合包含 Code Review、真實瀏覽器 QA 與 Release 檢查；仍需依環境安裝設定。"
+        }
+      ]
+    }
+  ]
+}
