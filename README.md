@@ -50,6 +50,21 @@
 **防止誤分類：** Graph 不會把所有文字相近的工具視為替代品；新 Problem 關聯必須說明原因，並指定可追溯的既有欄位。
 
 
+## P2｜知識詳情優先 × Dynamic Workflow Builder
+
+**目標：** 從「找到收藏」前進到「理解它解決什麼問題、如何使用，以及能否與其他工具組成 Workflow」，不把 Graph 當成唯一的知識呈現方式。
+
+- **閱讀完整知識：** [Knowledge Explorer](https://christinekao.github.io/AI-Tool-Collection/knowledge.html) 會從 V2 Catalog 讀取已存在的 `coreProblem`、`solutionMethods`、`inputs`、`outputs`、`execution`、`features`、`limitations`、Workflow stages，並呈現完整 Prompt 及來源。Graph 移到可展開區塊，避免只有摘要與箭頭。
+- **自由組合：** 選擇任意 Resource／Skill 後，利用同 Concept 或同 Workflow 的來源引用尋找可繼續研究的工具，逐步加入、移除、排序；**尚無輸入／輸出契約時一律標示「未驗證」**，不把共同概念誤認為可直接整合。
+- **有依賴條件的組合：** `data/workflow-recipes/<id>.json` 是**可逐筆維護的人工策展範本**，定義步驟的 `requires`、`produces`、`optional`、候選工具與來源欄位。組合器會動態重算，選掉必要工具時停止下游步驟，而非直接連箭頭。
+- **第一個驗證範例：** `website-build-review.json`（需求 → 可選的設計 → 實作 → QA），只是驗證 Workflow Engine 的一個案例，**不限定網站的主題範圍**。
+- **測試：** `node --test scripts/test-workflow-engine.cjs` 檢查依賴、替代候選工具、略過步驟及錯誤資料；`node scripts/test-knowledge-browser.mjs` 檢查真實頁面互動。
+- **設計紀錄：** [docs/P2_DYNAMIC_WORKFLOW.md](docs/P2_DYNAMIC_WORKFLOW.md)。
+
+**重要限制：** 這是規劃工具，不會執行、安裝或自動串接候選 Tool。即使內部條件判斷為「結構可接續」，也**不代表實際 API、檔案格式、權限或輸出品質已驗證**。
+
+---
+
 ## 1. 最重要的工作範圍
 
 **此專案的日常工作只有「維護 AI 工具與方法知識庫」。**
