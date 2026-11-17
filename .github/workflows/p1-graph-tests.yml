@@ -9,6 +9,9 @@ on:
       - '.github/workflows/p1-graph-tests.yml'
       - 'scripts/test-knowledge-browser.mjs'
       - 'knowledge.html'
+      - 'playground.html'
+      - 'playground-app.js'
+      - 'playground-style.css'
       - 'knowledge-app.js'
       - 'workflow-engine.js'
       - 'data/workflow-recipes/**'
@@ -17,6 +20,22 @@ on:
       - 'index.html'
       - 'catalog-app.js'
       - 'catalog-style.css'
+  pull_request:
+    paths:
+      - 'data/problems/**'
+      - 'data/workflow-recipes/**'
+      - 'scripts/knowledge-graph-core.mjs'
+      - 'scripts/test-knowledge-graph.mjs'
+      - 'scripts/test-knowledge-browser.mjs'
+      - 'scripts/test-workflow-engine.cjs'
+      - 'knowledge.html'
+      - 'knowledge-app.js'
+      - 'knowledge-style.css'
+      - 'playground.html'
+      - 'playground-app.js'
+      - 'playground-style.css'
+      - 'workflow-engine.js'
+      - 'index.html'
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,7 +50,7 @@ jobs:
       - run: node --test scripts/test-knowledge-graph.mjs
       - run: node --test scripts/test-workflow-engine.cjs
       - run: node scripts/build-knowledge-graph.mjs
-      - run: node --check knowledge-app.js && node --check workflow-engine.js && node --check catalog-app.js
+      - run: node --check knowledge-app.js && node --check playground-app.js && node --check workflow-engine.js && node --check catalog-app.js
       - name: Ensure Traditional Chinese glyphs are available for visual QA
         run: |
           if ! fc-list :lang=zh family | grep -q .; then
