@@ -144,6 +144,12 @@ try{
  await waitFor('document.querySelector("#kg-playground-link")?.href.includes("seed=skill%3Afrontend-design")','Source to Playground deep link');
  assert.equal(await evaluate('document.querySelector("#kg-composer")===null'),true,'Composer must not stay inside Knowledge Explorer');
  console.log('PASS: Knowledge reading and Workflow Playground are separate');
+ await send('Page.navigate',{url:origin+'/knowledge.html#/problem/build-business-website'});
+ await waitFor('document.querySelectorAll("#kg-knowledge .kg-reviewed-link").length>=3','Curated Problem recommends direct knowledge links');
+ const curated=await evaluate('({sourceLinks:document.querySelectorAll("#kg-knowledge .kg-reviewed-link [data-read-node]").length,sourceReasons:document.querySelectorAll("#kg-knowledge .kg-reviewed-link p").length,playground:document.querySelector("#kg-playground-link")?.href.includes("problem=build-business-website")})');
+ assert.ok(curated.sourceLinks>=3&&curated.sourceReasons>=3&&curated.playground,'Problem content should surface evidenced solutions without opening the collapsed Graph');
+ console.log('PASS: Curated Problem opens direct source-backed recommendations');
+
 
  // The existing website recipe remains fully editable on the dedicated page.
  await send('Page.navigate',{url:origin+'/playground.html?workflow=dual-agent-website-handoff-and-verification'});
@@ -183,6 +189,12 @@ try{
  await evaluate('document.querySelectorAll("#pg-editor [data-remove-tool]")[1].click();true');
  await waitFor('document.querySelectorAll("#pg-editor .pg-step").length===1','Removing tool from free draft');
  assert.ok((await evaluate('document.querySelector("#pg-editor").textContent')).includes('未驗證'),'Free draft cannot imply compatible execution');
+ await send('Page.navigate',{url:origin+'/playground.html'});
+ await waitFor('document.querySelector("#pg-open-draft")!==null','Playground reload');
+ await evaluate('document.querySelector("#pg-open-draft").click();true');
+ await waitFor('document.querySelector("#pg-editor .pg-step strong")?.textContent.toLowerCase().includes("chatcut")','Free draft persists across navigation');
+ console.log('PASS: Draft remains available across navigation and browser reload');
+
  console.log('PASS: Problem recommendations and unverified freeform tool planning');
 
  for(const width of [375,430,768,1440]){
@@ -191,6 +203,14 @@ try{
   const size=await evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})');
   assert.ok(size.scroll<=size.client+3,'Playground overflows '+width+'px: '+JSON.stringify(size));
   console.log('PASS: Playground '+width+'px no horizontal overflow');
+ }
+
+ for(const width of [375,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(100);
+  const screenshot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+  fs.mkdirSync(screenshotDir,{recursive:true});
+  fs.writeFileSync(path.join(screenshotDir,'playground-'+width+'.png'),Buffer.from(screenshot.data,'base64'));
  }
  await send('Page.navigate',{url:origin+'/knowledge.html#/node/resource/chatcut'});
  await waitFor('document.querySelector("#kg-network [data-node-key]")!==null','Knowledge Explorer graph after return');
