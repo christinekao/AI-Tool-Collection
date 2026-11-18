@@ -236,7 +236,7 @@ function promptGuideHtml(x){
  const cap=g.composition?.capability||{};
  return '<div class="prompt-guide">'+
   '<section class="pg-lead" aria-label="Prompt 概覽"><span class="pg-kicker">PROMPT · COPY / ADAPT / VERIFY / COMPOSE</span><h3>把工作經驗寫得更清楚，不必編造漂亮數字</h3><p>'+esc(g.overview)+'</p></section>'+
-  '<nav class="pg-toc" aria-label="本頁章節"><a href="#pg-fit">適用情境</a><a href="#pg-input">準備資料</a><a href="#pg-copy">複製 Prompt</a><a href="#pg-example">使用範例</a><a href="#pg-adjust">調整方式</a><a href="#pg-verify">品質檢查</a><a href="#pg-compose">組合 Workflow</a></nav>'+
+  '<nav class="pg-toc" aria-label="本頁章節"><button type="button" data-prompt-jump="pg-fit">適用情境</button><button type="button" data-prompt-jump="pg-input">準備資料</button><button type="button" data-prompt-jump="pg-copy">複製 Prompt</button><button type="button" data-prompt-jump="pg-example">使用範例</button><button type="button" data-prompt-jump="pg-adjust">調整方式</button><button type="button" data-prompt-jump="pg-verify">品質檢查</button><button type="button" data-prompt-jump="pg-compose">組合 Workflow</button></nav>'+
   '<section id="pg-fit" class="pg-section"><div class="pg-heading"><span>01 · WHEN TO USE</span><h3>什麼時候適合用？</h3></div><div class="pg-three-grid">'+situations+'</div></section>'+
   '<section id="pg-input" class="pg-section"><div class="pg-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>沒有的資料可以填「未提供」，不要猜一個數字。</p></div><div class="pg-three-grid">'+prep+'</div></section>'+
   '<section id="pg-copy" class="pg-section"><div class="pg-heading"><span>03 · COPY</span><h3>直接複製 Prompt</h3><p>預設提供可重用的整理版；原始收藏的文字仍完整保留，可切換查看與複製。</p></div>'+
@@ -438,6 +438,12 @@ function wire(){
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
  $('#app').addEventListener('click',e=>{
+  const jump=e.target.closest('[data-prompt-jump]');
+  if(jump){
+   const target=jump.closest('.prompt-guide')?.querySelector('#'+jump.dataset.promptJump);
+   if(target)target.scrollIntoView({block:'start',behavior:'smooth'});
+   return;
+  }
   const switcher=e.target.closest('[data-prompt-view]');
   if(switcher){
    const pane=switcher.closest('.prompt-guide');
