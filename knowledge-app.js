@@ -3,7 +3,7 @@
 const LABEL={problem:'Problem',concept:'Concept',resource:'Resource',skill:'Skill',workflow:'Workflow',prompt:'Prompt',combination:'Combination'};
 const ROUTES={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
 const REL={explained_by:'相關原理',supported_by:'適用工具／技能',guided_by:'相關流程／提示詞',combined_in:'工具組合',has_subproblem:'延伸問題',declared_reference:'原有資料引用'};
-const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map()};
+const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map(),problemDocs:new Map(),problemLoading:new Set()};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return ''}};
@@ -89,11 +89,14 @@ function renderExamples(){
 }
 function resultCard(node){
  const around=(KG.incoming.get(node.key)?.length||0)+(KG.outgoing.get(node.key)?.length||0);
- return '<button type="button" class="kg-result-card" data-open-node="'+esc(node.key)+'"><span class="kg-result-type">'+esc(typeName(node))+' · '+around+' 條資料引用</span><strong>'+esc(node.title)+'</strong><span class="kg-result-description">'+esc(shorten(node.summary||'尚未補充摘要',155))+'</span><span class="kg-result-explore">探索關聯 →</span></button>';
+ return '<button type="button" class="kg-result-card" data-open-node="'+esc(node.key)+'"><span class="kg-result-type">'+esc(typeName(node))+' · '+around+' 條資料引用</span><strong>'+esc(node.title)+'</strong><span class="kg-result-description">'+esc(shorten(node.summary||'尚未補充摘要',155))+'</span><span class="kg-result-explore">閱讀完整內容 →</span></button>';
 }
 function renderExplore(){
  renderFilters();
  const rows=found(),display=rows.slice(0,KG.limit),query=KG.query.trim(),all=!query&&KG.type==='all';
+ const starter=$('#kg-learning-start');
+ if(starter)starter.hidden=!all;
+ if(starter&&all)starter.innerHTML=KnowledgeLearning.featuredMarkup(KG.byKey);
  $('#kg-results-title').textContent=query?'搜尋結果':all?'跨領域知識預覽':LABEL[KG.type]||'探索知識';
  $('#kg-result-count').textContent=query?'找到 '+rows.length+' 筆文字相符的資料':all?'各資料類型的近期收藏，輸入需求可搜尋全部 '+KG.graph.nodes.length+' 筆':'共 '+rows.length+' 筆資料';
  $('#kg-results').innerHTML=display.length?display.map(resultCard).join(''):'<p class="kg-empty kg-no-results">目前沒有符合的內容。可改用其他關鍵字或切換資料類型；這不代表相關工具不存在。</p>';
@@ -206,25 +209,28 @@ function renderWorkflowStages(record){
   (stage.gate?'<p class="kg-step-gate"><strong>驗收：</strong>'+esc(stage.gate)+'</p>':'')+'</div></article>';
  }).join('')+'</div></section>';
 }
+function loadProblemDoc(id){
+ if(KG.problemDocs.has(id)||KG.problemLoading.has(id))return;
+ KG.problemLoading.add(id);
+ fetch('data/problems/'+encodeURIComponent(id)+'.json',{cache:'no-store'})
+  .then(response=>{if(!response.ok)throw Error('Problem source unavailable: '+id);return response.json()})
+  .then(doc=>{
+   if(doc?.schemaVersion!==1||doc?.id!==id)throw Error('Mismatched Problem source '+id);
+   KG.problemDocs.set(id,doc);
+   if(KG.focusKey==='problem:'+id&&(KG.selectedNode===null||KG.selectedNode==='problem:'+id))renderKnowledge();
+  })
+  .catch(error=>console.warn('Problem guide was not loaded; retaining canonical source-based overview',error))
+  .finally(()=>KG.problemLoading.delete(id));
+}
 function renderKnowledge(){
  const section=$('#kg-knowledge');if(!section)return;
  const node=KG.byKey.get(KG.selectedNode||KG.focusKey),rec=recordFor(node);
  if(!node)return;
  if(node.type==='problem'){
-  const outgoing=(KG.outgoing.get(node.key)||[]).filter(e=>e.kind==='curated'&&e.relation!=='has_subproblem'&&KG.byKey.has(e.to));
-  const sections=[['workflow','推薦參考的 Workflow'],['concept','先理解的 Concept'],['resource','可以研究的工具'],['skill','可使用的 Skill'],['prompt','參考 Prompt'],['combination','可研究的工具組合']];
-  const recommended=sections.map(([type,heading])=>{
-   const rows=outgoing.filter(e=>KG.byKey.get(e.to)?.type===type);
-   if(!rows.length)return '';
-   return '<section class="kg-reading-section"><h3>'+esc(heading)+'</h3><div class="kg-reviewed-links">'+rows.map(edge=>{
-    const item=KG.byKey.get(edge.to);
-    return '<article class="kg-reviewed-link"><button class="kg-inline-ref" type="button" data-read-node="'+esc(item.key)+'">'+esc(item.title)+'</button><p>'+esc(edge.why||'與此問題有已整理的關聯')+'</p><small>'+esc(typeName(item))+' · 來源依據：'+esc(edge.evidenceField||'已整理關聯')+'</small></article>';
-   }).join('')+'</div></section>';
-  }).join('');
-  section.innerHTML='<div class="kg-panel-heading"><span class="kg-kicker">CURATED PROBLEM / VERIFIED REFERENCES</span><h2 id="kg-knowledge-heading">這個問題該如何開始？</h2></div>'+
-   knowledgeSection('要解決的問題',node.question)+knowledgeSection('問題背景',node.summary)+knowledgeSection('期望成果',node.outcome)+
-   recommended+
-   '<p class="kg-source-note">以上是對應既有原始資料的人工整理關聯，並非工具已實測相容。請選擇項目閱讀完整知識，或前往獨立 Playground 規劃流程。</p>';
+  loadProblemDoc(node.id);
+  section.innerHTML=KnowledgeLearning.renderProblem(node,KG.problemDocs.get(node.id),{
+   edges:KG.graph.edges,recordIndex:KG.recordIndex,nodeIndex:KG.byKey
+  });
   return;
  }
  if(!rec){
