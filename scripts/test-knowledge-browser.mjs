@@ -339,12 +339,11 @@ try{
  await evaluate('document.querySelector("#app .card a.title-link").click();true');
  await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI 工程決策速查表")','Article detail opens');
  await waitFor('document.querySelectorAll(".learn-module").length===10','Ten study modules rendered from the saved original Resource');
- const studyContent=await evaluate('({heroHidden:document.querySelector(".hero")?.hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-module a[href*=sraodev]").length,legacyFeatures:document.querySelector(".detail-panel")?.textContent.includes("主要功能")})');
- assert.ok(studyContent.heroHidden&&studyContent.outcomes===5&&studyContent.modules===10&&studyContent.readPath===4&&studyContent.practice>=4&&studyContent.sourceLinks>=10&&studyContent.legacyFeatures,'Learning outcomes, study path and original sources must all render: '+JSON.stringify(studyContent));
- const first=await evaluate('({open:document.querySelector(".learn-module")?.open,text:document.querySelector(".learn-module-body")?.textContent})');
- assert.ok(first.open&&first.text.includes('這一章真正教什麼')&&first.text.includes('讀完應該能產出'),'First lesson should be immediately readable');
- await evaluate('document.querySelectorAll(".learn-module")[1].querySelector("summary").click();true');
- await waitFor('document.querySelectorAll(".learn-module")[1]?.open===true','Study module expand');
+ const studyContent=await evaluate('({heroHidden:document.querySelector(".hero")?.hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module-inline").length,notes:document.querySelectorAll(".learn-essentials li").length,exercises:document.querySelectorAll(".learn-apply").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-reference a[href*=sraodev]").length,defaultExternalLinks:document.querySelectorAll(".learn-path a").length,accordionCount:document.querySelectorAll(".learn-module summary").length,legacyFeatures:document.querySelector(".detail-panel")?.textContent.includes("主要功能")})');
+ assert.ok(studyContent.heroHidden&&studyContent.outcomes===5&&studyContent.modules===10&&studyContent.notes===30&&studyContent.exercises===10&&studyContent.readPath===4&&studyContent.practice>=4&&studyContent.sourceLinks===10&&studyContent.defaultExternalLinks===0&&studyContent.accordionCount===0&&studyContent.legacyFeatures,'Inline lesson must include all source-backed knowledge and keep provenance: '+JSON.stringify(studyContent));
+ const readability=await evaluate('({rendered:document.querySelectorAll(".learn-module-inline .learn-essentials li").length,visible:!!document.querySelector(".learn-essentials li")?.getClientRects().length,firstLesson:document.querySelector(".learn-module-inline")?.textContent})');
+ assert.ok(readability.visible&&readability.rendered===30&&readability.firstLesson.includes("自己試試看")&&readability.firstLesson.includes("直接學這三個重點"),'Lessons should already be readable without clicking summaries or leaving the website');
+ console.log('PASS: Ten chapters and thirty actionable points are visible without expansion or offsite links');
  for(const width of [375,430,768,1440]){
   await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
   await pause(80);
@@ -355,7 +354,7 @@ try{
    fs.writeFileSync(path.join(screenshotDir,'resource-learning-'+width+'.png'),Buffer.from(capture.data,'base64'));
   }
  }
- console.log('PASS: Ten source-linked learning chapters, five outcomes, working lessons, responsive reading');
+ console.log('PASS: Inline ten teaching chapters, five outcomes, thirty principles, responsive reading');
 
  assert.ok(await evaluate('!!document.querySelector(".external-links a[href*=sraodev]")'),'Upstream source repository link must be visible');
  console.log('PASS: All Collections retains all six data types, both saved sources and independent deep links');
