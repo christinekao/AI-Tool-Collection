@@ -149,17 +149,58 @@ function learningGuideHtml(g,hideOverview=false){
   '<section class="learn-section" id="learn-chapters"><h3>十個主題的重點筆記</h3><p class="learn-helper">每章直接列出核心知識、情境例子與小練習，不需展開或另開網頁。可以優先讀標示「先學」的主題。</p><div class="learn-modules">'+modules+'</div></section>'+
   practiceHtml+sources+'<p class="learn-caveat">'+esc(g.caveat||'')+'</p></div>';
 }
+/* Pure source-code repository page. All content comes from the optional canonical repoGuide field. */
+function repoGuideHtml(x){
+ const g=x.repoGuide;
+ if(!g||!list(g.features).length)return '';
+ const revision=text(x.source?.upstreamCommit);
+ const repoName=text(x.repo);
+ const src=(path)=>'https://github.com/'+repoName+'/blob/'+revision+'/'+String(path).split('/').map(encodeURIComponent).join('/');
+ const file=(path,label)=>path?'<a href="'+esc(src(path))+'" target="_blank" rel="noopener noreferrer">'+esc(label||path)+'</a>':'';
+ const files=(paths)=>list(paths).length?'<div class="repo-source-links">'+list(paths).map(p=>file(p,p)).join('')+'</div>':'';
+ const repoList=(items)=>list(items).length?'<ul class="repo-plain-list">'+list(items).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'';
+ const meta=list(g.facts).map(p=>'<div class="repo-fact"><dt>'+esc(p.label)+'</dt><dd>'+esc(p.value)+'</dd></div>').join('');
+ const states=list(g.status).map(p=>'<div class="repo-state"><strong>'+esc(p.label)+'</strong><span>'+esc(p.value)+'</span></div>').join('');
+ const shots=list(g.screenshots).map(p=>'<figure class="repo-shot"><img loading="lazy" decoding="async" src="'+esc('https://raw.githubusercontent.com/'+repoName+'/'+revision+'/'+p.path)+'" alt="'+esc(p.label)+'"><figcaption>'+esc(p.label)+' · '+file(p.path,'查看原始圖')+'</figcaption></figure>').join('');
+ const features=list(g.features).map((p,i)=>'<article class="repo-feature"><span class="repo-ordinal">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(p.title)+'</h4><p>'+esc(p.detail)+'</p><div class="repo-bottom-link">'+file(p.source,'查看程式來源')+'</div></article>').join('');
+ const flow=list(g.architecture?.nodes).map((p,i)=>'<li class="repo-flow-node"><div class="repo-flow-index">'+String(i+1).padStart(2,'0')+'</div><div><h4>'+esc(p.title)+'</h4><p>'+esc(p.detail)+'</p>'+files(p.files)+'</div></li>').join('');
+ const rules=list(g.implementationRules).map(p=>'<article class="repo-rule"><h4>'+esc(p.name)+'</h4><p>'+esc(p.rule)+'</p>'+file(p.source,'原始邏輯')+'</article>').join('');
+ const uses=list(g.usage).map((p,i)=>'<article class="repo-option"><span class="repo-ordinal">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(p.title)+'</h4><p>'+esc(p.description)+'</p>'+(p.approval?'<p class="repo-approval">需要明確核准，請勿直接執行安裝與刪除命令。</p>':'')+(list(p.commands).length?'<pre class="repo-commands"><code>'+esc(p.commands.join('\n'))+'</code></pre>':'')+files(p.files)+'</article>').join('');
+ const extension=list(g.extension).map((p,i)=>'<li><span class="repo-step-num">'+String(i+1).padStart(2,'0')+'</span><div><h4>'+esc(p.title)+'</h4><p>'+esc(p.detail)+'</p>'+file(p.file,'對應原始碼')+'</div></li>').join('');
+ const caps=list(g.capabilities).map(c=>'<article class="repo-capability" id="cap-'+esc(c.id)+'"><div class="repo-cap-heading"><span class="repo-ordinal">'+esc(c.id)+'</span><h4>'+esc(c.name)+'</h4></div><p>'+esc(c.problem)+'</p><dl><div><dt>輸入</dt><dd>'+esc(c.input)+'</dd></div><div><dt>輸出</dt><dd>'+esc(c.output)+'</dd></div><div><dt>組合前檢查</dt><dd>'+esc(c.gate)+'</dd></div></dl>'+file(c.source,'追溯原始碼')+'</article>').join('');
+ const steps=list(g.workflow?.steps).map((p,i)=>'<li><span class="repo-step-num">'+String(i+1).padStart(2,'0')+'</span><div><strong>'+esc(list(g.capabilities).find(c=>c.id===p.capability)?.name||p.capability)+'</strong><p>'+esc(p.action)+'</p><a href="#cap-'+esc(p.capability)+'">查看能力契約</a></div></li>').join('');
+ const rebuild=list(g.rebuild?.stages).map(p=>'<article class="repo-rebuild-stage"><h4>'+esc(p.title)+'</h4><p>'+esc(p.detail)+'</p><div><strong>交付產物</strong><span>'+esc(p.deliverable)+'</span></div></article>').join('');
+ const risks=list(g.risks).map(p=>'<article class="repo-risk"><div class="repo-risk-title"><strong>'+esc(p.title)+'</strong><span>'+esc(p.severity)+'</span></div><p>'+esc(p.issue)+'</p><p><strong>處理方式：</strong>'+esc(p.control)+'</p></article>').join('');
+ const verify=list(g.verification).map(p=>'<tr><th scope="row">'+esc(p.item)+'</th><td>'+esc(p.state)+'</td><td>'+esc(p.evidence)+'</td></tr>').join('');
+ return '<div class="repo-guide">'+
+  '<section class="repo-lead" aria-label="專案概覽"><div class="repo-lead-content"><div class="repo-kicker">REPO RESOURCE · UNDERSTAND / REBUILD / COMPOSE</div><h3>這個專案能做什麼？</h3><p class="repo-lead-text">'+esc(g.overview)+'</p><dl class="repo-facts">'+meta+'</dl><div class="repo-status">'+states+'</div></div><div class="repo-shots">'+shots+'</div></section>'+
+  '<nav class="repo-toc" aria-label="此頁章節"><a href="#repo-features">主要功能</a><a href="#repo-architecture">如何運作</a><a href="#repo-usage">怎麼使用</a><a href="#repo-extension">如何擴充</a><a href="#repo-compose">組合 Workflow</a><a href="#repo-rebuild">重新建立</a><a href="#repo-risk">風險與驗證</a></nav>'+
+  '<section class="repo-section" id="repo-features"><div class="repo-section-head"><span>01 · UNDERSTAND</span><h3>主要功能</h3><p>能做什麼，以及它由哪些程式負責。</p></div><div class="repo-feature-grid">'+features+'</div></section>'+
+  '<section class="repo-section" id="repo-architecture"><div class="repo-section-head"><span>02 · ARCHITECTURE</span><h3>如何運作？</h3><p>'+esc(g.architecture?.summary)+'</p></div><ol class="repo-flow">'+flow+'</ol><p class="repo-footnote">'+esc(g.architecture?.note)+'</p><h4 class="repo-subtitle">值得保留的核心邏輯</h4><div class="repo-rule-grid">'+rules+'</div></section>'+
+  '<section class="repo-section" id="repo-usage"><div class="repo-section-head"><span>03 · USE</span><h3>怎麼使用？</h3><p>區分查閱、只編譯、正式安裝；以下為來源指令，不代表已執行。</p></div><div class="repo-option-grid">'+uses+'</div></section>'+
+  '<section class="repo-section" id="repo-extension"><div class="repo-section-head"><span>04 · EXTEND</span><h3>能不能擴充？</h3><p>可用 Provider 介面新增服務，但資料來源、權限與格式仍需個別驗證。</p></div><ol class="repo-step-list">'+extension+'</ol></section>'+
+  '<section class="repo-section" id="repo-compose"><div class="repo-section-head"><span>05 · COMPOSE</span><h3>如何用這些知識解決問題、建立 Workflow？</h3><p>把專案能力拆成有輸入、輸出、來源及風險界線的單元，再按需求組合。</p></div><div class="repo-cap-grid">'+caps+'</div><h4 class="repo-subtitle">'+esc(g.workflow?.title)+'</h4><p class="repo-problem">'+esc(g.workflow?.problem)+'</p><ol class="repo-workflow">'+steps+'</ol><p class="repo-footnote">'+esc(g.workflow?.gate)+'</p></section>'+
+  '<section class="repo-section" id="repo-rebuild"><div class="repo-section-head"><span>06 · REBUILD</span><h3>是否能依這些知識重新建立？</h3><p>'+esc(g.rebuild?.verdict)+'</p></div><div class="repo-rebuild-grid">'+rebuild+'</div><h4 class="repo-subtitle">重建前仍缺少的證據</h4>'+repoList(g.rebuild?.gaps)+'</section>'+
+  '<section class="repo-section" id="repo-risk"><div class="repo-section-head"><span>07 · SAFETY & VERIFICATION</span><h3>有哪些風險？目前驗證到哪裡？</h3><p>來源閱讀、實際編譯和真實服務測試不能混為一談。</p></div><div class="repo-risk-grid">'+risks+'</div><div class="repo-table-scroll"><table class="repo-verify-table"><thead><tr><th scope="col">檢查項目</th><th scope="col">狀態</th><th scope="col">證據／缺口</th></tr></thead><tbody>'+verify+'</tbody></table></div><p class="repo-footnote">資料來源：'+file('README.md','上游 README')+'、'+file('AGENTS.md','AGENTS.md')+' 與所列 Swift 檔案。審查版本：<code>'+esc(revision)+'</code>。本頁未安裝、未讀取你的本機憑證，也未呼叫真實用量 API。</p></section>'+
+ '</div>';
+}
+
 function detail(x){
  const s=summary(x);
  const isCheatSheetsGuide=x.entityType==='resource'&&x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
+ const isAiUsageBar=x.entityType==='resource'&&x.id==='tip31812-ai-usage-bar'&&Boolean(x.repoGuide);
  // This learning resource introduces scope, features, prerequisites and caveats before the lesson.
  // Other resource detail pages keep their existing rendering order.
  let body='';
- if(!isCheatSheetsGuide){
+ if(!isCheatSheetsGuide&&!isAiUsageBar){
   body+=x.entityType==='resource'?learningGuideHtml(x.learningGuide,false):'';
   body+=section('這是什麼？',para(s.what));
  }
  if(x.entityType==='resource'){
+  if(isAiUsageBar){
+   body+=repoGuideHtml(x);
+   body+=section('相關概念',refsHtml(x.conceptRefs));
+  }else{
   body+=section('適合什麼情境？',para(x.recommendation));
   body+=section('主要功能',bullets(x.features));
   body+=section('使用條件',bullets(x.requirements));
@@ -175,6 +216,7 @@ function detail(x){
    body+=section('可以查閱的原始檔案與架構',bullets(files));
    body+=section('從這份知識開始實作',bullets(im.extensionPath||im.extensionInstructions));
    body+=section('建置與驗收參考',bullets([...list(im.build),...list(im.verification)]));
+  }
   }
  }else if(x.entityType==='skill'){
   body+=section('解決的問題',para(x.problem));
@@ -209,7 +251,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
