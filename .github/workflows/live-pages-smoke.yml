@@ -15,6 +15,7 @@ on:
   pull_request:
     paths:
       - 'scripts/test-live-pages.mjs'
+      - 'scripts/test-knowledge-browser.mjs'
       - '.github/workflows/live-pages-smoke.yml'
   workflow_dispatch:
 permissions:
@@ -29,3 +30,7 @@ jobs:
           node-version: '22'
       - name: Check deployed GitHub Pages HTTP assets and JSON contracts
         run: node scripts/test-live-pages.mjs
+      - name: Check actual deployed site in Chromium (not local preview)
+        env:
+          LIVE_SITE_BASE: https://christinekao.github.io/AI-Tool-Collection
+        run: node scripts/test-knowledge-browser.mjs
