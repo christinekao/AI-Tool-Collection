@@ -237,6 +237,7 @@ function topicCards(){
 }
 function render(){
  if(!state.data)return;
+ const hero=$('.hero');if(hero)hero.hidden=Boolean(state.detail||state.detailMissing);
  const view=$('#app');
  if(state.detail){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML=detail(state.detail);return}
  if(state.detailMissing){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML='<p>找不到這筆收藏。<a href="#/explore">返回全部收藏</a></p>';return}
