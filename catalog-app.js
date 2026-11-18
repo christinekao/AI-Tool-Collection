@@ -113,7 +113,7 @@ function para(s){return text(s)?'<p>'+esc(s)+'</p>':''}
 function bullets(a){return list(a).length?'<ul>'+a.map(v=>'<li>'+esc(typeof v==='string'?v:JSON.stringify(v))+'</li>').join('')+'</ul>':''}
 /* Optional, source-cited study guide; original canonical metadata remains visible below. */
 /* A complete, readable lesson lives on this page. Upstream links are optional citations only. */
-function learningGuideHtml(g){
+function learningGuideHtml(g,hideOverview=false){
  if(!g||!list(g.outcomes).length||!list(g.modules).length)return '';
  const sourceLink=(href,label)=>url(href)?'<a href="'+esc(url(href))+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>':'';
  const outcomes=list(g.outcomes).map((o,i)=>
@@ -141,15 +141,16 @@ function learningGuideHtml(g){
  const sources='<details class="learn-reference"><summary>原始資料與版本（選讀／查核用）</summary><p>上述重點已整理在本頁，不需跳轉才能學習；需要完整規格時可逐一查看不同來源章節。</p><ol>'+
   guides.map(m=>'<li>'+sourceLink(m.sourceUrl,m.title)+'</li>').join('')+'</ol></details>';
  return '<div class="learning-guide" id="learning-guide">'+
-  '<section class="learn-section"><h3>學完能掌握什麼？</h3><div class="learn-outcomes">'+outcomes+'</div></section>'+
-  (path?'<section class="learn-section"><h3>先看哪裡？</h3><ol class="learn-path">'+path+'</ol></section>':'')+
+  (hideOverview?'':'<section class="learn-section"><h3>學完能掌握什麼？</h3><div class="learn-outcomes">'+outcomes+'</div></section>')+
+  (!hideOverview&&path?'<section class="learn-section"><h3>先看哪裡？</h3><ol class="learn-path">'+path+'</ol></section>':'')+
   '<section class="learn-section" id="learn-chapters"><h3>十個主題的重點筆記</h3><p class="learn-helper">每章直接列出核心知識、情境例子與小練習，不需展開或另開網頁。可以優先讀標示「先學」的主題。</p><div class="learn-modules">'+modules+'</div></section>'+
   practiceHtml+sources+'<p class="learn-caveat">'+esc(g.caveat||'')+'</p></div>';
 }
 function detail(x){
  const s=summary(x);
- let body=x.entityType==='resource'?learningGuideHtml(x.learningGuide):'';
- body+=section('這是什麼？',para(s.what));
+ const isCheatSheetsGuide=x.entityType==='resource'&&x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
+ let body=x.entityType==='resource'?learningGuideHtml(x.learningGuide,isCheatSheetsGuide):'';
+ if(!isCheatSheetsGuide)body+=section('這是什麼？',para(s.what));
  if(x.entityType==='resource'){
   body+=section('適合什麼情境？',para(x.recommendation));
   body+=section('主要功能',bullets(x.features));
@@ -199,7 +200,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2><p>'+esc(short(s.what,320))+'</p><div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 function scrollToResults(){
  const header=$('#result-header');
