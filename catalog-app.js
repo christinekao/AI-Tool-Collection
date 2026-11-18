@@ -121,6 +121,15 @@ function detail(x){
   body+=section('限制與注意事項',bullets(x.limitations));
   body+=section('相關概念',refsHtml(x.conceptRefs));
   body+=section('相關 Skills',refsHtml(x.skillRefs||x.relatedSkillRefs));
+  if(x.implementationKnowledge){
+   const im=x.implementationKnowledge;
+   const readiness=im.executionStatus==='NOT_EXECUTED'?'尚未執行／尚未在實際環境驗證':'請檢視來源證據與執行狀態';
+   body+=section('實作準備狀態',para(readiness));
+   const files=[...list(im.directFiles),...Object.values(im.architecture||{})].filter(v=>typeof v==='string');
+   body+=section('可以查閱的原始檔案與架構',bullets(files));
+   body+=section('從這份知識開始實作',bullets(im.extensionPath||im.extensionInstructions));
+   body+=section('建置與驗收參考',bullets([...list(im.build),...list(im.verification)]));
+  }
  }else if(x.entityType==='skill'){
   body+=section('解決的問題',para(x.problem));
   body+=section('如何使用',para(x.execution));
@@ -152,7 +161,7 @@ function detail(x){
   body+=section('使用情境',bullets(x.useCases));
   body+=section('相關 Combinations',refsHtml(x.combinationRefs));
  }
- const urls=[{u:x.url||x.githubUrl,label:'開啟官方資源'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
+ const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
  return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2><p>'+esc(short(s.what,320))+'</p><div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
