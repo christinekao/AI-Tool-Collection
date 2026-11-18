@@ -77,6 +77,15 @@
 
 ---
 
+## P4｜以學會方法為目標的閱讀體驗
+
+- **[Learning-first Knowledge Explorer](knowledge.html)**：首頁提供明確的學習入口，而不是只展示資料型態及工具清單；從 Problem 進入「核心原理 → 來源 Concept → 可操作步驟／產物／驗收 → 情境選擇 → 虛構範例 → 實際練習 → 來源與限制」。
+- **已有十份完整的跨領域問題教學**，寫在原本 `data/problems/<id>.json` 的可選 `learning` 欄位中；其他十個 Problem 仍能閱讀來源支持的 Concept／Workflow，但會標示為尚未補完整教學。
+- **六種 V2 Canonical Entity、Graph 與獨立 Playground 原有資料全部保留**。這個階段是以內容理解和可驗收練習為主的增量改版，不是驗證所有第三方工具的最新能力。
+- 文件與測試詳見 [P4 Learning-first 設計及驗收](docs/P4_LEARNING_FIRST.md)。
+
+---
+
 ## 1. 最重要的工作範圍
 
 **此專案的日常工作只有「維護 AI 工具與方法知識庫」。**
