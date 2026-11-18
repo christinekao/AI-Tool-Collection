@@ -259,9 +259,9 @@ try{
  console.log('PASS: mobile selection scrolls to knowledge and focuses selected Problem');
  await send('Page.navigate',{url:origin+'/index.html#/explore'});
  await waitFor('document.querySelectorAll("#topics > .topic-card").length===9','Catalog home topics');
- const home=await evaluate('({nested:document.querySelectorAll("#topics > .topic-grid").length,cta:!!document.querySelector(\'a.hero-main-cta[href="knowledge.html"]\')})');
+ const home=await evaluate('({nested:document.querySelectorAll("#topics > .topic-grid").length,cta:!!document.querySelector(\'a.hero-main-cta[href="ask.html"]\'),learning:!!document.querySelector(\'a.hero-secondary-cta[href="knowledge.html"]\')})');
  assert.equal(home.nested,0,'Topic grid must not be nested');
- assert.ok(home.cta,'Main catalog is missing Problem Explorer entry');
+ assert.ok(home.cta&&home.learning,'Home must link to dynamic answers and keep the existing Problem Explorer');
  await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
  const fit=await evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})');
  assert.ok(fit.scroll<=fit.client+3,'Main index overflows at 375px '+JSON.stringify(fit));
