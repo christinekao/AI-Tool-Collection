@@ -267,6 +267,10 @@ export function createAnswer(query,catalog,problems=[]){
  const risks=risksFor(sourceRecords);
  if(intent==='compare'){
   const comparison=comparisons(sourceRecords,records,input);
+  for(const option of comparison.items){
+   const match=records.find(r=>r.type===option.source.type&&r.id===option.source.id);
+   if(match&&!sourceRecords.some(x=>x.record.type===match.type&&x.record.id===match.id))sourceRecords.push({record:match,score:0});
+  }
   section('compare',comparison.scoped?'對照主題相關的原始資料':'已收錄方案的差異',comparison.items);
   section('facts','比較前需要先理解',main.slice(0,5));
   section('risk','選擇前需核對',risks);
