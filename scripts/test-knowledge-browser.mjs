@@ -288,6 +288,23 @@ try{
  assert.equal(mobileTopic.selected,'true');
  assert.ok(mobileTopic.overflow<=3);
  console.log('PASS: Mobile topic click opens filtered results');
+
+ // Reproduce a transient failed knowledge-data request; the user must be able to retry without reloading.
+ // Runs against this branch's local files only (the live site may not have this patch yet).
+ if(!process.env.LIVE_SITE_BASE){
+  const injected=await send('Page.addScriptToEvaluateOnNewDocument',{source:
+   'if(location.search.includes("simulate-load-failure")){let failures=0;const original=window.fetch.bind(window);window.fetch=(...args)=>{if(String(args[0]).includes("data/knowledge-graph-v1.json")&&failures++<3)return Promise.reject(new Error("Simulated temporary network interruption"));return original(...args)}};'
+  });
+  await send('Page.navigate',{url:origin+'/knowledge.html?simulate-load-failure=1'});
+  await waitFor('document.querySelector("#kg-retry-load")!==null','Recoverable knowledge loading error');
+  const detail=await evaluate('document.querySelector(".kg-error details code")?.textContent');
+  assert.ok(detail.includes('Simulated temporary network interruption'),'Show concrete loading error without losing navigation');
+  await evaluate('document.querySelector("#kg-retry-load").click();true');
+  await waitFor('document.querySelector("#kg-count")?.textContent.includes("正式知識")','Knowledge load succeeds after retry');
+  assert.ok(await evaluate('document.querySelectorAll("#kg-learning-start .kg-learning-card").length>=6'));
+  await send('Page.removeScriptToEvaluateOnNewDocument',{identifier:injected.identifier});
+  console.log('PASS: Transient failed Graph fetch offers working retry and recovers');
+ }
  assert.deepEqual(errors,[],'Uncaught browser exceptions: '+errors.join('; '));
  console.log('PASS: Index navigation, direct topic grid, 375px layout, no JS exceptions');
 }finally{
