@@ -356,22 +356,31 @@
       {
         "title": "確認合法可用的用量來源",
         "detail": "先確認新服務提供可用且允許使用的資料取得方式；不能只因有介面就推測 API 可以存取。",
-        "file": "README.md"
+        "file": "README.md",
+        "readerTitle": "先確認能不能取得額度資料",
+        "readerText": "先確認新工具是否提供可使用的額度資料。沒有可靠的資料來源，就先不要接入。"
       },
       {
         "title": "實作 Provider",
         "detail": "建立 Sources/XxxProvider.swift，遵守 UsageSource 的 brand 和 async fetch(manual:) 契約，回傳一致的 ProviderState、錯誤與來源狀態。",
-        "file": "Sources/Models.swift"
+        "file": "Sources/Models.swift",
+        "readerTitle": "新增讀取額度的功能",
+        "readerText": "參考現有 Claude 和 Codex 的做法，新增一個專門取得額度的檔案。讓它回傳相同格式的數字、錯誤與讀取狀態。",
+        "technicalNote": "技術補充：新增 XxxProvider.swift 並實作 UsageSource。"
       },
       {
         "title": "註冊並接入共用狀態",
         "detail": "在 Sources.all 新增 Provider；檢查數值單位、剩餘量轉換、資料不完整情況及通知邊界。",
-        "file": "Sources/Store.swift"
+        "file": "Sources/Store.swift",
+        "readerTitle": "讓看板認得新工具",
+        "readerText": "把新工具加入服務清單。再確認它的額度單位、重置時間和提醒條件能正常顯示。"
       },
       {
         "title": "補 UI 與來源專屬測試",
         "detail": "檢查圓環、標籤、雙語字串和新服務是否能自然呈現，再以 Demo／Mock 測試及獲准的真實環境驗證。",
-        "file": "Sources/Views.swift"
+        "file": "Sources/Views.swift",
+        "readerTitle": "測試介面與實際資料",
+        "readerText": "先用模擬資料檢查畫面與提醒，再在獲得授權的環境測試真實額度。新增的文字也要支援繁體中文及英文。"
       }
     ],
     "capabilities": [
@@ -382,7 +391,12 @@
         "input": "授權的登入狀態／供應者回傳",
         "output": "ProviderState、UsageWindow、即時／備援狀態",
         "source": "Sources/Models.swift",
-        "gate": "來源合法且授權；回傳格式與憑證使用方式須驗證"
+        "gate": "來源合法且授權；回傳格式與憑證使用方式須驗證",
+        "readerName": "取得各工具用量",
+        "readerProblem": "每個 AI 工具提供的額度資料不一樣。",
+        "readerInput": "已獲授權的登入狀態及用量資料",
+        "readerOutput": "統一格式的用量與資料來源狀態",
+        "readerGate": "確認資料來源可合法使用，且不會誤用登入憑證。"
       },
       {
         "id": "quota-normalize",
@@ -391,7 +405,12 @@
         "input": "usedPercent、重置時間、視窗標籤",
         "output": "remainingPercent、最緊用量視窗",
         "source": "Sources/Models.swift",
-        "gate": "缺值與備援值不得誤標為即時數據"
+        "gate": "缺值與備援值不得誤標為即時數據",
+        "readerName": "統一剩餘額度",
+        "readerProblem": "不同工具有不同的額度時段和重置時間。",
+        "readerInput": "已使用比例、額度時段、重置時間",
+        "readerOutput": "剩餘比例及目前最接近用完的時段",
+        "readerGate": "資料缺失或估算時，不能偽裝成即時數據。"
       },
       {
         "id": "usage-routing",
@@ -400,7 +419,12 @@
         "input": "各 ProviderState 與重置時間",
         "output": "建議工具與原因，不執行自動切換",
         "source": "Sources/Views.swift",
-        "gate": "低額度門檻、資料過期與無資料情況須測試"
+        "gate": "低額度門檻、資料過期與無資料情況須測試",
+        "readerName": "建議先用哪個工具",
+        "readerProblem": "當某個工具額度快用完時，選擇替代工具。",
+        "readerInput": "各工具的剩餘額度與重置時間",
+        "readerOutput": "建議使用的工具及理由，不會自動切換",
+        "readerGate": "額度太低、資料太舊或無法查詢時，應有不同的判斷方式。"
       },
       {
         "id": "usage-alert",
@@ -409,7 +433,12 @@
         "input": "標準化用量、對話 Token、登入狀態",
         "output": "本機提醒或不發通知",
         "source": "Sources/Notifier.swift",
-        "gate": "系統通知權限、去重與隱私政策需驗證"
+        "gate": "系統通知權限、去重與隱私政策需驗證",
+        "readerName": "提醒額度及長對話",
+        "readerProblem": "使用者不必一直打開看板，也能知道需要注意的狀態。",
+        "readerInput": "用量、對話長度及登入狀態",
+        "readerOutput": "必要時顯示通知，並避免重複提醒",
+        "readerGate": "取得通知權限，確保內容不洩漏敏感資訊。"
       }
     ],
     "workflow": {
@@ -441,22 +470,34 @@
         {
           "title": "01 定義系統契約",
           "detail": "決定支援的用量服務、資料來源權限、額度欄位、使用門檻、失敗狀態與使用者可控制的動作。",
-          "deliverable": "需求／輸入輸出／權限 Spec"
+          "deliverable": "需求／輸入輸出／權限 Spec",
+          "readerTitle": "01 先決定要做哪些功能",
+          "readerText": "列出要支援的 AI 工具、需要顯示的額度、提醒條件，以及哪些操作需要使用者同意。",
+          "readerDeliverable": "功能清單、資料格式及權限需求"
         },
         {
           "title": "02 建立無憑證 MVP",
           "detail": "先以 Mock ProviderState、SwiftUI 介面、計時與通知策略重現畫面及核心流程，不接真實憑證。",
-          "deliverable": "Mock App、UI 截圖及可重現測試"
+          "deliverable": "Mock App、UI 截圖及可重現測試",
+          "readerTitle": "02 先做不用登入的測試版",
+          "readerText": "先用假資料完成看板、倒數和通知功能。這個階段不接觸真實帳號或登入憑證。",
+          "readerDeliverable": "可操作的測試版、畫面及測試案例"
         },
         {
           "title": "03 實作 Adapter 與安全邊界",
           "detail": "使用合法且穩定的資料來源；若服務只剩內部端點，標註風險並提供「無法提供即時額度」的退路。",
-          "deliverable": "Provider Contract、來源清單與風險 Gate"
+          "deliverable": "Provider Contract、來源清單與風險 Gate",
+          "readerTitle": "03 接上真正的額度來源",
+          "readerText": "確認資料來源允許使用，也能正確讀取。如果來源不穩定，畫面必須能清楚顯示失敗原因。",
+          "readerDeliverable": "額度讀取功能、來源與風險清單"
         },
         {
           "title": "04 驗證、回歸與回復",
           "detail": "測試過期登入、錯誤 JSON、API 失效、睡眠喚醒、重置補更新、重複通知、卸載與權限撤銷。",
-          "deliverable": "測試紀錄、版本對照與回滾計畫"
+          "deliverable": "測試紀錄、版本對照與回滾計畫",
+          "readerTitle": "04 測試失敗時會怎麼處理",
+          "readerText": "檢查登入過期、網路錯誤、額度重置、Mac 睡眠喚醒、重複通知及移除後的復原情況。",
+          "readerDeliverable": "測試結果、問題清單及復原步驟"
         }
       ],
       "gaps": [
