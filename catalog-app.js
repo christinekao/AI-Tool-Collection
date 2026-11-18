@@ -211,6 +211,25 @@ function detail(x){
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
  return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
+// Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
+let lessonRowAlignFrame=0;
+function alignLessonDecisionRows(){
+ const grid=document.querySelector('.learn-modules');if(!grid)return;
+ const cards=[...grid.querySelectorAll(':scope > .learn-module-inline')];
+ const desktop=window.matchMedia('(min-width:781px)').matches;
+ for(let i=0;i<cards.length;i+=2){
+  const pair=cards.slice(i,i+2);
+  const groups=pair.map(card=>[...card.querySelectorAll('.learn-decision h5, .learn-decision thead tr, .learn-decision tbody tr')]);
+  for(const group of groups)for(const el of group)el.style.height='';
+  if(!desktop||groups.length!==2||groups[0].length!==groups[1].length||groups[0].length<3)continue;
+  const heights=groups[0].map((el,j)=>Math.ceil(Math.max(el.getBoundingClientRect().height,groups[1][j].getBoundingClientRect().height)));
+  for(const group of groups)group.forEach((el,j)=>{el.style.height=heights[j]+'px'});
+ }
+}
+function scheduleLessonDecisionRowAlignment(){
+ if(lessonRowAlignFrame)cancelAnimationFrame(lessonRowAlignFrame);
+ lessonRowAlignFrame=requestAnimationFrame(()=>{lessonRowAlignFrame=0;alignLessonDecisionRows()});
+}
 function scrollToResults(){
  const header=$('#result-header');
  if(!header||header.hidden)return;
@@ -264,7 +283,7 @@ function render(){
  if(!state.data)return;
  const hero=$('.hero');if(hero)hero.hidden=Boolean(state.detail||state.detailMissing);
  const view=$('#app');
- if(state.detail){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML=detail(state.detail);return}
+ if(state.detail){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML=detail(state.detail);scheduleLessonDecisionRowAlignment();return}
  if(state.detailMissing){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML='<p>找不到這筆收藏。<a href="#/explore">返回全部收藏</a></p>';return}
  $('#discover').hidden=location.hash==='#/browse/all';$('#filters').hidden=false;$('#result-header').hidden=false;
  $('#topics').innerHTML=topicCards();
@@ -301,6 +320,8 @@ function wire(){
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
  $('#app').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyPrompt(b.dataset.copy,b);else if(e.target.closest('[data-reset]'))reset();else if(e.target.closest('.title-link,.view-link'))state.returnHash=location.hash==='#/browse/all'?'#/browse/all':state.topic==='all'?'#/explore':'#/explore/'+state.topic});
+ window.addEventListener('resize',scheduleLessonDecisionRowAlignment);
+ if(document.fonts?.ready)document.fonts.ready.then(scheduleLessonDecisionRowAlignment);
  window.addEventListener('hashchange',()=>{
   readRoute();render();
   if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scheduleScrollToResults()}
