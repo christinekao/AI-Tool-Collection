@@ -9,11 +9,16 @@ on:
       - '.github/workflows/p1-graph-tests.yml'
       - 'scripts/test-knowledge-browser.mjs'
       - 'scripts/test-problem-learning.mjs'
+      - 'scripts/test-knowledge-answers.mjs'
       - 'knowledge.html'
       - 'playground.html'
       - 'playground-app.js'
       - 'playground-style.css'
       - 'knowledge-app.js'
+      - 'ask.html'
+      - 'knowledge-answer-app.mjs'
+      - 'knowledge-answer-core.mjs'
+      - 'knowledge-answer.css'
       - 'knowledge-learning.js'
       - 'workflow-engine.js'
       - 'data/workflow-recipes/**'
@@ -36,6 +41,10 @@ on:
       - 'scripts/test-workflow-engine.cjs'
       - 'knowledge.html'
       - 'knowledge-app.js'
+      - 'ask.html'
+      - 'knowledge-answer-app.mjs'
+      - 'knowledge-answer-core.mjs'
+      - 'knowledge-answer.css'
       - 'knowledge-style.css'
       - 'playground.html'
       - 'playground-app.js'
@@ -57,10 +66,11 @@ jobs:
       - run: node --test scripts/test-collection-preservation.mjs
       - run: node --test scripts/test-knowledge-graph.mjs
       - run: node --test scripts/test-problem-learning.mjs
+      - run: node --test scripts/test-knowledge-answers.mjs
       - run: node --test scripts/test-workflow-engine.cjs
       - run: node scripts/validate-v2.mjs
       - run: node scripts/build-knowledge-graph.mjs
-      - run: node --check knowledge-app.js && node --check knowledge-learning.js && node --check playground-app.js && node --check workflow-engine.js && node --check catalog-app.js
+      - run: node --check knowledge-answer-app.mjs && node --check knowledge-answer-core.mjs && node --check knowledge-app.js && node --check knowledge-learning.js && node --check playground-app.js && node --check workflow-engine.js && node --check catalog-app.js
       - name: Ensure Traditional Chinese glyphs are available for visual QA
         run: |
           if ! fc-list :lang=zh family | grep -q .; then
