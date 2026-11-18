@@ -52,11 +52,17 @@
 .repo-rule h4{margin-top:0}
 .repo-rule p{margin-bottom:8px}
 .repo-option-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.repo-option{display:flex;flex-direction:column}
+.repo-option{display:grid;grid-template-rows:subgrid;grid-row:span 3;gap:0;align-content:start}
+.repo-option-heading{min-height:0}
+.repo-option-copy{min-height:0;padding:10px 0 12px}
+.repo-option-commands{min-width:0;padding-top:4px}
+.repo-command-group+.repo-command-group{margin-top:12px}
+.repo-command-group>strong{display:block;font-size:12px;color:#bcd997;margin:0 0 7px}
+.repo-option-commands:empty{display:block}
 .repo-option h4{margin:8px 0}
 .repo-option .repo-source-links{margin-top:auto}
 .repo-approval{color:#f0ce9a!important;border-left:2px solid #b9904d;padding-left:9px}
-.repo-commands{white-space:pre-wrap;overflow-wrap:anywhere;background:#0e141a;border:1px solid #31414d;border-radius:9px;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;padding:12px;margin:1px 0 14px}
+.repo-commands{white-space:pre;overflow-x:auto;overflow-wrap:normal;background:#0e141a;border:1px solid #31414d;border-radius:9px;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;padding:12px;margin:0}
 .repo-commands code{color:#d4e2e6}
 .repo-step-list,.repo-workflow{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
 .repo-step-list li,.repo-workflow li{display:flex;align-items:start;gap:12px;background:#151e26;border:1px solid var(--line);border-radius:12px;padding:14px}
@@ -107,7 +113,29 @@
  .repo-feature-grid,.repo-option-grid,.repo-rule-grid,.repo-cap-grid,.repo-rebuild-grid,.repo-risk-grid,.repo-step-list,.repo-workflow,.repo-flow{grid-template-columns:1fr}
  .repo-shots{grid-template-columns:repeat(2,minmax(0,1fr))}
  .repo-feature,.repo-option,.repo-capability{padding:15px}
+ .repo-option{display:flex;flex-direction:column}
+ .repo-option-copy{padding:10px 0}
+ .repo-option-commands{padding-top:0}
+ .repo-option-commands:empty{display:none}
  .repo-section{padding:22px 0}
  .repo-toc{gap:6px}
  .repo-capability dl>div{grid-template-columns:65px minmax(0,1fr)}
 }
+
+/* Reader-first Repo presentation. The underlying source and contracts remain in canonical JSON. */
+.repo-readable{display:flex;flex-direction:column;gap:7px;min-width:0}
+.repo-readable p{margin:0!important;line-height:1.7;overflow-wrap:anywhere}
+.repo-flow-node>div:last-child{display:flex;flex-direction:column;gap:0;height:100%}
+.repo-flow-node .repo-readable{flex:1}
+.repo-tech-note,.repo-rule-note{font-size:11px!important;line-height:1.7!important;color:#aebfca!important;border-top:1px solid #34474b;padding-top:10px;margin:12px 0 0!important}
+.repo-rule{display:flex;flex-direction:column;min-width:0}
+.repo-rule h4{line-height:1.5}
+.repo-rule .repo-rule-note{margin-top:auto!important}
+.repo-option-copy .repo-readable p{font-size:13px}
+.repo-option-heading h4{margin:8px 0 0}
+.repo-option-copy .repo-approval{margin:14px 0 0!important;font-size:12px;line-height:1.65}
+.repo-risk-control{border-top:1px solid #574d42;margin-top:13px;padding-top:10px}
+.repo-risk-control>strong{color:#e3c58c;font-size:12px;display:block;margin-bottom:8px}
+.repo-risk-control .repo-readable p{font-size:12px}
+.repo-capability .repo-readable{margin-bottom:9px}
+.repo-workflow .repo-readable{margin-top:6px}
