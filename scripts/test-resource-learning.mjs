@@ -26,6 +26,13 @@ test('real, inspectable learning outcomes replace bare topic names',()=>{
   for(const field of ['detail','check'])assert.ok(item[field]?.length>15,field+' should describe a measurable learning outcome');
  }
  assert.equal(g.modules.length,10,'All ten source sheets must remain covered');
+ const system=g.modules.find(m=>m.id==='system-design');
+ assert.ok(system,'System Design lesson must exist');
+ assert.equal(system.decisionTable?.length,5,'Need five direct design choices, not a generic Agent claim');
+ assert.equal(system.decisionChecks?.length,3,'Need three criteria for adding an Agent');
+ assert.ok(system.decisionChecks.some(x=>x.includes('測試')),'Require observed failures and improvement evidence');
+ assert.ok(system.decisionChecks.some(x=>x.includes('權限')),'Need explicit Agent authority and stopping conditions');
+ 
  assert.equal(new Set(g.modules.map(m=>m.id)).size,10);
  for(const m of g.modules){
   for(const field of ['id','title','question','learn','example','output','group','sourceUrl'])assert.ok(m[field],m.id+' missing '+field);
