@@ -108,6 +108,15 @@
 
 ---
 
+## P7｜教學型 Resource 的「學習重點」而非主題清單（2026-11-18）
+
+- **第一個完整案例：** [Awesome Open-Source AI Cheat Sheets](data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json) 附可選 `learningGuide`：五項「學完能做什麼」、十篇來源支持的學習單元、優先學習順序、假設情境練習與原始章節版本連結。
+- **顯示順序：** 在原本「這是什麼、功能、限制、實作資料」之前先回答「值得學會什麼」；點進收藏時隱藏只屬於首頁的長 Hero，讓正文更快進入視野。
+- **內容保留：** 沒有刪改 548 筆正式收藏、既有六種 Entity 或其他 Resource 的內容。只有查核來源足夠、且適合教學導覽的 Resource 才補此欄位，不對所有項目硬套模板。
+- **規格與驗收：** [P7 Resource Learning Outcomes](docs/P7_RESOURCE_LEARNING_OBJECTIVES.md)。
+
+---
+
 ## 1. 最重要的工作範圍
 
 **此專案的日常工作只有「維護 AI 工具與方法知識庫」。**

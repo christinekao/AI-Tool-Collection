@@ -27,10 +27,14 @@ on:
       - 'index.html'
       - 'catalog-app.js'
       - 'catalog-style.css'
+      - 'learning-detail.css'
+      - 'scripts/test-resource-learning.mjs'
   pull_request:
     paths:
       - 'data/resources/**'
       - 'scripts/test-collection-preservation.mjs'
+      - 'scripts/test-resource-learning.mjs'
+      - 'learning-detail.css'
       - 'catalog-app.js'
       - 'docs/P5_COLLECTION_FOUNDATION.md'
       - 'data/problems/**'
@@ -64,6 +68,7 @@ jobs:
           node-version: '22'
       - run: node scripts/build-v2.mjs
       - run: node --test scripts/test-collection-preservation.mjs
+      - run: node --test scripts/test-resource-learning.mjs
       - run: node --test scripts/test-knowledge-graph.mjs
       - run: node --test scripts/test-problem-learning.mjs
       - run: node --test scripts/test-knowledge-answers.mjs
