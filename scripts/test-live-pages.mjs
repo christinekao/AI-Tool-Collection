@@ -19,7 +19,7 @@ async function fetchWithTransientRetry(url){
  let lastError;
  for(let attempt=1;attempt<=4;attempt++){
   try{
-   const {response,attempt}=await fetchWithTransientRetry(url);
+   const response=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'Cache-Control':'no-cache'}});
    if(response.status!==429&&response.status<500)return {response,attempt};
    lastError=new Error('Transient HTTP '+response.status);
    if(attempt===4)return {response,attempt};
@@ -35,7 +35,7 @@ let failed=0;
 for(const [path,type,check] of targets){
  const url=BASE+path+'?live-check='+Date.now();
  try{
-  const response=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'Cache-Control':'no-cache'}});
+  const {response,attempt}=await fetchWithTransientRetry(url);
   const raw=await response.text();
   let valid=false,details='';
   if(response.ok){try{valid=Boolean(check(raw))}catch(err){details=String(err)}}
