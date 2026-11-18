@@ -41,5 +41,104 @@
       "evidenceField": "purpose"
     }
   ],
-  "relatedProblems": []
+  "relatedProblems": [],
+  "learning": {
+    "version": 1,
+    "takeaway": "信箱整理應先保護重要郵件，再用規則決定可逆操作；分類模型只有建議權，不能直接取得刪除權。",
+    "principles": [
+      {
+        "title": "規則優先於模型判斷",
+        "explanation": "已知的重要寄件者與使用者明確規則應先保護。只有規則無法涵蓋的信件，才交由分類模型提出候選建議。"
+      },
+      {
+        "title": "分類結果和執行權限應分離",
+        "explanation": "模型判定『促銷』不是刪信指令。應先產生 Dry Run 計畫，由獨立 Executor 在核准範圍內執行可逆操作。"
+      },
+      {
+        "title": "保留追蹤與回復能力",
+        "explanation": "每次搬移要記錄原位置、原因、結果及回滾方式；銀行、帳單、安全驗證等通知不得只憑模型分類處置。"
+      }
+    ],
+    "prerequisites": [
+      "確認郵件服務與讀／寫權限",
+      "建立保護寄件者清單",
+      "先使用測試信件與唯讀模式"
+    ],
+    "decisions": [
+      {
+        "situation": "信件涉及客戶、帳單或安全通知",
+        "approach": "先納入保護清單並跳過刪除候選",
+        "why": "錯誤處理的損失高於自動化收益。"
+      },
+      {
+        "situation": "規則沒有命中，模型信心不足",
+        "approach": "交給待確認佇列，不直接執行",
+        "why": "減少不可逆的誤判成本。"
+      },
+      {
+        "situation": "需要批次整理",
+        "approach": "先輸出 Dry Run，再從可逆搬移開始",
+        "why": "可比較預期與實際結果並回滾。"
+      }
+    ],
+    "steps": [
+      {
+        "title": "保護重要寄件者",
+        "action": "建立聯絡人、交易通知與安全郵件的優先保護規則。",
+        "output": "保護清單",
+        "check": "低優先規則與模型不能覆蓋保護。"
+      },
+      {
+        "title": "在本機產生分類計畫",
+        "action": "讀取必要 metadata、套規則、再對未命中者研究可用的 AI 分類。",
+        "output": "每封信的分類理由與待確認狀態",
+        "check": "同一封信的決策可解釋、可追溯。"
+      },
+      {
+        "title": "以唯讀 Dry Run 檢查",
+        "action": "輸出預計搬移、不動、待確認、刪除候選等類別，人工抽查邊界案例。",
+        "output": "不會修改信箱的計畫",
+        "check": "誤判重要郵件時能修規則而不造成損失。"
+      },
+      {
+        "title": "批准後只做可逆操作",
+        "action": "由受限 Executor 依確認的計畫搬移，逐封 Read-back 並保留原位置。",
+        "output": "動作日誌與回滾對照",
+        "check": "模型不能自行要求永久刪除或退訂。"
+      }
+    ],
+    "example": {
+      "label": "假設案例：整理 100 封測試電子郵件",
+      "input": "混合促銷、電子報、帳單與登入通知的虛構測試信件。",
+      "process": "先保護帳單與登入通知，再用規則分類其他郵件；無法確定的留在待確認；先檢查 Dry Run。",
+      "output": "有可解釋理由的郵件處理計畫，不是直接刪掉 100 封信。"
+    },
+    "practice": {
+      "task": "建立 10 封虛構郵件，設計 3 條規則並說明衝突時的優先序。",
+      "checks": [
+        "重要信件永遠先被保護",
+        "沒有明確核准不做寫入",
+        "每次操作能回復到原位置"
+      ]
+    },
+    "pitfalls": [
+      "分類模型即使可輸出分數，也不等於已校準的可靠性。",
+      "不要在初期就加入永久刪除及自動退訂。",
+      "郵件主旨與寄件者 metadata 也可能含個資。"
+    ],
+    "sourceRefs": [
+      {
+        "type": "workflow",
+        "id": "policy-first-reversible-ai-email-triage"
+      },
+      {
+        "type": "concept",
+        "id": "confidence-gated-automation"
+      },
+      {
+        "type": "concept",
+        "id": "deterministic-execution-boundary"
+      }
+    ]
+  }
 }
