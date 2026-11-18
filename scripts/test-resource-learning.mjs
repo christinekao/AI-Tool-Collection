@@ -17,7 +17,7 @@ test('preserve original intake and separate source article from upstream GitHub'
 });
 
 test('real, inspectable learning outcomes replace bare topic names',()=>{
- assert.equal(g.version,1);
+ assert.equal(g.version,2);
  assert.ok(g.headline.length>=24);
  assert.ok(g.takeaway.length>=40);
  assert.equal(g.outcomes.length,5);
@@ -32,6 +32,9 @@ test('real, inspectable learning outcomes replace bare topic names',()=>{
   assert.ok(m.learn.length>=40,'A topic name alone is not a learning point: '+m.id);
   assert.ok(m.example.length>=30,'Every lesson must give a practical scenario: '+m.id);
   assert.ok(m.output.length>=10,'Each lesson should lead to an identifiable deliverable');
+  assert.equal(m.essentials?.length,3,'Each chapter must include 3 directly readable principles: '+m.id);
+  for(const p of m.essentials)assert.ok(p.length>=20,'Avoid generic topic labels in quick-learning notes: '+m.id);
+  assert.ok(m.apply?.length>=28,'Every chapter needs a practical quick exercise: '+m.id);
   assert.match(m.sourceUrl,new RegExp('^https://github\\.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/'+commit+'/cheatsheets/[a-z-]+\\.md$'));
  }
 });
@@ -41,7 +44,7 @@ test('study order links point to pinned upstream sources, not invented content',
  assert.ok(g.readingPath.every(p=>p.title&&p.why&&p.sourceUrl.startsWith('https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/'+commit+'/')));
  assert.ok(g.practice?.scenario&&g.practice?.tasks.length>=4);
  assert.ok(g.practice.tasks.every(task=>g.modules.some(m=>m.id===task.sourceId)||task.sourceId==='readiness'));
- assert.ok(g.caveat.includes('非完整課程')||g.caveat.includes('並非完整課程'));
+ assert.ok(g.caveat.includes('速讀筆記')&&g.caveat.includes('原始資料'));
 });
 
 test('generated public catalog includes complete structured guide without removing original metadata',()=>{
@@ -49,6 +52,8 @@ test('generated public catalog includes complete structured guide without removi
  assert.ok(found,'The source must remain in All Collections');
  assert.equal(found.url,resource.url);
  assert.equal(found.learningGuide.modules.length,10,'Public site must have real study points after catalog build');
+ assert.equal(found.learningGuide.version,2);
+ assert.equal(found.learningGuide.modules.flatMap(m=>m.essentials||[]).length,30);
  assert.equal(found.features.length,resource.features.length,'The original source feature list must remain available');
  assert.equal(catalog.resources.length,270,'No unrelated Resource should be removed');
 });
