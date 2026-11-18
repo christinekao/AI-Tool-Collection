@@ -132,7 +132,7 @@ function learningGuideHtml(g,hideOverview=false){
   const lessons=lessonItems.length?'<ol class="learn-essentials">'+lessonItems.join('')+'</ol>':'<p>'+esc(m.learn)+'</p>';
   const decisionTable=list(m.decisionTable).length?'<div class="learn-decision"><h5>'+esc(m.decisionTitle||'先依需求選方案')+'</h5><div class="learn-decision-scroll"><table><thead><tr><th scope="col">'+esc(m.decisionHeaders?.need||'需求特性')+'</th><th scope="col">'+esc(m.decisionHeaders?.start||'優先選擇')+'</th></tr></thead><tbody>'+list(m.decisionTable).map(row=>'<tr><td>'+esc(row.need)+'</td><td>'+esc(row.start)+'</td></tr>').join('')+'</tbody></table></div></div>':'';
   return '<article class="learn-module learn-module-inline"><header class="learn-module-heading"><span class="learn-module-meta">'+esc(m.group||'補充學習')+' · '+String(i+1).padStart(2,'0')+'</span><h4>'+esc(m.title)+'</h4><p class="learn-module-question">'+esc(m.question)+'</p></header>'+
-   '<div class="learn-module-body"><div class="learn-inline-main">'+decisionTable+'<h5>三個判斷原則</h5>'+lessons+'</div>'+
+   '<div class="learn-module-body"><div class="learn-decision-slot">'+decisionTable+'</div><div class="learn-principles"><h5>三個判斷原則</h5>'+lessons+'</div>'+
    '<div class="learn-example"><strong>情境例子</strong><p>'+esc(m.example)+'</p></div>'+
    (m.apply?'<div class="learn-apply"><strong>自己試試看</strong><p>'+esc(m.apply)+'</p></div>':'<div class="learn-apply-placeholder" aria-hidden="true"></div>')+
    '<div class="learn-deliverable"><strong>學完能產出</strong><span>'+esc(m.output)+'</span></div></div></article>';
