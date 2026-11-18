@@ -30,7 +30,7 @@ server=http.createServer((req,res)=>{
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const appPort=server.address().port;
-const origin='http://127.0.0.1:'+appPort;
+const origin=process.env.LIVE_SITE_BASE?.replace(/\/$/,'')||'http://127.0.0.1:'+appPort;
 let chromeLog='',send;
 try{
  let debugPort=0;
