@@ -22,7 +22,8 @@ test('real, inspectable learning outcomes replace bare topic names',()=>{
  assert.ok(g.takeaway.length>=40);
  assert.equal(g.outcomes.length,5);
  for(const item of g.outcomes){
-  for(const field of ['title','detail','check'])assert.ok(item[field]?.length>8,field+' should be an actual learning outcome');
+  assert.ok(item.title?.length>=4,'A learning outcome needs a meaningful label');
+  for(const field of ['detail','check'])assert.ok(item[field]?.length>15,field+' should describe a measurable learning outcome');
  }
  assert.equal(g.modules.length,10,'All ten source sheets must remain covered');
  assert.equal(new Set(g.modules.map(m=>m.id)).size,10);
