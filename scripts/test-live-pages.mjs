@@ -15,6 +15,22 @@ const targets=[
  ['playground-app.js','javascript',text=>text.includes('PG_RECIPES')],
  ['index.html','text/html',text=>text.includes('開始學習完整解法')&&text.includes('#/browse/all')]
 ];
+async function fetchWithTransientRetry(url){
+ let lastError;
+ for(let attempt=1;attempt<=4;attempt++){
+  try{
+   const {response,attempt}=await fetchWithTransientRetry(url);
+   if(response.status!==429&&response.status<500)return {response,attempt};
+   lastError=new Error('Transient HTTP '+response.status);
+   if(attempt===4)return {response,attempt};
+  }catch(error){
+   lastError=error;
+   if(attempt===4)throw error;
+  }
+  await new Promise(resolve=>setTimeout(resolve,attempt*450));
+ }
+ throw lastError||new Error('Network request did not complete');
+}
 let failed=0;
 for(const [path,type,check] of targets){
  const url=BASE+path+'?live-check='+Date.now();
@@ -24,7 +40,7 @@ for(const [path,type,check] of targets){
   let valid=false,details='';
   if(response.ok){try{valid=Boolean(check(raw))}catch(err){details=String(err)}}
   if(!response.ok||!valid)failed++;
-  console.log(JSON.stringify({path,status:response.status,bytes:raw.length,contentType:response.headers.get('content-type'),valid,details,sample:response.ok?'':raw.slice(0,140)}));
+  console.log(JSON.stringify({path,status:response.status,attempt,bytes:raw.length,contentType:response.headers.get('content-type'),valid,details,sample:response.ok?'':raw.slice(0,140)}));
  }catch(err){failed++;console.log(JSON.stringify({path,error:String(err)}))}
 }
 if(failed){console.error('LIVE SITE FAIL: '+failed+' assets not available/invalid');process.exitCode=1}
