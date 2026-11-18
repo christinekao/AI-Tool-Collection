@@ -94,7 +94,8 @@
 | 使用條件 | resource.requirements[] |
 | 限制與注意事項 | resource.limitations[] |
 | 章節名稱、學習標籤、核心問題 | learningGuide.modules[].title / group / question |
-| 需求／方案表 | learningGuide.modules[].decisionTable[]（可省略） |
+| 需求／方案表 | learningGuide.modules[].decisionTable[]（可省略）；以 need／start 表示兩欄 |
+| 決策表標題與欄名 | learningGuide.modules[].decisionTitle、decisionHeaders.need／start（可選，未填沿用預設） |
 | 三個判斷原則 | learningGuide.modules[].essentials[] |
 | 對應檢查 | learningGuide.modules[].decisionChecks[]（可省略，內嵌顯示） |
 | 情境例子 | learningGuide.modules[].example |
@@ -123,6 +124,10 @@
 - **Layout**：桌面卡片關鍵區塊對齊，行動裝置文字易讀。
 - **Release**：GitHub Commit 不等於 GitHub Pages 已部署；未從公開網頁核對最新腳本／內容之前，不回報「網站完成」。
 
-## 7｜日後建立教材的固定指令
+## 7｜已完成的參考基準（2026-11-18）
+
+本頁十個主題目前已全面補齊判斷表、三個原則與整合式檢查、情境例子、可執行練習及可驗收產物。九個原本簡略的章節已逐一與上游十份 Cheat Sheet 對照；「AI 系統設計」章仍作為品質範本，而非唯一完整章節。之後改善版面或新增 Resource 時，維持上述結構與去重要求。
+
+## 8｜日後建立教材的固定指令
 
 > 請依 docs/LEARNING_CONTENT_SPEC.md 整理這份學習資源。先核對來源與版本，確認它適合建立教學型 Resource，再依「資源適用情境／主要功能／使用條件／限制」開場。各章沿用「AI 系統設計」的教學品質：一個核心問題、必要時的需求與方案比較、三個不重複的判斷原則、內嵌檢查、具體情境、可操作練習及可驗收產物。不要重複摘要或硬塞 Agent／決策表。保留原始連結，修改 Canonical 資料後執行驗證；無法確認之處標示未驗證。
