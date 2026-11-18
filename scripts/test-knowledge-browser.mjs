@@ -315,6 +315,20 @@ try{
  await waitFor('document.querySelector(\'#app a[href="#/resources/tip31812-ai-usage-bar"]\')!==null','AI Usage Bar searchable through all collections');
  await evaluate('document.querySelector(\'#app a[href="#/resources/tip31812-ai-usage-bar"]\').click();true');
  await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI Usage Bar")','AI Usage Bar detail opens');
+ // The opened record, not the collection list, should align to the full content width.
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ const detailWidth=await evaluate('(()=>{const m=document.querySelector("main.wrap"),d=document.querySelector(".detail"),mc=getComputedStyle(m),mRect=m.getBoundingClientRect(),rect=d.getBoundingClientRect();return {mainLeft:mRect.left,detailLeft:rect.left,available:mRect.width-parseFloat(mc.paddingLeft)-parseFloat(mc.paddingRight),width:rect.width,paddingLeft:parseFloat(mc.paddingLeft)}})()');
+ assert.ok(detailWidth.width>=detailWidth.available-6,'Collection record detail should use full available main width: '+JSON.stringify(detailWidth));
+ assert.ok(Math.abs(detailWidth.detailLeft-(detailWidth.mainLeft+detailWidth.paddingLeft))<=4,'Detail frame should align to the outer content edge: '+JSON.stringify(detailWidth));
+ const detailShot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+ fs.writeFileSync(path.join(screenshotDir,'collection-detail-1440.png'),Buffer.from(detailShot.data,'base64'));
+ for(const width of [375,430,768,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  const dims=await evaluate('({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth})');
+  assert.ok(dims.scroll<=dims.client+3,'Expanded detail must not overflow at '+width+'px: '+JSON.stringify(dims));
+ }
+ console.log('PASS: Expanded record detail aligns to the content edges and fits 375/430/768/1440px');
+
  assert.ok((await evaluate('document.querySelector(".detail-panel")?.textContent')).includes('從這份知識開始實作'),'Resource detail must show the saved implementation knowledge');
  assert.equal(await evaluate('document.querySelector(".detail-back a")?.getAttribute("href")'),'#/browse/all','Return from resource detail should preserve All Collections context');
  await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
