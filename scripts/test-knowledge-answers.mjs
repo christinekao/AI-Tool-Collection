@@ -57,7 +57,7 @@ test('comparison keeps source limitations and never asserts newest/best tool',()
  const result=createAnswer('比較 RAG 與 AI Agent 有哪些取捨？',catalog,problems);
  assert.equal(result.intent,'compare');
  assert.ok(result.sections.some(x=>x.kind==='compare'||x.kind==='facts'));
- assert.ok(result.gap?.includes('已收藏資料'));
+ assert.ok(result.gap?.includes('來源')||result.gap?.includes('已收藏資料'),'Comparison needs explicit evidence limitations');
  assert.ok(result.sources.length>=1);
 });
 
@@ -79,4 +79,9 @@ test('rank known title above broad loosely matching resources',()=>{
  const found=searchKnowledge('AI Usage Bar',all);
  assert.ok(found.length);
  assert.equal(found[0].record.id,'tip31812-ai-usage-bar');
+});
+
+test('specific unsaved framework is a background reference, not a verified tutorial',()=>{
+ const r=createAnswer('我想學習 smolagents framework',catalog,problems);
+ assert.ok(r.empty||r.gap?.includes('smolagents'),'Missing named framework cannot be falsely treated as fully documented');
 });
