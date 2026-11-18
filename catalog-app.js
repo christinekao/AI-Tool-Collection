@@ -152,13 +152,19 @@ function learningGuideHtml(g,hideOverview=false){
 function detail(x){
  const s=summary(x);
  const isCheatSheetsGuide=x.entityType==='resource'&&x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
- let body=x.entityType==='resource'?learningGuideHtml(x.learningGuide,isCheatSheetsGuide):'';
- if(!isCheatSheetsGuide)body+=section('這是什麼？',para(s.what));
+ // This learning resource introduces scope, features, prerequisites and caveats before the lesson.
+ // Other resource detail pages keep their existing rendering order.
+ let body='';
+ if(!isCheatSheetsGuide){
+  body+=x.entityType==='resource'?learningGuideHtml(x.learningGuide,false):'';
+  body+=section('這是什麼？',para(s.what));
+ }
  if(x.entityType==='resource'){
   body+=section('適合什麼情境？',para(x.recommendation));
   body+=section('主要功能',bullets(x.features));
   body+=section('使用條件',bullets(x.requirements));
   body+=section('限制與注意事項',bullets(x.limitations));
+  if(isCheatSheetsGuide)body+=learningGuideHtml(x.learningGuide,true);
   body+=section('相關概念',refsHtml(x.conceptRefs));
   body+=section('相關 Skills',refsHtml(x.skillRefs||x.relatedSkillRefs));
   if(x.implementationKnowledge){
