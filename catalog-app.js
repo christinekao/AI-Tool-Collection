@@ -121,6 +121,15 @@ function detail(x){
   body+=section('限制與注意事項',bullets(x.limitations));
   body+=section('相關概念',refsHtml(x.conceptRefs));
   body+=section('相關 Skills',refsHtml(x.skillRefs||x.relatedSkillRefs));
+  if(x.implementationKnowledge){
+   const im=x.implementationKnowledge;
+   const readiness=im.executionStatus==='NOT_EXECUTED'?'尚未執行／尚未在實際環境驗證':'請檢視來源證據與執行狀態';
+   body+=section('實作準備狀態',para(readiness));
+   const files=[...list(im.directFiles),...Object.values(im.architecture||{})].filter(v=>typeof v==='string');
+   body+=section('可以查閱的原始檔案與架構',bullets(files));
+   body+=section('從這份知識開始實作',bullets(im.extensionPath||im.extensionInstructions));
+   body+=section('建置與驗收參考',bullets([...list(im.build),...list(im.verification)]));
+  }
  }else if(x.entityType==='skill'){
   body+=section('解決的問題',para(x.problem));
   body+=section('如何使用',para(x.execution));
@@ -152,7 +161,7 @@ function detail(x){
   body+=section('使用情境',bullets(x.useCases));
   body+=section('相關 Combinations',refsHtml(x.combinationRefs));
  }
- const urls=[{u:x.url||x.githubUrl,label:'開啟官方資源'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
+ const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
  return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2><p>'+esc(short(s.what,320))+'</p><div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
@@ -192,6 +201,10 @@ function readRoute(){
  const p=hash.match(/^#\/explore(?:\/([a-z]+))?$/);
  if(p&&p[1]&&TOPICS.some(t=>t.id===p[1]))state.topic=p[1];
  else if(hash==='#/explore')state.topic='all';
+ if(hash==='#/browse/all'){
+  state.topic='all';state.type='all';state.query='';state.limit=24;
+  const q=$('#q');if(q)q.value='';
+ }
  const tab=hash.match(/^#\/browse\/(resources|skills|concepts|prompts|combinations|workflows)$/);
  if(tab){state.topic='all';state.type=tab[1]}
 }
@@ -206,7 +219,7 @@ function render(){
  const view=$('#app');
  if(state.detail){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML=detail(state.detail);return}
  if(state.detailMissing){$('#discover').hidden=true;$('#filters').hidden=true;$('#result-header').hidden=true;$('#more').hidden=true;view.innerHTML='<p>找不到這筆收藏。<a href="#/explore">返回全部收藏</a></p>';return}
- $('#discover').hidden=false;$('#filters').hidden=false;$('#result-header').hidden=false;
+ $('#discover').hidden=location.hash==='#/browse/all';$('#filters').hidden=false;$('#result-header').hidden=false;
  $('#topics').innerHTML=topicCards();
  $('#all-topic').setAttribute('aria-pressed',String(state.topic==='all'));
  $('#all-topic').classList.toggle('selected',state.topic==='all');
@@ -240,7 +253,7 @@ function wire(){
  $('#more').addEventListener('click',()=>{state.limit+=24;render()});
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
- $('#app').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyPrompt(b.dataset.copy,b);else if(e.target.closest('[data-reset]'))reset();else if(e.target.closest('.title-link,.view-link'))state.returnHash=state.topic==='all'?'#/explore':'#/explore/'+state.topic});
+ $('#app').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyPrompt(b.dataset.copy,b);else if(e.target.closest('[data-reset]'))reset();else if(e.target.closest('.title-link,.view-link'))state.returnHash=location.hash==='#/browse/all'?'#/browse/all':state.topic==='all'?'#/explore':'#/explore/'+state.topic});
  window.addEventListener('hashchange',()=>{
   readRoute();render();
   if(state.focusResultsOnRoute){state.focusResultsOnRoute=false;scheduleScrollToResults()}

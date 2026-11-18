@@ -305,6 +305,27 @@ try{
   await send('Page.removeScriptToEvaluateOnNewDocument',{identifier:injected.identifier});
   console.log('PASS: Transient failed Graph fetch offers working retry and recovers');
  }
+
+ // The All Collections route is a stable, no-curation-required view of every V2 type.
+ await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
+ await waitFor('document.querySelector("#result-title")?.textContent==="全部收藏" && document.querySelector("#result-count")?.textContent.includes("548")','All Collections shows the complete catalog');
+ const allCollection=await evaluate('({discoverHidden:document.querySelector("#discover")?.hidden,tabCount:document.querySelectorAll("#type-tabs [data-type]").length,nav:!!document.querySelector(\'nav a[href="#/browse/all"]\'),rows:document.querySelector("#result-count")?.textContent})');
+ assert.ok(allCollection.discoverHidden&&allCollection.tabCount===7&&allCollection.nav,'All Collections needs one direct independent route to all six types: '+JSON.stringify(allCollection));
+ await evaluate('(()=>{const el=document.querySelector("#q");el.value="tip31812";el.dispatchEvent(new Event("input",{bubbles:true}));return true})()');
+ await waitFor('document.querySelector(\'#app a[href="#/resources/tip31812-ai-usage-bar"]\')!==null','AI Usage Bar searchable through all collections');
+ await evaluate('document.querySelector(\'#app a[href="#/resources/tip31812-ai-usage-bar"]\').click();true');
+ await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI Usage Bar")','AI Usage Bar detail opens');
+ assert.ok((await evaluate('document.querySelector(".detail-panel")?.textContent')).includes('從這份知識開始實作'),'Resource detail must show the saved implementation knowledge');
+ assert.equal(await evaluate('document.querySelector(".detail-back a")?.getAttribute("href")'),'#/browse/all','Return from resource detail should preserve All Collections context');
+ await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
+ await waitFor('document.querySelector("#q")?.value===""','All Collections clears prior search');
+ await evaluate('(()=>{const el=document.querySelector("#q");el.value="aiposthub-awesome-opensource-ai-cheat-sheets-guide";el.dispatchEvent(new Event("input",{bubbles:true}));return true})()');
+ await waitFor('document.querySelector(\'#app a[href="#/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide"]\')!==null','Original article and upstream repo resource searchable');
+
+ await evaluate('document.querySelector("#app .card a.title-link").click();true');
+ await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI 工程決策速查表")','Article detail opens');
+ assert.ok(await evaluate('!!document.querySelector(".external-links a[href*=sraodev]")'),'Upstream source repository link must be visible');
+ console.log('PASS: All Collections retains all six data types, both saved sources and independent deep links');
  assert.deepEqual(errors,[],'Uncaught browser exceptions: '+errors.join('; '));
  console.log('PASS: Index navigation, direct topic grid, 375px layout, no JS exceptions');
 }finally{

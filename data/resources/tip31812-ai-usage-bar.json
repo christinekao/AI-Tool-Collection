@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 2,
+  "id": "tip31812-ai-usage-bar",
+  "entityType": "resource",
+  "title": "AI Usage Bar｜macOS Claude Code／Codex 額度監控看板",
+  "canonicalName": "tip31812/ai-usage-bar",
+  "category": "AI Coding Tools / macOS Utilities",
+  "resourceType": "GitHub Swift／SwiftUI macOS 選單列應用程式（可編譯、可擴充）",
+  "purpose": "在 macOS 選單列追蹤 Claude Code 與 Codex 的剩餘用量、額度重置時間、短期／週期視窗、長對話上下文與通知，並依剩餘額度提供工具使用建議。原始專案含 Provider 介面、SwiftUI 介面、Build Script、Hook 與測試工作流，可作為安裝、客製化或重新實作的程式參考。",
+  "recommendation": "適合希望統一觀察 CLI AI 工具額度與上下文消耗的 macOS 使用者。若要實作：先在獨立 Repo 審查原始碼與安全性，再決定安裝既有版、客製 Provider 或自建版本；任何登入憑證、Keychain 授權、系統設定變更或未經公證軟體安裝都要人工確認。",
+  "url": "https://github.com/tip31812/ai-usage-bar",
+  "repo": "tip31812/ai-usage-bar",
+  "status": "active",
+  "addedAt": "2026-11-18",
+  "updatedAt": "2026-11-18",
+  "tags": [
+    "macos",
+    "swift",
+    "swiftui",
+    "menu-bar",
+    "claude-code",
+    "codex",
+    "quota",
+    "usage-monitoring",
+    "notification",
+    "provider-pattern",
+    "source-code",
+    "implementation-ready-reference",
+    "local-credentials",
+    "security-review"
+  ],
+  "conceptRefs": [
+    {
+      "type": "concept",
+      "id": "agent-credential-isolation"
+    },
+    {
+      "type": "concept",
+      "id": "long-running-agent-operations"
+    },
+    {
+      "type": "concept",
+      "id": "capability-cost-routing"
+    }
+  ],
+  "features": [
+    "選單列與面板顯示 Claude、Codex 的剩餘額度、重置倒數及不同用量時間窗。",
+    "5 分鐘自動更新、睡眠喚醒後更新、重置後補更新與手動重新整理。",
+    "依剩餘比例顯示使用建議、額度不足及長對話警告。",
+    "讀取本機最近的 Claude Code／Codex 對話紀錄檔尾，以估計上下文長度。",
+    "每個服務由 XxxProvider.swift 實作 UsageSource，並在 Models.swift 的 Sources.all 註冊。",
+    "提供繁體中文及英文介面、選用的登入啟動與長對話提醒 Hooks。"
+  ],
+  "requirements": [
+    "macOS 14 以上，具備 Xcode Command Line Tools（Swift compiler）。",
+    "至少一種 Claude Code CLI 或 Codex CLI 已經由使用者自行登入。",
+    "Apple Silicon／Intel 通用編譯；作者未在實體 Intel Mac 驗證。",
+    "編譯指令為 ./build.sh；執行 ./build.sh --install 會覆蓋並安裝 /Applications/AI額度看板.app，必須先核准。"
+  ],
+  "limitations": [
+    "非 Anthropic／OpenAI 官方工具；呼叫兩家 CLI／App 的內部非公開用量端點，API 可能隨時更動，相關服務條款適用性未獲官方保證。",
+    "原始碼會唯讀存取 macOS Keychain 的 Claude Code 登入與 ~/.codex/auth.json，並向相應服務傳送登入憑證取得額度；首次執行可能要求 Keychain 權限。",
+    "會讀取本機 Claude Code／Codex 對話紀錄檔尾。即使專案宣稱不外傳這些紀錄，實作前仍應自行審核原始碼與網路行為。",
+    "App 使用 ad-hoc 簽章且未經 Apple Notarization；預設安裝到 /Applications，原始安裝腳本會移除該路徑的既有同名 App。",
+    "選用的開機自啟與 Hooks 會影響使用者環境；需要事先核准與可復原方案。",
+    "沒有在使用者的 Mac 編譯、安裝、開啟、授權、連線或取得任何真實用量；本筆為原始碼審查筆記。"
+  ],
+  "source": {
+    "url": "https://github.com/tip31812/ai-usage-bar",
+    "upstreamCommit": "0c9b77736da008e56f06de056dc7e3fd84bbe194",
+    "reviewedAt": "2026-11-18",
+    "filesReviewed": [
+      "README.md",
+      "README.zh-TW.md",
+      "AGENTS.md",
+      "LICENSE",
+      "build.sh",
+      "uninstall.sh",
+      "Sources/Models.swift",
+      "Sources/ClaudeProvider.swift",
+      "Sources/CodexProvider.swift",
+      "Sources/Store.swift",
+      "Sources/Views.swift",
+      ".github/workflows/build.yml"
+    ]
+  },
+  "implementationKnowledge": {
+    "readiness": "source-reviewed-build-and-runtime-unverified",
+    "projectType": "native-macos-app",
+    "language": "Swift 5 / SwiftUI",
+    "supportedTarget": "macOS >=14",
+    "architecture": {
+      "providers": "Sources/ClaudeProvider.swift、Sources/CodexProvider.swift 實作 UsageSource，並在 Sources/Models.swift 的 Sources.all 註冊。",
+      "sharedModels": "Sources/Models.swift 定義 UsageWindow、ProviderState、Brand 與語言處理。",
+      "state": "Sources/Store.swift 處理讀取用量、定時更新與狀態更新。",
+      "ui": "Sources/Views.swift 顯示圓環、剩餘額度、通知建議與選單列資訊。",
+      "app": "Sources/App.swift 負責應用程式入口與開機啟動。",
+      "conversations": "Sources/Conversations.swift 讀取本機對話紀錄尾端。",
+      "notifications": "Sources/Notifier.swift 負責額度與上下文相關通知。"
+    },
+    "extensionInstructions": [
+      "先驗證新增服務存在允許使用且可取得用量的資料來源。",
+      "新增 Sources/XxxProvider.swift，實作 UsageSource.brand 與 fetch(manual:) 並回傳 ProviderState。",
+      "在 Sources/Models.swift 的 Sources.all 註冊新 Provider。",
+      "必要時擴充 UI、雙語字串與對話紀錄讀取；不得將憑證記錄到 log。",
+      "在測試環境使用 ./build.sh 和 --snapshot --demo 驗證 UI，再由使用者授權進行真實資料驗證。"
+    ],
+    "build": [
+      "./build.sh（僅編譯）",
+      "./build.sh --install（修改 /Applications，必須人工核准）"
+    ],
+    "verification": [
+      "依 README 使用 --snapshot --demo 進行 UI smoke test",
+      "原始 CI 使用 macOS runner 編譯 Universal Binary 並檢查 Python Hooks 語法",
+      "必須額外確認真實用量 API、Keychain 與系統通知，不能把 demo 截圖視為 live PASS"
+    ],
+    "executionStatus": "NOT_EXECUTED"
+  },
+  "license": "MIT License（原始 Repo；其他外部服務與 SDK 各自適用條款）",
+  "notes": "提供以現有 Repo 安裝、修改原始碼或參考架構重做的三條路線。使用者目前只要求收藏，不代表授權安裝、授權 Keychain 存取、修改 Hooks 或使用非公開 API。"
+}

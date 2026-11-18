@@ -45,5 +45,8 @@ test('learning notes teach principles, steps, decisions, a hypothetical example 
 
 test('learning guides do not mutate the original six canonical data types',()=>{
  const counts=Object.fromEntries(Object.entries(kinds).map(([type,plural])=>[type,catalog[plural].length]));
- assert.deepEqual(counts,{resource:268,skill:123,concept:68,prompt:34,workflow:36,combination:17});
+ const baseline={resource:268,skill:123,concept:68,prompt:34,workflow:36,combination:17};
+ assert.deepEqual(Object.keys(counts).sort(),Object.keys(baseline).sort(),'All six entity types must remain discoverable');
+ for(const [type,min] of Object.entries(baseline))
+  assert.ok(counts[type]>=min,type+' count decreased below the original collection baseline');
 });

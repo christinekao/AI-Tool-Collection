@@ -86,6 +86,18 @@
 
 ---
 
+## P5｜全部收藏不變，Knowledge 與 Implementation 逐步加值（2026-11-18）
+
+**不可用新的問題篩選、Workflow 或教學頁面取代「全部收藏」。** 六種 V2 Canonical Entity 與原始使用者 URL 必須可完整回讀；沒有被策展成 Problem 的 Resource 也必須在 `index.html#/browse/all` 顯示。正式資料只能以新增、核對、去重、可追溯修改的方式維護；不得因為介面重整而自動刪除或變更既有 ID。
+
+- **獨立入口：** [全部收藏](index.html#/browse/all)（全部六種型別、搜尋、篩選）和 [主題探索](index.html#/explore)（九個主題）並行。
+- **新增來源 1：** [AI 郵報／awesome-opensource-ai-cheat-sheets 導讀](data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json)；保留原始文章 URL、上游 GitHub Repo、版本、十大速查表的用途與可延伸的工程驗收方法。
+- **新增來源 2：** [tip31812/ai-usage-bar](data/resources/tip31812-ai-usage-bar.json)；保留 Repo、Swift／SwiftUI 程式結構、安裝條件、可擴充的 Provider、敏感憑證與非公開用量 API 風險、未執行狀態。
+- **Implementation 是方向，不是已部署的功能：** 未來可從收藏進入 Preflight → Spec → Plan → Execute → Verify，但執行需要相應環境、可用工具與授權。
+- **完整邊界及驗收：** [P5 Collection Foundation](docs/P5_COLLECTION_FOUNDATION.md)。
+
+---
+
 ## 1. 最重要的工作範圍
 
 **此專案的日常工作只有「維護 AI 工具與方法知識庫」。**

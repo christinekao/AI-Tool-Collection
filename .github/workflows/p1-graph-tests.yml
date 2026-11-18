@@ -24,6 +24,10 @@ on:
       - 'catalog-style.css'
   pull_request:
     paths:
+      - 'data/resources/**'
+      - 'scripts/test-collection-preservation.mjs'
+      - 'catalog-app.js'
+      - 'docs/P5_COLLECTION_FOUNDATION.md'
       - 'data/problems/**'
       - 'data/workflow-recipes/**'
       - 'scripts/knowledge-graph-core.mjs'
@@ -49,6 +53,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: node scripts/build-v2.mjs
+      - run: node --test scripts/test-collection-preservation.mjs
       - run: node --test scripts/test-knowledge-graph.mjs
       - run: node --test scripts/test-problem-learning.mjs
       - run: node --test scripts/test-workflow-engine.cjs
