@@ -332,7 +332,7 @@ async function init(){
  try{
   const res=await fetch('data/catalog-v2.json',{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);
   state.data=await res.json();indexData();wire();readRoute();render();
-  $('#collection-count').textContent=state.items.length.toLocaleString('zh-TW')+' 筆收藏';
+  const countBadge=$('#collection-count');if(countBadge)countBadge.textContent=state.items.length.toLocaleString('zh-TW')+' 筆收藏';
  }catch(e){console.error('Catalog load failed',e);$('#app').innerHTML='<div class="empty">收藏資料載入失敗，請重新整理頁面。</div>'}
 }
 init();
