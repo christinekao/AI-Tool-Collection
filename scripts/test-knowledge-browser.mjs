@@ -326,6 +326,38 @@ try{
  await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI 工程決策速查表")','Article detail opens');
  assert.ok(await evaluate('!!document.querySelector(".external-links a[href*=sraodev]")'),'Upstream source repository link must be visible');
  console.log('PASS: All Collections retains all six data types, both saved sources and independent deep links');
+
+ // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
+ await send('Page.navigate',{url:origin+'/ask.html'});
+ await waitFor('document.querySelector("#ask-meta")?.textContent.includes("已載入")','Knowledge answer page loaded');
+ const initialKnowledge=await evaluate('({count:document.querySelector("#ask-meta")?.textContent,nav:!!document.querySelector(\'nav a[href="index.html#/browse/all"]\'),presets:document.querySelectorAll("[data-question]").length})');
+ assert.ok(initialKnowledge.count.includes("548")&&initialKnowledge.nav&&initialKnowledge.presets>=4,'Ask page must reference all saved records and preserve All Collections navigation');
+ await evaluate('document.querySelector(\'[data-question*="AI Security"]\').click();true');
+ await waitFor('document.querySelector("#ask-output .ask-head h2")?.textContent.includes("AI Security")','Security answer');
+ const securityAnswer=await evaluate('({mode:document.querySelector(".ask-kicker")?.textContent,sections:document.querySelectorAll("#ask-output [data-section]").length,citations:document.querySelectorAll("#ask-output a.ask-source").length})');
+ assert.ok(securityAnswer.mode.includes('學習')&&securityAnswer.sections>=1&&securityAnswer.citations>=2,'Learning answer must cite real knowledge');
+ await evaluate('document.querySelector(\'[data-question*="實作 AI Usage Bar"]\').click();true');
+ await waitFor('document.querySelector("#ask-output [data-section=steps]")!==null','Implementation answer from saved resource');
+ const implementationAnswer=await evaluate('({mode:document.querySelector(".ask-kicker")?.textContent,hasResource:document.querySelector("#ask-output").textContent.includes("AI Usage Bar"),steps:document.querySelectorAll("#ask-output [data-section=steps] .ask-step").length,risks:document.querySelectorAll("#ask-output [data-section=risk] .ask-fact").length,hasLink:!!document.querySelector(\'#ask-output a[href="index.html#/resources/tip31812-ai-usage-bar"]\')})');
+ assert.ok(implementationAnswer.mode.includes('實作')&&implementationAnswer.steps>=2&&implementationAnswer.risks>=1&&implementationAnswer.hasLink,'Implementation must use resource architecture and warnings: '+JSON.stringify(implementationAnswer));
+ await evaluate('document.querySelector("#ask-query").value="zzzxxyynoexistenttechnicalterm";document.querySelector("#ask-form").requestSubmit();true');
+ await waitFor('document.querySelector("#ask-output .ask-gap")?.textContent.includes("找不到")','Evidence gap on unknown query');
+ assert.equal(await evaluate('document.querySelectorAll("#ask-output .ask-source").length'),0,'No fake citations when records absent');
+ console.log('PASS: Intent-aware learning / implementation / unknown-source flow with cited evidence');
+ await send('Page.navigate',{url:origin+'/ask.html?q='+encodeURIComponent('比較 RAG 與 Agent')});
+ await waitFor('document.querySelector("#ask-output [data-section=compare]")!==null','Deep link comparison answer');
+ assert.ok(await evaluate('document.querySelectorAll("#ask-output .ask-comparison").length>=2'),'Comparison must show independent candidate Resources');
+ for(const width of [375,430,768,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(140);
+  const measured=await evaluate('({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth})');
+  assert.ok(measured.scroll<=measured.width+3,'Intent-aware answer horizontal overflow '+width+': '+JSON.stringify(measured));
+  if(width===375||width===1440){
+   const capture=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+   fs.writeFileSync(path.join(screenshotDir,'ask-'+width+'.png'),Buffer.from(capture.data,'base64'));
+  }
+ }
+ console.log('PASS: Intent answer deep links and 375/430/768/1440 responsive view');
  assert.deepEqual(errors,[],'Uncaught browser exceptions: '+errors.join('; '));
  console.log('PASS: Index navigation, direct topic grid, 375px layout, no JS exceptions');
 }finally{
