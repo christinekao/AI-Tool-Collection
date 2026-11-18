@@ -256,7 +256,6 @@ function detail(x){
  }else if(x.entityType==='skill'){
   if(isHiringPanelSkill){
    body+=skillGuideHtml(x);
-   body+=section('相關 Resources',refsHtml(x.resourceRefs));
   }else{
   body+=section('解決的問題',para(x.problem));
   body+=section('如何使用',para(x.execution));
