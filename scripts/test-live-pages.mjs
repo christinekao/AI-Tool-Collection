@@ -6,12 +6,14 @@ const targets=[
  ['knowledge-app.js','javascript',text=>text.includes('kg-retry-load')&&text.includes('fetchKnowledgeJson')&&text.includes('DATA_RETRY_COUNT=3')],
  ['knowledge-learning.js','javascript',text=>text.includes('renderProblem')],
  ['workflow-engine.js','javascript',text=>text.includes('WorkflowEngine')],
- ['data/knowledge-graph-v1.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===1&&j.nodes?.length===566&&j.edges?.length===1806}],
- ['data/catalog-v2.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===2&&j.resources?.length===268}],
+ ['data/knowledge-graph-v1.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===1&&j.nodes?.length>=568&&j.edges?.length>=1813}],
+ ['data/catalog-v2.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===2&&j.resources?.length>=270&&j.resources.some(x=>x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide')&&j.resources.some(x=>x.id==='tip31812-ai-usage-bar')}],
  ['data/problems/ai-coding-spec-delivery.json','json',text=>{const j=JSON.parse(text);return j.id==='ai-coding-spec-delivery'&&j.learning?.version===1}],
+ ['data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json','json',text=>{const j=JSON.parse(text);return j.url==='https://www.aiposthub.com/sraodev-awesome-opensource-ai-cheat-sheets-guide/'&&j.repo==='sraodev/awesome-opensource-ai-cheat-sheets'&&j.implementationKnowledge?.executionStatus==='NOT_EXECUTED'}],
+ ['data/resources/tip31812-ai-usage-bar.json','json',text=>{const j=JSON.parse(text);return j.url==='https://github.com/tip31812/ai-usage-bar'&&j.implementationKnowledge?.executionStatus==='NOT_EXECUTED'&&j.source?.upstreamCommit?.length===40}],
  ['playground.html','text/html',text=>text.includes('playground-app.js')],
  ['playground-app.js','javascript',text=>text.includes('PG_RECIPES')],
- ['index.html','text/html',text=>text.includes('開始學習完整解法')]
+ ['index.html','text/html',text=>text.includes('開始學習完整解法')&&text.includes('#/browse/all')]
 ];
 let failed=0;
 for(const [path,type,check] of targets){
