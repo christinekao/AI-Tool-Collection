@@ -18388,6 +18388,236 @@
         "url": "https://github.com/alexyc9381/hiring-panel-skill/blob/main/skills/hiring-panel/SKILL.md",
         "type": "Official upstream SKILL.md, README and MIT license",
         "reviewedAt": "2026-11-12"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "claude-code-skill",
+        "overview": "把履歷交給七個模擬審查視角，先找出可能被刷掉的原因，再根據真實資料改寫履歷，最後比較修改前後的模擬篩選結果。",
+        "introNote": "適合投遞前的自我檢查；不是企業實際使用的 ATS，也不保證得到面試。",
+        "facts": [
+          {
+            "label": "使用環境",
+            "value": "Claude Code"
+          },
+          {
+            "label": "啟動方式",
+            "value": "/hiring-panel"
+          },
+          {
+            "label": "審查模式",
+            "value": "七種視角＋一次重新篩選"
+          },
+          {
+            "label": "輸出",
+            "value": "兩份 Markdown 報告"
+          },
+          {
+            "label": "來源版本",
+            "value": "SKILL.md v1.0.0"
+          }
+        ],
+        "situations": [
+          {
+            "title": "有目標職缺，但不知道履歷哪裡不符合",
+            "description": "用職缺要求對照履歷，檢查格式、關鍵字、成果證據與主管可能在意的問題。"
+          },
+          {
+            "title": "改完履歷，想知道是否真的改善",
+            "description": "先記錄修改前的評語，再檢查改寫是否修正了主要問題，並重新執行模擬篩選。"
+          },
+          {
+            "title": "要替不同職缺調整履歷",
+            "description": "同一份經歷可以依不同職缺強調不同重點；但職稱、任職時間、數字和技能不能憑空新增。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "你的履歷",
+            "detail": "提供 PDF 檔案路徑或可複製的履歷文字。"
+          },
+          {
+            "title": "要投遞的職務",
+            "detail": "最好附完整 JD；至少提供明確職務。如果完全沒有目標職務，Skill 會先詢問。"
+          },
+          {
+            "title": "可補充的真實成果",
+            "detail": "例如實際影響、衡量方式及已確認的數字。資料不齊時，先留待補欄位，不猜測。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "檢查履歷是否容易被系統讀懂",
+            "detail": "模擬 ATS 先看欄位、職稱、日期和職缺關鍵字，指出最多五個問題，並引用有疑慮的原文。",
+            "label": "ATS 模擬",
+            "result": "PASS 或 REJECT"
+          },
+          {
+            "number": "02",
+            "title": "模擬主管的第一印象",
+            "detail": "從最初十秒判斷履歷能否吸引主管安排面試，列出可能追問的問題及三句最弱的履歷敘述。",
+            "label": "面試機會",
+            "result": "INTERVIEW 或 NO"
+          },
+          {
+            "number": "03",
+            "title": "讓五種角色分開挑問題",
+            "detail": "五位角色各自只看履歷和職缺，不讀其他角色的評語，以不同角度補足盲點。",
+            "label": "獨立審查",
+            "result": "HIRE／MAYBE／PASS"
+          },
+          {
+            "number": "04",
+            "title": "合併問題並改寫履歷",
+            "detail": "把重複意見合併，依嚴重程度排序，引用原文解釋。只用已知事實改寫，缺少證據時標記 [ADD: ...]。",
+            "label": "有證據的修改",
+            "result": "問題清單＋新版履歷"
+          },
+          {
+            "number": "05",
+            "title": "重新檢查並留下報告",
+            "detail": "用新的履歷再跑一次模擬 ATS，對照前後結果，將審查紀錄和改寫版分開存檔。",
+            "label": "前後比較",
+            "result": "PANEL.md＋RESUME-IMPROVED.md"
+          }
+        ],
+        "reviewers": [
+          {
+            "title": "用人主管",
+            "focus": "能不能從第一天就勝任這份工作？"
+          },
+          {
+            "title": "競爭求職者",
+            "focus": "其他人可能在哪些條件上勝過這份履歷？"
+          },
+          {
+            "title": "執行長",
+            "focus": "做出了什麼改變？有沒有成果與影響的證據？"
+          },
+          {
+            "title": "招募人員",
+            "focus": "只看最前面的內容，能不能快速找到適合這份工作的理由？"
+          },
+          {
+            "title": "未來同事",
+            "focus": "從履歷是否看得出合作、溝通與實際做事方式？"
+          }
+        ],
+        "howToUse": {
+          "trigger": "/hiring-panel",
+          "command": "/hiring-panel ~/Documents/resume.pdf  Senior product designer at a fintech startup",
+          "meaning": "在已安裝並啟用 Skill 的 Claude Code 中，提供履歷路徑和目標職務。若有完整 JD，接著貼上職缺說明會更具針對性。",
+          "setup": [
+            {
+              "title": "方式一：Claude Code Plugin",
+              "description": "在 Claude Code 中使用上游 README 提供的 Plugin 指令。安裝第三方 Skill 前先檢查來源和權限。",
+              "commands": [
+                "/plugin marketplace add alexyc9381/hiring-panel-skill",
+                "/plugin install hiring-panel-skill@hiring-panel-skill"
+              ]
+            },
+            {
+              "title": "方式二：手動放入 Skill 資料夾",
+              "description": "將上游 skills/hiring-panel 複製到 ~/.claude/skills/，再開啟新的 Claude Code Session。",
+              "commands": []
+            }
+          ],
+          "usageNote": "來源 README 說明每次約有八次子 Agent 呼叫，會占用 Claude 方案的使用額度。安裝步驟需要使用者自行確認，不應自動執行。"
+        },
+        "deliverables": [
+          {
+            "name": "PANEL.md",
+            "description": "包含七個審查結果、逐項引用履歷原文的問題與排序，以及修改前後的模擬篩選結果。"
+          },
+          {
+            "name": "RESUME-IMPROVED.md",
+            "description": "依既有事實改寫的履歷。需要使用者補充的資料會以 [ADD: ...] 標示。"
+          }
+        ],
+        "savePath": ".hiring-panel/<date>-<name>/",
+        "composition": {
+          "problem": "依指定職缺找出履歷的主要問題，提出有依據的修改，再確認修改是否有效。",
+          "capabilities": [
+            {
+              "id": "resume-read",
+              "title": "理解履歷和職缺",
+              "input": "履歷＋目標職務或 JD",
+              "output": "可供審查的文字與要求",
+              "gate": "履歷能正確解析；不得擅自增加事實"
+            },
+            {
+              "id": "resume-screen",
+              "title": "檢查履歷可讀性與職缺匹配",
+              "input": "履歷＋職缺要求",
+              "output": "模擬 PASS／REJECT 與原文依據",
+              "gate": "只能視為模擬篩選；不可宣稱是官方 ATS"
+            },
+            {
+              "id": "role-review",
+              "title": "多角度審查",
+              "input": "相同的履歷與職缺",
+              "output": "不同角色的判斷及引述",
+              "gate": "每個角色獨立閱讀；仍可能共享模型偏差"
+            },
+            {
+              "id": "resume-rewrite",
+              "title": "依證據修正履歷",
+              "input": "原始履歷＋合併問題＋經確認事實",
+              "output": "改寫版本及待補資料",
+              "gate": "禁止捏造雇主、職稱、日期、技能和數字"
+            },
+            {
+              "id": "resume-compare",
+              "title": "重新評估與比較",
+              "input": "原版與新版履歷＋同一職缺",
+              "output": "修改前後模擬結果",
+              "gate": "前後使用相同標準，不得把模擬結果當作錄取保證"
+            }
+          ],
+          "example": "履歷與 JD → 格式與關鍵字檢查 → 七視角審查 → 合併與改寫 → 相同規則重新測試",
+          "note": "這是從上游 Skill 拆出的可重用 Workflow 知識。要與其他 Skill 或 Resume 資料庫串接，仍須另做輸入輸出與資料隱私驗證。"
+        },
+        "safety": [
+          {
+            "title": "履歷含有個人及工作資訊",
+            "risk": "姓名、電話、電子郵件、工作內容與內部專案可能交由模型處理。",
+            "action": "只提供必要資料；先檢查敏感資訊與相關資料處理政策。"
+          },
+          {
+            "title": "報告會寫入本機資料夾",
+            "risk": "兩份 Markdown 可能含履歷與個資，放在公開 Repo 有誤提交風險。",
+            "action": "在非公開目錄使用，並將 .hiring-panel/ 加入 .gitignore。"
+          },
+          {
+            "title": "多角色評語只是模擬",
+            "risk": "七種角色不代表七位真人，也無法反映每間公司實際招聘標準。",
+            "action": "用作修正方向，保留人工審核，並針對真正的 JD 比較。"
+          },
+          {
+            "title": "多次 Agent 呼叫會消耗額度",
+            "risk": "來源說明一次約八次子 Agent 呼叫；仍需依 Claude Code 的實際使用情況確認。",
+            "action": "先明確選擇目標職缺，避免反覆執行沒有必要的相同分析。"
+          }
+        ],
+        "acceptance": [
+          "每個重大問題都能找到原始履歷的對應敘述，不只是泛泛而談。",
+          "合併重複意見並依影響程度排序，讓使用者知道先修什麼。",
+          "新版沒有捏造經歷、日期、成果數字或技能；缺漏保留 [ADD: ...]。",
+          "修改前後的模擬篩選使用相同職缺和檢查方式。",
+          "輸出只有指定的 PANEL.md 和 RESUME-IMPROVED.md，並確認存放位置與隱私。"
+        ],
+        "provenance": {
+          "sourceRepo": "alexyc9381/hiring-panel-skill",
+          "skillPath": "skills/hiring-panel/SKILL.md",
+          "documentation": [
+            "README.md",
+            "skills/hiring-panel/SKILL.md",
+            "LICENSE"
+          ],
+          "reviewedVersion": "1.0.0",
+          "execution": "NOT_EXECUTED",
+          "notes": "已閱讀上游 README、SKILL.md 和 LICENSE；未安裝、未讀取私人履歷，也未進行真正的子 Agent 執行或檔案寫入。"
+        }
       }
     },
     {
