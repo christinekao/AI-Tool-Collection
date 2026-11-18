@@ -2,8 +2,8 @@
 /** Real GitHub Pages HTTP contract test; separate from local-source CI. */
 const BASE='https://christinekao.github.io/AI-Tool-Collection/';
 const targets=[
- ['knowledge.html','text/html',text=>text.includes('knowledge-learning.js')&&text.includes('knowledge-app.js')],
- ['knowledge-app.js','javascript',text=>text.includes("fetch('data/knowledge-graph-v1.json'")],
+ ['knowledge.html','text/html',text=>text.includes('knowledge-learning.js?v=20261118')&&text.includes('knowledge-app.js?v=20261118-recovery')],
+ ['knowledge-app.js','javascript',text=>text.includes('kg-retry-load')&&text.includes('fetchKnowledgeJson')&&text.includes('DATA_RETRY_COUNT=3')],
  ['knowledge-learning.js','javascript',text=>text.includes('renderProblem')],
  ['workflow-engine.js','javascript',text=>text.includes('WorkflowEngine')],
  ['data/knowledge-graph-v1.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===1&&j.nodes?.length===566&&j.edges?.length===1806}],
