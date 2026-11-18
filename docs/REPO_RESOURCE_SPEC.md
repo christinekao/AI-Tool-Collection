@@ -27,8 +27,8 @@
 1. **專案概覽**：簡短說明用途、技術、平台、授權、來源與驗證狀態，避免重複頂部 Summary。
 2. **原始畫面**：使用 Repo 官方截圖，標示來源；不能將 Demo 圖說成真實驗證。
 3. **主要功能**：向讀者呈現具體功能；對應原始檔保留在 Canonical 資料，不在卡片重複顯示逐檔連結。
-4. **如何運作**：來源 → Provider → 共用模型／狀態 → UI／通知的資料流；保留例外及核心規則。
-5. **怎麼使用**：將閱讀、只編譯、安裝／移除分開；清楚揭示會修改系統或讀取憑證的動作。
+4. **如何運作**：先用白話說明取得用量、查詢、整理、顯示與提醒的流程；技術類別／方法名稱放在補充資訊，不要放在第一句。保留機器可讀的呼叫鏈、備援與核心規則。
+5. **怎麼使用**：將閱讀、只編譯、安裝／移除分開；安裝與移除須是兩組分別標示的指令，不能排成一段讓人誤以為要連續執行。明確說明各動作會修改的系統內容與需要的核准。
 6. **如何擴充**：列出擴充點、主要檔案、介面、登入與權限條件、測試要求。
 7. **如何建立 Workflow**：將原始 Repo 的能力拆成有契約的子單元，提出一條可解釋的示例流程；每一步都可追溯。
 8. **能否重新建立**：給出明確的狀態、MVP → Adapter → 安全驗證的實作路徑及未解的 Blocker。
@@ -45,6 +45,10 @@
 | `overview`／`facts`／`status` | 不重複的快速專案定位及來源／建置／實測狀態 |
 | `screenshots`／`features` | 有版本可追溯的畫面及功能對應檔案 |
 | `architecture.nodes`／`implementationRules` | 執行鏈、資料流、狀態管理、核心規則及來源 |
+| `architecture.readerSummary`／`nodes[].readerTitle`／`readerText`／`technicalNote` | 讀者先看白話流程；必要技術名詞另行補充，原本 `detail`／`files` 保持不變 |
+| `implementationRules[].readerTitle`／`readerText`／`readerNote` | 白話解釋判斷規則，必要時附簡短公式；保留 `rule` 與 `source` |
+| `usage[].readerTitle`／`readerText`／`commandGroups`／`approvalNote` | 讀者操作說明與分開標示的指令組；原本 commands、files、approval 不刪除 |
+| `extension[]`、`capabilities[]`、`rebuild.stages[]` 的 `reader*` | 讓頁面用白話表達，Agent 仍使用完整技術契約及來源 |
 | `usage`／`extension` | 查閱、編譯、安裝、擴充步驟與需要的核准 |
 | `capabilities` | 可組合能力的 ID、Problem、Input、Output、原始檔案、相容／安全 Gate |
 | `workflow` | 基於這些能力的示例流程及必須驗證的前提 |
@@ -64,6 +68,9 @@
 - 實作深度以可重建為目標：至少包含 State／Data Contract、主要決策規則、失敗處理、依賴與測試計畫；無法從來源確定的欄位記錄 Gap。
 - 不要求所有 Repo 都套相同的章數；依專案形態決定是否需要 UI、API、DB、CLI、Agent、Model 或部署層。
 - 不重複：頂部概要回答定位；功能回答做什麼；架構回答怎麼運作；重建回答從零怎麼做；Workflow 回答如何拆分與組合。
+- **Humanizer 寫作順序**：先講讀者關心的行為與結果，再補必要技術細節。不要用 `ClaudeFetcher／CodexFetcher 實作 UsageSource.fetch(manual:)` 當首句；先寫「向 Claude Code 和 Codex 查詢用量，失敗時顯示原因或備援估算」，必要時再以較小文字放技術方法。
+- **閱讀時的斷句**：解釋性卡片遇到 `；`、`;` 或 `。` 後換行，保留完整標點。不要在程式碼、路徑、API 名稱、指令中拆分。
+- **保留資訊但避免重複警告**：架構圖下方如果只是重複風險區的泛用免責宣告，就不顯示在頁面；原始 note 可以繼續保存在 Canonical 資料，風險與使用前確認仍須清楚。
 - 非官方端點、權限變更、安裝、刪除、對外傳送與付費行為必須先做風險和明確核准，不可只因 Repo 有指令就代替使用者執行。
 
 ## 品質與發布 Gate
@@ -72,9 +79,10 @@
 - **Functional**：閱讀者能直接回答：功能、架構、用法、擴充點、風險、重建可能性及可組合的能力。
 - **Trace**：每個架構節點、重要規則和 Capability 必須在 Canonical JSON 追溯到版本化原始檔，供 Agent 使用；讀者頁面不需要逐項顯示程式碼連結。
 - **Evidence**：紀錄 Source Reviewed 與 Build／Runtime／Integration 未驗證，不能只提供 Demo 畫面當成實測。
-- **Responsive**：桌面、平板與手機呈現不重疊、不截字、不溢出；圖像有替代文字且重要連結可操作。
+- **Responsive**：桌面卡片同列等高，「怎麼使用」的編號＋標題、說明＋核准提醒、指令框分成三個跨卡片對齊的排版軌道。不同文字長度也讓指令框從同一水平線開始；手機採單欄自然高度。指令過長可以水平捲動，不應斷在網址中間。檢查 375／430／768／1440px 不重疊、不截字、不溢出，圖像有替代文字且重要連結可操作。
 - **Release**：Canonical JSON 更新後確認 Catalog Sync、語法和頁面資源；GitHub commit 不等於 Pages 公開部署。
 - **Regression**：其他 Resource（尤其 AI Cheat Sheets 教材）仍沿用原本版型，不能因新增 Repo UI 而改變內容。
+- **Reader vs Agent**：檢查白話頁面不會漏掉安裝風險、行為前提；對照 Canonical JSON，確保 machine-facing `detail`、`rule`、`files`、`source`、`commands`、`capabilities` 都沒有遺失。
 
 ## 延伸到 Problem → Workflow
 
