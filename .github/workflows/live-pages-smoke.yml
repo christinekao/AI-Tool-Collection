@@ -31,6 +31,7 @@ jobs:
       - name: Check deployed GitHub Pages HTTP assets and JSON contracts
         run: node scripts/test-live-pages.mjs
       - name: Check actual deployed site in Chromium (not local preview)
+        if: github.event_name != 'pull_request'
         env:
           LIVE_SITE_BASE: https://christinekao.github.io/AI-Tool-Collection
         run: node scripts/test-knowledge-browser.mjs
