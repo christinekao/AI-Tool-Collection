@@ -110,10 +110,11 @@
 
 ## P7｜教學型 Resource 的「學習重點」而非主題清單（2026-11-18）
 
-- **第一個完整案例：** [Awesome Open-Source AI Cheat Sheets](data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json) 附可選 `learningGuide`：五項「學完能做什麼」、十篇來源支持的學習單元、優先學習順序、假設情境練習與原始章節版本連結。
-- **顯示順序：** 在原本「這是什麼、功能、限制、實作資料」之前先回答「值得學會什麼」；點進收藏時隱藏只屬於首頁的長 Hero，讓正文更快進入視野。
-- **內容保留：** 沒有刪改 548 筆正式收藏、既有六種 Entity 或其他 Resource 的內容。只有查核來源足夠、且適合教學導覽的 Resource 才補此欄位，不對所有項目硬套模板。
-- **規格與驗收：** [P7 Resource Learning Outcomes](docs/P7_RESOURCE_LEARNING_OBJECTIVES.md)。
+- **完整教材案例：** [Awesome Open-Source AI Cheat Sheets](data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json) 提供十篇來源支持的主題。2026-11-18 已以「AI 系統設計」作為品質基準，補完其餘九章的判斷表、三個原則與整合式檢查、案例、練習與可驗收產物。
+- **最新版頁面順序：** 「適合什麼情境？ → 主要功能 → 使用條件 → 限制與注意事項 → 十個主題的重點筆記」，再顯示整體練習、來源與相關延伸。避免重複的頂部用途摘要、「學完能掌握什麼？」和「先看哪裡？」。
+- **固定寫作與設計規格（往後優先遵守）：** [LEARNING_CONTENT_SPEC.md](docs/LEARNING_CONTENT_SPEC.md)；此文件是教學型 Resource 的 Single Source of Truth。舊版 P7 設計紀錄僅供參照，不覆寫新版順序與去重規則。
+- **資料保留：** 其他 Resource 不硬套教學章節；沿用原 ID、Canonical Source、原始章節與版本化連結。
+- **設計歷史與驗收：** [P7 Resource Learning Outcomes](docs/P7_RESOURCE_LEARNING_OBJECTIVES.md)。
 
 ---
 
