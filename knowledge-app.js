@@ -3,7 +3,7 @@
 const LABEL={problem:'Problem',concept:'Concept',resource:'Resource',skill:'Skill',workflow:'Workflow',prompt:'Prompt',combination:'Combination'};
 const ROUTES={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
 const REL={explained_by:'相關原理',supported_by:'適用工具／技能',guided_by:'相關流程／提示詞',combined_in:'工具組合',has_subproblem:'延伸問題',declared_reference:'原有資料引用'};
-const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map(),problemDocs:new Map(),problemLoading:new Set()};
+const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map(),problemDocs:new Map(),problemLoading:new Set(),didBind:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return ''}};
@@ -325,21 +325,48 @@ function bind(){
  window.addEventListener('hashchange',()=>{KG.selectedNode=null;render();if(KG.scrollOnChange){KG.scrollOnChange=false;requestAnimationFrame(bringFocusIntoView)}});
  window.addEventListener('resize',()=>requestAnimationFrame(drawConnections));
 }
+const DATA_RETRY_COUNT=3;
+async function fetchKnowledgeJson(filename){
+ let lastError;
+ for(let attempt=1;attempt<=DATA_RETRY_COUNT;attempt++){
+  try{
+   const response=await fetch('data/'+filename,{cache:'no-store'});
+   if(!response.ok)throw Error(filename+'：HTTP '+response.status);
+   const result=await response.json();
+   if(!result||typeof result!=='object')throw Error(filename+'：資料格式不正確');
+   return result;
+  }catch(error){
+   lastError=error;
+   console.warn('Knowledge data request failed ('+attempt+'/'+DATA_RETRY_COUNT+')',filename,error);
+   if(attempt<DATA_RETRY_COUNT)await new Promise(resolve=>setTimeout(resolve,200*attempt));
+  }
+ }
+ throw lastError||Error(filename+'：資料讀取失敗');
+}
+function reportKnowledgeFailure(error){
+ console.error('Knowledge Graph failed to load',error);
+ const message=error instanceof Error?error.message:String(error);
+ $('#kg-count').textContent='知識資料載入失敗';
+ $('#kg-results').innerHTML='<div class="kg-error" role="alert"><strong>知識資料暫時無法載入</strong>'+
+  '<p>可能是網路連線或網站部署更新造成的暫時性問題。你可以直接重試，不需要重新輸入搜尋內容。</p>'+
+  '<button type="button" id="kg-retry-load">重新載入知識資料</button>'+
+  '<details><summary>查看錯誤原因</summary><code>'+esc(message)+'</code></details></div>';
+ $('#kg-retry-load').addEventListener('click',()=>init());
+}
 async function init(){
+ const oldRetry=$('#kg-retry-load');
+ if(oldRetry)oldRetry.disabled=true;
+ $('#kg-count').textContent='讀取知識資料中…';
  try{
-  const [graphResponse,catalogResponse]=await Promise.all([
-   fetch('data/knowledge-graph-v1.json',{cache:'no-store'}),
-   fetch('data/catalog-v2.json',{cache:'no-store'})
+  const [data,catalog]=await Promise.all([
+   fetchKnowledgeJson('knowledge-graph-v1.json'),
+   fetchKnowledgeJson('catalog-v2.json')
   ]);
-  if(!graphResponse.ok||!catalogResponse.ok)throw Error('Graph or source Catalog unavailable');
-  const [data,catalog]=await Promise.all([graphResponse.json(),catalogResponse.json()]);
   setData(data);KG.catalog=catalog;
   KG.recordIndex=WorkflowEngine.indexCatalog(catalog);
-  bind();renderFilters();renderExamples();render();
+  if(!KG.didBind){bind();KG.didBind=true}
+  renderFilters();renderExamples();render();
   $('#kg-count').textContent=(data.counts.nodes-data.counts.problems)+' 筆正式知識 · '+data.counts.problems+' 個已整理 Problem · '+(data.counts.canonicalEdges+data.counts.curatedEdges)+' 條既有關聯';
- }catch(error){console.error('Knowledge Graph failed to load',error);
-  $('#kg-count').textContent='知識圖譜載入失敗';
-  $('#kg-results').innerHTML='<div class="kg-error">資料載入失敗，請檢查部署或稍後重新整理。</div>';
- }
+ }catch(error){reportKnowledgeFailure(error)}
 }
 init();
