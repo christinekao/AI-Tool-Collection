@@ -117,5 +117,355 @@
     "executionStatus": "NOT_EXECUTED"
   },
   "license": "MIT License（原始 Repo；其他外部服務與 SDK 各自適用條款）",
-  "notes": "提供以現有 Repo 安裝、修改原始碼或參考架構重做的三條路線。使用者目前只要求收藏，不代表授權安裝、授權 Keychain 存取、修改 Hooks 或使用非公開 API。"
+  "notes": "提供以現有 Repo 安裝、修改原始碼或參考架構重做的三條路線。使用者目前只要求收藏，不代表授權安裝、授權 Keychain 存取、修改 Hooks 或使用非公開 API。",
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "macOS 原生選單列看板：整合 Claude Code 與 Codex 的剩餘額度、重置倒數、使用建議和長對話提醒。這是可閱讀與改寫的 Swift 原始碼，不是官方用量服務。",
+    "status": [
+      {
+        "label": "程式來源",
+        "value": "已閱讀主要 Swift 原始碼"
+      },
+      {
+        "label": "建置與使用",
+        "value": "未在本機編譯／安裝"
+      },
+      {
+        "label": "重建",
+        "value": "具架構依據；尚非已驗證成品"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Swift 5 · SwiftUI"
+      },
+      {
+        "label": "系統",
+        "value": "macOS 14+"
+      },
+      {
+        "label": "服務",
+        "value": "Claude Code／Codex"
+      },
+      {
+        "label": "授權",
+        "value": "原始碼 MIT"
+      },
+      {
+        "label": "資料",
+        "value": "本機登入 + 非公開用量端點"
+      }
+    ],
+    "screenshots": [
+      {
+        "path": "screenshots/panel-en-dark.png",
+        "label": "官方深色介面截圖"
+      },
+      {
+        "path": "screenshots/panel-en.png",
+        "label": "官方淺色介面截圖"
+      }
+    ],
+    "features": [
+      {
+        "title": "額度與重置倒數",
+        "detail": "選單列提供各服務剩餘額度；面板顯示最緊的用量視窗、不同時間窗、重置倒數與登入狀態。",
+        "source": "Sources/Views.swift"
+      },
+      {
+        "title": "依條件提供使用建議",
+        "detail": "以 Claude 優先、可用額度和其他服務的週期重置情況決定推薦，不會替使用者自動切換 CLI。",
+        "source": "Sources/Views.swift"
+      },
+      {
+        "title": "自動更新與通知",
+        "detail": "約五分鐘刷新、睡眠喚醒後重讀；接近重置時另排補更新。額度過低、恢復、登入異常與部分長對話情境可提醒。",
+        "source": "Sources/Store.swift"
+      },
+      {
+        "title": "本機對話長度",
+        "detail": "掃描最近的 Claude Code／Codex 對話記錄尾端，顯示估計的上下文 Token，對長對話做提示。",
+        "source": "Sources/Conversations.swift"
+      },
+      {
+        "title": "可擴充 Provider",
+        "detail": "每個服務實作相同 UsageSource 協定；使用一個清單註冊，即可讓 UI、狀態與建議邏輯共同使用。",
+        "source": "Sources/Models.swift"
+      },
+      {
+        "title": "繁體中文與英文 UI",
+        "detail": "依語系切換文字，提供登入啟動與選用的對話提醒 Hooks；後兩者會更動使用者環境。",
+        "source": "Sources/App.swift"
+      }
+    ],
+    "architecture": {
+      "summary": "資料取得、共用狀態、畫面與通知各自獨立。主要路徑如下；本機對話掃描屬平行輸入，不等於用量 API 的回傳值。",
+      "nodes": [
+        {
+          "title": "來源與身份",
+          "detail": "Keychain 的 Claude Code 登入、~/.codex/auth.json；另有用量備援與本機對話檔。",
+          "files": [
+            "Sources/ClaudeProvider.swift",
+            "Sources/CodexProvider.swift",
+            "Sources/Conversations.swift"
+          ]
+        },
+        {
+          "title": "Provider Adapter",
+          "detail": "ClaudeFetcher／CodexFetcher 實作 UsageSource.fetch(manual:)；主要讀用量端點，無法讀取時回傳狀態或備援估算。",
+          "files": [
+            "Sources/ClaudeProvider.swift",
+            "Sources/CodexProvider.swift"
+          ]
+        },
+        {
+          "title": "統一資料與狀態",
+          "detail": "UsageWindow／ProviderState 轉成共同形狀，Store 並行取用量、更新時間與錯誤狀態。",
+          "files": [
+            "Sources/Models.swift",
+            "Sources/Store.swift"
+          ]
+        },
+        {
+          "title": "呈現與提醒",
+          "detail": "Views 顯示圓環、倒數與建議；Notifier 根據門檻發通知，App 處理選單列生命週期。",
+          "files": [
+            "Sources/Views.swift",
+            "Sources/Notifier.swift",
+            "Sources/App.swift"
+          ]
+        }
+      ],
+      "note": "系統級登入授權、權限判斷與外部服務端點不是由 Repo 自行保證安全或長期穩定。"
+    },
+    "implementationRules": [
+      {
+        "name": "用量標準化",
+        "rule": "remainingPercent = max(0, 100 − usedPercent)；每個服務以剩餘比例最低的 UsageWindow 作為最緊視窗。",
+        "source": "Sources/Models.swift"
+      },
+      {
+        "name": "建議與警示",
+        "rule": "來源碼以剩餘 15% 作為低額度警戒，35% 作為預警／回補分界；視來源狀態與其他服務剩餘量給出使用建議。",
+        "source": "Sources/Views.swift"
+      },
+      {
+        "name": "刷新與備援",
+        "rule": "Store 並行讀取 Provider；約每五分鐘更新，睡眠喚醒後再讀，部分重置事件另排延後更新；需區分即時與備援／估算。",
+        "source": "Sources/Store.swift"
+      },
+      {
+        "name": "通知去重",
+        "rule": "Notifier 保存額度警戒狀態與已提醒長對話集合，避免同一事件反覆通知；需確認回補與異常恢復條件。",
+        "source": "Sources/Notifier.swift"
+      }
+    ],
+    "usage": [
+      {
+        "title": "研究原始碼（不安裝）",
+        "description": "先從 README、Provider 與 Store 看清楚資料來源、執行流程及會碰到的系統權限。",
+        "commands": [],
+        "files": [
+          "README.zh-TW.md",
+          "Sources/Models.swift",
+          "Sources/Store.swift"
+        ],
+        "approval": false
+      },
+      {
+        "title": "只編譯，先不安裝",
+        "description": "macOS 14+ 與 Xcode Command Line Tools；編譯會在專案目錄建立／重建產物，仍應先審查腳本內容。",
+        "commands": [
+          "git clone https://github.com/tip31812/ai-usage-bar.git",
+          "cd ai-usage-bar",
+          "./build.sh"
+        ],
+        "files": [
+          "build.sh"
+        ],
+        "approval": false
+      },
+      {
+        "title": "選擇安裝與移除",
+        "description": "只有在理解風險並確認後才執行；--install 會寫入／覆蓋 /Applications/AI額度看板.app，App 未經 Apple 公證。移除腳本會刪除特定檔案，選用 Hooks 需另手動清除。",
+        "commands": [
+          "./build.sh --install",
+          "./uninstall.sh"
+        ],
+        "files": [
+          "build.sh",
+          "uninstall.sh"
+        ],
+        "approval": true
+      }
+    ],
+    "extension": [
+      {
+        "title": "確認合法可用的用量來源",
+        "detail": "先確認新服務提供可用且允許使用的資料取得方式；不能只因有介面就推測 API 可以存取。",
+        "file": "README.md"
+      },
+      {
+        "title": "實作 Provider",
+        "detail": "建立 Sources/XxxProvider.swift，遵守 UsageSource 的 brand 和 async fetch(manual:) 契約，回傳一致的 ProviderState、錯誤與來源狀態。",
+        "file": "Sources/Models.swift"
+      },
+      {
+        "title": "註冊並接入共用狀態",
+        "detail": "在 Sources.all 新增 Provider；檢查數值單位、剩餘量轉換、資料不完整情況及通知邊界。",
+        "file": "Sources/Store.swift"
+      },
+      {
+        "title": "補 UI 與來源專屬測試",
+        "detail": "檢查圓環、標籤、雙語字串和新服務是否能自然呈現，再以 Demo／Mock 測試及獲准的真實環境驗證。",
+        "file": "Sources/Views.swift"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "quota-adapter",
+        "name": "用量來源 Adapter",
+        "problem": "不同 AI CLI 的資料格式不一致",
+        "input": "授權的登入狀態／供應者回傳",
+        "output": "ProviderState、UsageWindow、即時／備援狀態",
+        "source": "Sources/Models.swift",
+        "gate": "來源合法且授權；回傳格式與憑證使用方式須驗證"
+      },
+      {
+        "id": "quota-normalize",
+        "name": "用量標準化",
+        "problem": "各服務有不同重置視窗",
+        "input": "usedPercent、重置時間、視窗標籤",
+        "output": "remainingPercent、最緊用量視窗",
+        "source": "Sources/Models.swift",
+        "gate": "缺值與備援值不得誤標為即時數據"
+      },
+      {
+        "id": "usage-routing",
+        "name": "使用建議規則",
+        "problem": "不知道目前應優先使用哪個服務",
+        "input": "各 ProviderState 與重置時間",
+        "output": "建議工具與原因，不執行自動切換",
+        "source": "Sources/Views.swift",
+        "gate": "低額度門檻、資料過期與無資料情況須測試"
+      },
+      {
+        "id": "usage-alert",
+        "name": "通知與異常偵測",
+        "problem": "額度將耗盡或長對話持續增加時缺乏提醒",
+        "input": "標準化用量、對話 Token、登入狀態",
+        "output": "本機提醒或不發通知",
+        "source": "Sources/Notifier.swift",
+        "gate": "系統通知權限、去重與隱私政策需驗證"
+      }
+    ],
+    "workflow": {
+      "title": "跨工具用量觀察與提醒（設計示例）",
+      "problem": "監控多個 AI Coding 工具的剩餘額度，並在必要時提供建議或通知。",
+      "steps": [
+        {
+          "capability": "quota-adapter",
+          "action": "在已核准的來源取得用量；讀取失敗時回報來源狀態"
+        },
+        {
+          "capability": "quota-normalize",
+          "action": "統一剩餘比例、重置時間與資料可信度"
+        },
+        {
+          "capability": "usage-routing",
+          "action": "根據門檻、可用額度與重置時間提出建議"
+        },
+        {
+          "capability": "usage-alert",
+          "action": "僅對符合條件的事件發通知，記錄去重狀態"
+        }
+      ],
+      "gate": "此流程是根據原始碼抽象出的組合設計，尚未整合其他服務，也未在實際帳號測試。擴展到其他 Repo 前需重新確認授權、輸入輸出契約、依賴及真實相容性。"
+    },
+    "rebuild": {
+      "verdict": "架構與部分規則可依現有程式碼重新實作；目前不具備免原始碼、免測試即可重建完全相同行為的證據。",
+      "stages": [
+        {
+          "title": "01 定義系統契約",
+          "detail": "決定支援的用量服務、資料來源權限、額度欄位、使用門檻、失敗狀態與使用者可控制的動作。",
+          "deliverable": "需求／輸入輸出／權限 Spec"
+        },
+        {
+          "title": "02 建立無憑證 MVP",
+          "detail": "先以 Mock ProviderState、SwiftUI 介面、計時與通知策略重現畫面及核心流程，不接真實憑證。",
+          "deliverable": "Mock App、UI 截圖及可重現測試"
+        },
+        {
+          "title": "03 實作 Adapter 與安全邊界",
+          "detail": "使用合法且穩定的資料來源；若服務只剩內部端點，標註風險並提供「無法提供即時額度」的退路。",
+          "deliverable": "Provider Contract、來源清單與風險 Gate"
+        },
+        {
+          "title": "04 驗證、回歸與回復",
+          "detail": "測試過期登入、錯誤 JSON、API 失效、睡眠喚醒、重置補更新、重複通知、卸載與權限撤銷。",
+          "deliverable": "測試紀錄、版本對照與回滾計畫"
+        }
+      ],
+      "gaps": [
+        "兩家服務的非公開額度端點可能變動，缺乏官方穩定支援承諾。",
+        "真實登入讀取、授權提示、通知與編譯執行尚未在目標裝置驗證。",
+        "其他 Provider 的資料契約及跨服務相容性需個別證明；不能只靠名稱相同就宣稱能串接。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "非公開用量端點",
+        "severity": "高",
+        "issue": "Claude／Codex 的用量 API 是官方應用內部使用的介面，可能變更或不符合服務條款。",
+        "control": "核對條款與可用性；不假設穩定 SLA，實作失敗狀態與不接入的替代方案。"
+      },
+      {
+        "title": "憑證與敏感資料",
+        "severity": "高",
+        "issue": "讀取 Keychain 及 ~/.codex/auth.json 並使用現有登入 Token，另會掃描本機對話檔尾。",
+        "control": "只在授權環境內測試、最小權限、避免記錄 Token 或對話內容，確認傳輸目的地與撤權方法。"
+      },
+      {
+        "title": "安裝／系統修改",
+        "severity": "高",
+        "issue": "ad-hoc 簽章且未公證；--install 覆蓋 App，LaunchAgent 與 Hooks 會影響環境。",
+        "control": "先審查 build.sh／uninstall.sh；重要安裝、Keychain 許可、Hooks 及登入啟動要人工核准並保留復原方式。"
+      },
+      {
+        "title": "編譯與裝置相容性",
+        "severity": "待驗證",
+        "issue": "上游宣稱可編譯 Universal Binary；未在本次收藏維護環境驗證，Intel 實機相容性也未獲確認。",
+        "control": "透過 CI 與目標 macOS 裝置分別驗證，標記已測硬體及實際結果。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源／程式架構",
+        "state": "已審查",
+        "evidence": "README、Swift 原始碼、Build Script"
+      },
+      {
+        "item": "官方示範截圖",
+        "state": "有來源",
+        "evidence": "上游 screenshots；非真實服務驗證"
+      },
+      {
+        "item": "macOS 編譯",
+        "state": "尚未執行",
+        "evidence": "需要 Xcode Command Line Tools 與 macOS"
+      },
+      {
+        "item": "實際用量與登入",
+        "state": "尚未驗證",
+        "evidence": "需經授權的本機與帳號，確認端點及 Keychain"
+      },
+      {
+        "item": "多 Provider 組合 Workflow",
+        "state": "設計示例",
+        "evidence": "尚未完成跨專案整合或端到端測試"
+      }
+    ]
+  }
 }
