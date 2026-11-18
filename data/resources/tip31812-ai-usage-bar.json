@@ -210,7 +210,9 @@
             "Sources/ClaudeProvider.swift",
             "Sources/CodexProvider.swift",
             "Sources/Conversations.swift"
-          ]
+          ],
+          "readerTitle": "登入資料從哪裡來？",
+          "readerText": "先確認 Claude Code 或 Codex 已經登入。App 會使用現有的登入資訊查詢額度，也會參考本機紀錄作為部分資料的備援。"
         },
         {
           "title": "Provider Adapter",
@@ -218,7 +220,10 @@
           "files": [
             "Sources/ClaudeProvider.swift",
             "Sources/CodexProvider.swift"
-          ]
+          ],
+          "readerTitle": "讀取使用額度",
+          "readerText": "向 Claude Code 和 Codex 查詢目前的使用額度。如果查詢失敗，會顯示原因，或使用本機資料進行估算。",
+          "technicalNote": "技術補充：ClaudeFetcher／CodexFetcher 實作 UsageSource.fetch(manual:)。"
         },
         {
           "title": "統一資料與狀態",
@@ -226,7 +231,9 @@
           "files": [
             "Sources/Models.swift",
             "Sources/Store.swift"
-          ]
+          ],
+          "readerTitle": "整理成相同格式",
+          "readerText": "把兩種工具回傳的資料整理成相同的格式。統一顯示剩餘額度、重置時間，以及資料是不是即時取得。"
         },
         {
           "title": "呈現與提醒",
@@ -235,31 +242,43 @@
             "Sources/Views.swift",
             "Sources/Notifier.swift",
             "Sources/App.swift"
-          ]
+          ],
+          "readerTitle": "顯示在看板並提醒",
+          "readerText": "在選單列和看板顯示剩餘額度與重置倒數。當額度不足或對話過長時，依條件發出提醒。"
         }
       ],
-      "note": "系統級登入授權、權限判斷與外部服務端點不是由 Repo 自行保證安全或長期穩定。"
+      "note": "系統級登入授權、權限判斷與外部服務端點不是由 Repo 自行保證安全或長期穩定。",
+      "readerSummary": "先取得 Claude Code 和 Codex 的用量，再整理成相同格式，最後顯示在 Mac 選單列。本機對話長度會另外讀取，不會混進額度數字。"
     },
     "implementationRules": [
       {
         "name": "用量標準化",
         "rule": "remainingPercent = max(0, 100 − usedPercent)；每個服務以剩餘比例最低的 UsageWindow 作為最緊視窗。",
-        "source": "Sources/Models.swift"
+        "source": "Sources/Models.swift",
+        "readerTitle": "怎麼決定剩餘額度？",
+        "readerText": "每個工具可能有不同的額度時段。看板會以最接近用完的時段，顯示目前最需要注意的剩餘額度。",
+        "readerNote": "計算方式：剩餘比例 = 100% − 已使用比例（最低為 0%）。"
       },
       {
         "name": "建議與警示",
         "rule": "來源碼以剩餘 15% 作為低額度警戒，35% 作為預警／回補分界；視來源狀態與其他服務剩餘量給出使用建議。",
-        "source": "Sources/Views.swift"
+        "source": "Sources/Views.swift",
+        "readerTitle": "什麼時候提醒換工具？",
+        "readerText": "剩餘額度低於或等於 35% 時，開始顯示預警。低於或等於 15% 時，會加強警示，並參考另一個工具的額度提出建議。"
       },
       {
         "name": "刷新與備援",
         "rule": "Store 並行讀取 Provider；約每五分鐘更新，睡眠喚醒後再讀，部分重置事件另排延後更新；需區分即時與備援／估算。",
-        "source": "Sources/Store.swift"
+        "source": "Sources/Store.swift",
+        "readerTitle": "什麼時候更新資料？",
+        "readerText": "大約每五分鐘自動更新一次。Mac 睡眠後喚醒時也會重新讀取，部分額度重置事件則會觸發額外更新。查不到即時資料時，會標示備援或估算。"
       },
       {
         "name": "通知去重",
         "rule": "Notifier 保存額度警戒狀態與已提醒長對話集合，避免同一事件反覆通知；需確認回補與異常恢復條件。",
-        "source": "Sources/Notifier.swift"
+        "source": "Sources/Notifier.swift",
+        "readerTitle": "為什麼不會一直跳通知？",
+        "readerText": "同一個額度警示不會每次更新都重複發送。當額度恢復或符合新的提醒條件時，才會再發出對應通知。"
       }
     ],
     "usage": [
@@ -272,7 +291,10 @@
           "Sources/Models.swift",
           "Sources/Store.swift"
         ],
-        "approval": false
+        "approval": false,
+        "readerTitle": "先看懂怎麼運作（不安裝）",
+        "readerText": "先讀專案說明、額度資料從哪裡來，以及它會使用哪些系統權限。這一步只需要閱讀，不會在 Mac 上安裝程式。",
+        "commandGroups": []
       },
       {
         "title": "只編譯，先不安裝",
@@ -285,7 +307,19 @@
         "files": [
           "build.sh"
         ],
-        "approval": false
+        "approval": false,
+        "readerTitle": "先試著編譯（不安裝）",
+        "readerText": "如果你的 Mac 是 macOS 14 以上，而且已安裝 Xcode Command Line Tools，可以先編譯程式。這只會在專案目錄產生編譯結果，不會安裝到應用程式資料夾。",
+        "commandGroups": [
+          {
+            "label": "下載並編譯",
+            "commands": [
+              "git clone https://github.com/tip31812/ai-usage-bar.git",
+              "cd ai-usage-bar",
+              "./build.sh"
+            ]
+          }
+        ]
       },
       {
         "title": "選擇安裝與移除",
@@ -298,7 +332,24 @@
           "build.sh",
           "uninstall.sh"
         ],
-        "approval": true
+        "approval": true,
+        "readerTitle": "安裝或移除（分開操作）",
+        "readerText": "確認了解風險後，再決定要不要安裝。安裝指令會覆蓋同名 App。移除指令則會刪除指定程式檔案、快取與紀錄；額外設定的 Hooks 需另外移除。",
+        "commandGroups": [
+          {
+            "label": "安裝",
+            "commands": [
+              "./build.sh --install"
+            ]
+          },
+          {
+            "label": "移除",
+            "commands": [
+              "./uninstall.sh"
+            ]
+          }
+        ],
+        "approvalNote": "安裝與移除都會改動你的 Mac。確認後只執行需要的那一項，不要兩個指令連續執行。"
       }
     ],
     "extension": [
