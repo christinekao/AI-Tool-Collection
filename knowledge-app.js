@@ -312,6 +312,7 @@ function bind(){
  $('#kg-suggestions').addEventListener('click',e=>{const x=e.target.closest('[data-suggest]');if(x)updateSearch(x.dataset.suggest)});
  $('#kg-problems').addEventListener('click',e=>{const x=e.target.closest('[data-problem]');if(x)navigateNode('problem:'+x.dataset.problem)});
  $('#kg-subproblems').addEventListener('click',e=>{const x=e.target.closest('[data-problem]');if(x)navigateNode('problem:'+x.dataset.problem)});
+ $('#kg-learning-start').addEventListener('click',e=>{const x=e.target.closest('[data-open-node]');if(x)navigateNode(x.dataset.openNode)});
  $('#kg-results').addEventListener('click',e=>{const x=e.target.closest('[data-open-node]');if(x)navigateNode(x.dataset.openNode)});
  $('#kg-network').addEventListener('click',e=>{const x=e.target.closest('[data-node-key]');if(x)navigateNode(x.dataset.nodeKey)});
  $('#kg-inspector').addEventListener('click',e=>{
