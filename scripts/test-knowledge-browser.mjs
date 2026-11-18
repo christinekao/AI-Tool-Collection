@@ -91,7 +91,7 @@ try{
  }
  await waitFor('document.querySelector("#kg-count")?.textContent.includes("正式知識")','Graph fetch');
  const initial=await evaluate('({title:document.querySelector("#kg-title")?.textContent,exampleOpen:document.querySelector("#kg-examples")?.open,results:document.querySelectorAll("#kg-results .kg-result-card").length,graphHidden:document.querySelector("#kg-node-view")?.hidden})');
- assert.ok(initial.title.includes('你想學什麼')&&!initial.title.includes('影片'),'Default must be general-purpose');
+ assert.ok(initial.title.includes('從一個問題開始')&&!initial.title.includes('影片'),'Homepage must promote learning, not data-type jargon');
  assert.equal(initial.exampleOpen,false,'Curated video Problems should be opt-in, not the default');
  assert.ok(initial.results>=12,'Default shows diverse canonical entities');
  assert.equal(initial.graphHidden,true);
@@ -107,6 +107,16 @@ try{
  shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
  fs.writeFileSync(path.join(screenshotDir,'discovery-375.png'),Buffer.from(shot.data,'base64'));
  console.log('PASS: Generic discovery desktop/mobile screenshot + mobile overflow');
+ const firstLessons=await evaluate('({cards:document.querySelectorAll("#kg-learning-start .kg-learning-card").length,header:document.querySelector("#kg-learning-home-title")?.textContent})');
+ assert.ok(firstLessons.cards>=6&&firstLessons.header?.includes('學會一套做法'),'Discovery must offer real learning paths before a large tool list');
+ await evaluate('document.querySelector(\'#kg-learning-start [data-open-node="problem:enterprise-knowledge-search"]\').click();true');
+ await waitFor('document.querySelector("#kg-knowledge .kg-lesson-thesis strong")?.textContent.includes("文件問答與資料庫分析")','Knowledge lesson loaded');
+ const lesson=await evaluate('({principles:document.querySelectorAll(".kg-lesson-principles article").length,steps:document.querySelectorAll(".kg-lesson-step").length,concepts:document.querySelectorAll(".kg-lesson-concepts article").length,example:!!document.querySelector(".kg-lesson-example"),checks:document.querySelectorAll(".kg-lesson-checklist input").length,decision:document.querySelectorAll(".kg-lesson-decisions article").length})');
+ assert.ok(lesson.principles>=3&&lesson.steps>=4&&lesson.concepts>=2&&lesson.example&&lesson.checks>=2&&lesson.decision>=2,'Problem lesson must teach why, how, alternatives, example and practice: '+JSON.stringify(lesson));
+ await evaluate('document.querySelector("#kg-back").click();true');
+ await waitFor('document.querySelector("#kg-learning-start .kg-learning-card")!==null','Return to learning-first home');
+ console.log('PASS: Featured guided lesson has decisions, workflow, source concepts, example and practice');
+
 
  await evaluate('document.querySelector("#kg-search").value="Agent";document.querySelector("#kg-search").dispatchEvent(new Event("input",{bubbles:true}));true');
  await waitFor('document.querySelector("#kg-results .kg-result-card")?.textContent.toLowerCase().includes("agent")','Non-video search');
@@ -145,10 +155,16 @@ try{
  assert.equal(await evaluate('document.querySelector("#kg-composer")===null'),true,'Composer must not stay inside Knowledge Explorer');
  console.log('PASS: Knowledge reading and Workflow Playground are separate');
  await send('Page.navigate',{url:origin+'/knowledge.html#/problem/build-business-website'});
- await waitFor('document.querySelectorAll("#kg-knowledge .kg-reviewed-link").length>=3','Curated Problem recommends direct knowledge links');
- const curated=await evaluate('({sourceLinks:document.querySelectorAll("#kg-knowledge .kg-reviewed-link [data-read-node]").length,sourceReasons:document.querySelectorAll("#kg-knowledge .kg-reviewed-link p").length,playground:document.querySelector("#kg-playground-link")?.href.includes("problem=build-business-website")})');
- assert.ok(curated.sourceLinks>=3&&curated.sourceReasons>=3&&curated.playground,'Problem content should surface evidenced solutions without opening the collapsed Graph');
+ await waitFor('document.querySelector("#kg-knowledge .kg-lesson-thesis strong")?.textContent.includes("先決定網站")','Website lesson source loaded');
+ const curated=await evaluate('({steps:document.querySelectorAll("#kg-knowledge .kg-lesson-step").length,principles:document.querySelectorAll("#kg-knowledge .kg-lesson-principles article").length,sourceLinks:document.querySelectorAll("#kg-knowledge .kg-lesson-evidence [data-read-node]").length,example:document.querySelector("#kg-knowledge .kg-lesson-example")?.textContent,playground:document.querySelector("#kg-playground-link")?.href.includes("problem=build-business-website")})');
+ assert.ok(curated.steps===4&&curated.principles>=3&&curated.sourceLinks>=2&&curated.example?.includes('活動報名')&&curated.playground,'Problem content should teach how to act and cite source records without opening Graph: '+JSON.stringify(curated));
  console.log('PASS: Curated Problem opens direct source-backed recommendations');
+ await send('Page.navigate',{url:origin+'/knowledge.html#/problem/product-video-motion'});
+ await waitFor('document.querySelector("#kg-knowledge .kg-lesson-section")!==null','Source-only Problem guide');
+ const fallbackLesson=await evaluate('({notice:document.querySelector("#kg-knowledge .kg-lesson-disclaimer")?.textContent,hasConcept:document.querySelectorAll(".kg-lesson-concepts article").length,steps:document.querySelectorAll(".kg-lesson-step").length,marked:document.querySelector("#kg-knowledge .kg-kicker")?.textContent})');
+ assert.ok(fallbackLesson.hasConcept>=1&&fallbackLesson.steps>=1&&fallbackLesson.marked.includes('SOURCE-BASED GUIDE'),'Uncurated Problem must surface existing source knowledge without masquerading as a fully authored lesson');
+ console.log('PASS: Uncurated Problem provides an evidence-based workflow reading path');
+
 
 
  // The existing website recipe remains fully editable on the dedicated page.
