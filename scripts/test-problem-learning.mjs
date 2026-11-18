@@ -19,7 +19,7 @@ test('every published Problem source is readable and canonically linked',()=>{
 
 test('learning notes teach principles, steps, decisions, a hypothetical example and self-checks',()=>{
  const lessons=problems.filter(p=>p.learning?.version===1);
- assert.ok(lessons.length>=7,'Initial source-backed lessons were lost');
+ assert.ok(lessons.length>=10,'Initial source-backed lessons were lost');
  for(const p of lessons){
   const l=p.learning,at=p.id;
   assert.ok(l.takeaway?.length>=20,at+' lacks a concrete takeaway');
