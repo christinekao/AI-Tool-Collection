@@ -3,6 +3,11 @@
 const BASE='https://christinekao.github.io/AI-Tool-Collection/';
 const targets=[
  ['knowledge.html','text/html',text=>text.includes('knowledge-learning.js?v=20261118')&&text.includes('knowledge-app.js?v=20261118-recovery')],
+ ['ask.html','text/html',text=>text.includes('knowledge-answer-app.mjs?v=1')&&text.includes('從收藏找答案')],
+ ['knowledge-answer-app.mjs','javascript',text=>text.includes('createAnswer')&&text.includes('ask-form')],
+ ['knowledge-answer-core.mjs','javascript',text=>text.includes('export function createAnswer')&&text.includes('searchKnowledge')],
+ ['knowledge-answer.css','text/css',text=>text.includes('.ask-panel')&&text.includes('@media')],
+
  ['knowledge-app.js','javascript',text=>text.includes('kg-retry-load')&&text.includes('fetchKnowledgeJson')&&text.includes('DATA_RETRY_COUNT=3')],
  ['knowledge-learning.js','javascript',text=>text.includes('renderProblem')],
  ['workflow-engine.js','javascript',text=>text.includes('WorkflowEngine')],
@@ -13,7 +18,7 @@ const targets=[
  ['data/resources/tip31812-ai-usage-bar.json','json',text=>{const j=JSON.parse(text);return j.url==='https://github.com/tip31812/ai-usage-bar'&&j.implementationKnowledge?.executionStatus==='NOT_EXECUTED'&&j.source?.upstreamCommit?.length===40}],
  ['playground.html','text/html',text=>text.includes('playground-app.js')],
  ['playground-app.js','javascript',text=>text.includes('PG_RECIPES')],
- ['index.html','text/html',text=>text.includes('開始學習完整解法')&&text.includes('#/browse/all')]
+ ['index.html','text/html',text=>text.includes('開始學習完整解法')&&text.includes('#/browse/all')&&text.includes('ask.html')]
 ];
 async function fetchWithTransientRetry(url){
  let lastError;

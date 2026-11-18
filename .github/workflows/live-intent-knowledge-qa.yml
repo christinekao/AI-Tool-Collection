@@ -1,0 +1,30 @@
+name: Live Intent Knowledge QA
+on:
+  pull_request:
+    paths:
+      - 'scripts/test-live-pages.mjs'
+      - '.github/workflows/live-intent-knowledge-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deployed-answers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify public GitHub Pages assets and collection contracts
+        run: node scripts/test-live-pages.mjs
+      - name: Run full Chromium browser tests against public site
+        env:
+          LIVE_SITE_BASE: https://christinekao.github.io/AI-Tool-Collection
+        run: node scripts/test-knowledge-browser.mjs
+      - name: Save QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-intent-knowledge-qa
+          path: artifacts/*.png
+          if-no-files-found: ignore
