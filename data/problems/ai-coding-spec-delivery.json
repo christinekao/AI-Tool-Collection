@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "id": "ai-coding-spec-delivery",
+  "title": "用 AI Agent 從規格做到可交付程式",
+  "question": "我想讓多個 Coding Agent 合作開發，但如何確保需求不遺漏？",
+  "description": "從 Spec、Tickets、平行實作到整合驗收，避免只有多個 Agent 卻沒有單一交付責任。",
+  "outcome": "理解分工與證據 Gate，找到可調整的開發流程。",
+  "domain": "AI Agent／軟體開發",
+  "tags": [
+    "ai-agent",
+    "spec",
+    "delivery"
+  ],
+  "links": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification",
+      "relation": "explained_by",
+      "why": "說明完成宣稱需要實際可觀察的驗收證據。",
+      "evidenceField": "coreProblem"
+    },
+    {
+      "type": "workflow",
+      "id": "spec-multi-agent-delivery-evidence-qa-stack",
+      "relation": "guided_by",
+      "why": "已有從規格、分工、實作到 Evidence QA 的六階段方法。",
+      "evidenceField": "goal"
+    },
+    {
+      "type": "skill",
+      "id": "mattpocock-grill-with-docs",
+      "relation": "supported_by",
+      "why": "可在需求釐清時同步維護 Glossary 與 ADR。",
+      "evidenceField": "purpose"
+    },
+    {
+      "type": "resource",
+      "id": "openai-codex",
+      "relation": "supported_by",
+      "why": "既有 Coding Agent 工具之一。",
+      "evidenceField": "purpose"
+    },
+    {
+      "type": "combination",
+      "id": "spec-multi-agent-delivery-evidence-qa-stack",
+      "relation": "combined_in",
+      "why": "整理多 Agent 實作與審查時的能力互補。",
+      "evidenceField": "goal"
+    }
+  ],
+  "relatedProblems": [
+    {
+      "id": "verify-ai-generated-code",
+      "why": "完成實作後需要獨立測試與交付審查"
+    }
+  ],
+  "learning": {
+    "version": 1,
+    "takeaway": "多個 Agent 不等於更可靠。先把需求、責任與驗收證據固定下來，再決定哪些工作可以平行。",
+    "principles": [
+      {
+        "title": "規格描述成果；Ticket 描述可交付工作",
+        "explanation": "Spec 回答要解決什麼問題、成功的條件是什麼。Ticket 才描述誰修改哪些範圍、交付哪些檔案、如何驗證。只列技術任務而沒有驗收條件，會讓 Agent 完成程式卻偏離原需求。"
+      },
+      {
+        "title": "平行化需要隔離與整合責任",
+        "explanation": "只有互不相依的任務適合平行。共用檔案、資料契約或 API 時，需要明確 ownership 與整合順序；Coordinator 必須對最終整合版本負責。"
+      },
+      {
+        "title": "完成需要外部可重現的證據",
+        "explanation": "同一個 Agent 自己宣稱測試通過不足以驗收。應留下真實 Diff、測試命令與結果、瀏覽器操作證據以及未測項目。"
+      }
+    ],
+    "prerequisites": [
+      "一個具體功能需求與預期使用者",
+      "可存取且已授權修改的程式碼或專案",
+      "可以檢查的測試環境；若沒有，先標示為規劃而非完成"
+    ],
+    "decisions": [
+      {
+        "situation": "只改一個小功能，沒有獨立子任務",
+        "approach": "一個 Agent 執行，加上獨立驗收",
+        "why": "避免無意義的派工和交接成本。"
+      },
+      {
+        "situation": "前端、資料處理和測試可獨立修改",
+        "approach": "指定一個 Coordinator，再隔離平行工作",
+        "why": "降低多人同時修改時的覆蓋與規格漂移。"
+      },
+      {
+        "situation": "實際測試失敗或沒有證據",
+        "approach": "回到修正與重測，不宣稱完成",
+        "why": "完成狀態要由實際行為而不是回覆文字決定。"
+      }
+    ],
+    "steps": [
+      {
+        "title": "先寫一頁可驗收需求",
+        "action": "列出使用者情境、正常輸入、邊界／錯誤輸入與預期輸出。",
+        "output": "Spec ＋ Acceptance Criteria",
+        "check": "別人不參與討論也能判斷成功與失敗。"
+      },
+      {
+        "title": "只把獨立的工作拆開",
+        "action": "列出 Ticket、依賴、變更範圍、交付物及整合負責人。",
+        "output": "有責任界線的 Tickets",
+        "check": "不會有兩個 Agent 同時擁有同一個未協調的修改點。"
+      },
+      {
+        "title": "實作與獨立檢查",
+        "action": "保留各自 Diff，按需求與受影響資料流檢查，再處理高風險發現。",
+        "output": "整合候選版本與 Review Findings",
+        "check": "沒有因為單一 Agent 自我認可就跳過 Review。"
+      },
+      {
+        "title": "在整合版本上執行驗收",
+        "action": "實際跑測試、操作功能、檢查持久化結果並整理未測範圍。",
+        "output": "測試紀錄與可追溯交付證據",
+        "check": "PASS、FAIL、UNPROVEN 與 NOT_EXECUTED 被清楚區分。"
+      }
+    ],
+    "example": {
+      "label": "假設案例：替待辦網站新增「只顯示未完成」",
+      "input": "需求：「加一個未完成篩選」，但沒有說明重新整理後如何保存、空清單怎麼呈現。",
+      "process": "先把空清單、完成狀態與重新整理後資料一致性寫成 Acceptance Criteria；再拆成 UI、查詢邏輯、整合測試。",
+      "output": "可驗收的功能與測試證據，而不只是「已新增按鈕」的文字回覆。"
+    },
+    "practice": {
+      "task": "選一個自己正在做的小功能，寫出 2 個正常情境與 2 個異常情境，再拆成最多 3 張 Ticket。",
+      "checks": [
+        "每張 Ticket 有可觀察的輸出",
+        "每個主要結果都有測試方式",
+        "最終交付清楚標示未驗證範圍"
+      ]
+    },
+    "pitfalls": [
+      "不要讓『Agent 數量』取代交付責任。",
+      "不要把綠色 CI 圖示當成完整業務驗收。",
+      "別在沒有確認權限時讓 Agent 自動合併、部署或讀取機密。"
+    ],
+    "sourceRefs": [
+      {
+        "type": "workflow",
+        "id": "spec-multi-agent-delivery-evidence-qa-stack"
+      },
+      {
+        "type": "concept",
+        "id": "quality-gates-verification"
+      }
+    ]
+  }
+}

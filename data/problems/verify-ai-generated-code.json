@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "verify-ai-generated-code",
+  "title": "驗證 AI 產生的程式是否真的完成",
+  "question": "AI 說程式修好了，如何確認沒有漏掉需求、資料問題和回歸？",
+  "description": "以需求、Diff、實際測試、瀏覽器互動及回滾計畫判斷交付。",
+  "outcome": "辨別宣稱完成與已通過證據驗收的差異，找到完整 QA 流程。",
+  "domain": "AI Agent／軟體開發",
+  "tags": [
+    "quality-assurance",
+    "code-review",
+    "testing"
+  ],
+  "links": [
+    {
+      "type": "concept",
+      "id": "quality-gates-verification",
+      "relation": "explained_by",
+      "why": "提供以證據為基礎的驗收原則。",
+      "evidenceField": "coreProblem"
+    },
+    {
+      "type": "workflow",
+      "id": "ai-code-acceptance-review-testing-rollout-guide",
+      "relation": "guided_by",
+      "why": "已記錄需求驗收、變更審查、回歸測試與上線監控階段。",
+      "evidenceField": "goal"
+    },
+    {
+      "type": "workflow",
+      "id": "verification-first-agent-inner-loop",
+      "relation": "guided_by",
+      "why": "提供 Agent 在修改後自行操作、觀察與重測的流程。",
+      "evidenceField": "goal"
+    },
+    {
+      "type": "skill",
+      "id": "garrytan-gstack",
+      "relation": "supported_by",
+      "why": "技能集合涵蓋 Code Review、瀏覽器 QA 及 Release 檢查。",
+      "evidenceField": "purpose"
+    },
+    {
+      "type": "resource",
+      "id": "ai-code-acceptance-review-testing-rollout-guide",
+      "relation": "supported_by",
+      "why": "已收錄以具體驗收與風險管理為主的實務資料。",
+      "evidenceField": "purpose"
+    }
+  ],
+  "relatedProblems": [],
+  "learning": {
+    "version": 1,
+    "takeaway": "AI 說『完成』只是敘述；真正的完成必須能從需求、程式變更、測試及實際操作結果逐項查回證據。",
+    "principles": [
+      {
+        "title": "先定義驗收，再接受程式",
+        "explanation": "如果一開始沒有描述正常、缺漏和邊界輸入，後來寫多少測試都可能只驗證錯誤假設。Acceptance Criteria 要能觀察到實際行為。"
+      },
+      {
+        "title": "測試通過不代表全部需求被測到",
+        "explanation": "除了 Unit Test，還要看哪些使用情境沒有被覆蓋、哪些資料流受影響，以及頁面或儲存操作是否真的產生預期結果。"
+      },
+      {
+        "title": "驗證失敗不是再寫一份漂亮報告",
+        "explanation": "把失敗案例回饋到實作、重新執行測試，並留下修正前後的差異。無法執行的項目應列為未驗證。"
+      }
+    ],
+    "prerequisites": [
+      "一份原始需求或明確的修正範圍",
+      "可重現錯誤的操作方式",
+      "實際程式變更或可執行環境"
+    ],
+    "decisions": [
+      {
+        "situation": "只有 AI 回覆『已修復』，沒有檔案或測試",
+        "approach": "標示為未驗證",
+        "why": "文字描述不是程式行為的證據。"
+      },
+      {
+        "situation": "Unit Test 通過，但使用者仍看到錯誤",
+        "approach": "補整合或瀏覽器測試並核對資料持久化",
+        "why": "模擬資料與真實使用路徑可能不同。"
+      },
+      {
+        "situation": "涉及資料刪除、權限或正式環境",
+        "approach": "增加獨立 Review、回滾與人工核准",
+        "why": "錯誤副作用可能難以復原。"
+      }
+    ],
+    "steps": [
+      {
+        "title": "把需求轉成可觀察條件",
+        "action": "列出操作、輸入、預期結果、錯誤與邊界案例。",
+        "output": "驗收清單",
+        "check": "不懂程式的人也能判斷使用者看見了什麼。"
+      },
+      {
+        "title": "檢查實際 Diff 與資料流",
+        "action": "只看有證據的修改檔案、函式呼叫與受影響的資料。",
+        "output": "變更範圍與風險清單",
+        "check": "未超出核准範圍，不靠 Agent 口頭摘要取代 Diff。"
+      },
+      {
+        "title": "執行回歸與真實操作",
+        "action": "跑受影響測試，操作 UI 或 API，必要時重新讀取儲存結果。",
+        "output": "測試 log、操作截圖與讀回結果",
+        "check": "PASS／FAIL／UNPROVEN／NOT_EXECUTED 分開記錄。"
+      },
+      {
+        "title": "修正、重測並形成交付證據",
+        "action": "保留失敗樣本、修復差異、重測結果與尚存限制。",
+        "output": "可追溯的驗收報告與回滾方案",
+        "check": "重大問題未解除前不宣稱完成。"
+      }
+    ],
+    "example": {
+      "label": "假設案例：修復報表日期篩選",
+      "input": "使用者說選擇某個月份後，資料仍顯示其他月份。",
+      "process": "先定義正確日期範圍與跨年度案例，再檢查查詢與 UI 變更，最後用真實資料結果及重新整理測試。",
+      "output": "有測試輸入、預期資料列、實際結果與未測項目的驗收紀錄。"
+    },
+    "practice": {
+      "task": "找一段 AI 回覆『完成』的開發記錄，列出目前能驗證的證據及三個仍缺的證據。",
+      "checks": [
+        "有對應需求的測試項目",
+        "實際執行結果而非宣稱",
+        "失敗與未執行清楚區分"
+      ]
+    },
+    "pitfalls": [
+      "不能只測 Code Function 存在。",
+      "不要把 CI 成功視為 UI、資料及安全全部成功。",
+      "缺少獨立驗收時，不應直接合併高風險變更。"
+    ],
+    "sourceRefs": [
+      {
+        "type": "workflow",
+        "id": "ai-code-acceptance-review-testing-rollout-guide"
+      },
+      {
+        "type": "concept",
+        "id": "quality-gates-verification"
+      },
+      {
+        "type": "workflow",
+        "id": "verification-first-agent-inner-loop"
+      }
+    ]
+  }
+}

@@ -8,48 +8,50 @@
 <link rel="stylesheet" href="catalog-style.css">
 <link rel="stylesheet" href="knowledge-style.css">
 <script defer src="workflow-engine.js"></script>
+<script defer src="knowledge-learning.js"></script>
 <script defer src="knowledge-app.js"></script>
 </head>
 <body>
 <header class="topbar"><div class="wrap topbar-inner">
 <a class="brand" href="index.html#/explore">Kao <span>/</span> AI Tool Collection</a>
-<nav class="top-nav" aria-label="主要導覽"><a aria-current="page" href="knowledge.html">知識探索</a><a href="index.html#/explore">全部收藏</a><a href="https://github.com/christinekao/AI-Tool-Collection" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+<nav class="top-nav" aria-label="主要導覽"><a aria-current="page" href="knowledge.html">知識探索</a><a href="playground.html">Workflow Playground</a><a href="index.html#/explore">全部收藏</a><a href="https://github.com/christinekao/AI-Tool-Collection" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
 </div></header>
 <main class="wrap kg-page">
 <section class="kg-hero" aria-labelledby="kg-title">
 <div class="eyebrow">KNOWLEDGE DISCOVERY · PROBLEM FIRST</div>
-<h1 id="kg-title">你想學什麼、做什麼，或解決什麼問題？</h1>
-<p>搜尋工具或問題，直接閱讀它解決什麼、如何使用、有哪些限制；在旁邊搭配其他工具規劃 Workflow。Graph 關聯可視需要展開，不再只看節點摘要。</p>
+<h1 id="kg-title">從一個問題開始，真正學會解決方法。</h1>
+<p>先看實際解法、步驟、範例和練習，再深入了解相關工具。需要修改流程時，再進入 Workflow Playground 規劃。</p>
 <div class="kg-meta"><span id="kg-count" class="count-badge">讀取知識圖譜中…</span><span class="kg-subtle">搜尋相符項目 ≠ 已確認可解決你的問題；只有明確建立的關聯才會顯示為知識連結</span></div>
 </section>
 <div class="kg-layout">
 <aside class="kg-sidebar" aria-label="知識搜尋與篩選">
-<h2>探索所有知識</h2>
+<h2>搜尋知識</h2>
 <label for="kg-search">輸入需求、問題、概念或工具</label>
 <input id="kg-search" type="search" autocomplete="off" placeholder="AI Agent、網頁設計、資料分析…" aria-label="搜尋所有知識">
-<div class="kg-type-heading">資料類型</div>
+<div class="kg-type-heading">進階篩選：原始資料類型</div>
 <div id="kg-type-filters" class="kg-type-filters" aria-label="依資料類型篩選"></div>
 <details id="kg-examples" class="kg-examples">
-<summary>已整理的 Problem 範例</summary>
-<p class="kg-example-caption">目前五個影片製作情境僅用來示範如何連接問題與已有知識，不代表網站的主題範圍。</p>
+<summary>所有 Problem 主題（20）</summary>
+<p class="kg-example-caption">人工策展的跨領域問題入口，每筆皆指向實際存在的 V2 資料。未策展的主題仍能透過全庫搜尋探索。</p>
 <div id="kg-problems" class="kg-problem-list"></div>
 </details>
 </aside>
 <section class="kg-content" aria-label="知識探索與關聯">
 <div id="kg-explore">
+<div id="kg-learning-start"></div>
 <div class="kg-discover-hero">
 <span class="kg-kicker">DISCOVER THE ENTIRE COLLECTION</span>
-<h2>從任何主題開始</h2>
-<p>快速探索不同領域，或直接輸入你自己的問題。結果來自既有資料文字；點開節點後可查看實際的引用關係。</p>
+<h2>想找其他主題或工具？</h2>
+<p>可搜尋全部原始收藏，從用途、限制、方法及來源深入理解；並非每筆收藏都有完整教學。</p>
 <div id="kg-suggestions" class="kg-suggestions" aria-label="範例搜尋">
 <button type="button" data-suggest="AI Agent">AI Agent</button>
 <button type="button" data-suggest="網站">網站與前端</button>
 <button type="button" data-suggest="資料分析">資料與分析</button>
 <button type="button" data-suggest="自動化">流程自動化</button>
 <button type="button" data-suggest="影片">影片製作</button>
+</div><p class="kg-playground-promo"><a href="playground.html">到 Workflow Playground 查看推薦流程與自由草稿</a></p>
 </div>
-</div>
-<div class="kg-section-head"><h2 id="kg-results-title">探索知識</h2><p id="kg-result-count"></p></div>
+<div class="kg-section-head"><h2 id="kg-results-title">其他知識</h2><p id="kg-result-count"></p></div>
 <p class="kg-search-disclaimer">以下為文字搜尋／資料類型篩選，不是工具能力評分或已驗證的替代方案。</p>
 <div id="kg-results" class="kg-results" aria-live="polite"></div>
 <button id="kg-loadmore" class="kg-loadmore" type="button" hidden>載入更多</button>
@@ -57,16 +59,11 @@
 <div id="kg-node-view" hidden>
 <button id="kg-back" class="kg-back" type="button">← 返回知識搜尋</button>
 <div id="kg-focus" class="kg-focus" tabindex="-1"></div>
-<div class="kg-workspace-grid">
 <section id="kg-knowledge" class="kg-knowledge" aria-labelledby="kg-knowledge-heading">
   <h2 id="kg-knowledge-heading">知識與實作筆記</h2>
   <p class="kg-empty">讀取完整原始資料中…</p>
 </section>
-<aside id="kg-composer" class="kg-composer" aria-label="動態工作流程組合器">
-  <h2>Dynamic Workflow Builder</h2>
-  <p class="kg-empty">讀取流程與候選工具中…</p>
-</aside>
-</div>
+<div class="kg-playground-cta"><div><strong>想把這份知識放進 Workflow？</strong><p>到獨立 Playground 查看推薦流程、建立草稿，避免閱讀時遺失正在規劃的內容。</p></div><a id="kg-playground-link" href="playground.html">開啟 Playground</a></div>
 <details id="kg-graph-details" class="kg-graph-details">
   <summary>探索 Graph 關聯與來源 <span>查看入站／出站引用</span></summary>
   <div class="kg-section-head"><h2>知識關聯圖</h2><p>節點來自正式資料；引用不等於工具相容性。</p></div>

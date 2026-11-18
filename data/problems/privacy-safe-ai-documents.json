@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "privacy-safe-ai-documents",
+  "title": "使用 AI 處理含個資文件並保留本機控制",
+  "question": "文件含個資時，如何避免直接把原始敏感內容交給雲端模型？",
+  "description": "區分本機偵測、可逆遮罩、雲端處理、還原與隱私驗收，並保留人工檢查。",
+  "outcome": "理解風險邊界並找到已有流程與工具；不能直接視為零外洩保證。",
+  "domain": "安全／隱私",
+  "tags": [
+    "pii",
+    "local-first",
+    "privacy"
+  ],
+  "links": [
+    {
+      "type": "concept",
+      "id": "reversible-privacy-boundary",
+      "relation": "explained_by",
+      "why": "說明敏感資料遮罩與還原的信任邊界。",
+      "evidenceField": "coreProblem"
+    },
+    {
+      "type": "concept",
+      "id": "local-first-sensitive-data-processing",
+      "relation": "explained_by",
+      "why": "說明敏感資料在本機優先處理的做法。",
+      "evidenceField": "coreProblem"
+    },
+    {
+      "type": "workflow",
+      "id": "local-pii-ai-processing-loop",
+      "relation": "guided_by",
+      "why": "已有偵測、遮罩、雲端模型、還原與 QA 五個步驟。",
+      "evidenceField": "goal"
+    },
+    {
+      "type": "resource",
+      "id": "pii-guard",
+      "relation": "supported_by",
+      "why": "資料描述其本機繁體中文個資偵測與代號還原用途。",
+      "evidenceField": "purpose"
+    },
+    {
+      "type": "combination",
+      "id": "local-pii-ai-processing-loop",
+      "relation": "combined_in",
+      "why": "整理個資保護與雲端 AI 處理的能力組合。",
+      "evidenceField": "goal"
+    }
+  ],
+  "relatedProblems": [],
+  "learning": {
+    "version": 1,
+    "takeaway": "雲端 AI 處理敏感文件前，先在可信環境去識別化；完成後仍要檢查遺漏與還原錯誤，不能宣稱零外洩。",
+    "principles": [
+      {
+        "title": "先決定資料可否離開本機",
+        "explanation": "不是所有文件都能送往外部 AI。公司規則、契約、存取權限與用途限制需要先確認；遮罩不能替代政策核准。"
+      },
+      {
+        "title": "可逆遮罩與匿名化不同",
+        "explanation": "可逆遮罩以代號替換姓名、證號等內容，再把對照 mapping 安全地保存在本機。持有 mapping 的人仍能還原，所以仍需保護。"
+      },
+      {
+        "title": "輸出前後都需要 QA",
+        "explanation": "個資辨識可能漏掉地址、上下文或特殊格式；還原也可能放錯位置。需要在傳送前及最終輸出後逐一檢查。"
+      }
+    ],
+    "prerequisites": [
+      "明確列出允許處理的資料與外部模型範圍",
+      "受保護的本機執行環境及 mapping 保存位置",
+      "一組不含真實個資的測試範例"
+    ],
+    "decisions": [
+      {
+        "situation": "內容未獲准傳往外部模型",
+        "approach": "留在本機或停用雲端處理",
+        "why": "去識別化仍可能不足以符合資料使用政策。"
+      },
+      {
+        "situation": "文件要在處理後恢復原名",
+        "approach": "使用本機可逆 mapping 並限制可讀權限",
+        "why": "模型不需要直接接觸原始身分資訊。"
+      },
+      {
+        "situation": "不確定資料是否已完全遮罩",
+        "approach": "停止外送，先做漏偵測檢查",
+        "why": "不能拿未知敏感資訊當測試代價。"
+      }
+    ],
+    "steps": [
+      {
+        "title": "本機辨識敏感資訊",
+        "action": "從測試文件辨識姓名、聯絡資訊、識別碼與可能暴露身分的上下文。",
+        "output": "敏感資料候選清單",
+        "check": "不只檢查固定格式欄位。"
+      },
+      {
+        "title": "替換並保存安全對照",
+        "action": "以一致代號替換，mapping 留在受信任的本機位置。",
+        "output": "遮罩後文件與本機 mapping",
+        "check": "傳送內容不包含原始 mapping。"
+      },
+      {
+        "title": "只送出核准範圍",
+        "action": "先查政策與服務資料處理條件，再使用核准的 AI 服務處理遮罩內容。",
+        "output": "模型產出的去識別化結果",
+        "check": "沒有把憑證或原始個資一併送出。"
+      },
+      {
+        "title": "本機還原與人工檢查",
+        "action": "在安全環境重新對應實體，確認錯置、漏遮與超出處理範圍的內容。",
+        "output": "經檢查的最終文件",
+        "check": "沒有對不應還原的內容進行還原。"
+      }
+    ],
+    "example": {
+      "label": "假設案例：摘要一份含客戶姓名的會議紀錄",
+      "input": "測試姓名『王小明』、公司與討論重點（均為虛構資料）。",
+      "process": "本機以 PERSON_001 取代姓名；送出遮罩版生成摘要；最後只在已核准的本機環境復原。",
+      "output": "保有原紀錄用途的摘要，並能檢查遮罩、還原及誤判問題。"
+    },
+    "practice": {
+      "task": "用完全虛構的 5 句會議紀錄練習辨識與遮罩，列出哪些欄位不能直接交給外部模型。",
+      "checks": [
+        "原始 mapping 沒有外送",
+        "已測試漏偵測案例",
+        "還原前再確認是否有權執行"
+      ]
+    },
+    "pitfalls": [
+      "使用遮罩工具不等於符合全部隱私與法規要求。",
+      "不要用真實機密文件進行初次測試。",
+      "如果 mapping 也被上傳，遮罩的保護效果會大幅下降。"
+    ],
+    "sourceRefs": [
+      {
+        "type": "workflow",
+        "id": "local-pii-ai-processing-loop"
+      },
+      {
+        "type": "concept",
+        "id": "reversible-privacy-boundary"
+      },
+      {
+        "type": "resource",
+        "id": "pii-guard"
+      }
+    ]
+  }
+}

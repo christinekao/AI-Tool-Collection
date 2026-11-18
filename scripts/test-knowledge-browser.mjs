@@ -91,7 +91,7 @@ try{
  }
  await waitFor('document.querySelector("#kg-count")?.textContent.includes("正式知識")','Graph fetch');
  const initial=await evaluate('({title:document.querySelector("#kg-title")?.textContent,exampleOpen:document.querySelector("#kg-examples")?.open,results:document.querySelectorAll("#kg-results .kg-result-card").length,graphHidden:document.querySelector("#kg-node-view")?.hidden})');
- assert.ok(initial.title.includes('你想學什麼')&&!initial.title.includes('影片'),'Default must be general-purpose');
+ assert.ok(initial.title.includes('從一個問題開始')&&!initial.title.includes('影片'),'Homepage must promote learning, not data-type jargon');
  assert.equal(initial.exampleOpen,false,'Curated video Problems should be opt-in, not the default');
  assert.ok(initial.results>=12,'Default shows diverse canonical entities');
  assert.equal(initial.graphHidden,true);
@@ -107,6 +107,16 @@ try{
  shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
  fs.writeFileSync(path.join(screenshotDir,'discovery-375.png'),Buffer.from(shot.data,'base64'));
  console.log('PASS: Generic discovery desktop/mobile screenshot + mobile overflow');
+ const firstLessons=await evaluate('({cards:document.querySelectorAll("#kg-learning-start .kg-learning-card").length,header:document.querySelector("#kg-learning-home-title")?.textContent})');
+ assert.ok(firstLessons.cards>=6&&firstLessons.header?.includes('學會一套做法'),'Discovery must offer real learning paths before a large tool list');
+ await evaluate('document.querySelector(\'#kg-learning-start [data-open-node="problem:enterprise-knowledge-search"]\').click();true');
+ await waitFor('document.querySelector("#kg-knowledge .kg-lesson-thesis strong")?.textContent.includes("文件問答與資料庫分析")','Knowledge lesson loaded');
+ const lesson=await evaluate('({principles:document.querySelectorAll(".kg-lesson-principles article").length,steps:document.querySelectorAll(".kg-lesson-step").length,concepts:document.querySelectorAll(".kg-lesson-concepts article").length,example:!!document.querySelector(".kg-lesson-example"),checks:document.querySelectorAll(".kg-lesson-checklist input").length,decision:document.querySelectorAll(".kg-lesson-decisions article").length})');
+ assert.ok(lesson.principles>=3&&lesson.steps>=4&&lesson.concepts>=2&&lesson.example&&lesson.checks>=2&&lesson.decision>=2,'Problem lesson must teach why, how, alternatives, example and practice: '+JSON.stringify(lesson));
+ await evaluate('document.querySelector("#kg-back").click();true');
+ await waitFor('document.querySelector("#kg-learning-start .kg-learning-card")!==null','Return to learning-first home');
+ console.log('PASS: Featured guided lesson has decisions, workflow, source concepts, example and practice');
+
 
  await evaluate('document.querySelector("#kg-search").value="Agent";document.querySelector("#kg-search").dispatchEvent(new Event("input",{bubbles:true}));true');
  await waitFor('document.querySelector("#kg-results .kg-result-card")?.textContent.toLowerCase().includes("agent")','Non-video search');
@@ -139,34 +149,87 @@ try{
  assert.ok(promptReading.hasCopy&&promptReading.hasSource);
  console.log('PASS: Full Prompt body, inputs and learning notes are readable');
 
- // Selecting a known Skill should automatically load the source-backed website recipe.
+ // Knowledge source handoff must go to a separate Playground rather than embedding a builder.
  await send('Page.navigate',{url:origin+'/knowledge.html#/node/skill/frontend-design'});
- await waitFor('document.querySelector(\'#kg-composer [data-stage-id="visual"] select\')?.value==="skill:frontend-design"','Recipe suggestion for existing Skill');
- const startPlan=await evaluate('({steps:document.querySelectorAll("#kg-composer .kg-work-step").length,valid:document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid})');
- assert.equal(startPlan.steps,4);
- assert.equal(startPlan.valid,'true');
- await evaluate('const el=document.querySelector(\'#kg-composer select[data-select-stage="visual"]\');el.value="";el.dispatchEvent(new Event("change",{bubbles:true}));true');
- await waitFor('document.querySelector(\'#kg-composer [data-stage-id="visual"]\')?.dataset.status==="skipped"','Skip optional design');
- assert.equal(await evaluate('document.querySelector(\'#kg-composer [data-stage-id="build"]\')?.dataset.status'),'planned');
- await evaluate('const buildRemoveEl=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');buildRemoveEl.value="";buildRemoveEl.dispatchEvent(new Event("change",{bubbles:true}));true');
- await waitFor('document.querySelector(\'#kg-composer [data-stage-id="review"]\')?.dataset.status==="blocked"','Removed build blocks QA');
- assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'false');
- await evaluate('const buildSwapEl=document.querySelector(\'#kg-composer select[data-select-stage="build"]\');buildSwapEl.value="resource:openai-codex";buildSwapEl.dispatchEvent(new Event("change",{bubbles:true}));true');
- await waitFor('document.querySelector(\'#kg-composer [data-stage-id="review"]\')?.dataset.status==="planned"','Swap tool and restore plan');
- assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'true');
- console.log('PASS: Dynamic Workflow Builder skips optional stage, blocks missing dependency and replans after replacement');
+ await waitFor('document.querySelector("#kg-playground-link")?.href.includes("seed=skill%3Afrontend-design")','Source to Playground deep link');
+ assert.equal(await evaluate('document.querySelector("#kg-composer")===null'),true,'Composer must not stay inside Knowledge Explorer');
+ console.log('PASS: Knowledge reading and Workflow Playground are separate');
+ await send('Page.navigate',{url:origin+'/knowledge.html#/problem/build-business-website'});
+ await waitFor('document.querySelector("#kg-knowledge .kg-lesson-thesis strong")?.textContent.includes("先決定網站")','Website lesson source loaded');
+ const curated=await evaluate('({steps:document.querySelectorAll("#kg-knowledge .kg-lesson-step").length,principles:document.querySelectorAll("#kg-knowledge .kg-lesson-principles article").length,sourceLinks:document.querySelectorAll("#kg-knowledge .kg-lesson-evidence [data-read-node]").length,example:document.querySelector("#kg-knowledge .kg-lesson-example")?.textContent,playground:document.querySelector("#kg-playground-link")?.href.includes("problem=build-business-website")})');
+ assert.ok(curated.steps===4&&curated.principles>=3&&curated.sourceLinks>=2&&curated.example?.includes('活動報名')&&curated.playground,'Problem content should teach how to act and cite source records without opening Graph: '+JSON.stringify(curated));
+ console.log('PASS: Curated Problem opens direct source-backed recommendations');
+ await send('Page.navigate',{url:origin+'/knowledge.html#/problem/product-video-motion'});
+ await waitFor('document.querySelector("#kg-knowledge .kg-lesson-section")!==null','Source-only Problem guide');
+ const fallbackLesson=await evaluate('({notice:document.querySelector("#kg-knowledge .kg-lesson-disclaimer")?.textContent,hasConcept:document.querySelectorAll(".kg-lesson-concepts article").length,steps:document.querySelectorAll(".kg-lesson-step").length,marked:document.querySelector("#kg-knowledge .kg-kicker")?.textContent})');
+ assert.ok(fallbackLesson.hasConcept>=1&&fallbackLesson.steps>=1&&fallbackLesson.marked.includes('SOURCE-BASED GUIDE'),'Uncurated Problem must surface existing source knowledge without masquerading as a fully authored lesson');
+ console.log('PASS: Uncurated Problem provides an evidence-based workflow reading path');
 
- // Uncurated resources must still be usable in an explicitly UNVERIFIED freeform plan.
+
+
+ // The existing website recipe remains fully editable on the dedicated page.
+ await send('Page.navigate',{url:origin+'/playground.html?workflow=dual-agent-website-handoff-and-verification'});
+ await waitFor('document.querySelector(\'#pg-editor [data-stage-id="visual"] select\')?.value==="skill:frontend-design"','Website recipe initial selection');
+ const startPlan=await evaluate('({steps:document.querySelectorAll("#pg-editor .pg-step[data-stage-id]").length,planned:[...document.querySelectorAll("#pg-editor .pg-step")].every(x=>x.dataset.status==="planned")})');
+ assert.equal(startPlan.steps,4);assert.equal(startPlan.planned,true);
+ await evaluate('var visualChoiceEl=document.querySelector(\'#pg-editor select[data-stage-choice="visual"]\');visualChoiceEl.value="";visualChoiceEl.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#pg-editor [data-stage-id="visual"]\')?.dataset.status==="skipped"','Skip optional design');
+ assert.equal(await evaluate('document.querySelector(\'#pg-editor [data-stage-id="build"]\')?.dataset.status'),'planned');
+ await evaluate('var buildChoiceEl=document.querySelector(\'#pg-editor select[data-stage-choice="build"]\');buildChoiceEl.value="";buildChoiceEl.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#pg-editor [data-stage-id="review"]\')?.dataset.status==="blocked"','Missing build blocks QA');
+ await evaluate('var buildSwapEl=document.querySelector(\'#pg-editor select[data-stage-choice="build"]\');buildSwapEl.value="resource:openai-codex";buildSwapEl.dispatchEvent(new Event("change",{bubbles:true}));true');
+ await waitFor('document.querySelector(\'#pg-editor [data-stage-id="review"]\')?.dataset.status==="planned"','Restoring build restores QA');
+ console.log('PASS: Dedicated website recipe supports optional step, blocking, and replacement');
+
+ // The newly curated agent development recipe and enterprise knowledge recipe are accessible.
+ await send('Page.navigate',{url:origin+'/playground.html?workflow=spec-multi-agent-delivery-evidence-qa-stack'});
+ await waitFor('document.querySelectorAll("#pg-editor .pg-step[data-stage-id]").length===6','Agent delivery QA recipe');
+ const agentRecipe=await evaluate('document.querySelector(\'#pg-editor [data-stage-id="coding"] select\')?.options.length');
+ assert.ok(agentRecipe>=3);
+ await send('Page.navigate',{url:origin+'/playground.html?workflow=stack'});
+ await waitFor('document.querySelectorAll("#pg-editor .pg-step[data-stage-id]").length===4','Enterprise RAG recipe');
+ console.log('PASS: Three independently curated recipes are readable and editable');
+
+ // Problem-first navigation and free drafts with real Resource / Skill records.
+ await send('Page.navigate',{url:origin+'/playground.html?problem=verify-ai-generated-code'});
+ await waitFor('document.querySelector(\'[data-problem-id="verify-ai-generated-code"]\')?.getAttribute("aria-pressed")==="true"','Problem-first route');
+ assert.ok(await evaluate('document.querySelectorAll("#pg-flows [data-flow-id]").length>=1'));
+ await send('Page.navigate',{url:origin+'/playground.html?seed=resource%3Achatcut'});
+ await waitFor('document.querySelector("#pg-editor .pg-step strong")?.textContent.toLowerCase().includes("chatcut")','Free draft seed');
+ await evaluate('const x=document.querySelector("#pg-tool-search");x.value="Davinci";x.dispatchEvent(new Event("input",{bubbles:true}));true');
+ await waitFor('document.querySelector("#pg-tools [data-add-tool]")!==null','Search for second tool');
+ const availableOptions=await evaluate('[...document.querySelectorAll("#pg-tools [data-add-tool]")].map(x=>({key:x.dataset.addTool,disabled:x.disabled}))');
+ assert.ok(availableOptions.some(x=>!x.disabled),'Tool search should find a candidate not already in the draft: '+JSON.stringify(availableOptions));
+ await evaluate('document.querySelector("#pg-tools [data-add-tool]:not([disabled])").click();true');
+ await waitFor('document.querySelectorAll("#pg-editor .pg-step").length===2','Adding tool to free draft');
+ await evaluate('document.querySelectorAll("#pg-editor [data-remove-tool]")[1].click();true');
+ await waitFor('document.querySelectorAll("#pg-editor .pg-step").length===1','Removing tool from free draft');
+ assert.ok((await evaluate('document.querySelector("#pg-editor").textContent')).includes('未驗證'),'Free draft cannot imply compatible execution');
+ await send('Page.navigate',{url:origin+'/playground.html'});
+ await waitFor('document.querySelector("#pg-editor .pg-feature")!==null && document.querySelector("#pg-flow-count")?.textContent.includes("36")','Playground ready after reload');
+ await evaluate('document.querySelector("#pg-open-draft").click();true');
+ await waitFor('document.querySelector("#pg-editor .pg-step strong")?.textContent.toLowerCase().includes("chatcut")','Free draft persists across navigation');
+ console.log('PASS: Draft remains available across navigation and browser reload');
+
+ console.log('PASS: Problem recommendations and unverified freeform tool planning');
+
+ for(const width of [375,430,768,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(120);
+  const size=await evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})');
+  assert.ok(size.scroll<=size.client+3,'Playground overflows '+width+'px: '+JSON.stringify(size));
+  console.log('PASS: Playground '+width+'px no horizontal overflow');
+ }
+
+ for(const width of [375,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(100);
+  const screenshot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+  fs.mkdirSync(screenshotDir,{recursive:true});
+  fs.writeFileSync(path.join(screenshotDir,'playground-'+width+'.png'),Buffer.from(screenshot.data,'base64'));
+ }
  await send('Page.navigate',{url:origin+'/knowledge.html#/node/resource/chatcut'});
- await waitFor('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid==="unknown"','Unknown compatibility draft');
- const candidate=await evaluate('document.querySelector("#kg-composer [data-add-tool]")?.dataset.addTool||null');
- assert.ok(candidate,'Expected source-related candidate for ChatCut');
- await evaluate('document.querySelector("#kg-composer [data-add-tool]").click();true');
- await waitFor('document.querySelectorAll("#kg-composer .kg-draft-item").length===2','Add candidate');
- await evaluate('document.querySelectorAll("#kg-composer [data-remove-draft]")[1].click();true');
- await waitFor('document.querySelectorAll("#kg-composer .kg-draft-item").length===1','Remove candidate');
- assert.equal(await evaluate('document.querySelector("#kg-composer [data-plan-valid]")?.dataset.planValid'),'unknown');
- console.log('PASS: Any Resource allows dynamic draft addition/removal without invented compatibility claims');
+ await waitFor('document.querySelector("#kg-network [data-node-key]")!==null','Knowledge Explorer graph after return');
 
  for(const width of [375,430,768,1440]){
   await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});

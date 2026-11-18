@@ -3,7 +3,7 @@
 const LABEL={problem:'Problem',concept:'Concept',resource:'Resource',skill:'Skill',workflow:'Workflow',prompt:'Prompt',combination:'Combination'};
 const ROUTES={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
 const REL={explained_by:'相關原理',supported_by:'適用工具／技能',guided_by:'相關流程／提示詞',combined_in:'工具組合',has_subproblem:'延伸問題',declared_reference:'原有資料引用'};
-const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map(),recipe:null,builder:null,builderSeed:null};
+const KG={graph:null,byKey:new Map(),incoming:new Map(),outgoing:new Map(),problems:[],query:'',type:'all',limit:24,focusKey:null,selectedNode:null,scrollOnChange:false,catalog:null,recordIndex:new Map(),problemDocs:new Map(),problemLoading:new Set()};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return ''}};
@@ -14,7 +14,7 @@ const detailUrl=node=>node.type==='problem'?'#/problem/'+encodeURIComponent(node
 function setData(graph){
  if(graph?.schemaVersion!==1||!Array.isArray(graph.nodes)||!Array.isArray(graph.edges))throw Error('Unsupported knowledge graph');
  KG.graph=graph;KG.byKey=new Map(graph.nodes.map(n=>[n.key,n]));
- KG.problems=graph.nodes.filter(n=>n.type==='problem').sort((a,b)=>a.title.localeCompare(b.title,'zh-Hant'));
+ KG.problems=graph.nodes.filter(n=>n.type==='problem').sort((a,b)=>(a.domain||'影音與內容').localeCompare(b.domain||'影音與內容','zh-Hant')||a.title.localeCompare(b.title,'zh-Hant'));
  KG.incoming=new Map();KG.outgoing=new Map();
  for(const edge of graph.edges){
   if(!KG.byKey.has(edge.from)||!KG.byKey.has(edge.to))throw Error('Invalid graph edge: '+edge.from+' → '+edge.to);
@@ -80,16 +80,23 @@ function renderFilters(){
   '<button type="button" data-filter-type="'+esc(type)+'" aria-pressed="'+(KG.type===type)+'">'+esc(name)+' <small>'+count+'</small></button>').join('');
 }
 function renderExamples(){
- $('#kg-problems').innerHTML=KG.problems.map((p,i)=>
-  '<button type="button" class="kg-problem-option" data-problem="'+esc(p.id)+'"><span>'+String(i+1).padStart(2,'0')+'</span><span>'+esc(p.title)+'</span></button>').join('')||'<p class="kg-empty">尚未建立經審查的問題範例。</p>';
+ let previous='';
+ $('#kg-problems').innerHTML=KG.problems.map((p,i)=>{
+  const domain=p.domain||'影音與內容',heading=domain===previous?'':'<h3 class="kg-problem-domain">'+esc(domain)+'</h3>';
+  previous=domain;
+  return heading+'<button type="button" class="kg-problem-option" data-problem="'+esc(p.id)+'"><span>'+String(i+1).padStart(2,'0')+'</span><span>'+esc(p.title)+'</span></button>';
+ }).join('')||'<p class="kg-empty">尚未建立經審查的問題範例。</p>';
 }
 function resultCard(node){
  const around=(KG.incoming.get(node.key)?.length||0)+(KG.outgoing.get(node.key)?.length||0);
- return '<button type="button" class="kg-result-card" data-open-node="'+esc(node.key)+'"><span class="kg-result-type">'+esc(typeName(node))+' · '+around+' 條資料引用</span><strong>'+esc(node.title)+'</strong><span class="kg-result-description">'+esc(shorten(node.summary||'尚未補充摘要',155))+'</span><span class="kg-result-explore">探索關聯 →</span></button>';
+ return '<button type="button" class="kg-result-card" data-open-node="'+esc(node.key)+'"><span class="kg-result-type">'+esc(typeName(node))+' · '+around+' 條資料引用</span><strong>'+esc(node.title)+'</strong><span class="kg-result-description">'+esc(shorten(node.summary||'尚未補充摘要',155))+'</span><span class="kg-result-explore">閱讀完整內容 →</span></button>';
 }
 function renderExplore(){
  renderFilters();
  const rows=found(),display=rows.slice(0,KG.limit),query=KG.query.trim(),all=!query&&KG.type==='all';
+ const starter=$('#kg-learning-start');
+ if(starter)starter.hidden=!all;
+ if(starter&&all)starter.innerHTML=KnowledgeLearning.featuredMarkup(KG.byKey);
  $('#kg-results-title').textContent=query?'搜尋結果':all?'跨領域知識預覽':LABEL[KG.type]||'探索知識';
  $('#kg-result-count').textContent=query?'找到 '+rows.length+' 筆文字相符的資料':all?'各資料類型的近期收藏，輸入需求可搜尋全部 '+KG.graph.nodes.length+' 筆':'共 '+rows.length+' 筆資料';
  $('#kg-results').innerHTML=display.length?display.map(resultCard).join(''):'<p class="kg-empty kg-no-results">目前沒有符合的內容。可改用其他關鍵字或切換資料類型；這不代表相關工具不存在。</p>';
@@ -202,14 +209,28 @@ function renderWorkflowStages(record){
   (stage.gate?'<p class="kg-step-gate"><strong>驗收：</strong>'+esc(stage.gate)+'</p>':'')+'</div></article>';
  }).join('')+'</div></section>';
 }
+function loadProblemDoc(id){
+ if(KG.problemDocs.has(id)||KG.problemLoading.has(id))return;
+ KG.problemLoading.add(id);
+ fetch('data/problems/'+encodeURIComponent(id)+'.json',{cache:'no-store'})
+  .then(response=>{if(!response.ok)throw Error('Problem source unavailable: '+id);return response.json()})
+  .then(doc=>{
+   if(doc?.schemaVersion!==1||doc?.id!==id)throw Error('Mismatched Problem source '+id);
+   KG.problemDocs.set(id,doc);
+   if(KG.focusKey==='problem:'+id&&(KG.selectedNode===null||KG.selectedNode==='problem:'+id))renderKnowledge();
+  })
+  .catch(error=>console.warn('Problem guide was not loaded; retaining canonical source-based overview',error))
+  .finally(()=>KG.problemLoading.delete(id));
+}
 function renderKnowledge(){
  const section=$('#kg-knowledge');if(!section)return;
  const node=KG.byKey.get(KG.selectedNode||KG.focusKey),rec=recordFor(node);
  if(!node)return;
  if(node.type==='problem'){
-  section.innerHTML='<div class="kg-panel-heading"><span class="kg-kicker">PROBLEM / LEARNING BRIEF</span><h2 id="kg-knowledge-heading">這個問題該如何開始？</h2></div>'+
-  knowledgeSection('要解決的問題',node.question)+knowledgeSection('問題背景',node.summary)+knowledgeSection('期望成果',node.outcome)+
-  '<p class="kg-source-note">Problem 關聯是已整理的探索線索；並不代表工具已實測可互相串接。請從上方 Graph 或右側工具選單繼續探索。</p>';
+  loadProblemDoc(node.id);
+  section.innerHTML=KnowledgeLearning.renderProblem(node,KG.problemDocs.get(node.id),{
+   edges:KG.graph.edges,recordIndex:KG.recordIndex,nodeIndex:KG.byKey
+  });
   return;
  }
  if(!rec){
@@ -240,155 +261,9 @@ function renderKnowledge(){
  section.innerHTML=block;
 }
 
-/* Composition suggestions are discovery only, never unverified "compatible" claims. */
-function suggestionCandidates(seedKeys){
- const pool=new Map(),known=new Set(seedKeys);
- for(const seed of seedKeys){
-  const center=KG.byKey.get(seed);if(!center)continue;
-  const conceptIds=new Set();
-  for(const edge of KG.outgoing.get(seed)||[])if(KG.byKey.get(edge.to)?.type==='concept')conceptIds.add(edge.to);
-  for(const edge of KG.incoming.get(seed)||[])if(KG.byKey.get(edge.from)?.type==='concept')conceptIds.add(edge.from);
-  for(const concept of conceptIds){
-   for(const edge of KG.incoming.get(concept)||[]){
-    if(edge.from===seed||known.has(edge.from))continue;
-    const node=KG.byKey.get(edge.from);
-    if(!node||!['resource','skill'].includes(node.type))continue;
-    const prev=pool.get(node.key)||{node,weight:0,reason:'共同引用 Concept：'+KG.byKey.get(concept).title};
-    prev.weight+=2;pool.set(node.key,prev);
-   }
-  }
-  for(const wf of KG.catalog?.workflows||[]){
-   const refs=[...(wf.stages||[]).flatMap(s=>s.uses||[]),...(wf.resourceRefs||[]),...(wf.skillRefs||[])];
-   if(!refs.some(ref=>nodeKey(ref.type,ref.id)===seed))continue;
-   for(const ref of refs){
-    const key=nodeKey(ref.type,ref.id),node=KG.byKey.get(key);
-    if(!node||known.has(key)||!['resource','skill'].includes(node.type))continue;
-    const prev=pool.get(key)||{node,weight:0,reason:'共同出現在 Workflow：'+wf.title};
-    prev.weight+=7;prev.reason='共同出現在 Workflow：'+wf.title;pool.set(key,prev);
-   }
-  }
- }
- return [...pool.values()].sort((a,b)=>b.weight-a.weight||a.node.title.localeCompare(b.node.title,'zh-Hant')).slice(0,8);
-}
-function resetComposerFor(node){
- if(!node||KG.builderSeed===node.key)return;
- KG.builderSeed=node.key;
- const preset=KG.recipe?.stages?.find(s=>s.candidates.some(c=>nodeKey(c.type,c.id)===node.key));
- const choices=KG.recipe?WorkflowEngine.defaultChoices(KG.recipe):{};
- if(preset)choices[preset.id]=node.key;
- KG.builder={
-  mode:preset?'recipe':'draft',
-  choices,
-  draftKeys:['resource','skill','prompt'].includes(node.type)?[node.key]:[],
-  fromRecordedWorkflow:false
- };
-}
-function composerIntro(){
- return '<div class="kg-panel-heading"><span class="kg-kicker">DYNAMIC WORKFLOW BUILDER</span><h2>組合你的 Workflow</h2>'+
- '<p>選擇工具、替換步驟、觀察缺少哪些產物。流程是規劃，不會執行第三方工具。</p></div>';
-}
-function renderRecipeComposer(){
- const recipe=KG.recipe,choices=KG.builder.choices;
- if(!recipe)return '<p class="kg-empty">目前沒有已核對的 Workflow 範本。</p>';
- const plan=WorkflowEngine.compose(recipe,choices);
- const slots=plan.steps.map((step,i)=>{
-  const selected=step.candidates.find(c=>nodeKey(c.type,c.id)===step.selection);
-  const label={planned:'結構可接續',skipped:'已略過',missing:'缺少必要步驟',blocked:'後續已阻塞'}[step.status];
-  return '<article class="kg-work-step" data-stage-id="'+esc(step.id)+'" data-status="'+esc(step.status)+'">'+
-   '<div class="kg-work-step-top"><span class="kg-step-index">'+String(i+1).padStart(2,'0')+'</span><strong>'+esc(step.title)+'</strong><span class="kg-step-state">'+esc(label)+'</span></div>'+
-   '<p>'+esc(step.purpose)+'</p><label for="kg-step-'+esc(step.id)+'">這一步選擇的工具</label>'+
-   '<select id="kg-step-'+esc(step.id)+'" data-select-stage="'+esc(step.id)+'">'+
-   '<option value="" '+(step.selection===null?'selected':'')+'>'+(step.optional?'略過此步驟':'不選用（流程將不完整）')+'</option>'+
-   step.candidates.map(c=>{
-    const node=KG.byKey.get(nodeKey(c.type,c.id));
-    const selected=nodeKey(c.type,c.id)===step.selection;
-    return '<option value="'+esc(nodeKey(c.type,c.id))+'" '+(selected?'selected':'')+'>'+esc(node?.title||c.id)+'</option>';
-   }).join('')+'</select>'+
-   (selected?'<p class="kg-choice-reason">'+esc(selected.why)+'</p>':'')+
-   (step.missingInputs.length?'<p class="kg-step-warning">缺少前置產物：'+esc(step.missingInputs.join('、'))+'</p>':'')+
-   '<div class="kg-contract"><span>需要：'+esc(step.requires.join('、')||'無')+'</span><span>預期產出：'+esc(step.produces.join('、')||'未定義')+'</span></div>'+
-   '<small class="kg-gate">驗收條件：'+esc(step.gate||'待定義')+'</small></article>';
- }).join('<div class="kg-work-connector" aria-hidden="true">↓</div>');
- return '<div class="kg-builder-mode"><strong>'+esc(recipe.title)+'</strong><p>'+esc(recipe.description)+'</p>'+
- '<button type="button" data-builder-mode="draft" class="kg-minor-action">改成自由組合草稿</button></div>'+
- '<div class="kg-workflow-stack">'+slots+'</div>'+
- '<div class="kg-plan-result" data-plan-valid="'+plan.structurallyPlanned+'"><strong>'+(plan.structurallyPlanned?'階段需求在規劃上完整':'此流程有缺口，不能視為可執行')+'</strong>'+
- (plan.gaps.length?renderList(plan.gaps):'<p>目前所選階段具備範本定義的前置產物；實際串接格式與執行結果仍未經驗證。</p>')+'</div>'+
- '<p class="kg-builder-disclaimer">'+esc(recipe.disclaimer)+'</p>';
-}
-function renderDraftComposer(){
- const selected=KG.builder.draftKeys,seed=KG.byKey.get(KG.builderSeed);
- const tools=selected.map((key,i)=>{
-  const n=KG.byKey.get(key);if(!n)return '';
-  return '<article class="kg-draft-item" data-draft-key="'+esc(key)+'"><span class="kg-step-index">'+String(i+1).padStart(2,'0')+'</span><div><strong>'+esc(n.title)+'</strong><small>'+esc(typeName(n))+' · 尚未確認輸入／輸出相容性</small></div>'+
-   '<div class="kg-step-controls">'+(i>0?'<button type="button" data-move-draft="-1" data-draft-index="'+i+'" aria-label="向前移動 '+esc(n.title)+'">↑</button>':'')+
-   (i<selected.length-1?'<button type="button" data-move-draft="1" data-draft-index="'+i+'" aria-label="向後移動 '+esc(n.title)+'">↓</button>':'')+
-   '<button type="button" data-remove-draft="'+esc(key)+'" aria-label="移除 '+esc(n.title)+'">×</button></div></article>';
- }).join('<div class="kg-work-connector" aria-hidden="true">↓</div>');
- const suggestions=suggestionCandidates(selected.length?selected:[seed?.key].filter(Boolean));
- const suggestionHtml=suggestions.length?suggestions.map(item=>
-  '<article class="kg-suggestion"><div><strong>'+esc(item.node.title)+'</strong><small>'+esc(item.reason)+'</small></div>'+
-  '<button type="button" data-add-tool="'+esc(item.node.key)+'">加入草稿</button></article>').join(''):
-  '<p class="kg-empty">目前沒有可依既有引用找到的候選工具。這不代表其他工具無法搭配。</p>';
- let fromWorkflow='';
- if(seed?.type==='workflow'){
-  const raw=recordFor(seed);
-  if(raw?.stages?.length)fromWorkflow='<button type="button" class="kg-minor-action" data-import-workflow>以這份已收藏 Workflow 的工具順序建立草稿</button>';
- }
- return '<div class="kg-builder-mode"><strong>自由組合｜'+esc(seed?.title||'尚未選擇')+'</strong>'+
- '<p>從你選的節點開始探索，再把候選工具加入。這些只是與現有資料有關聯的建議，不代表可直接串接。</p>'+fromWorkflow+
- (KG.recipe?'<button type="button" data-builder-mode="recipe" class="kg-minor-action">載入「網站建置」有輸入／輸出條件的範例</button>':'')+'</div>'+
- '<div class="kg-workflow-stack">'+(tools||'<p class="kg-empty">尚未加入工具。選擇下方候選項目開始建立流程草稿。</p>')+'</div>'+
- '<div class="kg-plan-result" data-plan-valid="unknown"><strong>這是未驗證的 Workflow 草稿</strong><p>目前沒有足夠資料證明各工具之間可直接接續；需要補上輸入、輸出及依賴關係後才能判斷是否可行。</p></div>'+
- '<div class="kg-suggestion-heading"><h3>可一起探索的工具</h3><span>來源為相同 Concept 或同一 Workflow</span></div>'+
- '<div class="kg-suggestions-list">'+suggestionHtml+'</div>';
-}
-function renderComposer(){
- const el=$('#kg-composer');if(!el||!KG.catalog)return;
- const focus=KG.byKey.get(KG.selectedNode||KG.focusKey);
- resetComposerFor(focus);
- el.innerHTML=composerIntro()+(KG.builder.mode==='recipe'?renderRecipeComposer():renderDraftComposer())+
- '<div class="kg-builder-footer"><button type="button" data-copy-plan>複製這份流程規劃</button><button type="button" data-reset-plan>重設</button></div>';
-}
-function planPlainText(){
- if(KG.builder.mode==='recipe'&&KG.recipe){
-  const plan=WorkflowEngine.compose(KG.recipe,KG.builder.choices);
-  return [KG.recipe.title,KG.recipe.disclaimer,...plan.steps.map((s,i)=>(i+1)+'. '+s.title+' → '+(KG.byKey.get(s.selection)?.title||'未選')+' ['+s.status+']'+(s.missingInputs.length?' 缺少：'+s.missingInputs.join('、'):'')),...plan.gaps,'注意：工具實際相容性和執行尚未驗證。'].join('\n');
- }
- return ['自由 Workflow 草稿（未驗證相容性）',...KG.builder.draftKeys.map((key,i)=>(i+1)+'. '+(KG.byKey.get(key)?.title||key)),'工具先後順序僅為使用者自行規劃，需確認輸入／輸出契約。'].join('\n');
-}
 async function copyToClipboard(text,button){
  try{await navigator.clipboard.writeText(text);if(button)button.textContent='已複製';}
  catch(error){console.warn('Clipboard permission unavailable',error);if(button)button.textContent='瀏覽器未授權複製';}
-}
-function onComposerClick(event){
- const btn=event.target.closest('button');if(!btn||!KG.builder)return;
- if(btn.hasAttribute('data-builder-mode')){
-  KG.builder.mode=btn.dataset.builderMode;renderComposer();return;
- }
- if(btn.hasAttribute('data-add-tool')){
-  const key=btn.dataset.addTool;
-  if(KG.byKey.has(key)&&!KG.builder.draftKeys.includes(key))KG.builder.draftKeys.push(key);
-  renderComposer();return;
- }
- if(btn.hasAttribute('data-remove-draft')){
-  KG.builder.draftKeys=KG.builder.draftKeys.filter(k=>k!==btn.dataset.removeDraft);renderComposer();return;
- }
- if(btn.hasAttribute('data-move-draft')){
-  const idx=Number(btn.dataset.draftIndex),next=idx+Number(btn.dataset.moveDraft);
-  const items=KG.builder.draftKeys;
-  if(Number.isInteger(idx)&&next>=0&&next<items.length){[items[idx],items[next]]=[items[next],items[idx]];}
-  renderComposer();return;
- }
- if(btn.hasAttribute('data-import-workflow')){
-  const record=recordFor(KG.byKey.get(KG.builderSeed));
-  const keys=(record?.stages||[]).flatMap(s=>s.uses||[]).map(ref=>nodeKey(ref.type,ref.id)).filter(k=>KG.byKey.has(k));
-  KG.builder.draftKeys=[...new Set(keys)];renderComposer();return;
- }
- if(btn.hasAttribute('data-reset-plan')){
-  KG.builderSeed=null;renderComposer();return;
- }
- if(btn.hasAttribute('data-copy-plan')){copyToClipboard(planPlainText(),btn);return;}
 }
 
 function render(){
@@ -398,7 +273,12 @@ function render(){
  $('#kg-explore').hidden=open;$('#kg-node-view').hidden=!open;
  if(open){
   KG.selectedNode=KG.selectedNode&&KG.byKey.has(KG.selectedNode)?KG.selectedNode:KG.focusKey;
-  graphView();inspect();renderKnowledge();renderComposer();
+  graphView();inspect();renderKnowledge();
+  const center=KG.byKey.get(KG.focusKey);
+  const target=center.type==='problem'?'playground.html?problem='+encodeURIComponent(center.id):
+   center.type==='workflow'?'playground.html?workflow='+encodeURIComponent(center.id):
+   ['resource','skill'].includes(center.type)?'playground.html?seed='+encodeURIComponent(center.key):'playground.html';
+  $('#kg-playground-link').href=target;
  }else{
   KG.selectedNode=null;renderExplore();
  }
@@ -427,17 +307,12 @@ function bind(){
    if(current?.prompt)copyToClipboard(current.prompt,event.target.closest('button'));
   }
  });
- $('#kg-composer').addEventListener('click',onComposerClick);
- $('#kg-composer').addEventListener('change',event=>{
-  const target=event.target.closest('[data-select-stage]');
-  if(!target||!KG.builder||!KG.recipe)return;
-  KG.builder.choices[target.dataset.selectStage]=target.value||null;renderComposer();
- });
  $('#kg-search').addEventListener('input',e=>updateSearch(e.target.value));
  $('#kg-type-filters').addEventListener('click',e=>{const x=e.target.closest('[data-filter-type]');if(!x)return;KG.type=x.dataset.filterType;KG.limit=24;if(KG.focusKey)location.hash='#/explore';else renderExplore()});
  $('#kg-suggestions').addEventListener('click',e=>{const x=e.target.closest('[data-suggest]');if(x)updateSearch(x.dataset.suggest)});
  $('#kg-problems').addEventListener('click',e=>{const x=e.target.closest('[data-problem]');if(x)navigateNode('problem:'+x.dataset.problem)});
  $('#kg-subproblems').addEventListener('click',e=>{const x=e.target.closest('[data-problem]');if(x)navigateNode('problem:'+x.dataset.problem)});
+ $('#kg-learning-start').addEventListener('click',e=>{const x=e.target.closest('[data-open-node]');if(x)navigateNode(x.dataset.openNode)});
  $('#kg-results').addEventListener('click',e=>{const x=e.target.closest('[data-open-node]');if(x)navigateNode(x.dataset.openNode)});
  $('#kg-network').addEventListener('click',e=>{const x=e.target.closest('[data-node-key]');if(x)navigateNode(x.dataset.nodeKey)});
  $('#kg-inspector').addEventListener('click',e=>{
@@ -452,22 +327,16 @@ function bind(){
 }
 async function init(){
  try{
-  const [graphResponse,catalogResponse,recipeResponse]=await Promise.all([
+  const [graphResponse,catalogResponse]=await Promise.all([
    fetch('data/knowledge-graph-v1.json',{cache:'no-store'}),
-   fetch('data/catalog-v2.json',{cache:'no-store'}),
-   fetch('data/workflow-recipes/website-build-review.json',{cache:'no-store'})
+   fetch('data/catalog-v2.json',{cache:'no-store'})
   ]);
   if(!graphResponse.ok||!catalogResponse.ok)throw Error('Graph or source Catalog unavailable');
   const [data,catalog]=await Promise.all([graphResponse.json(),catalogResponse.json()]);
   setData(data);KG.catalog=catalog;
   KG.recordIndex=WorkflowEngine.indexCatalog(catalog);
-  if(recipeResponse.ok){
-   const recipe=await recipeResponse.json();
-   WorkflowEngine.validateRecipe(recipe,catalog);
-   KG.recipe=recipe;
-  }
   bind();renderFilters();renderExamples();render();
-  $('#kg-count').textContent=(data.counts.nodes-data.counts.problems)+' 筆正式知識 · '+data.counts.problems+' 個示範問題 · '+(data.counts.canonicalEdges+data.counts.curatedEdges)+' 條既有關聯';
+  $('#kg-count').textContent=(data.counts.nodes-data.counts.problems)+' 筆正式知識 · '+data.counts.problems+' 個已整理 Problem · '+(data.counts.canonicalEdges+data.counts.curatedEdges)+' 條既有關聯';
  }catch(error){console.error('Knowledge Graph failed to load',error);
   $('#kg-count').textContent='知識圖譜載入失敗';
   $('#kg-results').innerHTML='<div class="kg-error">資料載入失敗，請檢查部署或稍後重新整理。</div>';

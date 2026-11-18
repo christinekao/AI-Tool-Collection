@@ -53,7 +53,7 @@ export function buildKnowledgeGraph(catalog,problems=[]){
    throw Error('Incomplete Problem record: '+(p.id||'<missing id>'));
   if(!Array.isArray(p.links)||!Array.isArray(p.relatedProblems)||!Array.isArray(p.tags))
    throw Error('Problem must contain links, relatedProblems and tags: '+p.id);
-  node({key:key('problem',p.id),type:'problem',id:p.id,title:p.title,summary:snippet(p.description),question:p.question,outcome:p.outcome,tags:p.tags,searchText:snippet([p.title,p.question,p.description,p.outcome,...p.tags].join(' '),1800)});
+  node({key:key('problem',p.id),type:'problem',id:p.id,title:p.title,summary:snippet(p.description),question:p.question,outcome:p.outcome,tags:p.tags,...(clean(p.domain)?{domain:p.domain}:{}),searchText:snippet([p.title,p.question,p.description,p.outcome,...p.tags].join(' '),1800)});
  }
  function addEdge(edge){
   if(!nodeIndex.has(edge.from)||!nodeIndex.has(edge.to))throw Error('Dangling graph edge '+edge.from+' → '+edge.to+' at '+edge.via);

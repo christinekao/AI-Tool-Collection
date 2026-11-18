@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "id": "agent-delivery-qa",
+  "title": "AI Agent 開發｜Spec → Tickets → Coding → Review → QA",
+  "description": "由已收藏的多 Agent 協作、Coding Agent 與 Code Review 技能策展；可更換同階段工具，必須保留可檢查的需求與驗收證據。",
+  "domain": "AI Agent／軟體開發",
+  "sourceWorkflowRef": {
+    "type": "workflow",
+    "id": "spec-multi-agent-delivery-evidence-qa-stack"
+  },
+  "disclaimer": "僅描述資料中已收錄的方法與候選能力。工具間實際設定、API、交接格式、授權及測試結果尚未驗證；完成結構規劃不等於完成軟體交付。",
+  "stages": [
+    {
+      "id": "spec",
+      "title": "需求釐清與 Acceptance Criteria",
+      "purpose": "定義功能範圍、輸入、預期結果與不應改動的邊界。",
+      "requires": [],
+      "produces": [
+        "approved-spec"
+      ],
+      "optional": false,
+      "gate": "有可檢查的需求與驗收標準；重大範圍需使用者核准。",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "mattpocock-grill-with-docs",
+          "evidenceField": "purpose",
+          "why": "Skill 描述可反覆釐清需求並同步保存術語及決策。"
+        },
+        {
+          "type": "skill",
+          "id": "mattpocock-grill-me",
+          "evidenceField": "purpose",
+          "why": "Skill 提供對未定義完整需求的多輪追問。"
+        }
+      ]
+    },
+    {
+      "id": "tickets",
+      "title": "拆解任務與單一協調責任",
+      "purpose": "從確認過的規格拆成有依賴與責任界線的工作項目。",
+      "requires": [
+        "approved-spec"
+      ],
+      "produces": [
+        "scoped-tickets"
+      ],
+      "optional": false,
+      "gate": "每張 Ticket 有可驗收產物與明確負責者。",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "loopagentteams",
+          "evidenceField": "purpose",
+          "why": "Skill 目的包含 Spec、Ticket 拆分與跨模型派工。"
+        },
+        {
+          "type": "resource",
+          "id": "loopagentteams",
+          "evidenceField": "purpose",
+          "why": "Resource 的用途包含需求釐清、任務分工與整合驗證流程。"
+        }
+      ]
+    },
+    {
+      "id": "coding",
+      "title": "實作與可追溯變更",
+      "purpose": "依 Tickets 實際修改程式與測試，不只產生文字建議。",
+      "requires": [
+        "scoped-tickets"
+      ],
+      "produces": [
+        "code-changes"
+      ],
+      "optional": false,
+      "gate": "有可檢視的程式差異與執行環境，未越過權限邊界。",
+      "candidates": [
+        {
+          "type": "resource",
+          "id": "openai-codex",
+          "evidenceField": "purpose",
+          "why": "Resource 收錄 Coding Agent 與工具執行能力。"
+        },
+        {
+          "type": "resource",
+          "id": "anomalyco-opencode",
+          "evidenceField": "purpose",
+          "why": "Resource 收錄程式探索、修改與命令執行能力。"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "title": "獨立 Code Review",
+      "purpose": "由不同檢查視角找出需求偏差、風險與缺漏。",
+      "requires": [
+        "code-changes"
+      ],
+      "produces": [
+        "review-findings"
+      ],
+      "optional": false,
+      "gate": "Critical findings 已修復或有明確阻擋紀錄。",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "garrytan-gstack",
+          "evidenceField": "purpose",
+          "why": "Skill 包含 Code Review 與實際品質檢查能力。"
+        }
+      ]
+    },
+    {
+      "id": "qa",
+      "title": "真實測試與回歸驗證",
+      "purpose": "依需求驗收，確認測試與實際行為，記錄未測範圍。",
+      "requires": [
+        "code-changes"
+      ],
+      "produces": [
+        "test-evidence"
+      ],
+      "optional": false,
+      "gate": "有真實測試結果、失敗修復與受影響回歸證據。",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "garrytan-gstack",
+          "evidenceField": "purpose",
+          "why": "Skill 包含瀏覽器 QA、驗收與發布檢查。"
+        },
+        {
+          "type": "skill",
+          "id": "mattpocock-tdd",
+          "evidenceField": "purpose",
+          "why": "Skill 提供以行為為核心的測試驅動開發能力；仍需依實際程式環境驗證。"
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "title": "整合交付與 Evidence Gate",
+      "purpose": "整理測試結果、審查修復、變更範圍、風險及未驗證事項。",
+      "requires": [
+        "review-findings",
+        "test-evidence"
+      ],
+      "produces": [
+        "evidence-package"
+      ],
+      "optional": false,
+      "gate": "所有重大問題關閉；缺少證據時不得宣稱完成。",
+      "candidates": [
+        {
+          "type": "skill",
+          "id": "loopagentteams",
+          "evidenceField": "purpose",
+          "why": "Skill 收錄整合驗證與 QA 交付責任。"
+        },
+        {
+          "type": "skill",
+          "id": "garrytan-gstack",
+          "evidenceField": "purpose",
+          "why": "Skill 包含 PR、QA 與 Release 的工作流程。"
+        }
+      ]
+    }
+  ]
+}
