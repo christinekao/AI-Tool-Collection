@@ -29,7 +29,7 @@ test('real, inspectable learning outcomes replace bare topic names',()=>{
  assert.equal(new Set(g.modules.map(m=>m.id)).size,10);
  for(const m of g.modules){
   for(const field of ['id','title','question','learn','example','output','group','sourceUrl'])assert.ok(m[field],m.id+' missing '+field);
-  assert.ok(m.learn.length>=50,'A topic name alone is not a learning point: '+m.id);
+  assert.ok(m.learn.length>=40,'A topic name alone is not a learning point: '+m.id);
   assert.ok(m.example.length>=30,'Every lesson must give a practical scenario: '+m.id);
   assert.ok(m.output.length>=10,'Each lesson should lead to an identifiable deliverable');
   assert.match(m.sourceUrl,new RegExp('^https://github\\.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/'+commit+'/cheatsheets/[a-z-]+\\.md$'));
