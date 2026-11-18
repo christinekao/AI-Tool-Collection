@@ -219,15 +219,48 @@ function skillGuideHtml(x){
  '</div>';
 }
 
+/* Human-first Prompt guide; verbatim source stays in x.prompt and adapted text in x.promptGuide. */
+function promptGuideHtml(x){
+ const g=x.promptGuide;
+ if(!g||!text(g.adaptedPrompt))return '';
+ const desc=(t)=>'<p>'+esc(t)+'</p>';
+ const situations=list(g.situations).map((s,i)=>'<article class="pg-tile"><span class="pg-index">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(s.title)+'</h4>'+desc(s.description)+'</article>').join('');
+ const prep=list(g.preparation).map((s,i)=>'<article class="pg-prep"><div class="pg-prep-top"><span class="pg-index">'+String(i+1).padStart(2,'0')+'</span><span class="pg-required">'+(s.required?'必要':'選填')+'</span></div><h4>'+esc(s.title)+'</h4>'+desc(s.detail)+'</article>').join('');
+ const variables=list(g.variables).map(v=>'<tr><th scope="row"><code>{{'+esc(v.name)+'}}</code><small>'+esc(v.label)+'</small></th><td>'+(v.required?'必要':'選填')+'</td><td>'+esc(v.example)+'</td></tr>').join('');
+ const output=list(g.exampleOutput?.items).map(p=>'<article class="pg-example-result"><h5>'+esc(p.name)+'</h5>'+desc(p.text)+'</article>').join('');
+ const adjustment=list(g.adjustments).map(p=>'<article class="pg-adjust"><h4>'+esc(p.title)+'</h4>'+desc(p.detail)+'</article>').join('');
+ const outputTerms=list(g.outputContract).map(v=>'<li>'+esc(v)+'</li>').join('');
+ const tests=list(g.testCases).map(t=>'<tr><th scope="row">'+esc(t.name)+'</th><td>'+esc(t.expectation)+'</td><td>'+esc(t.status==='NOT_TESTED'?'尚未測試':t.status||'未確認')+'</td></tr>').join('');
+ const acceptance=list(g.acceptance).map(t=>'<li>'+esc(t)+'</li>').join('');
+ const failure=list(g.failureHandling).map(t=>'<li>'+esc(t)+'</li>').join('');
+ const cap=g.composition?.capability||{};
+ return '<div class="prompt-guide">'+
+  '<section class="pg-lead" aria-label="Prompt 概覽"><span class="pg-kicker">PROMPT · COPY / ADAPT / VERIFY / COMPOSE</span><h3>把工作經驗寫得更清楚，不必編造漂亮數字</h3><p>'+esc(g.overview)+'</p></section>'+
+  '<nav class="pg-toc" aria-label="本頁章節"><a href="#pg-fit">適用情境</a><a href="#pg-input">準備資料</a><a href="#pg-copy">複製 Prompt</a><a href="#pg-example">使用範例</a><a href="#pg-adjust">調整方式</a><a href="#pg-verify">品質檢查</a><a href="#pg-compose">組合 Workflow</a></nav>'+
+  '<section id="pg-fit" class="pg-section"><div class="pg-heading"><span>01 · WHEN TO USE</span><h3>什麼時候適合用？</h3></div><div class="pg-three-grid">'+situations+'</div></section>'+
+  '<section id="pg-input" class="pg-section"><div class="pg-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>沒有的資料可以填「未提供」，不要猜一個數字。</p></div><div class="pg-three-grid">'+prep+'</div></section>'+
+  '<section id="pg-copy" class="pg-section"><div class="pg-heading"><span>03 · COPY</span><h3>直接複製 Prompt</h3><p>預設提供可重用的整理版；原始收藏的文字仍完整保留，可切換查看與複製。</p></div>'+
+   '<div class="pg-editor"><div class="pg-editor-bar"><div class="pg-switch" role="group" aria-label="選擇 Prompt 版本"><button type="button" class="pg-switch-btn active" data-prompt-view="adapted" aria-pressed="true">可重用版</button><button type="button" class="pg-switch-btn" data-prompt-view="original" aria-pressed="false">原始版</button></div><button type="button" class="pg-copy-btn" data-copy="'+esc(x.id)+'" data-copy-version="adapted">複製可重用版</button></div>'+
+   '<div class="pg-editor-content"><p class="pg-edition-note" data-prompt-note="adapted">'+esc(g.adaptationNote)+'</p><p class="pg-edition-note" data-prompt-note="original" hidden>原始 Prompt 逐字保留；當中的「數據感」不代表可以編造數字或經歷。</p><pre class="pg-prompt-text" data-prompt-text="adapted">'+esc(g.adaptedPrompt)+'</pre><pre class="pg-prompt-text" data-prompt-text="original" hidden>'+esc(x.prompt||'尚未提供原始 Prompt')+'</pre></div></div>'+
+   '<details class="pg-variable-details"><summary>如何填寫 Prompt 裡的變數？</summary><div class="pg-table-scroll"><table class="pg-table"><thead><tr><th scope="col">變數</th><th scope="col">類型</th><th scope="col">填寫提示</th></tr></thead><tbody>'+variables+'</tbody></table></div></details>'+
+  '</section>'+
+  '<section id="pg-example" class="pg-section"><div class="pg-heading"><span>04 · EXAMPLE</span><h3>輸入與輸出會長什麼樣？</h3><p>以下為說明格式的示例，不是模型實際產生的結果。</p></div><div class="pg-example"><div class="pg-example-input"><h4>'+esc(g.exampleInput?.label||'示範輸入')+'</h4><pre>'+esc(g.exampleInput?.content)+'</pre></div><div class="pg-example-outputs"><h4>'+esc(g.exampleOutput?.label||'預期輸出')+'</h4><div class="pg-examples-grid">'+output+'</div></div></div><p class="pg-note">'+esc(g.exampleOutput?.note)+'</p></section>'+
+  '<section id="pg-adjust" class="pg-section"><div class="pg-heading"><span>05 · ADAPT</span><h3>怎麼調整成自己的版本？</h3></div><div class="pg-three-grid">'+adjustment+'</div></section>'+
+  '<section id="pg-verify" class="pg-section"><div class="pg-heading"><span>06 · VERIFY</span><h3>怎麼知道改寫結果可信？</h3><p>先確認事實，再看文字是否清楚。不是寫得華麗就算通過。</p></div><div class="pg-two-grid"><article class="pg-verify-card"><h4>合格輸出應包含</h4><ul>'+outputTerms+'</ul></article><article class="pg-verify-card"><h4>資料不足時怎麼辦？</h4><ul>'+failure+'</ul></article></div><div class="pg-test-card"><h4>測試情境 <span>目前皆未測試</span></h4><div class="pg-table-scroll"><table class="pg-table"><thead><tr><th scope="col">案例</th><th scope="col">預期行為</th><th scope="col">狀態</th></tr></thead><tbody>'+tests+'</tbody></table></div></div><h4 class="pg-small-heading">使用前自我檢查</h4><ul class="pg-checks">'+acceptance+'</ul><p class="pg-privacy">'+esc(g.privacy)+'</p></section>'+
+  '<section id="pg-compose" class="pg-section"><div class="pg-heading"><span>07 · COMPOSE</span><h3>如何接進其他 Workflow？</h3><p>這個 Prompt 可以當成「把經歷整理成履歷句子」的一個步驟。</p></div><div class="pg-compose-card"><h4>'+esc(cap.name||'經歷改寫')+'</h4><dl><div><dt>要解決的問題</dt><dd>'+esc(cap.problem)+'</dd></div><div><dt>需要的資料</dt><dd>'+esc(cap.input)+'</dd></div><div><dt>得到的內容</dt><dd>'+esc(cap.output)+'</dd></div><div><dt>使用前檢查</dt><dd>'+esc(cap.gate)+'</dd></div></dl><div class="pg-flow"><strong>組合示例</strong><p>'+esc(g.composition?.example)+'</p></div><p class="pg-note">'+esc(g.composition?.note)+'</p></div></section>'+
+ '</div>';
+}
+
 function detail(x){
  const s=summary(x);
  const isCheatSheetsGuide=x.entityType==='resource'&&x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
  const isAiUsageBar=x.entityType==='resource'&&x.id==='tip31812-ai-usage-bar'&&Boolean(x.repoGuide);
  const isHiringPanelSkill=x.entityType==='skill'&&x.id==='alexyc9381-hiring-panel'&&Boolean(x.skillGuide);
+ const isStarPrompt=x.entityType==='prompt'&&x.id==='star-resume-experience-three-rewrites'&&Boolean(x.promptGuide);
  // This learning resource introduces scope, features, prerequisites and caveats before the lesson.
  // Other resource detail pages keep their existing rendering order.
  let body='';
- if(!isCheatSheetsGuide&&!isAiUsageBar&&!isHiringPanelSkill){
+ if(!isCheatSheetsGuide&&!isAiUsageBar&&!isHiringPanelSkill&&!isStarPrompt){
   body+=x.entityType==='resource'?learningGuideHtml(x.learningGuide,false):'';
   body+=section('這是什麼？',para(s.what));
  }
@@ -270,11 +303,13 @@ function detail(x){
   body+=section('取捨',bullets(x.tradeoffs));
   body+=section('反模式',bullets(x.antiPatterns));
  }else if(x.entityType==='prompt'){
+  if(isStarPrompt){body+=promptGuideHtml(x)}else{
   body+=section('使用目標',para(x.goal));
   body+=section('需要準備的資訊',bullets(x.inputs));
   body+=section('預期輸出',para(x.expectedOutput));
   body+=section('完整 Prompt','<div class="prompt-head"><span>可複製的完整提示詞</span><button class="copy-btn" data-copy="'+esc(x.id)+'">複製 Prompt</button></div><pre class="prompt">'+esc(x.prompt||'尚未提供 Prompt 內容')+'</pre>');
   body+=section('使用限制',bullets(x.constraints));
+  }
  }else if(x.entityType==='combination'){
   body+=section('搭配原因',para(x.rationale));
   body+=section('組合成員 Members',refsHtml(x.members));
@@ -290,7 +325,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||isHiringPanelSkill?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||isHiringPanelSkill||isStarPrompt?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
@@ -384,8 +419,10 @@ function render(){
  $('#more').textContent='顯示更多（剩餘 '+Math.max(0,rows.length-shown.length)+' 筆）';
 }
 function reset(){state.topic='all';state.type='all';state.query='';state.limit=24;$('#q').value='';navTo('#/explore')}
-async function copyPrompt(id,button){
- const p=state.byType.prompt?.get(id)?.prompt;if(!p)return;
+async function copyPrompt(id,button,version='original'){
+ const record=state.byType.prompt?.get(id);
+ const p=version==='adapted'&&text(record?.promptGuide?.adaptedPrompt)?record.promptGuide.adaptedPrompt:record?.prompt;
+ if(!p)return;
  try{
   if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(p);
   else{const ta=document.createElement('textarea');ta.value=p;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();if(!ok)throw Error('copy failed')}
@@ -400,7 +437,23 @@ function wire(){
  $('#more').addEventListener('click',()=>{state.limit+=24;render()});
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
- $('#app').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyPrompt(b.dataset.copy,b);else if(e.target.closest('[data-reset]'))reset();else if(e.target.closest('.title-link,.view-link'))state.returnHash=location.hash==='#/browse/all'?'#/browse/all':state.topic==='all'?'#/explore':'#/explore/'+state.topic});
+ $('#app').addEventListener('click',e=>{
+  const switcher=e.target.closest('[data-prompt-view]');
+  if(switcher){
+   const pane=switcher.closest('.prompt-guide');
+   const version=switcher.dataset.promptView;
+   if(!pane||!['original','adapted'].includes(version))return;
+   pane.querySelectorAll('[data-prompt-view]').forEach(btn=>{const active=btn.dataset.promptView===version;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});
+   pane.querySelectorAll('[data-prompt-text], [data-prompt-note]').forEach(el=>{el.hidden=el.dataset.promptText!==version&&el.dataset.promptNote!==version});
+   const copy=pane.querySelector('[data-copy-version]');
+   if(copy){copy.dataset.copyVersion=version;copy.textContent=version==='adapted'?'複製可重用版':'複製原始版'}
+   return;
+  }
+  const b=e.target.closest('[data-copy]');
+  if(b)copyPrompt(b.dataset.copy,b,b.dataset.copyVersion||'original');
+  else if(e.target.closest('[data-reset]'))reset();
+  else if(e.target.closest('.title-link,.view-link'))state.returnHash=location.hash==='#/browse/all'?'#/browse/all':state.topic==='all'?'#/explore':'#/explore/'+state.topic;
+ });
  window.addEventListener('resize',scheduleLessonDecisionRowAlignment);
  if(document.fonts?.ready)document.fonts.ready.then(scheduleLessonDecisionRowAlignment);
  window.addEventListener('hashchange',()=>{
