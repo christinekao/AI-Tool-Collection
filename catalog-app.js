@@ -112,24 +112,37 @@ function section(label,content){return content?'<section class="detail-section">
 function para(s){return text(s)?'<p>'+esc(s)+'</p>':''}
 function bullets(a){return list(a).length?'<ul>'+a.map(v=>'<li>'+esc(typeof v==='string'?v:JSON.stringify(v))+'</li>').join('')+'</ul>':''}
 /* Optional, source-cited study guide; original canonical metadata remains visible below. */
+/* A complete, readable lesson lives on this page. Upstream links are optional citations only. */
 function learningGuideHtml(g){
- if(!g||g.version!==1||!list(g.outcomes).length)return '';
- const safeLink=(s,label)=>url(s)?'<a href="'+esc(url(s))+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>':'';
- const outcomes=list(g.outcomes).map((o,i)=>'<article class="learn-outcome"><span class="learn-number">'+String(i+1).padStart(2,'0')+'</span><div><h4>'+esc(o.title)+'</h4><p>'+esc(o.detail)+'</p><div class="learn-check"><strong>學會的判斷標準</strong><span>'+esc(o.check)+'</span></div></div></article>').join('');
- const path=list(g.readingPath).map((p,i)=>'<li><span class="learn-number">'+String(i+1).padStart(2,'0')+'</span><div><strong>'+esc(p.title)+'</strong><p>'+esc(p.why)+'</p>'+safeLink(p.sourceUrl,'閱讀這一份原始文件')+'</div></li>').join('');
+ if(!g||!list(g.outcomes).length||!list(g.modules).length)return '';
+ const sourceLink=(href,label)=>url(href)?'<a href="'+esc(url(href))+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>':'';
+ const outcomes=list(g.outcomes).map((o,i)=>
+  '<article class="learn-outcome"><span class="learn-number">'+String(i+1).padStart(2,'0')+'</span><div><h4>'+esc(o.title)+'</h4><p>'+esc(o.detail)+'</p><div class="learn-check"><strong>學會的標準</strong><span>'+esc(o.check)+'</span></div></div></article>'
+ ).join('');
+ const path=list(g.readingPath).map((p,i)=>
+  '<li><span class="learn-number">'+String(i+1).padStart(2,'0')+'</span><div><strong>'+esc(p.title)+'</strong><p>'+esc(p.why)+'</p></div></li>'
+ ).join('');
  const guides=list(g.modules).slice().sort((a,b)=>(a.group==='先學'?0:1)-(b.group==='先學'?0:1));
- const modules=guides.map((m,i)=>'<details class="learn-module"'+(i===0?' open':'')+'><summary><div><span class="learn-module-meta">'+esc(m.group||'可選章節')+' · '+String(i+1).padStart(2,'0')+'</span><strong>'+esc(m.title)+'</strong><span class="learn-module-question">'+esc(m.question)+'</span></div><span class="learn-expand" aria-hidden="true">展開</span></summary><div class="learn-module-body"><h5>這一章真正教什麼</h5><p>'+esc(m.learn)+'</p><h5>情境例子</h5><p>'+esc(m.example)+'</p><h5>讀完應該能產出</h5><p>'+esc(m.output)+'</p><p class="learn-original">'+safeLink(m.sourceUrl,'開啟原始 Cheat Sheet')+'</p></div></details>').join('');
+ const modules=guides.map((m,i)=>{
+  const points=list(m.essentials);
+  const lessons=points.length?'<ol class="learn-essentials">'+points.map(point=>'<li>'+esc(point)+'</li>').join('')+'</ol>':'<p>'+esc(m.learn)+'</p>';
+  return '<article class="learn-module learn-module-inline"><header class="learn-module-heading"><span class="learn-module-meta">'+esc(m.group||'補充學習')+' · '+String(i+1).padStart(2,'0')+'</span><h4>'+esc(m.title)+'</h4><p class="learn-module-question">'+esc(m.question)+'</p></header>'+
+   '<div class="learn-module-body"><h5>直接學這三個重點</h5>'+lessons+
+   '<div class="learn-example"><strong>情境例子</strong><p>'+esc(m.example)+'</p></div>'+
+   (m.apply?'<div class="learn-apply"><strong>自己試試看</strong><p>'+esc(m.apply)+'</p></div>':'')+
+   '<div class="learn-deliverable"><strong>學完能產出</strong><span>'+esc(m.output)+'</span></div></div></article>';
+ }).join('');
  const practice=g.practice;
- const practiceHtml=practice?'<section class="learn-practice"><h3>'+esc(practice.title)+'</h3><p>'+esc(practice.scenario)+'</p><ol>'+list(practice.tasks).map(t=>{
-  const mod=list(g.modules).find(x=>x.id===t.sourceId);
-  const source=mod?.sourceUrl||(t.sourceId==='readiness'?list(g.readingPath)[0]?.sourceUrl:'');
-  return '<li><strong>'+esc(t.action)+'</strong><p>'+esc(t.deliverable)+'</p>'+safeLink(source,'對應學習來源')+'</li>';
- }).join('')+'</ol><p class="learn-acceptance"><strong>自我驗收：</strong>'+esc(practice.check)+'</p></section>':'';
- return '<div class="learning-guide" id="learning-guide"><div class="learn-header"><span class="learn-kicker">THIS RESOURCE TEACHES YOU</span><h3>這份資源真正值得學會什麼？</h3><p class="learn-thesis">'+esc(g.headline||'學習重點')+'</p><p>'+esc(g.takeaway||'')+'</p><p class="learn-audience">'+esc(g.audience||'')+'</p></div>'+
- '<section class="learn-section"><h3>讀完你應該具備的 5 項能力</h3><div class="learn-outcomes">'+outcomes+'</div></section>'+
- '<section class="learn-section"><h3>建議從哪裡開始讀？</h3><ol class="learn-path">'+path+'</ol></section>'+
- '<section class="learn-section"><h3>十個主題分別教什麼？</h3><p class="learn-helper">先從「先學」開始，其餘按你的專案選讀。每一章都可以展開，看問題、解法、實際情境與可交付的產物。</p><div class="learn-modules">'+modules+'</div></section>'+
- practiceHtml+'<p class="learn-caveat">'+esc(g.caveat||'')+'</p></div>';
+ const practiceHtml=practice?'<section class="learn-practice"><h3>'+esc(practice.title)+'</h3><p>'+esc(practice.scenario)+'</p><ol>'+list(practice.tasks).map(t=>
+  '<li><strong>'+esc(t.action)+'</strong><p>'+esc(t.deliverable)+'</p></li>'
+ ).join('')+'</ol><p class="learn-acceptance"><strong>自我驗收：</strong>'+esc(practice.check)+'</p></section>':'';
+ const sources='<details class="learn-reference"><summary>原始資料與版本（選讀／查核用）</summary><p>上述重點已整理在本頁，不需跳轉才能學習；需要完整規格時可逐一查看不同來源章節。</p><ol>'+
+  guides.map(m=>'<li>'+sourceLink(m.sourceUrl,m.title)+'</li>').join('')+'</ol></details>';
+ return '<div class="learning-guide" id="learning-guide"><div class="learn-header"><span class="learn-kicker">AI ENGINEERING · 快速學習筆記</span><h3>直接在這裡學，不必跳轉 GitHub</h3><p class="learn-thesis">'+esc(g.headline||'學習重點')+'</p><p>'+esc(g.inlineSummary||g.takeaway||'')+'</p><p class="learn-audience">'+esc(g.audience||'')+'</p></div>'+
+  '<section class="learn-section"><h3>學完能掌握什麼？</h3><div class="learn-outcomes">'+outcomes+'</div></section>'+
+  (path?'<section class="learn-section"><h3>先看哪裡？</h3><ol class="learn-path">'+path+'</ol></section>':'')+
+  '<section class="learn-section" id="learn-chapters"><h3>十個主題的重點筆記</h3><p class="learn-helper">每章直接列出核心知識、情境例子與小練習，不需展開或另開網頁。可以優先讀標示「先學」的主題。</p><div class="learn-modules">'+modules+'</div></section>'+
+  practiceHtml+sources+'<p class="learn-caveat">'+esc(g.caveat||'')+'</p></div>';
 }
 function detail(x){
  const s=summary(x);
