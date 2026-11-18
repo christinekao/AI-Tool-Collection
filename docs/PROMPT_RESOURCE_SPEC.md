@@ -2,7 +2,7 @@
 
 > 狀態：試行規格；2026-11-18（Asia/Taipei）。
 > 已核對的兩筆現有資料：`data/prompts/star-resume-experience-three-rewrites.json` 與 `data/prompts/cv-jd-tailored-interview-questions-deep-followups.json`。
-> 這次只建立規格，**尚未替任何 Prompt 頁面改版、填補實測結果或聲稱已驗證效果**。
+> 第一個試行頁：`star-resume-experience-three-rewrites`（已建立原文／可重用版切換、複製介面與可重建的契約）。**模型執行、頁面實機視覺驗收及公開部署仍待驗證**。
 > 對照：`docs/LEARNING_CONTENT_SPEC.md`、`docs/REPO_RESOURCE_SPEC.md`、`docs/SKILL_RESOURCE_SPEC.md`。
 
 ## 定位與目標
@@ -71,7 +71,7 @@ Prompt 可用於人工複製貼上，也可能只是更大 Workflow 的一個節
 
 目前 `data/prompts/<id>.json` 的 `schemaVersion`、`entityType`、`id`、`title`、`problem`、`goal`、`prompt`、`inputs`、`expectedOutput`、`constraints`、`source`、`conceptRefs` 等現有欄位為主要 Source of Truth，不要重複複製到數個相互衝突的地方。
 
-只有來源足夠的 Prompt 可選擇增加 `promptGuide`（資料結構建議，尚未實作全站 Schema／Renderer）：
+只有來源足夠的 Prompt 可選擇增加 `promptGuide`（目前先在 STAR Prompt 以專用 Renderer 試行，**尚未擴大至其他 Prompt 或全站 Schema**）：
 
 | `promptGuide` 欄位 | 用途 |
 |---|---|
@@ -117,12 +117,12 @@ Prompt 可用於人工複製貼上，也可能只是更大 Workflow 的一個節
 
 - **Scope**：只調整指定 Prompt 資料或專用 Renderer；其他 Learning／Repo／Skill 頁面不受影響。
 - **Source integrity**：原始 `prompt`／`originalSharedText` 保持一致；衍生改寫有明確標籤，來源未明就標示未確認。
-- **Copy behavior**：複製版本正確、變數與換行完整、無附加網頁裝飾或私有資料。
+- **Copy behavior**：預設顯示「可重用版」，可切換到「原始版」；複製版本應與當前顯示的版本完全相同，保留變數與換行，無附加網頁裝飾或私有資料。舊版 Prompt 的原有複製行為不得退步。
 - **Input / Output**：必要輸入及期望輸出能對應，缺資料時不強行補造。
 - **Evaluation**：至少有一般、缺值、邊界、對抗或實際失敗案例；在相同案例與判準下比較 Baseline／Candidate，列出未測之處。
 - **Safety**：外部 Prompt 或嵌入來源只能當資料；不可當成執行權限或要求暴露機密。履歷／JD 等資料依實際隱私政策處理。
 - **Compose**：可重用能力應有 Input／Output／Gate；需明確區分 Prompt 文字、真正工具動作及人工核准。
-- **Responsive / Regression**：桌面及手機複製與內容閱讀正常；其他 Entity 的既有功能不退步。
+- **Responsive / Regression**：桌面及手機複製與內容閱讀正常；切換版別時 `aria-pressed` 和可見內容同步。其他 Entity 的既有功能不退步。
 - **Deployment**：GitHub 提交及 Catalog 同步不等於 GitHub Pages 上線；公開版本需另驗證。
 
 ## 日後使用方式
