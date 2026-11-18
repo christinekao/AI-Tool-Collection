@@ -338,6 +338,25 @@ try{
 
  await evaluate('document.querySelector("#app .card a.title-link").click();true');
  await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI 工程決策速查表")','Article detail opens');
+ await waitFor('document.querySelectorAll(".learn-module").length===10','Ten study modules rendered from the saved original Resource');
+ const studyContent=await evaluate('({heroHidden:document.querySelector(".hero")?.hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-module a[href*=sraodev]").length,legacyFeatures:document.querySelector(".detail-panel")?.textContent.includes("主要功能")})');
+ assert.ok(studyContent.heroHidden&&studyContent.outcomes===5&&studyContent.modules===10&&studyContent.readPath===4&&studyContent.practice>=4&&studyContent.sourceLinks>=10&&studyContent.legacyFeatures,'Learning outcomes, study path and original sources must all render: '+JSON.stringify(studyContent));
+ const first=await evaluate('({open:document.querySelector(".learn-module")?.open,text:document.querySelector(".learn-module-body")?.textContent})');
+ assert.ok(first.open&&first.text.includes('這一章真正教什麼')&&first.text.includes('讀完應該能產出'),'First lesson should be immediately readable');
+ await evaluate('document.querySelectorAll(".learn-module")[1].querySelector("summary").click();true');
+ await waitFor('document.querySelectorAll(".learn-module")[1]?.open===true','Study module expand');
+ for(const width of [375,430,768,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(80);
+  const dims=await evaluate('({viewport:document.documentElement.clientWidth,content:document.documentElement.scrollWidth,guide:document.querySelector(".learning-guide")?.getBoundingClientRect().width})');
+  assert.ok(dims.content<=dims.viewport+3,'Study guide must fit '+width+'px: '+JSON.stringify(dims));
+  if(width===375||width===1440){
+   const capture=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+   fs.writeFileSync(path.join(screenshotDir,'resource-learning-'+width+'.png'),Buffer.from(capture.data,'base64'));
+  }
+ }
+ console.log('PASS: Ten source-linked learning chapters, five outcomes, working lessons, responsive reading');
+
  assert.ok(await evaluate('!!document.querySelector(".external-links a[href*=sraodev]")'),'Upstream source repository link must be visible');
  console.log('PASS: All Collections retains all six data types, both saved sources and independent deep links');
 
