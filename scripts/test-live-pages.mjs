@@ -2,6 +2,7 @@
 /** Real GitHub Pages HTTP contract test; separate from local-source CI. */
 const BASE='https://christinekao.github.io/AI-Tool-Collection/';
 const targets=[
+ ['catalog-style.css','css',text=>text.includes('.detail{width:100%;max-width:none;margin:28px 0 65px}')],
  ['knowledge.html','text/html',text=>text.includes('knowledge-learning.js?v=20261118')&&text.includes('knowledge-app.js?v=20261118-recovery')],
  ['ask.html','text/html',text=>text.includes('knowledge-answer-app.mjs?v=1')&&text.includes('從收藏找答案')],
  ['knowledge-answer-app.mjs','javascript',text=>text.includes('createAnswer')&&text.includes('ask-form')],
@@ -18,7 +19,7 @@ const targets=[
  ['data/resources/tip31812-ai-usage-bar.json','json',text=>{const j=JSON.parse(text);return j.url==='https://github.com/tip31812/ai-usage-bar'&&j.implementationKnowledge?.executionStatus==='NOT_EXECUTED'&&j.source?.upstreamCommit?.length===40}],
  ['playground.html','text/html',text=>text.includes('playground-app.js')],
  ['playground-app.js','javascript',text=>text.includes('PG_RECIPES')],
- ['index.html','text/html',text=>text.includes('開始學習完整解法')&&text.includes('#/browse/all')&&text.includes('ask.html')]
+ ['index.html','text/html',text=>text.includes('開始學習完整解法')&&text.includes('#/browse/all')&&text.includes('ask.html')&&text.includes('catalog-style.css?v=20261118-detailwide')]
 ];
 async function fetchWithTransientRetry(url){
  let lastError;
