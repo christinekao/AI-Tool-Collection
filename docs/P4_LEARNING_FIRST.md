@@ -30,6 +30,9 @@
 5. `shared-agent-memory` — 記憶擷取、索引、漸進召回、成果回饋。
 6. `privacy-safe-ai-documents` — 本機 PII 偵測、可逆遮罩、核准範圍、還原 QA。
 7. `automate-email-triage` — 規則優先、模型分類、Dry Run、核准與回復。
+8. `verify-ai-generated-code` — AI 程式驗收、回歸、資料回讀與交付證據。
+9. `social-content-ops` — 聲線、平台草稿、人工發布核准及成效回顧。
+10. `learning-ai-engineering-by-doing` — 學習目標、預測、最小實作、實驗與測驗。
 
 首頁先顯示其中六個跨領域入門案例，其餘可從完整 Problem 清單或搜尋找到。
 
@@ -45,7 +48,7 @@
 
 ## 驗收 Gate
 
-1. **Source Integrity**：7 筆完整教學的來源有效，V2 正式資料沒有變更。
+1. **Source Integrity**：10 筆完整教學的來源有效，V2 正式資料沒有變更。
 2. **Learning Value**：進入首頁可立刻看到要學會什麼；完整教學不是只有工具清單。
 3. **Actionability**：每份完整教學有操作步驟、產物、檢查、情境選擇與練習。
 4. **Evidence**：所有工具能力仍回指既有官方來源紀錄；虛構例子有清楚標籤。
