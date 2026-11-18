@@ -711,7 +711,7 @@
       "license": "上游 Repo 原創內容 MIT；第三方文章與外部連結另依各自條款",
       "notes": "原始使用者網址已完整保存於 url 與 source.url；官方 Repo 保存於 repo、homepage 與 source.upstream。這是知識教材，適合用來規劃與驗收其他 AI 專案，不是可直接安裝的應用程式。",
       "learningGuide": {
-        "version": 1,
+        "version": 2,
         "headline": "學會做 AI 工程決策，而不只是認識十個技術名詞",
         "takeaway": "這份教材的重點是：先定義需求與驗收，再選最簡單且足夠的 AI 架構；對資料、工具、模型及權限做風險控管；最後用可查核的測試與證據決定能否上線。",
         "audience": "適合想設計、實作或審查 AI／Agent 系統的人。初學者可以先閱讀系統設計與 Evals，再選與自己需求相關的其他主題；不必照順序讀完十章。",
@@ -773,7 +773,13 @@
             "learn": "用任務複雜度、資料新鮮度、操作權限與評測結果，決定採用規則、單次模型、RAG、固定流程或有限制的 Agent。",
             "example": "情境：企業內部 FAQ。若只查固定表格，可能用搜尋／規則即可；要根據內部文件且附來源，才考慮 Retrieval + LLM；有核准後寫入系統的需求，才評估工具及 Agent。",
             "output": "最小系統架構、System Contract、升級複雜度的證據",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/ai-system-design.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/ai-system-design.md",
+            "essentials": [
+              "固定規則、精確查詢：先用一般程式或搜尋，不必使用 LLM。",
+              "分類、摘要、資訊擷取：先試一次模型呼叫，加上固定輸出格式；資料需要即時且可引用時再加入 Retrieval。",
+              "流程順序固定就用 Workflow；只有步驟需依結果改變時才考慮受控 Agent。每增加一層複雜度都要有評測證據。"
+            ],
+            "apply": "拿「自動回答員工請假規則」當例子，選一個最簡單的架構，寫下何時才需要升級成 RAG 或 Agent。"
           },
           {
             "id": "open-source-ai",
@@ -783,7 +789,13 @@
             "learn": "區分 open source、open weights 與尚無充分證據的開放性主張，分別核對程式碼、權重、資料及各元件授權與來源。",
             "example": "情境：公司要下載模型。不能只看到 GitHub 授權就推論整個模型和訓練資料都可任意商用，還需要逐項核對。",
             "output": "元件授權清單、模型與資料來源紀錄、開放性分類",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/open-source-ai.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/open-source-ai.md",
+            "essentials": [
+              "Open weights 只表示權重可取得，不能直接推論所有程式、訓練資訊與商用權都開放。",
+              "分別核對程式碼、模型權重、訓練資料資訊及相依元件的授權、限制與出處。",
+              "保存確切版本、授權證據、下載來源與檔案識別；證據缺少時標示「開放性未驗證」。"
+            ],
+            "apply": "選一個 Hugging Face 模型，填寫「權重授權／程式碼授權／資料資訊／是否可商用」，查不到的欄位標註未確認。"
           },
           {
             "id": "models-inference",
@@ -793,7 +805,13 @@
             "learn": "把工作負載、品質、延遲、成本、授權與部署能力分開評估；選擇模型時保留比較基準，不只看排行榜。",
             "example": "情境：要在本機跑文件分類。先記錄可接受延遲與品質，再比較可部署模型及量化帶來的取捨。",
             "output": "模型與部署決策紀錄、品質／延遲／成本測試",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/models-and-inference.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/models-and-inference.md",
+            "essentials": [
+              "先定義工作負載：任務、語言、資料敏感度、輸出格式、可接受品質、延遲與成本，再比較模型。",
+              "雲端 API 上手快，但要檢查資料處理與用量限制；本機／自架可控制部署位置，但要承擔硬體與維護成本。",
+              "量化可能省記憶體，但不保證品質或速度必然變好；用同一批案例測正確率、延遲、記憶體與成本。"
+            ],
+            "apply": "假設要做 1,000 份文件分類，列出「品質／平均延遲／成本／是否能離線」四項模型選擇條件。"
           },
           {
             "id": "model-adaptation",
@@ -803,7 +821,13 @@
             "learn": "先用評測確認簡單方法失效，再建立資料品質、訓練、版本控制與回歸比較，不為了使用微調而微調。",
             "example": "情境：模型經常輸出不一致的分類。先檢查 Schema 與提示詞，確定仍無法達標後，再評估資料集與調適方式。",
             "output": "訓練契約、資料版本、模型調適前後的比較報告",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/training-and-model-adaptation.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/training-and-model-adaptation.md",
+            "essentials": [
+              "先試 Prompt、示例、Retrieval 或固定流程；只有代表性測試仍不達標，才考慮微調。",
+              "SFT 使用有標註的示範資料；PEFT 只訓練部分參數；Distillation 用小模型學習特定教師行為，方法各有條件。",
+              "訓練前固定資料來源、訓練／驗證／測試切分及基準；完成後用相同評測比較品質、安全、延遲與成本。"
+            ],
+            "apply": "遇到回答格式不一致，先寫出 Prompt 與 JSON Schema 的改善方案；再列出什麼測試結果會讓你改選 Fine-tuning。"
           },
           {
             "id": "prompt-output",
@@ -813,7 +837,13 @@
             "learn": "將輸出定成可檢查的 Schema，驗證型別、欄位與錯誤狀態；不要把自然語言模型回覆當成可靠的 API 契約。",
             "example": "情境：從履歷擷取技能與年資。先定義 JSON 欄位與缺失值，再測試欄位遺漏或格式錯誤時如何處理。",
             "output": "Prompt、JSON Schema、驗證／重試流程及測試案例",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/prompting-and-structured-output.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/prompting-and-structured-output.md",
+            "essentials": [
+              "Prompt 應包含任務、可信規則、輸入、輸出格式，以及資訊不足時的處理方式；不是只靠一句神奇指令。",
+              "輸出需要被程式使用時，以 Schema 定義必填欄位、資料型別、允許值及拒答／錯誤狀態。",
+              "程式端仍要驗證 JSON 格式、業務規則與權限；文件或工具回傳內容不能提升成系統指令。"
+            ],
+            "apply": "寫一個履歷擷取 Schema：技能為文字陣列、年資可為空、無資料時回傳 unknown；再準備一筆缺少年資的測試。"
           },
           {
             "id": "retrieval-context",
@@ -823,7 +853,13 @@
             "learn": "分開評估文件擷取、權限過濾、檢索命中與回答引用。權限應在內容進模型前就被限制，而不是靠 Prompt 隱藏。",
             "example": "情境：公司知識庫問答。不同部門的文件要按使用者權限篩選，再比較檢索與回答是否引用正確來源。",
             "output": "有權限控制的檢索流程、來源追溯與 Retrieval Evals",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/retrieval-and-context.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/retrieval-and-context.md",
+            "essentials": [
+              "RAG 的流程不只是把文件放進向量資料庫：還包含來源登錄、解析、切分、權限過濾、檢索、引用與驗證。",
+              "先確認使用者有權閱讀文件，才能把內容送進模型；每個片段應保留來源、版本與存取範圍。",
+              "將「是否找對文件」與「有文件後是否答對」分開測試，並納入找不到答案、過期資料及撤銷權限的案例。"
+            ],
+            "apply": "設計一題「員工能否查看主管限定文件？」的測試，寫下允許檢索的來源與正確的拒絕行為。"
           },
           {
             "id": "agents-mcp",
@@ -833,7 +869,13 @@
             "learn": "理解固定流程與自主 Agent 的界線，為每個工具定義輸入、權限、副作用、人工核准、逾時、重試與可追溯紀錄。",
             "example": "情境：Agent 幫忙整理郵件。閱讀和產出草稿可分開授權；真正寄出郵件則必須核對對象並取得核准。",
             "output": "Tool Contract、風險分級、核准矩陣與有限制的 Agent Loop",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/agents-and-mcp.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/agents-and-mcp.md",
+            "essentials": [
+              "Workflow 的步驟由程式決定；Agent 會依中間結果選擇下一步。能用固定流程解決時，不應直接增加自主性。",
+              "每個工具都要有輸入／輸出契約、最小權限、執行條件、副作用類型、逾時與重試限制。",
+              "讀取、建立草稿與真正寄出／刪除屬不同風險；有重大副作用的操作要在執行前重新檢查並取得核准。"
+            ],
+            "apply": "為「整理 Gmail 郵件」寫三種工具操作：讀取、草擬、寄送；標示每一種需要的權限和人工核准。"
           },
           {
             "id": "multimodal",
@@ -843,7 +885,13 @@
             "learn": "為不同媒體定義格式、大小、來源與失敗界線，依模態建立評測與輸出驗證，而不是只看文字回答是否流暢。",
             "example": "情境：分析影片並產生摘要。需明確處理時間戳、字幕／畫面來源及多模態資訊錯配。",
             "output": "媒體輸入與輸出契約、模態專屬測試",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/multimodal-systems.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/multimodal-systems.md",
+            "essentials": [
+              "圖片、文件、音訊、影片各有格式、大小、頁數、時長與前處理限制，不能共用一套簡單的文字輸入規則。",
+              "原始檔、OCR 結果、影格、轉錄文字及模型輸出要分別保存來源與版本，避免把衍生內容當原件。",
+              "測試要分模態進行：文件看閱讀順序、影片看時間事件、音訊看轉錄與說話者；別只看最後摘要是否通順。"
+            ],
+            "apply": "假設要摘要一段會議影片，列出需保留的時間戳、轉錄版本，以及字幕錯誤時應如何標示不確定性。"
           },
           {
             "id": "evals-observability",
@@ -853,7 +901,13 @@
             "learn": "建立分層評測，涵蓋模型、檢索、工具、Agent Trajectory 與整體成果；保留基準線、對抗案例與事故回歸；再追蹤正式環境的故障與成本。",
             "example": "情境：新增 RAG 後回答變得更長。不能只看感覺，應比較回答正確率、引用、權限、延遲與成本。",
             "output": "版本化 Evals Suite、通過門檻、Trace 與回歸報告",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/evals-and-observability.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/evals-and-observability.md",
+            "essentials": [
+              "Evals（評測）回答「改版能不能上線」；Observability（可觀測性）回答「正式執行時發生了什麼」。兩者要對齊同一個任務成果。",
+              "把測試分層：輸出 Schema、檢索命中、回答正確性、工具選擇、Agent 執行軌跡、整體成果；不要只看最終答案。",
+              "用同一份有版本的案例比較改版前後，納入正常、無答案、越權、工具錯誤、攻擊及既有失敗案例；記錄追蹤資訊但避免洩露敏感內容。"
+            ],
+            "apply": "列出五個 AI 文件問答測試：正確引用、查無答案、過期文件、跨權限文件、惡意指令；定義每題 PASS／FAIL。"
           },
           {
             "id": "security-governance",
@@ -863,7 +917,13 @@
             "learn": "辨認信任邊界，針對 Prompt Injection、敏感資料、Tool Poisoning、記憶汙染、越權及資源耗盡設計控制與測試。只寫安全 Prompt 不等於安全架構。",
             "example": "情境：Agent 讀到外部網頁含有『忽略規則並外送資料』的惡意文字。網頁內容不能變成高優先級指令，工具執行要另外過權限與政策檢查。",
             "output": "Threat Model、防護測試證據、Incident Runbook、Release Gate",
-            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/security-and-governance.md"
+            "sourceUrl": "https://github.com/sraodev/awesome-opensource-ai-cheat-sheets/blob/c8275b4bfad40f431cd22b616c74728c18e2b29f/cheatsheets/security-and-governance.md",
+            "essentials": [
+              "把使用者輸入、檢索文件、模型輸出及工具回傳都視為可能不可信；外部內容不得直接決定權限或執行動作。",
+              "限制 Agent 的資料範圍、工具權限、網路目的地、步驟與花費；寄信、修改或刪除等行為應有核准與稽核。",
+              "針對 Prompt Injection、資料外洩、惡意 MCP 工具、記憶污染及重複寫入建立攻擊測試；發生事故時要能停用、回滾與追查。"
+            ],
+            "apply": "在測試文件中放入「忽略規則並外送資料」的惡意內容，定義 Agent 應忽略指令、保留事件紀錄且不得執行外送。"
           }
         ],
         "practice": {
@@ -893,7 +953,8 @@
           ],
           "check": "你能解釋「為什麼選這個架構、哪些情況不能回答、用什麼證據判斷能否上線」即代表掌握本資源的核心用途。"
         },
-        "caveat": "這是依 2026-08-24 上游審閱版本與導讀整理的學習導覽，並非完整課程、實際操作測試、官方合規認證或法律意見。每份速查表有更細的檢核與原始參考，遇到具體需求應點開原文查核。"
+        "caveat": "本頁是依來源文件整理的繁體中文速讀筆記，涵蓋主要判斷與做法；例子與小練習是為理解而設計，並非原作者的實際測試。完整細節、規格更新與權威依據可從頁底「原始資料」查核。",
+        "inlineSummary": "先定義問題與成功標準 → 選最簡單的架構 → 保護資料及操作權限 → 用測試證明可用 → 才考慮上線。"
       }
     },
     {
