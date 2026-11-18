@@ -1,0 +1,27 @@
+name: Live Pages Smoke
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/test-live-pages.mjs'
+      - 'knowledge-app.js'
+      - 'knowledge-learning.js'
+      - 'knowledge.html'
+      - 'playground.html'
+      - 'playground-app.js'
+      - 'data/knowledge-graph-v1.json'
+      - 'data/catalog-v2.json'
+      - '.github/workflows/live-pages-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check deployed GitHub Pages HTTP assets and JSON contracts
+        run: node scripts/test-live-pages.mjs
