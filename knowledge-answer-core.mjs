@@ -201,10 +201,58 @@ function risksFor(ranked){
  return res;
 }
 function practiseFor(ranked){const p=ranked.map(x=>x.record).find(r=>r.type==='problem'&&r.learning?.practice?.task);return p?{...p.learning.practice,source:makeRef(p)}:null}
-function comparisons(ranked){
- // Only compare independent resources, not a Resource and an unrelated Concept.
+function comparisonTargets(query){
+ const input=normalize(query).replace(/^.*?(?:比較|對比)\s*/u,'');
+ const parts=input.split(/\s*(?:與|和|跟|\bvs\.?\b|\bversus\b)\s*/iu);
+ if(parts.length!==2)return null;
+ const clean=t=>t.replace(/[，,。？?：:；;].*$/u,'').replace(/(?:的)?(?:差異|差別|優缺點|取捨|有什麼|有哪些).*$/u,'').trim();
+ const targets=parts.map(clean).filter(x=>x.length>=2);
+ return targets.length===2?targets:null;
+}
+function comparisonChoice(query,records,used){
+ const terms=lexicalTerms(query);
+ const results=searchKnowledge(query,records,{intent:'understand',limit:40});
+ const exact=results.filter(x=>{
+  const r=x.record,f=fields(r);
+  return !used.has(refKey(r.type,r.id))&&terms.some(t=>f.title.includes(t)||f.slug.includes(t)||f.tags.includes(t));
+ });
+ const isBroadConcept=/^(?:rag|ai\s*agent|agent|agents|retrieval|檢索|代理)$/i.test(query);
+ return exact.sort((a,b)=>
+   (isBroadConcept&&a.record.type==='concept'?-60:0)-
+   (isBroadConcept&&b.record.type==='concept'?-60:0)||
+   b.score-a.score
+ )[0]?.record||null;
+}
+function comparisonCard(r){
+ const concept=r.type==='concept';
+ return {
+  title:r.title,
+  purpose:short(concept?(r.coreProblem||r.definition):r.purpose||r.goal||r.problem,420),
+  features:(concept?r.solutionMethods:r.features||r.stages?.map(s=>s.purpose)||[]).slice(0,3).map(x=>short(x,320)),
+  limitations:(concept?r.tradeoffs:r.limitations||[]).slice(0,2).map(x=>short(x,320)),
+  source:makeRef(r)
+ };
+}
+function comparisons(ranked,records,query){
+ const targets=comparisonTargets(query);
+ if(targets){
+  const used=new Set(),selected=[];
+  for(const name of targets){
+   const record=comparisonChoice(name,records,used);
+   if(record){used.add(refKey(record.type,record.id));selected.push(record)}
+  }
+  // The cards stay titled with the actual records, never fabricated category names.
+  return {items:selected.map(comparisonCard),scoped:true,targets};
+ }
  const options=byKind(ranked,'resource',5).filter(r=>r.purpose);
- return options.slice(0,3).map(r=>({title:r.title,purpose:short(r.purpose,420),features:(r.features||[]).slice(0,2).map(x=>short(x,320)),limitations:(r.limitations||[]).slice(0,2).map(x=>short(x,320)),source:makeRef(r)}));
+ return {items:options.slice(0,3).map(comparisonCard),scoped:false,targets:null};
+}
+function exactCoverageGaps(query,ranked){
+ const tokens=lexicalTerms(query).filter(t=>/^[a-z]/.test(t)&&t.length>=5);
+ const missing=tokens.filter(t=>!ranked.some(x=>{
+  const f=fields(x.record);return [f.title,f.slug,f.tags,f.main,f.details].some(v=>v.includes(t));
+ }));
+ return missing.length?'沒有找到直接提及「'+missing.slice(0,3).join('、')+'」的相關收藏；列出的其他項目只能作為背景參考。':'';
 }
 function uniqueSources(ranked){const used=new Set();return ranked.filter(x=>!used.has(x.record.type+':'+x.record.id)&&used.add(x.record.type+':'+x.record.id)).slice(0,12).map(x=>({...makeRef(x.record),reason:short(simpleFacts(x.record,'understand')[0]?.text||'',125)}))}
 export function createAnswer(query,catalog,problems=[]){
@@ -218,12 +266,12 @@ export function createAnswer(query,catalog,problems=[]){
  const main=relevantFacts(sourceRecords,intent);
  const risks=risksFor(sourceRecords);
  if(intent==='compare'){
-  const items=comparisons(sourceRecords);
-  section('compare','已收錄方案的差異',items);
+  const comparison=comparisons(sourceRecords,records,input);
+  section('compare',comparison.scoped?'對照主題相關的原始資料':'已收錄方案的差異',comparison.items);
   section('facts','比較前需要先理解',main.slice(0,5));
   section('risk','選擇前需核對',risks);
-  if(items.length<2)base.gap='目前沒有足夠的獨立 Resource 可以客觀比較，不會強行選出最佳工具。';
-  else base.gap='這是已收藏資料的並列比較，不代表最新版本、效能、價格或整合相容性已實測。';
+  if(comparison.items.length<2)base.gap='目前沒有足夠的獨立且與兩個比較主題直接相關的來源，不會強行選出最佳工具。';
+  else base.gap=comparison.scoped?'目前是分別針對兩個主題找到的來源紀錄，不是完整的端對端技術比較；仍需核對各方案的實際能力與取捨。':'這是已收藏資料的並列比較，不代表最新版本、效能、價格或整合相容性已實測。';
  }else if(intent==='implement'){
   section('facts','目前收藏提供的實作依據',main.slice(0,6));
   const steps=implementationSteps(sourceRecords);
@@ -244,6 +292,8 @@ export function createAnswer(query,catalog,problems=[]){
   section('facts','找到的相關知識',main);
   section('risk','可能的使用限制',risks.slice(0,3));
  }
+ const uncovered=exactCoverageGaps(input,ranked);
+ if(uncovered)base.gap=base.gap?uncovered+' '+base.gap:uncovered;
  base.sources=uniqueSources(sourceRecords);
  base.complete=Boolean(base.sections.length&&base.sources.length&&!base.gap);
  return base;
