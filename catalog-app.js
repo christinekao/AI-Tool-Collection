@@ -190,14 +190,44 @@ function repoGuideHtml(x){
  '</div>';
 }
 
+/* Human-readable skill guide; source/agent execution knowledge stays in canonical data. */
+function skillGuideHtml(x){
+ const g=x.skillGuide;
+ if(!g||!list(g.process).length)return '';
+ const readable=s=>'<p>'+esc(s)+'</p>';
+ const facts=list(g.facts).map(f=>'<div class="skill-fact"><dt>'+esc(f.label)+'</dt><dd>'+esc(f.value)+'</dd></div>').join('');
+ const situations=list(g.situations).map((s,i)=>'<article class="skill-situation"><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(s.title)+'</h4>'+readable(s.description)+'</article>').join('');
+ const preparation=list(g.preparation).map((p,i)=>'<article class="skill-prep"><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(p.title)+'</h4>'+readable(p.detail)+'</article>').join('');
+ const readers=list(g.reviewers).map(p=>'<article class="skill-reviewer"><h5>'+esc(p.title)+'</h5>'+readable(p.focus)+'</article>').join('');
+ const stages=list(g.process).map((s,i)=>'<li class="skill-stage"><span class="skill-step">'+esc(s.number||String(i+1).padStart(2,'0'))+'</span><div class="skill-stage-content"><div class="skill-stage-top"><h4>'+esc(s.title)+'</h4><span>'+esc(s.label)+'</span></div>'+readable(s.detail)+(i===2?'<div class="skill-five-readers"><h5>五個角色各自看什麼？</h5><div class="skill-reviewer-grid">'+readers+'</div></div>':'')+'<div class="skill-stage-result"><strong>這一步得到</strong><span>'+esc(s.result)+'</span></div></div></li>').join('');
+ const setup=list(g.howToUse?.setup).map((s,i)=>'<article class="skill-setup"><h4>'+esc(s.title)+'</h4>'+readable(s.description)+(list(s.commands).length?'<pre class="skill-code"><code>'+esc(s.commands.join('\n'))+'</code></pre>':'')+'</article>').join('');
+ const outputs=list(g.deliverables).map(o=>'<article class="skill-output"><div class="skill-output-icon">MD</div><div><h4><code>'+esc(o.name)+'</code></h4>'+readable(o.description)+'</div></article>').join('');
+ const caps=list(g.composition?.capabilities).map((cap,i)=>'<article class="skill-capability"><div class="skill-cap-head"><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(cap.title)+'</h4></div><dl><div><dt>需要什麼</dt><dd>'+esc(cap.input)+'</dd></div><div><dt>會得到什麼</dt><dd>'+esc(cap.output)+'</dd></div><div><dt>使用前確認</dt><dd>'+esc(cap.gate)+'</dd></div></dl></article>').join('');
+ const risks=list(g.safety).map(r=>'<article class="skill-risk"><h4>'+esc(r.title)+'</h4>'+readable(r.risk)+'<div class="skill-risk-action"><strong>建議做法</strong>'+readable(r.action)+'</div></article>').join('');
+ const acceptance=list(g.acceptance).map((v,i)=>'<li><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><span>'+esc(v)+'</span></li>').join('');
+ const steps=list(g.composition?.capabilities).map((cap,i)=>'<li><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+esc(cap.title)+'</strong></li>').join('');
+ return '<div class="skill-guide">'+
+  '<section class="skill-lead" aria-label="Skill 概覽"><div class="skill-kicker">SKILL · WHEN TO USE / HOW IT WORKS / WORKFLOW</div><div class="skill-lead-grid"><div><h3>先找出履歷可能被淘汰的原因，再有根據地修改</h3><p>'+esc(g.overview)+'</p><p class="skill-lead-note">'+esc(g.introNote)+'</p></div><dl class="skill-facts">'+facts+'</dl></div></section>'+
+  '<nav class="skill-toc" aria-label="本頁章節"><a href="#skill-fit">適用情境</a><a href="#skill-prepare">事前準備</a><a href="#skill-process">執行流程</a><a href="#skill-use">如何使用</a><a href="#skill-output">會產出什麼</a><a href="#skill-compose">組合 Workflow</a><a href="#skill-risk">風險與驗收</a></nav>'+
+  '<section class="skill-section" id="skill-fit"><div class="skill-section-heading"><span>01 · FIT</span><h3>什麼時候適合用？</h3><p>把它當成投履歷前的第二次檢查，而不是求職結果預測器。</p></div><div class="skill-situation-grid">'+situations+'</div></section>'+
+  '<section class="skill-section" id="skill-prepare"><div class="skill-section-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>最重要的是履歷和目標職務；缺少證據的成果不能自行填補。</p></div><div class="skill-prep-grid">'+preparation+'</div></section>'+
+  '<section class="skill-section" id="skill-process"><div class="skill-section-heading"><span>03 · EXECUTION</span><h3>它會怎麼審查履歷？</h3><p>先做兩輪初步判斷，再由五種角色各自審查，最後整合、改寫並重新檢查。</p></div><ol class="skill-stages">'+stages+'</ol></section>'+
+  '<section class="skill-section" id="skill-use"><div class="skill-section-heading"><span>04 · USE</span><h3>如何使用？</h3><p>這是 Claude Code 的 Skill，必須先安裝並啟用，才能使用以下指令。</p></div><div class="skill-command-card"><div><h4>在 Claude Code 內輸入</h4><p>'+esc(g.howToUse?.meaning)+'</p></div><pre class="skill-code"><code>'+esc(g.howToUse?.command||g.howToUse?.trigger)+'</code></pre></div><details class="skill-install-details"><summary>第一次使用：查看安裝方式</summary><div class="skill-setup-grid">'+setup+'</div></details><p class="skill-use-note">'+esc(g.howToUse?.usageNote)+'</p></section>'+
+  '<section class="skill-section" id="skill-output"><div class="skill-section-heading"><span>05 · OUTPUT</span><h3>跑完會產出什麼？</h3><p>輸出會保存在執行目錄下的 <code>'+esc(g.savePath)+'</code>，不會直接改寫原始履歷。</p></div><div class="skill-output-grid">'+outputs+'</div></section>'+
+  '<section class="skill-section" id="skill-compose"><div class="skill-section-heading"><span>06 · COMPOSE</span><h3>如何把這個 Skill 用在其他 Workflow？</h3><p>不需要複製整套七人審查；也能依問題選擇其中的能力，再搭配其他流程。</p></div><div class="skill-workflow-strip"><ol>'+steps+'</ol></div><div class="skill-capability-grid">'+caps+'</div><p class="skill-caution">'+esc(g.composition?.note)+'</p></section>'+
+  '<section class="skill-section" id="skill-risk"><div class="skill-section-heading"><span>07 · SAFETY & QUALITY</span><h3>使用前注意什麼？如何判斷結果有用？</h3><p>重點是保護履歷資料、避免捏造經歷，並檢查修改是否有真實依據。</p></div><div class="skill-risk-grid">'+risks+'</div><h4 class="skill-check-heading">檢查完成品質</h4><ol class="skill-acceptance">'+acceptance+'</ol></section>'+
+ '</div>';
+}
+
 function detail(x){
  const s=summary(x);
  const isCheatSheetsGuide=x.entityType==='resource'&&x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
  const isAiUsageBar=x.entityType==='resource'&&x.id==='tip31812-ai-usage-bar'&&Boolean(x.repoGuide);
+ const isHiringPanelSkill=x.entityType==='skill'&&x.id==='alexyc9381-hiring-panel'&&Boolean(x.skillGuide);
  // This learning resource introduces scope, features, prerequisites and caveats before the lesson.
  // Other resource detail pages keep their existing rendering order.
  let body='';
- if(!isCheatSheetsGuide&&!isAiUsageBar){
+ if(!isCheatSheetsGuide&&!isAiUsageBar&&!isHiringPanelSkill){
   body+=x.entityType==='resource'?learningGuideHtml(x.learningGuide,false):'';
   body+=section('這是什麼？',para(s.what));
  }
@@ -224,12 +254,17 @@ function detail(x){
   }
   }
  }else if(x.entityType==='skill'){
+  if(isHiringPanelSkill){
+   body+=skillGuideHtml(x);
+   body+=section('相關 Resources',refsHtml(x.resourceRefs));
+  }else{
   body+=section('解決的問題',para(x.problem));
   body+=section('如何使用',para(x.execution));
   body+=section('輸入',bullets(x.inputs));
   body+=section('輸出',bullets(x.outputs));
   body+=section('相關 Resources',refsHtml(x.resourceRefs));
   body+=section('相關 Concepts',refsHtml(x.conceptRefs));
+  }
  }else if(x.entityType==='concept'){
   body+=section('解決方法',bullets(x.solutionMethods));
   body+=section('實際案例與參考項目',examples(x));
@@ -256,7 +291,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||isHiringPanelSkill?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
