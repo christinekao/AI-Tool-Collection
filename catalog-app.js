@@ -126,8 +126,10 @@ function learningGuideHtml(g){
  const modules=guides.map((m,i)=>{
   const points=list(m.essentials);
   const lessons=points.length?'<ol class="learn-essentials">'+points.map(point=>'<li>'+esc(point)+'</li>').join('')+'</ol>':'<p>'+esc(m.learn)+'</p>';
+  const decisionTable=list(m.decisionTable).length?'<div class="learn-decision"><h5>先依需求選方案</h5><div class="learn-decision-scroll"><table><thead><tr><th scope="col">需求特性</th><th scope="col">優先選擇</th></tr></thead><tbody>'+list(m.decisionTable).map(row=>'<tr><td>'+esc(row.need)+'</td><td>'+esc(row.start)+'</td></tr>').join('')+'</tbody></table></div></div>':'';
+  const decisionChecks=list(m.decisionChecks).length?'<div class="learn-decision-check"><strong>真的需要 Agent？先回答這三個問題</strong><ol>'+list(m.decisionChecks).map(q=>'<li>'+esc(q)+'</li>').join('')+'</ol></div>':'';
   return '<article class="learn-module learn-module-inline"><header class="learn-module-heading"><span class="learn-module-meta">'+esc(m.group||'補充學習')+' · '+String(i+1).padStart(2,'0')+'</span><h4>'+esc(m.title)+'</h4><p class="learn-module-question">'+esc(m.question)+'</p></header>'+
-   '<div class="learn-module-body"><h5>直接學這三個重點</h5>'+lessons+
+   '<div class="learn-module-body">'+decisionTable+'<h5>三個判斷原則</h5>'+lessons+decisionChecks+
    '<div class="learn-example"><strong>情境例子</strong><p>'+esc(m.example)+'</p></div>'+
    (m.apply?'<div class="learn-apply"><strong>自己試試看</strong><p>'+esc(m.apply)+'</p></div>':'')+
    '<div class="learn-deliverable"><strong>學完能產出</strong><span>'+esc(m.output)+'</span></div></div></article>';
@@ -138,7 +140,7 @@ function learningGuideHtml(g){
  ).join('')+'</ol><p class="learn-acceptance"><strong>自我驗收：</strong>'+esc(practice.check)+'</p></section>':'';
  const sources='<details class="learn-reference"><summary>原始資料與版本（選讀／查核用）</summary><p>上述重點已整理在本頁，不需跳轉才能學習；需要完整規格時可逐一查看不同來源章節。</p><ol>'+
   guides.map(m=>'<li>'+sourceLink(m.sourceUrl,m.title)+'</li>').join('')+'</ol></details>';
- return '<div class="learning-guide" id="learning-guide"><div class="learn-header"><span class="learn-kicker">AI ENGINEERING · 快速學習筆記</span><h3>直接在這裡學，不必跳轉 GitHub</h3><p class="learn-thesis">'+esc(g.headline||'學習重點')+'</p><p>'+esc(g.inlineSummary||g.takeaway||'')+'</p><p class="learn-audience">'+esc(g.audience||'')+'</p></div>'+
+ return '<div class="learning-guide" id="learning-guide">'+
   '<section class="learn-section"><h3>學完能掌握什麼？</h3><div class="learn-outcomes">'+outcomes+'</div></section>'+
   (path?'<section class="learn-section"><h3>先看哪裡？</h3><ol class="learn-path">'+path+'</ol></section>':'')+
   '<section class="learn-section" id="learn-chapters"><h3>十個主題的重點筆記</h3><p class="learn-helper">每章直接列出核心知識、情境例子與小練習，不需展開或另開網頁。可以優先讀標示「先學」的主題。</p><div class="learn-modules">'+modules+'</div></section>'+
