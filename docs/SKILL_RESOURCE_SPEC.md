@@ -1,6 +1,6 @@
 # Skill Resource Spec v0.1｜讓 Skill 可理解、可操作、可驗證與可組合
 
-> 狀態：試行；案例：`alexyc9381-hiring-panel`。
+> 狀態：試行；案例：`alexyc9381-hiring-panel`、`blader-humanizer`。後者用來檢查無子 Agent、多種輸出模式的 Skill 是否能沿用同一版型。
 > 參考來源：`alexyc9381/hiring-panel-skill` 的 `skills/hiring-panel/SKILL.md`、`README.md`、`LICENSE`。
 > 基準：來源標示 Skill v1.0.0；本專案尚未安裝或執行。
 > 頁面：`index.html#/skills/alexyc9381-hiring-panel`。
@@ -26,6 +26,10 @@
 9. **延伸 Resource**：保留資料裡原有的正式 Reference，避免再出現重複的長篇「這是什麼？」與「如何使用」。
 
 各頁依 Skill 特性調整內容，不要為沒有平行角色或沒有檔案輸出的 Skill 硬湊區塊。
+
+**第二案例 Humanizer**：流程是閱讀→找出問題→改寫→核對；沒有七位審查角色。貼上文字回覆在對話，檔案模式可能修改指定文件；不能沿用 Hiring Panel 的履歷用語、Markdown 輸出路徑或固定五步驟。上游 `SKILL.md` 目前閱讀到 v4.0.0，既有 Canonical 舊摘要依較早的 v3.1.0 撰寫，應以來源版本及查核證據清楚區分。
+
+兩個 Skill 的頁內導覽使用不改變 SPA 路由 Hash 的按鈕，避免點章節就跳出詳細頁。
 
 ## Humanizer 規則
 
