@@ -13,12 +13,14 @@
   "notes": "2026-10-27 已直接核對 GitHub master README.md、package.json、THIRD_PARTY_NOTICES.md、src/lib/iphone-safety.ts、iphone-transfer.ts、openai-config.ts，並查看 tests/iphone.test.ts、tests/core.test.ts 的測試案例名稱；未執行任何測試，不能聲稱通過。Repo 無根目錄 LICENSE，package.json private:true 不等於發佈授權，作者未明確對整體原始碼提供 MIT/Apache 等授權；THIRD_PARTY_NOTICES.md 內的 MIT 只屬 PvPoke，遊戲資料、素材與商標另受權利人保護。Mac Node.js 24 LTS、USB iPhone、Apple 開發團隊／Xcode WDA、Python 3.9+、iPhone Use 依賴，以及 OpenAI API Key 或相容 Responses API（圖片及 JSON 格式輸出）為官方條件；API 按實際使用量另計，與 ChatGPT 訂閱無關。使用 SQLite 儲存於未版控 .data/，官方聲稱僅把必要裁切圖送 AI 且 store:false；仍應視 API Provider 及畫面可能含非預期資訊而檢查資料安全，store:false 不保證所有服務端沒有其他留存。PvP 評級來源 PvPoke；PvE 用 Game Master 簡化 DPS，不是完整團體戰模擬；稀有或不明狀態不可自動放生，作者實作了人工確認、前景 App 檢查、搜尋結果唯一 CP 校驗、操作前 durable journal 及結果不明暫停而不重送。掃描和放生仍依賴可變的 iPhone UI，OCR 與座標可能錯配，放生通常不可復原。Pokémon GO 官方遊戲公平政策可能將第三方自動控制、bots 或未授權軟體視為違規，可停權或永久封禁；這不是官方 Pokémon GO 工具。沒有登入、連結設備、使用 API Key、安裝 iPhone Use、執行程式、測試辨識或觸發放生。Repo main branch 不是預設，此原始 Repo default branch 為 master。",
   "source": {
     "url": "https://github.com/hirakujira/Pokeep",
-    "readmeUrl": "https://github.com/hirakujira/Pokeep/blob/master/README.md",
+    "readmeUrl": "https://github.com/hirakujira/Pokeep/blob/main/README.md",
     "thirdPartyUrl": "https://github.com/hirakujira/Pokeep/blob/master/THIRD_PARTY_NOTICES.md",
     "safetyCodeUrl": "https://github.com/hirakujira/Pokeep/blob/master/src/lib/iphone-safety.ts",
     "policyUrl": "https://scopelyexplore.helpshift.com/hc/en/5-pokemon-go/faq/1305-gameplay-fairness-policy/",
     "type": "Official project README, code, tests and third-party notices; official Pokémon GO gameplay fairness policy",
-    "summary": "Sources inspected 2026-10-27. No root LICENSE; testing and real-world safety unverified."
+    "summary": "Sources inspected 2026-10-27. No root LICENSE; testing and real-world safety unverified.",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official upstream document only; no runtime or security validation"
   },
   "architecture": {
     "provenance": "Source repository README and actual source files reviewed read-only on 2026-10-27.",
@@ -88,7 +90,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-19",
   "tags": [
     "pokeep",
     "pokemon-go",
@@ -128,6 +130,63 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.2-review"
+    "rulesVersion": "v0.2-review",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "以 iPhone Use／Device MCP 擷取 Pokémon GO 收藏資訊",
+    "提供本機管理畫面、遊戲資料更新與備份"
+  ],
+  "requirements": [
+    "準備 iPhone 連線與支援圖片及 Responses API 的模型",
+    "查核模型 API 金鑰及額外費用"
+  ],
+  "limitations": [
+    "自動化手機操作須遵守遊戲服務條款",
+    "本機截圖與設定可含隱私或金鑰，需保護 .data 目錄"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+    },
+    "classificationReason": "保留既有 Primary Domain automation，本輪只補足來源支援的使用方法與限制。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+    },
+    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+    }
   }
 }

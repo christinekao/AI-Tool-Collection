@@ -13,7 +13,7 @@
   "notes": "2026-10-24 檢查 GitHub Repository Metadata、README.md、LICENSE、requirements.txt、.env.example、main.py、realtime_trading_system/realtime_trading_main.py、enhanced_llm_analyzer.py 與 backtest 目錄。上游活躍，GitHub Meta 顯示 2026-10-24 最近推送與 MIT 授權。README 宣稱五大預測模型、近期 30–60 天指標動態權重、08:30 盤前、09:00–13:30 模擬交易、15:00 盤後、yfinance/twstock/營收資料、Ollama 與 Telegram；相對應 Python 入口與子目錄可見，但未驗證全部端到端可用，亦未證明勝率或績效。CLI 命令包括 `python main.py pre-market`、`post-market`、`realtime`、`screener`、`train --symbol ...`、`train --all`、`schedule`、`test`；其中 `test` 在程式碼會 import 依賴、嘗試連線 localhost Ollama 並建立本機資料夾，不應當作無副作用的唯讀測試。README 的 clone 範例 `github.com/your-username/...` 是占位符，實際專案為 `github.com/kerr20801/taiwan-stock-ai-analyzer`。README 宣稱本機 Ollama『數據絕不上傳外部雲端』只適用於特定本機模型處理路徑；上游行情 requests/yfinance/twstock 擷取及 Telegram 發送仍對外連線，新聞/第三方來源也依配置而定。`.env.example` 包含 TG_BOT_TOKEN/TG_CHAT_ID、OLLAMA_BASE_URL/MODEL；需保護 secrets。README 表示不接入真實券商 API 下單而是 SQLite 模擬交易，仍可能誤用過時或延遲報價。部分模型依賴（TensorFlow/PyTorch、LightGBM、XGBoost）及 Python 环境可能有較高安裝成本；requirements.txt 需自行核對相容性。`main.py` 的多個 cmd_* 函數 catch Exception 並只印錯誤，故 CI 不能只以零 Exit Code 或文字顯示為成功判斷全部工作正確；尤其要另驗證行情覆蓋、時區、交易日曆、成交稅費與真實歷史對帳。此輪僅收錄，未 Clone、pip 安裝、訓練、下載行情、啟動排程、登入 Ollama、使用 Telegram 或進行回測。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "taiwan-stocks",
     "台股",
@@ -75,7 +75,10 @@
   "source": {
     "url": "https://github.com/kerr20801/taiwan-stock-ai-analyzer",
     "type": "Original GitHub repo README, license, dependencies and selected Python source files",
-    "summary": "Verified codebase structure and published features on 2026-10-24; installation, models, real-time data quality and financial performance have not been tested."
+    "summary": "Verified codebase structure and published features on 2026-10-24; installation, models, real-time data quality and financial performance have not been tested.",
+    "readmeUrl": "https://github.com/kerr20801/taiwan-stock-ai-analyzer/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official upstream document only; no runtime or security validation"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -89,6 +92,63 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "區分台股盤前、盤中、盤後研究及通知流程",
+    "提供篩選、模型訓練與模擬交易指令"
+  ],
+  "requirements": [
+    "README 建議 Python 3.10+ 並需設定外部資料服務",
+    "回測前固定資料時間、交易成本與驗收指標"
+  ],
+  "limitations": [
+    "模型預測不保證獲利",
+    "自動通知或交易仍有資料延遲、權限與風控風險"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+    },
+    "classificationReason": "保留既有 Primary Domain business，本輪只補足來源支援的使用方法與限制。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+    },
+    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+    }
   }
 }
