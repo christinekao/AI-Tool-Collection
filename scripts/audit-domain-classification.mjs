@@ -25,7 +25,9 @@ console.log(JSON.stringify({kind:'CLASSIFICATION_SEMANTIC_AUDIT',checked:rows.le
  careerRecords:career.map(({path,title,purpose,review})=>({path,title,purpose,review})),
  regressionCaseCount:regression.cases.length,regressionFailures,careerNeedsHumanReview:suspicious.map(({path,title,purpose,review})=>({path,title,purpose,review})),
  note:'Potential issues only. A keyword heuristic cannot replace intent and source review; career indicators must describe the actual goal.'},null,2));
-if(rows.length!==548||rows.some(x=>!x.domain))process.exitCode=1;
+const manifest=JSON.parse(fs.readFileSync('data/manifest-v2.json','utf8'));
+const expectedCount=Object.values(manifest.entities).reduce((sum,ids)=>sum+ids.length,0);
+if(rows.length!==expectedCount||rows.some(x=>!x.domain))process.exitCode=1;
 const grill=rows.find(x=>x.path==='data/skills/mattpocock-grill-me.json');
 if(grill?.domain!=='ai-agent')process.exitCode=1;
 if(suspicious.length){
