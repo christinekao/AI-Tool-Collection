@@ -135,3 +135,8 @@ New collection flow:
 `Research → dedupe → Resource/Skill → Concept → Combination → Workflow → Prompt decision → validate references → publish`
 
 Only entities that add independent knowledge are created. Do not manufacture every entity for every new tool.
+
+
+## Classification dimensions (2026-11-19)
+
+[Single-source taxonomy](data/taxonomy-v1.json) and [classification architecture](docs/CLASSIFICATION_ARCHITECTURE_V2.md) define Domain, Content Format and evidence-backed Capability independently of six Entity Types. Optional `classification.contentFormat` (currently Resource only), `classification.formatEvidenceFields` and `classification.capabilities: [{id,evidenceFields,status}]` add no new Entity Types and do not change stable IDs, original category, resourceType, tags or typed references. Unknown capability = empty/absent; the status `canonical-described` is not execution proof. Run `node scripts/test-taxonomy-v1.mjs` and `node scripts/validate-v2.mjs` after modifying classification.

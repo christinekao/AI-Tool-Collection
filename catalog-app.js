@@ -1,8 +1,8 @@
 'use strict';
 const TYPES={resources:'Resources',skills:'Skills',concepts:'Concepts',prompts:'Prompts',combinations:'Combinations',workflows:'Workflows'};
 const SINGULAR={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
-const TOPICS=[{"id":"ai-agent","name":"AI 系統與 Agent","desc":"模型、Agent、MCP、Context、Agent 協作與評估","icon":"◇"},{"id":"software","name":"程式開發與品質","desc":"程式、Codebase、測試、版本控制與開發工具","icon":"⌘"},{"id":"design","name":"UI／UX 與前端","desc":"介面、前端、網站、設計系統與視覺圖表","icon":"▣"},{"id":"data","name":"資料、分析與知識","desc":"資料處理、SQL、BI、搜尋、RAG 與知識管理","icon":"▥"},{"id":"automation","name":"自動化與整合","desc":"流程自動化、跨系統整合、排程與資料搬運","icon":"↗"},{"id":"cloud","name":"雲端與基礎設施","desc":"雲端、部署、自架環境、容器與基礎設施","icon":"☁"},{"id":"security","name":"安全與治理","desc":"資安、個資、隱私、權限與治理控制","icon":"⬡"},{"id":"content","name":"內容、媒體與行銷","desc":"內容、文字、圖片、影片、社群與行銷","icon":"✧"},{"id":"career","name":"職涯、招聘與面試","desc":"履歷、職缺、招募、面試與職涯準備","icon":"◎"},{"id":"business","name":"商業與金融","desc":"商業分析、金融、投資、交易與產品營運","icon":"▤"},{"id":"learning","name":"學習與教材","desc":"跨領域教材、教學、課程與學習參考","icon":"◉","isFacet":true}];
-const DOMAIN_ALIASES={agents:'ai-agent',coding:'software',frontend:'design'};
+let TOPICS=[];
+let DOMAIN_ALIASES={};
 const state={topic:'all',type:'all',query:'',limit:24,detail:null,returnHash:'#/explore',data:null,items:[],byType:{},aliases:new Map(),focusResultsOnRoute:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -463,7 +463,11 @@ function wire(){
 }
 async function init(){
  try{
-  const res=await fetch('data/catalog-v2.json',{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);
+  const [res,taxRes]=await Promise.all([fetch('data/catalog-v2.json',{cache:'no-store'}),fetch('data/taxonomy-v1.json',{cache:'no-store'})]);
+  if(!res.ok||!taxRes.ok)throw Error('HTTP catalog '+res.status+' taxonomy '+taxRes.status);
+  const taxonomy=await taxRes.json();
+  TOPICS=[...taxonomy.domains,...taxonomy.purposeFacets.filter(f=>f.showInTopics!==false)];
+  DOMAIN_ALIASES=taxonomy.domainAliases;
   state.data=await res.json();indexData();wire();readRoute();render();
   const countBadge=$('#collection-count');if(countBadge)countBadge.textContent=state.items.length.toLocaleString('zh-TW')+' 筆收藏';
  }catch(e){console.error('Catalog load failed',e);$('#app').innerHTML='<div class="empty">收藏資料載入失敗，請重新整理頁面。</div>'}

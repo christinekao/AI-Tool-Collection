@@ -4,18 +4,9 @@
  * original category/tags, graph links, capabilities, or status.
  * All output is PROVISIONAL until actual content is reviewed.
  */
-export const DOMAIN_DEFS = Object.freeze([
-  {id:'ai-agent',name:'AI 系統與 Agent',desc:'模型、Agent、MCP、Context、Agent 協作與評估',icon:'◇'},
-  {id:'software',name:'程式開發與品質',desc:'程式、Codebase、測試、版本控制與開發工具',icon:'⌘'},
-  {id:'design',name:'UI／UX 與前端',desc:'介面、前端、網站、設計系統與視覺圖表',icon:'▣'},
-  {id:'data',name:'資料、分析與知識',desc:'資料處理、SQL、BI、搜尋、RAG 與知識管理',icon:'▥'},
-  {id:'automation',name:'自動化與整合',desc:'流程自動化、跨系統整合、排程與資料搬運',icon:'↗'},
-  {id:'cloud',name:'雲端與基礎設施',desc:'雲端、部署、自架環境、容器與基礎設施',icon:'☁'},
-  {id:'security',name:'安全與治理',desc:'資安、個資、隱私、權限與治理控制',icon:'⬡'},
-  {id:'content',name:'內容、媒體與行銷',desc:'內容、文字、圖片、影片、社群與行銷',icon:'✧'},
-  {id:'career',name:'職涯、招聘與面試',desc:'履歷、職缺、招募、面試與職涯準備',icon:'◎'},
-  {id:'business',name:'商業與金融',desc:'商業分析、金融、投資、交易與產品營運',icon:'▤'}
-]);
+import fs from 'node:fs';
+const taxonomy=JSON.parse(fs.readFileSync(new URL('../data/taxonomy-v1.json',import.meta.url),'utf8'));
+export const DOMAIN_DEFS=Object.freeze(taxonomy.domains);
 const known = new Set(DOMAIN_DEFS.map(x=>x.id));
 /* Explicitly selected sample from docs/CLASSIFICATION_PILOT_20261119.md.
  * These are proposals, not independently verified classification labels. */
