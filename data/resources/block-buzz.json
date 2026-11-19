@@ -13,7 +13,7 @@
   "notes": "2026-10-24 核對 Block 官方 block/buzz README.md、AGENTS.md、SECURITY.md、LICENSE、以及 block/buzz-app README.md 與兩個 Repo 的 GitHub metadata。兩者 Apache-2.0；block/buzz 為原始 Relay、桌面／CLI／ACP 與協作平台，block/buzz-app 為 Buzz 1.0 Beta 新版 Desktop/Web UI；同一產品生態收錄一筆 Resource 而非兩個重複工具。0.X 與 1.0 Beta 的功能和系統需求不同，不能將每項功能跨版混稱已可用。原始 Repo 的 Relay、頻道、DM、搜尋、Git 事件、Audit 和部分 YAML workflow 已列為現有；某些審核閘道、行動端及推播仍在開發或規劃中。1.0 Beta 的 App 支援 macOS Apple Silicon、Windows x64、Linux x64；Claude 與 Codex Agents 的新 App 支援平台是 macOS/Linux，Goose 與 Pi 包含 Windows。新版無穩定 release channel，Windows 安裝包未簽署、測試成熟度有限。Agent 執行於本機且能執行命令及編輯檔案，預設工作區可在 ~/.buzz；並非唯讀型聊天工具。使用者／Agent 的 Nostr 私鑰存於 OS Keyring 等安全儲存中，1.0 App 明確要求使用者自行備份身分私鑰，否則無法在新裝置恢復身分。使用遠端／第三方 Relay 時，聊天、專案事件及媒體會送至該服務，不能因為 Agent 執行本機就聲稱全部資料完全離線；須分別確認 Relay 管理者、資料可見性、第三方模型／API 的資料流向。SECURITY.md 描述頻道成員資格授權以及可檢測竄改但非阻止具有資料庫寫入能力的攻擊者重算的 audit chain，不應當作全面隔離保證。作者功能說明並非實機驗證。本次未安裝、執行或加入任何社群。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "buzz",
     "block",
@@ -76,7 +76,10 @@
       "https://github.com/block/buzz-app"
     ],
     "type": "Primary Block GitHub README, AGENTS.md, SECURITY.md, LICENSE and new beta app README",
-    "summary": "Verified main Block Buzz platform and newer block/buzz-app 1.0 beta on 2026-10-24. Not the separate Buzz/Whisper transcription project. No installation or runtime testing."
+    "summary": "Verified main Block Buzz platform and newer block/buzz-app 1.0 beta on 2026-10-24. Not the separate Buzz/Whisper transcription project. No installation or runtime testing.",
+    "readmeUrl": "https://github.com/block/buzz/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -90,6 +93,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "以 Nostr Relay 將人與 Agent 的訊息和簽署事件保存在共同紀錄中。",
+    "支援 Channels、Threads、搜尋、協作流程與 Agent 專屬身分。",
+    "提供自架 Relay、桌面與行動 Client 的不同組件與部署方式。"
+  ],
+  "requirements": [
+    "先在獨立測試 Relay 建立使用者與 Agent 身分，確認私鑰保存。",
+    "核對訊息可見性、資料保留與允許 Agent 執行的命令及程式庫範圍。"
+  ],
+  "limitations": [
+    "README 區分現有功能與規劃中的功能，不能將所有示範情境視為已交付。",
+    "自架 Relay 仍需維運、身分／私鑰管理與安全事件審查。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+    },
+    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+    },
+    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+    }
   }
 }

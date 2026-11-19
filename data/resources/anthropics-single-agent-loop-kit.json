@@ -13,7 +13,7 @@
   "notes": "Verified official Claude article (Diane Sarkis, 2026-10-22), GitHub README, skill/SKILL.md, steps/00-audit.md through 05-upkeep.md and LICENSE on 2026-10-26. Repository default branch at review: release (not main). License Apache-2.0; preserve required license/notice obligations when redistributing. Official README explicitly says 'Reference implementation. Not maintained and not accepting contributions'; issues/PRs are not monitored. Includes stepwise skill, Python scripts (coupling_map, chain_coverage, compare, estimate), reference_loop/loop.py, tests and support-desk example. Official README reports only two real-model example runs by one person on one model; merge/upkeep, complete single-loop example, no-eval setup, real-world migration and updated wording are not verified with a real model. Offline fake-model smoke check is not scored. Paid evals call models and incur cost; kit reads agent code/prompts and may access traces or customer data if authorized, so use isolated sandbox/test data, scoped credentials, write approval gates and human confirmation before running. Vendor examples of faster/cheaper single loop are not universal independent benchmarks. User-supplied secondary article URL retained as an unverified pointer only, because its page could not be directly retrieved: https://www.aiposthub.com/fold-subagents-ai-news-20261025/ ; primary source: https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop. Not installed or executed.",
   "status": "active",
   "addedAt": "2026-10-26",
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-11-19",
   "tags": [
     "anthropic",
     "single-agent-loop",
@@ -74,6 +74,71 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "依 trace 盤點 Router／Subagent，判斷合併、折疊成 Skill 或保留獨立工具。",
+    "提供 Eval Baseline、候選與對照工具，測量任務品質、延遲與成本。",
+    "附有無須金鑰的 Support Desk Fake Model 測試範例。"
+  ],
+  "requirements": [
+    "先取得既有任務樣本、工具呼叫 Trace 與一致的完成標準。",
+    "合併前後使用相同資料集與分數比較，不可只憑 Agent 數變少判定成功。"
+  ],
+  "limitations": [
+    "並行探索、獨立 Context 與安全隔離需求可能必須保留 Subagent。",
+    "Fake Model Smoke Test 只驗證 Harness 流程，不是生產模型的品質證據。"
+  ],
+  "source": {
+    "url": "https://github.com/anthropics/single-agent-loop-kit",
+    "readmeUrl": "https://github.com/anthropics/single-agent-loop-kit/blob/main/README.md",
+    "type": "Upstream official GitHub README/SKILL.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Source reviewed, not code-executed or installation-tested"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+    },
+    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+    },
+    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "Anthropic Sandbox Runtime (srt) — OS-Level Filesystem & Network Isolation for Agents",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-19",
   "tags": [
     "anthropic",
     "sandbox-runtime",
@@ -80,7 +80,9 @@
     "readmeUrl": "https://github.com/anthropics/sandbox-runtime/blob/main/README.md",
     "licenseUrl": "https://github.com/anthropics/sandbox-runtime/blob/main/LICENSE",
     "type": "Official Anthropic GitHub README, package.json and Apache-2.0 license",
-    "summary": "Validated first-party documented architecture and published package metadata on 2026-10-27; no sandbox execution or hardening test."
+    "summary": "Validated first-party documented architecture and published package metadata on 2026-10-27; no sandbox execution or hardening test.",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -93,6 +95,64 @@
       "purpose"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.3-semantic-audit"
+    "rulesVersion": "v0.3-semantic-audit",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供 CLI 與 TypeScript Library 為命令和 MCP Server 設置隔離邊界。",
+    "使用作業系統 Sandbox 搭配網路 Proxy 限制檔案與網域存取。",
+    "支援 Settings 檔、違規回報與依平台調整的隔離設定。"
+  ],
+  "requirements": [
+    "先核對 macOS、Linux 或 Windows 實際支援程度及系統相依條件。",
+    "逐項定義允許的路徑、網域、代理設定和憑證讀取範圍並執行負面測試。"
+  ],
+  "limitations": [
+    "README 將此專案標為研究預覽，Windows 支援屬 Alpha，不能視為已完成高保證隔離。",
+    "預設讀取規則需檢視，OS 隔離和 Proxy 也不能取代人類批准或資料脫敏。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+    },
+    "classificationReason": "沿用既有 security Domain，補足來源內容與使用限制，不變動分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+    },
+    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+    }
   }
 }
