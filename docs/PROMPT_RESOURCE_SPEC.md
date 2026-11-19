@@ -113,6 +113,11 @@ Prompt 可用於人工複製貼上，也可能只是更大 Workflow 的一個節
 
 另有 `cv-jd-tailored-interview-questions-deep-followups`，其 `prompt` 為原始分享文字中的第二段面試題 Prompt，`originalSharedText` 保存更長的分享內容。未來不能為了套版把 `originalSharedText` 誤當可直接執行的 Prompt；也不能在履歷沒有實習時，擅自捏造實習經歷。
 
+## 共用版型回歸規則
+
+- 新 Prompt 的標題及驗收文字必須由各筆 `promptGuide` 提供，避免將 STAR 的「改寫」提示硬塞到面試問題等不同類型。
+- 切換原始版／可重用版時，只能複製當前顯示版本，舊頁面無指南時仍維持原本複製行為。
+
 ## 驗收與 Release Gate
 
 - **Scope**：只調整指定 Prompt 資料或專用 Renderer；其他 Learning／Repo／Skill 頁面不受影響。
