@@ -13,7 +13,7 @@
 - `classification.contentFormat`：來源形式（Resource Repo、Article、Application、Documentation 等），不是正式 Entity Type。
 - `classification.capabilities`：證據支持的具體可執行動作，與標籤只是「提及」不同。不能從 Tag 自動建立 Capability。
 - `classification.purposeFacets`：學習與參考用途，不屬於 Domain。
-- `tags`：**歷史原始關鍵字，不是受控分類值**；保留在 Canonical 以免遺失來源用語。
+- `tags`：**歷史原始關鍵字，不是受控分類值**；允許在使用者授權的限定批次刪除冗餘詞，來源與技術資料保持可追溯。
 - `category`：舊分類顯示文字，不再新增任意的 Category 作為主分類；正式分類只讀 Domain，原值保留供查閱。
 - `tagDimensions` + `tagVocabulary`：集中於 [data/taxonomy-v1.json](../data/taxonomy-v1.json)。Tag 可變成 Agent Host、Technology、Protocol、Method、Deployment、Risk Review、License Mention、Record Hint、Purpose Hint、Legacy Status、Locale 等**具型別的歷史線索**。
 
@@ -34,14 +34,14 @@
 
 1. 先查來源、去重、實際用途與 Entity Type。
 2. 用受控 Domain／Content Format／Capability（有證據時）分類。
-3. 先保留原始 Tag。只有單義、可驗證的別名才加入受控詞彙；跨義詞與來源專有名稱不硬塞進 Domain。
+3. 先檢查原始 Tag，有依據且具辨識價值才保留；不必要的舊 Tag 允許刪除。只有單義、可驗證的別名才加入受控詞彙；跨義詞與來源專有名稱不硬塞進 Domain。
 4. `scripts/tag-taxonomy-core.mjs` 從六類 Canonical 產出 `data/tag-index-v1.json`，每筆包含 `normalized: [{id,dimension,sourceTags}]` 與 `unmapped`。後者仍能從 Canonical Search 找到。
 5. 新增或實質改寫的紀錄，`intakeReview.tagReview` 要註記所有 Tag 已匹配、未匹配但保留、或候選新增詞彙的理由；透過共用 Intake Gate 檢查。
 6. `node scripts/build-v2.mjs` 會重建 Tag Index；`node scripts/validate-v2.mjs`、`node --test scripts/test-tag-taxonomy.mjs` 必須一致。不得手動改生成索引代替 Canonical 更新。
 
 ## 規模與尚未完成的內容
 
-`data/tag-index-v1.json.summary` 是目前基準分支下**即時計算**的覆蓋統計；`commonUnmapped` 是值得優先語意複核的高頻未匹配 Tag。原始 Tags 和舊 Category 的完整性本輪沒有重寫／刪除，主題分類是否正確仍以資料證據另行確認。Content Format 和 Capability 原 17 筆試行範圍不因本次標籤映射自動擴大。
+`data/tag-index-v1.json.summary` 是目前基準分支下**即時計算**的覆蓋統計；`commonUnmapped` 是值得優先語意複核的高頻未匹配 Tag。原始 Category 和未納入清理的 Tags 保持原狀，主題分類是否正確仍以資料證據另行確認。Content Format 和 Capability 原 17 筆試行範圍不因本次標籤映射自動擴大。
 
 後續每批 Resources → Skills → Prompts 更新時，從 `commonUnmapped` 高頻項目開始做語意審查，逐步擴充詞庫與 Capability，而非一次假裝 2,431 個 Tag 全部已人工驗證。
 
@@ -61,10 +61,6 @@
 - 以上預設上限針對**新資料與新增的 Tag**，不是回溯改寫或刪除 548 筆舊資料；如少量具體例外確有必要，先提政策修改供審查，不自行繞過 Gate。
 
 
-## 第一批精簡顯示｜12 個 Resources
+## 舊 Tags 可以逐批刪除（明確授權）
 
-本批僅挑選已收錄內容較完整、但原始 Tags 過多的 12 筆 Resource：共 **318 個原始 Tag 使用次數**，主畫面改顯示 **60 個精選 Tag**（各 5 個）。精選結果見 [data/featured-tags-v1.json](../data/featured-tags-v1.json)，包含每筆精簡原因及原始數量。
-
-**這是顯示層整理，不是清除原始 Tags。** Canonical JSON 與既有搜尋仍保留全部原始 Tags，不會刪除版本、技術或風險線索；未來批次依相同方式漸進整理。一般詳情頁的 Tag 顯示上限從 12 降為 5，未策展項目仍有保守後備顯示。此處僅依既有 Canonical 文字和 Tag 精選，未重新查核外部 Repo，也未宣稱 Tool 或 Runtime 已測試。
-
-驗收：`node --test scripts/test-featured-tags.mjs` 確認 12 筆皆有 3–5 個、精選 Tag 必須為既有原始 Tags 的子集、無重複別名、原始數量未被改動、搜尋仍讀完整 Tags。
+首批已直接在 12 筆 Resource 的 Canonical `tags` 移除 258 個冗餘詞，並同步 Catalog／Tag Index／Graph，非建立另一份顯示用標籤表。詳見 [首批 Tag 刪除報告](TAG_CLEANUP_BATCH01_20261119.md)。禁止自動大量刪除可能是唯一技術知識的標籤；必要時先把來源證據和能力說明放回正確欄位。

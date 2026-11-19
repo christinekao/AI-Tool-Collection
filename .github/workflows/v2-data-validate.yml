@@ -11,8 +11,7 @@ on:
       - 'scripts/tag-taxonomy-core.mjs'
       - 'scripts/test-tag-taxonomy.mjs'
       - 'data/tag-index-v1.json'
-      - 'data/featured-tags-v1.json'
-      - 'scripts/test-featured-tags.mjs'
+      - 'scripts/test-tag-cleanup-batch01.mjs'
       - 'scripts/knowledge-graph-core.mjs'
       - 'scripts/test-knowledge-graph.mjs'
       - '.github/workflows/v2-data-validate.yml'
@@ -42,8 +41,8 @@ jobs:
         run: node --test scripts/test-taxonomy-v1.mjs
       - name: Validate normalized Tags and historical evidence boundaries
         run: node --test scripts/test-tag-taxonomy.mjs
-      - name: Validate first batch of lean reader Tags
-        run: node --test scripts/test-featured-tags.mjs
+      - name: Verify first Tag cleanup batch
+        run: node --test scripts/test-tag-cleanup-batch01.mjs
       - name: Verify source-backed Workflow composition rules
         run: node --test scripts/test-workflow-engine.cjs
       - name: Unit test graph rules
