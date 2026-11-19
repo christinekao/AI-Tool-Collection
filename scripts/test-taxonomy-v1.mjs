@@ -18,7 +18,7 @@ test('Vocabulary and classifier share 10 domains',()=>{
  assert.ok([...facets].every(x=>!domains.has(x)));
  for(const target of Object.values(t.domainAliases))assert.ok(domains.has(target));
 });
-test('548 canonical records preserve domains and validate optional formats/capabilities',()=>{
+test('All canonical records preserve domains and validate optional formats/capabilities',()=>{
  let count=0,formatsSeen=0,capsSeen=0;
  for(const [dir,singular] of Object.entries(dirs))for(const filename of fs.readdirSync(path.join(root,'data',dir)).filter(p=>p.endsWith('.json'))){
   const x=read('data/'+dir+'/'+filename),where=dir+'/'+filename,c=x.classification;count++;
@@ -29,7 +29,7 @@ test('548 canonical records preserve domains and validate optional formats/capab
   assert.ok(c.purposeFacets.every(v=>facets.has(v)),where+' purpose');
   assert.ok(t.reviewStatuses.includes(c.reviewStatus),where+' reviewStatus');
   if(c.contentFormat!==undefined){
-   formatsSeen++;assert.equal(dir,'resources');assert.ok(formats.has(c.contentFormat),where);
+   formatsSeen++;assert.ok(formats.has(c.contentFormat),where);
    assert.ok(c.formatEvidenceFields?.length,where+' missing format evidence');
    for(const f of c.formatEvidenceFields)assert.ok(prop(x,f)!=null&&prop(x,f)!=='',where+' format field '+f);
   }
@@ -38,14 +38,17 @@ test('548 canonical records preserve domains and validate optional formats/capab
    for(const a of c.capabilities){
     capsSeen++;assert.ok(caps.has(a.id),where+' cap id '+a.id);
     assert.ok(states.has(a.status),where+' evidence status');
+    if(a.status==='source-reviewed')assert.ok(a.verificationEvidence?.sourceUrl&&a.verificationEvidence?.reviewedAt,where+' source review needs URL/date');
+    if(a.status==='runtime-tested')assert.ok(a.verificationEvidence?.testRun?.executedAt&&a.verificationEvidence?.testRun?.scenario&&a.verificationEvidence?.testRun?.result,where+' runtime proof required');
     assert.ok(a.evidenceFields?.length,where+' cap fields');
     for(const f of a.evidenceFields)assert.ok(prop(x,f)!=null&&prop(x,f)!=='',where+' cap field '+f);
    }
   }
  }
- assert.equal(count,548);
- assert.equal(formatsSeen,10);
- assert.equal(capsSeen,13);
+ const manifest=read('data/manifest-v2.json');
+ assert.equal(count,Object.values(manifest.entities).reduce((n,ids)=>n+ids.length,0));
+ assert.ok(formatsSeen>=10,'pilot formats must remain represented');
+ assert.ok(capsSeen>=13,'pilot capabilities must remain represented');
 });
 test('Samples have independent Entity Type, Domain, Format and Capability',()=>{
  const r=read('data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json');

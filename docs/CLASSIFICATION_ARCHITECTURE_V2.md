@@ -42,3 +42,5 @@
 - 本輪未新增 Format／Capability 網站篩選器（資料尚未完成全庫標準化），不改舊路由。
 
 下一階段依據本表分批豐富 Resources → Skills → Prompts，並同步累積 Concept／Capability 候選關係；每批先核對來源、文字與 I/O，再擴大資料填寫。
+
+**追加採證門檻：** 把能力狀態升為 `source-reviewed` 時，必須提供 `verificationEvidence.sourceUrl` 與 `reviewedAt`；升為 `runtime-tested` 時，必須有 `verificationEvidence.testRun`（`executedAt`、`scenario`、`result`）。不能僅修改標籤狀態便宣稱已驗證。回歸測試按 Manifest 檢查動態總數，不將 548 鎖定成無法新增收藏的硬上限。
