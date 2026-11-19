@@ -13,7 +13,7 @@
   "notes": "2026-10-24 核對官方 GitHub README.md、SKILL.md、package.json、LICENSE、bin/cli.js、src/server.js、scenes.json 和 GitHub 元資料。主 repo 為 MIT，package.json 版本 0.2.2、Node.js>=18，專案於 2026-10-23 建立，仍屬極新專案（當時約 63 stars），不能以範例動畫推定穩定性。支援 Claude Code CLI/desktop/IDE、Codex CLI/desktop/IDE、Gemini CLI 的本機 JSONL session logs；不支援 Google Antigravity 的未公開 binary conversation store。READ-only 監視既有 Session Logs，不需要 Agent Hooks、模型 API Key 或新 npm runtime install；從 Clone 後使用 node bin/cli.js 啟動，技能 /myoffice 是可獨立收錄的 SKILL.md。2D 無 runtime dependencies；3D bundled three.js/CC0 Kenney assets 只在使用者切換 High 3D 時載入；選擇其他場景時才從 GitHub Releases 下載 SHA-256 驗證素材。服務預設 127.0.0.1:4545（埠佔用改用下一個），檢查 Host header 防 DNS rebinding；但 /api/sessions 與 /events 在本機不要求額外帳號認證，能連本機埠的程式／使用者可能讀取 Session 內容。--private 會隱藏 prompt、reply、title 並縮減 activity，但標準模式可展示敏感程式碼路徑、User Prompt 與 Reply，應在螢幕分享前啟用。雖 README 宣稱 'nothing leaves your machine'，版本檢查預設每約半小時連 GitHub 取 package.json；--update/頁面 Update 可能執行 git pull 並重啟；場景下載亦會對外連網。對外請求不代表 Session Logs 必定上傳；現有程式碼檢查不能保證全部隱私邊界無漏洞。模型 API 本身仍依原有 Agent 與 Provider 資料政策。Claude Code 對 Permission Prompt 並不記錄到 JSONL，故畫面可能維持 Running 而不是 Waiting；log event 並非逐 Token 即時。此輪只收錄，不在使用者電腦安裝、執行或讀取任何真實 Session Logs。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "whatsmyagentdoing",
     "myoffice",
@@ -73,7 +73,10 @@
   "source": {
     "url": "https://github.com/Charonyuu/whatsmyagentdoing",
     "type": "Official GitHub README, SKILL.md, source files, package metadata and LICENSE",
-    "summary": "Primary repository verified on 2026-10-24; not installed or tested."
+    "summary": "Primary repository verified on 2026-10-24; not installed or tested.",
+    "readmeUrl": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -87,6 +90,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "將 Coding Agent Session 讀取為 2D／3D 即時辦公室與狀態面板。",
+    "顯示工作狀態、最近活動、可用的恢復指令與當日 Token 統計。",
+    "可使用 /myoffice 或 CLI 開啟本機視覺化。"
+  ],
+  "requirements": [
+    "README 要求 Node.js 18+，部分 Agent 支援需較新 Node.js 版本。",
+    "從本機 Agent 的 Session 目錄讀資料，先核對資料權限與隱私選項。"
+  ],
+  "limitations": [
+    "只能觀察有支援且可讀到本機記錄的 Agent，不能替代任務排程。",
+    "Session Log 可能含路徑、Prompt、工具輸出與敏感資料，不應直接公開服務。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+    },
+    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+    },
+    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+    }
   }
 }

@@ -13,7 +13,7 @@
   "notes": "2026-10-25 核對 Anthropic 官方 GitHub Repo Metadata、README.md、LICENSE、.claude-plugin/marketplace.json、plugins/agent-plugins 目錄、plugins/vertical-plugins/financial-analysis/{skills,.mcp.json}。Repo 為 Apache-2.0，與此前收錄的 `anthropics/knowledge-work-plugins` 不同；這裡專注金融服務，並在 README 提供 Cowork 插件 + Claude Managed Agents API 兩條部署方式。官方 Marketplace 實際列出 19 個插件，包括核心 financial-analysis、investment-banking、equity-research、private-equity、fund-admin、operations、10 個 named Agents、2 個金融資料商合作插件和 M365 Add-in 管理工具。README 的 Investment Banking/Equity Research/PE Skills 包括 /comps、/dcf、/lbo、/earnings、/ic-memo、/screen 等命令；核心技能目錄列出 13 個技能。若只收錄整套 Marketplace，不應把每個 vertical 的 SKILL.md 或管理型 Agent 重複收錄成新的 Skill；日後使用者指定單一 Skill 可逐項展開。README 列出金融數據/文檔 MCP 提供商 Daloopa、Morningstar、S&P Global、FactSet、Moody's、MT Newswires、Aiera、LSEG、PitchBook、Chronograph、Egnyte、Box，訂閱／認證／資料授權及供應商條款須另外核實。重要品質註記：查看本次 main 分支 `plugins/vertical-plugins/financial-analysis/.mcp.json`，在 egnyte 區塊結尾與 box 區塊間發現缺少逗號，使該檔案按標準 JSON 解析會出錯；應先確認 upstream 是否已修復，再使用任何自動安裝/部署流程，不能直接宣稱所有連接器已即插即用。README 也把 Managed Agents `callable_agents` 標為 Research Preview，需檢查帳號可用性，不可推定各使用者已有相同 entitlement。Managed Agent templates `agent.yaml`、leaf-worker、handoff events 與 scripts/deploy-managed-agent.sh 是可選部署參考；未執行腳本、未開啟 MCP 或讀取私人金融資料。這些 Agent 產出草稿、估值模型和對帳供具資格人員審核；不屬投資/稅務/法律/會計建議或交易權限。此輪僅收錄，不安裝、連線或修改金融系統。",
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-19",
   "tags": [
     "anthropic",
     "financial-services",
@@ -77,7 +77,10 @@
     "coreSkills": "https://github.com/anthropics/financial-services/tree/main/plugins/vertical-plugins/financial-analysis/skills",
     "mcpConfig": "https://github.com/anthropics/financial-services/blob/main/plugins/vertical-plugins/financial-analysis/.mcp.json",
     "type": "Official Anthropic Repository README, GitHub License/Metadata, marketplace, core financial skills and MCP manifest",
-    "summary": "2026-10-25 static source and manifest verified; not installed, executed, accessed provider data or tested financial conclusions."
+    "summary": "2026-10-25 static source and manifest verified; not installed, executed, accessed provider data or tested financial conclusions.",
+    "readmeUrl": "https://github.com/anthropics/financial-services/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -95,6 +98,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供可套用的金融領域 Named Agents，例如分析、結帳、對帳與 KYC。",
+    "將金融模型、報告、Excel、研究流程封裝為 Skills、Commands 與各類 Plugin。",
+    "包含 Cowork／Claude Code 插件與 Managed Agent Template 的部署參考。"
+  ],
+  "requirements": [
+    "先選擇單一金融工作流程與對應插件，再檢查連接器及部署方式。",
+    "使用市場資料、帳務或身分資料前，必須具備正式授權、審核與保存政策。"
+  ],
+  "limitations": [
+    "作者明確聲明內容不構成投資、法律、稅務或會計建議，產物須專業審查。",
+    "第三方金融資料服務需另取得權限；示範 Agent 不等於符合內部監理與合規規範。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+    },
+    "classificationReason": "沿用既有 business Domain，補足來源內容與使用限制，不變動分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+    },
+    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+    }
   }
 }

@@ -13,7 +13,7 @@
   "notes": "2026-10-24 核對官方 GitHub Repo、README.md、根目錄 LICENSE、.claude-plugin/marketplace.json、data/.claude-plugin/plugin.json、data/.mcp.json、product-management/.claude-plugin/plugin.json 與 product-management/.mcp.json。Repo 非封存、官方 GitHub metadata 顯示 Apache-2.0 授權，README 描述初始 11 個由 Anthropic 建立／啟發的職能插件；當次 marketplace.json 實際列出 **123** 個 entries（22 個本 Repo 相對路徑 source、101 個外部 Git repository／git-subdir／外部 source），包含不同供應商與 partner-built 插件，數量隨版本改變。故它是一個 Marketplace/插件合集，不是 123 個已安裝且全部可直接執行的 Skills，也不應宣稱每個 entry 同一授權與安全性。README 提供 Cowork 使用 https://claude.com/plugins 與 Claude Code 的 `claude plugin marketplace add anthropics/knowledge-work-plugins`、`claude plugin install sales@knowledge-work-plugins` 範例；僅留存操作說明，未實際執行。Plugin 通常包含 .claude-plugin/plugin.json、.mcp.json、commands/、skills/，不同插件有不同內容。檢查 data 與 product-management 的 .mcp.json，連接器可以含 Slack、Notion、Figma、BigQuery、Hex、Atlassian 等遠端 MCP URL，也有空字串 placeholder 需要配置；有 Marketplace 並不代表連接器預設可用、無需登入，亦不代表僅裝 Markdown Skill 就是全離線。MCP/命令可能讀取或寫入使用者已授權的 CRM、Email、財務、資料倉儲、文件或專案管理系統；由權限、宿主產品、外部 Model Provider 與每個第三方服務決定資料外送和保留。隱私與可執行性需逐插件獨立審查。Repo 根授權不應自動推定涵蓋每個外部來源插件。未安裝任何 Plugin、未連線 MCP、未授權服務、未執行 Commands 或下載外部資料。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "anthropic",
     "knowledge-work-plugins",
@@ -69,7 +69,10 @@
     "url": "https://github.com/anthropics/knowledge-work-plugins",
     "marketplaceManifest": "https://github.com/anthropics/knowledge-work-plugins/blob/main/.claude-plugin/marketplace.json",
     "type": "Official Anthropic GitHub repository, README, LICENSE, plugin manifests and connector manifests",
-    "summary": "Reviewed original Anthropic repository on 2026-10-24. Repository described initial 11 built-in job plugins; the actual current Marketplace manifest had 123 entries including external plugin sources. No installation or runtime tests."
+    "summary": "Reviewed original Anthropic repository on 2026-10-24. Repository described initial 11 built-in job plugins; the actual current Marketplace manifest had 123 entries including external plugin sources. No installation or runtime tests.",
+    "readmeUrl": "https://github.com/anthropics/knowledge-work-plugins/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -83,6 +86,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "將 Productivity、Sales、Legal、Product 等職能的 Skills、Commands 與 Connectors 打包成 Plugin。",
+    "提供 Claude Cowork 與 Claude Code Marketplace 導入路徑。",
+    "可依企業術語、連接器與既有流程客製化單一 Plugin。"
+  ],
+  "requirements": [
+    "先從官方 Marketplace 選擇需要的職能插件，確認 Host 支援。",
+    "逐項檢查 .mcp.json 連接器、工具授權、資料出站與企業權限。"
+  ],
+  "limitations": [
+    "安裝 Plugin 不會自動取得 CRM、雲端文件或內部系統權限。",
+    "不同職能插件可能有相依、指令或資料存取衝突，需以小範圍試用驗證。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+    },
+    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+    },
+    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+    }
   }
 }
