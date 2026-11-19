@@ -16,7 +16,7 @@ for(const folder of dirs){
 }
 const domainCounts={};for(const row of rows)domainCounts[row.domain]=(domainCounts[row.domain]||0)+1;
 const career=rows.filter(row=>row.domain==='career');
-const strongCareer=/(?:\bresume\b|\brecruit(?:er|ment|ing)?\b|\bhiring\b|\bjob[ -]?(?:search|application|posting|interview)\b|\bcareer\b|\bats\b|\bheadhunt|\bcandidate\b|\bcover[ -]?letter\b|履歷|求職|職涯|招募|招聘|職缺|獵頭|求才|面試準備)/i;
+const strongCareer=/(?:\bresume\b|\brecruit(?:er|ment|ing)?\b|\bhiring\b|\bjob[ -]?(?:search|application|posting|interview)\b|\bcareer\b|\bats\b|\bheadhunt|\bcandidate\b|\bcover[ -]?letter\b|履歷|求職|職涯|招募|招聘|職缺|獵頭|求才|候選人|面試)/i;
 const suspicious=career.filter(row=>!strongCareer.test([row.title,row.purpose,row.problem].join(' ')));
 console.log(JSON.stringify({kind:'CLASSIFICATION_SEMANTIC_AUDIT',checked:rows.length,domainCounts,careerCount:career.length,
  careerRecords:career.map(({path,title,purpose,review})=>({path,title,purpose,review})),
