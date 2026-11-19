@@ -1,0 +1,48 @@
+name: Unified Intake Gate
+on:
+  pull_request:
+    paths:
+      - 'data/resources/**'
+      - 'data/skills/**'
+      - 'data/prompts/**'
+      - 'data/concepts/**'
+      - 'data/combinations/**'
+      - 'data/workflows/**'
+      - 'docs/UNIFIED_INTAKE_POLICY.md'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'scripts/check-intake-gate.mjs'
+      - 'scripts/test-intake-gate.mjs'
+      - '.github/workflows/unified-intake-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/resources/**'
+      - 'data/skills/**'
+      - 'data/prompts/**'
+      - 'data/concepts/**'
+      - 'data/combinations/**'
+      - 'data/workflows/**'
+      - 'scripts/check-intake-gate.mjs'
+      - 'scripts/test-intake-gate.mjs'
+      - '.github/workflows/unified-intake-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate shared intake contract positive, negative, regression cases
+        run: node --test scripts/test-intake-gate.mjs
+      - name: Enforce intake review on new or content-changed Canonical records
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: node scripts/check-intake-gate.mjs --base "$BASE_SHA" --head "$HEAD_SHA"

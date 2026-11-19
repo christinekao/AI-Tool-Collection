@@ -142,3 +142,10 @@ Only entities that add independent knowledge are created. A Combination is optio
 [Single-source taxonomy](data/taxonomy-v1.json) and [classification architecture](docs/CLASSIFICATION_ARCHITECTURE_V2.md) define Domain, Content Format and evidence-backed Capability independently of six Entity Types. Optional `classification.contentFormat` (currently Resource only), `classification.formatEvidenceFields` and `classification.capabilities: [{id,evidenceFields,status}]` add no new Entity Types and do not change stable IDs, original category, resourceType, tags or typed references. Unknown capability = empty/absent; the status `canonical-described` is not execution proof. Run `node scripts/test-taxonomy-v1.mjs` and `node scripts/validate-v2.mjs` after modifying classification.
 
 For stronger capability evidence, `source-reviewed` requires `verificationEvidence.sourceUrl` and `verificationEvidence.reviewedAt`, and `runtime-tested` requires a `verificationEvidence.testRun` with `executedAt`, `scenario`, and `result`. An ID or Domain match alone is never execution proof.
+
+
+## Mandatory intake review for future records
+
+For every newly added or substantively updated Canonical entity, follow [Unified Intake Policy](docs/UNIFIED_INTAKE_POLICY.md). The additional `intakeReview` object records source evidence, dedupe decision, taxonomy rationale, applicable reading spec, Capability and Concept review, safety, and real verification status. It applies to all six Entity Types but does not migrate historical records automatically. Existing classification-only edits, tag updates and date-only changes do not trigger historical backfill.
+
+The required CI check is [Unified Intake Gate](.github/workflows/unified-intake-gate.yml). It validates the presence, evidence paths, claimed Guide existence and status shape; it **cannot** verify the truth of sources, dedupe completeness or actual model behavior without external review.

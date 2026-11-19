@@ -223,6 +223,10 @@ data/
 
 **重點：**一篇文章可以同時產出不同實體，但不是一篇文章必然有六筆實體。`Resource ≠ Skill`、`Combination ≠ Workflow`、`Prompt ≠ Skill`。
 
+## 所有 AI 協作者共用的收錄與驗收政策（2026-11-19）
+
+不論使用 ChatGPT、Claude、Codex 或其他 Agent，新增／實質修改 Canonical 記錄都必須先遵守 [Unified Intake Policy](docs/UNIFIED_INTAKE_POLICY.md) 與根目錄 [AGENTS.md](AGENTS.md)。同一套來源查核、去重、Domain／Format／Capability、Concept 審查及 CI Release Gate；Resource／Skill／Prompt 依適用的專門閱讀規格，**不是每筆硬套四套**。新增或實質改寫資料須保存 `intakeReview`，GitHub Actions [Unified Intake Gate](.github/workflows/unified-intake-gate.yml) 會執行檢查。無來源時使用 Pending Sources，不虛構資料。
+
 ## 4. 每次收錄的標準作業程序（SOP）
 
 1. **Read current state** — 重新讀取 `main` 的 Catalog/原始資料與最新 Actions；不要沿用前次回答的筆數。
