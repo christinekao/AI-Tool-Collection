@@ -67,3 +67,15 @@ test('Catalog UI loads domain vocabulary rather than embedding a duplicate',()=>
  const js=fs.readFileSync(path.join(root,'catalog-app.js'),'utf8');
  assert.match(js,/fetch\('data\/taxonomy-v1\.json'/);assert.doesNotMatch(js,/const TOPICS=\[/);
 });
+
+test('A clarification interview is not automatically a recruiting or career interview',()=>{
+ const x=read('data/skills/mattpocock-grill-me.json');
+ assert.equal(x.classification.primaryDomain,'ai-agent');
+ assert.ok(!x.classification.secondaryDomains.includes('career'));
+ assert.equal(classifyRecord(x).primaryDomain,'ai-agent');
+ const other=read('data/skills/alexyc9381-hiring-panel.json');
+ assert.equal(other.classification.primaryDomain,'career');
+ assert.equal(classifyRecord(other).primaryDomain,'career');
+ const fresh={...x,classification:undefined,title:'Clarification interview',id:'hypothetical-clarification',purpose:'Interview a user to clarify product requirements before deciding a solution',problem:'Ambiguous requirements'};
+ assert.notEqual(classifyRecord(fresh).primaryDomain,'career','interview alone must not be a career indicator');
+});

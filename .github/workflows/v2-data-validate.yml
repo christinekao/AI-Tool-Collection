@@ -6,6 +6,7 @@ on:
     paths:
       - 'data/**'
       - 'scripts/validate-v2.mjs'
+      - 'scripts/audit-domain-classification.mjs'
       - 'data/taxonomy-v1.json'
       - 'scripts/test-taxonomy-v1.mjs'
       - 'scripts/tag-taxonomy-core.mjs'
@@ -40,6 +41,8 @@ jobs:
         run: node --test scripts/test-taxonomy-v1.mjs
       - name: Validate normalized Tags and historical evidence boundaries
         run: node --test scripts/test-tag-taxonomy.mjs
+      - name: Report semantic classification candidates across all 548 records
+        run: node scripts/audit-domain-classification.mjs
       - name: Verify source-backed Workflow composition rules
         run: node --test scripts/test-workflow-engine.cjs
       - name: Unit test graph rules

@@ -54,7 +54,7 @@ export const PILOT = Object.freeze({
 });
 
 const RULES = Object.freeze({
- career:[/\b(?:resume|cv|recruit(?:er|ment|ing)?|hiring|interview|headhun(?:t|ter)|job.search|job.application|career|cover.letter|ats)\b|履歷|求職|面試|職涯|招募|招聘|職缺|獵頭/i,/\bportfolio\b.*\b(?:case.study|resume|job)\b|作品集.*(?:求職|面試)/i],
+ career:[/\b(?:resume|cv|recruit(?:er|ment|ing)?|hiring|(?:job|mock|recruiter|hiring|candidate|technical)[ ._-]?interview|interview[ ._-]?(?:prep|practice|questions|coaching|screening)|headhun(?:t|ter)|job.search|job.application|career|cover.letter|ats)\b|履歷|求職|面試|職涯|招募|招聘|職缺|獵頭/i,/\bportfolio\b.*\b(?:case.study|resume|job)\b|作品集.*(?:求職|面試)/i],
  business:[/\b(?:ibkr|tradingview|pine.script|spy|finance|financial|fintech|invest(?:ment|ing|or)?|stock(?:s)?|equity|trading|trader|backtest|portfolio.risk|quantitative.finance|monte.carlo|market.risk|personal.finance|accounting)\b|金融|理財|投資|股票|台股|股市|交易策略|回測|風險報酬|財務|營收|加密貨幣/i],
  security:[/\b(?:cybersecurity|security.scan|security.audit|security.review|security.tool|vulnerab|pentest|penetration.test|threat.model|credential.isolat|pii|privacy|data.protection|secret.management|authn|authz|zero.trust|prompt.injection|sandbox.isolation|compliance|anti.fraud)\b|資安|安全檢測|漏洞|滲透測試|隱私|個資|敏感資料|憑證隔離|權限控管|防詐|資料保護/i,/\bsecurity\b|安全治理|安全防護/i],
  cloud:[/\b(?:azure|aws|kubernetes|k8s|terraform|container.platform|cloudflare|cloud.infra|devops|serverless|self.host(?:ed|ing)?|vps|ssh.install|linux.server|cloud.deploy|hosting|paas|gpu.cluster|docker.compose|infra.ops)\b|雲端|基礎設施|自架|部署平台|伺服器安裝|容器化|叢集管理/i],
