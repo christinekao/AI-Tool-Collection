@@ -3,6 +3,7 @@ const TYPES={resources:'Resources',skills:'Skills',concepts:'Concepts',prompts:'
 const SINGULAR={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
 let TOPICS=[];
 let DOMAIN_ALIASES={};
+let FEATURED_TAGS=new Map();
 const state={topic:'all',type:'all',query:'',limit:24,detail:null,returnHash:'#/explore',data:null,items:[],byType:{},aliases:new Map(),focusResultsOnRoute:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -67,14 +68,25 @@ function summary(x){
  if(x.entityType==='combination')return {what:text(x.goal)||text(x.problem)||'尚未補充組合目標',fit:text(x.rationale)};
  return {what:text(x.goal)||text(x.problem)||'尚未補充流程目標',fit:text(x.solutionStrategy)};
 }
-function tags(a,max=4){return list(a).slice(0,max).map(t=>'<span class="tag">'+esc(typeof t==='string'?t:t.label||t.id||'')+'</span>').join('')}
+function normalizeTagKey(value){return String(value??'').normalize('NFKC').trim().toLowerCase().replace(/[\\s_]+/g,'-').replace(/-+/g,'-')}
+function tags(rawTags,max=2){
+ const selected=[],seen=new Set();
+ for(const raw of list(rawTags)){
+  const value=typeof raw==='string'?raw:raw?.label||raw?.id||'';
+  const featured=FEATURED_TAGS.get(normalizeTagKey(value));
+  if(!featured||seen.has(featured))continue;
+  seen.add(featured);selected.push(featured);
+  if(selected.length>=max)break;
+ }
+ return selected.map(id=>'<span class="tag">'+esc(id)+'</span>').join('');
+}
 function card(x){
  const s=summary(x);
  return '<article class="card"><div class="card-top"><span class="type-label">'+esc(kindLabel(x))+'</span>'+(x.classification?'<span class="category-label">'+esc(domainLabel(x))+'</span>':'')+'</div>'+
  '<h3><a class="title-link" href="'+esc(routeFor(x.entityType,x.id))+'">'+esc(x.title)+'</a></h3>'+
  '<p class="card-summary">'+esc(short(s.what,180))+'</p>'+ (s.what.length<36&&!s.fit?'<p class="needs-description">用途說明待補充</p>':'')+
  (s.fit&&s.fit!==s.what?'<p class="card-fit"><strong>'+esc(({resource:'適合',skill:'解決問題',concept:'解法',prompt:'目標',combination:'搭配原因',workflow:'執行方式'})[x.entityType]||'補充')+'：</strong>'+esc(short(s.fit,130))+'</p>':'')+
- '<div class="card-footer"><div class="tag-row">'+tags(x.tags,3)+'</div><a class="view-link" href="'+esc(routeFor(x.entityType,x.id))+'">查看詳情 →</a></div></article>';
+ '<div class="card-footer"><div class="tag-row">'+tags(x.tags,2)+'</div><a class="view-link" href="'+esc(routeFor(x.entityType,x.id))+'">查看詳情 →</a></div></article>';
 }
 function refsHtml(refs){
  const r=list(refs);
@@ -312,7 +324,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><span class="category-label">'+esc(domainLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||hasSkillGuide||hasPromptGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><span class="category-label">'+esc(domainLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||hasSkillGuide||hasPromptGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,4)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
@@ -468,6 +480,12 @@ async function init(){
   const taxonomy=await taxRes.json();
   TOPICS=[...taxonomy.domains,...taxonomy.purposeFacets.filter(f=>f.showInTopics!==false)];
   DOMAIN_ALIASES=taxonomy.domainAliases;
+  FEATURED_TAGS=new Map();
+  const featured=new Set(list(taxonomy.tagPresentation?.featured));
+  for(const item of list(taxonomy.tagVocabulary)){
+   if(!featured.has(item.id))continue;
+   for(const alias of [item.id,...list(item.aliases)])FEATURED_TAGS.set(normalizeTagKey(alias),item.id);
+  }
   state.data=await res.json();indexData();wire();readRoute();render();
   const countBadge=$('#collection-count');if(countBadge)countBadge.textContent=state.items.length.toLocaleString('zh-TW')+' 筆收藏';
  }catch(e){console.error('Catalog load failed',e);$('#app').innerHTML='<div class="empty">收藏資料載入失敗，請重新整理頁面。</div>'}

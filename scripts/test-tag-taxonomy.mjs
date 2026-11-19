@@ -40,3 +40,19 @@ test('High-confidence recurring Tags are mapped without promoting broad topic wo
  for(const id of ['worktree','human-approval','design-to-code','reverse-engineering','handoff','deduplication','github'])assert.ok(x.normalized.some(row=>row.id===id));
  assert.deepEqual(x.unmapped,['security','frontend','privacy','evidence']);
 });
+
+test('Only a compact cross-domain tag set is featured, while all original Tags stay searchable',()=>{
+ const featured=t.tagPresentation.featured, ids=new Set(t.tagVocabulary.map(x=>x.id));
+ assert.ok(featured.length<=15,'do not recreate full vocabulary as visible chips');
+ assert.ok(new Set(featured).size===featured.length,'no duplicate visible chips');
+ assert.ok(featured.every(id=>ids.has(id)),'featured IDs must exist in controlled vocabulary');
+ const blocked=new Set(['agent-skill','skill-mention','workflow','combination','claude-code','codex','github','python','api','mcp','mit','apache-2.0','security-review','privacy-review','uninstalled','source-verified','learning','reference']);
+ assert.ok(featured.every(x=>!blocked.has(x)),'entity types, vendors, technologies, metadata and state are not visible tags');
+ assert.ok(t.tagPresentation.maxCard<=2&&t.tagPresentation.maxDetail<=4);
+ assert.equal(t.tagPresentation.allowNoTags,true);
+ assert.equal(t.tagPresentation.rawTagsSearchable,true);
+ const ui=fs.readFileSync('catalog-app.js','utf8');
+ assert.match(ui,/FEATURED_TAGS/);
+ assert.match(ui,/list\(x\.tags\)\.join/,'raw tag search must remain');
+ assert.ok(!ui.includes('tags(x.tags,12)'),'details must not flood the page');
+});

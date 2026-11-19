@@ -52,3 +52,13 @@
 - Method：`worktree`、`human-approval`、`design-to-code`、`reverse-engineering`、`handoff`、`deduplication`。
 
 不新增 Domain、Entity Type、Capability 或 Graph 關聯，也不自動升格 `security`、`frontend`、`privacy`、`evidence` 等寬泛詞。現在為 89 個受控詞彙，仍不代表長尾 Tags 已全部語意審核。
+
+## 2026-11-19｜精簡可見標籤：避免 Tag 洪水
+
+曾以 89 個受控字詞（技術、模型、來源提示、狀態及方法）標準化 Raw Tags，然而「匹配率更高」不代表使用者更容易探索；把 2,431 個不同歷史 Tag 全映射甚至會讓雜訊更多。**本次明確取消追求 100% Raw Tag 映射率的目標。**
+
+- **Domain** 負責主題領域；**Entity Type** 負責 Resource／Skill／Prompt 等；**Capability** 負責具體能做的事；**Metadata** 負責 Host、Tech、Source、License、Status。
+- 可見 **Tags** 僅呈現 *區分不同使用情境的跨領域方法／約束*。由 `data/taxonomy-v1.json` 的 `tagPresentation.featured` 管理最多 **15 種精選 Tag**，單一卡片至多 2 個、單一詳情至多 4 個；沒有符合者就**不顯示 Tag**。
+- 舊版 5,407 次 Raw Tags **不刪除**，仍可全文搜尋、進行來源查閱及檢查；但不再自動灌到卡片和詳情，未映射只是歷史關鍵字，**不代表分類失敗或待修問題**。
+- 89 個 Vocabulary 是兼容舊有資料的 Metadata 映射字典，不等於 89 個 UI Tags。後續能否新增精選 Tag，需證明其有明確檢索價值、不能由 Domain／Type／Capability／Metadata 取代，且不與既有 Tag 重複；不因原始頻率高就自動新增。
+- 此規則在網站呈現時**套用全部 548 筆記錄**。搜尋與 Domain、Type、Typed References 保持原有路徑。

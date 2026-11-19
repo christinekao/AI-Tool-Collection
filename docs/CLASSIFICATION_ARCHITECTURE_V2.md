@@ -46,3 +46,7 @@
 下一階段依據本表分批豐富 Resources → Skills → Prompts，並同步累積 Concept／Capability 候選關係；每批先核對來源、文字與 I/O，再擴大資料填寫。
 
 **追加採證門檻：** 把能力狀態升為 `source-reviewed` 時，必須提供 `verificationEvidence.sourceUrl` 與 `reviewedAt`；升為 `runtime-tested` 時，必須有 `verificationEvidence.testRun`（`executedAt`、`scenario`、`result`）。不能僅修改標籤狀態便宣稱已驗證。回歸測試按 Manifest 檢查動態總數，不將 548 鎖定成無法新增收藏的硬上限。
+
+## 可見 Tag 精簡原則（2026-11-19）
+
+可見 Tag 為可選的跨領域細節，最多 15 種精選語意，卡片上限 2，詳情上限 4；沒有符合時不顯示。Tags 不得重複 Domain、Entity Type、Capability 或 Metadata 已表示的內容，原始 tags 僅保留搜尋和可追溯；詳見 [標準化規則](TAG_STANDARDIZATION_V1.md)。
