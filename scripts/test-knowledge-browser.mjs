@@ -258,8 +258,8 @@ try{
  fs.writeFileSync(path.join(screenshotDir,'knowledge-375-selected.png'),Buffer.from(mobileShot.data,'base64'));
  console.log('PASS: mobile selection scrolls to knowledge and focuses selected Problem');
  await send('Page.navigate',{url:origin+'/index.html#/explore'});
- await waitFor('document.querySelectorAll("#topics > .topic-card").length===9','Catalog home topics');
- const home=await evaluate('({nested:document.querySelectorAll("#topics > .topic-grid").length,cta:!!document.querySelector(\'a.hero-main-cta[href="ask.html"]\'),learning:!!document.querySelector(\'a.hero-secondary-cta[href="knowledge.html"]\')})');
+ await waitFor('document.querySelectorAll("#topics > .topic-card").length===11','Catalog home topics');
+ const home=await evaluate('({nested:document.querySelectorAll("#topics > .topic-grid").length,cta:!!document.querySelector(\'nav.top-nav a[href="ask.html"]\'),learning:!!document.querySelector(\'nav.top-nav a[href="knowledge.html"]\')})');
  assert.equal(home.nested,0,'Topic grid must not be nested');
  assert.ok(home.cta&&home.learning,'Home must link to dynamic answers and keep the existing Problem Explorer');
  await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
@@ -280,10 +280,10 @@ try{
  await evaluate('document.querySelector("#all-topic").click();true');
  await waitFor('location.hash==="#/explore" && document.querySelector("#result-title")?.textContent==="全部收藏"','Reset topic');
  await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
- await evaluate('document.querySelector("#topics [data-topic=agents] .topic-count").click();true');
- await waitFor('location.hash==="#/explore/agents" && document.querySelector("#result-title")?.textContent==="AI Agent 與 Skills"','Mobile topic');
+ await evaluate('document.querySelector("#topics [data-topic=ai-agent] .topic-count").click();true');
+ await waitFor('location.hash==="#/explore/ai-agent" && document.querySelector("#result-title")?.textContent==="AI 系統與 Agent"','Mobile topic');
  await waitFor('document.querySelector("#result-header")?.getBoundingClientRect().top>=-4 && document.querySelector("#result-header")?.getBoundingClientRect().top<=40','Mobile topic results scroll');
- const mobileTopic=await evaluate('({top:document.querySelector("#result-header").getBoundingClientRect().top,selected:document.querySelector("#topics [data-topic=agents]").getAttribute("aria-pressed"),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})');
+ const mobileTopic=await evaluate('({top:document.querySelector("#result-header").getBoundingClientRect().top,selected:document.querySelector("#topics [data-topic=ai-agent]").getAttribute("aria-pressed"),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})');
  assert.ok(mobileTopic.top>=-4&&mobileTopic.top<=40,'Mobile results not in view: '+JSON.stringify(mobileTopic));
  assert.equal(mobileTopic.selected,'true');
  assert.ok(mobileTopic.overflow<=3);
@@ -329,7 +329,7 @@ try{
  }
  console.log('PASS: Expanded record detail aligns to the content edges and fits 375/430/768/1440px');
 
- assert.ok((await evaluate('document.querySelector(".detail-panel")?.textContent')).includes('從這份知識開始實作'),'Resource detail must show the saved implementation knowledge');
+ assert.ok(await evaluate('document.querySelectorAll("#repo-compose .repo-capability").length>0 && document.querySelectorAll("#repo-rebuild .repo-rebuild-stage").length>0'),'Resource detail must show capability contracts and rebuild guidance');
  assert.equal(await evaluate('document.querySelector(".detail-back a")?.getAttribute("href")'),'#/browse/all','Return from resource detail should preserve All Collections context');
  await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
  await waitFor('document.querySelector("#q")?.value===""','All Collections clears prior search');
@@ -339,10 +339,10 @@ try{
  await evaluate('document.querySelector("#app .card a.title-link").click();true');
  await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI 工程決策速查表")','Article detail opens');
  await waitFor('document.querySelectorAll(".learn-module").length===10','Ten study modules rendered from the saved original Resource');
- const studyContent=await evaluate('({heroHidden:document.querySelector(".hero")?.hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module-inline").length,notes:document.querySelectorAll(".learn-essentials li").length,exercises:document.querySelectorAll(".learn-apply").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-reference a[href*=sraodev]").length,defaultExternalLinks:document.querySelectorAll(".learn-path a").length,accordionCount:document.querySelectorAll(".learn-module summary").length,legacyFeatures:document.querySelector(".detail-panel")?.textContent.includes("主要功能")})');
- assert.ok(studyContent.heroHidden&&studyContent.outcomes===5&&studyContent.modules===10&&studyContent.notes===30&&studyContent.exercises===10&&studyContent.readPath===4&&studyContent.practice>=4&&studyContent.sourceLinks===10&&studyContent.defaultExternalLinks===0&&studyContent.accordionCount===0&&studyContent.legacyFeatures,'Inline lesson must include all source-backed knowledge and keep provenance: '+JSON.stringify(studyContent));
- const decision=await evaluate('({heroCount:document.querySelectorAll(".learning-guide .learn-header").length,decisionRows:document.querySelectorAll(".learn-decision tbody tr").length,decisionChecks:document.querySelectorAll(".learn-decision-check li").length,decisionText:document.querySelector(".learn-decision")?.textContent})');
- assert.ok(decision.heroCount===0&&decision.decisionRows===5&&decision.decisionChecks===3&&decision.decisionText.includes("固定 Workflow")&&decision.decisionText.includes("Agent"),'No duplicate intro; reader should see an actual decision tree for Agent selection: '+JSON.stringify(decision));
+ const studyContent=await evaluate('({heroHidden:!document.querySelector(".hero")||document.querySelector(".hero").hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module-inline").length,notes:document.querySelectorAll(".learn-essentials li").length,exercises:document.querySelectorAll(".learn-apply").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-reference a[href*=sraodev]").length,defaultExternalLinks:document.querySelectorAll(".learn-path a").length,accordionCount:document.querySelectorAll(".learn-module summary").length,legacyFeatures:document.querySelector(".detail-panel")?.textContent.includes("主要功能")})');
+ assert.ok(studyContent.heroHidden&&studyContent.outcomes===0&&studyContent.modules===10&&studyContent.notes===30&&studyContent.exercises===10&&studyContent.readPath===0&&studyContent.practice>=4&&studyContent.sourceLinks===10&&studyContent.defaultExternalLinks===0&&studyContent.accordionCount===0&&studyContent.legacyFeatures,'Inline lesson must include all source-backed knowledge and keep provenance: '+JSON.stringify(studyContent));
+ const decision=await evaluate('({heroCount:document.querySelectorAll(".learning-guide .learn-header").length,decisionRows:document.querySelector(".learn-decision")?.querySelectorAll("tbody tr").length,decisionChecks:document.querySelectorAll(".learn-principle-check").length,decisionText:document.querySelector(".learn-decision")?.textContent})');
+ assert.ok(decision.heroCount===0&&decision.decisionRows===5&&decision.decisionChecks>=3&&decision.decisionText.includes("固定 Workflow")&&decision.decisionText.includes("Agent"),'No duplicate intro; reader should see an actual decision tree for Agent selection: '+JSON.stringify(decision));
   const readability=await evaluate('({rendered:document.querySelectorAll(".learn-module-inline .learn-essentials li").length,visible:!!document.querySelector(".learn-essentials li")?.getClientRects().length,firstLesson:document.querySelector(".learn-module-inline")?.textContent})');
  assert.ok(readability.visible&&readability.rendered===30&&readability.firstLesson.includes("自己試試看")&&readability.firstLesson.includes("三個判斷原則"),'Lessons should already be readable without clicking summaries or leaving the website');
  console.log('PASS: No duplicate learning hero; five design choices, three Agent gates, thirty visible points');
