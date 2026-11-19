@@ -11,6 +11,7 @@ import http from 'node:http';
 import {spawn,spawnSync} from 'node:child_process';
 
 const root=process.cwd(),tmp=fs.mkdtempSync(path.join(os.tmpdir(),'kg-browser-'));
+const catalogRecordCount=Object.values(JSON.parse(fs.readFileSync(path.join(root,'data/manifest-v2.json'),'utf8')).entities).reduce((n,ids)=>n+ids.length,0);
 const screenshotDir=path.join(root,'artifacts');
 const ports={};
 let server,chrome,ws;
@@ -308,7 +309,7 @@ try{
 
  // The All Collections route is a stable, no-curation-required view of every V2 type.
  await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
- await waitFor('document.querySelector("#result-title")?.textContent==="全部收藏" && document.querySelector("#result-count")?.textContent.includes("548")','All Collections shows the complete catalog');
+ await waitFor(`document.querySelector("#result-title")?.textContent==="全部收藏" && document.querySelector("#result-count")?.textContent.includes("${catalogRecordCount}")`,'All Collections shows the complete catalog');
  const allCollection=await evaluate('({discoverHidden:document.querySelector("#discover")?.hidden,tabCount:document.querySelectorAll("#type-tabs [data-type]").length,nav:!!document.querySelector(\'nav a[href="#/browse/all"]\'),rows:document.querySelector("#result-count")?.textContent})');
  assert.ok(allCollection.discoverHidden&&allCollection.tabCount===7&&allCollection.nav,'All Collections needs one direct independent route to all six types: '+JSON.stringify(allCollection));
  await evaluate('(()=>{const el=document.querySelector("#q");el.value="tip31812";el.dispatchEvent(new Event("input",{bubbles:true}));return true})()');
@@ -365,7 +366,7 @@ try{
  await send('Page.navigate',{url:origin+'/ask.html'});
  await waitFor('document.querySelector("#ask-meta")?.textContent.includes("已載入")','Knowledge answer page loaded');
  const initialKnowledge=await evaluate('({count:document.querySelector("#ask-meta")?.textContent,nav:!!document.querySelector(\'nav a[href="index.html#/browse/all"]\'),presets:document.querySelectorAll("[data-question]").length})');
- assert.ok(initialKnowledge.count.includes("548")&&initialKnowledge.nav&&initialKnowledge.presets>=4,'Ask page must reference all saved records and preserve All Collections navigation');
+ assert.ok(initialKnowledge.count.includes(String(catalogRecordCount))&&initialKnowledge.nav&&initialKnowledge.presets>=4,'Ask page must reference all saved records and preserve All Collections navigation');
  await evaluate('document.querySelector(\'[data-question*="AI Security"]\').click();true');
  await waitFor('document.querySelector("#ask-output .ask-head h2")?.textContent.includes("AI Security")','Security answer');
  const securityAnswer=await evaluate('({mode:document.querySelector(".ask-kicker")?.textContent,sections:document.querySelectorAll("#ask-output [data-section]").length,citations:document.querySelectorAll("#ask-output a.ask-source").length})');
