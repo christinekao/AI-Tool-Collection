@@ -44,3 +44,18 @@
 `data/tag-index-v1.json.summary` 是目前基準分支下**即時計算**的覆蓋統計；`commonUnmapped` 是值得優先語意複核的高頻未匹配 Tag。原始 Tags 和舊 Category 的完整性本輪沒有重寫／刪除，主題分類是否正確仍以資料證據另行確認。Content Format 和 Capability 原 17 筆試行範圍不因本次標籤映射自動擴大。
 
 後續每批 Resources → Skills → Prompts 更新時，從 `commonUnmapped` 高頻項目開始做語意審查，逐步擴充詞庫與 Capability，而非一次假裝 2,431 個 Tag 全部已人工驗證。
+
+
+## 標籤精簡治理（Lean Tags）｜適用所有 Agent
+
+原則：**Tag 是補充搜尋線索，不是資料的摘要全文。先重用，再建別名；沒有確切需要就不新增。** 不追求每筆 Tag 數量，也不以覆蓋率上升作為目標。分類應優先放在 Domain、Content Format、Purpose、Capability、Source、Technology 等適當欄位；重複描述的 Tag 不值得新增。
+
+- 不從標題／介紹／文章關鍵字逐字自動產生 Tags；不因遇到新工具、產品名、Repo Owner、泛用詞就擴充全域詞庫。
+- 新增資料建議 **3–5 個有辨識價值的 Tags**；CI 暫以最多 **6 個**作為防膨脹上限。可以少於 3 個甚至 0 個；不為填滿配額而添加。
+- 既有紀錄每次更新，最多只能**新增 2 個** Raw Tags；原有 20+ Tags 不會被強迫刪除，也不會僅因歷史較多而驗收失敗。
+- 不允許新增 `misc`／`important`／`day` 等沒有分類意義的泛用詞；不能將既有 Domain 再重複當 Tag，也不能用同義別名在同一筆內重複計數。
+- 未對應受控詞彙的特定來源術語保留為 Raw Tags／`unmapped`，不會因其存在就自動建立新分類。
+- 想擴充**全域 Tag Vocabulary** 時，必須已有至少 **3 筆不同 Canonical 實際使用該詞／別名**，並說明「為何現有 Tag 無法表達」、「改善哪種搜尋／使用情境」、記錄至少 3 個具體 Entity IDs；CI 會交叉比對；語意必要性仍須獨立審查。只出現一次或兩次的專有名稱繼續保留，不升格全域 Tag。
+- 既有 Vocabulary 只補真正有用且出現在資料中的別名；不為別名製造額外 Canonical ID。
+- `data/taxonomy-v1.json` 的 `tagGovernance` 是統一數量與治理門檻；`scripts/check-tag-governance.mjs` 是差異檢查、`scripts/test-tag-governance.mjs` 是負案例／回歸檢驗。**測試通過不表示語意正確，也不等於允許 Agent 自行核准擴充標準。**
+- 以上預設上限針對**新資料與新增的 Tag**，不是回溯改寫或刪除 548 筆舊資料；如少量具體例外確有必要，先提政策修改供審查，不自行繞過 Gate。

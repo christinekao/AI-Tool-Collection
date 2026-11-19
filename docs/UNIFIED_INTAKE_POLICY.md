@@ -10,7 +10,7 @@
 
 1. **Preflight**：先讀最新 README、SCHEMA_V2.md、`data/schema-v2.json`、`data/taxonomy-v1.json` 和本政策；確認目標分支與是否已有相同紀錄，不沿用舊 Session 的假設。
 2. **Source & Dedupe**：優先取得原始來源／完整 Prompt，查核版本、授權及限制；以 ID、名稱、URL、Repo 等查重。無可讀依據時留在 `data/pending-sources/`，不編造 Capability 或正式 Graph 連結。
-3. **Classify**：依 [Tag Standardization](TAG_STANDARDIZATION_V1.md) 統一原始 Tag 的術語、同義詞與 Facet；保留原始 Tags 與舊 Category，將 `data/taxonomy-v1.json` 當作唯一受控詞彙，不得把技術／授權／歷史狀態誤當 Domain 或來源驗證。新增或實質改寫時必須記錄 `intakeReview.tagReview`（all-mapped／retain-unmapped／new-vocabulary-proposed）與理由，不能因為別名尚未建立即默默丟掉資訊。所有 Entity 都填唯一 Primary Domain，Secondary 最多兩個。Resource 優先填 Content Format；Capability 只憑可指回欄位的行為證據指派，未確認就留空。Purpose 不屬於 Domain。
+3. **Classify**：**採 Lean Tags，必要才加，不自動擴充詞庫。** 優先重用現有 Domain／Format／Capability／Tag；新資料最多六個有明確區辨價值的 Raw Tags，舊資料一次最多新增兩個。新增全域受控 Tag 至少需三筆不同紀錄的實際使用與書面必要性證據，仍需獨立審查。不要為了提高 Tag 覆蓋率而建立大量同義詞、產品名、泛用詞。詳見 [Tag Standardization](TAG_STANDARDIZATION_V1.md)。依 [Tag Standardization](TAG_STANDARDIZATION_V1.md) 統一原始 Tag 的術語、同義詞與 Facet；保留原始 Tags 與舊 Category，將 `data/taxonomy-v1.json` 當作唯一受控詞彙，不得把技術／授權／歷史狀態誤當 Domain 或來源驗證。新增或實質改寫時必須記錄 `intakeReview.tagReview`（all-mapped／retain-unmapped／new-vocabulary-proposed）與理由，不能因為別名尚未建立即默默丟掉資訊。所有 Entity 都填唯一 Primary Domain，Secondary 最多兩個。Resource 優先填 Content Format；Capability 只憑可指回欄位的行為證據指派，未確認就留空。Purpose 不屬於 Domain。
 4. **Explain for humans + preserve for Agents**：先用繁體中文解釋情境、功能、準備、流程、輸出、限制；機器需要的觸發、I/O、技術規則、Source、測試 Gate 不可因精簡頁面而刪掉。
 5. **Select applicable reading spec**：四套規格不是每筆全套照抄，而是共用收錄 Gate + 適用的專門規格：
    - 深入教材：[`LEARNING_CONTENT_SPEC.md`](LEARNING_CONTENT_SPEC.md)，需要可驗收的學習成果。
