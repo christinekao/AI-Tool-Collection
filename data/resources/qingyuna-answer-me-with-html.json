@@ -13,7 +13,7 @@
   "notes": "2026-10-25 核對官方 GitHub README.md、LICENSE、package.json、INSTALL.md、skills/answer-me-with-html/SKILL.md 及 Root/Plugin 目錄。MIT 授權、package.json 版本 0.5.7、Node.js >=20。這是可供 Claude Code 等多種 Agent 使用的獨立 Agent Skill + 打包 Node CLI，與只能在 Chat UI 中呈現元件的 GenUI 不同：其輸出是獨立 HTML，可作為離線檔案開啟與分享。`am` 根據 Markdown Draft 輸出 HTML + 設計 Theme（blueprint/shadcn/paper）、flow/er/sequence/tree/timeline/chart/annot/ask 等組件；普通案例的輸出保存在 `~/.answer-me-with-html/pages/`（無權限時可寫 temporary folder）；單頁內嵌樣式與生成所需資源，主張不依賴 CDN；部分動畫/語音頁功能和 ffmpeg 輸出有額外環境要求。Skill 支援對 HTML 局部更新、模型讀寫私有檔案片段的 `src= lines=` 引用、控制風格與設定，以及 `always-on` 模式。always-on 預設關閉，若啟用需要對 `CLAUDE.md` 或 `AGENTS.md` 等全域規則寫入並每次產生頁面；不得未經允許安裝或設定。官方 README 宣稱少量自家 Benchmark 中模型輸出約 612 vs 手寫 HTML 4,893 Tokens、產出時間約 12 vs 31 秒，對應約 8 倍少輸出 Token、2.6 倍快；這是作者測試（3 topics × 3 runs，指定模型/環境）且未獨立重現，並非所有模型/用途的普遍結果，實際帳單節省不等於輸出 Token 節省。INSTALL.md 有對 Agent 自動安裝/更新的指令，但本次僅閱讀不執行。Node CLI 產生單頁 HTML 本身可離線打開；模型呼叫、安全/更新檢查、外部檔案引用與影片來源仍需個別核對資料外送及成本。發文與排版不等於已交叉查證內容。尚未在此環境安裝、渲染、驗證效能或產生影片。",
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-19",
   "tags": [
     "answer-me-with-html",
     "qingyuna",
@@ -76,7 +76,10 @@
     "skillUrl": "https://github.com/QingYunA/answer-me-with-html/blob/main/skills/answer-me-with-html/SKILL.md",
     "installDocs": "https://github.com/QingYunA/answer-me-with-html/blob/main/INSTALL.md",
     "type": "Official GitHub README, MIT LICENSE, package manifest, standalone agent SKILL.md and INSTALL.md",
-    "summary": "Primary sources inspected on 2026-10-25. Claimed benchmarks are vendor self-reported; no runtime or benchmark performed."
+    "summary": "Primary sources inspected on 2026-10-25. Claimed benchmarks are vendor self-reported; no runtime or benchmark performed.",
+    "readmeUrl": "https://github.com/QingYunA/answer-me-with-html/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official upstream document only; no runtime/security audit"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -92,6 +95,63 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "先以 Markdown 撰寫結構化解說再渲染成可閱讀的 HTML 教材",
+    "提供多種 Agent Plugin／Skill 安裝方式及教學示例"
+  ],
+  "requirements": [
+    "README 要求 Node.js 20+ 並依 Host 選擇安裝方式",
+    "輸入具體問題、可靠來源與驗收要求再檢查 HTML 導覽和顯示"
+  ],
+  "limitations": [
+    "作者列出的 Token 節省屬其測試樣本結果，不能保證相同模型都有效",
+    "生成的圖文教材仍需校驗事實、引用、互動和行動版可讀性"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain design，僅改善功能、條件、限制，不更改分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+    },
+    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+    }
   }
 }

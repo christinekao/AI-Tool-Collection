@@ -13,7 +13,7 @@
   "notes": "2026-10-24 核對官方 GitHub Repository Metadata、README.md、MIT LICENSE、package.json、.claude-plugin/plugin.json、skills/omm-scan/SKILL.md、skills/omm-view/SKILL.md、skills/omm-push/SKILL.md 與 docs/ROADMAP.md。Package 版本 0.2.0，Node.js >=18，npm CLI 為 `omm`。官方 README 記載 `npm install -g oh-my-mermaid && omm setup` 可註冊 Claude Code、Codex、Cursor、OpenClaw、Antigravity 等 Coding Tools，`/omm-scan` 會讀取程式庫、使用 `omm write` 建立 `.omm/<perspective>/diagram.mmd`、description/context/constraint/concern/todo/note 等資料；`/omm-view` 以 `omm list` 確認文件後用本機 viewer 瀏覽（預設 http://localhost:3000），該 viewer 僅顯示不改動 `.omm/`；`/omm-push` 透過 login（GitHub OAuth）、link、push 將 `.omm/` 架構文件傳到外部雲端，說明中提到服務有免費與付費方案、分享和公開選項，未獨立核實當期價格額度。這三個 Skill 都有獨立官方 SKILL.md，故各建 Skill Entity；是否能在不同 Agent Harness 直接使用需要依實際安裝檢驗。Skill 中若發現 `omm` 不存在會提示／嘗試全域 npm 安裝，具有執行指令與讀取專案檔案的能力，不可視為低權限唯讀工具；資料上雲尤其需要個別批准。`/omm-scan` 生成的架構描述是 AI 推斷而非靜態分析的百分百正確結論。官方 Roadmap 的 Sub-agent 並行掃描、Incremental Analysis、Natural Language Search 及 `/omm-guide` 為 planned，不能宣稱當前正式支援。專案和已收錄的 `research-to-diagram` 功能互補，但不是同一個 Repo。此輪僅建立資料庫索引，未安裝、執行任何 `omm` 命令、授權 GitHub OAuth、分析私人 Codebase、推送雲端或修改工具收藏網站 UI。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "oh-my-mermaid",
     "omm",
@@ -83,7 +83,10 @@
     "viewer": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-view/SKILL.md",
     "cloud": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-push/SKILL.md",
     "type": "Official GitHub README, MIT LICENSE, package manifest and three SKILL.md source files",
-    "summary": "Verified source files and documentation on 2026-10-24. No installation, runtime testing or cloud transfer."
+    "summary": "Verified source files and documentation on 2026-10-24. No installation, runtime testing or cloud transfer.",
+    "readmeUrl": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official upstream document only; no runtime/security audit"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -99,6 +102,63 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "將 AI Codebase 分析結果組織為分層 Mermaid 架構圖",
+    "提供 CLI 與跨 Agent Skill 的 Setup 入口"
+  ],
+  "requirements": [
+    "README 使用 Node.js/npm 安裝 omm CLI 並進行設定",
+    "確認 Agent 可讀取的專案檔案與生成圖的預期範圍"
+  ],
+  "limitations": [
+    "自動生成的架構關係仍需依真實 Code Review 驗證",
+    "層次圖可能省略執行時依賴或動態呼叫關係"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain software，僅改善功能、條件、限制，不更改分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+    },
+    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+    }
   }
 }
