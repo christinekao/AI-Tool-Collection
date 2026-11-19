@@ -59,3 +59,12 @@
 - 既有 Vocabulary 只補真正有用且出現在資料中的別名；不為別名製造額外 Canonical ID。
 - `data/taxonomy-v1.json` 的 `tagGovernance` 是統一數量與治理門檻；`scripts/check-tag-governance.mjs` 是差異檢查、`scripts/test-tag-governance.mjs` 是負案例／回歸檢驗。**測試通過不表示語意正確，也不等於允許 Agent 自行核准擴充標準。**
 - 以上預設上限針對**新資料與新增的 Tag**，不是回溯改寫或刪除 548 筆舊資料；如少量具體例外確有必要，先提政策修改供審查，不自行繞過 Gate。
+
+
+## 第一批精簡顯示｜12 個 Resources
+
+本批僅挑選已收錄內容較完整、但原始 Tags 過多的 12 筆 Resource：共 **318 個原始 Tag 使用次數**，主畫面改顯示 **60 個精選 Tag**（各 5 個）。精選結果見 [data/featured-tags-v1.json](../data/featured-tags-v1.json)，包含每筆精簡原因及原始數量。
+
+**這是顯示層整理，不是清除原始 Tags。** Canonical JSON 與既有搜尋仍保留全部原始 Tags，不會刪除版本、技術或風險線索；未來批次依相同方式漸進整理。一般詳情頁的 Tag 顯示上限從 12 降為 5，未策展項目仍有保守後備顯示。此處僅依既有 Canonical 文字和 Tag 精選，未重新查核外部 Repo，也未宣稱 Tool 或 Runtime 已測試。
+
+驗收：`node --test scripts/test-featured-tags.mjs` 確認 12 筆皆有 3–5 個、精選 Tag 必須為既有原始 Tags 的子集、無重複別名、原始數量未被改動、搜尋仍讀完整 Tags。
