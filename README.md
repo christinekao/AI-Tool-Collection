@@ -10,6 +10,12 @@
 - **介面：** `index.html`（GitHub Pages 靜態網站）
 - **主要任務：** 接收使用者提供的工具名稱、GitHub 連結、官網、文章、截圖或 Prompt，依既有格式核實、分類、去重、收錄並發布
 
+## 長期知識層次與萃取原則（2026-11-19）
+
+工具更新速度快，因此收藏原始 Resource／Skill／Prompt 後，應優先萃取跨工具有效的 Concept、辨識可重用 Workflow，再按 Input／Output／Gate 和證據選擇目前可用的實作工具。**Problem → Concept → Workflow → Implementation Options** 是主要理解路徑，不是要求每篇來源都產生四筆資料。
+
+Combination 保留為六種 V2 Entity 之一，但改採**有獨立重用價值才建立**；原有資料不因分類改版自動合併、刪除或更名。完整使用邊界與驗收詳見 [Knowledge Layers Policy](docs/KNOWLEDGE_LAYERS_POLICY.md)。
+
 ## 核心理念｜Problem-Centric Knowledge Graph（以問題為核心的知識關聯圖）
 
 因為 AI 工具更新太快，真正值得長期保存的不是工具本身，而是：
