@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import {readProblems,buildKnowledgeGraph} from './knowledge-graph-core.mjs';
+import {buildTagIndex} from './tag-taxonomy-core.mjs';
 
 const kinds = {
   resources: 'resource', skills: 'skill', concepts: 'concept',
@@ -51,6 +52,14 @@ for (const [plural, singular] of Object.entries(kinds)) {
     if (!Array.isArray(record.tags)) errors.push(where + ': tags must be array');
     if (!isDeepStrictEqual(record, catalogById.get(record.id))) errors.push(where + ': catalog copy differs from canonical source');
   }
+}
+
+try {
+ const taxonomy=read('data/taxonomy-v1.json'),index=read('data/tag-index-v1.json');
+ const expected=buildTagIndex(catalog,taxonomy);
+ if(!isDeepStrictEqual(index,expected))errors.push('Tag index is stale or differs from canonical raw tags and taxonomy');
+} catch(error) {
+ errors.push('Tag index validation failed: '+error.message);
 }
 
 let refs = 0;

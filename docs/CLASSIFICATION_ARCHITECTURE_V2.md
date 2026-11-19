@@ -11,6 +11,8 @@
 | Capability | 可完成的**具體動作**是什麼？ | `classification.capabilities[].id`、`evidenceFields`、`status` |
 | Metadata | 來源、技術、Host、授權、版本及風險？ | 保留原 `source`、`category`、`resourceType`、`tags` 等 |
 
+原始 Tags 標準化詳見 [Tag Standardization v1](TAG_STANDARDIZATION_V1.md)：`tagDimensions` 與 `tagVocabulary` 同樣集中於 `data/taxonomy-v1.json`，從全部 Canonical 生成 `data/tag-index-v1.json`；未匹配術語保留且待覆核，不自行推導已驗證功能。
+
 受控名稱以 [data/taxonomy-v1.json](../data/taxonomy-v1.json) 為唯一來源；分類器與網站讀取同一份十類 Domain。格式不是 Entity Type：一個 Skill 不需要再填「skill」格式，一個 Prompt 不需要再填「prompt」格式。Resource 可以是 Repo、學習教材或兩者兼具，但「學習」應放 Purpose。沒有證據，Format／Capability 寧可空白。
 
 ## 能力契約的最低要求
@@ -44,3 +46,7 @@
 下一階段依據本表分批豐富 Resources → Skills → Prompts，並同步累積 Concept／Capability 候選關係；每批先核對來源、文字與 I/O，再擴大資料填寫。
 
 **追加採證門檻：** 把能力狀態升為 `source-reviewed` 時，必須提供 `verificationEvidence.sourceUrl` 與 `reviewedAt`；升為 `runtime-tested` 時，必須有 `verificationEvidence.testRun`（`executedAt`、`scenario`、`result`）。不能僅修改標籤狀態便宣稱已驗證。回歸測試按 Manifest 檢查動態總數，不將 548 鎖定成無法新增收藏的硬上限。
+
+## 可見 Tag 精簡原則（2026-11-19）
+
+可見 Tag 為可選的跨領域細節，最多 15 種精選語意，卡片上限 2，詳情上限 4；沒有符合時不顯示。Tags 不得重複 Domain、Entity Type、Capability 或 Metadata 已表示的內容，原始 tags 僅保留搜尋和可追溯；詳見 [標準化規則](TAG_STANDARDIZATION_V1.md)。

@@ -10,7 +10,7 @@
 
 1. **Preflight**：先讀最新 README、SCHEMA_V2.md、`data/schema-v2.json`、`data/taxonomy-v1.json` 和本政策；確認目標分支與是否已有相同紀錄，不沿用舊 Session 的假設。
 2. **Source & Dedupe**：優先取得原始來源／完整 Prompt，查核版本、授權及限制；以 ID、名稱、URL、Repo 等查重。無可讀依據時留在 `data/pending-sources/`，不編造 Capability 或正式 Graph 連結。
-3. **Classify**：所有 Entity 都填唯一 Primary Domain，Secondary 最多兩個。Resource 優先填 Content Format；Capability 只憑可指回欄位的行為證據指派，未確認就留空。Purpose 不屬於 Domain。
+3. **Classify**：依 [Tag Standardization](TAG_STANDARDIZATION_V1.md) 統一原始 Tag 的術語、同義詞與 Facet；保留原始 Tags 與舊 Category，將 `data/taxonomy-v1.json` 當作唯一受控詞彙，不得把技術／授權／歷史狀態誤當 Domain 或來源驗證。新增、實質改寫或增加 Tags 時必須記錄 `intakeReview.tagReview`（all-mapped／retain-unmapped／new-vocabulary-proposed）與理由，新增的未匹配 Tag 要逐項寫入 `unmappedJustifications`；刪除冗餘 Tag 或等價別名替換可免完整審查。所有 Entity 都填唯一 Primary Domain，Secondary 最多兩個。Resource 優先填 Content Format；Capability 只憑可指回欄位的行為證據指派，未確認就留空。Purpose 不屬於 Domain。
 4. **Explain for humans + preserve for Agents**：先用繁體中文解釋情境、功能、準備、流程、輸出、限制；機器需要的觸發、I/O、技術規則、Source、測試 Gate 不可因精簡頁面而刪掉。
 5. **Select applicable reading spec**：四套規格不是每筆全套照抄，而是共用收錄 Gate + 適用的專門規格：
    - 深入教材：[`LEARNING_CONTENT_SPEC.md`](LEARNING_CONTENT_SPEC.md)，需要可驗收的學習成果。
@@ -23,7 +23,7 @@
 
 ## 新增與實質內容修改：必留 `intakeReview`
 
-對**新建**或**實質改寫**的 `data/{resources,skills,concepts,prompts,combinations,workflows}/<id>.json`，加入下列不會覆蓋原欄位的審查契約。純分類補標、更新既有 Tags 或更新日期不會強制追溯補寫舊資料；之後有實質內容變動時就要跟進。所有人使用同一份 contract。
+對**新建、實質改寫或增加 Tags**的 `data/{resources,skills,concepts,prompts,combinations,workflows}/<id>.json`，加入下列不會覆蓋原欄位的審查契約。純分類補標、只刪除舊 Tags、等價別名替換或更新日期不會強制追溯補寫舊資料；新增 Tag（包含重複別名）則必須審查。所有人使用同一份 contract。
 
 ```json
 {
@@ -36,6 +36,10 @@
       "decision": "new",
       "checkedFields": ["id", "title"],
       "reason": "比對現有 Canonical 紀錄與來源身分，未找到相同項目。"
+    },
+    "tagReview": {
+      "decision": "all-mapped",
+      "reason": "已檢查原始 Tags，這個範例沒有未匹配的標籤。"
     },
     "classificationReason": "根據問題與主要成果選擇 Primary Domain，而非依模型或 Host 名稱。",
     "readingSpec": {
@@ -77,3 +81,19 @@
 ## 範圍
 
 此規範對所有 AI 協作者及日後新增資料一律相同。既有 548 筆不會因本次政策自動刪除、改寫或標成「已實測」。原始 Prompt、版本和機密資訊的保留／公開邊界不因新增 Review 欄位而放寬。
+
+## 未匹配 Tag 的新增審查
+
+只有新建或新增的未匹配 Tag 需要逐項說明；既有未匹配 Tag 沒有變更時可保留原樣。新收錄不能同時新增映射到同一受控 ID 的重複別名。若決策為 `new-vocabulary-proposed`，需另列 `proposedTerms`，仍不得直接宣稱已成標準詞。
+
+```json
+{
+  "tagReview": {
+    "decision": "retain-unmapped",
+    "reason": "保留有辨識價值的來源專有名稱，不新增通用分類。",
+    "unmappedJustifications": {
+      "example-project-name": "來源專有的專案名稱，有助於找回原始資料，但不適合成為全域標籤。"
+    }
+  }
+}
+```

@@ -2,7 +2,7 @@
 
 **Mandatory for ChatGPT, Claude, Codex, and any other Agent changing this repository.**
 
-The **single source of truth** for new records, source review, dedupe, taxonomy, content specs, Concept/Capability relationships, security and verification is [docs/UNIFIED_INTAKE_POLICY.md](docs/UNIFIED_INTAKE_POLICY.md). Read it **before** creating or substantively editing `data/{resources,skills,prompts,concepts,workflows,combinations}/*.json`.
+The **single source of truth** for new records, source review, dedupe, taxonomy, content specs, Concept/Capability relationships, security and verification is [docs/UNIFIED_INTAKE_POLICY.md](docs/UNIFIED_INTAKE_POLICY.md). Read it **before** creating, substantively editing, or adding Tags to `data/{resources,skills,prompts,concepts,workflows,combinations}/*.json`.
 
 Read [README.md](README.md), [SCHEMA_V2.md](SCHEMA_V2.md), [data/schema-v2.json](data/schema-v2.json), [data/taxonomy-v1.json](data/taxonomy-v1.json) and the applicable type-specific guide. Use one common intake checklist; apply **only the relevant** reading template. Do not auto-create all six Entity Types.
 

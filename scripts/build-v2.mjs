@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {readProblems,buildKnowledgeGraph} from './knowledge-graph-core.mjs';
+import {buildTagIndex} from './tag-taxonomy-core.mjs';
 
 const types = {resources:'resource',skills:'skill',concepts:'concept',prompts:'prompt',combinations:'combination',workflows:'workflow'};
 const records = {}, errors = [];
@@ -38,6 +39,9 @@ writeIfChanged('data/catalog-v2.json',catalogText);
 const oldManifest = fs.existsSync('data/manifest-v2.json') ? JSON.parse(fs.readFileSync('data/manifest-v2.json','utf8')) : null;
 if (oldManifest && JSON.stringify(oldManifest.entities) === JSON.stringify(manifest.entities)) manifest.generatedAt=oldManifest.generatedAt;
 writeIfChanged('data/manifest-v2.json',JSON.stringify(manifest,null,2)+'\n');
+const taxonomy=JSON.parse(fs.readFileSync('data/taxonomy-v1.json','utf8'));
+const tagIndex=buildTagIndex(catalog,taxonomy);
+writeIfChanged('data/tag-index-v1.json',JSON.stringify(tagIndex,null,2)+'\n');
 const graph=buildKnowledgeGraph(catalog,readProblems());
 writeIfChanged('data/knowledge-graph-v1.json',JSON.stringify(graph,null,2)+'\n');
 console.log(JSON.stringify({ok:true,counts:Object.fromEntries(Object.entries(records).map(([k,v])=>[k,v.length]))},null,2));

@@ -67,3 +67,48 @@ test('Catalog UI loads domain vocabulary rather than embedding a duplicate',()=>
  const js=fs.readFileSync(path.join(root,'catalog-app.js'),'utf8');
  assert.match(js,/fetch\('data\/taxonomy-v1\.json'/);assert.doesNotMatch(js,/const TOPICS=\[/);
 });
+
+test('A clarification interview is not automatically a recruiting or career interview',()=>{
+ const x=read('data/skills/mattpocock-grill-me.json');
+ assert.equal(x.classification.primaryDomain,'ai-agent');
+ assert.ok(!x.classification.secondaryDomains.includes('career'));
+ assert.equal(classifyRecord(x).primaryDomain,'ai-agent');
+ const other=read('data/skills/alexyc9381-hiring-panel.json');
+ assert.equal(other.classification.primaryDomain,'career');
+ assert.equal(classifyRecord(other).primaryDomain,'career');
+ const fresh={...x,classification:undefined,title:'Clarification interview',id:'hypothetical-clarification',purpose:'Interview a user to clarify product requirements before deciding a solution',problem:'Ambiguous requirements'};
+ assert.notEqual(classifyRecord(fresh).primaryDomain,'career','interview alone must not be a career indicator');
+ const hiring={...fresh,id:'mock-job-interview',title:'Mock job interview preparation',purpose:'Prepare for a job interview using a resume and job description'};
+ assert.equal(classifyRecord(hiring).primaryDomain,'career','hiring context must still be recognized');
+});
+
+test('Intent-first corrections remain valid and new sources are not silently reclassified',()=>{
+ const fixture=read('data/classification-regression-v1.json');assert.ok(fixture.cases.length>=20);
+ const seen=new Set();
+ for(const entry of fixture.cases){
+  assert.ok(!seen.has(entry.path),entry.path+' duplicate regression');seen.add(entry.path);
+  const x=read(entry.path);
+  assert.equal(x.id,entry.id);assert.equal(x.entityType,entry.entityType);
+  assert.equal(x.classification.primaryDomain,entry.to,entry.path+' primary');
+  assert.ok(!x.classification.secondaryDomains.includes(entry.from)||(entry.allowedSecondaryDomains||[]).includes(entry.from),entry.path+' obsolete secondary');
+  assert.equal(classifyRecord(x).primaryDomain,entry.to,entry.path+' reviewed intent');
+  assert.ok(entry.evidenceFields.every(field=>x[field]!==undefined),entry.path+' evidence');
+ }
+});
+
+test('Core user outcome can outweigh the name of an Agent or MCP wrapper',()=>{
+ const examples=[
+  ['security','AI Agent Sandbox','Restrict filesystem and network access to protect credentials'],
+  ['business','AI Quant Agent','Backtest trading strategies and manage order execution risk'],
+  ['career','MCP Agent Job Finder','Provide job search, application tracking, and CV tailoring'],
+  ['content','Video Agent Framework','Generate videos from scripts, storyboards and final clips'],
+  ['software','AI Reverse Engineering Agent','Reconstruct software behavior from binary artifacts'],
+  ['design','Agent UI Component Skill','Build interactive UI components for web applications'],
+  ['ai-agent','Agent Skill Directory','Search and compare Agent Skills, checking maintenance and installation risks']
+ ];
+ for(const [expected,title,purpose] of examples){
+  const x={entityType:'resource',id:'new-example-without-existing-override',title,purpose,tags:['ai-agent','mcp'],classification:undefined};
+  const classified=classifyRecord(x);
+  assert.equal(classified.primaryDomain,expected,title+' primary based on the user problem');
+ }
+});

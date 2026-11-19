@@ -54,7 +54,7 @@ export const PILOT = Object.freeze({
 });
 
 const RULES = Object.freeze({
- career:[/\b(?:resume|cv|recruit(?:er|ment|ing)?|hiring|interview|headhun(?:t|ter)|job.search|job.application|career|cover.letter|ats)\b|履歷|求職|面試|職涯|招募|招聘|職缺|獵頭/i,/\bportfolio\b.*\b(?:case.study|resume|job)\b|作品集.*(?:求職|面試)/i],
+ career:[/\b(?:resume|cv|recruit(?:er|ment|ing)?|hiring|(?:job|mock|recruiter|hiring|candidate|technical)[ ._-]?interview|interview[ ._-]?(?:prep|practice|questions|coaching|screening)|headhun(?:t|ter)|job.search|job.application|career|cover.letter|ats)\b|履歷|求職|面試|職涯|招募|招聘|職缺|獵頭/i,/\bportfolio\b.*\b(?:case.study|resume|job)\b|作品集.*(?:求職|面試)/i],
  business:[/\b(?:ibkr|tradingview|pine.script|spy|finance|financial|fintech|invest(?:ment|ing|or)?|stock(?:s)?|equity|trading|trader|backtest|portfolio.risk|quantitative.finance|monte.carlo|market.risk|personal.finance|accounting)\b|金融|理財|投資|股票|台股|股市|交易策略|回測|風險報酬|財務|營收|加密貨幣/i],
  security:[/\b(?:cybersecurity|security.scan|security.audit|security.review|security.tool|vulnerab|pentest|penetration.test|threat.model|credential.isolat|pii|privacy|data.protection|secret.management|authn|authz|zero.trust|prompt.injection|sandbox.isolation|compliance|anti.fraud)\b|資安|安全檢測|漏洞|滲透測試|隱私|個資|敏感資料|憑證隔離|權限控管|防詐|資料保護/i,/\bsecurity\b|安全治理|安全防護/i],
  cloud:[/\b(?:azure|aws|kubernetes|k8s|terraform|container.platform|cloudflare|cloud.infra|devops|serverless|self.host(?:ed|ing)?|vps|ssh.install|linux.server|cloud.deploy|hosting|paas|gpu.cluster|docker.compose|infra.ops)\b|雲端|基礎設施|自架|部署平台|伺服器安裝|容器化|叢集管理/i],
@@ -152,6 +152,26 @@ const CATEGORY_HINTS = Object.freeze([
 [/^(?:Automation|Integration|Workflow Automation)/i,'automation',3.5]
 ]);
 function normalized(v){return typeof v==='string'?v:'';}
+
+/* High-specificity purpose clues outrank platform vocabulary, but remain
+ * proposals, never proof of source verification. Rules operate on the
+ * stated problem/outcome, not raw tags, providers or environment alone. */
+const OUTCOME_INTENTS=Object.freeze([
+ ['career',/\bjob(?:s)?\s*(?:search|discovery|application|tracking|finder)\b|求職|職缺(?:搜尋|API|追蹤|推薦)/i],
+ ['business',/\b(?:quant(?:itative)?\s*(?:research|trading|workspace)|trading strateg(?:y|ies)|order execution risk|stock strategies)\b|(?:股票|量化|交易策略|交易想法|回測).{0,60}(?:交易|風險|策略|研究)|(?:交易|回測).{0,50}(?:策略|績效)/i],
+ ['security',/\b(?:filesystem.{0,40}network.{0,40}(?:isolation|access)|credential.{0,30}isolation|sandbox.{0,30}permissions?|secret.{0,30}(?:isolation|protection)|api key.{0,40}(?:revocation|revoke))\b|憑證隔離|權限邊界|上線前安全檢查|安全檢查規則|最小權限.{0,35}(?:憑證|API)|API Key.{0,25}(?:撤銷|保護)/i],
+ ['content',/\b(?:video generation|video production|video editing|generate videos?|movie production|narrative video|media pipeline|product launch videos?|presentation and proposal production|presentation\/proposal workflow|presentation workflow|proposal workflow)\b|影片生成|影片製作|影片後製|短影音|分鏡|簡報.{0,30}(?:製作|產生|Proposal|workflow)|產品發布片|影片.{0,30}時間軸/i],
+ ['software',/\b(?:reverse engineering|reverse.engineer|software reconstruction|software behavior|software code review|code review|web app(?:lication)? (?:frontend\/backend )?architecture|core web vitals|web performance|CI workflows?)\b|逆向工程|反向工程|軟體重建|程式碼審查|網站效能|前端後端概念|程式.{0,30}重建|程式.{0,30}行為/i],
+ ['design',/\b(?:interactive ui components?|ui components?|ux\/ui.*components?|interactive html demonstrations?|hand.drawn interactive charts?|frontend interface components?)\b|互動元件|UI 元件|可互動.{0,30}HTML|手繪互動圖表|互動圖表設計|UI 組件/i],
+ ['ai-agent',/\b(?:agent skills?|ai skills?)\b.{0,50}\b(?:search|compare|discover|evaluation)\b|(?:搜尋|比較|發現).{0,50}(?:Agent Skills|AI Skills|Skill)|(?:Agent Skills|AI Skills).{0,35}(?:搜尋|評估|比對)/i]
+]);
+function coreOutcomeHint(x){
+ const text=[normalized(x.purpose),normalized(x.goal),normalized(x.coreProblem),normalized(x.problem)]
+  .filter(Boolean).join(' ').slice(0,1400);
+ for(const [domain,pattern] of OUTCOME_INTENTS)if(pattern.test(text))return domain;
+ return null;
+}
+
 function scoreText(s,re,weight){if(!s)return 0;return re.test(s)?weight:0;}
 function evidenceRecord(x){
  const purpose=normalized(x.purpose||x.coreProblem||x.problem||x.goal);
@@ -201,10 +221,11 @@ export function classifyRecord(x){
  const key=x.entityType+':'+x.id;
  const scored=sortedScores(x),pilot=PILOT[key]||EXAMPLE_OVERRIDES[key];
  const top=scored[0],next=scored[1];
- const primary=pilot?pilot[0]:top.id;
- const secondary=pilot?pilot.slice(1):scored.filter(s=>s.id!==primary&&s.score>=5.5&&s.score>=top.score*0.67).slice(0,2).map(s=>s.id);
+ const hint=coreOutcomeHint(x);
+ const primary=pilot?pilot[0]:(hint||top.id);
+ const secondary=pilot?pilot.slice(1):hint?[]:scored.filter(s=>s.id!==primary&&s.score>=5.5&&s.score>=top.score*0.67).slice(0,2).map(s=>s.id);
  const margin=(top.score-next.score);
- const requiresReview=!pilot&&(top.score<5.5||margin<3.2);
+ const requiresReview=!pilot&&(top.score<5.5||margin<3.2||(hint&&hint!==top.id));
  if(!known.has(primary)||secondary.length>2||secondary.some(s=>s===primary||!known.has(s)))throw Error('Invalid domain '+key);
  const evidence=[x.coreProblem?'coreProblem':null,x.problem?'problem':null,x.goal?'goal':null,x.purpose?'purpose':null,x.category?'category':null].filter(Boolean);
  return {
