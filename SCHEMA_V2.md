@@ -132,9 +132,9 @@ V1 root-level aggregate and intake JSON files were retired from the default bran
 
 New collection flow:
 
-`Research → dedupe → Resource/Skill → Concept → Combination → Workflow → Prompt decision → validate references → publish`
+`Research → dedupe → Resource/Skill/Prompt as needed → Problem/Concept extraction → reusable Workflow if supported → optional reusable Combination → validate references and evidence → publish`
 
-Only entities that add independent knowledge are created. Do not manufacture every entity for every new tool.
+Only entities that add independent knowledge are created. A Combination is optional and must not be duplicated merely because a Workflow uses several tools; see [Knowledge Layers Policy](docs/KNOWLEDGE_LAYERS_POLICY.md). Do not manufacture every entity for every new tool.
 
 
 ## Classification dimensions (2026-11-19)

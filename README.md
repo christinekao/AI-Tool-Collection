@@ -75,7 +75,7 @@ Combination 保留為六種 V2 Entity 之一，但改採**有獨立重用價值�
 
 - **[Knowledge Explorer](knowledge.html)：** 閱讀正式原始知識、查看 Graph、選擇已整理的跨領域 Problem。知識詳情不再嵌入編輯器，保留前往 Playground 的節點 Deep Link。
 - **[Workflow Playground](playground.html)：** 優先展示 Problem 連結的推薦 Flow，保留原本 36 筆 Workflow 階段可讀性；其中 3 筆有可編輯 Recipe（網站建置、Agent 開發交付、企業知識問答）。自由草稿可新增／移除／排序工具並在目前瀏覽器保存。
-- **原始六類維持不變：** 268 Resources／123 Skills／68 Concepts／34 Prompts／36 Workflows／17 Combinations，總共 546 筆 V2 Entity。原五筆 Problem 加 15 筆跨領域 Problem，共 20 筆；Problem 不屬於第七種 V2 Entity。
+- **原始六類維持不變：** 270 Resources／123 Skills／68 Concepts／34 Prompts／36 Workflows／17 Combinations，總共 548 筆 V2 Entity。原五筆 Problem 加 15 筆跨領域 Problem，共 20 筆；Problem 不屬於第七種 V2 Entity。
 - **保留證據界線：** Recipe 的 requires／produces 僅驗證規劃依賴；其他 Workflow 不虛構 Stage Tool，相關候選不等於可直接串接。
 - **完整盤點、變更邊界、待驗證項目：** [docs/P3_WORKFLOW_PLAYGROUND.md](docs/P3_WORKFLOW_PLAYGROUND.md)。
 
