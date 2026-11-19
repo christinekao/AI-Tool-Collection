@@ -239,5 +239,491 @@
     "rule-proposed",
     "needs-review",
     "ai-description-reviewed"
+  ],
+  "tagNormalization": {
+    "version": "1.0",
+    "rule": "Only explicit vocabulary/alias matches are normalized; never infer Domain, Capability, Source Verification or Entity Type from raw tags.",
+    "unmappedHandling": "preserve-raw-and-report",
+    "provenance": "legacy-raw-tag-hint",
+    "caseFold": "NFKC lower-case; spaces and underscores to hyphens",
+    "recordScopedIndex": "data/tag-index-v1.json"
+  },
+  "tagDimensions": [
+    {
+      "id": "agent-host",
+      "name": "Agent 執行環境／工具",
+      "scope": "提示，不等於實際安裝"
+    },
+    {
+      "id": "technology",
+      "name": "技術／程式語言／框架",
+      "scope": "原始 Tag 提及，不等於已使用或相容"
+    },
+    {
+      "id": "protocol",
+      "name": "協定／介面",
+      "scope": "原始 Tag 提及，不等於整合已驗證"
+    },
+    {
+      "id": "method",
+      "name": "方法／實作模式",
+      "scope": "行為關鍵字，不等於已實測 Capability"
+    },
+    {
+      "id": "deployment",
+      "name": "部署與運作模式",
+      "scope": "來源描述提示，不等於實際部署"
+    },
+    {
+      "id": "risk-review",
+      "name": "需檢查的風險",
+      "scope": "僅表示需審查，並非通過審查"
+    },
+    {
+      "id": "license-mention",
+      "name": "授權名稱提示",
+      "scope": "未核對 LICENSE，不能作為授權結論"
+    },
+    {
+      "id": "record-hint",
+      "name": "舊資料形式提示",
+      "scope": "不可推斷正式 entityType"
+    },
+    {
+      "id": "purpose-hint",
+      "name": "用途提示",
+      "scope": "不自動升格 purposeFacets"
+    },
+    {
+      "id": "legacy-status",
+      "name": "歷史狀態／未證實聲明",
+      "scope": "不得作為現況或執行證據"
+    },
+    {
+      "id": "locale",
+      "name": "語言／地區",
+      "scope": "來源標記，非完整內容驗證"
+    }
+  ],
+  "tagVocabulary": [
+    {
+      "id": "claude-code",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "codex",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "cursor",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "opencode",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "openclaw",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "claude",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "claude-desktop",
+      "dimension": "agent-host",
+      "aliases": []
+    },
+    {
+      "id": "python",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "typescript",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "javascript",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "react",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "nextjs",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "nodejs",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "rust",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "sqlite",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "ffmpeg",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "svg",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "html",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "markdown",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "pdf",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "gsap",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "electron",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "docker",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "git",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "github-actions",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "mermaid",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "macos",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "cli",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "sql",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "css",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "go",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "playwright",
+      "dimension": "technology",
+      "aliases": []
+    },
+    {
+      "id": "mcp",
+      "dimension": "protocol",
+      "aliases": []
+    },
+    {
+      "id": "api",
+      "dimension": "protocol",
+      "aliases": []
+    },
+    {
+      "id": "tts",
+      "dimension": "protocol",
+      "aliases": []
+    },
+    {
+      "id": "multi-agent",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "coding-agent",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "human-in-the-loop",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "code-review",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "orchestration",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "agent-orchestration",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "agent-harness",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "knowledge-graph",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "rag",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "context-engineering",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "token-efficiency",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "design-system",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "accessibility",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "frontend-design",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "backtest",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "quality-gates",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "rollback",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "tdd",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "verification",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "audit",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "image-generation",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "seo",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "observability",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "model-routing",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "semantic-layer",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "routing",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "memory",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "animation",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "storyboard",
+      "dimension": "method",
+      "aliases": []
+    },
+    {
+      "id": "local-first",
+      "dimension": "deployment",
+      "aliases": []
+    },
+    {
+      "id": "self-hosted",
+      "dimension": "deployment",
+      "aliases": []
+    },
+    {
+      "id": "security-review",
+      "dimension": "risk-review",
+      "aliases": []
+    },
+    {
+      "id": "privacy-review",
+      "dimension": "risk-review",
+      "aliases": []
+    },
+    {
+      "id": "commercial-license-review",
+      "dimension": "risk-review",
+      "aliases": []
+    },
+    {
+      "id": "mit",
+      "dimension": "license-mention",
+      "aliases": [
+        "mit-license"
+      ]
+    },
+    {
+      "id": "apache-2.0",
+      "dimension": "license-mention",
+      "aliases": []
+    },
+    {
+      "id": "agent-skill",
+      "dimension": "record-hint",
+      "aliases": [
+        "agent-skills"
+      ]
+    },
+    {
+      "id": "skill-mention",
+      "dimension": "record-hint",
+      "aliases": [
+        "skill",
+        "skills"
+      ]
+    },
+    {
+      "id": "workflow",
+      "dimension": "record-hint",
+      "aliases": []
+    },
+    {
+      "id": "combination",
+      "dimension": "record-hint",
+      "aliases": [
+        "combo"
+      ]
+    },
+    {
+      "id": "learning",
+      "dimension": "purpose-hint",
+      "aliases": []
+    },
+    {
+      "id": "reference",
+      "dimension": "purpose-hint",
+      "aliases": []
+    },
+    {
+      "id": "uninstalled",
+      "dimension": "legacy-status",
+      "aliases": []
+    },
+    {
+      "id": "source-verified",
+      "dimension": "legacy-status",
+      "aliases": []
+    },
+    {
+      "id": "open-source",
+      "dimension": "legacy-status",
+      "aliases": []
+    },
+    {
+      "id": "marketplace-unverified",
+      "dimension": "legacy-status",
+      "aliases": []
+    },
+    {
+      "id": "traditional-chinese",
+      "dimension": "locale",
+      "aliases": []
+    }
   ]
 }

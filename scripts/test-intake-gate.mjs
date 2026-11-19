@@ -11,6 +11,7 @@ const sample=()=>({
   policyVersion:'1.0',sourceStatus:'source-checked',sourceEvidenceFields:['source.url'],sourceCheckedAt:'2026-11-19',
   dedupeReview:{decision:'new',checkedFields:['id','title'],reason:'已比對既有資料的名稱及來源，確認沒有相同項目。'},
   classificationReason:'根據原始問題與主要輸出判斷 Domain，不按 Host 名稱歸類。',
+  tagReview:{decision:'all-mapped',reason:'原始 Tags 已依受控詞彙檢查，且沒有未匹配的標記。'},
   readingSpec:{id:'repo',status:'deferred',reason:'已有來源說明，但尚缺程式架構與可重建證據，不冒充完整 Repo Guide。'},
   capabilityReview:{decision:'none',reason:'目前尚無來源支援完整的 Input／Output 與驗收 Gate。'},
   conceptReview:{decision:'candidate',reason:'比對既有 Concept 後先留下候選關聯，未宣稱相容。'},
@@ -61,4 +62,13 @@ test('classification-only and original Tags corrections do not trigger legacy re
  now.classification.primaryDomain='data';now.updatedAt='2026-11-19';now.tags.push('new-tag');
  assert.equal(isContentChange(prior,now),false);
  now.purpose='Can be used for something new';assert.equal(isContentChange(prior,now),true);
+});
+
+test('New intake must review mapped and unresolved Tags',()=>{
+ const x=sample();delete x.intakeReview.tagReview;
+ assert.ok(reviewErrors(x,'new',taxonomy).some(s=>s.includes('tagReview.decision')));
+ const y=sample();y.tags=['unknown-long-tail-token'];
+ assert.ok(reviewErrors(y,'new',taxonomy).some(s=>s.includes('all-mapped conflicts')));
+ y.intakeReview.tagReview={decision:'retain-unmapped',reason:'這是來源獨有術語，留在原始 Tags 等待證據後再補受控詞彙。'};
+ assert.deepEqual(reviewErrors(y,'new',taxonomy),[]);
 });

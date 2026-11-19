@@ -225,6 +225,8 @@ data/
 
 ## 所有 AI 協作者共用的收錄與驗收政策（2026-11-19）
 
+原始 5,407 個 Tag 使用次數／2,431 個不同 Tag 與 82 種舊 Category 已建立可回溯的 [標準化規則](docs/TAG_STANDARDIZATION_V1.md)；標準 Domain 已覆蓋全部 548 筆，`data/tag-index-v1.json` 會從未修改的原始 Tags 自動生成受控維度與待覆核清單。Tag 只作為原始線索，不能自動當成已驗證能力、授權或測試結果。
+
 不論使用 ChatGPT、Claude、Codex 或其他 Agent，新增／實質修改 Canonical 記錄都必須先遵守 [Unified Intake Policy](docs/UNIFIED_INTAKE_POLICY.md) 與根目錄 [AGENTS.md](AGENTS.md)。同一套來源查核、去重、Domain／Format／Capability、Concept 審查及 CI Release Gate；Resource／Skill／Prompt 依適用的專門閱讀規格，**不是每筆硬套四套**。新增或實質改寫資料須保存 `intakeReview`，GitHub Actions [Unified Intake Gate](.github/workflows/unified-intake-gate.yml) 會執行檢查。無來源時使用 Pending Sources，不虛構資料。
 
 ## 4. 每次收錄的標準作業程序（SOP）

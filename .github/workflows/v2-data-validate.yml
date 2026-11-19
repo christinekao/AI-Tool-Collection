@@ -8,6 +8,9 @@ on:
       - 'scripts/validate-v2.mjs'
       - 'data/taxonomy-v1.json'
       - 'scripts/test-taxonomy-v1.mjs'
+      - 'scripts/tag-taxonomy-core.mjs'
+      - 'scripts/test-tag-taxonomy.mjs'
+      - 'data/tag-index-v1.json'
       - 'scripts/knowledge-graph-core.mjs'
       - 'scripts/test-knowledge-graph.mjs'
       - '.github/workflows/v2-data-validate.yml'
@@ -16,6 +19,9 @@ on:
       - 'data/**'
       - 'scripts/test-taxonomy-v1.mjs'
       - 'scripts/validate-v2.mjs'
+      - 'scripts/tag-taxonomy-core.mjs'
+      - 'scripts/test-tag-taxonomy.mjs'
+      - 'data/tag-index-v1.json'
       - '.github/workflows/v2-data-validate.yml'
   workflow_dispatch:
 
@@ -32,6 +38,8 @@ jobs:
           node-version: '22'
       - name: Validate Domain, Format and Capability taxonomy
         run: node --test scripts/test-taxonomy-v1.mjs
+      - name: Validate normalized Tags and historical evidence boundaries
+        run: node --test scripts/test-tag-taxonomy.mjs
       - name: Verify source-backed Workflow composition rules
         run: node --test scripts/test-workflow-engine.cjs
       - name: Unit test graph rules

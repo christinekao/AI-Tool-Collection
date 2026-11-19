@@ -9,6 +9,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {resolve, dirname} from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
+import {normalizeTags} from './tag-taxonomy-core.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const types={resources:'resource',skills:'skill',concepts:'concept',prompts:'prompt',combinations:'combination',workflows:'workflow'};
@@ -51,6 +52,15 @@ export function reviewErrors(x,mode='new',taxonomy=null){
  for(const p of r.dedupeReview?.checkedFields||[])flag(typeof p==='string'&&isPresent(evidenceValue(x,p)),'dedupe checked field missing: '+p);
  flag(nonempty(r.dedupeReview?.reason),'dedupeReview.reason too short');
  flag(nonempty(r.classificationReason),'classificationReason too short');
+ const tagReview=r.tagReview;
+ flag(['all-mapped','retain-unmapped','new-vocabulary-proposed'].includes(tagReview?.decision),'tagReview.decision required');
+ flag(nonempty(tagReview?.reason),'tagReview.reason too short');
+ if(taxonomy&&Array.isArray(x.tags)){
+  const normalized=normalizeTags(x.tags,taxonomy);
+  if(tagReview?.decision==='all-mapped')flag(normalized.unmapped.length===0,'all-mapped conflicts with unmapped Tags');
+  if(tagReview?.decision==='retain-unmapped')flag(normalized.unmapped.length>0,'retain-unmapped requires unresolved Tags');
+  if(tagReview?.decision==='new-vocabulary-proposed')flag(normalized.unmapped.length>0,'new-vocabulary-proposed requires unresolved Tags');
+ }
  const reading=r.readingSpec, format=reading?.id;
  const allowedByType={resource:['repo','learning','standard'],skill:['skill'],prompt:['prompt'],concept:['standard'],workflow:['standard'],combination:['standard']};
  flag(Boolean(allowedByType[type]?.includes(format)),'readingSpec.id does not match Entity Type');
