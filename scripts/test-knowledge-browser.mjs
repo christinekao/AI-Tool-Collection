@@ -329,7 +329,7 @@ try{
  }
  console.log('PASS: Expanded record detail aligns to the content edges and fits 375/430/768/1440px');
 
- assert.ok((await evaluate('document.querySelector(".detail-panel")?.textContent')).includes('從這份知識開始實作'),'Resource detail must show the saved implementation knowledge');
+ assert.ok(await evaluate('document.querySelectorAll("#repo-compose .repo-capability").length>0 && document.querySelectorAll("#repo-rebuild .repo-rebuild-stage").length>0'),'Resource detail must show capability contracts and rebuild guidance');
  assert.equal(await evaluate('document.querySelector(".detail-back a")?.getAttribute("href")'),'#/browse/all','Return from resource detail should preserve All Collections context');
  await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
  await waitFor('document.querySelector("#q")?.value===""','All Collections clears prior search');
