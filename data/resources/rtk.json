@@ -6,14 +6,14 @@
   "canonicalName": "RTK",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "CLI Output Filter / Token Efficiency",
-  "purpose": "位在 Agent 與 shell/CLI 之間，執行命令後先過濾與壓縮輸出，再把較精簡的結果送回 Agent context，降低大量 lint、test、git diff、process list 等輸出的 token 消耗。",
-  "recommendation": "適合 coding agent 經常執行高輸出 CLI 指令、context 被 terminal output 快速吃滿的情境。",
+  "purpose": "在 Coding Agent 讀取 Shell 輸出前壓縮大量測試、Diff 和日誌資訊，並提供 Token 節省統計及選配的處理 Pipeline。",
+  "recommendation": "適合因終端輸出過長而耗用大量 Context 的 Coding Agent；需要保留完整錯誤時要能回到原始輸出。",
   "url": "https://github.com/rtk-ai/rtk",
   "repo": "rtk-ai/rtk",
   "notes": "Official repository confirmed. Savings apply to filtered shell/CLI output, not to the entire prompt or conversation context.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-19",
   "tags": [
     "token-efficiency",
     "cli",
@@ -56,6 +56,71 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.2-review"
+    "rulesVersion": "v0.2-review",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供 Shell 命令輸出壓縮與 rtk gain 統計。",
+    "可選擇自訂處理 Pipeline 和團隊端治理產品。",
+    "README 說明 macOS、Linux、Windows 不同安裝入口。"
+  ],
+  "requirements": [
+    "先確認作業系統與支援的 Agent／Shell 整合模式。",
+    "安裝 Hook 或 Proxy 前先檢查命令攔截與資料處理邊界。"
+  ],
+  "limitations": [
+    "摘要可能省略影響除錯的細節，遇到失敗仍須檢查完整 Log。",
+    "開源與商用版授權不同，README 標示 Apache-2.0 與 BUSL-1.1 等條款。"
+  ],
+  "source": {
+    "url": "https://github.com/rtk-ai/rtk",
+    "readmeUrl": "https://github.com/rtk-ai/rtk/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "OpenUI",
   "category": "08 UI & Design Engineering",
   "resourceType": "Generative UI Framework / Open Standard",
-  "purpose": "以 compact、streaming-first 的 OpenUI Lang 與 renderer/runtime，讓模型輸出可被限制在已定義的 component library，並逐步渲染成互動 UI。",
-  "recommendation": "適合研究 Generative UI 如何從『模型吐文字／JSON』提升成受 component system 約束、可串流渲染的 UI runtime。",
+  "purpose": "以 OpenUI Lang 讓 LLM 依允許的元件集合串流產生結構化 UI，支援 React、Vue、Svelte、Angular 與現成聊天介面。",
+  "recommendation": "適合需要控制生成 UI 元件種類與串流呈現的產品；導入後仍需檢查資料格式、元件安全與可及性。",
   "url": "https://github.com/thesysdev/openui",
   "repo": "thesysdev/openui",
   "notes": "Official repository confirmed; project describes itself as the open standard for Generative UI.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-19",
   "tags": [
     "generative-ui",
     "streaming-ui",
@@ -57,6 +57,71 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "從元件庫產生模型 Prompt，限制可生成的元件。",
+    "使用 OpenUI Lang 串流並逐步解析、渲染 UI。",
+    "提供 React、Vue、Svelte、Angular 介面及 CLI 起始模板。"
+  ],
+  "requirements": [
+    "README 使用 npx @openuidev/cli 啟動範例，需 Node.js/npm 環境。",
+    "定義允許的元件庫並對模型輸出做型別與互動驗證。"
+  ],
+  "limitations": [
+    "結構化串流只限制渲染格式，不保證內容正確或外部工具安全。",
+    "跨 Framework 的元件支援及 Renderer 能力不同，需先核對相容版本。"
+  ],
+  "source": {
+    "url": "https://github.com/thesysdev/openui",
+    "readmeUrl": "https://github.com/thesysdev/openui/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain design；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }
