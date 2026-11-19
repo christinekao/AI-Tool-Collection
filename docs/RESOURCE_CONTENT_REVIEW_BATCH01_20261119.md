@@ -18,7 +18,7 @@
 | 5 | `ant-design-ant-design` | 補官方來源；原描述 19 字 → 59 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/ant-design/ant-design/blob/master/README.md) |
 | 6 | `chakra-ui-chakra-ui` | 補官方來源；原描述 27 字 → 62 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/chakra-ui/chakra-ui/blob/main/README.md) |
 | 7 | `composiohq-awesome-claude-skills` | 補官方來源；原描述 16 字 → 76 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/README.md) |
-| 8 | `electron` | 原有；原描述 242 字 → 95 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/electron/electron/blob/main/README.md) |
+| 8 | `electron` | 原有；保留原有完整技術說明；補 3 功能／2 條件／2 限制 | [README](https://github.com/electron/electron/blob/main/README.md) |
 | 9 | `magicuidesign-magicui` | 補官方來源；原描述 22 字 → 49 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/magicuidesign/magicui/blob/main/README.md) |
 | 10 | `openai-codex` | 補官方來源；原描述 29 字 → 70 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/openai/codex/blob/main/README.md) |
 | 11 | `opendatalab-mineru` | 補官方來源；原描述 35 字 → 69 字；補 3 功能／2 條件／2 限制 | [README](https://github.com/opendatalab/MinerU/blob/master/README.md) |
@@ -38,4 +38,5 @@
 - 新增內容以官方 README 宣稱為限，明確分開相容性、安裝先決條件與未驗證範圍；未聲稱作者功能已在本機重現。
 - 未新增 `repoGuide`：該格式要求程式碼實作路徑、執行契約與重建測試，本批來源檢視尚不足以支援；以 `readingSpec: deferred` 如實保留深度待辦。Skills 清單型則使用 standard 閱讀規格。
 - Release Gate：執行現有 Unified Intake Gate、V2 Data Validate、Graph Unit Tests，觀察 GitHub Pages 部署與公開瀏覽器檢查，未全部通過不可宣稱上線。
+- 前置去重盤點另發現既有跨 Resource 共用 Repo 的三組（`cursor/plugins`、`anthropics/skills`、`Shubhamsaboo/awesome-llm-apps`）；本批無新增重複，這些既有不同用途的紀錄尚未決定是否合併，保留原樣。
 - 下一批須優先處理來源缺漏、API／授權變動、過時資訊與有重建價值的深度 Repo Guide；不得用機械化摘要假裝理解完整程式。
