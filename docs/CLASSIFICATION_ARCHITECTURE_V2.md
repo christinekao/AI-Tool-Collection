@@ -11,6 +11,8 @@
 | Capability | 可完成的**具體動作**是什麼？ | `classification.capabilities[].id`、`evidenceFields`、`status` |
 | Metadata | 來源、技術、Host、授權、版本及風險？ | 保留原 `source`、`category`、`resourceType`、`tags` 等 |
 
+原始 Tags 標準化詳見 [Tag Standardization v1](TAG_STANDARDIZATION_V1.md)：`tagDimensions` 與 `tagVocabulary` 同樣集中於 `data/taxonomy-v1.json`，從全部 Canonical 生成 `data/tag-index-v1.json`；未匹配術語保留且待覆核，不自行推導已驗證功能。
+
 受控名稱以 [data/taxonomy-v1.json](../data/taxonomy-v1.json) 為唯一來源；分類器與網站讀取同一份十類 Domain。格式不是 Entity Type：一個 Skill 不需要再填「skill」格式，一個 Prompt 不需要再填「prompt」格式。Resource 可以是 Repo、學習教材或兩者兼具，但「學習」應放 Purpose。沒有證據，Format／Capability 寧可空白。
 
 ## 能力契約的最低要求
