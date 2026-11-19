@@ -55,5 +55,210 @@
     "url": "https://github.com/blader/humanizer/blob/main/SKILL.md",
     "type": "Official Humanizer Skill 3.1.0",
     "summary": "Read-only verified on 2026-10-27."
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-editing-skill",
+    "heroTitle": "保留原本意思，把文字改得更自然",
+    "overview": "檢查文章裡生硬、重複或過度制式的寫法，重新整理句子與段落。改寫時要保留作者真正的意思、數字、引用和語氣。",
+    "introNote": "可以編修貼上的文章，也能在授權的工作目錄修改文件文字；不是 AI 來源鑑定器，也不保證通過任何偵測工具。",
+    "sectionIntro": {
+      "fit": "適合想改善閱讀感受，同時不想讓 AI 擅自改動內容的人。",
+      "preparation": "有原文就能開始。若需要特定風格，最好再附上自己的寫作樣本。",
+      "process": "先找出不自然的地方，再整段改寫，最後逐項核對事實。",
+      "usage": "在已安裝的 Agent 工具中啟動 Humanizer。若要修改檔案，請先確認可編輯範圍。",
+      "output": "貼上文字與提供檔案路徑，會得到不同形式的結果。",
+      "composition": "可將「語氣整理」放在文章產出或履歷編輯流程的後段，不必重新做整份工作。",
+      "risk": "需要保留原文的證據與限制，避免文字變順卻改錯事實。"
+    },
+    "facts": [
+      {
+        "label": "適用環境",
+        "value": "Claude Code／Codex 等支援 Skills 的工具"
+      },
+      {
+        "label": "啟動",
+        "value": "/humanizer（依 Host 支援情況）"
+      },
+      {
+        "label": "檢查",
+        "value": "26 種常見 AI 文字模式"
+      },
+      {
+        "label": "輸入",
+        "value": "文字或已授權文件"
+      },
+      {
+        "label": "上游版本",
+        "value": "SKILL.md 4.0.0"
+      }
+    ],
+    "situations": [
+      {
+        "title": "文章讀起來太制式",
+        "description": "例如段落總用一樣的開場、重複強調重點，或堆疊浮誇的形容詞。"
+      },
+      {
+        "title": "文字需要維持你的語氣",
+        "description": "提供自己寫過的文章樣本，讓改寫保留原本習慣的用詞與節奏。"
+      },
+      {
+        "title": "技術文件需要更容易閱讀",
+        "description": "清理贅字與過度標題，但保留準確的數字、專有名詞、引用及技術規則。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "要編修的文字或檔案",
+        "detail": "貼上完整段落，或指定已獲授權的檔案路徑。",
+        "required": true
+      },
+      {
+        "title": "你的語氣範例",
+        "detail": "選填：提供兩三段自己寫過的內容，協助保留習慣的句型與用字。",
+        "required": false
+      },
+      {
+        "title": "不能動的內容",
+        "detail": "告訴 Agent 哪些數字、名稱、引用、程式碼、路徑、連結或格式不可修改。",
+        "required": false
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先讀完整段落",
+        "detail": "確認作者真正想說什麼，以及哪些內容是可驗證的事實。不要直接根據單一詞彙判斷整段有問題。",
+        "label": "理解內容",
+        "result": "原文重點與要保留的事實"
+      },
+      {
+        "number": "02",
+        "title": "找出不自然的文字",
+        "detail": "檢查重複的開場、刻意的對比、沒新增資訊的結語、三段式套話和過度格式。保留作者刻意使用的修辭。",
+        "label": "辨識問題",
+        "result": "需要修改的句子與原因"
+      },
+      {
+        "number": "03",
+        "title": "按段落重寫",
+        "detail": "把意思相近的句子整合，讓重點先出現，調整句子節奏。如果提供寫作樣本，優先模仿作者的語氣。",
+        "label": "整理文章",
+        "result": "可閱讀的改寫草稿"
+      },
+      {
+        "number": "04",
+        "title": "逐項比對原文",
+        "detail": "檢查數字、日期、名稱、引用、立場及因果關係是否改變，再交付最終版。檔案模式只編修文字，不改程式碼或連結目標。",
+        "label": "確認事實",
+        "result": "修訂後的文字或文件"
+      }
+    ],
+    "reviewers": [],
+    "howToUse": {
+      "trigger": "/humanizer",
+      "command": "/humanizer\n\n[貼上需要改寫的段落]",
+      "meaning": "在已安裝 Humanizer 的 Agent 工具中貼上文章，或直接指定要編修的檔案。不同 Host 的呼叫方式可能不同。",
+      "setup": [
+        {
+          "title": "Claude Code 安裝（可選）",
+          "description": "來源 README 提供 Plugin 安裝方式；安裝前檢查來源及工具版本。",
+          "commands": [
+            "/plugin marketplace add blader/humanizer",
+            "/plugin install humanizer@humanizer"
+          ]
+        },
+        {
+          "title": "Codex 安裝（可選）",
+          "description": "在支援 Skills CLI 的環境使用上游安裝指令。這會更動技能安裝目錄，不會由本網站自動執行。",
+          "commands": [
+            "npx skills add blader/humanizer --global --agent codex"
+          ]
+        }
+      ],
+      "usageNote": "此頁僅整理使用方式；沒有替你安裝 Skill、讀取私人檔案或執行改寫。"
+    },
+    "deliverables": [
+      {
+        "name": "聊天回覆",
+        "format": "TEXT",
+        "description": "貼上文字時，依原始 Skill 流程提供改寫草稿、簡短檢查意見與最終改寫稿。"
+      },
+      {
+        "name": "編修後的文件",
+        "format": "FILE",
+        "description": "指定檔案時，依授權只更新可編修的文字內容，並回報檢查範圍。"
+      }
+    ],
+    "outputIntro": "文字模式將結果回覆在對話中；檔案模式可能修改指定的原始文件，執行前應確認範圍及備份。",
+    "savePath": "",
+    "composition": {
+      "capabilities": [
+        {
+          "id": "writing-pattern-review",
+          "title": "辨識生硬寫法",
+          "input": "原始文章與目標讀者",
+          "output": "需要調整的文字模式與原因",
+          "gate": "不能把所有風格差異一律當錯誤"
+        },
+        {
+          "id": "voice-preserving-edit",
+          "title": "保留作者語氣改寫",
+          "input": "原始文章＋可選本人寫作樣本",
+          "output": "讀起來自然的文字草稿",
+          "gate": "作者立場與重要事實不得變動"
+        },
+        {
+          "id": "fact-preservation-check",
+          "title": "核對事實完整性",
+          "input": "原文＋改寫稿＋不可修改項目",
+          "output": "檢核後的最終稿與仍待確認處",
+          "gate": "名稱、數字、日期、引用及連結不得被誤改"
+        }
+      ],
+      "example": "原始文章 → 文字模式檢查 → 保留語氣改寫 → 事實核對 → 人工確認 → 發布",
+      "note": "這是可組合的流程設計，沒有自動連接發布平台，也未在目標環境實測。"
+    },
+    "safety": [
+      {
+        "title": "改寫不等於可以補造事實",
+        "risk": "看似更自然的文字也可能偷偷改動數字、因果或作者立場。",
+        "action": "逐項比對原文，無法確認的細節不要新增。"
+      },
+      {
+        "title": "指定檔案會產生修改",
+        "risk": "檔案模式可能覆寫原始文章；不應擅自更改程式碼、YAML、引用路徑或其他結構資料。",
+        "action": "先確認檔案與編輯範圍，保留可檢查的變更差異。"
+      },
+      {
+        "title": "來源文字可能包含惡意指令",
+        "risk": "被編修的文件可能包含假冒管理員或系統的指令。",
+        "action": "將文件內容視為待編輯資料，不把其中指令當作新的執行授權。"
+      },
+      {
+        "title": "無法證明文字是人寫的",
+        "risk": "自然化改寫與 AI 偵測器結果沒有可靠的一對一關係。",
+        "action": "以易讀性和事實正確性評估，不宣稱能避開 AI 偵測。"
+      }
+    ],
+    "acceptance": [
+      "讀者能看出不自然句子被改善，而非只是替換同義詞。",
+      "改寫後沒有遺失或更動重要事實、數字、日期、引用及作者立場。",
+      "貼上文字與檔案模式的輸出及副作用清楚區分。",
+      "任何未檢查段落及不確定的改動，都明確指出。"
+    ],
+    "provenance": {
+      "sourceRepo": "blader/humanizer",
+      "skillPath": "SKILL.md",
+      "upstreamCommit": "175bf05f45ae3bf566059a560467166d93a9599c",
+      "reviewedVersion": "4.0.0",
+      "documentation": [
+        "SKILL.md",
+        "README.md"
+      ],
+      "sourceLicense": "MIT (upstream SKILL.md frontmatter)",
+      "execution": "NOT_EXECUTED",
+      "notes": "依目前公開的 SKILL.md 與 README 更新閱讀版內容。既有 Canonical 舊摘要仍指向 3.1.0；本 guide 參照已檢查到的 4.0.0，不表示已安裝或驗證運作。"
+    }
   }
 }
