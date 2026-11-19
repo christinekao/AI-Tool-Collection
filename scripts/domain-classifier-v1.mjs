@@ -198,6 +198,15 @@ function inferFacets(x){
  return [...(learning?['learning']:[]),...(reference?['reference']:[])];
 }
 export function classifyRecord(x){
+ // AI-reviewed stored descriptions are not independently source-verified.
+ // Respect their classification during future automated reclassification.
+ if (x.classification?.reviewStatus==='ai-description-reviewed'){
+   const c=x.classification;
+   return {primaryDomain:c.primaryDomain, secondaryDomains:c.secondaryDomains,
+     purposeFacets:c.purposeFacets, reviewStatus:c.reviewStatus,
+     evidenceFields:c.evidenceFields};
+ }
+
  const key=x.entityType+':'+x.id;
  const scored=sortedScores(x),pilot=PILOT[key]||EXAMPLE_OVERRIDES[key];
  const top=scored[0],next=scored[1];
