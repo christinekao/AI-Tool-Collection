@@ -75,8 +75,81 @@ const RULES = Object.freeze({
  'ai-agent':[/\b(?:agent(?:ic|s)?|multi.agent|mcp|llm|language.model|model.routing|model.gateway|model.infer|agent.harness|agent.runtime|context.engineer|prompt.engineer|skills?\.md|tool.call|claude.code|codex|openai.api|anthropic|evals?|ai.model)\b|智能代理|模型路由|代理人|多代理|模型推論|提示詞工程|大型語言模型|代理協作|Agent 架構/i]
 });
 // Legacy Category is evidence, but not the identity of the new Domain.
+/* Clear examples from stored descriptions; proposals, not external verification. */
+const EXAMPLE_OVERRIDES=Object.freeze({
+'resource:acheaisuiyimen-ache-life-to-comic-skill':["content"],
+'resource:anime-js':["design"],
+'resource:ayueh0102-ronnier-skill':["design"],
+'resource:arrow-2':["design","content"],
+'resource:better-me-notes-amie':["content"],
+'resource:bruiandy-claude-obsidian':["data","ai-agent"],
+'resource:cathrynlavery-diagram-design':["design"],
+'resource:coreyhaines31-marketingskills':["content"],
+'resource:electron':["software","design"],
+'resource:gsap-skills':["design"],
+'resource:hao0321-editkin':["content"],
+'resource:hermes-snyk-plugin':["security","ai-agent"],
+'resource:impeccable':["design"],
+'resource:infiniflow-ragflow':["data","ai-agent"],
+'resource:kepano-40-questions':["data"],
+'resource:kepano-obsidian-vault-template':["data"],
+'resource:kubai087-kubai-icons':["design"],
+'resource:lawpowen-ui-design-codex-bundle':["design"],
+'resource:leonxlnx-taste-skill':["design"],
+'resource:lieflat-less-ai-tone':["content"],
+'resource:mars-tw-freedom-erp-crm':["business"],
+'resource:minchenlee-loadsketch':["software","cloud"],
+'resource:motion-dev-animations-skill':["design"],
+'resource:onetake':["content"],
+'resource:photo-riso-poster':["content"],
+'resource:playwright':["software","automation"],
+'resource:pramoddutta-botskills':["ai-agent"],
+'resource:qingyuna-answer-me-with-html':["design","ai-agent"],
+'resource:r0x0r-pywebview':["software","design"],
+'resource:recraft':["design","content"],
+'resource:remove-bg':["content","automation"],
+'resource:research-to-diagram':["design"],
+'resource:reverse-skill':["security"],
+'resource:shubhamsaboo-needle':["data"],
+'resource:sona-orbit-parroting':["content"],
+'resource:usestrix-strix':["security","ai-agent"],
+'resource:viral-hook-title':["content"],
+'resource:wquguru-cicada':["content"],
+'skill:acheaisuiyimen-ache-life-to-comic-skill':["content"],
+'skill:debpalash-voicestudio-voicestudio':["content"],
+'skill:googlechrome-modern-web-guidance':["software","design"],
+'skill:graphify-labs-graphify-v3':["data","software"],
+'skill:gsap-skills':["design"],
+'skill:heydamir-unslop-skill':["design"],
+'skill:kubai087-kubai-icons-skill':["design"],
+'skill:leemysw-yovoice-yovoice':["content"],
+'skill:lieflat-less-ai-tone':["content"],
+'skill:lucasmarkes-hairline-adopt':["design"],
+'skill:lucasmarkes-hairline-create':["design"],
+'skill:motion-dev-animations-skill':["design"],
+'skill:nvidia-auto-ontology-setup':["data","cloud"],
+'skill:nvidia-skillspector':["security","ai-agent"],
+'skill:photo-riso-poster':["content"],
+'skill:research-to-diagram':["design"],
+'skill:viral-hook-title':["content"],
+'skill:yanliudesign-mono-color-skill':["design"],
+'skill:zhouxiaoka-autoclip-autoclip':["content"],
+'concept:constraint-bounded-editing':["content"],
+'concept:cross-layer-software-reconstruction':["software"],
+'concept:editable-generative-assets':["design"],
+'concept:evidence-preserving-visual-abstraction':["design"],
+'concept:motion-interaction-layer':["design"],
+'concept:outcome-first-minimal-brief-ai-web-design':["design"],
+'concept:reference-as-prompt-evidence':["design","ai-agent"],
+'concept:security-as-workflow-gate':["security","software"],
+'concept:closed-loop-social-content-system':["content","automation"],
+'workflow:agentic-video-production-stack':["content"],
+'workflow:evidence-gated-trading-automation':["business","automation"],
+'combination:agentic-video-production-stack':["content"],
+'combination:goal-build-evidence-learning-loop':["ai-agent"]
+});
 const CATEGORY_HINTS = Object.freeze([
-[/^(?:01 Agent Runtime|02 Agent Orchestration|06 Skills|Agent Engineering|Agentic|AI Agent)/i,'ai-agent',2.5],
+[/^(?:01 Agent Runtime|02 Agent Orchestration|Agent Engineering|Agentic|AI Agent)/i,'ai-agent',2.5],
 [/^(?:03 Code Intelligence|12 Developer Tools|Software Engineering|AI-assisted Code)/i,'software',4.0],
 [/^(?:05 Data & Ingestion|Data |Database|RAG|Knowledge)/i,'data',4.0],
 [/^(?:07 Security & Governance|Developer Security|Cybersecurity)/i,'security',5.0],
@@ -126,7 +199,7 @@ function inferFacets(x){
 }
 export function classifyRecord(x){
  const key=x.entityType+':'+x.id;
- const scored=sortedScores(x),pilot=PILOT[key];
+ const scored=sortedScores(x),pilot=PILOT[key]||EXAMPLE_OVERRIDES[key];
  const top=scored[0],next=scored[1];
  const primary=pilot?pilot[0]:top.id;
  const secondary=pilot?pilot.slice(1):scored.filter(s=>s.id!==primary&&s.score>=5.5&&s.score>=top.score*0.67).slice(0,2).map(s=>s.id);
@@ -138,7 +211,7 @@ export function classifyRecord(x){
   primaryDomain:primary,
   secondaryDomains:secondary,
   purposeFacets:inferFacets(x),
-  reviewStatus:pilot?'pilot-proposed':requiresReview?'needs-review':'rule-proposed',
+  reviewStatus:PILOT[key]?'pilot-proposed':EXAMPLE_OVERRIDES[key]?'example-proposed':requiresReview?'needs-review':'rule-proposed',
   evidenceFields:evidence.slice(0,4)
  };
 }
