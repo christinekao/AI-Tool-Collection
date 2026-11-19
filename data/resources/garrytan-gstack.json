@@ -13,7 +13,7 @@
   "notes": "2026-10-24 核對官方 README.md、LICENSE、SECURITY.md、repo metadata；MIT 授權，官方 README 稱 23 個 specialist roles／8 個 power tools。需求含 Git、Bun（README 推薦>=1.4.2，舊版某些情況有 .env 讀取風險）、Claude Code；跨 Agent 安裝 `./setup --host ...` 對 Codex、OpenCode、Cursor 等標記 experimental，不可當作所有 Agent 已完整支援。包含 /office-hours、/plan-ceo-review、/review、/qa、/ship 與 /cso 等；實作視宿主、browser、scanner、登入及環境而定。依 README 安裝會 clone、build、寫入使用者 ~/.claude/skills 與 CLAUDE.md，Team mode 會在專案設定自動更新；部分瀏覽器操作會使用真實登入 session（若選擇 Aside），Security scan / QA 可能執行本機工具、存取 source/env 及掃描網站，必須先驗證 Trust boundary 及權限。各 host 的 hook enforcement 不同，Codex 等 experimental hosts 多為 advisory，不能聲稱同等強制保護。套件內 Skills 是相互配合的可重用能力，此 Repo 也有獨立 Skill entity 以供發現。作者關於效率、速度與產出數據為作者聲明，不代表普遍保證；此輪未安裝或實測。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "gstack",
     "garry-tan",
@@ -68,7 +68,10 @@
   "source": {
     "url": "https://github.com/garrytan/gstack",
     "type": "Official GitHub README, LICENSE and SECURITY.md",
-    "summary": "Primary-source research on 2026-10-24; untested"
+    "summary": "Primary-source research on 2026-10-24; untested",
+    "readmeUrl": "https://github.com/garrytan/gstack/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official README check only; runtime and security not audited"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -85,6 +88,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.2-review"
+    "rulesVersion": "v0.2-review",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "整合 Product、Design、Engineering、QA 與 Security 角色化開發指令。",
+    "包含 Browser QA、Code Review 與發布前驗收等工作方式。",
+    "提供多 Agent Host 的導入文件與更新機制。"
+  ],
+  "requirements": [
+    "README 的受測需求包含 Git、Bun 與相容 Coding Agent。",
+    "安裝前確認 setup、Hooks 與自動更新的副作用，以及是否會觸及外部模型。"
+  ],
+  "limitations": [
+    "不同 Host 的支援層級不一致，有些整合仍屬實驗性。",
+    "角色化流程和自動檢查仍須保存真實測試證據，不能取代人工 Release Gate。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+    },
+    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能尚不足以證明版本化 Input／Output 契約可供跨工具組合，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+    },
+    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+    }
   }
 }
