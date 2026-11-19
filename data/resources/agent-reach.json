@@ -6,14 +6,14 @@
   "canonicalName": "Agent Reach",
   "category": "05 Data & Ingestion",
   "resourceType": "Agent Capability Layer / Web & Social Access",
-  "purpose": "替 AI Agent 統一選型、安裝、健康檢查與路由各種網頁／社群平台存取後端，涵蓋 web、Twitter/X、Reddit、YouTube、GitHub、小紅書等來源。",
-  "recommendation": "適合需要讓 Agent 蒐集公開網頁與多平台內容，又不想每個平台各自維護一套接入方式。",
+  "purpose": "為 CLI Agent 安裝並管理多種社群與影音平台的搜尋、讀取和資料擷取通道，提供通道健康檢查及優先／備援後端。",
+  "recommendation": "適合有跨平台公開資料調查需求的 Agent；登入平台時須先評估 Cookie、瀏覽器 Session、服務條款和帳號權限。",
   "url": "https://github.com/Panniantong/Agent-Reach",
   "repo": "Panniantong/Agent-Reach",
   "notes": "Official upstream identified. It positions itself as a capability layer that routes to preferred/fallback platform backends.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-19",
   "tags": [
     "web-access",
     "social-media",
@@ -49,6 +49,71 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "使用 channels 指令檢視平台能力與可用通道。",
+    "依平台使用首選與備援後端，並提供 read 等路由入口。",
+    "支援多個社群／影音網站的搜尋與內容讀取，部分通道需要登入。"
+  ],
+  "requirements": [
+    "README 標示 Python 3.10 以上，並需依所需平台設定對應工具。",
+    "需要登入的通道先確認 Session 複製機制、專用帳號與授權。"
+  ],
+  "limitations": [
+    "部分平台功能依賴登入 Session、外部工具及平台政策，不能保證永遠可用。",
+    "官方說明涉及由 Chrome 複製網站登入狀態至專用瀏覽器，可能帶來憑證與隱私風險。"
+  ],
+  "source": {
+    "url": "https://github.com/Panniantong/Agent-Reach",
+    "readmeUrl": "https://github.com/Panniantong/Agent-Reach/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }

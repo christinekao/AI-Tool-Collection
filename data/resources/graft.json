@@ -6,14 +6,14 @@
   "canonicalName": "Graft",
   "category": "03 Code Intelligence",
   "resourceType": "Context Governor / Structural Code Reader",
-  "purpose": "位在 coding agent 與檔案系統之間，依程式結構回傳較小且正確的 code view，避免 Agent 把整個大型檔案、lockfile 或無關內容塞進 context。",
-  "recommendation": "適合大型 codebase、context window 壓力高，或需要限制 Agent 讀取範圍的情境。",
+  "purpose": "在 Coding Agent 讀取專案前提供結構化且較小的程式碼視圖，依 AST 給出安全讀取、符號與變更脈絡，減少將大型檔案直接塞入 Context。",
+  "recommendation": "適合中大型專案的 Coding Agent 閱讀治理；使用 init 前先檢查會建立的設定檔與 Hooks。",
   "url": "https://github.com/flyingrobots/graft",
   "repo": "flyingrobots/graft",
   "notes": "Official repository confirmed. Screenshot source described it as helping with code context and structure mapping; official positioning is a context governor for coding agents.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-19",
   "tags": [
     "code-context",
     "structural-read",
@@ -53,6 +53,71 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供 CLI、MCP stdio Server 和程式內 API 三種入口。",
+    "對部分程式檔提供 AST 符號摘要與結構化查詢。",
+    "對二進位、憑證及大型特殊檔案有拒絕或安全處理策略。"
+  ],
+  "requirements": [
+    "README 使用 npx 與 @flyingrobots/graft；需具備 Node.js/npm 環境。",
+    "init 可能建立 .graftignore、寫入 Agent 指令及 MCP 設定，須先檢查差異。"
+  ],
+  "limitations": [
+    "語法結構摘要不是完整程式語意，重要修改仍須檢視原碼與測試。",
+    "支援語言、Parser 與背景 Daemon 的行為要依版本核對。"
+  ],
+  "source": {
+    "url": "https://github.com/flyingrobots/graft",
+    "readmeUrl": "https://github.com/flyingrobots/graft/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain software；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }

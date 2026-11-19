@@ -6,14 +6,14 @@
   "canonicalName": "LLM",
   "category": "04 Knowledge & Memory",
   "resourceType": "LLM CLI / Python Library / Conversation Log",
-  "purpose": "從 command line 或 Python 呼叫多種 LLM，支援 plugins、tools、embeddings，並可把 prompts 與 responses 記錄到 SQLite，方便搜尋與回顧過去對話。",
-  "recommendation": "適合想把終端裡的 LLM 使用歷史變成可查詢資料，而不是每次 session 結束就散掉。",
+  "purpose": "Simon Willison 的 LLM CLI 與 Python Library，透過插件呼叫多種雲端或本機模型，並可記錄 Prompt、輸出、Embedding 與模型操作。",
+  "recommendation": "適合用命令列建立可重複的模型實驗及小型自動化；需管理外部 API Key、模型費用與 SQLite 記錄中的敏感資料。",
   "url": "https://github.com/simonw/llm",
   "repo": "simonw/llm",
   "notes": "Official Simon Willison repository confirmed. SQLite logging is a first-class feature and can be turned on/off.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-19",
   "tags": [
     "llm-cli",
     "sqlite",
@@ -53,6 +53,71 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供 CLI 與 Python API 呼叫多種模型。",
+    "透過 Plugins 擴充雲端及本機模型支援。",
+    "可將 Prompt 與模型回應保存在 SQLite。"
+  ],
+  "requirements": [
+    "可使用 pip、pipx、uv 或 Homebrew 安裝，依環境選擇。",
+    "雲端模型需要自行設定對應金鑰；本機推論另需模型和運算資源。"
+  ],
+  "limitations": [
+    "不同 Plugin 與模型提供的工具呼叫、Embedding 能力不完全一致。",
+    "本機 Log 可能含對話或資料內容，需要額外存取權限與保留政策。"
+  ],
+  "source": {
+    "url": "https://github.com/simonw/llm",
+    "readmeUrl": "https://github.com/simonw/llm/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }

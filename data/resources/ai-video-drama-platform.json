@@ -5,12 +5,12 @@
   "title": "AI Video Drama Platform — Structured Storyboard to ComfyUI and FFmpeg",
   "status": "active",
   "addedAt": "2026-10-12",
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-11-19",
   "url": "https://github.com/dc-tw/ai-video-drama-platform",
   "category": "AI Video / Agentic Media Pipeline",
   "resourceType": "Early-stage Python backend reference implementation",
-  "purpose": "將故事大綱轉為經 Pydantic 驗證的分鏡，再以本機 ComfyUI 生成逐場圖片並透過 FFmpeg 組成 MP4。",
-  "recommendation": "適合參考 LLM Structured Outputs → typed storyboard → ComfyUI REST/WebSocket → FFmpeg 的分層架構。現階段沒有瀏覽器前端，預設是圖片合成影片而非真正 text-to-video；Kandinsky T2V workflow 僅供檢視、尚未接入執行。",
+  "purpose": "將文字故事轉成具資料驗證的分鏡，呼叫本機 ComfyUI 產生圖片，再透過 FFmpeg 合成影片；提供 CLI、容器與測試路徑。",
+  "recommendation": "適合研究分鏡結構、影像生成與影片合成的本機工作流；需要準備模型金鑰、ComfyUI、FFmpeg 及硬體資源。",
   "tags": [
     "ai-video",
     "storyboard",
@@ -47,6 +47,72 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "以 Pydantic 模型驗證結構化分鏡資料。",
+    "以本機 ComfyUI 影像節點製作逐場畫面。",
+    "使用 FFmpeg 組成 MP4，README 提供單元與 Live Test 分層。"
+  ],
+  "requirements": [
+    "依 README 安裝 Python 相依並啟動對應 ComfyUI 服務。",
+    "需要外部 LLM 時由使用者自行設定 API 金鑰，確認費用與憑證保護。"
+  ],
+  "limitations": [
+    "LLM 分鏡可能產生費用，本機影像生成仍受顯示卡、記憶體與模型限制。",
+    "測試文件區分假客戶端與 Live LLM，讀取 README 不等於已重現完整影片。"
+  ],
+  "repo": "dc-tw/ai-video-drama-platform",
+  "source": {
+    "url": "https://github.com/dc-tw/ai-video-drama-platform",
+    "readmeUrl": "https://github.com/dc-tw/ai-video-drama-platform/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain content；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }

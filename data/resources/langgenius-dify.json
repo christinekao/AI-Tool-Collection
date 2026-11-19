@@ -2,14 +2,14 @@
   "schemaVersion": 2,
   "entityType": "resource",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-11-19",
   "id": "langgenius-dify",
   "title": "Dify — AI App, RAG & Agentic Workflow Platform",
   "canonicalName": "langgenius/dify",
   "category": "02 Agent Orchestration",
   "resourceType": "Self-hostable AI application, RAG and agentic workflow development platform",
-  "purpose": "以可視化編排、知識庫/RAG、模型與工具接入建立聊天機器人、AI 應用和 Agent Workflow；支援從原型到上線的 API、協作空間與 Cloud／VPC／self-hosted 部署。",
-  "recommendation": "適合需要面向使用者的 AI App、企業文件問答或可配置的 RAG／Agent 流程。與偏向 SaaS／業務系統串接的 n8n 不同，Dify 更聚焦模型、Prompt、知識庫與應用部署。自架前要檢查知識庫資料權限、向量化及模型費用、版本相容性，特別注意 Dify 修改版 Apache 2.0 授權對多租戶服務與前端品牌標示的額外條件。",
+  "purpose": "透過視覺化畫布、知識庫、工具與模型接入建立 AI App、RAG、Agent 和多步 Workflow，可自架或選用代管服務。",
+  "recommendation": "適合團隊快速建立可管理的 AI 應用原型；自架前須核對 Docker 依賴、Secrets、Agent 沙盒與服務成本。",
   "url": "https://github.com/langgenius/dify",
   "repo": "langgenius/dify",
   "status": "active",
@@ -71,5 +71,65 @@
       }
     ],
     "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "使用視覺化節點設計多步 AI Workflow。",
+    "提供模型接入、知識庫／RAG、工具與 API 介面。",
+    "README 提供 Docker Compose 自架及初始化入口。"
+  ],
+  "requirements": [
+    "自架需 Docker、Docker Compose 與 OpenSSL，版本依 README 確認。",
+    "設定專用的 Agent 沙盒授權 Token 與 .env，不要把 Secret 提交到 Repo。"
+  ],
+  "limitations": [
+    "部分 Agent 能執行工具或程式，沙盒與權限設定需獨立稽核。",
+    "模型費用、資料保留和使用條款依部署模式與連接的供應商而異。"
+  ],
+  "source": {
+    "url": "https://github.com/langgenius/dify",
+    "readmeUrl": "https://github.com/langgenius/dify/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "type": "Upstream README or SKILL.md",
+    "reviewScope": "Documentation-level review only; no runtime/security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+    },
+    "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+    },
+    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+    }
   }
 }
