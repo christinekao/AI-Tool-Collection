@@ -54,3 +54,7 @@
 ## Gate
 - 合併前確認 Unified Intake、V2 Data Validate 與 Graph Unit Tests 皆 PASS；合併後確認 Main Sync、Smoke 和 Pages Deploy。
 - 來源宣稱不等同已執行或授權，未建立深度 Repo Guide 與未知的 Capability。
+
+## CI 執行補充
+- 第一輪 P1 Graph PR 執行停留在繁體中文字型準備步驟；Unit／Catalog／Schema 等前置子測試已完成，仍需完整 Browser Smoke PASS 才可發布。
+- 因舊執行尚未結束，重新觸發 PR CI 驗收；不能把舊執行的未完成狀態算作 PASS。
