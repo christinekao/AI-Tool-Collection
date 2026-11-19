@@ -7,13 +7,13 @@
   "category": "12 Developer Tools",
   "resourceType": "Cross-platform Desktop Application Runtime / Web-to-Desktop Shell",
   "purpose": "讓既有 JavaScript、HTML、CSS 前端技術直接用來建立 macOS、Windows、Linux 桌面應用。Electron 把 Chromium renderer 與 Node.js-powered main process 組合在同一個 runtime，由 main process 管理視窗、生命週期與 native desktop APIs，renderer 負責 Web UI，並透過 preload、contextBridge 與 IPC 建立受控的權限橋接。",
-  "recommendation": "適合已有 Web 技術棧、想快速建立跨平台桌面 App，或需要把 React／HTML UI 接到檔案系統、系統選單、通知、tray、視窗與其他 native desktop capability 的專案。",
+  "recommendation": "適合已有 Web 技術棧且需要桌面視窗、檔案互動或原生系統整合的專案；需衡量執行體積、更新與安全維護成本。",
   "url": "https://github.com/electron/electron",
   "repo": "electron/electron",
   "notes": "Official repository and docs confirmed. Electron is built on Chromium and Node.js and ships cross-platform binaries for macOS, Windows and Linux. Its architecture separates privileged main process from renderer processes; preload/contextBridge/IPC should be used as a narrow capability boundary. Security guidance recommends disabling Node integration for remote content, keeping context isolation and sandboxing enabled, validating IPC senders and not exposing privileged Electron APIs to untrusted content. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-11-19",
   "tags": [
     "desktop-app",
     "cross-platform",
@@ -56,6 +56,72 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "homepage": "https://electronjs.org",
+  "features": [
+    "將 Chromium 網頁介面與 Node.js 桌面執行環境整合。",
+    "可為多種桌面作業系統提供安裝與打包途徑。",
+    "官方 README 提供 Electron Fiddle 用於測試 API 與小型範例。"
+  ],
+  "requirements": [
+    "需要 Node.js/npm 與相容的 macOS、Windows 或 Linux 開發環境。",
+    "依官方文件配置主程序、渲染程序與安全的 IPC / preload 邊界。"
+  ],
+  "limitations": [
+    "支援的作業系統最低版本會隨 Electron 版本改變。",
+    "不能讓不受信任的網頁直接取得高權限 Node.js 能力；須驗證隔離與權限。"
+  ],
+  "source": {
+    "url": "https://github.com/electron/electron",
+    "readmeUrl": "https://github.com/electron/electron/blob/main/README.md",
+    "type": "Official project GitHub README / repository metadata",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "repo"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "repo"
+      ],
+      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "本批保留原有 Tags 且不新增標籤；不再以大量 Tags 覆蓋率作為內容品質指標。"
+    },
+    "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain software，未以工具名稱建立額外分類。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 可確認宣稱功能，但未驗證版本化 I/O 契約與執行結果，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept 引用，沒有因字串相似而擴充關聯。"
+    },
+    "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+    }
   }
 }
