@@ -34,3 +34,9 @@ test('Unknown labels are preserved rather than auto-invented as Capabilities',()
  const value=normalizeTags(['career','security','unicorn-proprietary-licence'],t);
  assert.deepEqual(value.unmapped,['career','security','unicorn-proprietary-licence']);
 });
+
+test('High-confidence recurring Tags are mapped without promoting broad topic words',()=>{
+ const x=normalizeTags(['worktree','human-approval','design-to-code','reverse-engineering','handoff','deduplication','github','security','frontend','privacy','evidence'],t);
+ for(const id of ['worktree','human-approval','design-to-code','reverse-engineering','handoff','deduplication','github'])assert.ok(x.normalized.some(row=>row.id===id));
+ assert.deepEqual(x.unmapped,['security','frontend','privacy','evidence']);
+});

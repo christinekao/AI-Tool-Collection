@@ -44,3 +44,11 @@
 `data/tag-index-v1.json.summary` 是目前基準分支下**即時計算**的覆蓋統計；`commonUnmapped` 是值得優先語意複核的高頻未匹配 Tag。原始 Tags 和舊 Category 的完整性本輪沒有重寫／刪除，主題分類是否正確仍以資料證據另行確認。Content Format 和 Capability 原 17 筆試行範圍不因本次標籤映射自動擴大。
 
 後續每批 Resources → Skills → Prompts 更新時，從 `commonUnmapped` 高頻項目開始做語意審查，逐步擴充詞庫與 Capability，而非一次假裝 2,431 個 Tag 全部已人工驗證。
+
+## 第二批高信度詞彙（7 個）
+
+只擴充 Canonical 原始 Tags 中已有且可區分語意的受控詞彙：
+- Technology：`github`。
+- Method：`worktree`、`human-approval`、`design-to-code`、`reverse-engineering`、`handoff`、`deduplication`。
+
+不新增 Domain、Entity Type、Capability 或 Graph 關聯，也不自動升格 `security`、`frontend`、`privacy`、`evidence` 等寬泛詞。現在為 89 個受控詞彙，仍不代表長尾 Tags 已全部語意審核。
