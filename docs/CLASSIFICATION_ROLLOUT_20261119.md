@@ -51,3 +51,7 @@
 ## 五、架構原則
 
 [知識層次與萃取原則](KNOWLEDGE_LAYERS_POLICY.md) 持續有效：**Problem → Concept → Workflow → Implementation Options**。本次僅做 Domain 分類，不因分類相同推定工具相容、Concept 等價或 Workflow 可執行；Combination 舊資料完全保留。
+
+## 六、第二輪結果
+
+已接續進行 161 筆待複核資料的已收錄描述 AI Review：159 筆標記 `ai-description-reviewed`，2 筆仍保留待核；詳見 [第二輪複核報告](CLASSIFICATION_REVIEW_20261119.md)。此狀態不代表人工驗證或原始來源複查。
