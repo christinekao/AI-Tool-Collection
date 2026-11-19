@@ -199,23 +199,23 @@ function skillGuideHtml(x){
  const situations=list(g.situations).map((s,i)=>'<article class="skill-situation"><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(s.title)+'</h4>'+readable(s.description)+'</article>').join('');
  const preparation=list(g.preparation).map((p,i)=>'<article class="skill-prep"><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(p.title)+'</h4>'+readable(p.detail)+'</article>').join('');
  const readers=list(g.reviewers).map(p=>'<article class="skill-reviewer"><h5>'+esc(p.title)+'</h5>'+readable(p.focus)+'</article>').join('');
- const stages=list(g.process).map((s,i)=>'<li class="skill-stage"><span class="skill-step">'+esc(s.number||String(i+1).padStart(2,'0'))+'</span><div class="skill-stage-content"><div class="skill-stage-top"><h4>'+esc(s.title)+'</h4><span>'+esc(s.label)+'</span></div>'+readable(s.detail)+(i===2?'<div class="skill-five-readers"><h5>五個角色各自看什麼？</h5><div class="skill-reviewer-grid">'+readers+'</div></div>':'')+'<div class="skill-stage-result"><strong>這一步得到</strong><span>'+esc(s.result)+'</span></div></div></li>').join('');
+ const stages=list(g.process).map((s,i)=>'<li class="skill-stage"><span class="skill-step">'+esc(s.number||String(i+1).padStart(2,'0'))+'</span><div class="skill-stage-content"><div class="skill-stage-top"><h4>'+esc(s.title)+'</h4><span>'+esc(s.label)+'</span></div>'+readable(s.detail)+(list(g.reviewers).length&&i===(g.reviewersStageIndex??2)?'<div class="skill-five-readers"><h5>'+esc(g.reviewersTitle||'五個角色各自看什麼？')+'</h5><div class="skill-reviewer-grid">'+readers+'</div></div>':'')+'<div class="skill-stage-result"><strong>這一步得到</strong><span>'+esc(s.result)+'</span></div></div></li>').join('');
  const setup=list(g.howToUse?.setup).map((s,i)=>'<article class="skill-setup"><h4>'+esc(s.title)+'</h4>'+readable(s.description)+(list(s.commands).length?'<pre class="skill-code"><code>'+esc(s.commands.join('\n'))+'</code></pre>':'')+'</article>').join('');
- const outputs=list(g.deliverables).map(o=>'<article class="skill-output"><div class="skill-output-icon">MD</div><div><h4><code>'+esc(o.name)+'</code></h4>'+readable(o.description)+'</div></article>').join('');
+ const outputs=list(g.deliverables).map(o=>'<article class="skill-output"><div class="skill-output-icon">'+esc(o.format||'MD')+'</div><div><h4><code>'+esc(o.name)+'</code></h4>'+readable(o.description)+'</div></article>').join('');
  const caps=list(g.composition?.capabilities).map((cap,i)=>'<article class="skill-capability"><div class="skill-cap-head"><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(cap.title)+'</h4></div><dl><div><dt>需要什麼</dt><dd>'+esc(cap.input)+'</dd></div><div><dt>會得到什麼</dt><dd>'+esc(cap.output)+'</dd></div><div><dt>使用前確認</dt><dd>'+esc(cap.gate)+'</dd></div></dl></article>').join('');
  const risks=list(g.safety).map(r=>'<article class="skill-risk"><h4>'+esc(r.title)+'</h4>'+readable(r.risk)+'<div class="skill-risk-action"><strong>建議做法</strong>'+readable(r.action)+'</div></article>').join('');
  const acceptance=list(g.acceptance).map((v,i)=>'<li><span class="skill-num">'+String(i+1).padStart(2,'0')+'</span><span>'+esc(v)+'</span></li>').join('');
  const steps=list(g.composition?.capabilities).map((cap,i)=>'<li><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+esc(cap.title)+'</strong></li>').join('');
  return '<div class="skill-guide">'+
-  '<section class="skill-lead" aria-label="Skill 概覽"><div class="skill-kicker">SKILL · WHEN TO USE / HOW IT WORKS / WORKFLOW</div><div class="skill-lead-grid"><div><h3>先找出履歷可能被淘汰的原因，再有根據地修改</h3><p>'+esc(g.overview)+'</p><p class="skill-lead-note">'+esc(g.introNote)+'</p></div><dl class="skill-facts">'+facts+'</dl></div></section>'+
-  '<nav class="skill-toc" aria-label="本頁章節"><a href="#skill-fit">適用情境</a><a href="#skill-prepare">事前準備</a><a href="#skill-process">執行流程</a><a href="#skill-use">如何使用</a><a href="#skill-output">會產出什麼</a><a href="#skill-compose">組合 Workflow</a><a href="#skill-risk">風險與驗收</a></nav>'+
-  '<section class="skill-section" id="skill-fit"><div class="skill-section-heading"><span>01 · FIT</span><h3>什麼時候適合用？</h3><p>把它當成投履歷前的第二次檢查，而不是求職結果預測器。</p></div><div class="skill-situation-grid">'+situations+'</div></section>'+
-  '<section class="skill-section" id="skill-prepare"><div class="skill-section-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>最重要的是履歷和目標職務；缺少證據的成果不能自行填補。</p></div><div class="skill-prep-grid">'+preparation+'</div></section>'+
-  '<section class="skill-section" id="skill-process"><div class="skill-section-heading"><span>03 · EXECUTION</span><h3>它會怎麼審查履歷？</h3><p>先做兩輪初步判斷，再由五種角色各自審查，最後整合、改寫並重新檢查。</p></div><ol class="skill-stages">'+stages+'</ol></section>'+
-  '<section class="skill-section" id="skill-use"><div class="skill-section-heading"><span>04 · USE</span><h3>如何使用？</h3><p>這是 Claude Code 的 Skill，必須先安裝並啟用，才能使用以下指令。</p></div><div class="skill-command-card"><div><h4>在 Claude Code 內輸入</h4><p>'+esc(g.howToUse?.meaning)+'</p></div><pre class="skill-code"><code>'+esc(g.howToUse?.command||g.howToUse?.trigger)+'</code></pre></div><details class="skill-install-details"><summary>第一次使用：查看安裝方式</summary><div class="skill-setup-grid">'+setup+'</div></details><p class="skill-use-note">'+esc(g.howToUse?.usageNote)+'</p></section>'+
-  '<section class="skill-section" id="skill-output"><div class="skill-section-heading"><span>05 · OUTPUT</span><h3>跑完會產出什麼？</h3><p>輸出會保存在執行目錄下的 <code>'+esc(g.savePath)+'</code>，不會直接改寫原始履歷。</p></div><div class="skill-output-grid">'+outputs+'</div></section>'+
-  '<section class="skill-section" id="skill-compose"><div class="skill-section-heading"><span>06 · COMPOSE</span><h3>如何把這個 Skill 用在其他 Workflow？</h3><p>不需要複製整套七人審查；也能依問題選擇其中的能力，再搭配其他流程。</p></div><div class="skill-workflow-strip"><ol>'+steps+'</ol></div><div class="skill-capability-grid">'+caps+'</div><p class="skill-caution">'+esc(g.composition?.note)+'</p></section>'+
-  '<section class="skill-section" id="skill-risk"><div class="skill-section-heading"><span>07 · SAFETY & QUALITY</span><h3>使用前注意什麼？如何判斷結果有用？</h3><p>重點是保護履歷資料、避免捏造經歷，並檢查修改是否有真實依據。</p></div><div class="skill-risk-grid">'+risks+'</div><h4 class="skill-check-heading">檢查完成品質</h4><ol class="skill-acceptance">'+acceptance+'</ol></section>'+
+  '<section class="skill-lead" aria-label="Skill 概覽"><div class="skill-kicker">SKILL · WHEN TO USE / HOW IT WORKS / WORKFLOW</div><div class="skill-lead-grid"><div><h3>'+esc(g.heroTitle||'先找出履歷可能被淘汰的原因，再有根據地修改')+'</h3><p>'+esc(g.overview)+'</p><p class="skill-lead-note">'+esc(g.introNote)+'</p></div><dl class="skill-facts">'+facts+'</dl></div></section>'+
+  '<nav class="skill-toc" aria-label="本頁章節"><button type="button" data-skill-jump="skill-fit">適用情境</button><button type="button" data-skill-jump="skill-prepare">事前準備</button><button type="button" data-skill-jump="skill-process">執行流程</button><button type="button" data-skill-jump="skill-use">如何使用</button><button type="button" data-skill-jump="skill-output">會產出什麼</button><button type="button" data-skill-jump="skill-compose">組合 Workflow</button><button type="button" data-skill-jump="skill-risk">風險與驗收</button></nav>'+
+  '<section class="skill-section" id="skill-fit"><div class="skill-section-heading"><span>01 · FIT</span><h3>什麼時候適合用？</h3><p>'+esc(g.sectionIntro?.fit||'把它當成投履歷前的第二次檢查，而不是求職結果預測器。')+'</p></div><div class="skill-situation-grid">'+situations+'</div></section>'+
+  '<section class="skill-section" id="skill-prepare"><div class="skill-section-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>'+esc(g.sectionIntro?.preparation||'最重要的是履歷和目標職務；缺少證據的成果不能自行填補。')+'</p></div><div class="skill-prep-grid">'+preparation+'</div></section>'+
+  '<section class="skill-section" id="skill-process"><div class="skill-section-heading"><span>03 · EXECUTION</span><h3>'+esc(g.sectionTitles?.process||'它會怎麼審查履歷？')+'</h3><p>'+esc(g.sectionIntro?.process||'先做兩輪初步判斷，再由五種角色各自審查，最後整合、改寫並重新檢查。')+'</p></div><ol class="skill-stages">'+stages+'</ol></section>'+
+  '<section class="skill-section" id="skill-use"><div class="skill-section-heading"><span>04 · USE</span><h3>如何使用？</h3><p>'+esc(g.sectionIntro?.usage||'這是 Claude Code 的 Skill，必須先安裝並啟用，才能使用以下指令。')+'</p></div><div class="skill-command-card"><div><h4>'+esc(g.commandLabel||'在 Claude Code 內輸入')+'</h4><p>'+esc(g.howToUse?.meaning)+'</p></div><pre class="skill-code"><code>'+esc(g.howToUse?.command||g.howToUse?.trigger)+'</code></pre></div><details class="skill-install-details"><summary>第一次使用：查看安裝方式</summary><div class="skill-setup-grid">'+setup+'</div></details><p class="skill-use-note">'+esc(g.howToUse?.usageNote)+'</p></section>'+
+  '<section class="skill-section" id="skill-output"><div class="skill-section-heading"><span>05 · OUTPUT</span><h3>跑完會產出什麼？</h3><p>'+esc(g.outputIntro||'輸出會保存在執行目錄下的 '+g.savePath+'，不會直接改寫原始履歷。')+'</p></div><div class="skill-output-grid">'+outputs+'</div></section>'+
+  '<section class="skill-section" id="skill-compose"><div class="skill-section-heading"><span>06 · COMPOSE</span><h3>如何把這個 Skill 用在其他 Workflow？</h3><p>'+esc(g.sectionIntro?.composition||'不需要複製整套七人審查；也能依問題選擇其中的能力，再搭配其他流程。')+'</p></div><div class="skill-workflow-strip"><ol>'+steps+'</ol></div><div class="skill-capability-grid">'+caps+'</div><p class="skill-caution">'+esc(g.composition?.note)+'</p></section>'+
+  '<section class="skill-section" id="skill-risk"><div class="skill-section-heading"><span>07 · SAFETY & QUALITY</span><h3>使用前注意什麼？如何判斷結果有用？</h3><p>'+esc(g.sectionIntro?.risk||'重點是保護履歷資料、避免捏造經歷，並檢查修改是否有真實依據。')+'</p></div><div class="skill-risk-grid">'+risks+'</div><h4 class="skill-check-heading">檢查完成品質</h4><ol class="skill-acceptance">'+acceptance+'</ol></section>'+
  '</div>';
 }
 
@@ -235,19 +235,19 @@ function promptGuideHtml(x){
  const failure=list(g.failureHandling).map(t=>'<li>'+esc(t)+'</li>').join('');
  const cap=g.composition?.capability||{};
  return '<div class="prompt-guide">'+
-  '<section class="pg-lead" aria-label="Prompt 概覽"><span class="pg-kicker">PROMPT · COPY / ADAPT / VERIFY / COMPOSE</span><h3>把工作經驗寫得更清楚，不必編造漂亮數字</h3><p>'+esc(g.overview)+'</p></section>'+
+  '<section class="pg-lead" aria-label="Prompt 概覽"><span class="pg-kicker">PROMPT · COPY / ADAPT / VERIFY / COMPOSE</span><h3>'+esc(g.headline||'把工作經驗寫得更清楚，不必編造漂亮數字')+'</h3><p>'+esc(g.overview)+'</p></section>'+
   '<nav class="pg-toc" aria-label="本頁章節"><button type="button" data-prompt-jump="pg-fit">適用情境</button><button type="button" data-prompt-jump="pg-input">準備資料</button><button type="button" data-prompt-jump="pg-copy">複製 Prompt</button><button type="button" data-prompt-jump="pg-example">使用範例</button><button type="button" data-prompt-jump="pg-adjust">調整方式</button><button type="button" data-prompt-jump="pg-verify">品質檢查</button><button type="button" data-prompt-jump="pg-compose">組合 Workflow</button></nav>'+
   '<section id="pg-fit" class="pg-section"><div class="pg-heading"><span>01 · WHEN TO USE</span><h3>什麼時候適合用？</h3></div><div class="pg-three-grid">'+situations+'</div></section>'+
-  '<section id="pg-input" class="pg-section"><div class="pg-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>沒有的資料可以填「未提供」，不要猜一個數字。</p></div><div class="pg-three-grid">'+prep+'</div></section>'+
+  '<section id="pg-input" class="pg-section"><div class="pg-heading"><span>02 · INPUT</span><h3>開始前要準備什麼？</h3><p>'+esc(g.preparationHint||'沒有的資料可以填「未提供」，不要猜一個數字。')+'</p></div><div class="pg-three-grid">'+prep+'</div></section>'+
   '<section id="pg-copy" class="pg-section"><div class="pg-heading"><span>03 · COPY</span><h3>直接複製 Prompt</h3><p>預設提供可重用的整理版；原始收藏的文字仍完整保留，可切換查看與複製。</p></div>'+
    '<div class="pg-editor"><div class="pg-editor-bar"><div class="pg-switch" role="group" aria-label="選擇 Prompt 版本"><button type="button" class="pg-switch-btn active" data-prompt-view="adapted" aria-pressed="true">可重用版</button><button type="button" class="pg-switch-btn" data-prompt-view="original" aria-pressed="false">原始版</button></div><button type="button" class="pg-copy-btn" data-copy="'+esc(x.id)+'" data-copy-version="adapted">複製可重用版</button></div>'+
-   '<div class="pg-editor-content"><p class="pg-edition-note" data-prompt-note="adapted">'+esc(g.adaptationNote)+'</p><p class="pg-edition-note" data-prompt-note="original" hidden>原始 Prompt 逐字保留；當中的「數據感」不代表可以編造數字或經歷。</p><pre class="pg-prompt-text" data-prompt-text="adapted">'+esc(g.adaptedPrompt)+'</pre><pre class="pg-prompt-text" data-prompt-text="original" hidden>'+esc(x.prompt||'尚未提供原始 Prompt')+'</pre></div></div>'+
+   '<div class="pg-editor-content"><p class="pg-edition-note" data-prompt-note="adapted">'+esc(g.adaptationNote)+'</p><p class="pg-edition-note" data-prompt-note="original" hidden>'+esc(g.originalNote||'原始 Prompt 逐字保留；當中的「數據感」不代表可以編造數字或經歷。')+'</p><pre class="pg-prompt-text" data-prompt-text="adapted">'+esc(g.adaptedPrompt)+'</pre><pre class="pg-prompt-text" data-prompt-text="original" hidden>'+esc(x.prompt||'尚未提供原始 Prompt')+'</pre></div></div>'+
    '<details class="pg-variable-details"><summary>如何填寫 Prompt 裡的變數？</summary><div class="pg-table-scroll"><table class="pg-table"><thead><tr><th scope="col">變數</th><th scope="col">類型</th><th scope="col">填寫提示</th></tr></thead><tbody>'+variables+'</tbody></table></div></details>'+
   '</section>'+
   '<section id="pg-example" class="pg-section"><div class="pg-heading"><span>04 · EXAMPLE</span><h3>輸入與輸出會長什麼樣？</h3><p>以下為說明格式的示例，不是模型實際產生的結果。</p></div><div class="pg-example"><div class="pg-example-input"><h4>'+esc(g.exampleInput?.label||'示範輸入')+'</h4><pre>'+esc(g.exampleInput?.content)+'</pre></div><div class="pg-example-outputs"><h4>'+esc(g.exampleOutput?.label||'預期輸出')+'</h4><div class="pg-examples-grid">'+output+'</div></div></div><p class="pg-note">'+esc(g.exampleOutput?.note)+'</p></section>'+
   '<section id="pg-adjust" class="pg-section"><div class="pg-heading"><span>05 · ADAPT</span><h3>怎麼調整成自己的版本？</h3></div><div class="pg-three-grid">'+adjustment+'</div></section>'+
-  '<section id="pg-verify" class="pg-section"><div class="pg-heading"><span>06 · VERIFY</span><h3>怎麼知道改寫結果可信？</h3><p>先確認事實，再看文字是否清楚。不是寫得華麗就算通過。</p></div><div class="pg-two-grid"><article class="pg-verify-card"><h4>合格輸出應包含</h4><ul>'+outputTerms+'</ul></article><article class="pg-verify-card"><h4>資料不足時怎麼辦？</h4><ul>'+failure+'</ul></article></div><div class="pg-test-card"><h4>測試情境 <span>目前皆未測試</span></h4><div class="pg-table-scroll"><table class="pg-table"><thead><tr><th scope="col">案例</th><th scope="col">預期行為</th><th scope="col">狀態</th></tr></thead><tbody>'+tests+'</tbody></table></div></div><h4 class="pg-small-heading">使用前自我檢查</h4><ul class="pg-checks">'+acceptance+'</ul><p class="pg-privacy">'+esc(g.privacy)+'</p></section>'+
-  '<section id="pg-compose" class="pg-section"><div class="pg-heading"><span>07 · COMPOSE</span><h3>如何接進其他 Workflow？</h3><p>這個 Prompt 可以當成「把經歷整理成履歷句子」的一個步驟。</p></div><div class="pg-compose-card"><h4>'+esc(cap.name||'經歷改寫')+'</h4><dl><div><dt>要解決的問題</dt><dd>'+esc(cap.problem)+'</dd></div><div><dt>需要的資料</dt><dd>'+esc(cap.input)+'</dd></div><div><dt>得到的內容</dt><dd>'+esc(cap.output)+'</dd></div><div><dt>使用前檢查</dt><dd>'+esc(cap.gate)+'</dd></div></dl><div class="pg-flow"><strong>組合示例</strong><p>'+esc(g.composition?.example)+'</p></div><p class="pg-note">'+esc(g.composition?.note)+'</p></div></section>'+
+  '<section id="pg-verify" class="pg-section"><div class="pg-heading"><span>06 · VERIFY</span><h3>怎麼知道改寫結果可信？</h3><p>'+esc(g.verificationIntro||'先確認事實，再看文字是否清楚。不是寫得華麗就算通過。')+'</p></div><div class="pg-two-grid"><article class="pg-verify-card"><h4>合格輸出應包含</h4><ul>'+outputTerms+'</ul></article><article class="pg-verify-card"><h4>資料不足時怎麼辦？</h4><ul>'+failure+'</ul></article></div><div class="pg-test-card"><h4>測試情境 <span>目前皆未測試</span></h4><div class="pg-table-scroll"><table class="pg-table"><thead><tr><th scope="col">案例</th><th scope="col">預期行為</th><th scope="col">狀態</th></tr></thead><tbody>'+tests+'</tbody></table></div></div><h4 class="pg-small-heading">使用前自我檢查</h4><ul class="pg-checks">'+acceptance+'</ul><p class="pg-privacy">'+esc(g.privacy)+'</p></section>'+
+  '<section id="pg-compose" class="pg-section"><div class="pg-heading"><span>07 · COMPOSE</span><h3>如何接進其他 Workflow？</h3><p>'+esc(g.workflowIntro||'這個 Prompt 可以當成「把經歷整理成履歷句子」的一個步驟。')+'</p></div><div class="pg-compose-card"><h4>'+esc(cap.name||'經歷改寫')+'</h4><dl><div><dt>要解決的問題</dt><dd>'+esc(cap.problem)+'</dd></div><div><dt>需要的資料</dt><dd>'+esc(cap.input)+'</dd></div><div><dt>得到的內容</dt><dd>'+esc(cap.output)+'</dd></div><div><dt>使用前檢查</dt><dd>'+esc(cap.gate)+'</dd></div></dl><div class="pg-flow"><strong>組合示例</strong><p>'+esc(g.composition?.example)+'</p></div><p class="pg-note">'+esc(g.composition?.note)+'</p></div></section>'+
  '</div>';
 }
 
@@ -255,12 +255,12 @@ function detail(x){
  const s=summary(x);
  const isCheatSheetsGuide=x.entityType==='resource'&&x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
  const isAiUsageBar=x.entityType==='resource'&&x.id==='tip31812-ai-usage-bar'&&Boolean(x.repoGuide);
- const isHiringPanelSkill=x.entityType==='skill'&&x.id==='alexyc9381-hiring-panel'&&Boolean(x.skillGuide);
- const isStarPrompt=x.entityType==='prompt'&&x.id==='star-resume-experience-three-rewrites'&&Boolean(x.promptGuide);
+ const hasSkillGuide=x.entityType==='skill'&&Boolean(x.skillGuide?.process?.length);
+ const hasPromptGuide=x.entityType==='prompt'&&Boolean(x.promptGuide?.adaptedPrompt);
  // This learning resource introduces scope, features, prerequisites and caveats before the lesson.
  // Other resource detail pages keep their existing rendering order.
  let body='';
- if(!isCheatSheetsGuide&&!isAiUsageBar&&!isHiringPanelSkill&&!isStarPrompt){
+ if(!isCheatSheetsGuide&&!isAiUsageBar&&!hasSkillGuide&&!hasPromptGuide){
   body+=x.entityType==='resource'?learningGuideHtml(x.learningGuide,false):'';
   body+=section('這是什麼？',para(s.what));
  }
@@ -287,7 +287,7 @@ function detail(x){
   }
   }
  }else if(x.entityType==='skill'){
-  if(isHiringPanelSkill){
+  if(hasSkillGuide){
    body+=skillGuideHtml(x);
   }else{
   body+=section('解決的問題',para(x.problem));
@@ -303,7 +303,7 @@ function detail(x){
   body+=section('取捨',bullets(x.tradeoffs));
   body+=section('反模式',bullets(x.antiPatterns));
  }else if(x.entityType==='prompt'){
-  if(isStarPrompt){body+=promptGuideHtml(x)}else{
+  if(hasPromptGuide){body+=promptGuideHtml(x)}else{
   body+=section('使用目標',para(x.goal));
   body+=section('需要準備的資訊',bullets(x.inputs));
   body+=section('預期輸出',para(x.expectedOutput));
@@ -325,7 +325,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||isHiringPanelSkill||isStarPrompt?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||hasSkillGuide||hasPromptGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
@@ -438,6 +438,12 @@ function wire(){
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
  $('#app').addEventListener('click',e=>{
+  const skillJump=e.target.closest('[data-skill-jump]');
+  if(skillJump){
+   const target=skillJump.closest('.skill-guide')?.querySelector('#'+skillJump.dataset.skillJump);
+   if(target)target.scrollIntoView({block:'start',behavior:'smooth'});
+   return;
+  }
   const jump=e.target.closest('[data-prompt-jump]');
   if(jump){
    const target=jump.closest('.prompt-guide')?.querySelector('#'+jump.dataset.promptJump);
