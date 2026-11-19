@@ -132,6 +132,13 @@ V1 root-level aggregate and intake JSON files were retired from the default bran
 
 New collection flow:
 
-`Research → dedupe → Resource/Skill → Concept → Combination → Workflow → Prompt decision → validate references → publish`
+`Research → dedupe → Resource/Skill/Prompt as needed → Problem/Concept extraction → reusable Workflow if supported → optional reusable Combination → validate references and evidence → publish`
 
-Only entities that add independent knowledge are created. Do not manufacture every entity for every new tool.
+Only entities that add independent knowledge are created. A Combination is optional and must not be duplicated merely because a Workflow uses several tools; see [Knowledge Layers Policy](docs/KNOWLEDGE_LAYERS_POLICY.md). Do not manufacture every entity for every new tool.
+
+
+## Classification dimensions (2026-11-19)
+
+[Single-source taxonomy](data/taxonomy-v1.json) and [classification architecture](docs/CLASSIFICATION_ARCHITECTURE_V2.md) define Domain, Content Format and evidence-backed Capability independently of six Entity Types. Optional `classification.contentFormat` (currently Resource only), `classification.formatEvidenceFields` and `classification.capabilities: [{id,evidenceFields,status}]` add no new Entity Types and do not change stable IDs, original category, resourceType, tags or typed references. Unknown capability = empty/absent; the status `canonical-described` is not execution proof. Run `node scripts/test-taxonomy-v1.mjs` and `node scripts/validate-v2.mjs` after modifying classification.
+
+For stronger capability evidence, `source-reviewed` requires `verificationEvidence.sourceUrl` and `verificationEvidence.reviewedAt`, and `runtime-tested` requires a `verificationEvidence.testRun` with `executedAt`, `scenario`, and `result`. An ID or Domain match alone is never execution proof.

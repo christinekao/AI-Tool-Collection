@@ -6,8 +6,16 @@ on:
     paths:
       - 'data/**'
       - 'scripts/validate-v2.mjs'
+      - 'data/taxonomy-v1.json'
+      - 'scripts/test-taxonomy-v1.mjs'
       - 'scripts/knowledge-graph-core.mjs'
       - 'scripts/test-knowledge-graph.mjs'
+      - '.github/workflows/v2-data-validate.yml'
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'scripts/test-taxonomy-v1.mjs'
+      - 'scripts/validate-v2.mjs'
       - '.github/workflows/v2-data-validate.yml'
   workflow_dispatch:
 
@@ -22,6 +30,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate Domain, Format and Capability taxonomy
+        run: node --test scripts/test-taxonomy-v1.mjs
       - name: Verify source-backed Workflow composition rules
         run: node --test scripts/test-workflow-engine.cjs
       - name: Unit test graph rules
