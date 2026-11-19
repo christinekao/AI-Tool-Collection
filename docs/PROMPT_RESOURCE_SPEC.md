@@ -2,7 +2,7 @@
 
 > 狀態：試行規格；2026-11-18（Asia/Taipei）。
 > 已核對的兩筆現有資料：`data/prompts/star-resume-experience-three-rewrites.json` 與 `data/prompts/cv-jd-tailored-interview-questions-deep-followups.json`。
-> 第一個試行頁：`star-resume-experience-three-rewrites`（已建立原文／可重用版切換、複製介面與可重建的契約）。**模型執行、頁面實機視覺驗收及公開部署仍待驗證**。
+> 已試行：`star-resume-experience-three-rewrites` 與 `cv-jd-tailored-interview-questions-deep-followups`（同一套原文／可重用版切換、複製及可組合契約）。**模型執行、頁面實機視覺驗收及公開部署仍待驗證**。
 > 對照：`docs/LEARNING_CONTENT_SPEC.md`、`docs/REPO_RESOURCE_SPEC.md`、`docs/SKILL_RESOURCE_SPEC.md`。
 
 ## 定位與目標
@@ -71,7 +71,7 @@ Prompt 可用於人工複製貼上，也可能只是更大 Workflow 的一個節
 
 目前 `data/prompts/<id>.json` 的 `schemaVersion`、`entityType`、`id`、`title`、`problem`、`goal`、`prompt`、`inputs`、`expectedOutput`、`constraints`、`source`、`conceptRefs` 等現有欄位為主要 Source of Truth，不要重複複製到數個相互衝突的地方。
 
-只有來源足夠的 Prompt 可選擇增加 `promptGuide`（目前先在 STAR Prompt 以專用 Renderer 試行，**尚未擴大至其他 Prompt 或全站 Schema**）：
+只有來源足夠的 Prompt 可選擇增加 `promptGuide`（目前已讓 STAR 與履歷／JD 面試題兩筆共用 Renderer，**尚未擴大至全站 Schema 或所有 Prompt**）：
 
 | `promptGuide` 欄位 | 用途 |
 |---|---|
