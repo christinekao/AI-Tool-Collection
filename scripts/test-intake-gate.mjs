@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {reviewErrors,isContentChange,needsTagReview} from './check-intake-gate.mjs';
+import {reviewErrors,isContentChange,needsTagReview,shouldCheckIntake} from './check-intake-gate.mjs';
 const taxonomy=JSON.parse(fs.readFileSync('data/taxonomy-v1.json','utf8'));
 const sample=()=>({
  id:'sample-entry',title:'Sample',entityType:'resource',tags:[],classification:{primaryDomain:'software',secondaryDomains:[],contentFormat:'repository',capabilities:[]},
@@ -105,4 +105,14 @@ test('New intake rejects redundant synonyms and unexplained proposed vocabulary'
  assert.ok(reviewErrors(y,'new',taxonomy).some(s=>s.includes('proposedTerms')));
  y.intakeReview.tagReview.proposedTerms=['special-term'];
  assert.deepEqual(reviewErrors(y,'new',taxonomy),[]);
+});
+
+test('Previously reviewed classification-only updates do not misinterpret original new-decision as update',()=>{
+ const old=sample();
+ const classified=structuredClone(old);classified.classification.primaryDomain='data';
+ assert.equal(shouldCheckIntake(old,classified,taxonomy),false);
+ const evidenceEdit=structuredClone(old);evidenceEdit.intakeReview.riskNotes+=' 補充審查。';
+ assert.equal(shouldCheckIntake(old,evidenceEdit,taxonomy),true);
+ const contentEdit=structuredClone(old);contentEdit.purpose='new objective';
+ assert.equal(shouldCheckIntake(old,contentEdit,taxonomy),true);
 });

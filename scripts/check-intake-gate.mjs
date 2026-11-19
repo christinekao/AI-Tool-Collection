@@ -107,15 +107,18 @@ export function reviewErrors(x,mode='new',taxonomy=null,previous=null){
  if(r.verification?.status==='tested')flag(Boolean(r.verification?.testRun?.executedAt&&r.verification?.testRun?.scenario&&r.verification?.testRun?.result),'tested requires actual testRun evidence');
  return problems;
 }
+/** Do not revalidate a previously reviewed record solely for a classification-only edit. */
+export function shouldCheckIntake(previous,current,taxonomy){
+ return isContentChange(previous,current)||needsTagReview(previous,current,taxonomy)||
+  Boolean(previous&&!isDeepStrictEqual(previous.intakeReview,current.intakeReview));
+}
 export function reviewChanges(base,head,readCurrent,readBase,taxonomy){
  const changes=execFileSync('git',['diff','--name-only','--diff-filter=AM','--no-renames',base,head,'--',
    ...Object.keys(types).map(p=>'data/'+p+'/')],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(isCanonical);
  const outcomes=[],errors=[];
  for(const path of changes){
   const current=readCurrent(path),previous=readBase(path);
-  const contentChanged=isContentChange(previous,current);
-  const tagReviewNeeded=needsTagReview(previous,current,taxonomy);
-  const enforce=contentChanged||tagReviewNeeded||Boolean(current.intakeReview);
+  const enforce=shouldCheckIntake(previous,current,taxonomy);
   if(!enforce){outcomes.push({path,status:'legacy-classification-or-tag-cleanup-exempt'});continue;}
   const status=previous?'update':'new';
   const issues=reviewErrors(current,status,taxonomy,previous);
