@@ -81,3 +81,17 @@ test('A clarification interview is not automatically a recruiting or career inte
  const hiring={...fresh,id:'mock-job-interview',title:'Mock job interview preparation',purpose:'Prepare for a job interview using a resume and job description'};
  assert.equal(classifyRecord(hiring).primaryDomain,'career','hiring context must still be recognized');
 });
+
+test('Intent-first corrections remain valid and new sources are not silently reclassified',()=>{
+ const fixture=read('data/classification-regression-v1.json');assert.ok(fixture.cases.length>=20);
+ const seen=new Set();
+ for(const entry of fixture.cases){
+  assert.ok(!seen.has(entry.path),entry.path+' duplicate regression');seen.add(entry.path);
+  const x=read(entry.path);
+  assert.equal(x.id,entry.id);assert.equal(x.entityType,entry.entityType);
+  assert.equal(x.classification.primaryDomain,entry.to,entry.path+' primary');
+  assert.ok(!x.classification.secondaryDomains.includes(entry.from),entry.path+' obsolete secondary');
+  assert.equal(classifyRecord(x).primaryDomain,entry.to,entry.path+' reviewed intent');
+  assert.ok(entry.evidenceFields.every(field=>x[field]!==undefined),entry.path+' evidence');
+ }
+});

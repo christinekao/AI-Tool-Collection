@@ -15,12 +15,15 @@ for(const folder of dirs){
  }
 }
 const domainCounts={};for(const row of rows)domainCounts[row.domain]=(domainCounts[row.domain]||0)+1;
+const regression=JSON.parse(fs.readFileSync('data/classification-regression-v1.json','utf8'));
+const byPath=new Map(rows.map(x=>[x.path,x]));
+const regressionFailures=regression.cases.filter(x=>!byPath.has(x.path)||byPath.get(x.path).id!==x.id||byPath.get(x.path).domain!==x.to);
 const career=rows.filter(row=>row.domain==='career');
 const strongCareer=/(?:\bresume\b|\brecruit(?:er|ment|ing)?\b|\bhiring\b|\bjob[ -]?(?:search|application|posting|interview)\b|\bcareer\b|\bats\b|\bheadhunt|\bcandidate\b|\bcover[ -]?letter\b|履歷|求職|職涯|招募|招聘|職缺|獵頭|求才|候選人|面試)/i;
 const suspicious=career.filter(row=>!strongCareer.test([row.title,row.purpose,row.problem].join(' ')));
 console.log(JSON.stringify({kind:'CLASSIFICATION_SEMANTIC_AUDIT',checked:rows.length,domainCounts,careerCount:career.length,
  careerRecords:career.map(({path,title,purpose,review})=>({path,title,purpose,review})),
- careerNeedsHumanReview:suspicious.map(({path,title,purpose,review})=>({path,title,purpose,review})),
+ regressionCaseCount:regression.cases.length,regressionFailures,careerNeedsHumanReview:suspicious.map(({path,title,purpose,review})=>({path,title,purpose,review})),
  note:'Potential issues only. A keyword heuristic cannot replace intent and source review; career indicators must describe the actual goal.'},null,2));
 if(rows.length!==548||rows.some(x=>!x.domain))process.exitCode=1;
 const grill=rows.find(x=>x.path==='data/skills/mattpocock-grill-me.json');
@@ -29,3 +32,5 @@ if(suspicious.length){
  console.error('Classification Evidence Gate: '+suspicious.length+' career records lack explicit hiring, job search or interview-preparation context. Review their actual purpose, not only the title.');
  process.exitCode=1;
 }
+
+if(regressionFailures.length){console.error('Classification regression failure: '+regressionFailures.map(x=>x.path).join(', '));process.exitCode=1;}
