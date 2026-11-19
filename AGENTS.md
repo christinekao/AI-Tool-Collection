@@ -18,4 +18,4 @@ node --test scripts/test-intake-gate.mjs
 node scripts/validate-v2.mjs
 node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 ```
-The `Unified Intake Gate` CI job repeats the changed-file check. Report real PASS/FAIL/BLOCKED evidence; do not equate CI PASS with production GitHub Pages deployment. For irreversible changes (deletions, forced rewrites, permission changes, outbound sensitive data, costly execution), ask for explicit approval. Historical records are never automatically erased or bulk-converted by this policy.
+The `Unified Intake Gate` CI job repeats the changed-file check. Report real PASS/FAIL/BLOCKED evidence; do not equate CI PASS with production GitHub Pages deployment. For irreversible changes (deletions, forced rewrites, permission changes, outbound sensitive data, costly execution), ask for explicit approval. Historical entities must never be erased or bulk-converted by this policy. The user authorized scoped deletion of redundant Tags; provide an inspectable Git diff and keep unique source and technical evidence.

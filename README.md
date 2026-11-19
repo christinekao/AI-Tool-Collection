@@ -225,6 +225,8 @@ data/
 
 ## 所有 AI 協作者共用的收錄與驗收政策（2026-11-19）
 
+**舊 Tags 已獲准精簡：** 經逐筆判斷可直接刪除低價值、冗餘 Tags，而不只隱藏。首批 12 筆 Resource 已移除 258 個舊 Tags，保留來源、技術內容及 Typed References。見 [批次清理紀錄](docs/TAG_CLEANUP_BATCH01_20261119.md)。
+
 **精簡 Tag 原則：**不自行製造大量新 Tags、不讓新工具名稱自動成為全域分類。先重用現有分類；新資料只保留少數具辨識性的關鍵詞。標準詞彙擴充須有多筆資料的必要性證據並經審查，GitHub Actions 另設 Lean Tag Gate，詳見 [Tag Standardization](docs/TAG_STANDARDIZATION_V1.md)。
 
 原始 5,407 個 Tag 使用次數／2,431 個不同 Tag 與 82 種舊 Category 已建立可回溯的 [標準化規則](docs/TAG_STANDARDIZATION_V1.md)；標準 Domain 已覆蓋全部 548 筆，`data/tag-index-v1.json` 會從未修改的原始 Tags 自動生成受控維度與待覆核清單。Tag 只作為原始線索，不能自動當成已驗證能力、授權或測試結果。
