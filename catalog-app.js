@@ -68,7 +68,7 @@ function summary(x){
  if(x.entityType==='combination')return {what:text(x.goal)||text(x.problem)||'尚未補充組合目標',fit:text(x.rationale)};
  return {what:text(x.goal)||text(x.problem)||'尚未補充流程目標',fit:text(x.solutionStrategy)};
 }
-function normalizeTagKey(value){return String(value??'').normalize('NFKC').trim().toLowerCase().replace(/[\\s_]+/g,'-').replace(/-+/g,'-')}
+function normalizeTagKey(value){return String(value??'').normalize('NFKC').trim().toLowerCase().replace(/[\s_]+/g,'-').replace(/-+/g,'-')}
 function tags(rawTags,max=2){
  const selected=[],seen=new Set();
  for(const raw of list(rawTags)){
