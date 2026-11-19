@@ -258,7 +258,7 @@ try{
  fs.writeFileSync(path.join(screenshotDir,'knowledge-375-selected.png'),Buffer.from(mobileShot.data,'base64'));
  console.log('PASS: mobile selection scrolls to knowledge and focuses selected Problem');
  await send('Page.navigate',{url:origin+'/index.html#/explore'});
- await waitFor('document.querySelectorAll("#topics > .topic-card").length===9','Catalog home topics');
+ await waitFor('document.querySelectorAll("#topics > .topic-card").length===11','Catalog home topics');
  const home=await evaluate('({nested:document.querySelectorAll("#topics > .topic-grid").length,cta:!!document.querySelector(\'a.hero-main-cta[href="ask.html"]\'),learning:!!document.querySelector(\'a.hero-secondary-cta[href="knowledge.html"]\')})');
  assert.equal(home.nested,0,'Topic grid must not be nested');
  assert.ok(home.cta&&home.learning,'Home must link to dynamic answers and keep the existing Problem Explorer');
@@ -280,10 +280,10 @@ try{
  await evaluate('document.querySelector("#all-topic").click();true');
  await waitFor('location.hash==="#/explore" && document.querySelector("#result-title")?.textContent==="全部收藏"','Reset topic');
  await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
- await evaluate('document.querySelector("#topics [data-topic=agents] .topic-count").click();true');
- await waitFor('location.hash==="#/explore/agents" && document.querySelector("#result-title")?.textContent==="AI Agent 與 Skills"','Mobile topic');
+ await evaluate('document.querySelector("#topics [data-topic=ai-agent] .topic-count").click();true');
+ await waitFor('location.hash==="#/explore/ai-agent" && document.querySelector("#result-title")?.textContent==="AI 系統與 Agent"','Mobile topic');
  await waitFor('document.querySelector("#result-header")?.getBoundingClientRect().top>=-4 && document.querySelector("#result-header")?.getBoundingClientRect().top<=40','Mobile topic results scroll');
- const mobileTopic=await evaluate('({top:document.querySelector("#result-header").getBoundingClientRect().top,selected:document.querySelector("#topics [data-topic=agents]").getAttribute("aria-pressed"),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})');
+ const mobileTopic=await evaluate('({top:document.querySelector("#result-header").getBoundingClientRect().top,selected:document.querySelector("#topics [data-topic=ai-agent]").getAttribute("aria-pressed"),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})');
  assert.ok(mobileTopic.top>=-4&&mobileTopic.top<=40,'Mobile results not in view: '+JSON.stringify(mobileTopic));
  assert.equal(mobileTopic.selected,'true');
  assert.ok(mobileTopic.overflow<=3);
