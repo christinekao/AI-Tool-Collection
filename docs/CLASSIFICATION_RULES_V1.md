@@ -1,6 +1,6 @@
 # AI Tool Collection｜分類規則 v0.1
 
-> 狀態：候選規格，尚未變更網站篩選器、Schema 或單筆收藏。2026-11-19 核對。
+> 狀態：2026-11-19 已進行 548 筆首輪候選分類並更新網站 Domain 篩選。六種 Entity、Schema V2 必備欄位、ID、關聯、原有 Category／Tags 保留；仍有待複核的規則指派。詳見 [全庫分類報告](CLASSIFICATION_ROLLOUT_20261119.md)。
 > 現有六種 Entity、穩定 ID、Typed References、原始 Tags、原始 Category 均保留。
 > 本文件只定義分類層級、命名與試行驗收；正式欄位與 UI 須待小樣本審查後決定。
 

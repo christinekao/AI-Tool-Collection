@@ -1,17 +1,8 @@
 'use strict';
 const TYPES={resources:'Resources',skills:'Skills',concepts:'Concepts',prompts:'Prompts',combinations:'Combinations',workflows:'Workflows'};
 const SINGULAR={resource:'resources',skill:'skills',concept:'concepts',prompt:'prompts',combination:'combinations',workflow:'workflows'};
-const TOPICS=[
-{id:'learning',name:'學習與教材',desc:'課程、教學文件、練習工具與知識整理',icon:'◉',rx:/學習|教學|教材|課程|教案|教練|練習|培訓|教育|訓練|入門|tutorial|course|curriculum|education|learning|teaching|training|study.guide|study.plan|learn.by|interview.practice|oncall.training|knowledge.transfer|flashcard/i},
-{id:'agents',name:'AI Agent 與 Skills',desc:'Agent 架構、工具調用、協作與可重用技能',icon:'◇',rx:/agent|multi.agent|mcp|skill|harness|orchestrat|codex|claude.code|tool.use|context.engineer|代理|智能體|代理人|多代理/i},
-{id:'coding',name:'程式開發',desc:'Coding Agent、測試、程式品質與開發流程',icon:'⌘',rx:/coding|codebase|code.review|software|develop|programming|\bgit\b|github|gitlab|debug|testing|test.automation|ci.cd|developer|程式|開發|除錯|測試|重構/i},
-{id:'frontend',name:'前端與 UI 設計',desc:'網頁、React、CSS、元件與視覺設計',icon:'▣',rx:/frontend|front.end|web.design|web.platform|\bui\b|\bux\b|react|next.js|css|html|design.system|figma|tailwind|landing.page|網站|前端|介面|設計|視覺/i},
-{id:'data',name:'資料與分析',desc:'資料工程、BI、研究、視覺化與分析工具',icon:'▥',rx:/\bdata\b|dataset|data.engineer|data.pipeline|analytics|analysis|dashboard|database|sql|etl|pipeline|visualization|research|\brag\b|search|資料|分析|研究|儀表板|向量/i},
-{id:'automation',name:'自動化與流程',desc:'工作流程、Agent 協作、排程與整合',icon:'↗',rx:/automat|workflow|pipeline|integration|orchestrat|scheduled|cron|power.automat|n8n|自動化|工作流程|排程|串接|整合/i},
-{id:'career',name:'求職與面試',desc:'履歷、職缺、面試與職涯能力提升',icon:'◎',rx:/career|resume|recruit|hiring|job.search|job.application|cv|interview|headhunt|portfolio|履歷|求職|面試|職涯|職缺|作品集/i},
-{id:'content',name:'內容與創作',desc:'文章、影片、社群、影像與創作工作流',icon:'✧',rx:/content|video|youtube|social|post|media|image|illustrat|animation|writing|creative|marketing|seo|影片|社群|寫作|創作|圖片|影像|動畫/i},
-{id:'security',name:'安全與治理',desc:'權限、隱私、風險、驗證與治理',icon:'⬡',rx:/secur|privacy|pii|credential|secret|permission|governance|audit|compliance|guardrail|risk|安全|隱私|權限|稽核|合規|治理/i}
-];
+const TOPICS=[{"id":"ai-agent","name":"AI 系統與 Agent","desc":"模型、Agent、MCP、Context、Agent 協作與評估","icon":"◇"},{"id":"software","name":"程式開發與品質","desc":"程式、Codebase、測試、版本控制與開發工具","icon":"⌘"},{"id":"design","name":"UI／UX 與前端","desc":"介面、前端、網站、設計系統與視覺圖表","icon":"▣"},{"id":"data","name":"資料、分析與知識","desc":"資料處理、SQL、BI、搜尋、RAG 與知識管理","icon":"▥"},{"id":"automation","name":"自動化與整合","desc":"流程自動化、跨系統整合、排程與資料搬運","icon":"↗"},{"id":"cloud","name":"雲端與基礎設施","desc":"雲端、部署、自架環境、容器與基礎設施","icon":"☁"},{"id":"security","name":"安全與治理","desc":"資安、個資、隱私、權限與治理控制","icon":"⬡"},{"id":"content","name":"內容、媒體與行銷","desc":"內容、文字、圖片、影片、社群與行銷","icon":"✧"},{"id":"career","name":"職涯、招聘與面試","desc":"履歷、職缺、招募、面試與職涯準備","icon":"◎"},{"id":"business","name":"商業與金融","desc":"商業分析、金融、投資、交易與產品營運","icon":"▤"},{"id":"learning","name":"學習與教材","desc":"跨領域教材、教學、課程與學習參考","icon":"◉","isFacet":true}];
+const DOMAIN_ALIASES={agents:'ai-agent',coding:'software',frontend:'design'};
 const state={topic:'all',type:'all',query:'',limit:24,detail:null,returnHash:'#/explore',data:null,items:[],byType:{},aliases:new Map(),focusResultsOnRoute:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,6 +13,7 @@ const url=s=>{try{const u=new URL(s);return /^(https?:)$/.test(u.protocol)?u.hre
 const link=(href,label)=>'<a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>';
 const routeFor=(type,id)=>'#/'+SINGULAR[type]+'/'+encodeURIComponent(id);
 const kindLabel=x=>TYPES[SINGULAR[x.entityType]]||x.entityType;
+const domainLabel=x=>TOPICS.find(t=>t.id===x.classification?.primaryDomain)?.name||x.category||'待分類';
 function indexData(){
  state.items=[];state.byType={};state.aliases=new Map();
  for(const [plural,label] of Object.entries(TYPES)){
@@ -42,25 +34,20 @@ function indexData(){
 }
 function matchTopic(x,topic){
  if(topic==='all')return true;
- const t=TOPICS.find(t=>t.id===topic);if(!t)return true;
- const fields=[x.title,x.category,x.resourceType,...list(x.tags),x.purpose,x.goal,x.problem,x.coreProblem,x.recommendation].filter(Boolean).join(' ');
- if(topic==='learning'){
-  const technicalTraining=/machine.learning|deep.learning|reinforcement.learning|federated.learning|active.learning|model.training|training.model/i;
-  const teachingEvidence=/學習資源|教學|教材|課程|教案|教練|練習|培訓|教育|入門|tutorial|course|curriculum|education|teaching|study.guide|study.plan|learn.by|interview.practice|oncall.training|knowledge.transfer|flashcard/i;
-  if(technicalTraining.test(fields)&&!teachingEvidence.test(fields))return false;
-  const explicit=/學習|教學|教材|課程|教案|教練|練習|培訓|教育|訓練|入門|tutorial|course|curriculum|education|teaching|training|study.guide|study.plan|learn.by|interview.practice|oncall.training|knowledge.transfer|flashcard/i;
-  if(explicit.test(fields))return true;
-  return /\blearning\b/i.test(fields)&&!/machine.learning|deep.learning|reinforcement.learning|federated.learning|active.learning/i.test(fields);
- }
- return t.rx.test(fields);
+ const c=x.classification;
+ if(topic==='learning')return Boolean(c?.purposeFacets?.includes('learning'));
+ return Boolean(c&&(c.primaryDomain===topic||list(c.secondaryDomains).includes(topic)));
 }
 function score(x,topic,terms){
  let n=0;
- const title=text(x.title).toLowerCase(),tags=list(x.tags).join(' ').toLowerCase();
+ const title=text(x.title).toLowerCase(),tagList=list(x.tags).join(' ').toLowerCase();
  const desc=[x.purpose,x.goal,x.problem,x.coreProblem,x.recommendation,x.category].join(' ').toLowerCase();
- const t=TOPICS.find(t=>t.id===topic);
- if(t){if(t.rx.test(title))n+=12;if(t.rx.test(tags))n+=7;if(t.rx.test(desc))n+=2;}
- for(const term of terms){if(title.includes(term))n+=16;if(tags.includes(term))n+=7;if(desc.includes(term))n+=4;}
+ if(topic!=='all'){
+  if(x.classification?.primaryDomain===topic)n+=15;
+  else if(list(x.classification?.secondaryDomains).includes(topic))n+=5;
+  else if(topic==='learning'&&matchTopic(x,topic))n+=8;
+ }
+ for(const term of terms){if(title.includes(term))n+=16;if(tagList.includes(term))n+=7;if(desc.includes(term))n+=4}
  if(x.entityType==='resource')n+=1;
  if(text(x.purpose).length>65)n+=2;
  if(text(x.recommendation).length>50)n+=3;
@@ -83,7 +70,7 @@ function summary(x){
 function tags(a,max=4){return list(a).slice(0,max).map(t=>'<span class="tag">'+esc(typeof t==='string'?t:t.label||t.id||'')+'</span>').join('')}
 function card(x){
  const s=summary(x);
- return '<article class="card"><div class="card-top"><span class="type-label">'+esc(kindLabel(x))+'</span>'+(x.category?'<span class="category-label">'+esc(x.category.replace(/^\d+\s*/,''))+'</span>':'')+'</div>'+
+ return '<article class="card"><div class="card-top"><span class="type-label">'+esc(kindLabel(x))+'</span>'+(x.classification?'<span class="category-label">'+esc(domainLabel(x))+'</span>':'')+'</div>'+
  '<h3><a class="title-link" href="'+esc(routeFor(x.entityType,x.id))+'">'+esc(x.title)+'</a></h3>'+
  '<p class="card-summary">'+esc(short(s.what,180))+'</p>'+ (s.what.length<36&&!s.fit?'<p class="needs-description">用途說明待補充</p>':'')+
  (s.fit&&s.fit!==s.what?'<p class="card-fit"><strong>'+esc(({resource:'適合',skill:'解決問題',concept:'解法',prompt:'目標',combination:'搭配原因',workflow:'執行方式'})[x.entityType]||'補充')+'：</strong>'+esc(short(s.fit,130))+'</p>':'')+
@@ -325,7 +312,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||hasSkillGuide||hasPromptGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><span class="category-label">'+esc(domainLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(isCheatSheetsGuide||isAiUsageBar||hasSkillGuide||hasPromptGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,12)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
@@ -379,8 +366,8 @@ function readRoute(){
   return;
  }
  state.detail=null;state.detailMissing=false;
- const p=hash.match(/^#\/explore(?:\/([a-z]+))?$/);
- if(p&&p[1]&&TOPICS.some(t=>t.id===p[1]))state.topic=p[1];
+ const p=hash.match(/^#\/explore(?:\/([a-z-]+))?$/);
+ if(p&&p[1]){const id=DOMAIN_ALIASES[p[1]]||p[1];if(TOPICS.some(t=>t.id===id))state.topic=id;}
  else if(hash==='#/explore')state.topic='all';
  if(hash==='#/browse/all'){
   state.topic='all';state.type='all';state.query='';state.limit=24;

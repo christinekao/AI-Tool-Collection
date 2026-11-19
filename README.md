@@ -14,7 +14,7 @@
 
 工具更新速度快，因此收藏原始 Resource／Skill／Prompt 後，應優先萃取跨工具有效的 Concept、辨識可重用 Workflow，再按 Input／Output／Gate 和證據選擇目前可用的實作工具。**Problem → Concept → Workflow → Implementation Options** 是主要理解路徑，不是要求每篇來源都產生四筆資料。
 
-Combination 保留為六種 V2 Entity 之一，但改採**有獨立重用價值才建立**；原有資料不因分類改版自動合併、刪除或更名。完整使用邊界與驗收詳見 [Knowledge Layers Policy](docs/KNOWLEDGE_LAYERS_POLICY.md)。
+Combination 保留為六種 V2 Entity 之一，但改採**有獨立重用價值才建立**；原有資料不因分類改版自動合併、刪除或更名。完整使用邊界與驗收詳見 [Knowledge Layers Policy](docs/KNOWLEDGE_LAYERS_POLICY.md)。首輪 548 筆的領域註記已寫入每筆 V2 Canonical 的可選 `classification`，保留原始 `category`／`tags` 與六種 Entity；詳見 [全庫分類報告](docs/CLASSIFICATION_ROLLOUT_20261119.md)。分類目前均為候選，需複核項目不代表已驗證。
 
 ## 核心理念｜Problem-Centric Knowledge Graph（以問題為核心的知識關聯圖）
 

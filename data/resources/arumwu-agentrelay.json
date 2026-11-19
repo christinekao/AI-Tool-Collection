@@ -74,5 +74,19 @@
       "id": "cross-agent-continuity-stack"
     }
   ],
-  "notes": "2026-10-22 查核官方 README.md、package.json、SECURITY.md、THIRD_PARTY_NOTICES.md、GitHub repo metadata。Repo 是 Apache-2.0，npm package @arumwu/agentrelay v0.4.0，Node.js >=22.13，TMUX 3.2+ 只在需要 Live Terminal Transport 時才需要。此 package 尚未正式刊登到 npm，官方建議 `npm install -g github:arumwu/agentrelay` 或 clone 後 `npm install && npm run build && npm link`；全域 GitHub 安裝會取得並執行第三方 package scripts (prepare/build)，較安全做法是先審閱內容、固定可信任 Git Commit / release、限測試帳號及 Repo 權限，避免執行未知遠端腳本。CLI 和 MCP 共 10 個 coordination tools、5 個 terminal tools，不需要外部模型 API 或服務，SQLite 存 `.agentrelay/agentrelay.db`，有 events.jsonl 與 handoffs。非 Git Workspace 允許 Child Repo，MCP Workspace Boundary 固定在 server 啟動時，Terminal Access 僅限當前或設定的 tmux Session。Task Lease 為獨佔且到期，File Glob Scope Claims 及 Decision Conflicts 僅警告、不是 OS 保障，不能限制繞過 AgentRelay 的其他 Tool 操作。`terminal_read` 開一次性、90 秒 read-before-send guard，`terminal_send` 仍會向 Pane 輸入一行字並送 Enter，若對方 Pane 是 Shell 可能執行命令，務必限定 Trusted Pane；工具沒有任意 Shell 或 arbitrary-key tool，但不能宣稱絕對隔離。Terminal Outputs 讀取時 redacted + capped，Audit 只保留 metadata，內容通常不落盤；MCP 事件/交接文字還是會落盤，Secret Redaction 是 best-effort 不等於萬無一失。SECURITY.md 明定惡意本機使用者與已受入侵 tmux 程序不在威脅模型內；Agent authored memory 可被注入，應視為不可信描述而非指令。官方 Roadmap 的自動 Agent Hook、Git post-commit adapters、Portable Repo Sync、GitHub issue projection 與 Dashboard 尚不能視為已實作。GitHub 約 32 stars 且最後 push 2026-08-01，成熟度應先試驗。未在使用者裝置安裝或執行 MCP/tmux；Resource 是工具收錄而非套用到現有任務。"
+  "notes": "2026-10-22 查核官方 README.md、package.json、SECURITY.md、THIRD_PARTY_NOTICES.md、GitHub repo metadata。Repo 是 Apache-2.0，npm package @arumwu/agentrelay v0.4.0，Node.js >=22.13，TMUX 3.2+ 只在需要 Live Terminal Transport 時才需要。此 package 尚未正式刊登到 npm，官方建議 `npm install -g github:arumwu/agentrelay` 或 clone 後 `npm install && npm run build && npm link`；全域 GitHub 安裝會取得並執行第三方 package scripts (prepare/build)，較安全做法是先審閱內容、固定可信任 Git Commit / release、限測試帳號及 Repo 權限，避免執行未知遠端腳本。CLI 和 MCP 共 10 個 coordination tools、5 個 terminal tools，不需要外部模型 API 或服務，SQLite 存 `.agentrelay/agentrelay.db`，有 events.jsonl 與 handoffs。非 Git Workspace 允許 Child Repo，MCP Workspace Boundary 固定在 server 啟動時，Terminal Access 僅限當前或設定的 tmux Session。Task Lease 為獨佔且到期，File Glob Scope Claims 及 Decision Conflicts 僅警告、不是 OS 保障，不能限制繞過 AgentRelay 的其他 Tool 操作。`terminal_read` 開一次性、90 秒 read-before-send guard，`terminal_send` 仍會向 Pane 輸入一行字並送 Enter，若對方 Pane 是 Shell 可能執行命令，務必限定 Trusted Pane；工具沒有任意 Shell 或 arbitrary-key tool，但不能宣稱絕對隔離。Terminal Outputs 讀取時 redacted + capped，Audit 只保留 metadata，內容通常不落盤；MCP 事件/交接文字還是會落盤，Secret Redaction 是 best-effort 不等於萬無一失。SECURITY.md 明定惡意本機使用者與已受入侵 tmux 程序不在威脅模型內；Agent authored memory 可被注入，應視為不可信描述而非指令。官方 Roadmap 的自動 Agent Hook、Git post-commit adapters、Portable Repo Sync、GitHub issue projection 與 Dashboard 尚不能視為已實作。GitHub 約 32 stars 且最後 push 2026-08-01，成熟度應先試驗。未在使用者裝置安裝或執行 MCP/tmux；Resource 是工具收錄而非套用到現有任務。",
+  "classification": {
+    "primaryDomain": "ai-agent",
+    "secondaryDomains": [
+      "software"
+    ],
+    "purposeFacets": [],
+    "reviewStatus": "needs-review",
+    "evidenceFields": [
+      "purpose",
+      "category"
+    ],
+    "classifiedAt": "2026-11-19",
+    "rulesVersion": "v0.1"
+  }
 }
