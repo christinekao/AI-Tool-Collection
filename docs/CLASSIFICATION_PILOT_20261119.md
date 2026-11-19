@@ -21,7 +21,7 @@
 | 新方案具有唯一 Primary | 40 | **規格層面的強制設定**，不是分類正確率 |
 | 新方案另標 Secondary | 25 | 不必將所有相關技術列為主題 |
 | 初步可判斷 | 32 | 根據現有 Canonical 欄位判斷，尚未確認實際上游 |
-| 待複核 | 8 | 領域邊界／Entity 語意或來源資訊不足 |
+| 原始待複核 | 8 | 已在 D 節補上分類建議；6 筆不需阻擋分類，另 2 筆主要是後續 Combination／Workflow 結構問題 |
 
 **重要：** 新分類的「40/40 有 Primary」是此次手動指定所致，不代表已將規則自動套用全部資料或達成 100% 品質。
 
@@ -72,18 +72,27 @@
 | 39 | Workflow | [`multi-model-interview-followup-and-feedback-practice`](../data/workflows/multi-model-interview-followup-and-feedback-practice.json) | 學習與教材、資料與分析、自動化與流程、求職與面試、安全與治理（5） | **職涯、招聘與面試**<br>次：AI 系統與 Agent | workflow；implementation | 初步合理 |
 | 40 | Workflow | [`zeabur-oss-ai-assisted-self-hosted-install-workflow`](../data/workflows/zeabur-oss-ai-assisted-self-hosted-install-workflow.json) | AI Agent 與 Skills、前端與 UI 設計、自動化與流程、安全與治理（4） | **雲端與基礎設施**<br>次：自動化與整合 | workflow；implementation | 初步合理 |
 
-## D. 需複核的 8 筆與判斷邊界
+## D. 8 筆原「需複核」：白話決策建議
 
-| # | 項目 | 目前不確定的部分 | 狀態 |
-|---:|---|---|---|
-| 1 | `resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide` | 範圍橫跨模型、RAG、Evals 與安全；多領域教材如何選主題須看整體學習目標 | 待決策（需人工複核） |
-| 2 | `resources/akas333-tysa` | 個人化學習產品；缺 Education 類時放 AI Agent 並不完全符合以使用問題找資料的直覺 | 待決策（需人工複核） |
-| 3 | `resources/code-graph` | 現有 Resource 寫「架構概念」且內容極簡；可能存在 Entity Type／原始來源不足問題 | 待決策（需人工複核） |
-| 4 | `skills/akas333-tysa-axiom-learn` | 本體是學習歷史唯讀查詢；使用情境偏教學，可能需要教育用途 Facet | 待決策（需人工複核） |
-| 5 | `prompts/google-maps-saved-places-cleanup-classification` | 屬個人收藏管理；十類中欠 Personal Productivity／Information Organization 明確入口 | 待決策（需人工複核） |
-| 6 | `combinations/agent-stack` | 相同 ID 在 Workflow 也存在；重查 Combination 是否描述互補而非執行順序 | 待決策（需人工複核） |
-| 7 | `combinations/voice-publish-evidence-social-content-loop` | goal 和 rationale 帶明確發布順序；與 Workflow 邊界有重疊 | 待決策（需人工複核） |
-| 8 | `combinations/local-pii-ai-processing-loop` | 本機遮罩→雲端處理→還原有順序；檢查與同名 Workflow 的差別 | 待決策（需人工複核） |
+> **如何看這區：** 「需複核」代表分類方案或資料結構有值得確認的問題，**不是這筆資料分類錯誤**。此表是根據現有 Canonical 資料提出的建議，不是已獲使用者核准的正式 Schema 變更。**先讓收藏能被正確找到；是否更換 Entity Type／合併資料應另外驗證。**
+
+| # | 收藏 | 我建議怎麼分？ | 真正需要留意什麼？ | 現階段處理 |
+|---:|---|---|---|---|
+| 1 | [AI Cheat Sheets](../data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json) | **主要：AI 系統與 Agent**；另標記「學習／參考教材」，跨域主題另以內容搜尋 | 教材橫跨 RAG、模型、評估和安全；無需為涵蓋多主題而設定四五個主要領域 | **分類建議可採用**；不新增 Domain |
+| 2 | [TYSA 學習工具](../data/resources/akas333-tysa.json) | **主要：AI 系統與 Agent**；另標記「學習工具／學習用途」 | 產品使用 Agent 技術教學；只用 Agent Domain 會讓找學習工具的讀者不容易找到 | **分類建議可採用**；需確保「學習」Facet 可被搜尋 |
+| 3 | [Code Graph](../data/resources/code-graph.json) | **主要：程式開發與品質**；可選次要「資料、分析與知識」 | 原本 `category=03 Code Intelligence` 已合理。「舊主題未命中」只是 Regex 沒涵蓋詞彙；是否應改 Entity Type 是**另一項**來源／資料模型問題 | **分類建議可採用**；Resource 身分與原始 Category 暫時不變 |
+| 4 | [TYSA axiom-learn](../data/skills/akas333-tysa-axiom-learn.json) | **主要：資料、分析與知識**；另標記「學習用途」及 Skill 類型 | 核心動作是唯讀查詢與分析學習歷史；使用在教學情境不代表必須增設教育 Domain | **分類建議可採用**；保留與 TYSA Resource 的關聯 |
+| 5 | [Google Maps 收藏整理 Prompt](../data/prompts/google-maps-saved-places-cleanup-classification.json) | **主要：自動化與整合**；可選次要「資料、分析與知識」，另標記「個人生產力」用途 | 個人整理是使用情境，流程自動化是主要方法；重要的是日後能在個人整理用途下搜尋到 | **分類建議可採用**；先不新增個人生產力頂層 Domain |
+| 6 | [多 Agent Stack（Combination）](../data/combinations/agent-stack.json) | **主要：AI 系統與 Agent** | 它列出多個互補工具；[同名 Workflow](../data/workflows/agent-stack.json) 則有分工、路由、平行執行、驗證等步驟；這兩個 Entity 目前有不同的資訊價值 | **分類建議可採用**；先保留兩筆，不合併 |
+| 7 | [Social Content Loop（Combination）](../data/combinations/voice-publish-evidence-social-content-loop.json) | **主要：內容、媒體與行銷** | Combination 目前只引用一項 Resource，且描述的是步驟；[對應 Workflow](../data/workflows/voice-publish-evidence-social-content-loop.json) 已有明確階段。需確認 Combination 有沒有獨立的「工具互補」資訊 | **分類先採用；結構審查延後**，不自動刪除或合併 |
+| 8 | [Local PII Loop（Combination）](../data/combinations/local-pii-ai-processing-loop.json) | **主要：安全與治理** | Combination 目前只引用一項 Resource，實際是本機遮罩→雲端處理→本機還原流程；[對應 Workflow](../data/workflows/local-pii-ai-processing-loop.json) 已定義步驟，需再確認兩筆分工 | **分類先採用；結構審查延後**，不自動刪除或合併 |
+
+### 簡化決策規則
+
+1. **只要新 Domain 能讓人找得到，分類就先採用候選值**；不必因舊版 Regex 未命中或命中過多而重做。
+2. **用途／形式用 Facet 表示**：教學資源、個人生產力、Repo、Skill 不強迫新增頂層 Domain。
+3. **Entity Type／重複資料是獨立問題**：改 Resource 為 Concept、移除 Combination 或更改 Workflow 引用都屬後續資料結構工作，不是本次分類驗收要做的決策。
+4. **只有需要不可逆或大量結構調整時才請使用者決定**。此輪 6 筆建議分類可先沿用；另外 2 筆僅保留結構審查待辦。
 
 ## E. 從樣本學到的五點
 
