@@ -13,7 +13,7 @@
   "notes": "Official repository confirmed. Uses BackSearch by General Reasoning/OpenReward. Every request carries an as_of cutoff; current README describes a preview archive and paid API-key usage.",
   "status": "active",
   "addedAt": "2026-09-18",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-19",
   "tags": [
     "historical-search",
     "point-in-time",
@@ -74,5 +74,65 @@
       }
     ],
     "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供具有 as_of 日期限制的歷史 Web Search 和 Fetch 工具。",
+    "透過 Hermes Plugin 配置的 BackSearch API 對候選來源做時間邊界查詢。",
+    "沒有金鑰時不會將相關 Tool 提供給模型。"
+  ],
+  "requirements": [
+    "需要 Hermes Agent Plugin 環境，以及 OpenReward API Key 與付費餘額。",
+    "測試時固定 as_of 日期，核對原始文件發佈日期與可重現結果。"
+  ],
+  "limitations": [
+    "API 查詢可能計費，過去資料的可用性和索引覆蓋不保證完整。",
+    "時間過濾無法單獨證明內容在當時已可取得，仍需比對來源。"
+  ],
+  "source": {
+    "url": "https://github.com/NousResearch/hermes-plugin-backsearch",
+    "readmeUrl": "https://github.com/NousResearch/hermes-plugin-backsearch/blob/main/README.md",
+    "type": "Official README / repository",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Documentation only; no execution tests"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+    },
+    "classificationReason": "維持既有 Primary Domain data；未修改任何分類或新增 Tag。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "mapped",
+      "reason": "保留原有經分類階段記載的 Capability，不新增或宣稱整合成功。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+    },
+    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+    }
   }
 }

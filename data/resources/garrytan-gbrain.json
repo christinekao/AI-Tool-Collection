@@ -13,7 +13,7 @@
   "notes": "2026-10-24 已核對 GitHub 官方 README.md、LICENSE、SECURITY.md、docs/guides/memory-boundaries.md、repo metadata；MIT 授權。README 明定 Bun >=1.4；npm 上同名 gbrain package 不是本 Repo，不可誤用；支援 Bun GitHub install、release binary、本機 PGLite、PostgreSQL、MCP Remote 與可選 hosted gbrain.io。核心資料以顯性記憶及來源追溯為目標；`forget` 是從主動召回撤回，不等於刪掉歷史來源及備份。自動擷取、語意 Embedding、抽取、synthesis、雲端模型 enrichment、持續背景 daemon 都是需考慮成本與資料出站的選配；部分配置的自動 extraction 可能消耗模型 API，不能一概聲稱所有模式免費／全離線。可用關鍵字方式 keyless 開始；第三方云端 embeddings、reranking、抽取、綜合摘要可能接觸文字資料，已 recall 的內容也會傳給使用中的 Agent 模型。Agent 共享記憶≠共享執行權限，配置／憑證應留在 runtime/local 而非寫入記憶頁。README 分開說明 remote HTTP caller 的授權、來源與可見性隔離與本機信任邊界；不應當成 universal leak prevention。安裝腳本／repo code 與 host 權限需審查，release binary 具 attestations 的官方流程。作者 README 的量化案例屬作者描述，非經本次實機驗證。未安裝、未連接私人資料。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "gbrain",
     "persistent-memory",
@@ -67,7 +67,10 @@
   "source": {
     "url": "https://github.com/garrytan/gbrain",
     "type": "Official GitHub README, Security Policy, memory boundaries and LICENSE",
-    "summary": "Primary-source research on 2026-10-24; untested"
+    "summary": "Primary-source research on 2026-10-24; untested",
+    "readmeUrl": "https://github.com/garrytan/gbrain/blob/main/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official README check only; runtime and security not audited"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -81,6 +84,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供跨 Session／跨 Agent 的持久化知識庫及混合式檢索。",
+    "可由 CLI 或 MCP 搜尋原始紀錄，並選擇加入合成回答。",
+    "支援自架及選配的代管服務與文件匯入。"
+  ],
+  "requirements": [
+    "上游說明需 Bun 1.4.4+，推薦由 GitHub Stable Channel 安裝而非同名 npm 套件。",
+    "在導入專案文件前設定可讀來源、資料分類與 Agent Hooks 的寫入權限。"
+  ],
+  "limitations": [
+    "同名 npm gbrain 套件與上游專案無關，不能直接安裝替代。",
+    "跨 Agent 檢索可能返回過時或含機密資訊，需檢查引用、存取控制及同步範圍。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+    },
+    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能尚不足以證明版本化 Input／Output 契約可供跨工具組合，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+    },
+    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+    }
   }
 }

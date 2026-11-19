@@ -13,7 +13,7 @@
   "notes": "2026-10-24 實際核對 cursor/plugins/pstack/README.md、pstack/LICENSE、兩份 Skills 官方 SKILL.md。上游 pstack 為 MIT（Copyright 2026 Lauren Tan），Cursor 插件安裝指令 /add-plugin pstack；官方 README 另提供 Claude Code 安裝途徑與 /pstack: 命令前綴，部分 Cursor 原生功能在 Claude Code 會略過，並不保證完全等效。建立 Verification Skill 會盤點 Repo、選擇現有測試工具優先，再依 App Surface 產生 .cursor/skills/verify-<app>/SKILL.md，包含 Launch/Doctor/Drive/Evidence/Cleanup/Helpers，並建立 features/README.md 與每個功能的 Feature Map。要求至少實際端到端執行一條功能路徑，驗證 Evidence 在 Cleanup 後仍存在；未執行的生成結果是 Draft。Maintain 流程必須覆蓋所有 Feature 的 Source 和 Live 驗證；輸出 clean/changed/blocked，僅改驗證技能目錄，確認有差異時最多開一筆 PR，不改產品程式碼。運行可能打開 Browser/CDP、啟動服務、寫入隔離測試資料或登入測試帳號，應避免連正式環境或泄漏憑證。CLI 的 todo-tool 命令在用戶提供的文章中只是示例，**不是 pstack 內建 CLI**。此輪只做索引收錄，沒有安裝、執行或建立任何專案驗證 Skill。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "pstack",
     "poteto",
@@ -78,7 +78,10 @@
     "maintainSkillUrl": "https://github.com/cursor/plugins/blob/main/pstack/skills/maintain-verification-skill/SKILL.md",
     "docsUrl": "https://github.com/cursor/plugins/blob/main/pstack/docs/guide/06-verify-and-ship.md",
     "type": "Original official cursor/plugins pstack README, MIT license and SKILL.md plus user-provided long-form explanation",
-    "summary": "Read original upstream sources 2026-10-24; no installation or execution."
+    "summary": "Read original upstream sources 2026-10-24; no installation or execution.",
+    "readmeUrl": "https://github.com/cursor/plugins/blob/main/pstack/README.md",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official README check only; runtime and security not audited"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -94,6 +97,64 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "repo"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供 /architect、/interrogate、/poteto-mode 等角色化 Coding Skills。",
+    "依使用情境分配多模型審查、Architecture 及 Verification 任務。",
+    "README 包含 setup-pstack、模型選擇與不同 Host 適配說明。"
+  ],
+  "requirements": [
+    "先閱讀 pstack/README.md，依所用 Host 安裝 Plugin 並執行 setup-pstack。",
+    "需依實際模型／訂閱額度設定使用範圍及自動執行權限。"
+  ],
+  "limitations": [
+    "多模型流程可能增加成本與延遲，不能以角色或模型數量代替驗收。",
+    "Claude Code 等 Host 的指令命名與自動更新方式不同，需檢查適配文件。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+    },
+    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "README 功能尚不足以證明版本化 Input／Output 契約可供跨工具組合，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+    },
+    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+    }
   }
 }
