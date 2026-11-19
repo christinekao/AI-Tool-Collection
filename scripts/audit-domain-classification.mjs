@@ -25,3 +25,7 @@ console.log(JSON.stringify({kind:'CLASSIFICATION_SEMANTIC_AUDIT',checked:rows.le
 if(rows.length!==548||rows.some(x=>!x.domain))process.exitCode=1;
 const grill=rows.find(x=>x.path==='data/skills/mattpocock-grill-me.json');
 if(grill?.domain!=='ai-agent')process.exitCode=1;
+if(suspicious.length){
+ console.error('Classification Evidence Gate: '+suspicious.length+' career records lack explicit hiring, job search or interview-preparation context. Review their actual purpose, not only the title.');
+ process.exitCode=1;
+}

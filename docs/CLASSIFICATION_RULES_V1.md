@@ -155,3 +155,11 @@ Resources／Skills／Prompts 批次重寫時，依此規格逐筆補完整分類
 - **Integrity**：六種類型、所有現有 ID、原始資料、Typed References 均不動。
 - **Evidence**：現況統計來自現行 GitHub Catalog／App；候選分類案例只作設計示例，未逐筆人工驗證。
 - **Decision Boundary**：大規模遷移、Schema 變更及首頁主題改版，先用試行集驗收後再決定。
+
+## 2026-11-19｜分類誤判回歸（訪談不等於求職面試）
+
+- `mattpocock-grill-me` 曾因 `interview`（需求釐清訪談）被放進 `career`。上游 `skills/productivity/grill-me/SKILL.md` 指向 `grilling` Skill；專案 README 明確指出 `/grill-me` 用於非程式碼需求的釐清。更正為 `ai-agent`；不因 Skill 執行環境自動增加 Software 或 Career Secondary。
+- 強制區分 **需求訪談／使用者研究／產品發現** 與 **求職面試／招募／履歷**。孤立 `interview` 不再作為 Career 強訊號；應由實際目的、輸入和輸出判定。
+- `scripts/audit-domain-classification.mjs` 在 CI 讀取 548 筆 Canonical，產出各 Domain 分布及 Career 來源證據佇列。Career 無求職／招募／面試準備的明確脈絡時 Gate 失敗，須覆核而非為通過 CI 強加 Tags。
+- 本輪 Career 共 14 筆；需釐清的兩個自動候選 `interactive-one-question-mock-interview`（輸入是 JD／履歷、候選人應答）和 `portfolio-case-study-storytelling-presentation`（目的為 45–60 分鐘求職面試）經現有內容核對後保留 Career。
+- 本關卡專門攔截一類高風險誤判，**不表示其他九個 Domain 或全庫 548 筆已完成來源層級的人工語意審核**。後續應分批擴大到其他 Domain，並保留反例與已知例外的實際理由。

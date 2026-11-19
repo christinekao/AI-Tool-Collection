@@ -78,4 +78,6 @@ test('A clarification interview is not automatically a recruiting or career inte
  assert.equal(classifyRecord(other).primaryDomain,'career');
  const fresh={...x,classification:undefined,title:'Clarification interview',id:'hypothetical-clarification',purpose:'Interview a user to clarify product requirements before deciding a solution',problem:'Ambiguous requirements'};
  assert.notEqual(classifyRecord(fresh).primaryDomain,'career','interview alone must not be a career indicator');
+ const hiring={...fresh,id:'mock-job-interview',title:'Mock job interview preparation',purpose:'Prepare for a job interview using a resume and job description'};
+ assert.equal(classifyRecord(hiring).primaryDomain,'career','hiring context must still be recognized');
 });
