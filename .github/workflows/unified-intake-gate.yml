@@ -8,11 +8,15 @@ on:
       - 'data/concepts/**'
       - 'data/combinations/**'
       - 'data/workflows/**'
+      - 'data/taxonomy-v1.json'
+      - 'docs/TAG_STANDARDIZATION_V1.md'
       - 'docs/UNIFIED_INTAKE_POLICY.md'
       - 'AGENTS.md'
       - 'CLAUDE.md'
       - 'scripts/check-intake-gate.mjs'
       - 'scripts/test-intake-gate.mjs'
+      - 'scripts/check-tag-governance.mjs'
+      - 'scripts/test-tag-governance.mjs'
       - '.github/workflows/unified-intake-gate.yml'
   push:
     branches: [main]
@@ -25,6 +29,9 @@ on:
       - 'data/workflows/**'
       - 'scripts/check-intake-gate.mjs'
       - 'scripts/test-intake-gate.mjs'
+      - 'scripts/check-tag-governance.mjs'
+      - 'scripts/test-tag-governance.mjs'
+      - 'data/taxonomy-v1.json'
       - '.github/workflows/unified-intake-gate.yml'
   workflow_dispatch:
 permissions:
@@ -41,6 +48,13 @@ jobs:
           node-version: '22'
       - name: Validate shared intake contract positive, negative, regression cases
         run: node --test scripts/test-intake-gate.mjs
+      - name: Test lean Tag governance (too many tags, duplicate aliases, one-off vocabulary)
+        run: node --test scripts/test-tag-governance.mjs
+      - name: Enforce lean Tags and source-backed vocabulary changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: node scripts/check-tag-governance.mjs --base "$BASE_SHA" --head "$HEAD_SHA"
       - name: Enforce intake review on new or content-changed Canonical records
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
