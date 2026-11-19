@@ -45,7 +45,7 @@ test('548 canonical records preserve domains and validate optional formats/capab
  }
  assert.equal(count,548);
  assert.equal(formatsSeen,10);
- assert.equal(capsSeen,11);
+ assert.equal(capsSeen,13);
 });
 test('Samples have independent Entity Type, Domain, Format and Capability',()=>{
  const r=read('data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json');
