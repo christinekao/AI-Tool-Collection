@@ -13,7 +13,7 @@
   "notes": "2026-10-24 查核官方開發者入口、Pricing、Support、Privacy Policy、Zero Data Retention 及 Provider 清單：統一端點 https://openrouter.ai/api/v1，可支援不同模型 Provider 與路由／fallback；提供 OpenAI-compatible API，亦有官方 SDK、Agent SDK、MCP Server 和 Cookbook。官方 pricing 有免費模型／免費 API 額度、按使用量計費及可選 BYOK；模型費率、免費額度、加值手續費和 BYOK 費率依最新方案與實際模型變動，不能以單一價格概括所有模型。官方 Support 表示 API 基本 metadata 會記錄，預設不保存 prompts/completions；但可選 prompt logging，而請求內容會送到實際承接的模型供應商。ZDR 可限制符合要求的供應商不保留 inference prompt/response，但不代表資料完全不出站、不經過 OpenRouter，也不涵蓋自己的 Logs、Tools、Plugins 或持久檔案儲存。模型供應商在 retention、訓練及所在地上有所不同，對敏感資料應明確確認 Provider 與 Policy 並閱讀服務條款。雖然官方有 OpenRouterTeam/openrouter-examples 等公開範例 Repo，這不代表 OpenRouter 託管 API 服務本身是完整開源專案；故 Repo 欄位保持空白。需保存 API Key 並管理額度與洩露／濫用風險；如啟用自動路由或 fallback，請求可能改由不同 Provider 處理，應以 policy 過濾與回傳模型資訊核實。僅完成資料收錄，不曾登入、建立或測試 API Key，亦未呼叫付費模型。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-19",
   "tags": [
     "openrouter",
     "llm-api-gateway",
@@ -66,7 +66,10 @@
       "https://openrouter.ai/blog/insights/zero-data-retention/"
     ],
     "type": "Official OpenRouter developer platform, pricing, support, and privacy documentation",
-    "summary": "Reviewed published capabilities, routing, plans and privacy boundaries on 2026-10-24; claims not independently performance-tested."
+    "summary": "Reviewed published capabilities, routing, plans and privacy boundaries on 2026-10-24; claims not independently performance-tested.",
+    "readmeUrl": "https://openrouter.ai/developers",
+    "reviewedAt": "2026-11-19",
+    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -80,6 +83,60 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "service",
+    "formatEvidenceFields": [
+      "url"
+    ],
+    "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "提供不同模型供應商的 OpenAI 相容 API、路由與計費入口"
+  ],
+  "requirements": [
+    "依官方 Developer Platform 文件先建立 API Key 並確認 model ID 與路由設定"
+  ],
+  "limitations": [
+    "不同模型及供應商費率、上下文、資料政策可能不同，不能將路由當成實測相容"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "url"
+    ],
+    "sourceCheckedAt": "2026-11-19",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有 Tags，不新增或調整分類架構。"
+    },
+    "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept 引用，未新增 Graph 關係。"
+    },
+    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+    }
   }
 }
