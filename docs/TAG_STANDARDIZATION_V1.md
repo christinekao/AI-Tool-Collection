@@ -36,7 +36,7 @@
 2. 用受控 Domain／Content Format／Capability（有證據時）分類。
 3. 先保留原始 Tag。只有單義、可驗證的別名才加入受控詞彙；跨義詞與來源專有名稱不硬塞進 Domain。
 4. `scripts/tag-taxonomy-core.mjs` 從六類 Canonical 產出 `data/tag-index-v1.json`，每筆包含 `normalized: [{id,dimension,sourceTags}]` 與 `unmapped`。後者仍能從 Canonical Search 找到。
-5. 新增或實質改寫的紀錄，`intakeReview.tagReview` 要註記所有 Tag 已匹配、未匹配但保留、或候選新增詞彙的理由；透過共用 Intake Gate 檢查。
+5. 新建、實質改寫或增加 Tags，`intakeReview.tagReview` 必須記錄決策；新增加的每個未匹配 Tag 需填 `unmappedJustifications` 逐項說明。單純移除或合併舊 Tags、等價別名替換可免完整重審。
 6. `node scripts/build-v2.mjs` 會重建 Tag Index；`node scripts/validate-v2.mjs`、`node --test scripts/test-tag-taxonomy.mjs` 必須一致。不得手動改生成索引代替 Canonical 更新。
 
 ## 規模與尚未完成的內容

@@ -9,7 +9,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {resolve, dirname} from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
-import {normalizeTags} from './tag-taxonomy-core.mjs';
+import {normalizeTags,normalizeTagKey,vocabularyIndex} from './tag-taxonomy-core.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const types={resources:'resource',skills:'skill',concepts:'concept',prompts:'prompt',combinations:'combination',workflows:'workflow'};
@@ -27,7 +27,18 @@ export function isContentChange(before,after){
  };
  return !isDeepStrictEqual(stripped(before),stripped(after));
 }
-export function reviewErrors(x,mode='new',taxonomy=null){
+/** Preserve legacy Tag cleanup, but require review for extra or new Tags. */
+export function needsTagReview(before,after,taxonomy){
+ if(!before)return true;
+ const lookup=vocabularyIndex(taxonomy);
+ const stable=tags=>new Set((tags||[]).map(raw=>{
+  const key=normalizeTagKey(raw);
+  return lookup.get(key)?.id||'raw:'+key;
+ }));
+ const prior=stable(before.tags);
+ return [...stable(after.tags)].some(key=>!prior.has(key))||(after.tags||[]).length>(before.tags||[]).length;
+}
+export function reviewErrors(x,mode='new',taxonomy=null,previous=null){
  const problems=[],flag=(ok,label)=>{if(!ok)problems.push(label);};
  const type=x?.entityType, c=x?.classification, r=x?.intakeReview;
  flag(Object.values(types).includes(type),'entityType must be canonical');
@@ -55,11 +66,26 @@ export function reviewErrors(x,mode='new',taxonomy=null){
  const tagReview=r.tagReview;
  flag(['all-mapped','retain-unmapped','new-vocabulary-proposed'].includes(tagReview?.decision),'tagReview.decision required');
  flag(nonempty(tagReview?.reason),'tagReview.reason too short');
+ flag(Array.isArray(x.tags),'tags must be an array');
  if(taxonomy&&Array.isArray(x.tags)){
   const normalized=normalizeTags(x.tags,taxonomy);
   if(tagReview?.decision==='all-mapped')flag(normalized.unmapped.length===0,'all-mapped conflicts with unmapped Tags');
   if(tagReview?.decision==='retain-unmapped')flag(normalized.unmapped.length>0,'retain-unmapped requires unresolved Tags');
-  if(tagReview?.decision==='new-vocabulary-proposed')flag(normalized.unmapped.length>0,'new-vocabulary-proposed requires unresolved Tags');
+  if(tagReview?.decision==='new-vocabulary-proposed'){
+   flag(normalized.unmapped.length>0,'new-vocabulary-proposed requires unresolved Tags');
+   flag(Array.isArray(tagReview.proposedTerms)&&tagReview.proposedTerms.length>0&&tagReview.proposedTerms.every(term=>normalized.unmapped.includes(term)),'proposedTerms must name unresolved Tags');
+  }
+  const previousRaw=new Set((previous?.tags||[]).map(normalizeTagKey));
+  const newlyUnmapped=normalized.unmapped.filter(raw=>mode==='new'||!previous||!previousRaw.has(normalizeTagKey(raw)));
+  for(const raw of newlyUnmapped)flag(nonempty(tagReview?.unmappedJustifications?.[raw]),'unmapped Tag needs individual justification: '+raw);
+  if(mode==='new'){
+   const lookup=vocabularyIndex(taxonomy),seen=new Set();
+   for(const raw of x.tags){
+    const key=normalizeTagKey(raw),id=lookup.get(key)?.id||'raw:'+key;
+    flag(!seen.has(id),'redundant normalized Tag: '+raw);
+    seen.add(id);
+   }
+  }
  }
  const reading=r.readingSpec, format=reading?.id;
  const allowedByType={resource:['repo','learning','standard'],skill:['skill'],prompt:['prompt'],concept:['standard'],workflow:['standard'],combination:['standard']};
@@ -88,10 +114,11 @@ export function reviewChanges(base,head,readCurrent,readBase,taxonomy){
  for(const path of changes){
   const current=readCurrent(path),previous=readBase(path);
   const contentChanged=isContentChange(previous,current);
-  const enforce=contentChanged||Boolean(current.intakeReview);
-  if(!enforce){outcomes.push({path,status:'unchanged-content-exempt'});continue;}
+  const tagReviewNeeded=needsTagReview(previous,current,taxonomy);
+  const enforce=contentChanged||tagReviewNeeded||Boolean(current.intakeReview);
+  if(!enforce){outcomes.push({path,status:'legacy-classification-or-tag-cleanup-exempt'});continue;}
   const status=previous?'update':'new';
-  const issues=reviewErrors(current,status,taxonomy);
+  const issues=reviewErrors(current,status,taxonomy,previous);
   if(issues.length)errors.push(...issues.map(msg=>path+': '+msg));
   outcomes.push({path,status:issues.length?'FAIL':'PASS',changeType:status});
  }
