@@ -60,6 +60,7 @@
 - `kkkkhazix-khazix-skills`（Resource／Skill）只有「多種 AI Skills」，保留 `needs-review`，不推測用途。
 - 反思／個人成長及教學資源不一定吻合現有十種 Domain：先保留資料，不硬新增頂層分類。
 - 這一輪沒有對 548 筆逐一進行上游原始來源查核、安裝測試或可用性驗證；下一階段 Resources／Skills／Prompts 內容規格重寫時需補做。
+- `april-zhu-minicharts` 由資料轉成互動圖表，Primary 為 `design`，`data` 是有直接輸入與資料轉換證據的合理 Secondary；回歸測試允許**逐案明列**的 Secondary，而非一律禁止舊 Primary 變成 Secondary。
 - `data/classification-regression-v1.json` 保存前次 `grill-me` 與本次高信心錯例，後續 CI 會偵測回歸。關鍵字只能提出候選，不代表語意驗證。
 
 ## 自動驗證
@@ -68,3 +69,7 @@
 - `scripts/test-taxonomy-v1.mjs`：確認修正案例的 ID、Primary、Secondary 與 evidence 欄位。
 - `scripts/validate-v2.mjs`：驗證 Catalog／Canonical、Tag Index、Knowledge Graph 與 Typed Refs；以實際 CI 狀態為準。
 
+
+## 後續新增資料防誤判
+
+分類器新增以 `purpose`／`goal`／`coreProblem`／`problem` 為依據的少量高辨識度用途候選，目的為避免將工具環境（Agent、MCP、Provider 名稱）誤當問題領域；當用途候選和原始關鍵字排名不一致時，仍標記 `needs-review`，不得宣稱來源已驗證。新增跨六個 Domain 的 Synthetic Regression Cases。分類必須配合來源及使用者的真實目標覆核；字面規則不是完備語意模型。

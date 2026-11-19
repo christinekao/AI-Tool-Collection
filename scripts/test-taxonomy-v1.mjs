@@ -90,8 +90,25 @@ test('Intent-first corrections remain valid and new sources are not silently rec
   const x=read(entry.path);
   assert.equal(x.id,entry.id);assert.equal(x.entityType,entry.entityType);
   assert.equal(x.classification.primaryDomain,entry.to,entry.path+' primary');
-  assert.ok(!x.classification.secondaryDomains.includes(entry.from),entry.path+' obsolete secondary');
+  assert.ok(!x.classification.secondaryDomains.includes(entry.from)||(entry.allowedSecondaryDomains||[]).includes(entry.from),entry.path+' obsolete secondary');
   assert.equal(classifyRecord(x).primaryDomain,entry.to,entry.path+' reviewed intent');
   assert.ok(entry.evidenceFields.every(field=>x[field]!==undefined),entry.path+' evidence');
+ }
+});
+
+test('Core user outcome can outweigh the name of an Agent or MCP wrapper',()=>{
+ const examples=[
+  ['security','AI Agent Sandbox','Restrict filesystem and network access to protect credentials'],
+  ['business','AI Quant Agent','Backtest trading strategies and manage order execution risk'],
+  ['career','MCP Agent Job Finder','Provide job search, application tracking, and CV tailoring'],
+  ['content','Video Agent Framework','Generate videos from scripts, storyboards and final clips'],
+  ['software','AI Reverse Engineering Agent','Reconstruct software behavior from binary artifacts'],
+  ['design','Agent UI Component Skill','Build interactive UI components for web applications'],
+  ['ai-agent','Agent Skill Directory','Search and compare Agent Skills, checking maintenance and installation risks']
+ ];
+ for(const [expected,title,purpose] of examples){
+  const x={entityType:'resource',id:'new-example-without-existing-override',title,purpose,tags:['ai-agent','mcp'],classification:undefined};
+  const classified=classifyRecord(x);
+  assert.equal(classified.primaryDomain,expected,title+' primary based on the user problem');
  }
 });
