@@ -13,8 +13,8 @@
 | 若 Batch 10 合併並成功驗收 | **200 / 270 已完成，剩餘 70** |
 | Batch 10 Branch | `resource-content-batch10-20261120` |
 | 分支最新寫入時的 Commit | `c79fc45eb49362272b473cd7876a2e153d20aaad`（報告已寫入；後續 SHA 應再次確認） |
-| Batch 10 PR | 待建立；必須查最新 GitHub PR 更新此狀態 |
-| Batch 10 CI | **PENDING／未確認**（不能引用 Batch 09 或 PR #33 的檢查） |
+| Batch 10 PR | [#34](https://github.com/christinekao/AI-Tool-Collection/pull/34) — OPEN，尚未合併 |
+| Batch 10 CI | **SUCCESS（PR 原 Head 08a75b5）**：Intake [44698833365](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698833365)、V2 Validate [44698833459](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698833459)、P1 Graph [44698833474](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698833474)；本交接更新產生新 SHA，仍須確認最新 PR Head 的 checks |
 | Batch 10 Pages Deployment / Live Smoke | **NOT TESTED**，只可在合併後確認 |
 | 下一批 | Batch 11 **未開始**；Batch 10 合併後再選取剩餘 70 筆中的 20 筆 |
 
@@ -70,9 +70,9 @@
 | --- | --- | --- |
 | Canonical ID／不變欄位／Catalog Projection | **PASS（記憶體檢查）** | PR 上核對 Canonical Diff，20 個 IDs 不重複 |
 | Graph Node Projection | **PASS（記憶體檢查）** | PR V2 Validate 正式重跑 |
-| Unified Intake Gate | **PENDING** | PR 建立後查 workflow Run 的實際結論 |
-| V2 Data Validate／Taxonomy／Tag Index | **PENDING** | PR 建立後確認一致性檢查 |
-| P1 Graph Unit Tests | **PENDING** | PR 建立後確認實際測試 |
+| Unified Intake Gate | **SUCCESS** — [Run 44698833365](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698833365) | 新 Head 再確認 |
+| V2 Data Validate／Taxonomy／Tag Index | **SUCCESS** — [Run 44698833459](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698833459) | 新 Head 再確認 |
+| P1 Graph Unit Tests | **SUCCESS** — [Run 44698833474](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698833474) | 新 Head 再確認 |
 | V2 Catalog Sync | **NOT TESTED** | 合併後查 GitHub Actions 與是否新增同步 Commit |
 | Pages Build／Deploy | **NOT TESTED** | 合併後新 main SHA 對應 workflow |
 | Live Pages Smoke | **NOT TESTED** | 合併後新 main SHA 對應 workflow |
@@ -88,8 +88,8 @@ node scripts/check-intake-gate.mjs --base 3a17bff37776b2b462ace7625c09fde7360ca0
 ```
 
 ## 後續 Session 的第一個動作
-1. 查 `main` 的最新 SHA、Batch 10 PR 和 CI，**若本文件過期以 GitHub 為準**。
-2. 若 PR 尚未建立：從 `resource-content-batch10-20261120` 對 `main` 建立 PR，確保 20 Canonical + Catalog/Graph + Review Report + Handoff 同在 Diff。
+1. 查 `main` 的最新 SHA、[Batch 10 PR #34](https://github.com/christinekao/AI-Tool-Collection/pull/34) 和 CI，**若本文件過期以 GitHub 為準**。
+2. PR #34 已建立；先確認目前 Head／檢查結果、20 Canonical + Catalog/Graph + Review Report + Handoff 全在 Diff。
 3. 修正未通過 Gate，不可直接合併。完成獨立 Review 並看到必要 CI 通過才可合併；合併後檢查 Pages 與 Live Smoke，並將主分支進度及 PR／新 SHA／Run URLs 回寫**本交接檔**。
 4. 只有 Batch 10 合併驗收後，才從尚未審查的 70 個 Resource ID 中選 Batch 11 的 20 個；保持每批 20 筆、逐筆來源、獨立 Batch Report + 本滾動交接檔。
 5. 不修改分類架構、Raw Tags、Category、Typed References，禁止未授權安裝第三方程式或讀取憑證。
