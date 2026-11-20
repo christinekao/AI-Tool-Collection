@@ -6,14 +6,14 @@
   "canonicalName": "cloudflare/cloudflare-os",
   "category": "07 Security & Governance",
   "resourceType": "Security Architecture",
-  "purpose": "Gatekeeper、Agent credential isolation",
-  "recommendation": "適合研究 Gatekeeper 與 Agent credential isolation 的治理設計。",
-  "url": "",
-  "repo": "",
+  "purpose": "以 Cloudflare Workers 提供企業情境的 Agent 工作區：讓 Agent 使用公司知識、建立與分享小型 Gadgets，並透過 Gatekeepers 管理外部系統能力與核准邊界。",
+  "recommendation": "適合研究企業 AI 工作區與權限隔離的架構；先用官方本機體驗路徑理解 Agent、Gadgets 與 Gatekeepers，再評估企業整合、身分與資料隔離。",
+  "url": "https://github.com/cloudflare/cloudflare-os",
+  "repo": "cloudflare/cloudflare-os",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-20",
   "tags": [
     "security-architecture",
     "credentials",
@@ -46,6 +46,70 @@
       "purpose"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.3-semantic-audit"
+    "rulesVersion": "v0.3-semantic-audit",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "提供具組織知識脈絡的 Agent Chat 和可分享的小型應用 Gadgets。",
+    "以 Gatekeepers 對敏感能力加上核准與授權控制，而非讓 Agent 直接持有所有權限。",
+    "可透過 pnpm 本機執行於 wrangler/workerd，並有 Cloudflare 部署路徑。"
+  ],
+  "requirements": [
+    "本機快速體驗需依 README 準備 pnpm 及所需開發環境；正式部署需 Cloudflare 帳號與設定。",
+    "整合公司系統時須完成權限、OAuth／Gatekeeper、資料分類及操作核准設計。"
+  ],
+  "limitations": [
+    "README 明確將本機 quick start 視為非正式環境，不能直接等同正式環境安全保證。",
+    "Agent 執行與跨系統整合仍可能帶來授權、敏感資料、成本與操作副作用，需另做安全審查。"
+  ],
+  "source": {
+    "url": "https://github.com/cloudflare/cloudflare-os",
+    "readmeUrl": "https://github.com/cloudflare/cloudflare-os/blob/main/README.md",
+    "reviewedAt": "2026-11-20",
+    "type": "Official upstream README / documentation",
+    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+    },
+    "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+    },
+    "riskNotes": "README 明確將本機 quick start 視為非正式環境，不能直接等同正式環境安全保證。；Agent 執行與跨系統整合仍可能帶來授權、敏感資料、成本與操作副作用，需另做安全審查。；未執行第三方程式、未取用憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+    }
   }
 }

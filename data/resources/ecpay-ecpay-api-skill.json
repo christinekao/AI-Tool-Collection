@@ -6,14 +6,14 @@
   "canonicalName": "ECPay/ECPay-API-Skill",
   "category": "06 Skills",
   "resourceType": "Domain Skill",
-  "purpose": "API documentation → Agent 可用整合知識",
-  "recommendation": "適合把 API 文件轉成 Agent 可用的整合知識。",
-  "url": "",
-  "repo": "",
+  "purpose": "綠界官方提供給 Coding Agent 的 API 整合知識 Skill，涵蓋金流、物流、電子發票、加解密、Callback 驗證、錯誤排查及上線檢查。",
+  "recommendation": "適合在建立台灣電商串接時用作文件索引與程式碼範本；先鎖定服務與協定、核對即時官方 API 規格、於測試環境驗證，再交由工程／資安人員審查正式金流。",
+  "url": "https://github.com/ECPay/ECPay-API-Skill",
+  "repo": "ECPay/ECPay-API-Skill",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-20",
   "tags": [
     "api",
     "documentation",
@@ -46,6 +46,70 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.2-review"
+    "rulesVersion": "v0.2-review",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "依金流、發票、物流等服務提供可供 Agent 參照的指南、範例和快捷指令。",
+    "提供即時官方 API 文件網址索引及多語言加密實作參考。",
+    "含測試帳號、錯誤碼、Callback／簽章差異與上線前檢查指引。"
+  ],
+  "requirements": [
+    "需有支援讀取 Skill 或 Instructions 的 Coding Agent，依不同平台安裝並確認指令檔載入。",
+    "正式整合前確認 ECPay 商家資格、服務啟用、環境、協定及正確 HashKey／HashIV 管理。"
+  ],
+  "limitations": [
+    "不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。",
+    "README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。"
+  ],
+  "source": {
+    "url": "https://github.com/ECPay/ECPay-API-Skill",
+    "readmeUrl": "https://github.com/ECPay/ECPay-API-Skill/blob/master/README.md",
+    "reviewedAt": "2026-11-20",
+    "type": "Official upstream README / documentation",
+    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+    },
+    "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+    },
+    "riskNotes": "不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。；README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。；未執行第三方程式、未取用憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+    }
   }
 }

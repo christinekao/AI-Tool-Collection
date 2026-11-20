@@ -39,7 +39,10 @@
     "全儲存庫及 Commit 掃描",
     "漏洞調查與驗證",
     "提供建議 Patch 與 PR 供人工審查",
-    "Cloud／Plugin／CLI／SDK 不同工作模式"
+    "Cloud／Plugin／CLI／SDK 不同工作模式",
+    "依專案 Threat Model、信任邊界和攻擊面分析 GitHub Repository 或特定 Commit 的可能漏洞。",
+    "調查與驗證疑似漏洞，並提供具證據的修補建議交由開發者審查。",
+    "可依方案透過 Daybreak Defense Factory、Codex Plugin、CLI 或 SDK 參與掃描流程。"
   ],
   "tags": [
     "codex-security",
@@ -59,14 +62,16 @@
       "https://learn.chatgpt.com/docs/security",
       "https://openai.com/business/plugins/codex-security/"
     ],
-    "reviewedAt": "2026-11-05",
-    "type": "Official OpenAI Help Center, Learn docs and product page"
+    "reviewedAt": "2026-11-20",
+    "type": "Official product / documentation",
+    "readmeUrl": "https://help.openai.com/en/articles/20001107-codex-security",
+    "reviewScope": "Documentation-level only; no installation, execution or security audit"
   },
   "schemaVersion": 2,
   "entityType": "resource",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-20",
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
   "classification": {
@@ -81,6 +86,58 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "service",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "requirements": [
+    "使用前確認適用的 ChatGPT 方案、研究預覽資格及已授權的 Repository／目錄存取。",
+    "開始掃描前核對保密政策、工作區授權、Token 計費與掃描邊界；修補需另跑測試及人工 Review。"
+  ],
+  "limitations": [
+    "掃描可能有誤判或漏報，結果不可取代人工安全審核、依賴掃描與滲透測試。",
+    "不同 Cloud／Plugin／CLI 模式的權限與價格不一定相同；Cloud 有啟用計費條件且不能推定免費或永久可用。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Category、Tags、Typed References，無新詞彙。"
+    },
+    "classificationReason": "保留現有 Domain 與分類；只註明來源形式並增補實際前提與限制。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依一般 Resource 內容規格閱讀官方網站與使用／安全限制；不宣稱程式執行已驗證。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅有官方文件敘述，沒有版本化與可測試的 I/O 契約。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept，不自動新增相關連線。"
+    },
+    "riskNotes": "掃描可能有誤判或漏報，結果不可取代人工安全審核、依賴掃描與滲透測試。；不同 Cloud／Plugin／CLI 模式的權限與價格不一定相同；Cloud 有啟用計費條件且不能推定免費或永久可用。；沒有使用憑證或執行任何第三方服務。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+    }
   }
 }
