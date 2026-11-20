@@ -60,3 +60,19 @@
 1. 先閱讀 [最新 Session Handoff](RESOURCE_CONTENT_HANDOFF.md)，取得當前 `main`、PR 與新 SHA；確定本批 CI 與部署 Gate 真實結果。
 2. **只有合併 Batch 10 後**才將累計標為 200 / 270，並從剩下的 70 個未審查 Resources 選 Batch 11 的 20 個 ID。
 3. 繼續保留既有詳細材料、來源權限與限制；不要因某一個原始 README 不可讀而用推測資訊覆蓋。
+
+## 合併後正式 Release Gate（2026-11-20）
+
+- **PR #34：已合併**：https://github.com/christinekao/AI-Tool-Collection/pull/34
+- Batch 10 內容合併 SHA：`597fb894c528cb976e6bb6641e2fce895712ecce`；20 個 Resource 的正式 main 進度更新為 **200 / 270，剩餘 70**。
+- PR 最新 Head `bdf290169b7be33b064d82e864cae85295ee77e1`：
+  - [Unified Intake Gate — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970866)
+  - [V2 Data Validate — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970842)
+  - [P1 Graph Unit Tests — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970837)
+- 合併後原內容 SHA `597fb894...` 的主分支驗證：
+  - [Unified Intake Gate — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148380)
+  - [V2 Data Validate — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148369)
+  - [V2 Catalog Sync — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148381)
+  - [Pages Build & Deployment — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699147433)
+  - [Live Pages Smoke — SUCCESS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148327)
+- 上述 PASS 僅證明本專案的 CI、派生資料與公開頁面 Gate；**第三方工具 Runtime、Security、License、Integration 仍為 NOT TESTED**。
