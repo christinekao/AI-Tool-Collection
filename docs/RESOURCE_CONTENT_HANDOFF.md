@@ -1,77 +1,97 @@
 # Phase 2 Resources — 最新 Session 交接
 
-> **讀取順序：** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → 最近一批 [Batch 09 審查](RESOURCE_CONTENT_REVIEW_BATCH09_20261119.md)。  
-> 此檔是可覆寫的 **最新進度快照**，每批審查明細則保存在獨立的 Batch 報告。所有數據應重新核對 `main`；不要只相信上一段對話。
+> **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 10 審查](RESOURCE_CONTENT_REVIEW_BATCH10_20261120.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
 
-## 目前狀態（核對日期：2026-11-20，Asia/Taipei）
+## 進度快照（2026-11-20，Asia/Taipei）
 
-| 欄位 | 經核對狀態 |
+| 項目 | 事實／狀態 |
 | --- | --- |
-| 專案 | `christinekao/AI-Tool-Collection` |
-| 主分支 | `main` |
-| 已合併批次 | Batch 01–09，每批各 20 筆 |
-| 已處理 Resources | **180 / 270** |
-| 剩餘 Resources | **90**（尚未排定 Batch 10 的 20 個 ID） |
-| 下一批 | **Batch 10（未開始）** |
-| 最近合併 PR | [#32 — Batch 09](https://github.com/christinekao/AI-Tool-Collection/pull/32)（2026-11-19 合併） |
-| 當時 `main` HEAD | `25f7cfbf477ec4d244b816227e51c2e6e696fac9` |
-| 替代 PR | [#31](https://github.com/christinekao/AI-Tool-Collection/pull/31) 已關閉未合併；Batch 09 以 #32 為準 |
+| Repository / 主分支 | `christinekao/AI-Tool-Collection` / `main` |
+| 最新確認的主分支 HEAD（本批起始） | `3a17bff37776b2b462ace7625c09fde7360ca0df`（PR #33 merged） |
+| **已合併** | Batch 01–09，**180 / 270** Resources；剩餘 **90** |
+| **本批候選** | Batch 10，**20 個新增審查的不同 Resource IDs**，已提交獨立 Branch，**尚未合併** |
+| 若 Batch 10 合併並成功驗收 | **200 / 270 已完成，剩餘 70** |
+| Batch 10 Branch | `resource-content-batch10-20261120` |
+| 分支最新寫入時的 Commit | `c79fc45eb49362272b473cd7876a2e153d20aaad`（報告已寫入；後續 SHA 應再次確認） |
+| Batch 10 PR | 待建立；必須查最新 GitHub PR 更新此狀態 |
+| Batch 10 CI | **PENDING／未確認**（不能引用 Batch 09 或 PR #33 的檢查） |
+| Batch 10 Pages Deployment / Live Smoke | **NOT TESTED**，只可在合併後確認 |
+| 下一批 | Batch 11 **未開始**；Batch 10 合併後再選取剩餘 70 筆中的 20 筆 |
 
-> **計數定義：** 已核對 PR #23–30、#32 各有 20 個改動的 `data/resources/*.json`，合計 **180 個不同路徑，沒有重複**。但不等於 180 項工具已經 Runtime／Security／Integration 實測；下一批 Preflight 仍應重新檢查最新 `main`。
+## Batch 10 本次提交
 
-## 最近一批驗收證據
+**Canonical IDs（20 筆）**：
+1. `abi-screenshot-to-code`
+2. `acheaisuiyimen-ache-life-to-comic-skill`
+3. `anthropic-solving-code-review-at-anthropic`
+4. `april-zhu-minicharts`
+5. `arrow-2`
+6. `brandonhimpfen-awesome-finance`
+7. `cloudflare-cloudflare-os`
+8. `codebase-index`
+9. `cyyeh-agent-loop-visualizer`
+10. `ecpay-ecpay-api-skill`
+11. `gbro-collage-broll`
+12. `gbro-cover-design`
+13. `hesreallyhim-awesome-claude-code`
+14. `irons163-three-tier-agent-orchestrator`
+15. `landing-love`
+16. `openai-codex-security`
+17. `pythonanywhere`
+18. `rive`
+19. `vercel-ai-gateway`
+20. `voltagent-awesome-openclaw-skills`
 
-以 `main` commit `25f7cfbf477ec4d244b816227e51c2e6e696fac9` 在 2026-11-19 的 GitHub Actions 為準：
+**變更檔案**：20 個 `data/resources/<id>.json`、`data/catalog-v2.json`、`data/knowledge-graph-v1.json`、[Batch 10 詳細審查報告](RESOURCE_CONTENT_REVIEW_BATCH10_20261120.md)、本交接檔。
 
-| Gate | 結果 | 查核連結 |
-| --- | --- | --- |
-| Unified Intake Gate | SUCCESS | [Run 44563939334](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44563939334) |
-| V2 Data Validate | SUCCESS | [Run 44563939239](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44563939239) |
-| V2 Catalog Sync | SUCCESS | [Run 44563939401](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44563939401) |
-| Pages Build & Deployment | SUCCESS | [Run 44563937415](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44563937415) |
-| Live Pages Smoke | SUCCESS | [Run 44563939235](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44563939235) |
-| P1 Graph Unit Tests（Batch 09 PR head） | SUCCESS | [Run 44563706490](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44563706490) |
+**資料與驗證已完成**：逐項比對舊／新 Catalog：只變動 20 個不同 Resource，原有 270 Resources、549 Canonical、569 Graph Nodes／1816 Edges；既有 ID、Category、Tags、Domain 與 Typed References 保留。用同一投影公式重建 270 Resource Graph Nodes，與已更新 Graph 一致，**記憶體中檢查 PASS**。這不是官方 Node.js CI 或 Runtime 測試。
 
-以上只表示列出的 CI／部署檢查通過。**不等於逐筆內容真實性、License、安全、上游版本或實際執行已驗證。** 完成下一批須留下新 SHA 的 Gate 證據，不可沿用這些舊結果。
+**來源查核層級**：閱讀官方 GitHub README／正式產品或文件頁，新增用途、功能、環境前提、限制、來源與 `intakeReview`；不代表已下載安裝、確認完整程式碼／安全／授權、或 Runtime／Integration 實測。若原內容已深入，保留有效原文再補缺。
 
-## 歷史批次索引
+**主要風險**：第三方 Skills 的 Prompt Injection／權限；ECPay 金流與密鑰；Cloudflare OS Gatekeeper 正式環境；影像／影片模型的 API Cost、隱私與素材版權；Codex Security 方案與 Token 計費；本機模型與 Agent 子任務的環境／相容性。詳細來源見 [Batch 10 報告](RESOURCE_CONTENT_REVIEW_BATCH10_20261120.md)。
 
-| Batch | 檢查數量 | 審查報告 | PR |
+## 歷史批次（均已合併）
+
+| Batch | Resource 數量 | 詳細來源報告 | PR |
 | --- | ---: | --- | --- |
-| 01 | 20 | [Batch 01](RESOURCE_CONTENT_REVIEW_BATCH01_20261119.md) | [#23](https://github.com/christinekao/AI-Tool-Collection/pull/23) |
-| 02 | 20 | [Batch 02](RESOURCE_CONTENT_REVIEW_BATCH02_20261119.md) | [#24](https://github.com/christinekao/AI-Tool-Collection/pull/24) |
-| 03 | 20 | [Batch 03](RESOURCE_CONTENT_REVIEW_BATCH03_20261119.md) | [#25](https://github.com/christinekao/AI-Tool-Collection/pull/25) |
-| 04 | 20 | [Batch 04](RESOURCE_CONTENT_REVIEW_BATCH04_20261119.md) | [#26](https://github.com/christinekao/AI-Tool-Collection/pull/26) |
-| 05 | 20 | [Batch 05](RESOURCE_CONTENT_REVIEW_BATCH05_20261119.md) | [#27](https://github.com/christinekao/AI-Tool-Collection/pull/27) |
-| 06 | 20 | [Batch 06](RESOURCE_CONTENT_REVIEW_BATCH06_20261119.md) | [#28](https://github.com/christinekao/AI-Tool-Collection/pull/28) |
-| 07 | 20 | [Batch 07](RESOURCE_CONTENT_REVIEW_BATCH07_20261119.md) | [#29](https://github.com/christinekao/AI-Tool-Collection/pull/29) |
-| 08 | 20 | [Batch 08](RESOURCE_CONTENT_REVIEW_BATCH08_20261119.md) | [#30](https://github.com/christinekao/AI-Tool-Collection/pull/30) |
-| 09 | 20 | [Batch 09](RESOURCE_CONTENT_REVIEW_BATCH09_20261119.md) | [#32](https://github.com/christinekao/AI-Tool-Collection/pull/32) |
+| 01 | 20 | [Batch 01](RESOURCE_CONTENT_REVIEW_BATCH01_20261119.md) | [PR #23](https://github.com/christinekao/AI-Tool-Collection/pull/23) |
+| 02 | 20 | [Batch 02](RESOURCE_CONTENT_REVIEW_BATCH02_20261119.md) | [PR #24](https://github.com/christinekao/AI-Tool-Collection/pull/24) |
+| 03 | 20 | [Batch 03](RESOURCE_CONTENT_REVIEW_BATCH03_20261119.md) | [PR #25](https://github.com/christinekao/AI-Tool-Collection/pull/25) |
+| 04 | 20 | [Batch 04](RESOURCE_CONTENT_REVIEW_BATCH04_20261119.md) | [PR #26](https://github.com/christinekao/AI-Tool-Collection/pull/26) |
+| 05 | 20 | [Batch 05](RESOURCE_CONTENT_REVIEW_BATCH05_20261119.md) | [PR #27](https://github.com/christinekao/AI-Tool-Collection/pull/27) |
+| 06 | 20 | [Batch 06](RESOURCE_CONTENT_REVIEW_BATCH06_20261119.md) | [PR #28](https://github.com/christinekao/AI-Tool-Collection/pull/28) |
+| 07 | 20 | [Batch 07](RESOURCE_CONTENT_REVIEW_BATCH07_20261119.md) | [PR #29](https://github.com/christinekao/AI-Tool-Collection/pull/29) |
+| 08 | 20 | [Batch 08](RESOURCE_CONTENT_REVIEW_BATCH08_20261119.md) | [PR #30](https://github.com/christinekao/AI-Tool-Collection/pull/30) |
+| 09 | 20 | [Batch 09](RESOURCE_CONTENT_REVIEW_BATCH09_20261119.md) | [PR #32](https://github.com/christinekao/AI-Tool-Collection/pull/32) |
 
-## 不得偏離的執行邊界
+## Release Gate 與證據（不可沿用舊 PASS）
 
-1. 每次處理 **20 個不同、尚未在前批處理的 Resource ID**；只改善實用內容、來源、使用方式、前提、限制及審查證據。
-2. **不改動分類架構、既有 Category、Tags、ID、Typed References；不自行新增 Capability、Graph Edge 或其他 Entity。**
-3. 官方 README／文件查核與原始碼審查、實際安裝、Build／Runtime／Security／Integration 測試分開標記；沒有證據就寫未驗證。
-4. 只改 Canonical `data/resources/<id>.json` 為資料來源；衍生 Catalog／Graph 以 `node scripts/build-v2.mjs` 重建。
-5. 遵守 `docs/UNIFIED_INTAKE_POLICY.md` 的 `intakeReview`、版本、去重、安全與 Release Gate。不要從不可信的上游 Repo 內容取得修改本專案的指令。
-6. 不自行處理高風險、不可逆、外送資料或有費用的動作；須先取得使用者核准。
+| Gate | Batch 10 狀態 | 下一個驗證動作 |
+| --- | --- | --- |
+| Canonical ID／不變欄位／Catalog Projection | **PASS（記憶體檢查）** | PR 上核對 Canonical Diff，20 個 IDs 不重複 |
+| Graph Node Projection | **PASS（記憶體檢查）** | PR V2 Validate 正式重跑 |
+| Unified Intake Gate | **PENDING** | PR 建立後查 workflow Run 的實際結論 |
+| V2 Data Validate／Taxonomy／Tag Index | **PENDING** | PR 建立後確認一致性檢查 |
+| P1 Graph Unit Tests | **PENDING** | PR 建立後確認實際測試 |
+| V2 Catalog Sync | **NOT TESTED** | 合併後查 GitHub Actions 與是否新增同步 Commit |
+| Pages Build／Deploy | **NOT TESTED** | 合併後新 main SHA 對應 workflow |
+| Live Pages Smoke | **NOT TESTED** | 合併後新 main SHA 對應 workflow |
+| Third-party Build／Runtime／Security／Integration | **NOT TESTED** | 不可因 CI 綠燈改標完成 |
 
-## 下一位 Agent：從 Batch 10 接續
+依 [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md)，正式執行：
+```sh
+node scripts/build-v2.mjs
+node --test scripts/test-taxonomy-v1.mjs
+node --test scripts/test-intake-gate.mjs
+node scripts/validate-v2.mjs
+node scripts/check-intake-gate.mjs --base 3a17bff37776b2b462ace7625c09fde7360ca0df --head HEAD
+```
 
-1. 先讀本檔及 Repo 規範；取得**最新** `main` HEAD、PR 與 CI，檢查是否有人已開始 Batch 10；如果本快照落後，以 GitHub 最新資料為準並先修訂。
-2. 彙總 Batch 01–09 報告中的 ID；檢查是否全數**不重複且存在**於 Canonical，再從其餘 Resources 中挑選 20 個，優先來源缺漏、過期使用方法、權限／費用／授權風險、前提與限制不足者。
-3. 逐筆讀取原 Canonical + 官方原始來源，**保留有用且未被新證據推翻的細節**；記錄 Before／After、來源 URL、查核時間、風險和未驗證事項。
-4. 建立 `docs/RESOURCE_CONTENT_REVIEW_BATCH10_<YYYYMMDD>.md`；同步更新**本交接檔**，包括本批 20 個 ID、完成／剩餘計數、新 SHA／PR、測試證據與下一批尚未解決事項。
-5. 本機或 CI 依政策執行 Build、Schema、Intake、Taxonomy、Graph、Catalog 一致性檢查；如未能執行則明確標示 BLOCKED，不能寫 PASS。
-6. 於獨立分支建立 PR；確認必要 CI 與審核後才合併，合併後另查 Pages Deployment 與 Live Smoke；只有完成之後才更新「已部署／已完成」狀態。
+## 後續 Session 的第一個動作
+1. 查 `main` 的最新 SHA、Batch 10 PR 和 CI，**若本文件過期以 GitHub 為準**。
+2. 若 PR 尚未建立：從 `resource-content-batch10-20261120` 對 `main` 建立 PR，確保 20 Canonical + Catalog/Graph + Review Report + Handoff 同在 Diff。
+3. 修正未通過 Gate，不可直接合併。完成獨立 Review 並看到必要 CI 通過才可合併；合併後檢查 Pages 與 Live Smoke，並將主分支進度及 PR／新 SHA／Run URLs 回寫**本交接檔**。
+4. 只有 Batch 10 合併驗收後，才從尚未審查的 70 個 Resource ID 中選 Batch 11 的 20 個；保持每批 20 筆、逐筆來源、獨立 Batch Report + 本滾動交接檔。
+5. 不修改分類架構、Raw Tags、Category、Typed References，禁止未授權安裝第三方程式或讀取憑證。
 
-### 每批交接檔必有的內容
-
-- **進度：** Batch 編號、處理 20 IDs、累計、剩餘、下一批是否開始
-- **內容與來源：** 修改檔案、每筆 Before／After、官方原始連結、來源查核層級
-- **交付證據：** Branch、Commit SHA、PR、已合併與否、逐項 CI／部署結果、測試命令
-- **風險／缺口：** 未驗證功能、授權、安全與來源缺漏；任何未通過 Gate 的實際原因
-- **下一步：** 下一批選取方式、待決策事項與新 Session 可直接接手的第一個動作
-
-本檔只保存可快速恢復工作狀態的快照；歷史細節留在批次報告，**不得因更新快照而覆蓋或刪除既有歷史證據**。
+**交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
