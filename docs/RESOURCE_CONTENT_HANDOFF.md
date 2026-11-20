@@ -16,7 +16,52 @@
 | Batch 10 PR | [#34](https://github.com/christinekao/AI-Tool-Collection/pull/34) — **MERGED**（2026-11-20） |
 | Batch 10 PR Checks（Head `bdf2901`） | **SUCCESS**：Intake [44698970866](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970866)、V2 Validate [44698970842](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970842)、P1 Graph [44698970837](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970837) |
 | Batch 10 main Push／部署 | **SUCCESS**：Intake [44699148380](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148380)、V2 Validate [44699148369](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148369)、Catalog Sync [44699148381](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148381)、Pages [44699147433](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699147433)、Live Smoke [44699148327](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148327) |
-| 下一批 | **Batch 11 未開始**；從剩餘 70 筆選 20 筆，核對官方來源後提交獨立 PR 與交接報告 |
+| 目前工作 | **Batch 11（20 筆）已提交獨立 Branch，尚未合併**；main 仍是 200 / 270，成功合併後才更新至 220 / 270 |
+
+## Batch 11 進行中｜尚未合併
+
+> 此區是可供新 Session 直接接手的**候選分支**快照，不代表已部署。前十批仍為 main 上的最新正式進度。
+
+| 欄位 | 值 |
+| --- | --- |
+| Base main SHA | `b117d42357ca44d8c7a1be7e6c30c05f30647c51` |
+| Branch | `resource-content-batch11-20261120` |
+| PR / Head Commit | **尚未建立 PR**；每次接手先查 GitHub 最新 Head |
+| Scope | 20 Canonical Resource + generated Catalog／Graph + [Batch 11 審查報告](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md) + 本 Handoff |
+| 正式已合併數量 | **200 / 270**（剩餘 70） |
+| Candidate 合併後 | **220 / 270**（剩餘 50） |
+| 檔案和 Graph 投影檢查 | **PASS（分支記憶體比較）**：20 不重複、270 Resources、549 Canonical、569 Graph Nodes／1816 Edges，保留 ID／Title／Category／Tags／Domain／Typed References |
+| PR Intake／V2 Validate／P1 Graph | **PENDING**；尚未取得本分支 CI 結果 |
+| Main Push／Catalog Sync／Pages／Live Smoke | **NOT TESTED**；只有合併後才能核對本批新 SHA |
+| Third-party Runtime／Security／License／Integration | **NOT TESTED**；不可寫 PASS |
+
+**Batch 11 的 20 個 Resource ID：**
+1. `ayueh0102-ronnier-skill`
+2. `bencho`
+3. `bobyu89-codex-ppt-style-expanded`
+4. `bruiandy-claude-obsidian`
+5. `chatcut`
+6. `dslab-lessons`
+7. `engineering-leadership-adobe-tech-lead-ai`
+8. `google-stitch`
+9. `herdr-mods-gallery`
+10. `kkkkhazix-khazix-skills`
+11. `mukul975-anthropic-cybersecurity-skills`
+12. `omniroute`
+13. `skillry-web-design-template-skills`
+14. `tip31812-ai-usage-bar`
+15. `tradingview-pine-screener-strategy-tester`
+16. `typesafe-ai-jev`
+17. `vercel-skills-sh`
+18. `vulture-s-whisper-guard`
+19. `yanliudesign-mono-color-skill`
+20. `zenbuapps`
+
+**Source Reviewed 範圍：** 官方 GitHub README、第一方網站、原始文章及產品文件（詳細原始連結見 [Batch 11 報告](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md)）；沒下載執行第三方 Skill 或登入第三方服務。保留既有深入技術內容，補使用方式、至少兩項前提與限制。
+
+**目前風險：** `tip31812-ai-usage-bar` 的 Keychain／本機對話紀錄／非公開 API；第三方資安與本機檔案操作 Skills；AI 影像影音與模型服務費用；商業 SaaS 個資；TradingView 回測。上游可執行指令不作為本專案授權指示。
+
+**接手第一動作：** 確認 Branch Head、main SHA、是否有人已建立 Batch 11 PR；如果未建立，用上述 Branch 對 main 建立 PR，等待三個必要 CI；確認有無邊界修改再合併；合併後檢查 Pages 與 Smoke，最後更新本檔為正式 220/270。不得在本批未完成之前挑選 Batch 12。
 
 ## Batch 10 已完成交付
 
@@ -89,10 +134,9 @@ node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 ```
 
 ## 後續 Session 的第一個動作
-1. 核對最新 `main` SHA 是否仍為 `597fb894...` 或已有後續提交，以及其他 Agent 是否已開始 Batch 11；本交接為 2026-11-20 快照，最新 GitHub 資訊優先。
-2. 從前十批合併 PR #23–30、#32、#34 共 200 個 `data/resources/*.json` 排除已審查 ID，確認沒有重複。從剩餘 **70** 筆選取 Batch 11 的 **20** 筆，優先來源缺漏、過時版本、實作前提及授權安全限制。
-3. 查閱既有 Canonical 與官方來源，保留完整且有用的舊描述；僅修改用途、功能、使用條件、限制、來源與 `intakeReview`。**不得修改** ID、Category、Tags、Primary Domain、Typed References 或自動建立 Capability／Graph Edge。
-4. 產出 `docs/RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md`（逐筆 Before／After、來源）與更新本 Handoff（新 SHA、PR、逐項 Gate、剩餘進度、下一個第一動作），在獨立 Branch 提交並跑 Node.js/CI 驗證。
-5. PASS 後合併，另外核對 main Push、Pages Build、Live Smoke；不合併未完成 Gate 的 Batch。不能把 Source Reviewed 當第三方程式 Runtime／Security PASS。
+1. 優先讀取上方的 **Batch 11 進行中**狀態與 [Batch 11 詳細審查](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md)，再核對 GitHub 最新 main／PR／Actions。
+2. Batch 11 完成前不可開始 Batch 12。先完成 PR、三項 CI、合併與 Pages／Live Smoke 驗證，並更新本 Handoff 的 PR、SHA 與正式累計。
+3. 只有 Batch 11 合併後，才由剩餘 **50** 筆中挑 Batch 12 的 20 筆；繼續保留每批詳細報告與本交接快照。
+4. 永遠保留原始分類、Tags、Typed References、個資與不可逆操作邊界；第三方 Source Reviewed 不等於 Runtime／Security PASS。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
