@@ -1,6 +1,49 @@
 # Phase 2 Resources — 最新 Session 交接
 
-> **Session 順序**：先核對最新 GitHub main 與 PR／CI，然後閱讀 [AGENTS.md](../AGENTS.md)、[Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) 及 [Batch 14 詳細報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261121.md)。不能把前一段對話當作部署或測試證據。
+> **Main-first Handoff**：本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 14 逐筆報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261121.md)。切換 Session 應再次核對 GitHub main／PR／Actions；勿把舊對話快照當即時證據。
+
+## Phase 2 Resources 內容審查完成（2026-11-21，Asia/Taipei）
+
+| 項目 | GitHub 實際驗收 |
+| --- | --- |
+| Repo / Main | `christinekao/AI-Tool-Collection` / `main` |
+| 正式進度 | **270/270 Resources（逐筆內容審查已執行 100%）**；Batch 01–13 各 20 筆、Batch 14 共 10 筆 |
+| Batch 14 PR | [#38](https://github.com/christinekao/AI-Tool-Collection/pull/38) — **MERGED** |
+| Base main SHA | `b332d6ebf768d74a932726a29d791d8e1527997a` |
+| Branch / PR Head | `resource-content-batch14-20261121` / `65fcbadc4ea972971c09a18f978c2e32ed468519` |
+| Merge SHA | `bc1be507ff4104aa324cb0831541f0dfe27e0dd9` |
+| 修改檔案 | 10 Canonical Resource + Generated Catalog／Graph + [Batch 14 報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261121.md) + Rolling Handoff（PR 共 14 個檔案） |
+| 不變的資料規模 | 270 Resources、549 Canonical、569 Graph Nodes、1816 Edges；原 ID／Title／Category／Raw Tags／Primary Domain／Typed References 不變 |
+| PR Unified Intake Gate | **SUCCESS** — [44804703925](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804703925) |
+| PR V2 Data Validate | **SUCCESS** — [44804703605](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804703605) |
+| PR P1 Graph Unit Tests | **SUCCESS** — [44804703753](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804703753)，含 Browser Smoke |
+| main Unified Intake Gate | **SUCCESS** — [44804855016](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804855016) |
+| main V2 Data Validate | **SUCCESS** — [44804855087](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804855087) |
+| main V2 Catalog Sync | **SUCCESS** — [44804854953](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804854953) |
+| main Pages Build／Deploy | **SUCCESS** — [44804854483](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804854483) |
+| main Live Pages Smoke | **SUCCESS** — [44804855002](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44804855002) |
+| 第三方 Runtime／Security／License／Integration | **NOT TESTED**；來源查核與 CI 不能替代第三方實測 |
+| 公開站點部署後獨立驗收 | **未完成**：Live Smoke 在 Pages Deploy 前結束；本 Session 無法經外部 HTTP 取得實際 Pages 資料來進行獨立事後驗證 |
+
+**驗證先後差異**：main Live Smoke 於 2026-11-21 03:44:17（臺北時間）結束，Pages Deploy 於 03:44:31 結束；因此這次 Live Smoke 雖 SUCCESS，仍**不是部署後重新確認**。Pages Actions 的 Build／Deploy 則有獨立成功證據。
+
+### Batch 14 來源審查範圍
+- 10 筆已逐項補來源、用途、具體功能、Requirements、Limitations 與 `intakeReview`；**5 筆來源確認、5 筆 `partial`**。
+- 仍待釐清的五筆：`codex-router`、`irons163-orchestrate-sol-terra-luna`、`skillgodak-hgtv`、`viral-hook-title`、`whisper-ui`。
+- 原 `irons163/orchestrate-sol-terra-luna` 已導向先前已收錄的 Three-Tier Repository，與另名作者同名項目存在身分與重複風險，不自動刪改。原 `SkillGodAk/HGTV` 目前 404，其他同名作者不可混用。
+- `punk-skill` 商用可能需事先書面授權；不可將公開程式碼誤當成無限制商用。
+- **270/270 是內容品質改善流程的覆蓋率，不是 270 筆全數來源確認、可實際執行或通過資安／授權稽核。**
+
+## 下一階段：Skills 品質改善（尚未開始）
+- 已核對 `data/skills/` 有 **123 筆** Canonical Skills。
+- 從 Source of Truth 開始，先確認既有資料密度與是否已具 Trigger／Input／Execution／Output／Risk／Gate；不重寫充分內容或修改分類架構。
+- 預設每批約 20 筆，仍保留完整逐筆 Before/After 報告、官方來源及 Session Handoff；不足 20 筆的最後批可按實際數量收尾。
+- 共用 Release Gate 與引用保護沿用 Resources 政策；Skill 原文、指令與高權限步驟須額外檢查 Prompt Injection、憑證、檔案刪改與網路傳輸。
+- 在建立 Skills Batch 01 之前再次檢查 main 最新 SHA、已開 PR、部署回歸狀態與 123 Skills 是否有其它更新。不可把上游 Skill 的安裝命令當成本 Repo 的授權操作。
+
+---
+
+## Batch 14 工作期間快照及更早歷史（保留原文）
 
 ## Batch 14 — 最後 10 筆（候選，待 PR 驗收，2026-11-21）
 
@@ -285,6 +328,7 @@ node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 5. 保留第三方 Runtime／Security／License／Integration 未測試的清楚標籤。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
+
 
 
 
