@@ -13,7 +13,7 @@
   "notes": "2026-10-24 核對 TradingView 官方 Pine Screener 'key features and requirements'、Pine Script v6 Execution Model、Strategies、Broker Emulator 文件。Pine Screener 支援 Watchlist/指數來源，可使用包含 plot() 或 alertcondition() 的 favorite Pine 指標；不能直接使用 strategy()、不支援自訂任意 timeframe，指標只以最近 500 根 Bar 計算，單次掃描一個指標，最多 40 個獨立 request.*() calls（TradingView 2026-10-23 更新），並有多項輸入／Request 限制。一般 Stock Screener 不能直接套任意 Pine Script；兩者不宜混稱。Strategy Tester 由 Broker Emulator 模擬成交，可能與真實成交不同，策略的 realtime / history 執行行為亦有差別；台股日內訊號應在收盤已確認 bar 評估且不得取用尚未發生的資料。台股不同標的、交易方式的手續費、證交稅、流動性、漲跌停及市場資料權限不能假設一致；需依官方/券商最新規定自行配置或另行核實。來源文字提供 RSI 低於30與爆量作候選條件，並無任何經驗證的勝率或超額報酬。本輪未登入 TradingView、使用 Pine Editor、付費、訂閱行情或執行回測。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-20",
   "tags": [
     "tradingview",
     "pine-script-v6",
@@ -63,7 +63,10 @@
     "executionDocs": "https://www.tradingview.com/pine-script-docs/language/execution-model/",
     "feesDocs": "https://www.tradingview.com/support/solutions/43000786181-broker-emulator/",
     "type": "Official TradingView guides and user-provided Taiwanese stock strategy article",
-    "summary": "Official platform capabilities verified 2026-10-24. Source article is a research workflow, not validated trading advice."
+    "summary": "Official platform capabilities verified 2026-10-24. Source article is a research workflow, not validated trading advice.",
+    "documentationUrl": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
+    "reviewedAt": "2026-11-20",
+    "reviewScope": "Official product documentation review; no new runtime/security testing"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -77,6 +80,63 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "service",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "用 Pine 指標掃描 Watchlist 或其他支援的股票集合，結果可作為後續研究候選。",
+    "透過 Pine Script 將均線、量能、價格或自訂條件寫成可反覆執行的 Indicator。",
+    "Strategy Tester 使用策略程式及 Broker Emulator 回測模擬成交、手續費與滑價。"
+  ],
+  "requirements": [
+    "需先確認 TradingView 訂閱方案、支援交易所、資料延遲及 Pine Screener 的指標條件。",
+    "應以明確交易成本、回測期間、Out-of-Sample 區間及不可提前使用未來資料的規則執行。"
+  ],
+  "limitations": [
+    "Pine Screener 不能直接把 Strategy 當 Indicator 篩選；兩者用途與可用函式不同。",
+    "歷史回測的模擬填單、流動性與市場條件未必能在真實交易重現，不構成買賣建議。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "以既有 ID 與正式產品來源確認為同一筆內容，僅修訂原紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始未匹配 Tags 保留，沒有新增標籤與分類調整。"
+    },
+    "classificationReason": "既有 Domain／Category／Tags／Typed References 保留；只補功能、來源與使用限制。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依官方產品網站、技術文件、使用限制與服務條款進行一般 Resource 查核。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚無已測試的版本化 Input/Output 契約，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept 引用，未新增 Graph 連結。"
+    },
+    "riskNotes": "Pine Screener 不能直接把 Strategy 當 Indicator 篩選；兩者用途與可用函式不同。；歷史回測的模擬填單、流動性與市場條件未必能在真實交易重現，不構成買賣建議。；未使用私人 API Key、第三方安裝或付費操作。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批檢視正式產品或文件頁，沒有執行 SaaS、API、第三方程式或完整安全測試。"
+    }
   }
 }
