@@ -1,13 +1,77 @@
 # Phase 2 Resources — 最新 Session 交接
 
-## Batch 13 待 PR／CI 驗收（2026-11-21）
-- **最新 base**：`main` SHA `727228cc2cb16b7128435993eb291b874bc332ff`；Batch 01–12 已合併 **240/270**，剩 **30**。
-- **本批 branch**：`resource-content-batch13-20261121`。已準備 20 筆 Canonical Resource + 2 派生檔 + [Batch 13 逐筆報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261121.md) + 本 Handoff。
-- **本批 20 IDs**：`aiposthub-awesome-opensource-ai-cheat-sheets-guide`、`anthropic-claude-mythos-cybersecurity`、`baoyu-skill`、`blogger-distiller`、`claude-svg-animation-logo-loading-chart-tutorial`、`gzh-design-skill`、`kokonut-ui`、`littlehole2025-token-saver`、`motion-dev-animations-skill`、`motion-sites`、`pinterest-visual-reference`、`rankupgames-spectra`、`react-frontend-backend-for-beginners`、`reverse-skill`、`skillry-opus-5-5-video-pattern-library`、`stitch-mcp`、`stitch-skills`、`uiverse-io-galaxy`、`ui-ux-gold-standard`、`wellmade`。
-- **保護範圍**：原 ID、Title、分類、Tags、Primary Domain、Typed References、Graph Edge 不變；270 Resources、549 Canonical、569 Graph Nodes／1816 Edges。
-- **Source Review**：19 筆 source-checked，Stitch MCP 一筆 partial；第三方 Build／Runtime／Security／License／Integration **NOT TESTED**。
-- **下一動作**：建立 PR、核對最新 Head 的 Unified Intake／V2 Data Validate／Graph Tests；通過後 Merge，另檢查 main Catalog Sync／Pages／Live Smoke 並回寫實際 Commit／Run URL。
-- **候選進度**：260/270；只在 PR Merge 完成後才計入正式進度。下一批 Batch 14 為剩下 10 筆。
+> **Single source of handoff truth**：本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 13 逐筆報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261121.md)。每次開新 Session 應重新查 main／PR／Actions，不以舊對話內容推斷真實部署狀態。
+
+## Batch 13 已合併及驗證（2026-11-21，Asia/Taipei）
+
+| 項目 | 已核對結果 |
+| --- | --- |
+| Repo / Branch | `christinekao/AI-Tool-Collection` / `main` |
+| 最新完成批次 | **Batch 13** — [PR #37](https://github.com/christinekao/AI-Tool-Collection/pull/37) **MERGED** |
+| 正式完成進度 | **260 / 270（96.3%）**；剩下 **10 筆**。Batch 01–13 各 20 個不同 Resource ID |
+| Base main SHA | `727228cc2cb16b7128435993eb291b874bc332ff` |
+| Batch 13 Branch | `resource-content-batch13-20261121` |
+| PR Head Commit | `570b9809d142cb5a305a4e68b2cabf5613905045` |
+| Merge Commit | `5563c0989fd4f771ca860fc1202750a0602aa1a0` |
+| 修改範圍 | 20 個 Canonical Resource + Generated Catalog／Graph + [Batch 13 報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261121.md) + 本 Handoff，合併共 24 個檔案 |
+| 資料與 Graph | 270 Resources、549 Canonical、569 Graph Nodes／1816 Edges；ID、Title、Category、Raw Tags、Primary Domain、Typed References 不變 |
+| PR Unified Intake Gate | **SUCCESS** — [44801747148](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801747148) |
+| PR V2 Data Validate | **SUCCESS** — [44801747194](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801747194) |
+| PR P1 Graph Unit Tests | **SUCCESS** — [44801751473](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801751473)（含 Browser Smoke） |
+| main Unified Intake Gate | **SUCCESS** — [44801941860](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801941860) |
+| main V2 Data Validate | **SUCCESS** — [44801941997](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801941997) |
+| main V2 Catalog Sync | **SUCCESS** — [44801942040](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801942040) |
+| main Pages Build／Deploy | **SUCCESS** — [44801940793](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801940793) |
+| main Live Pages Smoke | **SUCCESS** — [44801942064](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44801942064) |
+| 第三方 Build／Runtime／Security／License／Integration | **NOT TESTED**（文件來源閱讀不能代替實測） |
+
+**部署先後限制**：Live Pages Smoke 結束於 2026-11-21 03:25:38（台北時間），Pages Deploy 則在 03:25:55 結束。這兩個 GitHub Actions 各自 SUCCESS，但該次 Smoke **不是最後部署完成後的事後驗收**。外部公開網頁人工讀取在本 Session 未能完成，不能額外宣稱最新版本已被獨立視覺查核。
+
+**Batch 13 的 20 個 Resource IDs**：
+1. `aiposthub-awesome-opensource-ai-cheat-sheets-guide`
+2. `anthropic-claude-mythos-cybersecurity`
+3. `baoyu-skill`
+4. `blogger-distiller`
+5. `claude-svg-animation-logo-loading-chart-tutorial`
+6. `gzh-design-skill`
+7. `kokonut-ui`
+8. `littlehole2025-token-saver`
+9. `motion-dev-animations-skill`
+10. `motion-sites`
+11. `pinterest-visual-reference`
+12. `rankupgames-spectra`
+13. `react-frontend-backend-for-beginners`
+14. `reverse-skill`
+15. `skillry-opus-5-5-video-pattern-library`
+16. `stitch-mcp`
+17. `stitch-skills`
+18. `uiverse-io-galaxy`
+19. `ui-ux-gold-standard`
+20. `wellmade`
+
+**來源與安全提醒**：19 筆官方或原始來源文件層級查核，Stitch MCP 1 筆 partial；Mythos 現行 5.2 與原 Title 5.1 的版本差異已明示，原 `token-saver` Repo 更名為 `claude-saver`。第三方來源指令不授權安裝、執行 Shell、存取 API Key 或外送資料。
+
+## Batch 14 — Resources 最後 10 筆（尚未開始）
+
+剩下 **10 個未進行 Phase 2 內容改善的 Resource IDs**：
+
+1. `alchaincy-huashu-design`
+2. `code-graph`
+3. `codex-router`
+4. `irons163-orchestrate-sol-terra-luna`
+5. `land-book-design-inspiration`
+6. `particles-casberry`
+7. `punk-skill`
+8. `skillgodak-hgtv`
+9. `viral-hook-title`
+10. `whisper-ui`
+
+**下一步**：
+1. 核對最新 main、PR #37、合併 SHA 和 CI／Pages 結果，確認沒有其他 Session 重複處理 Batch 14。
+2. 對上述 10 筆逐筆核對原始身分、官方來源、功能／前提／限制。來源缺失或 Repo 已不存在時標示 `partial` 和 Source Gap，切勿將推測寫成 `source-checked`。
+3. 在獨立分支修改 10 個 Canonical、生成 Catalog／Graph，新增 `docs/RESOURCE_CONTENT_REVIEW_BATCH14_20261121.md` 以及本 Handoff。
+4. 以實際 PR 最新 Head 驗證 Unified Intake、V2 Validate、P1 Graph，通過後才合併；主分支推送與 Pages／Smoke 需另驗。
+5. Resources 全部 270 筆完成後，再接續原定 **123 Skills → 35 Prompts → 68 Concepts → Workflow／Combination** 品質改善，不擅改分類架構。
 
 ---
 
@@ -195,4 +259,5 @@ node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 5. 保留第三方 Runtime／Security／License／Integration 未測試的清楚標籤。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
+
 
