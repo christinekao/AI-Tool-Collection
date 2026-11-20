@@ -17,3 +17,7 @@ node scripts/validate-v2.mjs
 node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 ```
 The `Unified Intake Gate` CI job repeats the changed-file check. Report real PASS/FAIL/BLOCKED evidence; do not equate CI PASS with production GitHub Pages deployment. For irreversible changes (deletions, forced rewrites, permission changes, outbound sensitive data, costly execution), ask for explicit approval. Historical records are never automatically erased or bulk-converted by this policy.
+
+## Cross-session progress handoff
+
+During Phase 2 content reviews, finish each 20-Resource batch with BOTH an immutable per-batch report (`docs/RESOURCE_CONTENT_REVIEW_BATCHNN_YYYYMMDD.md`) and an updated rolling checkpoint (`docs/RESOURCE_CONTENT_HANDOFF.md`). Before starting another batch, verify the latest `main`, previous PRs/IDs, CI and deployment status; never trust a stale chat or handoff count. The checkpoint must include distinct IDs, done/remaining totals, changed files, source-evidence level, PR/commit, tests with actual results, unresolved risks, and the exact next action. The handoff is part of Definition of Done; missing or stale handoff means the batch is not fully delivered.
