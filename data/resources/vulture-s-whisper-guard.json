@@ -6,14 +6,14 @@
   "canonicalName": "vulture-s/whisper-guard",
   "category": "09 Content & Artifact Generation",
   "resourceType": "ASR Reliability",
-  "purpose": "降低 Whisper hallucination、改善轉錄",
-  "recommendation": "適合降低 Whisper 轉錄幻覺並提高 ASR 可靠度。",
-  "url": "",
-  "repo": "",
+  "purpose": "為 Whisper／ASR 逐段轉錄結果加入規則型防幻覺檢查，過濾靜音字幕、重複語句及短字元迴圈，降低錯誤字幕進入後續產製流程。",
+  "recommendation": "適合語音轉錄、字幕自動化與長影片批次處理；先以含靜音、低音量與真實重複語句的樣本測試過濾率，將錯誤刪除率列為驗收指標。",
+  "url": "https://github.com/vulture-s/whisper-guard",
+  "repo": "vulture-s/whisper-guard",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-20",
   "tags": [
     "whisper",
     "asr",
@@ -49,6 +49,70 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.2-review"
+    "rulesVersion": "v0.2-review",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "README 描述四層過濾：靜音、重複、短字元迴圈及其他低可信內容檢查。",
+    "提供 Python 套件介面，可整合進已有 Whisper 輸出處理鏈。",
+    "附 A/B 與準確率測試說明，用於比較過濾前後錯誤型態。"
+  ],
+  "requirements": [
+    "依來源 README 安裝相容的 Python 套件，提供原始 Whisper segment 結構與音訊必要欄位。",
+    "應建立真實逐字稿或人工標註資料以評估 precision／recall，不只看演示範例。"
+  ],
+  "limitations": [
+    "規則可能誤刪刻意重複、低語或真實短句；不保證所有語種皆同效。",
+    "不能修復辨識模型所有音素、專有名詞與跨段時序錯誤，需搭配人工抽查。"
+  ],
+  "source": {
+    "url": "https://github.com/vulture-s/whisper-guard",
+    "readmeUrl": "https://github.com/vulture-s/whisper-guard/blob/main/README.md",
+    "reviewedAt": "2026-11-20",
+    "reviewScope": "Documentation-level review; existing deeper source code review retained as previously described; no new third-party runtime/security testing",
+    "type": "Official upstream README"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "依 Canonical ID、名稱與官方來源比對，本批只補足既有紀錄內容，不新增實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未映射 Tags，不變更分類與標籤詞彙。"
+    },
+    "classificationReason": "保留目前 Primary Domain、Category、Tags 與 Typed References，僅更新來源形式及實用內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "目前只讀官方 README，缺少逐檔實作與可重建執行契約，不宣稱完整 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚無足以正式組裝的版本化 I/O 契約，本批不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "現有 Concept 引用保留，不依新描述產生新 Graph 關聯。"
+    },
+    "riskNotes": "規則可能誤刪刻意重複、低語或真實短句；不保證所有語種皆同效。；不能修復辨識模型所有音素、專有名詞與跨段時序錯誤，需搭配人工抽查。；沒有執行第三方程式或觸及帳號憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批只檢視官方文件／README；先前如有原始碼檢視另依原記錄；無本次安裝、Runtime、Integration、Security 實測。"
+    }
   }
 }

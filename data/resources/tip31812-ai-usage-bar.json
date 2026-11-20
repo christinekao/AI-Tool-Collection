@@ -12,7 +12,7 @@
   "repo": "tip31812/ai-usage-bar",
   "status": "active",
   "addedAt": "2026-11-18",
-  "updatedAt": "2026-11-18",
+  "updatedAt": "2026-11-20",
   "tags": [
     "macos",
     "swift",
@@ -49,13 +49,18 @@
     "依剩餘比例顯示使用建議、額度不足及長對話警告。",
     "讀取本機最近的 Claude Code／Codex 對話紀錄檔尾，以估計上下文長度。",
     "每個服務由 XxxProvider.swift 實作 UsageSource，並在 Models.swift 的 Sources.all 註冊。",
-    "提供繁體中文及英文介面、選用的登入啟動與長對話提醒 Hooks。"
+    "提供繁體中文及英文介面、選用的登入啟動與長對話提醒 Hooks。",
+    "保留現有 Provider 架構、額度視窗與 Notification 功能，明確標記本機檔案／憑證存取邊界。",
+    "README 的建議安裝方式包含 Swift 編譯與選用的 /Applications 安裝流程。",
+    "可透過選用 Hooks 判斷長對話用量，但 Hooks 對本機設定具有副作用。"
   ],
   "requirements": [
     "macOS 14 以上，具備 Xcode Command Line Tools（Swift compiler）。",
     "至少一種 Claude Code CLI 或 Codex CLI 已經由使用者自行登入。",
     "Apple Silicon／Intel 通用編譯；作者未在實體 Intel Mac 驗證。",
-    "編譯指令為 ./build.sh；執行 ./build.sh --install 會覆蓋並安裝 /Applications/AI額度看板.app，必須先核准。"
+    "編譯指令為 ./build.sh；執行 ./build.sh --install 會覆蓋並安裝 /Applications/AI額度看板.app，必須先核准。",
+    "正式使用前先審查 README、AGENTS.md、build.sh、Provider 原始碼和授權條件，不執行來源指令。",
+    "如果真的要安裝，需明確核准 Keychain、~/.codex/auth.json 及對話紀錄等存取權限。"
   ],
   "limitations": [
     "非 Anthropic／OpenAI 官方工具；呼叫兩家 CLI／App 的內部非公開用量端點，API 可能隨時更動，相關服務條款適用性未獲官方保證。",
@@ -63,12 +68,14 @@
     "會讀取本機 Claude Code／Codex 對話紀錄檔尾。即使專案宣稱不外傳這些紀錄，實作前仍應自行審核原始碼與網路行為。",
     "App 使用 ad-hoc 簽章且未經 Apple Notarization；預設安裝到 /Applications，原始安裝腳本會移除該路徑的既有同名 App。",
     "選用的開機自啟與 Hooks 會影響使用者環境；需要事先核准與可復原方案。",
-    "沒有在使用者的 Mac 編譯、安裝、開啟、授權、連線或取得任何真實用量；本筆為原始碼審查筆記。"
+    "沒有在使用者的 Mac 編譯、安裝、開啟、授權、連線或取得任何真實用量；本筆為原始碼審查筆記。",
+    "使用未公開的額度端點，可能中斷或觸及服務條款問題；不保證能永遠查到用量。",
+    "未經公證的本機 App、Keychain 權限與對話紀錄讀取需單獨風險評估；本批沒有安裝或執行。"
   ],
   "source": {
     "url": "https://github.com/tip31812/ai-usage-bar",
     "upstreamCommit": "0c9b77736da008e56f06de056dc7e3fd84bbe194",
-    "reviewedAt": "2026-11-18",
+    "reviewedAt": "2026-11-20",
     "filesReviewed": [
       "README.md",
       "README.zh-TW.md",
@@ -82,7 +89,10 @@
       "Sources/Store.swift",
       "Sources/Views.swift",
       ".github/workflows/build.yml"
-    ]
+    ],
+    "readmeUrl": "https://github.com/tip31812/ai-usage-bar/blob/main/README.md",
+    "reviewScope": "Documentation-level review; existing deeper source code review retained as previously described; no new third-party runtime/security testing",
+    "type": "Official upstream README"
   },
   "implementationKnowledge": {
     "readiness": "source-reviewed-build-and-runtime-unverified",
@@ -589,5 +599,45 @@
       }
     ],
     "taxonomyVersion": "1.0"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "依 Canonical ID、名稱與官方來源比對，本批只補足既有紀錄內容，不新增實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未映射 Tags，不變更分類與標籤詞彙。"
+    },
+    "classificationReason": "保留目前 Primary Domain、Category、Tags 與 Typed References，僅更新來源形式及實用內容。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "applied",
+      "reason": "已有既存 Repo Guide；本批只補官方來源及風險資料，深度證據以原紀錄為準。"
+    },
+    "capabilityReview": {
+      "decision": "mapped",
+      "reason": "保留原有以 Canonical 欄位支持的 Capability 與其較低證據等級；未升格為 Runtime 測試。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "現有 Concept 引用保留，不依新描述產生新 Graph 關聯。"
+    },
+    "riskNotes": "使用未公開的額度端點，可能中斷或觸及服務條款問題；不保證能永遠查到用量。；未經公證的本機 App、Keychain 權限與對話紀錄讀取需單獨風險評估；本批沒有安裝或執行。；沒有執行第三方程式或觸及帳號憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批只檢視官方文件／README；先前如有原始碼檢視另依原記錄；無本次安裝、Runtime、Integration、Security 實測。"
+    }
   }
 }
