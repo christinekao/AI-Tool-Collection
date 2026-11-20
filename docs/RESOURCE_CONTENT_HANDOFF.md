@@ -1,5 +1,18 @@
 # Phase 2 Resources — 最新 Session 交接
 
+## Batch 13 待 PR／CI 驗收（2026-11-21）
+- **最新 base**：`main` SHA `727228cc2cb16b7128435993eb291b874bc332ff`；Batch 01–12 已合併 **240/270**，剩 **30**。
+- **本批 branch**：`resource-content-batch13-20261121`。已準備 20 筆 Canonical Resource + 2 派生檔 + [Batch 13 逐筆報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261121.md) + 本 Handoff。
+- **本批 20 IDs**：`aiposthub-awesome-opensource-ai-cheat-sheets-guide`、`anthropic-claude-mythos-cybersecurity`、`baoyu-skill`、`blogger-distiller`、`claude-svg-animation-logo-loading-chart-tutorial`、`gzh-design-skill`、`kokonut-ui`、`littlehole2025-token-saver`、`motion-dev-animations-skill`、`motion-sites`、`pinterest-visual-reference`、`rankupgames-spectra`、`react-frontend-backend-for-beginners`、`reverse-skill`、`skillry-opus-5-5-video-pattern-library`、`stitch-mcp`、`stitch-skills`、`uiverse-io-galaxy`、`ui-ux-gold-standard`、`wellmade`。
+- **保護範圍**：原 ID、Title、分類、Tags、Primary Domain、Typed References、Graph Edge 不變；270 Resources、549 Canonical、569 Graph Nodes／1816 Edges。
+- **Source Review**：19 筆 source-checked，Stitch MCP 一筆 partial；第三方 Build／Runtime／Security／License／Integration **NOT TESTED**。
+- **下一動作**：建立 PR、核對最新 Head 的 Unified Intake／V2 Data Validate／Graph Tests；通過後 Merge，另檢查 main Catalog Sync／Pages／Live Smoke 並回寫實際 Commit／Run URL。
+- **候選進度**：260/270；只在 PR Merge 完成後才計入正式進度。下一批 Batch 14 為剩下 10 筆。
+
+---
+
+## Batch 12 與更早的完整交接（歷史保留）
+
 > **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 12 審查](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
 
 ## Batch 12 正式完成與部署快照（2026-11-21，Asia/Taipei）
@@ -182,3 +195,4 @@ node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 5. 保留第三方 Runtime／Security／License／Integration 未測試的清楚標籤。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
+
