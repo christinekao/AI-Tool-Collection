@@ -2,7 +2,7 @@
 
 > **AI 工具、Skills、Concepts、Prompts、Combinations、Workflows 的可追溯知識庫。**
 >
-> 這份 README 同時是 **跨 ChatGPT／Claude／Codex Session 的工作交接文件**。新的 AI 助理必須先閱讀本文件及現行 Schema，再繼續收錄，不能只依賴前一段聊天的記憶。
+> 本 README 保存長期架構；**Phase 2 Resources 的最新工作進度與接手步驟**以 [Session Handoff](docs/RESOURCE_CONTENT_HANDOFF.md) 為準。新的 ChatGPT／Claude／Codex Session 應先讀取該交接檔、AGENTS.md 與現行 Schema，並核對 GitHub main 最新狀態，不可只依賴前一段聊天的記憶。
 
 - **網站：** https://christinekao.github.io/AI-Tool-Collection/
 - **GitHub：** https://github.com/christinekao/AI-Tool-Collection
