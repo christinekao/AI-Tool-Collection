@@ -13,7 +13,7 @@
   "notes": "2026-10-24 查核原始 GitHub Repo Metadata、README.md、LICENSE、pyproject.toml、tools.py 及 Root Contents。2026-10-24 當日建立、當日仍更新，尚屬極新的教育示範（核對時 0 stars），程式碼 Apache-2.0。專案是 Agent Atlas 技術導讀的範例，不是可重複呼叫的 SKILL.md／Agent Skill，故本次只建立一筆 Resource；已存在同作者 cyyeh/jit-learning-loop，但兩者作用不同，不能去重合併。README 顯示採 Streamlit/Python/uv/Hugging Face Transformers/Torch，本機可切換 google/gemma-4-E2B-it 與 Qwen/Qwen3.5-0.8B，採用同一套 agent.py Harness、llm.py 逐 Token Decoder、families/ 模型家族 Parser、render.py 視覺化。展示使用者允許/拒絕 Tool、schema 驗證、重複工具呼叫、步數/token 上限與停止原因；tools.py 可見 calculator 的 AST whitelist、get_current_time 和 Wikipedia 的外部 HTTP 搜尋/讀取。README 主張本機推論、不向雲端模型傳送聊天內容，但安裝套件／下載模型權重會連外、Wikipedia 工具請求會將搜尋內容傳到 Wikipedia，並非全流程離線。首次下載模型權重約 Gemma 10 GB、Qwen 1.8 GB；README 建議 Gemma MPS/CUDA 至少 16 GB RAM，CPU 載入可能需更多，硬體及 PyTorch 版本有相容性要求，需以當下模型卡與實際環境驗證。pyproject.toml 宣告 Python >=3.11、Streamlit >=1.66.1、Transformers >=5.5、Torch >=2.6；README 另說明 uv 可取得 Python 3.12。README 列出 fakes-based pytest、可選 RUN_MODEL_TESTS=1 實模型測試；這些是作者提供的測試流程，本輪未安裝、未啟動、未跑測試，不能宣稱本環境驗證通過。模型小、回答品質與工具呼叫可能不穩，Repository README 有列已知限制。尚未對上游來源做獨立依賴掃描或全面程式碼安全稽核。本次純收錄，不下載模型、執行 Python、開啟本機 Web App 或修改本 Collections 網站 UI。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-20",
   "tags": [
     "agent-loop-visualizer",
     "cyyeh",
@@ -70,8 +70,11 @@
   "source": {
     "url": "https://github.com/cyyeh/agent-loop-visualizer",
     "learningSeries": "https://cyyeh.github.io/agent-atlas-learning/",
-    "type": "Original maintainer GitHub README, license, repository metadata, pyproject.toml and selected Python tool source",
-    "summary": "Source checked on 2026-10-24. Feature descriptions are based on official README and files, not an installation, runtime demonstration or independent token-decoding verification."
+    "type": "Official upstream README / documentation",
+    "summary": "Source checked on 2026-10-24. Feature descriptions are based on official README and files, not an installation, runtime demonstration or independent token-decoding verification.",
+    "readmeUrl": "https://github.com/cyyeh/agent-loop-visualizer",
+    "reviewedAt": "2026-11-20",
+    "reviewScope": "Documentation-level only; no installation, execution or security audit"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -88,6 +91,63 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "以可逐步檢查的 Agent Loop 顯示 Context、Token 生成、Tool Call、Harness Approval、結果回填與停止條件。",
+    "可檢視 Prompt／Tool Schema、特殊 Token、解碼速率、部分機率與排名資訊。",
+    "用本機模型及分階段說明作為 Agent 工具呼叫教學與 Debug 視覺教材。"
+  ],
+  "requirements": [
+    "依專案 README 準備 Python 相依與本機模型環境；使用 GPU／CPU 前評估模型下載及資源需求。",
+    "把示範 Tool Approval 設定在隔離環境，不授權任意讀寫本機機密或執行不可信指令。"
+  ],
+  "limitations": [
+    "教學用可視化不等於真實商用 Agent 或模型行為的全面解釋。",
+    "權重、解碼設定、來源版本及硬體差異會影響可重現性；Repository 存在重新導向，需在使用前再次確認正式維護來源。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對既有 Canonical ID 與官方上游，僅更新原紀錄，不新增 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有分類、Tags、Typed References 保留；本批沒有新增或標準化標籤。"
+    },
+    "classificationReason": "保留已通過前階段盤點的 Primary Domain；本批不調整分類結構。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅閱讀官方 README；尚未逐項驗證程式碼路徑、執行契約及深度 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有實測、版本化輸入／輸出契約；不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用現有 Concept 引用，不根據關鍵字建立 Graph 關聯。"
+    },
+    "riskNotes": "教學用可視化不等於真實商用 Agent 或模型行為的全面解釋。；權重、解碼設定、來源版本及硬體差異會影響可重現性；Repository 存在重新導向，需在使用前再次確認正式維護來源。；第三方程式碼未下載執行，未觸及憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "來源 README 已閱讀；未執行第三方 Build／Runtime／Security／Integration 測試。"
+    }
   }
 }
