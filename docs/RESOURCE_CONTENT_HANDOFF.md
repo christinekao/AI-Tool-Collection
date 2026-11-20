@@ -1,6 +1,27 @@
 # Phase 2 Resources — 最新 Session 交接
 
-> **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 11 審查](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
+> **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 12 審查](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
+
+## Batch 12 最新工作快照（2026-11-21，Asia/Taipei）
+
+| 項目 | 狀態 |
+| --- | --- |
+| Main 當前已合併 | **220 / 270** Resources；仍有 **50** 筆尚未合併改善 |
+| Base main HEAD | `21f4226e04f7eb4f1e1841d6436749c820b7dce4` |
+| Batch 12 branch | `resource-content-batch12-20261121` |
+| 本批選取 | **20 個不同 Resource ID**，詳見 [Batch 12 審查](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md) |
+| 候選進度 | **240 / 270**（未合併前不可計入 main，預計剩 30） |
+| 變更範圍 | 20 Canonical JSON + Catalog／Graph 投影 + Batch 12 逐筆審查 + Rolling Handoff |
+| Source Review | 原始作者／產品第一方網站、GitHub README 或原始教學；皆為文件層級 |
+| PR / Latest Head / CI | **待建立與逐項查證**，禁止以 Batch 11 CI 結果代替 |
+| Pages / Live Smoke | **未執行本批部署驗收** |
+| Third-party Runtime／License／Security／Integration | **NOT TESTED** |
+
+**Batch 12 的 20 個 ID：** `ai-code-acceptance-review-testing-rollout-guide`、`better-me-notes-amie`、`citypulso-pulsoicon`、`fomofly-ai`、`higgsfield-ai`、`hkuds-vimax`、`ibkr-portfolioanalyst`、`inspora`、`kepano-obsidian-vault-template`、`letswrite-buzz-self-hosted-relay-guide`、`maxibestof`、`meigen-ai`、`minimax-code`、`minimax-m3-1-flash`、`motionsites-ai`、`openchatx`、`openmontage`、`recraft`、`remove-bg`、`sona-orbit-parroting`。
+
+**接手優先事項：** 確認本分支 20 個 Canonical Diff、Catalog／Graph、建立 PR，檢查本 PR 的 Intake／V2 Validate／Graph Tests；CI 全通過才考慮合併，再核對 main Push、Catalog Sync、Pages、Live Smoke，回寫最新 Handoff。不能只因合併就宣稱正式部署通過。
+
+> 以下 Batch 11 與更早內容為歷史完成紀錄；若與此節的新狀態不同，優先以本節及 GitHub 最新 PR／Actions 核實。
 
 ## 進度快照（2026-11-20，Asia/Taipei）
 

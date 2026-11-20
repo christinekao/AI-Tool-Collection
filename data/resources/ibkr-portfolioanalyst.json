@@ -13,7 +13,7 @@
   "notes": "官方 IBKR 文件確認有 Sharpe、Sortino、Alpha、Beta、Max Drawdown 等 Risk Measures 及 Performance by Financial Instrument 分類。**注意**：截圖原作者自述現有 Connector/Plugin 沒拿到所需 PortfolioAnalyst financial instrument 明細，後來改用下載報表，不能假定 AI Plugin/API 就有同樣欄位。報表含敏感投資與個資，交給 LLM 前須去識別；分清 TWR/MWR、現金流與基準總報酬，不可憑空補資料。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-21",
   "tags": [
     "ibkr",
     "portfolioanalyst",
@@ -48,7 +48,9 @@
     "url": "https://www.interactivebrokers.com/en/whyib/reporting.php",
     "type": "Official documentation and user-provided Threads screenshots",
     "summary": "2026-10-24 confirmed source; no installation, credentials, running code or user data access.",
-    "docsUrl": "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm"
+    "docsUrl": "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -78,5 +80,58 @@
       }
     ],
     "taxonomyVersion": "1.0"
+  },
+  "features": [
+    "PortfolioAnalyst 可整合投資及其他連結帳戶，檢視績效、風險與比較基準。",
+    "提供 Activity Statements、Flex Query 與自訂區間報表，並可匯出 CSV、PDF 等格式。",
+    "可供分析持倉、交易費用及時間區間績效，與外部報表流程搭配。"
+  ],
+  "requirements": [
+    "使用本人具權限的帳戶與報表功能，先核對 PortfolioAnalyst 的可用市場及權限。",
+    "外部分析前先移除帳號、姓名、交易識別碼等敏感欄位，確認匯出格式與幣別。"
+  ],
+  "limitations": [
+    "報表日期、匯率、基準及計算口徑會影響績效結果，不能直接混用不同定義。",
+    "匯出報表不代表平台提供投資建議，也不能推定未來交易表現。"
+  ],
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有原始 Tags 完整保留，不新增或重新映射分類詞彙。"
+    },
+    "classificationReason": "維持現有 Primary Domain、Category、Tags 與 Typed References；僅補上來源形式與使用資訊。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "僅核對來源與實用資訊，尚未建立可驗收的完整學習教材。"
+    },
+    "capabilityReview": {
+      "decision": "mapped",
+      "reason": "保留原本具證據的 Capability 映射，本批不新增任何映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原有 Concept 連結保留，不因新描述新增 Graph 關聯。"
+    },
+    "riskNotes": "報表日期、匯率、基準及計算口徑會影響績效結果，不能直接混用不同定義。；匯出報表不代表平台提供投資建議，也不能推定未來交易表現。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+    }
   }
 }

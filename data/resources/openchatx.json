@@ -13,7 +13,7 @@
   "notes": "來源查核（2026-10-20）：官方 README.md／README.zh-TW.md、SECURITY.md、package.json 與 GitHub Releases；最新版已查證 v1.1.2（2026-10-16），採 MIT 授權。OpenChatX 使用 OpenAI 官方文件化的 Secure MCP Tunnel，採 outbound HTTPS 接線，ChatGPT 仍為 Planner/Model，本機處理 Tools；這不代表資料或請求全部離線。macOS Desktop 發行有 Developer ID 簽署與 Notarization 的作者聲明；Windows Installer 無 Authenticode 簽署，安裝來源與 checksum 必須手動確認。OpenChatX 的本機 MCP endpoint 是 loopback 但刻意無驗證；遠端 ChatGPT Tunnel 用首次觀察到的 OpenAI subject 綁定信任，需保護 Tunnel ID／Control-plane API Key、依官方順序授權，不可開放 public listening port。Desktop App 將 Tunnel API Key 存 OS Keychain／Windows Credential Manager；本機 tool／audit logs 可能有機密輸入。`Projects` 讀寫 Shell 權限是 OpenChatX 應用層 policy，不是 OS-level isolation；Shell、互動終端、部分自訂 Toolboxes 或外部 MCP 可依本機 OS 使用者權限讀寫/執行，具真實破壞性，勿認為勾選 Project 封鎖就完全不可能跨界。Community Capability Store 是第三方 GitHub 程式碼、官方未替每個項目審核；雖有 immutable SHA 安裝 pin、拒絕 symlink/submodule、路徑大小限制與 static review，仍須把自訂能力視為可能執行任意本機程式碼。官方 README 顯示可選 ChatGPT Custom MCP 的 Allow all tools，但安全優先應逐項提示確認。Dot Mode 需獨立 Tunnel ID，且外部 MCP 應逐一選擇暴露。Cross-session Summaries 會以 UUID 在本地保存摘要及最近約 8k tokens 的有用內容，讀取後刪除；可能包含敏感資料，需管控備份、存取、清理與回傳。Manual Install 需 Node.js >=22.18、npm、ripgrep、官方 tunnel-client，Desktop Installer 則不用手裝 Node/npm。產品作者稱使用一般 ChatGPT Chat 用量、不扣 Work/Codex Agent 額度；此為作者產品描述，並非另經實際帳號測試或保證永遠適用。未安裝、未給予工具權限、未運行測試；Catalog 僅更新原有 openchatx Entity，沒有另建重複 Resource／Skill／Workflow。",
   "status": "active",
   "addedAt": "2026-09-28",
-  "updatedAt": "2026-10-20",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-runtime",
     "mcp",
@@ -98,6 +98,69 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "透過 MCP Tunnel 讓 ChatGPT 連到使用者授權的本機工具、檔案與 Shell。",
+    "提供 MCP Server 聚合、Toolboxes、Skills、Projects 與 Desktop Dashboard 等介面。",
+    "支援跨 Session 摘要與多 Agent 工作管理，並有需要額外設定的權限邊界。"
+  ],
+  "requirements": [
+    "先核對上游已搬移至 WealthyV/openchatx-mcp 的 Repository、版本、Checksum 與官方安全文件。",
+    "只在沙箱／非敏感機器先做權限測試，隔離 Tunnel 憑證、OS 帳戶及危險 MCP 工具。"
+  ],
+  "limitations": [
+    "此類高權限本機 Agent 可執行 Shell 與操作桌面，單靠應用層 Project Scope 不能取代 OS 沙箱。",
+    "README 宣稱的功能與安全控制並非本次 Runtime、安全測試證據；正式環境須獨立查核。"
+  ],
+  "source": {
+    "url": "https://github.com/XiaoPuOuO/openchatx-mcp",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
+    "type": "Official upstream GitHub repository and README"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有原始 Tags 完整保留，不新增或重新映射分類詞彙。"
+    },
+    "classificationReason": "維持現有 Primary Domain、Category、Tags 與 Typed References；僅補上來源形式與使用資訊。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "目前只核對官方 README／文件，缺逐檔可重建與執行契約，不聲稱完整 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚無額外的版本化 I/O 契約可正式建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原有 Concept 連結保留，不因新描述新增 Graph 關聯。"
+    },
+    "riskNotes": "此類高權限本機 Agent 可執行 Shell 與操作桌面，單靠應用層 Project Scope 不能取代 OS 沙箱。；README 宣稱的功能與安全控制並非本次 Runtime、安全測試證據；正式環境須獨立查核。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+    }
   }
 }
