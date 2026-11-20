@@ -1,38 +1,39 @@
 # Phase 2 Resources — 最新 Session 交接
 
-> **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 10 審查](RESOURCE_CONTENT_REVIEW_BATCH10_20261120.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
+> **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 11 審查](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
 
 ## 進度快照（2026-11-20，Asia/Taipei）
 
 | 項目 | 事實／狀態 |
 | --- | --- |
 | Repository / 主分支 | `christinekao/AI-Tool-Collection` / `main` |
-| Batch 10 合併後 main Commit | `597fb894c528cb976e6bb6641e2fce895712ecce`（2026-11-20） |
-| **已合併** | Batch 01–10，**200 / 270** Resources；剩餘 **70**（前十批各 20，合計 200 個不重複路徑） |
-| 最新完成批次 | Batch 10，20 個 Resource 已透過 PR #34 合併，且 PR Checks／main Push Checks 已確認成功 |
-| 下一階段目標 | Batch 11 另外處理 20 筆，完成後累計將達 220 / 270（未開始） |
+| 最近合併 Commit（Batch 11） | `70c65cfd3b01b083cfbf95f0fd2679f4185bc73a`（2026-11-20，PR #35） |
+| **已合併** | Batch 01–11，**220 / 270** Resources，剩餘 **50**；11 批各 20 筆且沒有重複 ID |
+| 最新完成批次 | **Batch 11** — [PR #35](https://github.com/christinekao/AI-Tool-Collection/pull/35)，CI、main Push 與 Pages Gate 已查證成功 |
+| 下一階段目標 | **Batch 12 尚未開始**；從剩餘 50 筆選 20 筆，合併後預計 240 / 270，剩餘 30 |
 | Batch 10 Branch | `resource-content-batch10-20261120` |
 | Batch 10 合併 Commit | `597fb894c528cb976e6bb6641e2fce895712ecce` |
 | Batch 10 PR | [#34](https://github.com/christinekao/AI-Tool-Collection/pull/34) — **MERGED**（2026-11-20） |
 | Batch 10 PR Checks（Head `bdf2901`） | **SUCCESS**：Intake [44698970866](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970866)、V2 Validate [44698970842](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970842)、P1 Graph [44698970837](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44698970837) |
 | Batch 10 main Push／部署 | **SUCCESS**：Intake [44699148380](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148380)、V2 Validate [44699148369](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148369)、Catalog Sync [44699148381](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148381)、Pages [44699147433](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699147433)、Live Smoke [44699148327](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44699148327) |
-| 目前工作 | **Batch 11（20 筆）已提交獨立 Branch，尚未合併**；main 仍是 200 / 270，成功合併後才更新至 220 / 270 |
+| 目前工作 | Batch 11 已完成與驗收，接下來從 50 筆未處理 Resources 選 Batch 12 |
 
-## Batch 11 進行中｜尚未合併
+## Batch 11 已完成交付（2026-11-20）
 
-> 此區是可供新 Session 直接接手的**候選分支**快照，不代表已部署。前十批仍為 main 上的最新正式進度。
+> 本節記錄已合併到 `main` 的 Batch 11 快照；驗證結果以 PR #35 與合併 SHA `70c65cfd...` 的 GitHub Actions 為準。第三方 Source Reviewed 不等於 Runtime／Security 實測。
 
 | 欄位 | 值 |
 | --- | --- |
 | Base main SHA | `b117d42357ca44d8c7a1be7e6c30c05f30647c51` |
 | Branch | `resource-content-batch11-20261120` |
-| PR / Head Commit | **尚未建立 PR**；每次接手先查 GitHub 最新 Head |
+| PR / Head Commit | [#35](https://github.com/christinekao/AI-Tool-Collection/pull/35) — **MERGED**；PR Head `44092b18f7c31f9293b87a7b861e35c89373eb61` |
 | Scope | 20 Canonical Resource + generated Catalog／Graph + [Batch 11 審查報告](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md) + 本 Handoff |
-| 正式已合併數量 | **200 / 270**（剩餘 70） |
-| Candidate 合併後 | **220 / 270**（剩餘 50） |
+| 正式已合併數量 | **220 / 270**（剩餘 50） |
+| Merge Commit | `70c65cfd3b01b083cfbf95f0fd2679f4185bc73a` |
+| Batch 12 預期 | 完成下一批 20 筆後 **240 / 270**（剩餘 30）；**尚未開始** |
 | 檔案和 Graph 投影檢查 | **PASS（分支記憶體比較）**：20 不重複、270 Resources、549 Canonical、569 Graph Nodes／1816 Edges，保留 ID／Title／Category／Tags／Domain／Typed References |
-| PR Intake／V2 Validate／P1 Graph | **PENDING**；尚未取得本分支 CI 結果 |
-| Main Push／Catalog Sync／Pages／Live Smoke | **NOT TESTED**；只有合併後才能核對本批新 SHA |
+| PR Intake／V2 Validate／P1 Graph | **SUCCESS** — Intake [44701268975](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701268975)、V2 [44701268971](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701268971)、P1 Graph [44701268980](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701268980) |
+| Main Push／Catalog Sync／Pages／Live Smoke | **SUCCESS** — main Intake [44701472893](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701472893)、V2 [44701472896](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701472896)、Catalog Sync [44701472875](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701472875)、Pages [44701472391](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701472391)、Live Smoke [44701472886](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44701472886) |
 | Third-party Runtime／Security／License／Integration | **NOT TESTED**；不可寫 PASS |
 
 **Batch 11 的 20 個 Resource ID：**
@@ -61,7 +62,7 @@
 
 **目前風險：** `tip31812-ai-usage-bar` 的 Keychain／本機對話紀錄／非公開 API；第三方資安與本機檔案操作 Skills；AI 影像影音與模型服務費用；商業 SaaS 個資；TradingView 回測。上游可執行指令不作為本專案授權指示。
 
-**接手第一動作：** 確認 Branch Head、main SHA、是否有人已建立 Batch 11 PR；如果未建立，用上述 Branch 對 main 建立 PR，等待三個必要 CI；確認有無邊界修改再合併；合併後檢查 Pages 與 Smoke，最後更新本檔為正式 220/270。不得在本批未完成之前挑選 Batch 12。
+**接手第一動作：** 重新核對最新 main、PR #35 及 Batch 01–11 共 220 個不同 Resource ID；再從剩餘 **50 筆**選 Batch 12 的 20 筆。維持逐筆官方來源、獨立審查報告及最新 Handoff，且不可把 PR CI PASS 當成第三方執行／安全測試結果。
 
 ## Batch 10 已完成交付
 
@@ -109,6 +110,7 @@
 | 08 | 20 | [Batch 08](RESOURCE_CONTENT_REVIEW_BATCH08_20261119.md) | [PR #30](https://github.com/christinekao/AI-Tool-Collection/pull/30) |
 | 09 | 20 | [Batch 09](RESOURCE_CONTENT_REVIEW_BATCH09_20261119.md) | [PR #32](https://github.com/christinekao/AI-Tool-Collection/pull/32) |
 | 10 | 20 | [Batch 10](RESOURCE_CONTENT_REVIEW_BATCH10_20261120.md) | [PR #34](https://github.com/christinekao/AI-Tool-Collection/pull/34) |
+| 11 | 20 | [Batch 11](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md) | [PR #35](https://github.com/christinekao/AI-Tool-Collection/pull/35) |
 
 ## Release Gate 與證據（不可沿用舊 PASS）
 
@@ -134,9 +136,10 @@ node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 ```
 
 ## 後續 Session 的第一個動作
-1. 優先讀取上方的 **Batch 11 進行中**狀態與 [Batch 11 詳細審查](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md)，再核對 GitHub 最新 main／PR／Actions。
-2. Batch 11 完成前不可開始 Batch 12。先完成 PR、三項 CI、合併與 Pages／Live Smoke 驗證，並更新本 Handoff 的 PR、SHA 與正式累計。
-3. 只有 Batch 11 合併後，才由剩餘 **50** 筆中挑 Batch 12 的 20 筆；繼續保留每批詳細報告與本交接快照。
-4. 永遠保留原始分類、Tags、Typed References、個資與不可逆操作邊界；第三方 Source Reviewed 不等於 Runtime／Security PASS。
+1. 核對 GitHub 最新 main HEAD、[PR #35](https://github.com/christinekao/AI-Tool-Collection/pull/35) 及 Actions；正式快照為 **220 / 270 Resources、剩 50**，但如果出現新 PR，應以最新 Repo 為準。
+2. 彙總 Batch 01–11 已合併 Resource ID（PR #23–30、#32、#34、#35），**排除 220 個已審查 ID**，選取另外 20 個作為 Batch 12；優先來源缺漏、過時操作／風險或內容實用性不足者。
+3. 逐筆閱讀既有 Canonical 與官方來源，保留已有深度素材；只補用途、功能、Requirements、Limitations、Source 與 intakeReview，不更動 ID、Title、Category、Tags、Primary Domain 或 Typed References。
+4. 新分支提交 20 Canonical + 派生 Catalog／Graph + `docs/RESOURCE_CONTENT_REVIEW_BATCH12_20261120.md` + 更新本 Handoff。PR 內等待 Unified Intake、V2 Validate、Graph Unit Tests PASS 後才合併。
+5. 合併後核對 main Push、Catalog Sync、Pages、Live Smoke 的 **新 SHA／Run URLs**，回寫本 Handoff，再開始 Batch 13。沒有 Runtime／Security 證據就保持未測試。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
