@@ -1,5 +1,31 @@
 # Phase 2 Resources — 最新 Session 交接
 
+> **Session 順序**：先核對最新 GitHub main 與 PR／CI，然後閱讀 [AGENTS.md](../AGENTS.md)、[Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) 及 [Batch 14 詳細報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261121.md)。不能把前一段對話當作部署或測試證據。
+
+## Batch 14 — 最後 10 筆（候選，待 PR 驗收，2026-11-21）
+
+| 項目 | 狀態 |
+| --- | --- |
+| Repository | `christinekao/AI-Tool-Collection`，主要分支 `main` |
+| 已合併基準 | **260/270**，Batch 01–13；main SHA `b332d6ebf768d74a932726a29d791d8e1527997a` |
+| Batch 14 Branch | `resource-content-batch14-20261121` |
+| 範圍 | 10 Canonical Resource + Generated Catalog／Graph + Batch14 報告 + Rolling Handoff |
+| 候選內容改善後進度 | 270/270，**只有合併後才能計入 main** |
+| 來源結果 | **5 source-checked／5 partial**；仍須保留原始身分缺口 |
+| 原始 Canonical 結構 | 270 Resources、549 Canonical、569 Graph Nodes／1816 Edges |
+| 安全驗證 | 第三方 Build／Runtime／Security／License／Integration **NOT TESTED** |
+| 下一步 | 建立 PR，等待該 Head 的 Intake／V2 Validate／P1 Graph CI；全部成功後才合併，之後另核對 Pages／Live Smoke |
+
+**本批 10 IDs**：`alchaincy-huashu-design`、`code-graph`、`codex-router`、`irons163-orchestrate-sol-terra-luna`、`land-book-design-inspiration`、`particles-casberry`、`punk-skill`、`skillgodak-hgtv`、`viral-hook-title`、`whisper-ui`。
+
+**尚未完全確認的來源**：`codex-router`、`irons163-orchestrate-sol-terra-luna`、`skillgodak-hgtv`、`viral-hook-title`、`whisper-ui`。詳細的來源候選與未解原因見 Batch14 報告，不可把候選專案當成確定來源。
+
+**合併後工作順序**：Resources 內容審查完成後，開始 Skills（123）第一批，聚焦 Trigger／Input／Execution／Output／Risk／Gate；而不是重新設計分類。
+
+---
+
+## Batch 13 已合併及更早的歷史交接（保留不可刪）
+
 > **Single source of handoff truth**：本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 13 逐筆報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261121.md)。每次開新 Session 應重新查 main／PR／Actions，不以舊對話內容推斷真實部署狀態。
 
 ## Batch 13 已合併及驗證（2026-11-21，Asia/Taipei）
@@ -259,5 +285,6 @@ node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 5. 保留第三方 Runtime／Security／License／Integration 未測試的清楚標籤。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
+
 
 

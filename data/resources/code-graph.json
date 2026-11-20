@@ -6,14 +6,14 @@
   "canonicalName": "Code Graph",
   "category": "03 Code Intelligence",
   "resourceType": "架構概念",
-  "purpose": "Function / module / dependency / call relationship graph",
+  "purpose": "Code Graph 將檔案、函式、類別、測試和服務表示成節點，將呼叫、匯入、繼承及相依性表示成關係；可支援 Codebase 理解、變更影響分析與 AI Agent 的結構化檢索。此筆是概念型 Resource，不代表可直接安裝的產品。",
   "recommendation": "適合用來理解模組、依賴與呼叫關係的架構概念。",
   "url": "",
   "repo": "",
-  "notes": "",
+  "notes": "Batch 14 身分查核（2026-11-21）：此筆是 Code Graph 架構概念而非特定 Repository；以獨立技術說明核對結構定義，不與同名專案混淆。\n安全／使用範圍：此筆不是可安裝的 Repo；不要因同名直接與 neoand/codegraph 等產品合併。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "architecture",
     "dependency-graph",
@@ -49,6 +49,68 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "documentation",
+    "formatEvidenceFields": [
+      "source.url"
+    ]
+  },
+  "features": [
+    "查詢函式的上游呼叫者、下游被呼叫端與跨模組依賴。",
+    "將修改的檔案與相關測試、服務和介面連結，支援 Impact Analysis。",
+    "可與程式碼語意檢索結合，讓 Agent 沿 Graph 擴展需要的上下文。"
+  ],
+  "requirements": [
+    "先明確定義語言、程式碼版本、節點／邊的型別與建圖方式。",
+    "對大規模變動及跨 Repo 依賴，需有更新索引的機制和測試／人工比對。"
+  ],
+  "limitations": [
+    "靜態分析可能漏掉反射、動態綁定、程式執行期生成的呼叫關係。",
+    "結構關係本身不能證明業務意圖或執行正確，也不是特定工具的性能實測。"
+  ],
+  "source": {
+    "url": "https://www.qodo.ai/glossary/what-is-a-code-graph/",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Documentation-level review; no third-party runtime/security execution",
+    "type": "技術概念說明（Qodo Glossary）"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對既有 Canonical ID、名稱與來源候選；維持原 Resource 記錄，不新增或自動合併相似項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始未映射 Tags 全數保留，沒有新增或重新分類。"
+    },
+    "classificationReason": "維持 ID、Title、Category、Raw Tags、Primary Domain 與 Typed References；僅記錄實際來源形式及查核狀態。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依官方產品網站、概念文件或尚未確認的來源執行標準 Resource 說明。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有經驗證的版本化 I/O 證據，暫不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed References，不由描述或 Tags 推論新關聯。"
+    },
+    "riskNotes": "靜態分析可能漏掉反射、動態綁定、程式執行期生成的呼叫關係。；結構關係本身不能證明業務意圖或執行正確，也不是特定工具的性能實測。；此筆不是可安裝的 Repo；不要因同名直接與 neoand/codegraph 等產品合併。；本次沒有執行第三方程式、登入服務或存取憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅執行文件與來源識別查核；第三方 Build、Runtime、Security、License、Integration 均未實測。"
+    }
   }
 }
