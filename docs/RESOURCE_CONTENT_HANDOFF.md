@@ -17,7 +17,7 @@
 | 當時 `main` HEAD | `25f7cfbf477ec4d244b816227e51c2e6e696fac9` |
 | 替代 PR | [#31](https://github.com/christinekao/AI-Tool-Collection/pull/31) 已關閉未合併；Batch 09 以 #32 為準 |
 
-> **計數定義：** 180 代表九份批次報告列出的累計 20 筆審查記錄，不等於 180 項工具已經 Runtime／Security／Integration 實測；批次之間是否有重複 ID，下一批 Preflight 仍須以程式比對清單確認。
+> **計數定義：** 已核對 PR #23–30、#32 各有 20 個改動的 `data/resources/*.json`，合計 **180 個不同路徑，沒有重複**。但不等於 180 項工具已經 Runtime／Security／Integration 實測；下一批 Preflight 仍應重新檢查最新 `main`。
 
 ## 最近一批驗收證據
 
