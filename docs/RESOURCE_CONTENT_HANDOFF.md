@@ -2,28 +2,44 @@
 
 > **Single source of handoff truth:** 本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 12 審查](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md)。每次開新 Session **先對照最新 main 與 GitHub PR／CI**；不要將未合併的分支進度誤報為 main 已完成。
 
-## Batch 12 最新工作快照（2026-11-21，Asia/Taipei）
+## Batch 12 正式完成與部署快照（2026-11-21，Asia/Taipei）
 
-| 項目 | 狀態 |
+| 項目 | 經核對的結果 |
 | --- | --- |
-| Main 當前已合併 | **220 / 270** Resources；仍有 **50** 筆尚未合併改善 |
-| Base main HEAD | `21f4226e04f7eb4f1e1841d6436749c820b7dce4` |
+| Repository / main | `christinekao/AI-Tool-Collection` / `main` |
+| 最新已合併批次 | **Batch 12** — [PR #36](https://github.com/christinekao/AI-Tool-Collection/pull/36) **MERGED** |
+| 正式已合併進度 | **240 / 270** Resources（**88.9%**），剩餘 **30**；Batch 01–12 每批 20 個不同 ID |
+| Base main SHA | `21f4226e04f7eb4f1e1841d6436749c820b7dce4` |
 | Batch 12 branch | `resource-content-batch12-20261121` |
-| 本批選取 | **20 個不同 Resource ID**，詳見 [Batch 12 審查](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md) |
-| 候選進度 | **240 / 270**（未合併前不可計入 main，預計剩 30） |
-| 變更範圍 | 20 Canonical JSON + Catalog／Graph 投影 + Batch 12 逐筆審查 + Rolling Handoff |
-| Source Review | 原始作者／產品第一方網站、GitHub README 或原始教學；皆為文件層級 |
-| PR / Latest Head / CI | **待建立與逐項查證**，禁止以 Batch 11 CI 結果代替 |
-| Pages / Live Smoke | **未執行本批部署驗收** |
-| Third-party Runtime／License／Security／Integration | **NOT TESTED** |
+| PR Head Commit | `c214ce257f46a9a051593cb8e3721c13c7d5956d` |
+| Merge Commit | `ef162fd3c9601838a9501181cb4467bb2ad34cca` |
+| Scope | 20 Canonical JSON + Generated Catalog／Graph + [Batch 12 逐筆審查](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md) + 本 Handoff；共 24 變更檔案 |
+| 結構／資料量 | 270 Resources、549 Canonical、569 Graph Nodes、1816 Edges；IDs、Category、Raw Tags、Primary Domain、Typed References 原狀保留 |
+| PR Unified Intake Gate | **SUCCESS** — [Run 44799518144](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799518144) |
+| PR V2 Data Validate | **SUCCESS** — [Run 44799517940](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799517940) |
+| PR P1 Graph Unit Tests | **SUCCESS** — [Run 44799518018](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799518018)，含 Browser Smoke |
+| main Unified Intake Gate | **SUCCESS** — [Run 44799704581](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799704581) |
+| main V2 Data Validate | **SUCCESS** — [Run 44799704865](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799704865) |
+| main V2 Catalog Sync | **SUCCESS** — [Run 44799704751](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799704751) |
+| main Pages Build + Deploy | **SUCCESS** — [Run 44799703412](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799703412)，Build／Deploy jobs 已成功 |
+| main Live Pages Smoke | **SUCCESS** — [Run 44799704561](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44799704561) |
+| Third-party Runtime／License／Security／Integration | **NOT TESTED**，不可等同安全或可用性認證 |
 
-**Batch 12 的 20 個 ID：** `ai-code-acceptance-review-testing-rollout-guide`、`better-me-notes-amie`、`citypulso-pulsoicon`、`fomofly-ai`、`higgsfield-ai`、`hkuds-vimax`、`ibkr-portfolioanalyst`、`inspora`、`kepano-obsidian-vault-template`、`letswrite-buzz-self-hosted-relay-guide`、`maxibestof`、`meigen-ai`、`minimax-code`、`minimax-m3-1-flash`、`motionsites-ai`、`openchatx`、`openmontage`、`recraft`、`remove-bg`、`sona-orbit-parroting`。
+**重要部署時間差：** Live Smoke 的 GitHub Run 在 Pages Deploy 完成前已結束；兩者各自 CI SUCCESS，但該次 Smoke **不能當作針對最新部署版本的事後人工視覺驗收**。需在後續獨立檢查生產 URL 與內容。
 
-**接手優先事項：** 確認本分支 20 個 Canonical Diff、Catalog／Graph、建立 PR，檢查本 PR 的 Intake／V2 Validate／Graph Tests；CI 全通過才考慮合併，再核對 main Push、Catalog Sync、Pages、Live Smoke，回寫最新 Handoff。不能只因合併就宣稱正式部署通過。
+**本批 20 個 Resource ID：** `ai-code-acceptance-review-testing-rollout-guide`、`better-me-notes-amie`、`citypulso-pulsoicon`、`fomofly-ai`、`higgsfield-ai`、`hkuds-vimax`、`ibkr-portfolioanalyst`、`inspora`、`kepano-obsidian-vault-template`、`letswrite-buzz-self-hosted-relay-guide`、`maxibestof`、`meigen-ai`、`minimax-code`、`minimax-m3-1-flash`、`motionsites-ai`、`openchatx`、`openmontage`、`recraft`、`remove-bg`、`sona-orbit-parroting`。
 
-> 以下 Batch 11 與更早內容為歷史完成紀錄；若與此節的新狀態不同，優先以本節及 GitHub 最新 PR／Actions 核實。
+**原始來源與安全邊界：** 第一方產品網站、GitHub README 或原始教學文章查核（詳細連結見 Batch 12 審查）；不曾安裝或運作第三方程式、讀取金鑰或登入第三方帳戶；OpenChatX／Buzz／影音模型的權限、成本、授權風險保留未測試標籤。
 
-## 進度快照（2026-11-20，Asia/Taipei）
+## Batch 13 起始條件
+- Main 完成 **240 / 270**、剩 **30**；開始前重新查最新 SHA、PR #36、Actions 與前 12 批共 240 個不重複 Resource ID。
+- 從剩餘 30 個 ID 選出 **20 筆**，優先有權威來源但缺功能、使用前提與限制者；若無法核對原始作者或來源，列明 Source Gap，不可把猜測內容標為 `source-checked`。
+- 一批仍需 20 Canonical JSON + Generated Catalog／Graph + `docs/RESOURCE_CONTENT_REVIEW_BATCH13_20261121.md`（依實際日期命名）+ 更新 rolling Handoff。
+- 先 PR、查 Unified Intake／V2 Validate／P1 Graph 最新 Head CI，再合併；合併後查 main Catalog Sync、Pages Build/Deploy 與 Live Smoke 的新 Run URLs。避免把部署成功與第三方程式實測混同。
+
+> 下面是 Batch 11 及之前的歷史快照與原始證據，不應覆蓋本節最新狀態。
+
+## 歷史進度快照（2026-11-20，Asia/Taipei）
 
 | 項目 | 事實／狀態 |
 | --- | --- |
@@ -132,6 +148,7 @@
 | 09 | 20 | [Batch 09](RESOURCE_CONTENT_REVIEW_BATCH09_20261119.md) | [PR #32](https://github.com/christinekao/AI-Tool-Collection/pull/32) |
 | 10 | 20 | [Batch 10](RESOURCE_CONTENT_REVIEW_BATCH10_20261120.md) | [PR #34](https://github.com/christinekao/AI-Tool-Collection/pull/34) |
 | 11 | 20 | [Batch 11](RESOURCE_CONTENT_REVIEW_BATCH11_20261120.md) | [PR #35](https://github.com/christinekao/AI-Tool-Collection/pull/35) |
+| 12 | 20 | [Batch 12](RESOURCE_CONTENT_REVIEW_BATCH12_20261121.md) | [PR #36](https://github.com/christinekao/AI-Tool-Collection/pull/36) |
 
 ## Release Gate 與證據（不可沿用舊 PASS）
 
@@ -156,11 +173,12 @@ node scripts/validate-v2.mjs
 node scripts/check-intake-gate.mjs --base <base-sha> --head <head-sha>
 ```
 
-## 後續 Session 的第一個動作
-1. 核對 GitHub 最新 main HEAD、[PR #35](https://github.com/christinekao/AI-Tool-Collection/pull/35) 及 Actions；正式快照為 **220 / 270 Resources、剩 50**，但如果出現新 PR，應以最新 Repo 為準。
-2. 彙總 Batch 01–11 已合併 Resource ID（PR #23–30、#32、#34、#35），**排除 220 個已審查 ID**，選取另外 20 個作為 Batch 12；優先來源缺漏、過時操作／風險或內容實用性不足者。
-3. 逐筆閱讀既有 Canonical 與官方來源，保留已有深度素材；只補用途、功能、Requirements、Limitations、Source 與 intakeReview，不更動 ID、Title、Category、Tags、Primary Domain 或 Typed References。
-4. 新分支提交 20 Canonical + 派生 Catalog／Graph + `docs/RESOURCE_CONTENT_REVIEW_BATCH12_20261120.md` + 更新本 Handoff。PR 內等待 Unified Intake、V2 Validate、Graph Unit Tests PASS 後才合併。
-5. 合併後核對 main Push、Catalog Sync、Pages、Live Smoke 的 **新 SHA／Run URLs**，回寫本 Handoff，再開始 Batch 13。沒有 Runtime／Security 證據就保持未測試。
+## 下一個 Session 的第一個動作（Batch 13）
+
+1. 重新核對最新 main、PR #36 與 CI／Pages；目前正式累計 **240 / 270**，餘 **30**。
+2. 從尚未完成的 30 筆選 Batch 13 的 20 筆，優先來源可確認者；過期或缺來源的項目記錄具體缺口，禁止造假。
+3. 不修改 ID、分類、既有 Tags 與 Typed References，僅補實用內容、來源、限制和相應 Intake Review；同步派生 Catalog／Graph。
+4. 必須提交獨立 Batch 13 報告和更新 Handoff；PR CI 全通過才合併，合併後另查部署與 Live Smoke。
+5. 保留第三方 Runtime／Security／License／Integration 未測試的清楚標籤。
 
 **交接為 DoD 必要交付。** 本檔是最新快照；歷史逐筆證據必須保存在獨立 Batch 報告，不得覆蓋或刪除。
