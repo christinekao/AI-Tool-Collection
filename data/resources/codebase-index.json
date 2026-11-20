@@ -6,14 +6,14 @@
   "canonicalName": "codebase-index",
   "category": "03 Code Intelligence",
   "resourceType": "Index / Retrieval",
-  "purpose": "大型 codebase indexing，協助 Agent 找相關程式",
-  "recommendation": "適合研究大型 codebase indexing 與 Agent 導航方式。",
-  "url": "",
-  "repo": "",
+  "purpose": "在本機為程式碼建立可查詢的符號與依賴索引，幫助 Coding Agent 以檔案行號證據搜尋實作、追蹤呼叫路徑與預估修改影響。",
+  "recommendation": "適合大型 Repository 的程式碼探索與改動風險盤點；先在範例或可公開專案建立索引，檢查來源行號、索引新鮮度與部分語言的覆蓋限制。",
+  "url": "https://github.com/denfry/codebase-index",
+  "repo": "denfry/codebase-index",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-20",
   "tags": [
     "codebase-indexing",
     "retrieval",
@@ -47,6 +47,70 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "Find：回傳帶原因與 file:line 的候選實作位置及建議閱讀區間。",
+    "Trace：追蹤定義、引用及呼叫／依賴路徑，標示推論或不確定關聯。",
+    "Predict：根據依賴與 Diff 檢視變更影響，可透過 CLI、Agent Skill 或 MCP 使用。"
+  ],
+  "requirements": [
+    "官方 README 標示 Python 3.11 以上；安裝套件後在目標專案執行 index 與 init。",
+    "在修改後須更新或檢查索引，並確認專案語言是否有足夠的解析覆蓋。"
+  ],
+  "limitations": [
+    "索引結果並非完整靜態分析保證；沒有結果可能表示解析覆蓋不足，不一定代表零依賴。",
+    "索引與掃描可能讀取本機程式碼；即使官方標示預設無網路，導入前仍需審查安裝包和排除敏感檔案。"
+  ],
+  "source": {
+    "url": "https://github.com/denfry/codebase-index",
+    "readmeUrl": "https://github.com/denfry/codebase-index/blob/main/README.md",
+    "reviewedAt": "2026-11-20",
+    "type": "Official upstream README / documentation",
+    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+    },
+    "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+    },
+    "riskNotes": "索引結果並非完整靜態分析保證；沒有結果可能表示解析覆蓋不足，不一定代表零依賴。；索引與掃描可能讀取本機程式碼；即使官方標示預設無網路，導入前仍需審查安裝包和排除敏感檔案。；未執行第三方程式、未取用憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+    }
   }
 }
