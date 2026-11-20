@@ -6,14 +6,14 @@
   "canonicalName": "irons163/three-tier-agent-orchestrator",
   "category": "02 Agent Orchestration",
   "resourceType": "Orchestration",
-  "purpose": "三層 Agent coordinator / worker routing 架構",
-  "recommendation": "適合研究 coordinator / worker 分層與模型路由。",
-  "url": "",
-  "repo": "",
+  "purpose": "將 Coding Agent 任務分成主協調者、視覺／操作子任務與可重複執行工作，由主線程負責目標、派工、整合與驗收的 Codex Skill。",
+  "recommendation": "適合參考 Coordinator 與 Subagent 的責任分界；使用前檢查當前 Codex 是否支援指定模型、reasoning effort、Skills 和 Subagents，依工具實際可用性調整而非照抄版本名稱。",
+  "url": "https://github.com/irons163/three-tier-agent-orchestrator",
+  "repo": "irons163/three-tier-agent-orchestrator",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-20",
   "tags": [
     "orchestration",
     "coordinator-worker",
@@ -47,6 +47,70 @@
       "category"
     ],
     "classifiedAt": "2026-11-19",
-    "rulesVersion": "v0.1"
+    "rulesVersion": "v0.1",
+    "contentFormat": "repository",
+    "formatEvidenceFields": [
+      "url"
+    ]
+  },
+  "features": [
+    "只在明確觸發此 Skill 時分派角色；由主線程掌握範圍、整合與最後驗收。",
+    "支援依工作邊界委派獨立子任務，區分深入推理、視覺操作與重複驗證。",
+    "README 定義上下文隔離、子 Agent 命名與共享桌面狀態的序列化等規則。"
+  ],
+  "requirements": [
+    "須具備支援 Skills、Subagent、模型與 reasoning 指定的 Codex 執行環境，不能假設任何帳號都可用。",
+    "每個子任務需清楚目標、輸入、可操作檔案／工具、驗收條件及權限邊界。"
+  ],
+  "limitations": [
+    "README 的模型名稱與角色路由是作者當前設計，不代表在所有產品版本或使用者方案中可用。",
+    "平行 Agent 共享檔案、桌面或同一資源可能發生競爭；高風險操作、外部資料與人類核准不得省略。"
+  ],
+  "source": {
+    "url": "https://github.com/irons163/three-tier-agent-orchestrator",
+    "readmeUrl": "https://github.com/irons163/three-tier-agent-orchestrator/blob/main/README.md",
+    "reviewedAt": "2026-11-20",
+    "type": "Official upstream README / documentation",
+    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "url",
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-20",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "url"
+      ],
+      "reason": "比對既有 Canonical ID 與官方上游，僅更新原紀錄，不新增 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有分類、Tags、Typed References 保留；本批沒有新增或標準化標籤。"
+    },
+    "classificationReason": "保留已通過前階段盤點的 Primary Domain；本批不調整分類結構。",
+    "readingSpec": {
+      "id": "repo",
+      "status": "deferred",
+      "reason": "僅閱讀官方 README；尚未逐項驗證程式碼路徑、執行契約及深度 Repo Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有實測、版本化輸入／輸出契約；不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用現有 Concept 引用，不根據關鍵字建立 Graph 關聯。"
+    },
+    "riskNotes": "README 的模型名稱與角色路由是作者當前設計，不代表在所有產品版本或使用者方案中可用。；平行 Agent 共享檔案、桌面或同一資源可能發生競爭；高風險操作、外部資料與人類核准不得省略。；第三方程式碼未下載執行，未觸及憑證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "來源 README 已閱讀；未執行第三方 Build／Runtime／Security／Integration 測試。"
+    }
   }
 }
