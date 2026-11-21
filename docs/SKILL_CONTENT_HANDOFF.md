@@ -14,8 +14,8 @@
 | Source Evidence | 20/20 已閱讀上游官方 README／SKILL.md；**第三方 Runtime／Security／License／Integration NOT TESTED** |
 | Guide 完整度 | 新建 18 份、保留既有 2 份；所有 20 筆記錄 Trigger／Input／Execution／Output／Risk／Gate |
 | 不可變項 | 原 ID／Title／Category／Raw Tags／Domain／Typed References 不動；569 Graph Nodes／1816 Edges |
-| 交付 Scope | 20 Canonical Skills + Generated Catalog／Graph + [Batch 01 報告](SKILL_CONTENT_REVIEW_BATCH01_20261121.md) + 本 Handoff + Resource Handoff 的跨階段索引 |
-| PR／CI／Deploy | **尚未驗證**；應依 GitHub 實際 Run 更新 |
+| 交付 Scope | 20 Canonical Skills + Generated Catalog／Graph + P1 Graph Tests CI Workflow（補 Skills 觸發）+ [Batch 01 報告](SKILL_CONTENT_REVIEW_BATCH01_20261121.md) + 本 Handoff + Resource Handoff 的跨階段索引 |
+| PR／CI／Deploy | 首版 Gate 有 Capability 宣告不一致，已保留 Mapping 修復；原 P1 CI 缺少 Skills 觸發已補齊。**仍待最新 Head 完整驗證** |
 
 **本批 IDs**：
 1. `acheaisuiyimen-ache-life-to-comic-skill`

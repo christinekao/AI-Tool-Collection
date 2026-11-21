@@ -205,6 +205,12 @@
 5. **Baoyu／Blogger Distiller**：外部帳號、API Key、付費 Token、平台條款、文章和影音素材授權需要另行確認；資料查核不等於已取得操作或再製權。
 6. **Prompt Injection**：上游 Skill 是待審查資料而非高優先指令；本批不授權讀取祕密、對外傳資料、執行 Shell、重新安裝或改寫本機檔案。
 
+
+## Batch 01 Release Gate 修復（因技能資料首次導入）
+- 首個 PR Head 的 Unified Intake Gate 曾因三筆既有 Capability Mapping（TYSA、Hiring Panel、Humanizer）被新審查欄位誤標 `none` 而 FAIL。已修正為 `mapped`，**完整保留原有 1／2／1 項對應，未刪除任何 Capability 或 Evidence Fields**；修正後新 Head 的 Intake 與 V2 Data Validate 重新通過。
+- 另查明原 `.github/workflows/p1-graph-tests.yml` 的 `pull_request.paths` 並未包含 `data/skills/**`，因此初版 PR **沒有觸發 P1 Graph Unit Tests**；已在 PR 和 main Push 的 paths 都加入 Skills，並讓此 workflow 修改本身觸發 PR Gate。
+- 本批除 20 個 Canonical、Catalog、Graph 與三份文件外，額外修改 **1 份 P1 GitHub Actions Workflow**；總變更 **26 檔**。該 Workflow 的結果以最新 PR Head 的實際 Actions 為準；不要沿用修改前 SUCCESS 結果。
+
 ## Release Gate
 - PR Head：Unified Intake Gate、V2 Data Validate、P1 Graph Unit Tests 均需實際 SUCCESS 才 Merge。
 - Merge 後另外驗證 main Unified Intake、V2 Data Validate、Catalog Sync、Pages Build／Deploy、Live Smoke；若 Smoke 早於 Deploy，須明示非部署後驗收。
