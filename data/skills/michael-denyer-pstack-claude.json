@@ -3,19 +3,15 @@
   "id": "michael-denyer-pstack-claude",
   "entityType": "skill",
   "title": "pstack-claude — poteto-mode Coding Workflow Skill Pack",
-  "purpose": "透過 poteto-mode 將 coding request 分流到除錯、架構、開發、效能分析、重構、PR 追蹤等 playbook，協調 how／why、architect、arena、swarm、interrogate、tdd、deslop 與 verification 等子 Skills，提供跨 Agent 的執行與驗證方式。",
+  "purpose": "以 poteto-mode 為不同 Coding Agent Host 選擇開發、Review、測試和架構 playbook。",
   "problem": "多個 Coding Agent 若只依臨時 prompt 工作，容易缺少問題重現、架構判斷、跨工具 handoff、獨立 review 與客觀的測試證據；不同 CLI 的 Skills、Hooks 與子 Agent 工具也不相容。",
   "inputs": [
-    "使用者任務目標／待修復的缺陷或功能需求",
-    "程式碼與 Git repository 上下文",
-    "可用的 Agent runtime、模型與授權",
-    "所需的驗收條件與測試工具"
+    "Issue 或任務、程式碼及 Acceptance Criteria",
+    "Host 版本、批准的 Plugin／Hook 和可用的執行工具"
   ],
   "outputs": [
-    "選定的 playbook 及 task plan",
-    "實際變更、測試與驗收證據",
-    "需要時的架構分析／平行 Agent review／交接紀錄",
-    "變更摘要與仍存在的限制"
+    "路由後的 Skill／Playbook 和任務計畫",
+    "變更、測試、Review、風險與交接證據"
   ],
   "execution": "依源 Repo README 先在 Claude Code、Codex、Pi 或 Copilot 安裝 pstack Plugin／Skill pack，檢查 CLI 版本及自動路由 Hook 權限；在 Agent 會話以『Use poteto-mode to [goal]』或對應 Skill 命令呼叫。依選定 playbook 實際執行測試與 review，不應以工具宣稱的完成取代驗證。",
   "resourceRefs": [
@@ -48,7 +44,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-16",
-  "updatedAt": "2026-10-16",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skill-pack",
     "poteto-mode",
@@ -76,5 +72,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要跨 Host 重用工程 Workflow 或改善多 Agent 工程品質。",
+    "不能自動安裝 SessionStart Hook；各 Host 工具、版本和模型映射不可假定相同。"
+  ],
+  "constraints": [
+    "Hook 行為｜SessionStart 可能自動路由、改變 Agent 執行",
+    "跨工具差異｜不同 CLI 的子 Agent 能力可能不相容"
+  ],
+  "source": {
+    "url": "https://github.com/michael-denyer/pstack-claude/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方跨 Harness README；poteto-mode",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; external runtime/security/license/integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "以 poteto-mode 為不同 Coding Agent Host 選擇開發、Review、測試和架構 playbook。",
+    "introNote": "官方原始文件的操作契約整理；本知識庫未執行第三方安裝、Runtime 或獨立安全／授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要跨 Host 重用工程 Workflow 或改善多 Agent 工程品質。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方跨 Harness README；poteto-mode"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 README：Claude Code、Codex、Pi、Copilot 等不同安裝入口；Codex 可呼叫 $poteto-mode。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要跨 Host 重用工程 Workflow 或改善多 Agent 工程品質。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不能自動安裝 SessionStart Hook；各 Host 工具、版本和模型映射不可假定相同。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Issue 或任務、程式碼及 Acceptance Criteria",
+        "detail": "缺少輸入先確認需求，不能補造來源或結果。"
+      },
+      {
+        "title": "Host 版本、批准的 Plugin／Hook 和可用的執行工具",
+        "detail": "權限、隱私和依賴須逐項確認。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認 Host",
+        "detail": "檢版本、Hook、插件和模型可用性",
+        "result": "明確前提"
+      },
+      {
+        "number": "02",
+        "title": "路由",
+        "detail": "按任務選 poteto-mode 工作流程",
+        "result": "可執行計畫"
+      },
+      {
+        "number": "03",
+        "title": "執行驗證",
+        "detail": "真正跑測試與獨立 Review",
+        "result": "Before/After 證據"
+      },
+      {
+        "number": "04",
+        "title": "交付",
+        "detail": "保留限制與待驗範圍",
+        "result": "可交接結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要跨 Host 重用工程 Workflow 或改善多 Agent 工程品質。",
+      "meaning": "官方 README：Claude Code、Codex、Pi、Copilot 等不同安裝入口；Codex 可呼叫 $poteto-mode。",
+      "usageNote": "不能自動安裝 SessionStart Hook；各 Host 工具、版本和模型映射不可假定相同。；第三方命令需明確授權，不能由收藏自動執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "路由後的 Skill／Playbook 和任務計畫"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "變更、測試、Review、風險與交接證據"
+      }
+    ],
+    "composition": {
+      "problem": "多個 Coding Agent 若只依臨時 prompt 工作，容易缺少問題重現、架構判斷、跨工具 handoff、獨立 review 與客觀的測試證據；不同 CLI 的 Skills、Hooks 與子 Agent 工具也不相容。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "Issue 或任務、程式碼及 Acceptance Criteria；Host 版本、批准的 Plugin／Hook 和可用的執行工具",
+          "output": "路由後的 Skill／Playbook 和任務計畫；變更、測試、Review、風險與交接證據",
+          "gate": "Host、版本、Hook 權限確實確認"
+        }
+      ],
+      "note": "候選流程非已安裝 Capability，也不新增 Graph 連結。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "Hook 行為",
+        "action": "SessionStart 可能自動路由、改變 Agent 執行"
+      },
+      {
+        "title": "控制 2",
+        "risk": "跨工具差異",
+        "action": "不同 CLI 的子 Agent 能力可能不相容"
+      }
+    ],
+    "acceptance": [
+      "Host、版本、Hook 權限確實確認",
+      "沒有測試結果不聲稱 TDD 或 Review PASS"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/michael-denyer/pstack-claude/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方跨 Harness README；poteto-mode",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀，第三方安全、執行、授權與整合均未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新現有 Canonical Skill，未新增同義技能或資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags、Domains 與既有參照，不新增詞彙。"
+    },
+    "classificationReason": "本次為文件操作契約品質改善，不變更既有分類和關係。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方文件已閱讀並補完整 Trigger、I/O、Execution、Risk 與 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "保留原有 Mapping，不因 Guide 推測新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原 Typed References 保留，不新增自動關聯。"
+    },
+    "riskNotes": "Hook 行為｜SessionStart 可能自動路由、改變 Agent 執行；跨工具差異｜不同 CLI 的子 Agent 能力可能不相容；本次未執行第三方程式。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README/SKILL.md 已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

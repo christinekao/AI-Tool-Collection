@@ -3,14 +3,14 @@
   "id": "nvidia-auto-ontology-query",
   "entityType": "skill",
   "title": "NVIDIA Auto Ontology Query — 查詢與 SQL 驗證",
-  "purpose": "讓 AI Agent 透過 MCP/REST 依序檢查就緒、檢索語意、判斷問題能否回答、產生並驗證 SQL 與結果。",
+  "purpose": "在 Ontology 語意層完成可追溯的 MCP／REST 問答，驗證 SQL、來源、Population 與 Rows。",
   "whenToUse": [
-    "使用自然語言查詢企業資料、驗證 Text-to-SQL 及回答來源"
+    "自然語言問題跨多資料來源，且需治理 Business Metric 的語意一致性。",
+    "此 Skill 不修改語意模型或暴露 raw Schema；單一固定資料源可用直接查詢。"
   ],
   "constraints": [
-    "必須驗證指標 population、grain、join、unit、SQL、rows 與 truncation，不能只看查詢是否成功。",
-    "不要直接公開或呼叫 FastAPI 3001 作為公共 API；使用受驗證的 Next.js Gateway。",
-    "無足夠資料時明確告知不能回答，不得編造或過度推論。"
+    "數值錯判｜執行成功不代表計算口徑正確",
+    "截斷與會話｜100 rows cap、REST 409 等不能忽略"
   ],
   "license": "Apache-2.0",
   "commercialUse": {
@@ -35,12 +35,14 @@
   ],
   "source": {
     "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-query/SKILL.md",
-    "reviewedAt": "2026-11-05",
-    "type": "Official NVIDIA Agent SKILL.md"
+    "reviewedAt": "2026-11-21",
+    "type": "Official NVIDIA Agent SKILL.md",
+    "versionEvidence": "官方 v0.2.2、MCP read-only",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; no third-party execution, security, independent license audit, or integration"
   },
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-21",
   "tags": [
     "nvidia",
     "auto-ontology",
@@ -63,5 +65,175 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "problem": "需要在 Ontology 語意層完成可追溯的 MCP／REST 問答，驗證 SQL、來源、Population 與 Rows。；未取得實證不能把官方功能概述當成已完成。",
+  "inputs": [
+    "已認證、Ready 且編譯完成的 Auto Ontology 實例",
+    "資料問題、單位、人口和預期粒度"
+  ],
+  "outputs": [
+    "帶 SQL／Rows／Reasoning／Truncated 的回答",
+    "不可回答時的真實 Readiness／Coverage Gap"
+  ],
+  "execution": "官方 nvidia-ontology-query v0.2.2，MCP 只讀，REST fallback 僅走認證 Next.js Gateway。。文件流程：Check readiness → Discover terms → Ask → Validate；第三方安裝、遠端和檔案寫入需另行授權。",
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "在 Ontology 語意層完成可追溯的 MCP／REST 問答，驗證 SQL、來源、Population 與 Rows。",
+    "introNote": "依官方文件整理操作契約；未執行第三方安裝、Runtime、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "自然語言問題跨多資料來源，且需治理 Business Metric 的語意一致性。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 v0.2.2、MCP read-only"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 nvidia-ontology-query v0.2.2，MCP 只讀，REST fallback 僅走認證 Next.js Gateway。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "自然語言問題跨多資料來源，且需治理 Business Metric 的語意一致性。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "此 Skill 不修改語意模型或暴露 raw Schema；單一固定資料源可用直接查詢。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已認證、Ready 且編譯完成的 Auto Ontology 實例",
+        "detail": "缺少必要輸入先確認，不可補造來源。"
+      },
+      {
+        "title": "資料問題、單位、人口和預期粒度",
+        "detail": "依權限、成本和隱私限制確認資料可用。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "Check readiness",
+        "detail": "檢 compiled layer 和 DB 連線",
+        "result": "可以查詢的證據"
+      },
+      {
+        "number": "02",
+        "title": "Discover terms",
+        "detail": "search_terms、check_answerable",
+        "result": "語意對照"
+      },
+      {
+        "number": "03",
+        "title": "Ask",
+        "detail": "ask_question 或授權 REST 回傳結果",
+        "result": "回答與 SQL"
+      },
+      {
+        "number": "04",
+        "title": "Validate",
+        "detail": "查人口、單位、grain、join、lineage 和截斷",
+        "result": "可支持的結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "自然語言問題跨多資料來源，且需治理 Business Metric 的語意一致性。",
+      "meaning": "官方 nvidia-ontology-query v0.2.2，MCP 只讀，REST fallback 僅走認證 Next.js Gateway。",
+      "usageNote": "此 Skill 不修改語意模型或暴露 raw Schema；單一固定資料源可用直接查詢。；原始指令不代表本庫授權執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "帶 SQL／Rows／Reasoning／Truncated 的回答"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "不可回答時的真實 Readiness／Coverage Gap"
+      }
+    ],
+    "composition": {
+      "problem": "需要在 Ontology 語意層完成可追溯的 MCP／REST 問答，驗證 SQL、來源、Population 與 Rows。；未取得實證不能把官方功能概述當成已完成。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "已認證、Ready 且編譯完成的 Auto Ontology 實例；資料問題、單位、人口和預期粒度",
+          "output": "帶 SQL／Rows／Reasoning／Truncated 的回答；不可回答時的真實 Readiness／Coverage Gap",
+          "gate": "Claim-bearing 結果具真實 SQL、口徑和來源檢查"
+        }
+      ],
+      "note": "候選流程非已安裝的正式 Capability；不新增 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "數值錯判",
+        "action": "執行成功不代表計算口徑正確"
+      },
+      {
+        "title": "控制 2",
+        "risk": "截斷與會話",
+        "action": "100 rows cap、REST 409 等不能忽略"
+      }
+    ],
+    "acceptance": [
+      "Claim-bearing 結果具真實 SQL、口徑和來源檢查",
+      "空結果先驗證 readiness 而非編造答案"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-query/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 v0.2.2、MCP read-only",
+      "execution": "NOT_EXECUTED",
+      "notes": "已讀官方文件但第三方 Runtime、Security、License、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "維持原 ID，僅修正既有 Skill 的內容，不重複新增。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags、Domains 和所有 Typed References；沒有新增分類。"
+    },
+    "classificationReason": "僅內容品質改善，不修改既有分類和 Graph 參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方來源已核實並補 Trigger、Inputs、Steps、Outputs、Risks、Gates。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "既有 Capability 保持，不從 Guide 臆造新能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "已有 Concepts 保留，無新增關係。"
+    },
+    "riskNotes": "數值錯判｜執行成功不代表計算口徑正確；截斷與會話｜100 rows cap、REST 409 等不能忽略；本批無第三方 Runtime 測試。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方文件閱讀已完成；第三方 Runtime、Security、License、Integration NOT TESTED。"
+    }
   }
 }

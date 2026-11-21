@@ -3,16 +3,17 @@
   "id": "mattpocock-grill-with-docs",
   "entityType": "skill",
   "title": "Matt Pocock /grill-with-docs — Clarification with Glossary and ADR documentation",
-  "purpose": "在已有工作目錄的專案中反覆釐清需求，同步紀錄術語與決策於 GLOSSARY.md、ADR 或相關文件。",
-  "problem": "Coding Agent 缺乏特定的需求釐清、交付、測試或 Bug 分類程序，可能導致返工、誤判與缺乏可追溯來源。",
+  "purpose": "將需求訪談與專案術語、架構決策文件同步建立，減少未來 Session 誤解。",
+  "problem": "需要將需求訪談與專案術語、架構決策文件同步建立，減少未來 Session 誤解。；無足夠來源時不得推測已安裝或已驗證。",
   "inputs": [
-    "已授權的專案脈絡／使用者需求",
-    "必要時的 Repo、Issue、Docs 或前次 Session"
+    "待釐清需求及設計決策",
+    "現有 Glossary、ADR、專案文件及寫入權限"
   ],
   "outputs": [
-    "依 Skill 類型產生的需求答案、文件、測試成果、交接摘要或 Issue 評估"
+    "確認的共用術語與取捨",
+    "經核准更新的 GLOSSARY.md 和 ADR"
   ],
-  "execution": "來源 Repo mattpocock/skills 的 skills/engineering/grill-with-docs/SKILL.md；在已合法安裝及設定的支援 Agent 環境中呼叫 /grill-with-docs，不得因為已收錄就聲稱本環境可直接執行。部分 Skill 會更新專案文件或 Issue、可能牽涉權限與資料讀寫。請按官方最新版確認安裝方式；同一 Agent 不要同時裝 Plugin 與 skills.sh 版造成重複。",
+  "execution": "官方 user-invoked，呼叫 Skill tool 的 grilling 與 domain-modeling 兩個技能。。文件階段流程：閱讀既有文件 → 雙技能追問 → 寫入覆核；安裝、網路、寫入和實際測試皆須另行授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +37,14 @@
   "source": {
     "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
     "type": "Official standalone SKILL.md",
-    "summary": "Official source inspected 2026-10-24; not installed or executed."
+    "summary": "Official source inspected 2026-10-24; not installed or executed.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 grilling + domain-modeling",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; external runtime/security/license/integration NOT EXECUTED"
   },
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-21",
   "tags": [
     "mattpocock",
     "skills.sh",
@@ -66,5 +70,167 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "明確呼叫 /grill-with-docs 並希望保存 Glossary／ADR。",
+    "只要訪談不要文件時選 /grill-me；未同意的名詞和 ADR 不能直接寫入。"
+  ],
+  "constraints": [
+    "文件副作用｜Glossary／ADR 會改變之後的 Agent 理解",
+    "過度建模｜不可把假設寫成公認術語"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "將需求訪談與專案術語、架構決策文件同步建立，減少未來 Session 誤解。",
+    "introNote": "官方原始文件的操作契約整理；本知識庫未執行第三方安裝、Runtime 或獨立安全／授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "明確呼叫 /grill-with-docs 並希望保存 Glossary／ADR。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 grilling + domain-modeling"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 user-invoked，呼叫 Skill tool 的 grilling 與 domain-modeling 兩個技能。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "明確呼叫 /grill-with-docs 並希望保存 Glossary／ADR。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "只要訪談不要文件時選 /grill-me；未同意的名詞和 ADR 不能直接寫入。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "待釐清需求及設計決策",
+        "detail": "缺少輸入先確認需求，不能補造來源或結果。"
+      },
+      {
+        "title": "現有 Glossary、ADR、專案文件及寫入權限",
+        "detail": "權限、隱私和依賴須逐項確認。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "閱讀既有文件",
+        "detail": "先辨識既有術語和已決策事項",
+        "result": "差異清單"
+      },
+      {
+        "number": "02",
+        "title": "雙技能追問",
+        "detail": "grilling 加 domain-modeling 釐清邊界",
+        "result": "使用者同意的定義"
+      },
+      {
+        "number": "03",
+        "title": "寫入覆核",
+        "detail": "最小化更新 Glossary／ADR 並顯示 Diff",
+        "result": "持久可追溯的專案共識"
+      }
+    ],
+    "howToUse": {
+      "trigger": "明確呼叫 /grill-with-docs 並希望保存 Glossary／ADR。",
+      "meaning": "官方 user-invoked，呼叫 Skill tool 的 grilling 與 domain-modeling 兩個技能。",
+      "usageNote": "只要訪談不要文件時選 /grill-me；未同意的名詞和 ADR 不能直接寫入。；第三方命令需明確授權，不能由收藏自動執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "確認的共用術語與取捨"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "經核准更新的 GLOSSARY.md 和 ADR"
+      }
+    ],
+    "composition": {
+      "problem": "需要將需求訪談與專案術語、架構決策文件同步建立，減少未來 Session 誤解。；無足夠來源時不得推測已安裝或已驗證。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "待釐清需求及設計決策；現有 Glossary、ADR、專案文件及寫入權限",
+          "output": "確認的共用術語與取捨；經核准更新的 GLOSSARY.md 和 ADR",
+          "gate": "變更都能連回已確認的回答"
+        }
+      ],
+      "note": "候選流程非已安裝 Capability，也不新增 Graph 連結。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "文件副作用",
+        "action": "Glossary／ADR 會改變之後的 Agent 理解"
+      },
+      {
+        "title": "控制 2",
+        "risk": "過度建模",
+        "action": "不可把假設寫成公認術語"
+      }
+    ],
+    "acceptance": [
+      "變更都能連回已確認的回答",
+      "舊 ADR 不被無聲覆蓋"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 grilling + domain-modeling",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀，第三方安全、執行、授權與整合均未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新現有 Canonical Skill，未新增同義技能或資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags、Domains 與既有參照，不新增詞彙。"
+    },
+    "classificationReason": "本次為文件操作契約品質改善，不變更既有分類和關係。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方文件已閱讀並補完整 Trigger、I/O、Execution、Risk 與 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "保留原有 Mapping，不因 Guide 推測新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原 Typed References 保留，不新增自動關聯。"
+    },
+    "riskNotes": "文件副作用｜Glossary／ADR 會改變之後的 Agent 理解；過度建模｜不可把假設寫成公認術語；本次未執行第三方程式。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README/SKILL.md 已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

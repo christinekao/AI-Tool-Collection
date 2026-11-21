@@ -3,11 +3,17 @@
   "id": "motion-dev-animations-skill",
   "entityType": "skill",
   "title": "motion-dev-animations-skill",
-  "purpose": "教 Agent 如何使用 UI motion",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "purpose": "以 Motion.dev 為 React、Next.js、Svelte 或 Astro 頁面實作入場、手勢、捲動和 Layout 動畫。",
+  "problem": "需要以 Motion.dev 為 React、Next.js、Svelte 或 Astro 頁面實作入場、手勢、捲動和 Layout 動畫。；未取得實證不能把官方功能概述當成已完成。",
+  "inputs": [
+    "現有框架、元件和動畫觸發方式",
+    "動效目標、目標裝置及 Reduced Motion 需求"
+  ],
+  "outputs": [
+    "可編輯 Motion.dev 元件和動效設定",
+    "效能、CLS、鍵盤和 prefers-reduced-motion 測試證據"
+  ],
+  "execution": "官方根目錄 SKILL.md 名稱 motion-dev-animations，metadata v3.0.0，依 Host 描述匹配。。文件流程：Clarify → Plan → Implement → Verify；第三方安裝、遠端和檔案寫入需另行授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -30,7 +36,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "ui-motion",
     "skills",
@@ -47,5 +53,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要 Motion.dev 的動畫狀態、Spring、Scroll 或互動操作。",
+    "CSS-only、靜態無 JS、Vue motion-v、複雜 SVG/Canvas 應選其他工具；120fps 不是已測結果。"
+  ],
+  "constraints": [
+    "效能誇大｜上游 120fps、50KB 是目標，不是保證",
+    "可及性｜忽略 Reduced Motion 或鍵盤會傷害使用者體驗"
+  ],
+  "source": {
+    "url": "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/main/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 SKILL.md v3.0.0",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; no third-party execution, security, independent license audit, or integration"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "以 Motion.dev 為 React、Next.js、Svelte 或 Astro 頁面實作入場、手勢、捲動和 Layout 動畫。",
+    "introNote": "依官方文件整理操作契約；未執行第三方安裝、Runtime、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要 Motion.dev 的動畫狀態、Spring、Scroll 或互動操作。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 SKILL.md v3.0.0"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方根目錄 SKILL.md 名稱 motion-dev-animations，metadata v3.0.0，依 Host 描述匹配。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要 Motion.dev 的動畫狀態、Spring、Scroll 或互動操作。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "CSS-only、靜態無 JS、Vue motion-v、複雜 SVG/Canvas 應選其他工具；120fps 不是已測結果。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "現有框架、元件和動畫觸發方式",
+        "detail": "缺少必要輸入先確認，不可補造來源。"
+      },
+      {
+        "title": "動效目標、目標裝置及 Reduced Motion 需求",
+        "detail": "依權限、成本和隱私限制確認資料可用。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "Clarify",
+        "detail": "確認框架、動畫種類和效能約束",
+        "result": "需求範圍"
+      },
+      {
+        "number": "02",
+        "title": "Plan",
+        "detail": "選 Entrance／Gesture／Scroll／Layout 和時間參數",
+        "result": "動效設計"
+      },
+      {
+        "number": "03",
+        "title": "Implement",
+        "detail": "增量加入 GPU-friendly 動畫與 Reduced Motion",
+        "result": "可運作程式碼"
+      },
+      {
+        "number": "04",
+        "title": "Verify",
+        "detail": "以 DevTools、Lighthouse 與手機操作實測",
+        "result": "真實 FPS／可及性結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要 Motion.dev 的動畫狀態、Spring、Scroll 或互動操作。",
+      "meaning": "官方根目錄 SKILL.md 名稱 motion-dev-animations，metadata v3.0.0，依 Host 描述匹配。",
+      "usageNote": "CSS-only、靜態無 JS、Vue motion-v、複雜 SVG/Canvas 應選其他工具；120fps 不是已測結果。；原始指令不代表本庫授權執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "可編輯 Motion.dev 元件和動效設定"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "效能、CLS、鍵盤和 prefers-reduced-motion 測試證據"
+      }
+    ],
+    "composition": {
+      "problem": "需要以 Motion.dev 為 React、Next.js、Svelte 或 Astro 頁面實作入場、手勢、捲動和 Layout 動畫。；未取得實證不能把官方功能概述當成已完成。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "現有框架、元件和動畫觸發方式；動效目標、目標裝置及 Reduced Motion 需求",
+          "output": "可編輯 Motion.dev 元件和動效設定；效能、CLS、鍵盤和 prefers-reduced-motion 測試證據",
+          "gate": "真實裝置或 Browser 測過 FPS／CLS"
+        }
+      ],
+      "note": "候選流程非已安裝的正式 Capability；不新增 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "效能誇大",
+        "action": "上游 120fps、50KB 是目標，不是保證"
+      },
+      {
+        "title": "控制 2",
+        "risk": "可及性",
+        "action": "忽略 Reduced Motion 或鍵盤會傷害使用者體驗"
+      }
+    ],
+    "acceptance": [
+      "真實裝置或 Browser 測過 FPS／CLS",
+      "Reduced Motion 和觸控、鍵盤皆有回歸"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/main/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 SKILL.md v3.0.0",
+      "execution": "NOT_EXECUTED",
+      "notes": "已讀官方文件但第三方 Runtime、Security、License、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "維持原 ID，僅修正既有 Skill 的內容，不重複新增。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags、Domains 和所有 Typed References；沒有新增分類。"
+    },
+    "classificationReason": "僅內容品質改善，不修改既有分類和 Graph 參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方來源已核實並補 Trigger、Inputs、Steps、Outputs、Risks、Gates。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "既有 Capability 保持，不從 Guide 臆造新能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "已有 Concepts 保留，無新增關係。"
+    },
+    "riskNotes": "效能誇大｜上游 120fps、50KB 是目標，不是保證；可及性｜忽略 Reduced Motion 或鍵盤會傷害使用者體驗；本批無第三方 Runtime 測試。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方文件閱讀已完成；第三方 Runtime、Security、License、Integration NOT TESTED。"
+    }
   }
 }

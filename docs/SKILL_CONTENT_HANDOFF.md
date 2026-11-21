@@ -1,5 +1,40 @@
 # Phase 2 Skills — 最新 Session 交接
 
+## Skills Batch 05 — 分支內容完成，PR／CI／部署待核驗（2026-11-21）
+
+- Base main：`8fb823d054abaa0b2e8b88a9e9ec20c2d43e3fc4`；分支：`skill-content-batch05-20261121`。
+- 第 81–100 筆 **20/20 Canonical Skills** 已補強專用 `skillGuide` 與 `intakeReview`；同步 Derived Catalog、Graph、[Batch 05 逐筆審查報告](SKILL_CONTENT_REVIEW_BATCH05_20261121.md)。
+- 正式合併進度仍為 Batch 01–04：**80/123（65.0%）**、剩 43；**Batch 05 尚未合併**，不得誤認已達 100/123。
+- 文件證據：15/20 官方 GitHub README／SKILL.md 已讀；5/20 MiniMax 官方 Skills Catalog 已確認名稱與用途，但原始 Package／SKILL.md **PARTIAL**。
+- ID、Tags、分類、Typed References 原狀；Graph 維持 **569 Nodes／1816 Edges**。
+- 第三方 Skill 安裝、Runtime、獨立安全掃描、完整 License、Integration **NOT TESTED**。
+- PR、CI Run IDs、main Merge、Pages Deploy、部署後 Live Smoke **尚未取得可回查證據**，不能先標示 PASS。新 Session 需重新查 GitHub 狀態。
+
+### 下一批 Batch 06：第 101–120 筆（未開始）
+101. `oh-my-mermaid-omm-scan`
+102. `oh-my-mermaid-omm-view`
+103. `onetake`
+104. `photo-riso-poster`
+105. `punk-skill`
+106. `qingyuna-answer-me-with-html-skill`
+107. `rea-reverse-engineer-anything`
+108. `research-to-diagram`
+109. `reverse-skill`
+110. `reverse-skill-2`
+111. `seokwoooo-lucian-uxui`
+112. `social-post`
+113. `stitch-skills`
+114. `thu-maic-openmaic-skill`
+115. `unclebob-ub-mode`
+116. `usestrix-strix-security-skills`
+117. `viral-hook-title`
+118. `voltagent-awesome-agent-skills`
+119. `voltagent-awesome-openclaw-skills`
+120. `yanliudesign-mono-color-skill`
+- Batch 07（121–123）：`yusufkaraaslan-skill-seekers`、`zhouxiaoka-autoclip-autoclip`、`zhouxiaoka-autoclip-product-board`。
+
+---
+
 ## Skills Batch 04 — 已合併且 main 部署／正式站驗收通過（2026-11-21）
 
 - Base main：`5b30be7aeda7df09ff99c546e75b9fd8b79ed39c`；工作分支：`skill-content-batch04-20261121`。
