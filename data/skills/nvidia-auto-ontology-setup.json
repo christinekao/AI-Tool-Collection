@@ -3,14 +3,14 @@
   "id": "nvidia-auto-ontology-setup",
   "entityType": "skill",
   "title": "NVIDIA Auto Ontology Setup — 部署與連線",
-  "purpose": "部署 NVIDIA Auto Ontology（Helm 或 Docker Compose）、配置資料來源、執行語意編譯、檢查服務就緒及 MCP 連線。",
+  "purpose": "部署或檢修 Auto Ontology Helm／Docker Compose，或連線已存在的 MCP 服務。",
   "whenToUse": [
-    "部署、設定、連線、攝取、語意編譯或排錯"
+    "Auto Ontology 尚未安裝、未就緒或需要排查認證與 DB 連線。",
+    "需先確定 Helm／Docker／既有 MCP 與環境成本；Secrets 不能貼在聊天和指令參數。"
   ],
   "constraints": [
-    "不可要求在聊天中貼出密碼、API Key 或連線字串；請使用權限受控的 .env／values file。",
-    "使用官方部署流程，勿自行創造安裝指令。",
-    "部署前應檢查 Vault、資料庫密碼和容器服務網路隔離。"
+    "Secrets 外洩｜不得把 Key 放到命令或對話",
+    "API 網路風險｜FastAPI 3001 必須隔離或防火牆限制"
   ],
   "license": "Apache-2.0",
   "commercialUse": {
@@ -35,12 +35,14 @@
   ],
   "source": {
     "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-setup/SKILL.md",
-    "reviewedAt": "2026-11-05",
-    "type": "Official NVIDIA Agent SKILL.md"
+    "reviewedAt": "2026-11-21",
+    "type": "Official NVIDIA Agent SKILL.md",
+    "versionEvidence": "官方 v0.3.2、Apache-2.0 宣告",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; no third-party execution, security, independent license audit, or integration"
   },
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-21",
   "tags": [
     "nvidia",
     "auto-ontology",
@@ -65,5 +67,175 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "problem": "需要部署或檢修 Auto Ontology Helm／Docker Compose，或連線已存在的 MCP 服務。；未取得實證不能把官方功能概述當成已完成。",
+  "inputs": [
+    "部署方式、Chart 版本與 appUrl／網路規劃",
+    "由使用者在安全檔案中維護的 NIM Key、Admin、DB 資訊"
+  ],
+  "outputs": [
+    "真正的部署、認證及 MCP Readiness 證據",
+    "Migration、DB、Port 問題及復原說明"
+  ],
+  "execution": "官方 nvidia-ontology-setup v0.3.2；Helm 是正式安裝，Compose 單機，dev_tools/setup_env.sh 是開發工具。。文件流程：確認目標 → 安全設定 → 部署 → 檢驗；第三方安裝、遠端和檔案寫入需另行授權。",
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "部署或檢修 Auto Ontology Helm／Docker Compose，或連線已存在的 MCP 服務。",
+    "introNote": "依官方文件整理操作契約；未執行第三方安裝、Runtime、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "Auto Ontology 尚未安裝、未就緒或需要排查認證與 DB 連線。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 v0.3.2、Apache-2.0 宣告"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 nvidia-ontology-setup v0.3.2；Helm 是正式安裝，Compose 單機，dev_tools/setup_env.sh 是開發工具。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "Auto Ontology 尚未安裝、未就緒或需要排查認證與 DB 連線。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "需先確定 Helm／Docker／既有 MCP 與環境成本；Secrets 不能貼在聊天和指令參數。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "部署方式、Chart 版本與 appUrl／網路規劃",
+        "detail": "缺少必要輸入先確認，不可補造來源。"
+      },
+      {
+        "title": "由使用者在安全檔案中維護的 NIM Key、Admin、DB 資訊",
+        "detail": "依權限、成本和隱私限制確認資料可用。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認目標",
+        "detail": "區分 Helm、Compose、Dev、只用 MCP",
+        "result": "環境清單"
+      },
+      {
+        "number": "02",
+        "title": "安全設定",
+        "detail": "使用者自行在 values/.env 保存密鑰，排除 Git",
+        "result": "可部署配置"
+      },
+      {
+        "number": "03",
+        "title": "部署",
+        "detail": "按經核准的官方流程安裝並查看 Migration",
+        "result": "服務狀態"
+      },
+      {
+        "number": "04",
+        "title": "檢驗",
+        "detail": "查 OAuth、MCP、編譯與資料庫就緒",
+        "result": "可追溯測試"
+      }
+    ],
+    "howToUse": {
+      "trigger": "Auto Ontology 尚未安裝、未就緒或需要排查認證與 DB 連線。",
+      "meaning": "官方 nvidia-ontology-setup v0.3.2；Helm 是正式安裝，Compose 單機，dev_tools/setup_env.sh 是開發工具。",
+      "usageNote": "需先確定 Helm／Docker／既有 MCP 與環境成本；Secrets 不能貼在聊天和指令參數。；原始指令不代表本庫授權執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "真正的部署、認證及 MCP Readiness 證據"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "Migration、DB、Port 問題及復原說明"
+      }
+    ],
+    "composition": {
+      "problem": "需要部署或檢修 Auto Ontology Helm／Docker Compose，或連線已存在的 MCP 服務。；未取得實證不能把官方功能概述當成已完成。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "部署方式、Chart 版本與 appUrl／網路規劃；由使用者在安全檔案中維護的 NIM Key、Admin、DB 資訊",
+          "output": "真正的部署、認證及 MCP Readiness 證據；Migration、DB、Port 問題及復原說明",
+          "gate": "Chart／APP_URL 及端口逐項核對"
+        }
+      ],
+      "note": "候選流程非已安裝的正式 Capability；不新增 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "Secrets 外洩",
+        "action": "不得把 Key 放到命令或對話"
+      },
+      {
+        "title": "控制 2",
+        "risk": "API 網路風險",
+        "action": "FastAPI 3001 必須隔離或防火牆限制"
+      }
+    ],
+    "acceptance": [
+      "Chart／APP_URL 及端口逐項核對",
+      "真正確認 Migration、Readiness 與登入才通過"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-setup/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 v0.3.2、Apache-2.0 宣告",
+      "execution": "NOT_EXECUTED",
+      "notes": "已讀官方文件但第三方 Runtime、Security、License、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "維持原 ID，僅修正既有 Skill 的內容，不重複新增。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags、Domains 和所有 Typed References；沒有新增分類。"
+    },
+    "classificationReason": "僅內容品質改善，不修改既有分類和 Graph 參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方來源已核實並補 Trigger、Inputs、Steps、Outputs、Risks、Gates。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "既有 Capability 保持，不從 Guide 臆造新能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "已有 Concepts 保留，無新增關係。"
+    },
+    "riskNotes": "Secrets 外洩｜不得把 Key 放到命令或對話；API 網路風險｜FastAPI 3001 必須隔離或防火牆限制；本批無第三方 Runtime 測試。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方文件閱讀已完成；第三方 Runtime、Security、License、Integration NOT TESTED。"
+    }
   }
 }

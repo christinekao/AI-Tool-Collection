@@ -3,14 +3,14 @@
   "id": "nvidia-auto-ontology-management",
   "entityType": "skill",
   "title": "NVIDIA Auto Ontology Management — 語意模型管理與發布",
-  "purpose": "管理、審核及發布 Ontology 的商業術語、SQL 指標屬性、資料關係與模型匯入匯出。",
+  "purpose": "修改及治理 Auto Ontology 的 Business Terms、SQL Measures、匯入模型與發布結果。",
   "whenToUse": [
-    "設計或修改企業語意模型、調整指標定義、審核模型及發布"
+    "需要改寫語意層術語、關係、指標或執行模型 Import／Export。",
+    "MCP 僅能讀；不可直接連 FastAPI 3001；Replace／Compile Reset 需獨立核准。"
   ],
   "constraints": [
-    "MCP 為唯讀；修改必須透過有權限的 Next.js API。",
-    "不得將 API 成功回應視為模型正確或已完成認證。",
-    "import replace 與 semantic compilation reset 可能造成覆寫或重建，需先備份、確認與讀回驗證。"
+    "破壞性操作｜Compile Reset 是全域非同步重建，不能當 Cleanup",
+    "身分繞過｜FastAPI 3001 信任 Header，不能對外作直接入口"
   ],
   "license": "Apache-2.0",
   "commercialUse": {
@@ -35,12 +35,14 @@
   ],
   "source": {
     "url": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-management/SKILL.md",
-    "reviewedAt": "2026-11-05",
-    "type": "Official NVIDIA Agent SKILL.md"
+    "reviewedAt": "2026-11-21",
+    "type": "Official NVIDIA Agent SKILL.md",
+    "versionEvidence": "官方 v0.2.2、Apache-2.0 宣告",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; no third-party execution, security, independent license audit, or integration"
   },
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-21",
   "tags": [
     "nvidia",
     "auto-ontology",
@@ -64,5 +66,175 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "problem": "需要修改及治理 Auto Ontology 的 Business Terms、SQL Measures、匯入模型與發布結果。；未取得實證不能把官方功能概述當成已完成。",
+  "inputs": [
+    "已有具權限的 Auto Ontology 環境與模型",
+    "欲變更指標的 source、grain、population、units 和復原備份"
+  ],
+  "outputs": [
+    "模型變更、API 回應和持久化 Readback",
+    "SQL／語意問題的正負向檢查與發布 Gate"
+  ],
+  "execution": "官方 nvidia-ontology-management v0.2.2；認證 Next.js REST Gateway 寫入，MCP 只讀。。文件流程：Discover → Model → Validate and Write → Readback；第三方安裝、遠端和檔案寫入需另行授權。",
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "修改及治理 Auto Ontology 的 Business Terms、SQL Measures、匯入模型與發布結果。",
+    "introNote": "依官方文件整理操作契約；未執行第三方安裝、Runtime、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要改寫語意層術語、關係、指標或執行模型 Import／Export。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 v0.2.2、Apache-2.0 宣告"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 nvidia-ontology-management v0.2.2；認證 Next.js REST Gateway 寫入，MCP 只讀。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要改寫語意層術語、關係、指標或執行模型 Import／Export。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "MCP 僅能讀；不可直接連 FastAPI 3001；Replace／Compile Reset 需獨立核准。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已有具權限的 Auto Ontology 環境與模型",
+        "detail": "缺少必要輸入先確認，不可補造來源。"
+      },
+      {
+        "title": "欲變更指標的 source、grain、population、units 和復原備份",
+        "detail": "依權限、成本和隱私限制確認資料可用。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "Discover",
+        "detail": "以 search_terms、get_term 等只讀工具盤點原定義",
+        "result": "Baseline"
+      },
+      {
+        "number": "02",
+        "title": "Model",
+        "detail": "寫出人口、粒度、單位、來源及反例",
+        "result": "變更 Proposal"
+      },
+      {
+        "number": "03",
+        "title": "Validate and Write",
+        "detail": "先校驗 SQL，經明確許可在 Gateway 走最小寫入",
+        "result": "API 結果"
+      },
+      {
+        "number": "04",
+        "title": "Readback",
+        "detail": "重新匯出或查詢比較，檢查回答是否仍正確",
+        "result": "可驗證新狀態"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要改寫語意層術語、關係、指標或執行模型 Import／Export。",
+      "meaning": "官方 nvidia-ontology-management v0.2.2；認證 Next.js REST Gateway 寫入，MCP 只讀。",
+      "usageNote": "MCP 僅能讀；不可直接連 FastAPI 3001；Replace／Compile Reset 需獨立核准。；原始指令不代表本庫授權執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "模型變更、API 回應和持久化 Readback"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "SQL／語意問題的正負向檢查與發布 Gate"
+      }
+    ],
+    "composition": {
+      "problem": "需要修改及治理 Auto Ontology 的 Business Terms、SQL Measures、匯入模型與發布結果。；未取得實證不能把官方功能概述當成已完成。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "已有具權限的 Auto Ontology 環境與模型；欲變更指標的 source、grain、population、units 和復原備份",
+          "output": "模型變更、API 回應和持久化 Readback；SQL／語意問題的正負向檢查與發布 Gate",
+          "gate": "所有 Replace／Reset 事前核准且有 Backup"
+        }
+      ],
+      "note": "候選流程非已安裝的正式 Capability；不新增 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "破壞性操作",
+        "action": "Compile Reset 是全域非同步重建，不能當 Cleanup"
+      },
+      {
+        "title": "控制 2",
+        "risk": "身分繞過",
+        "action": "FastAPI 3001 信任 Header，不能對外作直接入口"
+      }
+    ],
+    "acceptance": [
+      "所有 Replace／Reset 事前核准且有 Backup",
+      "真正 Readback 通過才稱模型發布成功"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-management/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 v0.2.2、Apache-2.0 宣告",
+      "execution": "NOT_EXECUTED",
+      "notes": "已讀官方文件但第三方 Runtime、Security、License、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "維持原 ID，僅修正既有 Skill 的內容，不重複新增。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags、Domains 和所有 Typed References；沒有新增分類。"
+    },
+    "classificationReason": "僅內容品質改善，不修改既有分類和 Graph 參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方來源已核實並補 Trigger、Inputs、Steps、Outputs、Risks、Gates。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "既有 Capability 保持，不從 Guide 臆造新能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "已有 Concepts 保留，無新增關係。"
+    },
+    "riskNotes": "破壞性操作｜Compile Reset 是全域非同步重建，不能當 Cleanup；身分繞過｜FastAPI 3001 信任 Header，不能對外作直接入口；本批無第三方 Runtime 測試。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方文件閱讀已完成；第三方 Runtime、Security、License、Integration NOT TESTED。"
+    }
   }
 }

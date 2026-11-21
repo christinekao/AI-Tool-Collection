@@ -23,27 +23,27 @@
   ],
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-21",
   "id": "oh-my-mermaid-omm-push",
   "title": "Oh My Mermaid /omm-push — GitHub OAuth & Cloud Architecture Sync",
-  "purpose": "在使用者同意上傳後，檢查登入與專案連結狀態，將 `.omm/` 架構文件推送至 ohmymermaid.com 服務。",
+  "purpose": "經使用者同意以 GitHub OAuth 將 .omm/ 架構文件傳到 Oh My Mermaid 雲端並分享。",
   "problem": "需要在團隊之間遠端分享生成的 Mermaid 架構文件，且需處理 OAuth 登入、連結 Project 與錯誤狀態。",
   "inputs": [
-    "已生成 `.omm/` 文件",
-    "GitHub OAuth 使用者登入",
-    "外部雲端上傳與分享授權",
-    "服務方案與目標 Project"
+    "已完成且已檢敏的 .omm/ 文件",
+    "外部上傳與 OAuth 授權、目標 Cloud Project"
   ],
   "outputs": [
-    "上傳結果與檔案數",
-    "ohmymermaid.com 的雲端 Project URL",
-    "適用時的共享連結"
+    "真正成功時的上傳檔案數和 Project URL",
+    "方案允許時的 Share Link 或 401/403 等錯誤"
   ],
   "execution": "官方 skills/omm-push/SKILL.md：`/omm-push` 會先查 `omm share` 登入狀態，若需要則 `omm login` 使用 GitHub OAuth，再 `omm link` 設定 Project Slug，最後 `omm push` 實際傳檔。未通過 OAuth、沒有資料外送授權或觸發限額時不得宣稱完成；401、403、Network Error 等需如實回報。與 `/omm-view` 不同，此 Skill 明確會連線及傳送架構文件至第三方雲端，不適合未審查的公司內部架構。此輪未執行。",
   "source": {
     "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-push/SKILL.md",
     "type": "Official agent SKILL.md",
-    "summary": "Official login/link/push sequence and errors verified, not run."
+    "summary": "Official login/link/push sequence and errors verified, not run.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 login／link／push 序列",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; no third-party execution, security, independent license audit, or integration"
   },
   "tags": [
     "oh-my-mermaid",
@@ -68,5 +68,173 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "明確呼叫 /omm-push 或要求遠端分享 .omm 架構文件。",
+    "含公司機密／個資或未經外送授權時必須停止；/omm-view 不代表 Cloud Push。"
+  ],
+  "constraints": [
+    "外送機密｜內部架構資訊不可默認上傳",
+    "權限與費用｜OAuth、Project 限額或方案會阻止傳檔"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "經使用者同意以 GitHub OAuth 將 .omm/ 架構文件傳到 Oh My Mermaid 雲端並分享。",
+    "introNote": "依官方文件整理操作契約；未執行第三方安裝、Runtime、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "明確呼叫 /omm-push 或要求遠端分享 .omm 架構文件。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 login／link／push 序列"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 /omm-push；依序 omm share → 必要時 omm login → omm link → omm push。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "明確呼叫 /omm-push 或要求遠端分享 .omm 架構文件。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "含公司機密／個資或未經外送授權時必須停止；/omm-view 不代表 Cloud Push。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已完成且已檢敏的 .omm/ 文件",
+        "detail": "缺少必要輸入先確認，不可補造來源。"
+      },
+      {
+        "title": "外部上傳與 OAuth 授權、目標 Cloud Project",
+        "detail": "依權限、成本和隱私限制確認資料可用。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "資料審核",
+        "detail": "確認敏感架構和外送同意",
+        "result": "可傳輸檔案清單"
+      },
+      {
+        "number": "02",
+        "title": "檢登入",
+        "detail": "omm share，必要時 GitHub OAuth",
+        "result": "合法認證"
+      },
+      {
+        "number": "03",
+        "title": "建立連結後 Push",
+        "detail": "確認 Project Slug 才傳送",
+        "result": "服務回應"
+      },
+      {
+        "number": "04",
+        "title": "報告",
+        "detail": "成功列 URL 和檔數，失敗列 401／403／Network",
+        "result": "真實狀態"
+      }
+    ],
+    "howToUse": {
+      "trigger": "明確呼叫 /omm-push 或要求遠端分享 .omm 架構文件。",
+      "meaning": "官方 /omm-push；依序 omm share → 必要時 omm login → omm link → omm push。",
+      "usageNote": "含公司機密／個資或未經外送授權時必須停止；/omm-view 不代表 Cloud Push。；原始指令不代表本庫授權執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "真正成功時的上傳檔案數和 Project URL"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "方案允許時的 Share Link 或 401/403 等錯誤"
+      }
+    ],
+    "composition": {
+      "problem": "需要在團隊之間遠端分享生成的 Mermaid 架構文件，且需處理 OAuth 登入、連結 Project 與錯誤狀態。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "已完成且已檢敏的 .omm/ 文件；外部上傳與 OAuth 授權、目標 Cloud Project",
+          "output": "真正成功時的上傳檔案數和 Project URL；方案允許時的 Share Link 或 401/403 等錯誤",
+          "gate": "每次上傳有明確同意和文件範圍"
+        }
+      ],
+      "note": "候選流程非已安裝的正式 Capability；不新增 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "外送機密",
+        "action": "內部架構資訊不可默認上傳"
+      },
+      {
+        "title": "控制 2",
+        "risk": "權限與費用",
+        "action": "OAuth、Project 限額或方案會阻止傳檔"
+      }
+    ],
+    "acceptance": [
+      "每次上傳有明確同意和文件範圍",
+      "只有服務真實成功才宣稱 Cloud URL"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-push/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 login／link／push 序列",
+      "execution": "NOT_EXECUTED",
+      "notes": "已讀官方文件但第三方 Runtime、Security、License、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "維持原 ID，僅修正既有 Skill 的內容，不重複新增。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags、Domains 和所有 Typed References；沒有新增分類。"
+    },
+    "classificationReason": "僅內容品質改善，不修改既有分類和 Graph 參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方來源已核實並補 Trigger、Inputs、Steps、Outputs、Risks、Gates。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "既有 Capability 保持，不從 Guide 臆造新能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "已有 Concepts 保留，無新增關係。"
+    },
+    "riskNotes": "外送機密｜內部架構資訊不可默認上傳；權限與費用｜OAuth、Project 限額或方案會阻止傳檔；本批無第三方 Runtime 測試。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方文件閱讀已完成；第三方 Runtime、Security、License、Integration NOT TESTED。"
+    }
   }
 }

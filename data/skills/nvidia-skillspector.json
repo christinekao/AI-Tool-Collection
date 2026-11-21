@@ -3,11 +3,17 @@
   "id": "nvidia-skillspector",
   "entityType": "skill",
   "title": "NVIDIA/SkillSpector",
-  "purpose": "Agent Skill 安全分析",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "purpose": "在安裝 Agent Skill 前分析提示注入、資料外洩、權限和依賴風險，輸出可稽核掃描報告。",
+  "problem": "需要在安裝 Agent Skill 前分析提示注入、資料外洩、權限和依賴風險，輸出可稽核掃描報告。；未取得實證不能把官方功能概述當成已完成。",
+  "inputs": [
+    "待審查 Skill 的來源、檔案與版本",
+    "受核准的 Python／Docker 環境、掃描模式和輸出權限"
+  ],
+  "outputs": [
+    "分類、風險分數、嚴重性和 Finding 證據",
+    "Baseline、誤報覆核與阻擋／放行建議"
+  ],
+  "execution": "官方 NVIDIA SkillSpector README；skillspector scan，可用 --no-llm 和 JSON／Markdown／SARIF。。文件流程：限定樣本 → 安全模式 → 執行掃描 → 人工複核；第三方安裝、遠端和檔案寫入需另行授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -30,7 +36,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skill-security",
     "scanner",
@@ -49,5 +55,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "審查外來 Skills、Repo、單一檔案或 ZIP 的安全性。",
+    "掃描 PASS 不是安全保證；雲端 LLM／OSV 網路查詢與 Python 安裝需授權。"
+  ],
+  "constraints": [
+    "漏報／誤報｜掃描結果不代表全面保證安全",
+    "依賴風險｜需審查 YARA Wheel／Python 版本和額外套件"
+  ],
+  "source": {
+    "url": "https://github.com/NVIDIA/SkillSpector/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 README 71 patterns／17 categories；建議 Python 3.12／3.13",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; no third-party execution, security, independent license audit, or integration"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "在安裝 Agent Skill 前分析提示注入、資料外洩、權限和依賴風險，輸出可稽核掃描報告。",
+    "introNote": "依官方文件整理操作契約；未執行第三方安裝、Runtime、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "審查外來 Skills、Repo、單一檔案或 ZIP 的安全性。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 README 71 patterns／17 categories；建議 Python 3.12／3.13"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 NVIDIA SkillSpector README；skillspector scan，可用 --no-llm 和 JSON／Markdown／SARIF。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "審查外來 Skills、Repo、單一檔案或 ZIP 的安全性。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "掃描 PASS 不是安全保證；雲端 LLM／OSV 網路查詢與 Python 安裝需授權。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "待審查 Skill 的來源、檔案與版本",
+        "detail": "缺少必要輸入先確認，不可補造來源。"
+      },
+      {
+        "title": "受核准的 Python／Docker 環境、掃描模式和輸出權限",
+        "detail": "依權限、成本和隱私限制確認資料可用。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "限定樣本",
+        "detail": "固定 Repo、Commit 和輸入格式",
+        "result": "可重跑目標"
+      },
+      {
+        "number": "02",
+        "title": "安全模式",
+        "detail": "優先離線，只在批准時調外部服務",
+        "result": "資料邊界"
+      },
+      {
+        "number": "03",
+        "title": "執行掃描",
+        "detail": "使用 CLI 產出結構化 Findings",
+        "result": "原始報告"
+      },
+      {
+        "number": "04",
+        "title": "人工複核",
+        "detail": "判斷誤報、危害與依賴來源，設 Release Gate",
+        "result": "處置結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "審查外來 Skills、Repo、單一檔案或 ZIP 的安全性。",
+      "meaning": "官方 NVIDIA SkillSpector README；skillspector scan，可用 --no-llm 和 JSON／Markdown／SARIF。",
+      "usageNote": "掃描 PASS 不是安全保證；雲端 LLM／OSV 網路查詢與 Python 安裝需授權。；原始指令不代表本庫授權執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "分類、風險分數、嚴重性和 Finding 證據"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "Baseline、誤報覆核與阻擋／放行建議"
+      }
+    ],
+    "composition": {
+      "problem": "需要在安裝 Agent Skill 前分析提示注入、資料外洩、權限和依賴風險，輸出可稽核掃描報告。；未取得實證不能把官方功能概述當成已完成。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "待審查 Skill 的來源、檔案與版本；受核准的 Python／Docker 環境、掃描模式和輸出權限",
+          "output": "分類、風險分數、嚴重性和 Finding 證據；Baseline、誤報覆核與阻擋／放行建議",
+          "gate": "每筆結果可追來源、版本、規則與風險等級"
+        }
+      ],
+      "note": "候選流程非已安裝的正式 Capability；不新增 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "漏報／誤報",
+        "action": "掃描結果不代表全面保證安全"
+      },
+      {
+        "title": "控制 2",
+        "risk": "依賴風險",
+        "action": "需審查 YARA Wheel／Python 版本和額外套件"
+      }
+    ],
+    "acceptance": [
+      "每筆結果可追來源、版本、規則與風險等級",
+      "未實際掃描就不能聲稱安全檢查 PASS"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/NVIDIA/SkillSpector/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 README 71 patterns／17 categories；建議 Python 3.12／3.13",
+      "execution": "NOT_EXECUTED",
+      "notes": "已讀官方文件但第三方 Runtime、Security、License、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "維持原 ID，僅修正既有 Skill 的內容，不重複新增。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags、Domains 和所有 Typed References；沒有新增分類。"
+    },
+    "classificationReason": "僅內容品質改善，不修改既有分類和 Graph 參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方來源已核實並補 Trigger、Inputs、Steps、Outputs、Risks、Gates。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "既有 Capability 保持，不從 Guide 臆造新能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "已有 Concepts 保留，無新增關係。"
+    },
+    "riskNotes": "漏報／誤報｜掃描結果不代表全面保證安全；依賴風險｜需審查 YARA Wheel／Python 版本和額外套件；本批無第三方 Runtime 測試。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方文件閱讀已完成；第三方 Runtime、Security、License、Integration NOT TESTED。"
+    }
   }
 }
