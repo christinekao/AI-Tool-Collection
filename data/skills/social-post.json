@@ -4,10 +4,16 @@
   "entityType": "skill",
   "title": "Social Post",
   "purpose": "讓 Codex、Claude Code 或精簡 ChatGPT Chat 流程依使用者真實貼文與成效學習聲線，規劃內容、撰寫平台化貼文，經人工確認後發布，並把 FB／IG／Threads／X 等平台的成效與互動 evidence 保存成可驗證的結構化資料，供下一輪內容決策使用。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "需要想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。；原始資料缺少完整執行驗收的可讀契約。",
+  "inputs": [
+    "真實貼文或聲線簡卡、目標平台和本次內容目標",
+    "發布權限、既有 F 寫作契約、觀測成效與可用的本機工具"
+  ],
+  "outputs": [
+    "依指定 Voice／F 格式的可審查文案與排程",
+    "核准後的發布證據和成效／互動紀錄、候選 Pattern"
+  ],
+  "execution": "官方 Skill social-post；路由 P0–P4/Workbench；P5 browser/comment actuation 預設關閉，需依逐平台真實驗收與授權。。流程：判斷 Mode → 保持 Voice Contract → 人員批准 → 成效迴圈。來源契約不是本知識庫的安裝／修改授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -34,7 +40,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-02",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "social-media",
@@ -61,5 +67,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。",
+    "沒有私人 voice source 不能宣稱已學會口吻；P5 送出與三平台批次仍受限，沒有明確核准不能操作實帳號。"
+  ],
+  "constraints": [
+    "帳號外送與誤發｜評論瀏覽器操作有登入、重複送出及平台政策風險",
+    "聲線和隱私｜私人 Voice、成效、Cookie／Token 不可上傳公開 Repo"
+  ],
+  "source": {
+    "url": "https://github.com/Hao0321/claude-skill-social-post/blob/main/social-post/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 social-post v2.5.1 README；留言自動化是分平台／分能力 Gate，非全面 Live PASS",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "官方 social-post v2.5.1 README；留言自動化是分平台／分能力 Gate，非全面 Live PASS"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "官方 Skill social-post；路由 P0–P4/Workbench；P5 browser/comment actuation 預設關閉，需依逐平台真實驗收與授權。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有私人 voice source 不能宣稱已學會口吻；P5 送出與三平台批次仍受限，沒有明確核准不能操作實帳號。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "真實貼文或聲線簡卡、目標平台和本次內容目標",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "發布權限、既有 F 寫作契約、觀測成效與可用的本機工具",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "判斷 Mode",
+        "detail": "先按意圖選 P0 Plan／P1 Learn／P2 Draft／P3 Log／P4 Optimize／P5 Comment Ops",
+        "result": "只讀必要來源"
+      },
+      {
+        "number": "02",
+        "title": "保持 Voice Contract",
+        "detail": "核對本機狀態與 F 版本，改稿不覆寫永久規則",
+        "result": "同版本的合法草稿"
+      },
+      {
+        "number": "03",
+        "title": "人員批准",
+        "detail": "發布前核對每則文案、平台帳戶、附件與觸發操作",
+        "result": "明確允許的動作"
+      },
+      {
+        "number": "04",
+        "title": "成效迴圈",
+        "detail": "實際結果標記 Evidence，只建立候選改善，再經審核啟用",
+        "result": "不污染原資料"
+      }
+    ],
+    "howToUse": {
+      "trigger": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。",
+      "meaning": "官方 Skill social-post；路由 P0–P4/Workbench；P5 browser/comment actuation 預設關閉，需依逐平台真實驗收與授權。",
+      "usageNote": "沒有私人 voice source 不能宣稱已學會口吻；P5 送出與三平台批次仍受限，沒有明確核准不能操作實帳號。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "依指定 Voice／F 格式的可審查文案與排程"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "核准後的發布證據和成效／互動紀錄、候選 Pattern"
+      }
+    ],
+    "composition": {
+      "problem": "需要想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。；原始資料缺少完整執行驗收的可讀契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "真實貼文或聲線簡卡、目標平台和本次內容目標；發布權限、既有 F 寫作契約、觀測成效與可用的本機工具",
+          "output": "依指定 Voice／F 格式的可審查文案與排程；核准後的發布證據和成效／互動紀錄、候選 Pattern",
+          "gate": "任何發文有精確平台、內容、核准與送出回讀證據"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "帳號外送與誤發",
+        "action": "評論瀏覽器操作有登入、重複送出及平台政策風險"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "聲線和隱私",
+        "action": "私人 Voice、成效、Cookie／Token 不可上傳公開 Repo"
+      }
+    ],
+    "acceptance": [
+      "任何發文有精確平台、內容、核准與送出回讀證據",
+      "未驗證的 FB/IG/Threads 批次能力不寫成 Production 已啟用"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Hao0321/claude-skill-social-post/blob/main/social-post/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 social-post v2.5.1 README；留言自動化是分平台／分能力 Gate，非全面 Live PASS",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "帳號外送與誤發｜評論瀏覽器操作有登入、重複送出及平台政策風險；聲線和隱私｜私人 Voice、成效、Cookie／Token 不可上傳公開 Repo；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

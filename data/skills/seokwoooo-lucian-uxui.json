@@ -48,7 +48,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-20",
-  "updatedAt": "2026-10-20",
+  "updatedAt": "2026-11-21",
   "tags": [
     "lucian-uxui",
     "agent-skills",
@@ -77,5 +77,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "whenToUse": [
+    "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。",
+    "非後端通用 UI 工具；不得憑記憶臆造元件 ID；沒有授權外連不應執行元件 GET。"
+  ],
+  "constraints": [
+    "遠端套件｜CLI 會從 Lucian 站／GitHub Mirror 抓取 JS，需安全審查",
+    "版權與可及性｜保留原始 License Comment，不能把示例文字當真實產品資訊"
+  ],
+  "source": {
+    "url": "https://github.com/Seokwoooo/lucian-uxui/blob/main/skills/lucian-uxui/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 lucian-uxui；動態元件庫，不應推定固定 Element Count",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "官方 lucian-uxui；動態元件庫，不應推定固定 Element Count"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "Node CLI <skill-dir>/scripts/lucian-uxui.mjs search/get/tokens/info；讀 references/porting.md 後移植。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "非後端通用 UI 工具；不得憑記憶臆造元件 ID；沒有授權外連不應執行元件 GET。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "元件功能／指定 Element ID、專案技術框架與 Styles",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "已授權的元件來源、Theme、內容與可及性要求",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先讀專案",
+        "detail": "確認 React／Vue／HTML 等框架、Theme、語言",
+        "result": "相容改動計畫"
+      },
+      {
+        "number": "02",
+        "title": "逐部件搜尋",
+        "detail": "已指定 ID 則直取，否則 CLI search 並核對行為",
+        "result": "正式候選 ID"
+      },
+      {
+        "number": "03",
+        "title": "只取必要元件",
+        "detail": "get ID 和 tokens，對照 porting.md 最小移植",
+        "result": "可編輯 UI 組件"
+      },
+      {
+        "number": "04",
+        "title": "測試與歸屬",
+        "detail": "保留 MIT 原始註記並測雙 Theme、375px、鍵盤、Reduced Motion",
+        "result": "可驗證組件"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。",
+      "meaning": "Node CLI <skill-dir>/scripts/lucian-uxui.mjs search/get/tokens/info；讀 references/porting.md 後移植。",
+      "usageNote": "非後端通用 UI 工具；不得憑記憶臆造元件 ID；沒有授權外連不應執行元件 GET。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "官方 Element ID 與取回的 HTML/CSS/JS／Tokens"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "移植到現有 Framework 的元件和來源註記、QA 結果"
+      }
+    ],
+    "composition": {
+      "problem": "AI 前端開發若只依文字泛化設計，容易生成不一致的 UI 或未經測試的動畫；把整個元件庫塞入 context 又浪費 Token，直接複製範例可能破壞現有 framework、theme、狀態管理或安全邊界。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "元件功能／指定 Element ID、專案技術框架與 Styles；已授權的元件來源、Theme、內容與可及性要求",
+          "output": "官方 Element ID 與取回的 HTML/CSS/JS／Tokens；移植到現有 Framework 的元件和來源註記、QA 結果",
+          "gate": "所有 ID 與原始碼來自實際 get 而非推測"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "遠端套件",
+        "action": "CLI 會從 Lucian 站／GitHub Mirror 抓取 JS，需安全審查"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "版權與可及性",
+        "action": "保留原始 License Comment，不能把示例文字當真實產品資訊"
+      }
+    ],
+    "acceptance": [
+      "所有 ID 與原始碼來自實際 get 而非推測",
+      "雙 Theme、鍵盤、行動寬與來源註記均合格"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Seokwoooo/lucian-uxui/blob/main/skills/lucian-uxui/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 lucian-uxui；動態元件庫，不應推定固定 Element Count",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "遠端套件｜CLI 會從 Lucian 站／GitHub Mirror 抓取 JS，需安全審查；版權與可及性｜保留原始 License Comment，不能把示例文字當真實產品資訊；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

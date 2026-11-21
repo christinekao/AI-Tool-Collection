@@ -4,10 +4,16 @@
   "entityType": "skill",
   "title": "Reverse Skill",
   "purpose": "替 AI coding agents 提供逆向工程、授權滲透測試與安全研究的任務路由層：先做 scope / authorization gate，再依 APK、binary、JS、mobile、malware、firmware、CTF、API、LLM security 等情境選擇對應 Skill、工具、MCP 與腳本，並保留 evidence、timeline、finding 與 field journal。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "需要已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。；原始資料缺少完整執行驗收的可讀契約。",
+  "inputs": [
+    "合法授權的 APK、Binary、JS、Web／API、CTF 或其他具體目標",
+    "測試資產、網路 Profile、已可用工具、測試限制和所需證據"
+  ],
+  "outputs": [
+    "選定特定 Scenario Skill 及工具依賴與 Role",
+    "包含 Evidence→Finding→Path、Timeline 與 Field Journal 的報告"
+  ],
+  "execution": "先 RULES.md → MASTER-ROUTING 或 scripts → case-init/scope.md → Scenario Skill → Evidence/Report。。流程：安全範圍 → 路由情境 → 受控調查 → 整合結論。來源契約不是本知識庫的安裝／修改授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -34,7 +40,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-11-21",
   "tags": [
     "security",
     "reverse-engineering",
@@ -59,5 +65,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。",
+    "同源的 reverse-skill ID 不表示另一套產品；未清楚確認資產、測試網路與安全邊界前不能執行工具。"
+  ],
+  "constraints": [
+    "雙重用途｜資安／逆向工具有侵入與資訊外洩風險，未授權不得執行",
+    "同源重複｜與 reverse-skill 為相同 Repo，勿算成兩個已獨立驗證的套件"
+  ],
+  "source": {
+    "url": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 reverse-skill Router v1.0.1；與 reverse-skill 相同上游 GitHub Repo",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "官方 reverse-skill Router v1.0.1；與 reverse-skill 相同上游 GitHub Repo"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "先 RULES.md → MASTER-ROUTING 或 scripts → case-init/scope.md → Scenario Skill → Evidence/Report。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "同源的 reverse-skill ID 不表示另一套產品；未清楚確認資產、測試網路與安全邊界前不能執行工具。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "合法授權的 APK、Binary、JS、Web／API、CTF 或其他具體目標",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "測試資產、網路 Profile、已可用工具、測試限制和所需證據",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "安全範圍",
+        "detail": "確認標的擁有權、Scope 和 Network Profile",
+        "result": "執行界線"
+      },
+      {
+        "number": "02",
+        "title": "路由情境",
+        "detail": "參照 RULES 和 MASTER-ROUTING，選對 APK／Binary／JS／API 子 Skill",
+        "result": "明確研究計畫"
+      },
+      {
+        "number": "03",
+        "title": "受控調查",
+        "detail": "只在獲核准環境啟動現有工具，保留原始輸出",
+        "result": "真實 Evidence"
+      },
+      {
+        "number": "04",
+        "title": "整合結論",
+        "detail": "將技術推論連回原始輸出、Known Gaps、授權證據",
+        "result": "具來源的報告"
+      }
+    ],
+    "howToUse": {
+      "trigger": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。",
+      "meaning": "先 RULES.md → MASTER-ROUTING 或 scripts → case-init/scope.md → Scenario Skill → Evidence/Report。",
+      "usageNote": "同源的 reverse-skill ID 不表示另一套產品；未清楚確認資產、測試網路與安全邊界前不能執行工具。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "選定特定 Scenario Skill 及工具依賴與 Role"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "包含 Evidence→Finding→Path、Timeline 與 Field Journal 的報告"
+      }
+    ],
+    "composition": {
+      "problem": "需要已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。；原始資料缺少完整執行驗收的可讀契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "合法授權的 APK、Binary、JS、Web／API、CTF 或其他具體目標；測試資產、網路 Profile、已可用工具、測試限制和所需證據",
+          "output": "選定特定 Scenario Skill 及工具依賴與 Role；包含 Evidence→Finding→Path、Timeline 與 Field Journal 的報告",
+          "gate": "每項工具／目標皆有 Scope 與任務授權"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "雙重用途",
+        "action": "資安／逆向工具有侵入與資訊外洩風險，未授權不得執行"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "同源重複",
+        "action": "與 reverse-skill 為相同 Repo，勿算成兩個已獨立驗證的套件"
+      }
+    ],
+    "acceptance": [
+      "每項工具／目標皆有 Scope 與任務授權",
+      "每個 Finding 有版本、原始 Evidence，與未測路徑清楚"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 reverse-skill Router v1.0.1；與 reverse-skill 相同上游 GitHub Repo",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "與 reverse-skill 原 ID 同源同 Repo。保留歷史 ID，但不宣稱兩項獨立 Skill；需另案去重。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "雙重用途｜資安／逆向工具有侵入與資訊外洩風險，未授權不得執行；同源重複｜與 reverse-skill 為相同 Repo，勿算成兩個已獨立驗證的套件；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

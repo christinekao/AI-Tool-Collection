@@ -5,7 +5,7 @@
   "title": "OpenMAIC Skill — 互動教室建置、生成與擴充",
   "status": "active",
   "addedAt": "2026-11-03",
-  "updatedAt": "2026-11-03",
+  "updatedAt": "2026-11-21",
   "tags": [
     "openmaic",
     "agent-skill",
@@ -29,16 +29,12 @@
   ],
   "execution": "依官方 skills/openmaic/SKILL.md 的 SOP 分階段確認模式、讀取相應 references、檢查既有設定並在使用者授權後操作；模型供應商選擇以 OpenMAIC 伺服器端設定為準。",
   "whenToUse": [
-    "希望建立 AI 多代理互動教室",
-    "希望安裝或配置 OpenMAIC",
-    "希望透過 @openmaic/* SDK 或 Fork 擴充 OpenMAIC"
+    "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。",
+    "沒有選定模式和權限前不得 Clone、改設定或啟動服務；不可假設 Agent 自身的模型金鑰會提供給 OpenMAIC。"
   ],
   "constraints": [
-    "任何會改變狀態的操作前需確認使用者授權。",
-    "不可假定 Agent 本身的模型或 API Key 可供 OpenMAIC 重用。",
-    "避免要求使用者在對話中貼出 API Key，優先引導本機配置。",
-    "此為 OpenMAIC 專用 Skill，不保證在所有 Agent Runtime 可直接使用。",
-    "未安裝或執行此 Skill。"
+    "Secrets｜不要索取或在對話寫入模型 API Keys",
+    "本機修改與服務成本｜每個 State Change 前確認，避免重複 Clone／覆寫配置"
   ],
   "resourceRefs": [
     {
@@ -48,8 +44,10 @@
   ],
   "source": {
     "url": "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md",
-    "reviewedAt": "2026-11-03",
-    "type": "Official upstream SKILL.md"
+    "reviewedAt": "2026-11-21",
+    "type": "Official upstream SKILL.md",
+    "versionEvidence": "官方 OpenMAIC Skill：逐階段確認；Provider Keys 只依伺服器 openmaic.yml",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
   },
   "classification": {
     "primaryDomain": "ai-agent",
@@ -65,5 +63,166 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "官方 OpenMAIC Skill：逐階段確認；Provider Keys 只依伺服器 openmaic.yml"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "官方 openmaic Skill，依 SOP Phase 0–5（Mode、Repo、Startup、Provider、Verify、Generate）。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有選定模式和權限前不得 Clone、改設定或啟動服務；不可假設 Agent 自身的模型金鑰會提供給 OpenMAIC。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Live Demo／Local／Development 模式和可合法取得的 OpenMAIC 服務",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "本機環境、已存在設定、後端模型供應商及資料權限",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "選 Mode",
+        "detail": "依使用者目的決定 Live Demo／本機／擴充",
+        "result": "操作邊界"
+      },
+      {
+        "number": "02",
+        "title": "確認既有環境",
+        "detail": "詢問保留已有 Repo 和 Startup Mode",
+        "result": "不破壞設定"
+      },
+      {
+        "number": "03",
+        "title": "設定 Provider",
+        "detail": "只由使用者在安全檔案處理 API Key，確認 Server 配置",
+        "result": "受控服務"
+      },
+      {
+        "number": "04",
+        "title": "驗證再生成",
+        "detail": "確認服務就緒，已明確要求建立課堂時可提交一次",
+        "result": "真實課程工作結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。",
+      "meaning": "官方 openmaic Skill，依 SOP Phase 0–5（Mode、Repo、Startup、Provider、Verify、Generate）。",
+      "usageNote": "沒有選定模式和權限前不得 Clone、改設定或啟動服務；不可假設 Agent 自身的模型金鑰會提供給 OpenMAIC。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "選定模式所需的具體設定與狀態檢查"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "若明確要求，已受權的互動課堂生成工作及結果路徑"
+      }
+    ],
+    "composition": {
+      "problem": "OpenMAIC 具有多階段安裝、模型配置、課程生成與擴充路徑，需要具授權確認的操作指引。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "Live Demo／Local／Development 模式和可合法取得的 OpenMAIC 服務；本機環境、已存在設定、後端模型供應商及資料權限",
+          "output": "選定模式所需的具體設定與狀態檢查；若明確要求，已受權的互動課堂生成工作及結果路徑",
+          "gate": "選定模式、已存狀態及所有有副作用動作均獲核准"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "Secrets",
+        "action": "不要索取或在對話寫入模型 API Keys"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "本機修改與服務成本",
+        "action": "每個 State Change 前確認，避免重複 Clone／覆寫配置"
+      }
+    ],
+    "acceptance": [
+      "選定模式、已存狀態及所有有副作用動作均獲核准",
+      "只有服務與課堂產生真實成功才標 PASS"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 OpenMAIC Skill：逐階段確認；Provider Keys 只依伺服器 openmaic.yml",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "Secrets｜不要索取或在對話寫入模型 API Keys；本機修改與服務成本｜每個 State Change 前確認，避免重複 Clone／覆寫配置；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }
