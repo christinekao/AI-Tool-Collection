@@ -15,6 +15,21 @@
 
 **注意：來源文件確認不等於 Runtime、安全、授權與整合實測。** 此報告是文件層級全庫收尾與後續差距追蹤；Repo CI／正式站結果須有獨立證據。
 
+## 尚未確認完整官方來源的 8 筆（需逐筆補證）
+
+| ID | 尚缺的原始證據 | 下一個檢查動作 |
+|---|---|---|
+| `elayadesign-design-to-motion` | 既有官方 SKILL.md 路徑回傳 404 | 查 Git 歷史 Commit／新版官方路徑，不用相似設計 Skill 代替 |
+| `irons163-orchestrate-sol-terra-luna` | 原始 Repo 身分與當前相似專案不一致 | 核原作者與歷史 Commit，避免誤認其他作者的同名實作 |
+| `minimax-code-community-interactive-visualization-architect` | 有 Catalog，缺完整 SKILL.md、Package、版本與授權 | 找原始套件及完整契約 |
+| `minimax-code-community-landing-page-builder` | 同上 | 找原始套件及完整契約 |
+| `minimax-code-community-pptx-generator` | 同上 | 找原始套件及完整契約 |
+| `minimax-code-community-seo-geo-optimization-expert` | 同上 | 找原始套件及完整契約 |
+| `minimax-code-community-visual-content-generator` | 同上 | 找原始套件及完整契約 |
+| `viral-hook-title` | 原作者、原始 Repo、SKILL.md 尚未核實 | 查最初收藏證據，勿以功能相近網站代替 |
+
+這 8 筆已列入 123/123 的**文件整理覆蓋率**，但來源狀態仍是 `partial`，不能列為已確認可執行。來源更新時保留原 ID、歷史備註與比較證據。
+
 ## 回歸不變項
 
 - 123 Skill IDs、原標籤、原分類、原始 Resource／Concept Typed References 保留。
