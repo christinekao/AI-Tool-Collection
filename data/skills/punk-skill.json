@@ -3,11 +3,17 @@
   "id": "punk-skill",
   "entityType": "skill",
   "title": "Punk-skill",
-  "purpose": "文章 → 社群視覺",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "purpose": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+  "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+  "inputs": [
+    "文章主題或可合法使用的人物／寵物／物件素材",
+    "平台、比例、風格選擇、授權用途及是否只要 Prompt"
+  ],
+  "outputs": [
+    "與選定子 Skill 相符的封面／Avatar／影片封面（需真實生成）",
+    "Style ID、尺寸轉換、著作權與原圖忠實度說明"
+  ],
+  "execution": "Punk-Posters 上游三項：punk-cover、punk-avatar、punk-ip-video-cover；依實際子 SKILL.md 調用。。流程：確認授權版本 → 路由子技能 → 素材與 Prompt → 生成並審核。本專案未安裝或執行第三方工具。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -26,7 +32,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "content",
     "social-media",
@@ -43,5 +49,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+    "沒有使用者選定用途時不呼叫整包；v2.0.0+ 不能宣稱 MIT 可商用，歷史 MIT 僅對舊版本有效。"
+  ],
+  "constraints": [
+    "License Gate｜v2.0.0+ 非商用免費但商用需書面授權，不可沿用舊 MIT",
+    "權利和平台尺寸｜真人肖像、寵物照片、品牌及 Aspect Ratio 可能不相容"
+  ],
+  "source": {
+    "url": "https://github.com/adrianpunk/Punk-Posters/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "Punk Skill v2.0.0+ Source-Public；個人非商用免費、商業需書面授權及付費",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "Punk Skill v2.0.0+ Source-Public；個人非商用免費、商業需書面授權及付費"
+      },
+      {
+        "label": "觸發方式",
+        "value": "Punk-Posters 上游三項：punk-cover、punk-avatar、punk-ip-video-cover；依實際子 SKILL.md 調用。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "沒有使用者選定用途時不呼叫整包；v2.0.0+ 不能宣稱 MIT 可商用，歷史 MIT 僅對舊版本有效。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "文章主題或可合法使用的人物／寵物／物件素材",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "平台、比例、風格選擇、授權用途及是否只要 Prompt",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認授權版本",
+        "detail": "區分非商用與商業，查獨立子技能 License",
+        "result": "可使用範圍"
+      },
+      {
+        "number": "02",
+        "title": "路由子技能",
+        "detail": "根據文章 Cover／Avatar／IP Video 選一個",
+        "result": "正確 Skill 原文"
+      },
+      {
+        "number": "03",
+        "title": "素材與 Prompt",
+        "detail": "依選定 Style ID、人物 likeness、平台尺寸限制建立描述",
+        "result": "準確視覺規格"
+      },
+      {
+        "number": "04",
+        "title": "生成並審核",
+        "detail": "只在授權 Image Host 真正生成，核對圖文及來源",
+        "result": "輸出與未測清單"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+      "meaning": "Punk-Posters 上游三項：punk-cover、punk-avatar、punk-ip-video-cover；依實際子 SKILL.md 調用。",
+      "usageNote": "沒有使用者選定用途時不呼叫整包；v2.0.0+ 不能宣稱 MIT 可商用，歷史 MIT 僅對舊版本有效。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "與選定子 Skill 相符的封面／Avatar／影片封面（需真實生成）"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "Style ID、尺寸轉換、著作權與原圖忠實度說明"
+      }
+    ],
+    "composition": {
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "文章主題或可合法使用的人物／寵物／物件素材；平台、比例、風格選擇、授權用途及是否只要 Prompt",
+          "output": "與選定子 Skill 相符的封面／Avatar／影片封面（需真實生成）；Style ID、尺寸轉換、著作權與原圖忠實度說明",
+          "gate": "上游版本與授權用途清楚；商業用途未授權不執行"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "License Gate",
+        "action": "v2.0.0+ 非商用免費但商用需書面授權，不可沿用舊 MIT"
+      },
+      {
+        "title": "控制 2",
+        "risk": "權利和平台尺寸",
+        "action": "真人肖像、寵物照片、品牌及 Aspect Ratio 可能不相容"
+      }
+    ],
+    "acceptance": [
+      "上游版本與授權用途清楚；商業用途未授權不執行",
+      "只有成功生成並驗收的成品才宣稱完成"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/adrianpunk/Punk-Posters/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Punk Skill v2.0.0+ Source-Public；個人非商用免費、商業需書面授權及付費",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "License Gate｜v2.0.0+ 非商用免費但商用需書面授權，不可沿用舊 MIT；權利和平台尺寸｜真人肖像、寵物照片、品牌及 Aspect Ratio 可能不相容；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }

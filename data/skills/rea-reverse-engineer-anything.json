@@ -44,7 +44,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-17",
-  "updatedAt": "2026-10-17",
+  "updatedAt": "2026-11-21",
   "tags": [
     "reverse-engineering",
     "rea",
@@ -72,5 +72,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "whenToUse": [
+    "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。",
+    "對完整可讀 Source Repo 的一般架構分析直接使用原生程式碼工具；無權限不觸碰第三方應用。"
+  ],
+  "constraints": [
+    "未授權逆向｜侵權、繞過安全或蒐集第三方機密均不得執行",
+    "MCP／執行權限｜安裝 Plugin 和額外分析工具會產生本機修改或執行副作用"
+  ],
+  "source": {
+    "url": "https://github.com/morluto/rea/blob/main/.agents/skills/reverse-engineer-anything/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 SKILL.md metadata version 63；REA 插件與 MCP 安裝邊界已有更新",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 SKILL.md metadata version 63；REA 插件與 MCP 安裝邊界已有更新"
+      },
+      {
+        "label": "觸發方式",
+        "value": "reverse-engineer-anything；Skill 與 REA MCP／CLI 不等價；Marketplace Plugin 可能額外註冊 MCP，按真實 Handshake 判斷。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "對完整可讀 Source Repo 的一般架構分析直接使用原生程式碼工具；無權限不觸碰第三方應用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "明確的合法調查目標、版本、問題與允許的測試方式",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "已授權的 Runtime／MCP Tools、Evidence 保存位置和不允許的行為",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "限制 Scope",
+        "detail": "確認目標權利、調查問題和具備哪類原始 Artifact",
+        "result": "合法路徑"
+      },
+      {
+        "number": "02",
+        "title": "工具現況檢查",
+        "detail": "若連接已就緒直接使用；否則區分 Skill 和 MCP 註冊流程",
+        "result": "可用 Tool Schema"
+      },
+      {
+        "number": "03",
+        "title": "依目標調查",
+        "detail": "讀相關 Guide，做最少的動靜態證據收集",
+        "result": "可引用原始 Artifact"
+      },
+      {
+        "number": "04",
+        "title": "驗證推論",
+        "detail": "把觀察與猜測分開，對每個行為模型找反例",
+        "result": "有邊界的調查報告"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。",
+      "meaning": "reverse-engineer-anything；Skill 與 REA MCP／CLI 不等價；Marketplace Plugin 可能額外註冊 MCP，按真實 Handshake 判斷。",
+      "usageNote": "對完整可讀 Source Repo 的一般架構分析直接使用原生程式碼工具；無權限不觸碰第三方應用。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "選定具體調查路徑及靜態／動態原始證據"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "Observations／Inferences／Unknowns、重建規格及驗證限制"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏原始碼的軟體調查若讓 Agent 直接推測內部實作，會混淆靜態線索、執行觀察及實際可驗證的功能；不同格式的反向工程工具也有多樣依賴與存取限制。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "明確的合法調查目標、版本、問題與允許的測試方式；已授權的 Runtime／MCP Tools、Evidence 保存位置和不允許的行為",
+          "output": "選定具體調查路徑及靜態／動態原始證據；Observations／Inferences／Unknowns、重建規格及驗證限制",
+          "gate": "調查問題可連到真實版本、時間點、檔案和工具輸出"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "未授權逆向",
+        "action": "侵權、繞過安全或蒐集第三方機密均不得執行"
+      },
+      {
+        "title": "控制 2",
+        "risk": "MCP／執行權限",
+        "action": "安裝 Plugin 和額外分析工具會產生本機修改或執行副作用"
+      }
+    ],
+    "acceptance": [
+      "調查問題可連到真實版本、時間點、檔案和工具輸出",
+      "不虛構反編譯結果；每個結論標註 Confidence 和缺口"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/morluto/rea/blob/main/.agents/skills/reverse-engineer-anything/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 SKILL.md metadata version 63；REA 插件與 MCP 安裝邊界已有更新",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "未授權逆向｜侵權、繞過安全或蒐集第三方機密均不得執行；MCP／執行權限｜安裝 Plugin 和額外分析工具會產生本機修改或執行副作用；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }
