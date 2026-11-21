@@ -4,15 +4,18 @@
   "entityType": "skill",
   "title": "Day Trader /trader-budget — Size positions under loss and cash limits",
   "purpose": "根據最大可損失額、資金緩衝、單筆及總部位限制，建立 Bracket Order 票據但不送單。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "problem": "根據單筆最大損失、停損、現金和部位限制決定股數；缺乏可驗收的操作契約或資料證據將造成錯誤結果。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "trader/plan.json 的 Entry、Stop、Target",
+    "最大損失、部位／單筆上限",
+    "現金餘額及緩衝"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "按四道限制的最大整數股數",
+    "限制原因與拒絕說明",
+    "trader/orders.json Bracket Proposal"
   ],
-  "execution": "官方 SKILL.md：trader-budget/SKILL.md。此 Skill 只屬於 Jakeschincariol/day-trader-skill 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：position-sizing。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "1. 記錄四類資金約束 → 2. 由 Stop 距離推算風險股數 → 3. 只建立一筆 Bracket Proposal → 4. 交 trader-risk 而非自行下單",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +39,14 @@
   "source": {
     "url": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-budget/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Read official current README/SKILL.md; no third-party installation, runtime, security or license audit",
+    "versionEvidence": "四道限制、整股數 Bracket Order 提案"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "trader-budget",
@@ -62,5 +68,181 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "根據單筆最大損失、停損、現金和部位限制決定股數"
+  ],
+  "constraints": [
+    "滑價：Stop 不保證最大實際損失",
+    "隱私：資金與部位資料限授權處理"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "根據最大可損失額、資金緩衝、單筆及總部位限制，建立 Bracket Order 票據但不送單。",
+    "introNote": "依上游官方文件整理的操作契約；本知識庫未執行第三方 Skill。",
+    "facts": [
+      {
+        "label": "適合情境",
+        "value": "根據單筆最大損失、停損、現金和部位限制決定股數"
+      },
+      {
+        "label": "正式指令或使用邊界",
+        "value": "已安裝後 `/trader-budget`；只寫提案，不能送至券商"
+      },
+      {
+        "label": "上游版本證據",
+        "value": "四道限制、整股數 Bracket Order 提案"
+      },
+      {
+        "label": "執行狀態",
+        "value": "SOURCE CHECKED／NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "使用時機",
+        "description": "根據單筆最大損失、停損、現金和部位限制決定股數"
+      },
+      {
+        "title": "先確認執行條件",
+        "description": "已安裝後 `/trader-budget`；只寫提案，不能送至券商"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "trader/plan.json 的 Entry、Stop、Target",
+        "detail": "確認有權取得此資料。"
+      },
+      {
+        "title": "最大損失、部位／單筆上限",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      },
+      {
+        "title": "現金餘額及緩衝",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "記錄四類資金約束",
+        "detail": "記錄四類資金約束",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "02",
+        "title": "由 Stop 距離推算風險股數",
+        "detail": "由 Stop 距離推算風險股數",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "03",
+        "title": "只建立一筆 Bracket Proposal",
+        "detail": "只建立一筆 Bracket Proposal",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "04",
+        "title": "交 trader-risk 而非自行下單",
+        "detail": "交 trader-risk 而非自行下單",
+        "result": "符合需求的成果或具體 BLOCKED 原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "根據單筆最大損失、停損、現金和部位限制決定股數",
+      "meaning": "已安裝後 `/trader-budget`；只寫提案，不能送至券商",
+      "usageNote": "文件中的命令不是已安裝或自動執行授權；副作用、憑證與外部 API 須另批准。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "按四道限制的最大整數股數"
+      },
+      {
+        "name": "其他產出 2",
+        "description": "限制原因與拒絕說明"
+      },
+      {
+        "name": "其他產出 3",
+        "description": "trader/orders.json Bracket Proposal"
+      }
+    ],
+    "composition": {
+      "problem": "根據單筆最大損失、停損、現金和部位限制決定股數；缺乏可驗收的操作契約或資料證據將造成錯誤結果。",
+      "capabilities": [
+        {
+          "id": "source-reviewed-skill-contract",
+          "title": "文件級可重用 Skill 操作契約",
+          "input": "trader/plan.json 的 Entry、Stop、Target；最大損失、部位／單筆上限；現金餘額及緩衝",
+          "output": "按四道限制的最大整數股數；限制原因與拒絕說明；trader/orders.json Bracket Proposal",
+          "gate": "可重算四道限制與股數"
+        }
+      ],
+      "note": "這是知識庫中的 I/O 設計示例，沒有 Runtime、Tool Binding 或正式 Graph Edge 證據。"
+    },
+    "safety": [
+      {
+        "title": "滑價",
+        "risk": "滑價",
+        "action": "Stop 不保證最大實際損失"
+      },
+      {
+        "title": "隱私",
+        "risk": "隱私",
+        "action": "資金與部位資料限授權處理"
+      }
+    ],
+    "acceptance": [
+      "可重算四道限制與股數",
+      "風險超額必須拒絕",
+      "只生成提案不送單"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-budget/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "四道限制、整股數 Bracket Order 提案",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游 README／SKILL.md；第三方安裝、Runtime、Security、License、Integration 均 NOT TESTED。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "既有 Canonical ID 和 Typed Resource Link 原樣保留，未新增重複 Skill。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原 Raw Tags 完全保留，沒有新增、刪除或自動標準化。"
+    },
+    "classificationReason": "既有 Domain、Tags 和 Typed References 依原紀錄保留；只有版本差異內容更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "依官方內容補齊 Trigger、Input、Execution、Output、Risk、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只新增可閱讀的操作契約，未建立未證實的新正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept References；不從 Tags 或指南產生新的 Graph Edge。"
+    },
+    "riskNotes": "滑價：Stop 不保證最大實際損失；隱私：資金與部位資料限授權處理。不因上游文件而授權執行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方文件已閱讀；上游 Runtime、License、Security、Integration 均 NOT TESTED。"
+    }
   }
 }

@@ -1,5 +1,44 @@
 # Phase 2 Skills — 最新 Session 交接
 
+## Skills Batch 03 — 候選已提交，PR／CI 待驗證（2026-11-21）
+
+- 基準 main：`4ead1d0942d39a61ef6037e1ae044a0b66fa100b`；工作分支：`skill-content-batch03-20261121`。
+- Batch 01–02 已合併 **40/123**；本批新增 20 份 Guide，**合併後**才可計入 60/123（48.8%），剩 63。
+- 19/20 現行官方文件已讀；Sol/Terra/Luna 來源身分 PARTIAL，需另查歷史 Git 作者與重導向。
+- 變更：20 Canonical Skill JSON + 20 Guide、Generated Catalog/Graph、[Batch 03 審查](SKILL_CONTENT_REVIEW_BATCH03_20261121.md) 與 Rolling Handoff。
+- Tags／分類／Typed References 不變；569 Graph Nodes／1816 Edges。第三方 Runtime／Security／License／Integration 未測試。
+- 重要版本差異：HyperFrames 從舊 7 筆修正到現行 9（6 Core＋3 Optional）。Trader Broker 必須三重明確批准。
+
+### Batch 04：第 61–80 筆（尚未開始）
+61. `jakeschincariol-day-trader-skill-trader-risk`
+62. `jakeschincariol-day-trader-skill-trader-scanner`
+63. `jakeschincariol-day-trader-skill-trader-timemachine`
+64. `jit-learning-loop`
+65. `juneyaooo-rea-video`
+66. `k-dense-ai-scientific-agent-skills`
+67. `kkkkhazix-khazix-skills`
+68. `kubai087-kubai-icons-skill`
+69. `lawpowen-ui-chat-desktop-interactions`
+70. `lawpowen-ui-design-standards`
+71. `lawpowen-ui-feedback-patterns`
+72. `lawpowen-ui-ux-pro-max`
+73. `leemysw-yovoice-yovoice`
+74. `lemomo-ai-lemo-opuscar`
+75. `leonxlnx-taste-skill`
+76. `lieflat-less-ai-tone`
+77. `littlehole2025-token-saver-handoff`
+78. `loopagentteams`
+79. `lucasmarkes-hairline-adopt`
+80. `lucasmarkes-hairline-create`
+
+### 必要後續驗收
+- PR 最新 Head 三項 CI 檢查通過後再 Merge，保留 Run IDs。
+- main Catalog Sync、Validation、Graph、Pages Build／Deploy 與 **部署後** Live Smoke 分開驗證。
+- 來源 PARTIAL 保留，不得因 PR CI SUCCESS 消除。
+
+---
+
+
 ## Skills Batch 02 — 已合併與驗收（2026-11-21）
 
 - 基準 main `e1f9a799b6aaaf899c2ebfe67d0ba5bfa9b4e73b`；工作分支 `skill-content-batch02-20261121`。

@@ -74,7 +74,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-11",
-  "updatedAt": "2026-11-11",
+  "updatedAt": "2026-11-21",
   "tags": [
     "graphify",
     "graphify-v3",
@@ -101,7 +101,9 @@
   "source": {
     "url": "https://github.com/Graphify-Labs/graphify/blob/v3/graphify/skill.md",
     "type": "Official v3 Agent skill source, README, SECURITY.md, pyproject.toml and LICENSE",
-    "reviewedAt": "2026-11-11"
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Read official current README/SKILL.md; no third-party installation, runtime, security or license audit",
+    "versionEvidence": "官方 v3 分支，並非宣稱 main 最新"
   },
   "classification": {
     "primaryDomain": "data",
@@ -116,5 +118,193 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要把指定 Codebase／文件／媒體轉成帶證據的持久 Knowledge Graph"
+  ],
+  "constraints": [
+    "機密外送：語意擷取可能調用雲端模型",
+    "安裝副作用：禁止未核准 pip、Hooks 或 AGENTS.md 覆寫"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "提供 Coding Agent 一套可執行流程：讀取指定程式碼、文件或多媒體資料夾，透過本機 AST 與語意擷取建構可保存的知識圖譜，產生來源標註、架構分析、社群與可查詢的 Graph Report。",
+    "introNote": "依上游官方文件整理的操作契約；本知識庫未執行第三方 Skill。",
+    "facts": [
+      {
+        "label": "適合情境",
+        "value": "需要把指定 Codebase／文件／媒體轉成帶證據的持久 Knowledge Graph"
+      },
+      {
+        "label": "正式指令或使用邊界",
+        "value": "在適用 Host 使用 `/graphify <path>`，加 `--update` 僅做增量；安裝 CLI 或外部 LLM 語意擷取需明確批准"
+      },
+      {
+        "label": "上游版本證據",
+        "value": "官方 v3 分支，並非宣稱 main 最新"
+      },
+      {
+        "label": "執行狀態",
+        "value": "SOURCE CHECKED／NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "使用時機",
+        "description": "需要把指定 Codebase／文件／媒體轉成帶證據的持久 Knowledge Graph"
+      },
+      {
+        "title": "先確認執行條件",
+        "description": "在適用 Host 使用 `/graphify <path>`，加 `--update` 僅做增量；安裝 CLI 或外部 LLM 語意擷取需明確批准"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "具有存取權限且已排除敏感檔案的本機資料夾",
+        "detail": "確認有權取得此資料。"
+      },
+      {
+        "title": "欲解析的專案原始碼、Markdown、PDF、圖片或選用影音資料",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      },
+      {
+        "title": "AI Coding Assistant 或可用的 LLM 環境（如需語意擷取）",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      },
+      {
+        "title": "是否需要圖譜輸出（HTML、JSON、Obsidian、Wiki、Neo4j）與隱私／花費上限",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先查權限與本機依賴",
+        "detail": "先查權限與本機依賴",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "02",
+        "title": "依 AST／選用 LLM 做來源擷取",
+        "detail": "依 AST／選用 LLM 做來源擷取",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "03",
+        "title": "整合 Graph、分群與報告",
+        "detail": "整合 Graph、分群與報告",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "04",
+        "title": "對輸出及推論來源做一致性審查",
+        "detail": "對輸出及推論來源做一致性審查",
+        "result": "符合需求的成果或具體 BLOCKED 原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要把指定 Codebase／文件／媒體轉成帶證據的持久 Knowledge Graph",
+      "meaning": "在適用 Host 使用 `/graphify <path>`，加 `--update` 僅做增量；安裝 CLI 或外部 LLM 語意擷取需明確批准",
+      "usageNote": "文件中的命令不是已安裝或自動執行授權；副作用、憑證與外部 API 須另批准。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "graphify-out/graph.html：可視化交互圖譜"
+      },
+      {
+        "name": "其他產出 2",
+        "description": "graphify-out/graph.json：持久關係圖資料"
+      },
+      {
+        "name": "其他產出 3",
+        "description": "graphify-out/GRAPH_REPORT.md：架構和關鍵節點解說"
+      },
+      {
+        "name": "其他產出 4",
+        "description": "graphify-out/cache：變更檢查與增量重新處理"
+      },
+      {
+        "name": "其他產出 5",
+        "description": "依參數選配 Wiki、Obsidian Vault、MCP、GraphML 及查詢結果"
+      }
+    ],
+    "composition": {
+      "problem": "初次接手 Codebase 或大量技術文件時，Agent 容易反覆讀整份原始資料，缺少可追溯、跨檔案的架構關係與持久上下文。",
+      "capabilities": [
+        {
+          "id": "source-reviewed-skill-contract",
+          "title": "文件級可重用 Skill 操作契約",
+          "input": "具有存取權限且已排除敏感檔案的本機資料夾；欲解析的專案原始碼、Markdown、PDF、圖片或選用影音資料；AI Coding Assistant 或可用的 LLM 環境（如需語意擷取）；是否需要圖譜輸出（HTML、JSON、Obsidian、Wiki、Neo4j）與隱私／花費上限",
+          "output": "graphify-out/graph.html：可視化交互圖譜；graphify-out/graph.json：持久關係圖資料；graphify-out/GRAPH_REPORT.md：架構和關鍵節點解說；graphify-out/cache：變更檢查與增量重新處理；依參數選配 Wiki、Obsidian Vault、MCP、GraphML 及查詢結果",
+          "gate": "所有推論邊保留證據等級"
+        }
+      ],
+      "note": "這是知識庫中的 I/O 設計示例，沒有 Runtime、Tool Binding 或正式 Graph Edge 證據。"
+    },
+    "safety": [
+      {
+        "title": "機密外送",
+        "risk": "機密外送",
+        "action": "語意擷取可能調用雲端模型"
+      },
+      {
+        "title": "安裝副作用",
+        "risk": "安裝副作用",
+        "action": "禁止未核准 pip、Hooks 或 AGENTS.md 覆寫"
+      }
+    ],
+    "acceptance": [
+      "所有推論邊保留證據等級",
+      "Graph、HTML、報告關係一致",
+      "未核准不執行安裝或外部模型"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Graphify-Labs/graphify/blob/v3/graphify/skill.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 v3 分支，並非宣稱 main 最新",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游 README／SKILL.md；第三方安裝、Runtime、Security、License、Integration 均 NOT TESTED。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "既有 Canonical ID 和 Typed Resource Link 原樣保留，未新增重複 Skill。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原 Raw Tags 完全保留，沒有新增、刪除或自動標準化。"
+    },
+    "classificationReason": "既有 Domain、Tags 和 Typed References 依原紀錄保留；只有版本差異內容更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "依官方內容補齊 Trigger、Input、Execution、Output、Risk、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只新增可閱讀的操作契約，未建立未證實的新正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept References；不從 Tags 或指南產生新的 Graph Edge。"
+    },
+    "riskNotes": "機密外送：語意擷取可能調用雲端模型；安裝副作用：禁止未核准 pip、Hooks 或 AGENTS.md 覆寫。不因上游文件而授權執行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方文件已閱讀；上游 Runtime、License、Security、Integration 均 NOT TESTED。"
+    }
   }
 }

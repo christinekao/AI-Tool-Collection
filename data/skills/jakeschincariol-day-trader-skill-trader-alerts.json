@@ -4,15 +4,18 @@
   "entityType": "skill",
   "title": "Day Trader /trader-alerts — Watch price, stop, target and exit clock",
   "purpose": "監控進場、止損、目標和到時平倉提醒；時間與行情來源可能延遲，不是保證的風險防護。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "problem": "要依指定股票價位、停損、目標或 Flat-by 時間建立資訊提醒；缺乏可驗收的操作契約或資料證據將造成錯誤結果。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "股票代碼、門檻與交易計畫",
+    "報價來源與時間戳",
+    "提醒方式及時區"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "trader/alerts.json／prices.json（如適用）",
+    "已觸發／未觸發訊息",
+    "報價延遲與未啟動原因"
   ],
-  "execution": "官方 SKILL.md：trader-alerts/SKILL.md。此 Skill 只屬於 Jakeschincariol/day-trader-skill 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：price-alerts。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "1. 從 plan 或價位設規則 → 2. 核對 NYSE 美東時鐘與假日 → 3. 依授權設提醒和輪詢 → 4. 回報時間戳與訊號狀態",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +39,14 @@
   "source": {
     "url": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-alerts/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Read official current README/SKILL.md; no third-party installation, runtime, security or license audit",
+    "versionEvidence": "官方 Price Alerts，NYSE 時段與報價可能延遲"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "trader-alerts",
@@ -62,5 +68,181 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "要依指定股票價位、停損、目標或 Flat-by 時間建立資訊提醒"
+  ],
+  "constraints": [
+    "延遲：免費報價與排程可能失效",
+    "誤用：警報不是已成交 Stop Order"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "監控進場、止損、目標和到時平倉提醒；時間與行情來源可能延遲，不是保證的風險防護。",
+    "introNote": "依上游官方文件整理的操作契約；本知識庫未執行第三方 Skill。",
+    "facts": [
+      {
+        "label": "適合情境",
+        "value": "要依指定股票價位、停損、目標或 Flat-by 時間建立資訊提醒"
+      },
+      {
+        "label": "正式指令或使用邊界",
+        "value": "已安裝後 `/trader-alerts [ticker] [price]`；提醒不等於已下單或成交"
+      },
+      {
+        "label": "上游版本證據",
+        "value": "官方 Price Alerts，NYSE 時段與報價可能延遲"
+      },
+      {
+        "label": "執行狀態",
+        "value": "SOURCE CHECKED／NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "使用時機",
+        "description": "要依指定股票價位、停損、目標或 Flat-by 時間建立資訊提醒"
+      },
+      {
+        "title": "先確認執行條件",
+        "description": "已安裝後 `/trader-alerts [ticker] [price]`；提醒不等於已下單或成交"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "股票代碼、門檻與交易計畫",
+        "detail": "確認有權取得此資料。"
+      },
+      {
+        "title": "報價來源與時間戳",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      },
+      {
+        "title": "提醒方式及時區",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "從 plan 或價位設規則",
+        "detail": "從 plan 或價位設規則",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "02",
+        "title": "核對 NYSE 美東時鐘與假日",
+        "detail": "核對 NYSE 美東時鐘與假日",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "03",
+        "title": "依授權設提醒和輪詢",
+        "detail": "依授權設提醒和輪詢",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "04",
+        "title": "回報時間戳與訊號狀態",
+        "detail": "回報時間戳與訊號狀態",
+        "result": "符合需求的成果或具體 BLOCKED 原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要依指定股票價位、停損、目標或 Flat-by 時間建立資訊提醒",
+      "meaning": "已安裝後 `/trader-alerts [ticker] [price]`；提醒不等於已下單或成交",
+      "usageNote": "文件中的命令不是已安裝或自動執行授權；副作用、憑證與外部 API 須另批准。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "trader/alerts.json／prices.json（如適用）"
+      },
+      {
+        "name": "其他產出 2",
+        "description": "已觸發／未觸發訊息"
+      },
+      {
+        "name": "其他產出 3",
+        "description": "報價延遲與未啟動原因"
+      }
+    ],
+    "composition": {
+      "problem": "要依指定股票價位、停損、目標或 Flat-by 時間建立資訊提醒；缺乏可驗收的操作契約或資料證據將造成錯誤結果。",
+      "capabilities": [
+        {
+          "id": "source-reviewed-skill-contract",
+          "title": "文件級可重用 Skill 操作契約",
+          "input": "股票代碼、門檻與交易計畫；報價來源與時間戳；提醒方式及時區",
+          "output": "trader/alerts.json／prices.json（如適用）；已觸發／未觸發訊息；報價延遲與未啟動原因",
+          "gate": "每則提醒有 Symbol、Time 與資料來源"
+        }
+      ],
+      "note": "這是知識庫中的 I/O 設計示例，沒有 Runtime、Tool Binding 或正式 Graph Edge 證據。"
+    },
+    "safety": [
+      {
+        "title": "延遲",
+        "risk": "延遲",
+        "action": "免費報價與排程可能失效"
+      },
+      {
+        "title": "誤用",
+        "risk": "誤用",
+        "action": "警報不是已成交 Stop Order"
+      }
+    ],
+    "acceptance": [
+      "每則提醒有 Symbol、Time 與資料來源",
+      "不冒稱風險保護或下單",
+      "未執行不宣稱持續監控已啟用"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-alerts/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Price Alerts，NYSE 時段與報價可能延遲",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游 README／SKILL.md；第三方安裝、Runtime、Security、License、Integration 均 NOT TESTED。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "既有 Canonical ID 和 Typed Resource Link 原樣保留，未新增重複 Skill。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原 Raw Tags 完全保留，沒有新增、刪除或自動標準化。"
+    },
+    "classificationReason": "既有 Domain、Tags 和 Typed References 依原紀錄保留；只有版本差異內容更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "依官方內容補齊 Trigger、Input、Execution、Output、Risk、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只新增可閱讀的操作契約，未建立未證實的新正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept References；不從 Tags 或指南產生新的 Graph Edge。"
+    },
+    "riskNotes": "延遲：免費報價與排程可能失效；誤用：警報不是已成交 Stop Order。不因上游文件而授權執行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方文件已閱讀；上游 Runtime、License、Security、Integration 均 NOT TESTED。"
+    }
   }
 }
