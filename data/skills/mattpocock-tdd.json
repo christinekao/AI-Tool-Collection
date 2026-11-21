@@ -3,16 +3,17 @@
   "id": "mattpocock-tdd",
   "entityType": "skill",
   "title": "Matt Pocock /tdd — Behavior-focused test-driven development",
-  "purpose": "確認公開測試介面後，逐一建立先失敗的測試、最低限度程式碼實作，再進入後續 Review；避免恆真及綁定實作細節的測試。",
-  "problem": "Coding Agent 缺乏特定的需求釐清、交付、測試或 Bug 分類程序，可能導致返工、誤判與缺乏可追溯來源。",
+  "purpose": "在公開介面採測試先行的 Red → Green 垂直切片，讓測試保護行為而非內部細節。",
+  "problem": "需要在公開介面採測試先行的 Red → Green 垂直切片，讓測試保護行為而非內部細節。；無足夠來源時不得推測已安裝或已驗證。",
   "inputs": [
-    "已授權的專案脈絡／使用者需求",
-    "必要時的 Repo、Issue、Docs 或前次 Session"
+    "目標行為與獨立預期值",
+    "已確認測試 Seam、程式碼和測試環境"
   ],
   "outputs": [
-    "依 Skill 類型產生的需求答案、文件、測試成果、交接摘要或 Issue 評估"
+    "Red 和 Green 測試及最小實作",
+    "執行紀錄、未覆蓋路徑和回歸證據"
   ],
-  "execution": "來源 Repo mattpocock/skills 的 skills/engineering/tdd/SKILL.md；在已合法安裝及設定的支援 Agent 環境中呼叫 /tdd，不得因為已收錄就聲稱本環境可直接執行。部分 Skill 會更新專案文件或 Issue、可能牽涉權限與資料讀寫。請按官方最新版確認安裝方式；同一 Agent 不要同時裝 Plugin 與 skills.sh 版造成重複。",
+  "execution": "官方 model-invoked tdd；先協議 public seam，再一個 failing test、一個最小實作。。文件階段流程：確認 Seam → Red → Green → 持續垂直切片；安裝、網路、寫入和實際測試皆須另行授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +37,14 @@
   "source": {
     "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
     "type": "Official standalone SKILL.md",
-    "summary": "Official source inspected 2026-10-24; not installed or executed."
+    "summary": "Official source inspected 2026-10-24; not installed or executed.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "Red → Green；Refactor 不在循環內",
+    "reviewScope": "2026-11-21 official README/SKILL.md reviewed only; external runtime/security/license/integration NOT EXECUTED"
   },
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-21",
   "tags": [
     "mattpocock",
     "skills.sh",
@@ -61,5 +65,173 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "要以 Test-first 方式開發功能或修 Bug；官方可 model-invoked。",
+    "測試 Seam 未經使用者同意前不可開始；Refactor 留到 Code Review。"
+  ],
+  "constraints": [
+    "無效斷言｜Tautological assertion 或內部 Mock 會掩蓋問題",
+    "大量水平測試｜先測整批想像的行為可能破壞可用性"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "在公開介面採測試先行的 Red → Green 垂直切片，讓測試保護行為而非內部細節。",
+    "introNote": "官方原始文件的操作契約整理；本知識庫未執行第三方安裝、Runtime 或獨立安全／授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "要以 Test-first 方式開發功能或修 Bug；官方可 model-invoked。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "Red → Green；Refactor 不在循環內"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "官方 model-invoked tdd；先協議 public seam，再一個 failing test、一個最小實作。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "要以 Test-first 方式開發功能或修 Bug；官方可 model-invoked。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "測試 Seam 未經使用者同意前不可開始；Refactor 留到 Code Review。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "目標行為與獨立預期值",
+        "detail": "缺少輸入先確認需求，不能補造來源或結果。"
+      },
+      {
+        "title": "已確認測試 Seam、程式碼和測試環境",
+        "detail": "權限、隱私和依賴須逐項確認。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認 Seam",
+        "detail": "先向使用者確認公開介面的測試邊界",
+        "result": "核准測試列表"
+      },
+      {
+        "number": "02",
+        "title": "Red",
+        "detail": "寫一個先失敗的行為測試",
+        "result": "可重現失敗"
+      },
+      {
+        "number": "03",
+        "title": "Green",
+        "detail": "只實作通過此測試的最小行為",
+        "result": "實際通過結果"
+      },
+      {
+        "number": "04",
+        "title": "持續垂直切片",
+        "detail": "下一個行為再循環，Review 才重構",
+        "result": "可追溯測試序列"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要以 Test-first 方式開發功能或修 Bug；官方可 model-invoked。",
+      "meaning": "官方 model-invoked tdd；先協議 public seam，再一個 failing test、一個最小實作。",
+      "usageNote": "測試 Seam 未經使用者同意前不可開始；Refactor 留到 Code Review。；第三方命令需明確授權，不能由收藏自動執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "Red 和 Green 測試及最小實作"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "執行紀錄、未覆蓋路徑和回歸證據"
+      }
+    ],
+    "composition": {
+      "problem": "需要在公開介面採測試先行的 Red → Green 垂直切片，讓測試保護行為而非內部細節。；無足夠來源時不得推測已安裝或已驗證。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "目標行為與獨立預期值；已確認測試 Seam、程式碼和測試環境",
+          "output": "Red 和 Green 測試及最小實作；執行紀錄、未覆蓋路徑和回歸證據",
+          "gate": "先有獨立 Red 再有 Green 證據"
+        }
+      ],
+      "note": "候選流程非已安裝 Capability，也不新增 Graph 連結。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "無效斷言",
+        "action": "Tautological assertion 或內部 Mock 會掩蓋問題"
+      },
+      {
+        "title": "控制 2",
+        "risk": "大量水平測試",
+        "action": "先測整批想像的行為可能破壞可用性"
+      }
+    ],
+    "acceptance": [
+      "先有獨立 Red 再有 Green 證據",
+      "測的是核准公開 Seam 而非私有實作"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Red → Green；Refactor 不在循環內",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀，第三方安全、執行、授權與整合均未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新現有 Canonical Skill，未新增同義技能或資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags、Domains 與既有參照，不新增詞彙。"
+    },
+    "classificationReason": "本次為文件操作契約品質改善，不變更既有分類和關係。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方文件已閱讀並補完整 Trigger、I/O、Execution、Risk 與 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "保留原有 Mapping，不因 Guide 推測新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原 Typed References 保留，不新增自動關聯。"
+    },
+    "riskNotes": "無效斷言｜Tautological assertion 或內部 Mock 會掩蓋問題；大量水平測試｜先測整批想像的行為可能破壞可用性；本次未執行第三方程式。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README/SKILL.md 已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }
