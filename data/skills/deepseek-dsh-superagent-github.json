@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "status": "active",
   "addedAt": "2026-11-02",
-  "updatedAt": "2026-11-02",
+  "updatedAt": "2026-11-21",
   "id": "deepseek-dsh-superagent-github",
   "entityType": "skill",
   "title": "dsh-superagent-github — GitHub Issues、PR、Review 與 CI 讀取",
@@ -48,8 +48,10 @@
   ],
   "source": {
     "url": "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/skills/dsh-superagent-github/SKILL.md",
-    "reviewedAt": "2026-11-02",
-    "type": "Official standalone SKILL.md"
+    "reviewedAt": "2026-11-21",
+    "type": "Official standalone SKILL.md",
+    "reviewScope": "Official README/SKILL.md documentation reviewed; runtime/security/license not tested",
+    "versionEvidence": "Official standalone"
   },
   "classification": {
     "primaryDomain": "software",
@@ -61,5 +63,151 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "problem": "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger",
+  "whenToUse": [
+    "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "在 dsh-superagent 的 Executor Session 中，透過 orchestrator_read 取得 GitHub Issue、Pull Request、Review、討論與 CI 上下文，依原始 Trigger 與授權規則處理回覆。",
+    "introNote": "來源層級已核對，但上游 Skill 尚未安裝、測試或授權執行。",
+    "facts": [
+      {
+        "label": "何時使用",
+        "value": "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger"
+      },
+      {
+        "label": "來源版本",
+        "value": "Official standalone"
+      },
+      {
+        "label": "執行狀態",
+        "value": "DOCUMENTATION REVIEWED / NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger",
+        "description": "僅在任務需求、必要輸入和授權符合時使用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已安裝並設定 DeepSeek Harness 的 dsh-superagent",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "已授權且可存取的 GitHub Repository 與來源 Trigger",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認 Issue/PR Trigger",
+        "detail": "確認 Issue/PR Trigger",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "02",
+        "title": "讀 Comments/Reviews/Checks",
+        "detail": "讀 Comments/Reviews/Checks",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "03",
+        "title": "查明 Review Thread",
+        "detail": "查明 Review Thread",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "04",
+        "title": "分開實際授權與資訊",
+        "detail": "分開實際授權與資訊",
+        "result": "可驗收成果或明確未完成原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger",
+      "meaning": "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger",
+      "usageNote": "這是建議情境，不代表 Host 已安裝指令；官方命令及權限以原始 README/SKILL.md 為準。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "具來源依據的任務上下文與後續工作結果"
+      }
+    ],
+    "composition": {
+      "problem": "DSH Executor 讀 GitHub Issue、PR、Review、Checks 和 Trigger",
+      "capabilities": [
+        {
+          "id": "reviewed-operation-contract",
+          "title": "依 Skill 文件作問題到輸出的操作契約",
+          "input": "已安裝並設定 DeepSeek Harness 的 dsh-superagent；已授權且可存取的 GitHub Repository 與來源 Trigger",
+          "output": "具來源依據的任務上下文與後續工作結果",
+          "gate": "每個 CI 與 Thread 可追查，沒有偽稱已合併"
+        }
+      ],
+      "note": "此為可重用知識單元，不代表 Runtime Capability 或新增 Graph 關聯已經驗證。"
+    },
+    "safety": [
+      {
+        "title": "GitHub 副作用",
+        "risk": "GitHub 副作用",
+        "action": "閱讀不授權 Reply、Merge 或關閉"
+      }
+    ],
+    "acceptance": [
+      "每個 CI 與 Thread 可追查，沒有偽稱已合併"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/deepseek-ai/dsh-superagent-prototype/blob/main/skills/dsh-superagent-github/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Official standalone",
+      "execution": "NOT_EXECUTED",
+      "notes": "來源原文已閱讀；第三方安裝、Runtime、Security、License、Integration 均未測試。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Canonical Skill ID 與 Resource 來源，不新增重複 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Raw Tags，沒有新增或修改既有標籤。"
+    },
+    "classificationReason": "原 Domain、Tags、Typed References 完整保留；只將過時圖表類別數及 Skill 套件描述更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已整理 Trigger、Input、Execution、Output、Risk、Gate 和 Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本次只建立操作知識契約，不新增未實測的正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維持原有 Concept References；沒有從相似 Tags 建立 Graph Edges。"
+    },
+    "riskNotes": "GitHub 副作用；閱讀不授權 Reply、Merge 或關閉。第三方命令不構成授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 來源原始文件閱讀；第三方安裝、安全、授權與執行均未測試。"
+    }
   }
 }

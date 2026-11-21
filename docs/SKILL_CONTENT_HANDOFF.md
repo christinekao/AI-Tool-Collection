@@ -1,5 +1,43 @@
 # Phase 2 Skills — 最新 Session 交接
 
+## Skills Batch 02 — 新交接快照（2026-11-21）
+
+- 基準 main `e1f9a799b6aaaf899c2ebfe67d0ba5bfa9b4e73b`；工作分支 `skill-content-batch02-20261121`。
+- Batch 01 已正式完成 **20/123**；本批 20 仍需 PR CI／Merge；完成後方可計為 **40/123**，剩 83。
+- 來源：19 文件已讀，1 Design to Motion PARTIAL／現行 SKILL.md 404；第三方安裝、Runtime、License、Security、Integration 全部 NOT TESTED。
+- 改動：20 Canonical Skill JSON、20 Guide、Catalog、Graph、[Batch 02 逐筆報告](SKILL_CONTENT_REVIEW_BATCH02_20261121.md)、本 Rolling Handoff。
+- 既有 Tags、分類、Typed References、569 Graph Nodes／1816 Edges 保持不變。
+
+### 下一批 Batch 03：41–60 筆（尚未開始）
+41. `gbro-cover-design`
+42. `googlechrome-modern-web-guidance`
+43. `graphify-labs-graphify-v3`
+44. `gsap-skills`
+45. `guizang-product-video-skill`
+46. `gzh-design-skill`
+47. `herdr-agent-terminal-skill`
+48. `hesreallyhim-awesome-claude-code`
+49. `heydamir-unslop-skill`
+50. `heygen-com-hyperframes-agent-skills`
+51. `impeccable`
+52. `irons163-orchestrate-sol-terra-luna`
+53. `jakeschincariol-day-trader-skill-trader-alerts`
+54. `jakeschincariol-day-trader-skill-trader-analyst`
+55. `jakeschincariol-day-trader-skill-trader-broker`
+56. `jakeschincariol-day-trader-skill-trader-budget`
+57. `jakeschincariol-day-trader-skill-trader-entry`
+58. `jakeschincariol-day-trader-skill-trader-exit`
+59. `jakeschincariol-day-trader-skill-trader-news`
+60. `jakeschincariol-day-trader-skill-trader-pelosi`
+
+### 待辦與驗證
+- PR Head Unified Intake、V2 Validate、P1 Graph／Browser Smoke 實際核對。
+- Merge 後 main Catalog Sync／Graph／Pages Build/Deploy／部署後 Live Smoke 獨立驗收。
+- 找回 Design to Motion 的上游維護版本／原始 Commit 後才能解除 PARTIAL。
+
+---
+
+
 > Single Source of Handoff：本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Skill Spec](SKILL_RESOURCE_SPEC.md) → [Batch 01 逐筆審查報告](SKILL_CONTENT_REVIEW_BATCH01_20261121.md)。新 Session 務必重新核對 main 和 GitHub PR／Actions。
 
 ## Skills Batch 01 已合併並驗證（2026-11-21）

@@ -3,7 +3,7 @@
   "entityType": "skill",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-21",
   "resourceRefs": [
     {
       "type": "resource",
@@ -43,7 +43,10 @@
   "source": {
     "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
     "type": "Official original Skill",
-    "summary": "Verified official five-step creation contract."
+    "summary": "Verified official five-step creation contract.",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Official README/SKILL.md documentation reviewed; runtime/security/license not tested",
+    "versionEvidence": "disable-model-invocation true"
   },
   "tags": [
     "pstack",
@@ -72,5 +75,169 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "明確呼叫 /create-verification-skill 建立 App 驗證 Harness"
+  ],
+  "constraints": [
+    "測試副作用：使用隔離測試資料、完成後 Cleanup"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "針對專案真實使用者功能，自動盤點 App 啟動與控制方式，建立可重複執行的驗證 Skill（Launch、Doctor、Drive、Evidence、Cleanup、Helpers）及 Feature Map，並以一條實際功能路徑證明 Skill 可用。",
+    "introNote": "來源層級已核對，但上游 Skill 尚未安裝、測試或授權執行。",
+    "facts": [
+      {
+        "label": "何時使用",
+        "value": "明確呼叫 /create-verification-skill 建立 App 驗證 Harness"
+      },
+      {
+        "label": "來源版本",
+        "value": "disable-model-invocation true"
+      },
+      {
+        "label": "執行狀態",
+        "value": "DOCUMENTATION REVIEWED / NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "明確呼叫 /create-verification-skill 建立 App 驗證 Harness",
+        "description": "僅在任務需求、必要輸入和授權符合時使用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "專案 Repo、App 入口、啟動指令與相關依賴",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "可以隔離的測試帳號、資料、環境變數及權限",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "至少一項可觀察的 Acceptance Criteria",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "盤點 Repo 與入口",
+        "detail": "盤點 Repo 與入口",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "02",
+        "title": "復用現有測試工具",
+        "detail": "復用現有測試工具",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "03",
+        "title": "生成 Skill 和 Feature Map",
+        "detail": "生成 Skill 和 Feature Map",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "04",
+        "title": "實際 Launch→Doctor→Drive→Evidence→Cleanup",
+        "detail": "實際 Launch→Doctor→Drive→Evidence→Cleanup",
+        "result": "可驗收成果或明確未完成原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "明確呼叫 /create-verification-skill 建立 App 驗證 Harness",
+      "meaning": "明確呼叫 /create-verification-skill 建立 App 驗證 Harness",
+      "usageNote": "這是建議情境，不代表 Host 已安裝指令；官方命令及權限以原始 README/SKILL.md 為準。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": ".cursor/skills/verify-<app>/SKILL.md"
+      },
+      {
+        "name": "其他產出",
+        "description": "features/README.md 與每個 Feature 的原始碼/操作/證據路徑"
+      },
+      {
+        "name": "其他產出",
+        "description": "可執行 Helpers 或既有測試工具的調用方式"
+      },
+      {
+        "name": "其他產出",
+        "description": "至少一條 Launch→Doctor→Drive→Evidence→Cleanup 的實際執行證據，或具體未驗證標示"
+      }
+    ],
+    "composition": {
+      "problem": "Agent 改完程式碼後缺少可啟動 App、操作功能、確認副作用和保存證據的專案特定 Runtime Verification Harness。",
+      "capabilities": [
+        {
+          "id": "reviewed-operation-contract",
+          "title": "依 Skill 文件作問題到輸出的操作契約",
+          "input": "專案 Repo、App 入口、啟動指令與相關依賴；可以隔離的測試帳號、資料、環境變數及權限；至少一項可觀察的 Acceptance Criteria",
+          "output": ".cursor/skills/verify-<app>/SKILL.md；features/README.md 與每個 Feature 的原始碼/操作/證據路徑；可執行 Helpers 或既有測試工具的調用方式；至少一條 Launch→Doctor→Drive→Evidence→Cleanup 的實際執行證據，或具體未驗證標示",
+          "gate": "至少一條真實功能路徑有可查證操作"
+        }
+      ],
+      "note": "此為可重用知識單元，不代表 Runtime Capability 或新增 Graph 關聯已經驗證。"
+    },
+    "safety": [
+      {
+        "title": "測試副作用",
+        "risk": "測試副作用",
+        "action": "使用隔離測試資料、完成後 Cleanup"
+      }
+    ],
+    "acceptance": [
+      "至少一條真實功能路徑有可查證操作"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "disable-model-invocation true",
+      "execution": "NOT_EXECUTED",
+      "notes": "來源原文已閱讀；第三方安裝、Runtime、Security、License、Integration 均未測試。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Canonical Skill ID 與 Resource 來源，不新增重複 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Raw Tags，沒有新增或修改既有標籤。"
+    },
+    "classificationReason": "原 Domain、Tags、Typed References 完整保留；只將過時圖表類別數及 Skill 套件描述更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已整理 Trigger、Input、Execution、Output、Risk、Gate 和 Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本次只建立操作知識契約，不新增未實測的正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維持原有 Concept References；沒有從相似 Tags 建立 Graph Edges。"
+    },
+    "riskNotes": "測試副作用；使用隔離測試資料、完成後 Cleanup。第三方命令不構成授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 來源原始文件閱讀；第三方安裝、安全、授權與執行均未測試。"
+    }
   }
 }
