@@ -62557,7 +62557,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-21",
       "id": "oh-my-mermaid-omm-scan",
       "title": "Oh My Mermaid /omm-scan — Recursive Codebase Architecture Documentation",
       "purpose": "AI 依程式庫內容辨識 overall architecture、data flow、request lifecycle 等值得分析的 perspectives，逐層生成 Mermaid 圖和對應 Markdown 欄位到 `.omm/`；節點擁有內部結構時遞迴鑽取。",
@@ -62576,7 +62576,10 @@
       "source": {
         "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-scan/SKILL.md",
         "type": "Official agent SKILL.md",
-        "summary": "Original instruction and defined perspectives verified; not executed."
+        "summary": "Original instruction and defined perspectives verified; not executed.",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 SKILL.md：Perspective-based Recursive Architecture；omm config language 與獨立 omm write 欄位",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
       },
       "tags": [
         "oh-my-mermaid",
@@ -62603,6 +62606,175 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "使用者明確希望用 /omm-scan 分析已有授權的程式庫並產生／更新架構。",
+        "沒有可讀 Repo 或不希望改 .omm/ 時不執行；不得盲目全域安裝 omm CLI。"
+      ],
+      "constraints": [
+        "資料外洩｜架構圖可能含內部服務與憑證，保留本機並禁止自動 Cloud Push",
+        "檔案修改｜omm write 會改 .omm/，需先有授權、預覽及回復方案"
+      ],
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "使用者明確希望用 /omm-scan 分析已有授權的程式庫並產生／更新架構。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "使用者明確希望用 /omm-scan 分析已有授權的程式庫並產生／更新架構。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方 SKILL.md：Perspective-based Recursive Architecture；omm config language 與獨立 omm write 欄位"
+          },
+          {
+            "label": "觸發方式",
+            "value": "Agent Skill /omm-scan；先查 omm config language，CLI 缺失需請使用者核准安裝。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "使用者明確希望用 /omm-scan 分析已有授權的程式庫並產生／更新架構。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "沒有可讀 Repo 或不希望改 .omm/ 時不執行；不得盲目全域安裝 omm CLI。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "已授權讀取的 Repo、Manifest、Entry Points",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "要研究的 Perspective、文件語言、.omm/ 寫入範圍",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "閱讀程式",
+            "detail": "檢 Manifest、入口、Routes、依賴及資料流",
+            "result": "確定可追查的程式路徑"
+          },
+          {
+            "number": "02",
+            "title": "選 Perspective",
+            "detail": "overall-architecture 必有，其餘 request-lifecycle／data-flow 等按存在與否選",
+            "result": "縮小分析範圍"
+          },
+          {
+            "number": "03",
+            "title": "逐層寫入",
+            "detail": "omm write 繪圖，每個節點具 description，內部有子元件才繼續 Drill-down",
+            "result": "有層次的 .omm 文件"
+          },
+          {
+            "number": "04",
+            "title": "核對一致性",
+            "detail": "檢節點 ID 對應路徑、無循環、不重寫未變更文件",
+            "result": "可從原始碼追查的架構圖"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者明確希望用 /omm-scan 分析已有授權的程式庫並產生／更新架構。",
+          "meaning": "Agent Skill /omm-scan；先查 omm config language，CLI 缺失需請使用者核准安裝。",
+          "usageNote": "沒有可讀 Repo 或不希望改 .omm/ 時不執行；不得盲目全域安裝 omm CLI。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": ".omm/<perspective>/diagram.mmd 與各節點描述"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "可展開子目錄、context/constraint/concern/todo/note"
+          }
+        ],
+        "composition": {
+          "problem": "長期由 AI 新增功能的專案，程式碼架構／資料流／依賴關係可能缺少能提供給人理解與維護的完整地圖。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "已授權讀取的 Repo、Manifest、Entry Points；要研究的 Perspective、文件語言、.omm/ 寫入範圍",
+              "output": ".omm/<perspective>/diagram.mmd 與各節點描述；可展開子目錄、context/constraint/concern/todo/note",
+              "gate": "每個節點都有來源程式位置且 Node ID 可對應檔名"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "資料外洩",
+            "action": "架構圖可能含內部服務與憑證，保留本機並禁止自動 Cloud Push"
+          },
+          {
+            "title": "控制 2",
+            "risk": "檔案修改",
+            "action": "omm write 會改 .omm/，需先有授權、預覽及回復方案"
+          }
+        ],
+        "acceptance": [
+          "每個節點都有來源程式位置且 Node ID 可對應檔名",
+          "沒有多餘 Perspective 或未核准的資料傳輸"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-scan/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 SKILL.md：Perspective-based Recursive Architecture；omm config language 與獨立 omm write 欄位",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "資料外洩｜架構圖可能含內部服務與憑證，保留本機並禁止自動 Cloud Push；檔案修改｜omm write 會改 .omm/，需先有授權、預覽及回復方案；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -62630,7 +62802,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-21",
       "id": "oh-my-mermaid-omm-view",
       "title": "Oh My Mermaid /omm-view — Local Interactive Architecture Viewer",
       "purpose": "啟動本機 Web Viewer 導覽既有 `.omm/` Mermaid 架構文件與階層 Node，適合查看不同 perspectives 並逐層展開。",
@@ -62647,7 +62819,10 @@
       "source": {
         "url": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-view/SKILL.md",
         "type": "Official agent SKILL.md",
-        "summary": "Source confirms local viewer, default port and no mutation of docs."
+        "summary": "Source confirms local viewer, default port and no mutation of docs.",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 SKILL.md：本機唯讀 Viewer，預設 3000 Port",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
       },
       "tags": [
         "oh-my-mermaid",
@@ -62673,6 +62848,175 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "使用者想開啟既有的 .omm/ 架構圖，或指定 /omm-view。",
+        "omm list 無資料應建議先 /omm-scan，不啟動空 Viewer；Viewer 不應改 .omm/。"
+      ],
+      "constraints": [
+        "本機服務風險｜端口綁定可能被局域網存取，不能將架構文件公開",
+        "誤報啟動｜無 CLI 或沒有啟動 Server 時不能憑官方範例宣稱網址可用"
+      ],
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "使用者想開啟既有的 .omm/ 架構圖，或指定 /omm-view。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "使用者想開啟既有的 .omm/ 架構圖，或指定 /omm-view。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方 SKILL.md：本機唯讀 Viewer，預設 3000 Port"
+          },
+          {
+            "label": "觸發方式",
+            "value": "/omm-view [--port <port>]；需 omm CLI 與本機可啟動的 Server。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "使用者想開啟既有的 .omm/ 架構圖，或指定 /omm-view。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "omm list 無資料應建議先 /omm-scan，不啟動空 Viewer；Viewer 不應改 .omm/。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "現有的 .omm/ 架構文件與專案路徑",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "可用 CLI、Port 和本機服務權限",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "確認文件",
+            "detail": "執行 omm list，沒有資料直接停止",
+            "result": "已存在的 Perspective"
+          },
+          {
+            "number": "02",
+            "title": "確認環境",
+            "detail": "檢 CLI 與可用 Port，不默認安裝",
+            "result": "可啟動設定"
+          },
+          {
+            "number": "03",
+            "title": "啟動 Viewer",
+            "detail": "在已授權本機執行 omm view 或 --port",
+            "result": "可實際開啟的網址"
+          },
+          {
+            "number": "04",
+            "title": "核對唯讀",
+            "detail": "查看階層、刷新、Port 權限，不寫入 .omm",
+            "result": "檢視結果"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者想開啟既有的 .omm/ 架構圖，或指定 /omm-view。",
+          "meaning": "/omm-view [--port <port>]；需 omm CLI 與本機可啟動的 Server。",
+          "usageNote": "omm list 無資料應建議先 /omm-scan，不啟動空 Viewer；Viewer 不應改 .omm/。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "本機 Viewer URL（若真正啟動）"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "可展開 Mermaid Perspective、檢視階層及自動刷新狀態"
+          }
+        ],
+        "composition": {
+          "problem": "僅用 Markdown 或一張大圖難以直觀探索有多層模組的專案架構，閱讀程式碼時需要互動導覽介面。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "現有的 .omm/ 架構文件與專案路徑；可用 CLI、Port 和本機服務權限",
+              "output": "本機 Viewer URL（若真正啟動）；可展開 Mermaid Perspective、檢視階層及自動刷新狀態",
+              "gate": "omm list 確認內容非空，Viewer 可實際打開"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "本機服務風險",
+            "action": "端口綁定可能被局域網存取，不能將架構文件公開"
+          },
+          {
+            "title": "控制 2",
+            "risk": "誤報啟動",
+            "action": "無 CLI 或沒有啟動 Server 時不能憑官方範例宣稱網址可用"
+          }
+        ],
+        "acceptance": [
+          "omm list 確認內容非空，Viewer 可實際打開",
+          "不修改 .omm/ 且未公開局域網"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/skills/omm-view/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 SKILL.md：本機唯讀 Viewer，預設 3000 Port",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "本機服務風險｜端口綁定可能被局域網存取，不能將架構文件公開；誤報啟動｜無 CLI 或沒有啟動 Server 時不能憑官方範例宣稱網址可用；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -62681,10 +63025,16 @@
       "entityType": "skill",
       "title": "OneTake",
       "purpose": "用 Agent 產生一鏡到底的產品發布片、teaser 與 feature demo：把每個 beat 的交界當成主要設計問題，要求畫面元素從上一段持續存在並轉化成下一段，搭配單一連續鏡頭、HTML 重建 UI、deterministic motion、motion blur、聲音事件與自動 continuity oracle 驗收。",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "inputs": [
+        "真實產品功能、分鏡 Beats、UI 截圖及動作方向",
+        "長度、比例、合法影音素材、音效與商用授權"
+      ],
+      "outputs": [
+        "連續鏡頭的 HTML 合成、逐格影像和影片（真正渲染後）",
+        "Continuity Oracle 的跨 Beat Score、影音檢查與失敗明細"
+      ],
+      "execution": "Claude Agent Skill onetake；所需 Python Playwright、FFmpeg、音效與 Motion Library 依環境另行核准。。流程：確認授權與真實 UI → 設計 Beat Continuity → 可重現 Render → 連續性驗收。本專案未安裝或執行第三方工具。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -62723,7 +63073,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-27",
-      "updatedAt": "2026-09-27",
+      "updatedAt": "2026-11-21",
       "tags": [
         "agent-skill",
         "motion-graphics",
@@ -62747,6 +63097,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.3-semantic-audit"
+      },
+      "whenToUse": [
+        "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。",
+        "不適合單純套片頭與多張卡片切換；原始碼非商用授權，客戶、商業宣傳要先核對 Pro 許可。"
+      ],
+      "constraints": [
+        "商用授權｜README 明列 PolyForm Noncommercial，不能視為 MIT 或任意接案可用",
+        "高額運算與依賴｜渲染、語音、音樂素材可能涉及外部工具、成本和版權"
+      ],
+      "source": {
+        "url": "https://github.com/feitangyuan/onetake/blob/main/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 SKILL.md + README；PolyForm Noncommercial 1.0.0，商用另需授權",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方 SKILL.md + README；PolyForm Noncommercial 1.0.0，商用另需授權"
+          },
+          {
+            "label": "觸發方式",
+            "value": "Claude Agent Skill onetake；所需 Python Playwright、FFmpeg、音效與 Motion Library 依環境另行核准。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "不適合單純套片頭與多張卡片切換；原始碼非商用授權，客戶、商業宣傳要先核對 Pro 許可。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "真實產品功能、分鏡 Beats、UI 截圖及動作方向",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "長度、比例、合法影音素材、音效與商用授權",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "確認授權與真實 UI",
+            "detail": "分辨個人／商業用途，蒐集可合法重建的畫面",
+            "result": "明確素材和權利"
+          },
+          {
+            "number": "02",
+            "title": "設計 Beat Continuity",
+            "detail": "每段結尾的視覺元素變形接續下一段，安排相機節奏",
+            "result": "一鏡到底的 Transition Plan"
+          },
+          {
+            "number": "03",
+            "title": "可重現 Render",
+            "detail": "按時間純函式處理 UI、運鏡、Motion Blur 及同步聲音",
+            "result": "可驗證 Frame／Audio"
+          },
+          {
+            "number": "04",
+            "title": "連續性驗收",
+            "detail": "以官方 probe／verify 測跨段 Carry、卡點、字幕與音畫",
+            "result": "失敗則修改而非僅看單張截圖"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。",
+          "meaning": "Claude Agent Skill onetake；所需 Python Playwright、FFmpeg、音效與 Motion Library 依環境另行核准。",
+          "usageNote": "不適合單純套片頭與多張卡片切換；原始碼非商用授權，客戶、商業宣傳要先核對 Pro 許可。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "連續鏡頭的 HTML 合成、逐格影像和影片（真正渲染後）"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "Continuity Oracle 的跨 Beat Score、影音檢查與失敗明細"
+          }
+        ],
+        "composition": {
+          "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "真實產品功能、分鏡 Beats、UI 截圖及動作方向；長度、比例、合法影音素材、音效與商用授權",
+              "output": "連續鏡頭的 HTML 合成、逐格影像和影片（真正渲染後）；Continuity Oracle 的跨 Beat Score、影音檢查與失敗明細",
+              "gate": "每個 Beat Boundary 都有可追踪 Carry，不是換張幻燈片"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "商用授權",
+            "action": "README 明列 PolyForm Noncommercial，不能視為 MIT 或任意接案可用"
+          },
+          {
+            "title": "控制 2",
+            "risk": "高額運算與依賴",
+            "action": "渲染、語音、音樂素材可能涉及外部工具、成本和版權"
+          }
+        ],
+        "acceptance": [
+          "每個 Beat Boundary 都有可追踪 Carry，不是換張幻燈片",
+          "實際影片播放、字幕音畫與授權核對完成才標 PASS"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/feitangyuan/onetake/blob/main/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 SKILL.md + README；PolyForm Noncommercial 1.0.0，商用另需授權",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "商用授權｜README 明列 PolyForm Noncommercial，不能視為 MIT 或任意接案可用；高額運算與依賴｜渲染、語音、音樂素材可能涉及外部工具、成本和版權；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -62755,10 +63280,16 @@
       "entityType": "skill",
       "title": "Photo Riso Poster",
       "purpose": "把照片或文字主題轉成安靜的 risograph archive poster。對照片先抽取可觀察事實，例如數量、間距、遮擋、方向、深度與色彩角色，再把這些 evidence 映射成 2–3 色套印、留白、紙張冷暖與排印資訊；生成階段使用文字化 evidence，而不是把原照片直接交給 image generation。",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "inputs": [
+        "有權使用的單張照片或文字主題",
+        "希望 likeness 忠實／標準／極簡及輸出比例"
+      ],
+      "outputs": [
+        "依觀察事實整理的文字 Evidence 和生成 Prompt",
+        "一張有文字、油墨層次與適切紙色的海報圖"
+      ],
+      "execution": "Codex $photo-riso-poster，或將原始 SKILL.md 提供給可看圖與生圖的 Assistant；無獨立腳本。。流程：萃取事實 → 映射印刷 → 生成視覺 → 自行校驗。本專案未安裝或執行第三方工具。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -62789,7 +63320,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-29",
-      "updatedAt": "2026-09-29",
+      "updatedAt": "2026-11-21",
       "tags": [
         "agent-skill",
         "image-generation",
@@ -62813,6 +63344,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。",
+        "只有文字規則，必須由有影像生成能力的 Host 執行；使用者要求精確照片複製時不能擅自改主體。"
+      ],
+      "constraints": [
+        "照片與人像權｜原始照片、人物、品牌與 Output Platform 條款需檢查",
+        "事實憑空補造｜照片模式無 EXIF 時不捏造日期；文字主題的虛構 Archive Facts 要標示為設計設定"
+      ],
+      "source": {
+        "url": "https://github.com/luckdvr/photo-riso-poster/blob/main/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方單一 SKILL.md 與 README；MIT（示例照片與輸出模型條款另計）",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方單一 SKILL.md 與 README；MIT（示例照片與輸出模型條款另計）"
+          },
+          {
+            "label": "觸發方式",
+            "value": "Codex $photo-riso-poster，或將原始 SKILL.md 提供給可看圖與生圖的 Assistant；無獨立腳本。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "只有文字規則，必須由有影像生成能力的 Host 執行；使用者要求精確照片複製時不能擅自改主體。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "有權使用的單張照片或文字主題",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "希望 likeness 忠實／標準／極簡及輸出比例",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "萃取事實",
+            "detail": "只讀來源照片的物件數、距離、遮擋、色彩角色",
+            "result": "獨立文字證據"
+          },
+          {
+            "number": "02",
+            "title": "映射印刷",
+            "detail": "轉成 2–3 色油墨、Paper Temperature 和構圖",
+            "result": "有依據的印刷 Prompt"
+          },
+          {
+            "number": "03",
+            "title": "生成視覺",
+            "detail": "僅將文字化 Evidence 傳給 Image Generation，不附原始照片",
+            "result": "Riso Poster"
+          },
+          {
+            "number": "04",
+            "title": "自行校驗",
+            "detail": "確認物件、比例、文字、套印效果及使用權",
+            "result": "真正的可檢視海報"
+          }
+        ],
+        "howToUse": {
+          "trigger": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。",
+          "meaning": "Codex $photo-riso-poster，或將原始 SKILL.md 提供給可看圖與生圖的 Assistant；無獨立腳本。",
+          "usageNote": "只有文字規則，必須由有影像生成能力的 Host 執行；使用者要求精確照片複製時不能擅自改主體。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "依觀察事實整理的文字 Evidence 和生成 Prompt"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "一張有文字、油墨層次與適切紙色的海報圖"
+          }
+        ],
+        "composition": {
+          "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "有權使用的單張照片或文字主題；希望 likeness 忠實／標準／極簡及輸出比例",
+              "output": "依觀察事實整理的文字 Evidence 和生成 Prompt；一張有文字、油墨層次與適切紙色的海報圖",
+              "gate": "可追溯每個重要圖像符號對應觀察到的事實"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "照片與人像權",
+            "action": "原始照片、人物、品牌與 Output Platform 條款需檢查"
+          },
+          {
+            "title": "控制 2",
+            "risk": "事實憑空補造",
+            "action": "照片模式無 EXIF 時不捏造日期；文字主題的虛構 Archive Facts 要標示為設計設定"
+          }
+        ],
+        "acceptance": [
+          "可追溯每個重要圖像符號對應觀察到的事實",
+          "海報清晰、文字可讀且確實輸出，未生成不可寫完成"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/luckdvr/photo-riso-poster/blob/main/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方單一 SKILL.md 與 README；MIT（示例照片與輸出模型條款另計）",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "照片與人像權｜原始照片、人物、品牌與 Output Platform 條款需檢查；事實憑空補造｜照片模式無 EXIF 時不捏造日期；文字主題的虛構 Archive Facts 要標示為設計設定；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -62820,11 +63526,17 @@
       "id": "punk-skill",
       "entityType": "skill",
       "title": "Punk-skill",
-      "purpose": "文章 → 社群視覺",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "inputs": [
+        "文章主題或可合法使用的人物／寵物／物件素材",
+        "平台、比例、風格選擇、授權用途及是否只要 Prompt"
+      ],
+      "outputs": [
+        "與選定子 Skill 相符的封面／Avatar／影片封面（需真實生成）",
+        "Style ID、尺寸轉換、著作權與原圖忠實度說明"
+      ],
+      "execution": "Punk-Posters 上游三項：punk-cover、punk-avatar、punk-ip-video-cover；依實際子 SKILL.md 調用。。流程：確認授權版本 → 路由子技能 → 素材與 Prompt → 生成並審核。本專案未安裝或執行第三方工具。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -62843,7 +63555,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "content",
         "social-media",
@@ -62860,6 +63572,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+        "沒有使用者選定用途時不呼叫整包；v2.0.0+ 不能宣稱 MIT 可商用，歷史 MIT 僅對舊版本有效。"
+      ],
+      "constraints": [
+        "License Gate｜v2.0.0+ 非商用免費但商用需書面授權，不可沿用舊 MIT",
+        "權利和平台尺寸｜真人肖像、寵物照片、品牌及 Aspect Ratio 可能不相容"
+      ],
+      "source": {
+        "url": "https://github.com/adrianpunk/Punk-Posters/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "Punk Skill v2.0.0+ Source-Public；個人非商用免費、商業需書面授權及付費",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "Punk Skill v2.0.0+ Source-Public；個人非商用免費、商業需書面授權及付費"
+          },
+          {
+            "label": "觸發方式",
+            "value": "Punk-Posters 上游三項：punk-cover、punk-avatar、punk-ip-video-cover；依實際子 SKILL.md 調用。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "沒有使用者選定用途時不呼叫整包；v2.0.0+ 不能宣稱 MIT 可商用，歷史 MIT 僅對舊版本有效。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "文章主題或可合法使用的人物／寵物／物件素材",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "平台、比例、風格選擇、授權用途及是否只要 Prompt",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "確認授權版本",
+            "detail": "區分非商用與商業，查獨立子技能 License",
+            "result": "可使用範圍"
+          },
+          {
+            "number": "02",
+            "title": "路由子技能",
+            "detail": "根據文章 Cover／Avatar／IP Video 選一個",
+            "result": "正確 Skill 原文"
+          },
+          {
+            "number": "03",
+            "title": "素材與 Prompt",
+            "detail": "依選定 Style ID、人物 likeness、平台尺寸限制建立描述",
+            "result": "準確視覺規格"
+          },
+          {
+            "number": "04",
+            "title": "生成並審核",
+            "detail": "只在授權 Image Host 真正生成，核對圖文及來源",
+            "result": "輸出與未測清單"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要社群文章封面、人物／寵物 Avatar 或個人品牌影片封面，想從 Punk 子技能選一種。",
+          "meaning": "Punk-Posters 上游三項：punk-cover、punk-avatar、punk-ip-video-cover；依實際子 SKILL.md 調用。",
+          "usageNote": "沒有使用者選定用途時不呼叫整包；v2.0.0+ 不能宣稱 MIT 可商用，歷史 MIT 僅對舊版本有效。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "與選定子 Skill 相符的封面／Avatar／影片封面（需真實生成）"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "Style ID、尺寸轉換、著作權與原圖忠實度說明"
+          }
+        ],
+        "composition": {
+          "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "文章主題或可合法使用的人物／寵物／物件素材；平台、比例、風格選擇、授權用途及是否只要 Prompt",
+              "output": "與選定子 Skill 相符的封面／Avatar／影片封面（需真實生成）；Style ID、尺寸轉換、著作權與原圖忠實度說明",
+              "gate": "上游版本與授權用途清楚；商業用途未授權不執行"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "License Gate",
+            "action": "v2.0.0+ 非商用免費但商用需書面授權，不可沿用舊 MIT"
+          },
+          {
+            "title": "控制 2",
+            "risk": "權利和平台尺寸",
+            "action": "真人肖像、寵物照片、品牌及 Aspect Ratio 可能不相容"
+          }
+        ],
+        "acceptance": [
+          "上游版本與授權用途清楚；商業用途未授權不執行",
+          "只有成功生成並驗收的成品才宣稱完成"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/adrianpunk/Punk-Posters/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "Punk Skill v2.0.0+ Source-Public；個人非商用免費、商業需書面授權及付費",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "License Gate｜v2.0.0+ 非商用免費但商用需書面授權，不可沿用舊 MIT；權利和平台尺寸｜真人肖像、寵物照片、品牌及 Aspect Ratio 可能不相容；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -62904,11 +63791,14 @@
       "source": {
         "url": "https://github.com/QingYunA/answer-me-with-html/blob/main/skills/answer-me-with-html/SKILL.md",
         "type": "Official standalone SKILL.md with bundled CLI",
-        "summary": "SKILL.md verified on 2026-10-25; not installed, used or benchmarked."
+        "summary": "SKILL.md verified on 2026-10-25; not installed, used or benchmarked.",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方單一 HTML 生成 Skill；Node >=20，am.mjs render",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
       },
       "status": "active",
       "addedAt": "2026-10-25",
-      "updatedAt": "2026-10-25",
+      "updatedAt": "2026-11-21",
       "tags": [
         "answer-me-with-html",
         "agent-skill",
@@ -62940,6 +63830,175 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。",
+        "簡單問答不需要生成 HTML；不得自動寫 AGENTS.md/CLAUDE.md 設 Always-On；影片需明確指定。"
+      ],
+      "constraints": [
+        "全域設定與副作用｜INSTALL.md 不是對修改 Agents 規範或自動安裝的授權",
+        "機密與不正確圖表｜HTML 可能保存原始內部資料，需審查可分享邊界"
+      ],
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方單一 HTML 生成 Skill；Node >=20，am.mjs render"
+          },
+          {
+            "label": "觸發方式",
+            "value": "Skill answer-me-with-html；先寫 Markdown Draft，使用 node <skill-dir>/scripts/am.mjs render - 產 HTML。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "簡單問答不需要生成 HTML；不得自動寫 AGENTS.md/CLAUDE.md 設 Always-On；影片需明確指定。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "要解釋的問題、可信原始資料與語言",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "可用 Node >=20、Skill CLI、HTML 交付目錄、是否要求影片",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "整理 Draft",
+            "detail": "把可靠內容整理成章節、流程和圖表概念",
+            "result": "可審查 Markdown"
+          },
+          {
+            "number": "02",
+            "title": "受權渲染",
+            "detail": "交給 am.mjs 而不是手刻假冒工具輸出",
+            "result": "獨立 HTML 路徑"
+          },
+          {
+            "number": "03",
+            "title": "檢查渲染",
+            "detail": "核對 CLI 錯誤、文字、圖表、檔案權限",
+            "result": "可閱讀頁面"
+          },
+          {
+            "number": "04",
+            "title": "延伸交付",
+            "detail": "只有使用者指定時才做影音及持久規則修改",
+            "result": "實測後結果"
+          }
+        ],
+        "howToUse": {
+          "trigger": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。",
+          "meaning": "Skill answer-me-with-html；先寫 Markdown Draft，使用 node <skill-dir>/scripts/am.mjs render - 產 HTML。",
+          "usageNote": "簡單問答不需要生成 HTML；不得自動寫 AGENTS.md/CLAUDE.md 設 Always-On；影片需明確指定。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "可離線檢視的單頁 HTML 與來源、Markdown Draft"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "CLI Output Path／錯誤行號、選配影片的真實產出"
+          }
+        ],
+        "composition": {
+          "problem": "模型若直接輸出全套 HTML/CSS/SVG，常花大量 Token 在 Layout 與坐標，複雜資訊難檢索，也不容易分享可單檔開啟的視覺說明。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "要解釋的問題、可信原始資料與語言；可用 Node >=20、Skill CLI、HTML 交付目錄、是否要求影片",
+              "output": "可離線檢視的單頁 HTML 與來源、Markdown Draft；CLI Output Path／錯誤行號、選配影片的真實產出",
+              "gate": "CLI 真的有 HTML 輸出並通過瀏覽器視覺與錨點檢查"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "全域設定與副作用",
+            "action": "INSTALL.md 不是對修改 Agents 規範或自動安裝的授權"
+          },
+          {
+            "title": "控制 2",
+            "risk": "機密與不正確圖表",
+            "action": "HTML 可能保存原始內部資料，需審查可分享邊界"
+          }
+        ],
+        "acceptance": [
+          "CLI 真的有 HTML 輸出並通過瀏覽器視覺與錨點檢查",
+          "沒有默認啟用 Always-On 或生成未要求的影片"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/QingYunA/answer-me-with-html/blob/main/skills/answer-me-with-html/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方單一 HTML 生成 Skill；Node >=20，am.mjs render",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "全域設定與副作用｜INSTALL.md 不是對修改 Agents 規範或自動安裝的授權；機密與不正確圖表｜HTML 可能保存原始內部資料，需審查可分享邊界；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -62988,7 +64047,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-17",
-      "updatedAt": "2026-10-17",
+      "updatedAt": "2026-11-21",
       "tags": [
         "reverse-engineering",
         "rea",
@@ -63016,6 +64075,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.3-semantic-audit"
+      },
+      "whenToUse": [
+        "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。",
+        "對完整可讀 Source Repo 的一般架構分析直接使用原生程式碼工具；無權限不觸碰第三方應用。"
+      ],
+      "constraints": [
+        "未授權逆向｜侵權、繞過安全或蒐集第三方機密均不得執行",
+        "MCP／執行權限｜安裝 Plugin 和額外分析工具會產生本機修改或執行副作用"
+      ],
+      "source": {
+        "url": "https://github.com/morluto/rea/blob/main/.agents/skills/reverse-engineer-anything/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 SKILL.md metadata version 63；REA 插件與 MCP 安裝邊界已有更新",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方 SKILL.md metadata version 63；REA 插件與 MCP 安裝邊界已有更新"
+          },
+          {
+            "label": "觸發方式",
+            "value": "reverse-engineer-anything；Skill 與 REA MCP／CLI 不等價；Marketplace Plugin 可能額外註冊 MCP，按真實 Handshake 判斷。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "對完整可讀 Source Repo 的一般架構分析直接使用原生程式碼工具；無權限不觸碰第三方應用。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "明確的合法調查目標、版本、問題與允許的測試方式",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "已授權的 Runtime／MCP Tools、Evidence 保存位置和不允許的行為",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "限制 Scope",
+            "detail": "確認目標權利、調查問題和具備哪類原始 Artifact",
+            "result": "合法路徑"
+          },
+          {
+            "number": "02",
+            "title": "工具現況檢查",
+            "detail": "若連接已就緒直接使用；否則區分 Skill 和 MCP 註冊流程",
+            "result": "可用 Tool Schema"
+          },
+          {
+            "number": "03",
+            "title": "依目標調查",
+            "detail": "讀相關 Guide，做最少的動靜態證據收集",
+            "result": "可引用原始 Artifact"
+          },
+          {
+            "number": "04",
+            "title": "驗證推論",
+            "detail": "把觀察與猜測分開，對每個行為模型找反例",
+            "result": "有邊界的調查報告"
+          }
+        ],
+        "howToUse": {
+          "trigger": "要分析缺乏原始碼的已授權執行檔、包裝程式、Electron 或請求的 Runtime Evidence。",
+          "meaning": "reverse-engineer-anything；Skill 與 REA MCP／CLI 不等價；Marketplace Plugin 可能額外註冊 MCP，按真實 Handshake 判斷。",
+          "usageNote": "對完整可讀 Source Repo 的一般架構分析直接使用原生程式碼工具；無權限不觸碰第三方應用。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "選定具體調查路徑及靜態／動態原始證據"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "Observations／Inferences／Unknowns、重建規格及驗證限制"
+          }
+        ],
+        "composition": {
+          "problem": "缺乏原始碼的軟體調查若讓 Agent 直接推測內部實作，會混淆靜態線索、執行觀察及實際可驗證的功能；不同格式的反向工程工具也有多樣依賴與存取限制。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "明確的合法調查目標、版本、問題與允許的測試方式；已授權的 Runtime／MCP Tools、Evidence 保存位置和不允許的行為",
+              "output": "選定具體調查路徑及靜態／動態原始證據；Observations／Inferences／Unknowns、重建規格及驗證限制",
+              "gate": "調查問題可連到真實版本、時間點、檔案和工具輸出"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "未授權逆向",
+            "action": "侵權、繞過安全或蒐集第三方機密均不得執行"
+          },
+          {
+            "title": "控制 2",
+            "risk": "MCP／執行權限",
+            "action": "安裝 Plugin 和額外分析工具會產生本機修改或執行副作用"
+          }
+        ],
+        "acceptance": [
+          "調查問題可連到真實版本、時間點、檔案和工具輸出",
+          "不虛構反編譯結果；每個結論標註 Confidence 和缺口"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/morluto/rea/blob/main/.agents/skills/reverse-engineer-anything/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 SKILL.md metadata version 63；REA 插件與 MCP 安裝邊界已有更新",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "未授權逆向｜侵權、繞過安全或蒐集第三方機密均不得執行；MCP／執行權限｜安裝 Plugin 和額外分析工具會產生本機修改或執行副作用；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63024,10 +64258,16 @@
       "entityType": "skill",
       "title": "Research to Diagram",
       "purpose": "從一個 topic / research question 出發，自動進行多輪研究、記錄來源、抽取與整理知識關係、選擇 diagram 結構，再用 Graphviz 產生可編輯 DOT 與向量 PDF；適合人物關係、技術架構、歷史事件與 concept map。",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "inputs": [
+        "研究問題、範圍、重點對象和可信來源偏好",
+        "可用研究工具／Graphviz、輸出位置和引用要求"
+      ],
+      "outputs": [
+        "可編輯的 Graphviz DOT、向量 PDF 和來源清單",
+        "關係抽取依據、未知／爭議連結及圖表 QA"
+      ],
+      "execution": "Skill research-to-diagram；需要研究工具、Graphviz，本機輸出位置與安裝需先核准。。流程：多輪研究 → 建立結構 → 繪製 DOT → 產生 PDF 與驗證。本專案未安裝或執行第三方工具。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63058,7 +64298,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-30",
-      "updatedAt": "2026-09-30",
+      "updatedAt": "2026-11-21",
       "tags": [
         "research",
         "diagram",
@@ -63080,6 +64320,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。",
+        "已具完整結構化資料且只想轉圖可選 structure-to-pdf；沒有網路或可靠來源不能編造關係。"
+      ],
+      "constraints": [
+        "來源錯誤｜研究結果會過時，單一資料來源可能偏誤",
+        "渲染與授權｜依賴 Graphviz 且可能使用有版權人物圖，須確認用法"
+      ],
+      "source": {
+        "url": "https://github.com/wshuyi/research-to-diagram/blob/main/skills/research-to-diagram/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 v1.0 SKILL.md；多輪 WebSearch + Graphviz DOT + Vector PDF",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方 v1.0 SKILL.md；多輪 WebSearch + Graphviz DOT + Vector PDF"
+          },
+          {
+            "label": "觸發方式",
+            "value": "Skill research-to-diagram；需要研究工具、Graphviz，本機輸出位置與安裝需先核准。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "已具完整結構化資料且只想轉圖可選 structure-to-pdf；沒有網路或可靠來源不能編造關係。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "研究問題、範圍、重點對象和可信來源偏好",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "可用研究工具／Graphviz、輸出位置和引用要求",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "多輪研究",
+            "detail": "蒐集來源、年份、關係與反證",
+            "result": "可追溯研究資料"
+          },
+          {
+            "number": "02",
+            "title": "建立結構",
+            "detail": "選人物樹、概念圖或技術依賴",
+            "result": "Entity/Edge 清單"
+          },
+          {
+            "number": "03",
+            "title": "繪製 DOT",
+            "detail": "依資料關係配置方向、Cluster 和 Label",
+            "result": "可編輯原稿"
+          },
+          {
+            "number": "04",
+            "title": "產生 PDF 與驗證",
+            "detail": "在有授權環境跑 Graphviz 並目視查 PDF",
+            "result": "真正的可閱讀輸出"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。",
+          "meaning": "Skill research-to-diagram；需要研究工具、Graphviz，本機輸出位置與安裝需先核准。",
+          "usageNote": "已具完整結構化資料且只想轉圖可選 structure-to-pdf；沒有網路或可靠來源不能編造關係。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "可編輯的 Graphviz DOT、向量 PDF 和來源清單"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "關係抽取依據、未知／爭議連結及圖表 QA"
+          }
+        ],
+        "composition": {
+          "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "研究問題、範圍、重點對象和可信來源偏好；可用研究工具／Graphviz、輸出位置和引用要求",
+              "output": "可編輯的 Graphviz DOT、向量 PDF 和來源清單；關係抽取依據、未知／爭議連結及圖表 QA",
+              "gate": "每個有爭議的 Edge 可指回出處或列未確認"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "來源錯誤",
+            "action": "研究結果會過時，單一資料來源可能偏誤"
+          },
+          {
+            "title": "控制 2",
+            "risk": "渲染與授權",
+            "action": "依賴 Graphviz 且可能使用有版權人物圖，須確認用法"
+          }
+        ],
+        "acceptance": [
+          "每個有爭議的 Edge 可指回出處或列未確認",
+          "輸出 PDF 可讀、不截字、DOT 可重產"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/wshuyi/research-to-diagram/blob/main/skills/research-to-diagram/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 v1.0 SKILL.md；多輪 WebSearch + Graphviz DOT + Vector PDF",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "來源錯誤｜研究結果會過時，單一資料來源可能偏誤；渲染與授權｜依賴 Graphviz 且可能使用有版權人物圖，須確認用法；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63088,10 +64503,16 @@
       "entityType": "skill",
       "title": "Reverse Skill",
       "purpose": "替 AI coding agents 提供逆向工程、授權滲透測試與安全研究的任務路由層：先做 scope / authorization gate，再依 APK、binary、JS、mobile、malware、firmware、CTF、API、LLM security 等情境選擇對應 Skill、工具、MCP 與腳本，並保留 evidence、timeline、finding 與 field journal。",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "problem": "需要已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "合法授權的 APK、Binary、JS、Web／API、CTF 或其他具體目標",
+        "測試資產、網路 Profile、已可用工具、測試限制和所需證據"
+      ],
+      "outputs": [
+        "選定特定 Scenario Skill 及工具依賴與 Role",
+        "包含 Evidence→Finding→Path、Timeline 與 Field Journal 的報告"
+      ],
+      "execution": "先 RULES.md → MASTER-ROUTING 或 scripts → case-init/scope.md → Scenario Skill → Evidence/Report。。流程：安全範圍 → 路由情境 → 受控調查 → 整合結論。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63118,7 +64539,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-30",
-      "updatedAt": "2026-09-30",
+      "updatedAt": "2026-11-21",
       "tags": [
         "security",
         "reverse-engineering",
@@ -63143,6 +64564,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。",
+        "同源的 reverse-skill ID 不表示另一套產品；未清楚確認資產、測試網路與安全邊界前不能執行工具。"
+      ],
+      "constraints": [
+        "雙重用途｜資安／逆向工具有侵入與資訊外洩風險，未授權不得執行",
+        "同源重複｜與 reverse-skill 為相同 Repo，勿算成兩個已獨立驗證的套件"
+      ],
+      "source": {
+        "url": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 reverse-skill Router v1.0.1；與 reverse-skill 相同上游 GitHub Repo",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 reverse-skill Router v1.0.1；與 reverse-skill 相同上游 GitHub Repo"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "先 RULES.md → MASTER-ROUTING 或 scripts → case-init/scope.md → Scenario Skill → Evidence/Report。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "同源的 reverse-skill ID 不表示另一套產品；未清楚確認資產、測試網路與安全邊界前不能執行工具。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "合法授權的 APK、Binary、JS、Web／API、CTF 或其他具體目標",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "測試資產、網路 Profile、已可用工具、測試限制和所需證據",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "安全範圍",
+            "detail": "確認標的擁有權、Scope 和 Network Profile",
+            "result": "執行界線"
+          },
+          {
+            "number": "02",
+            "title": "路由情境",
+            "detail": "參照 RULES 和 MASTER-ROUTING，選對 APK／Binary／JS／API 子 Skill",
+            "result": "明確研究計畫"
+          },
+          {
+            "number": "03",
+            "title": "受控調查",
+            "detail": "只在獲核准環境啟動現有工具，保留原始輸出",
+            "result": "真實 Evidence"
+          },
+          {
+            "number": "04",
+            "title": "整合結論",
+            "detail": "將技術推論連回原始輸出、Known Gaps、授權證據",
+            "result": "具來源的報告"
+          }
+        ],
+        "howToUse": {
+          "trigger": "已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。",
+          "meaning": "先 RULES.md → MASTER-ROUTING 或 scripts → case-init/scope.md → Scenario Skill → Evidence/Report。",
+          "usageNote": "同源的 reverse-skill ID 不表示另一套產品；未清楚確認資產、測試網路與安全邊界前不能執行工具。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "選定特定 Scenario Skill 及工具依賴與 Role"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "包含 Evidence→Finding→Path、Timeline 與 Field Journal 的報告"
+          }
+        ],
+        "composition": {
+          "problem": "需要已授權的逆向工程／應用安全專案，需要在多種檔案類型與工具中選擇可重現的調查流程。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "合法授權的 APK、Binary、JS、Web／API、CTF 或其他具體目標；測試資產、網路 Profile、已可用工具、測試限制和所需證據",
+              "output": "選定特定 Scenario Skill 及工具依賴與 Role；包含 Evidence→Finding→Path、Timeline 與 Field Journal 的報告",
+              "gate": "每項工具／目標皆有 Scope 與任務授權"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "雙重用途",
+            "action": "資安／逆向工具有侵入與資訊外洩風險，未授權不得執行"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "同源重複",
+            "action": "與 reverse-skill 為相同 Repo，勿算成兩個已獨立驗證的套件"
+          }
+        ],
+        "acceptance": [
+          "每項工具／目標皆有 Scope 與任務授權",
+          "每個 Finding 有版本、原始 Evidence，與未測路徑清楚"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 reverse-skill Router v1.0.1；與 reverse-skill 相同上游 GitHub Repo",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "與 reverse-skill 原 ID 同源同 Repo。保留歷史 ID，但不宣稱兩項獨立 Skill；需另案去重。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "雙重用途｜資安／逆向工具有侵入與資訊外洩風險，未授權不得執行；同源重複｜與 reverse-skill 為相同 Repo，勿算成兩個已獨立驗證的套件；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63150,11 +64746,17 @@
       "id": "reverse-skill",
       "entityType": "skill",
       "title": "reverse-skill",
-      "purpose": "Reverse engineering / security expertise",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "inputs": [
+        "授權的 APK、Binary、Web／API 或其他調查案例",
+        "已確認允許掃描的範圍、工具版本和網路政策"
+      ],
+      "outputs": [
+        "具體 Scenario Skill、工具檢查與安全 Scope Gate",
+        "Evidence／Finding／Timeline 的候選調查流程"
+      ],
+      "execution": "reverse-skill 是路由／操作合集；MASTER-ROUTING、RULES、各情境子技能，不存在通用 /reverse-skill 安裝後所有任務通過的保證。。流程：查同源 → Scope Gate → 情境路由 → 保留證據。本專案未安裝或執行第三方工具。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63169,7 +64771,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "reverse-engineering",
         "security",
@@ -63187,6 +64789,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+        "本 ID 與 reverse-skill-2 是同源候選重複，不應當成兩個可獨立執行的產品；無資產授權不作主動測試。"
+      ],
+      "constraints": [
+        "重複收錄｜同 Repo 多 ID 可能造成搜尋重複、數量錯認，需另案去重",
+        "攻擊與工具執行｜不可把來源說明變成對未知 IP 的掃描授權"
+      ],
+      "source": {
+        "url": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 Reverse Skill Router v1.0.1；本 ID 與 reverse-skill-2 指向同一 Repo（待去重審核）",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+        "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。"
+          },
+          {
+            "label": "版本與來源",
+            "value": "官方 Reverse Skill Router v1.0.1；本 ID 與 reverse-skill-2 指向同一 Repo（待去重審核）"
+          },
+          {
+            "label": "觸發方式",
+            "value": "reverse-skill 是路由／操作合集；MASTER-ROUTING、RULES、各情境子技能，不存在通用 /reverse-skill 安裝後所有任務通過的保證。"
+          },
+          {
+            "label": "驗證狀態",
+            "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適用",
+            "description": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。"
+          },
+          {
+            "title": "不適合／停止邊界",
+            "description": "本 ID 與 reverse-skill-2 是同源候選重複，不應當成兩個可獨立執行的產品；無資產授權不作主動測試。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "授權的 APK、Binary、Web／API 或其他調查案例",
+            "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+          },
+          {
+            "title": "已確認允許掃描的範圍、工具版本和網路政策",
+            "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "查同源",
+            "detail": "核對本 ID 和 reverse-skill-2 共用 Repo，不新增獨立 Source",
+            "result": "清楚身分"
+          },
+          {
+            "number": "02",
+            "title": "Scope Gate",
+            "detail": "先寫授權、目標、資料外送和不允許動作",
+            "result": "安全邊界"
+          },
+          {
+            "number": "03",
+            "title": "情境路由",
+            "detail": "依 APK／Binary／JS 等選 MASTER-ROUTING 及子技能",
+            "result": "可核實調查計畫"
+          },
+          {
+            "number": "04",
+            "title": "保留證據",
+            "detail": "每步記錄來源、版本、變更和未知處",
+            "result": "可追溯結果"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+          "meaning": "reverse-skill 是路由／操作合集；MASTER-ROUTING、RULES、各情境子技能，不存在通用 /reverse-skill 安裝後所有任務通過的保證。",
+          "usageNote": "本 ID 與 reverse-skill-2 是同源候選重複，不應當成兩個可獨立執行的產品；無資產授權不作主動測試。；任何上游安裝或執行指令均需另行授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "具體 Scenario Skill、工具檢查與安全 Scope Gate"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "Evidence／Finding／Timeline 的候選調查流程"
+          }
+        ],
+        "composition": {
+          "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級操作契約",
+              "input": "授權的 APK、Binary、Web／API 或其他調查案例；已確認允許掃描的範圍、工具版本和網路政策",
+              "output": "具體 Scenario Skill、工具檢查與安全 Scope Gate；Evidence／Finding／Timeline 的候選調查流程",
+              "gate": "本 ID 明記為與 reverse-skill-2 同源、未建立兩條獨立產品聲明"
+            }
+          ],
+          "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+        },
+        "safety": [
+          {
+            "title": "控制 1",
+            "risk": "重複收錄",
+            "action": "同 Repo 多 ID 可能造成搜尋重複、數量錯認，需另案去重"
+          },
+          {
+            "title": "控制 2",
+            "risk": "攻擊與工具執行",
+            "action": "不可把來源說明變成對未知 IP 的掃描授權"
+          }
+        ],
+        "acceptance": [
+          "本 ID 明記為與 reverse-skill-2 同源、未建立兩條獨立產品聲明",
+          "Scope 和工具未核准時只有文件分析，不執行掃描"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 Reverse Skill Router v1.0.1；本 ID 與 reverse-skill-2 指向同一 Repo（待去重審核）",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "本 ID 與 reverse-skill-2 指向同一 GitHub Repo；依本批不破壞原 ID 的政策保留兩筆並列人工去重議題，不宣稱兩套獨立程式。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+        },
+        "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+        },
+        "riskNotes": "重複收錄｜同 Repo 多 ID 可能造成搜尋重複、數量錯認，需另案去重；攻擊與工具執行｜不可把來源說明變成對未知 IP 的掃描授權；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63239,7 +65016,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-20",
-      "updatedAt": "2026-10-20",
+      "updatedAt": "2026-11-21",
       "tags": [
         "lucian-uxui",
         "agent-skills",
@@ -63268,6 +65045,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.3-semantic-audit"
+      },
+      "whenToUse": [
+        "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。",
+        "非後端通用 UI 工具；不得憑記憶臆造元件 ID；沒有授權外連不應執行元件 GET。"
+      ],
+      "constraints": [
+        "遠端套件｜CLI 會從 Lucian 站／GitHub Mirror 抓取 JS，需安全審查",
+        "版權與可及性｜保留原始 License Comment，不能把示例文字當真實產品資訊"
+      ],
+      "source": {
+        "url": "https://github.com/Seokwoooo/lucian-uxui/blob/main/skills/lucian-uxui/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 lucian-uxui；動態元件庫，不應推定固定 Element Count",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 lucian-uxui；動態元件庫，不應推定固定 Element Count"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "Node CLI <skill-dir>/scripts/lucian-uxui.mjs search/get/tokens/info；讀 references/porting.md 後移植。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "非後端通用 UI 工具；不得憑記憶臆造元件 ID；沒有授權外連不應執行元件 GET。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "元件功能／指定 Element ID、專案技術框架與 Styles",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "已授權的元件來源、Theme、內容與可及性要求",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "先讀專案",
+            "detail": "確認 React／Vue／HTML 等框架、Theme、語言",
+            "result": "相容改動計畫"
+          },
+          {
+            "number": "02",
+            "title": "逐部件搜尋",
+            "detail": "已指定 ID 則直取，否則 CLI search 並核對行為",
+            "result": "正式候選 ID"
+          },
+          {
+            "number": "03",
+            "title": "只取必要元件",
+            "detail": "get ID 和 tokens，對照 porting.md 最小移植",
+            "result": "可編輯 UI 組件"
+          },
+          {
+            "number": "04",
+            "title": "測試與歸屬",
+            "detail": "保留 MIT 原始註記並測雙 Theme、375px、鍵盤、Reduced Motion",
+            "result": "可驗證組件"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者要從 Lucian UX/UI 的現成互動元件製作網站、頁面或前端組件。",
+          "meaning": "Node CLI <skill-dir>/scripts/lucian-uxui.mjs search/get/tokens/info；讀 references/porting.md 後移植。",
+          "usageNote": "非後端通用 UI 工具；不得憑記憶臆造元件 ID；沒有授權外連不應執行元件 GET。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "官方 Element ID 與取回的 HTML/CSS/JS／Tokens"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "移植到現有 Framework 的元件和來源註記、QA 結果"
+          }
+        ],
+        "composition": {
+          "problem": "AI 前端開發若只依文字泛化設計，容易生成不一致的 UI 或未經測試的動畫；把整個元件庫塞入 context 又浪費 Token，直接複製範例可能破壞現有 framework、theme、狀態管理或安全邊界。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "元件功能／指定 Element ID、專案技術框架與 Styles；已授權的元件來源、Theme、內容與可及性要求",
+              "output": "官方 Element ID 與取回的 HTML/CSS/JS／Tokens；移植到現有 Framework 的元件和來源註記、QA 結果",
+              "gate": "所有 ID 與原始碼來自實際 get 而非推測"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "遠端套件",
+            "action": "CLI 會從 Lucian 站／GitHub Mirror 抓取 JS，需安全審查"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "版權與可及性",
+            "action": "保留原始 License Comment，不能把示例文字當真實產品資訊"
+          }
+        ],
+        "acceptance": [
+          "所有 ID 與原始碼來自實際 get 而非推測",
+          "雙 Theme、鍵盤、行動寬與來源註記均合格"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/Seokwoooo/lucian-uxui/blob/main/skills/lucian-uxui/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 lucian-uxui；動態元件庫，不應推定固定 Element Count",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "遠端套件｜CLI 會從 Lucian 站／GitHub Mirror 抓取 JS，需安全審查；版權與可及性｜保留原始 License Comment，不能把示例文字當真實產品資訊；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63276,10 +65228,16 @@
       "entityType": "skill",
       "title": "Social Post",
       "purpose": "讓 Codex、Claude Code 或精簡 ChatGPT Chat 流程依使用者真實貼文與成效學習聲線，規劃內容、撰寫平台化貼文，經人工確認後發布，並把 FB／IG／Threads／X 等平台的成效與互動 evidence 保存成可驗證的結構化資料，供下一輪內容決策使用。",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "problem": "需要想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "真實貼文或聲線簡卡、目標平台和本次內容目標",
+        "發布權限、既有 F 寫作契約、觀測成效與可用的本機工具"
+      ],
+      "outputs": [
+        "依指定 Voice／F 格式的可審查文案與排程",
+        "核准後的發布證據和成效／互動紀錄、候選 Pattern"
+      ],
+      "execution": "官方 Skill social-post；路由 P0–P4/Workbench；P5 browser/comment actuation 預設關閉，需依逐平台真實驗收與授權。。流程：判斷 Mode → 保持 Voice Contract → 人員批准 → 成效迴圈。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63306,7 +65264,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-02",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-21",
       "tags": [
         "agent-skill",
         "social-media",
@@ -63333,6 +65291,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。",
+        "沒有私人 voice source 不能宣稱已學會口吻；P5 送出與三平台批次仍受限，沒有明確核准不能操作實帳號。"
+      ],
+      "constraints": [
+        "帳號外送與誤發｜評論瀏覽器操作有登入、重複送出及平台政策風險",
+        "聲線和隱私｜私人 Voice、成效、Cookie／Token 不可上傳公開 Repo"
+      ],
+      "source": {
+        "url": "https://github.com/Hao0321/claude-skill-social-post/blob/main/social-post/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 social-post v2.5.1 README；留言自動化是分平台／分能力 Gate，非全面 Live PASS",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 social-post v2.5.1 README；留言自動化是分平台／分能力 Gate，非全面 Live PASS"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "官方 Skill social-post；路由 P0–P4/Workbench；P5 browser/comment actuation 預設關閉，需依逐平台真實驗收與授權。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有私人 voice source 不能宣稱已學會口吻；P5 送出與三平台批次仍受限，沒有明確核准不能操作實帳號。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "真實貼文或聲線簡卡、目標平台和本次內容目標",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "發布權限、既有 F 寫作契約、觀測成效與可用的本機工具",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "判斷 Mode",
+            "detail": "先按意圖選 P0 Plan／P1 Learn／P2 Draft／P3 Log／P4 Optimize／P5 Comment Ops",
+            "result": "只讀必要來源"
+          },
+          {
+            "number": "02",
+            "title": "保持 Voice Contract",
+            "detail": "核對本機狀態與 F 版本，改稿不覆寫永久規則",
+            "result": "同版本的合法草稿"
+          },
+          {
+            "number": "03",
+            "title": "人員批准",
+            "detail": "發布前核對每則文案、平台帳戶、附件與觸發操作",
+            "result": "明確允許的動作"
+          },
+          {
+            "number": "04",
+            "title": "成效迴圈",
+            "detail": "實際結果標記 Evidence，只建立候選改善，再經審核啟用",
+            "result": "不污染原資料"
+          }
+        ],
+        "howToUse": {
+          "trigger": "想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。",
+          "meaning": "官方 Skill social-post；路由 P0–P4/Workbench；P5 browser/comment actuation 預設關閉，需依逐平台真實驗收與授權。",
+          "usageNote": "沒有私人 voice source 不能宣稱已學會口吻；P5 送出與三平台批次仍受限，沒有明確核准不能操作實帳號。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "依指定 Voice／F 格式的可審查文案與排程"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "核准後的發布證據和成效／互動紀錄、候選 Pattern"
+          }
+        ],
+        "composition": {
+          "problem": "需要想規劃社群貼文、學習個人聲線、寫文案、記錄表現或在核准後管理平台留言。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "真實貼文或聲線簡卡、目標平台和本次內容目標；發布權限、既有 F 寫作契約、觀測成效與可用的本機工具",
+              "output": "依指定 Voice／F 格式的可審查文案與排程；核准後的發布證據和成效／互動紀錄、候選 Pattern",
+              "gate": "任何發文有精確平台、內容、核准與送出回讀證據"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "帳號外送與誤發",
+            "action": "評論瀏覽器操作有登入、重複送出及平台政策風險"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "聲線和隱私",
+            "action": "私人 Voice、成效、Cookie／Token 不可上傳公開 Repo"
+          }
+        ],
+        "acceptance": [
+          "任何發文有精確平台、內容、核准與送出回讀證據",
+          "未驗證的 FB/IG/Threads 批次能力不寫成 Production 已啟用"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/Hao0321/claude-skill-social-post/blob/main/social-post/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 social-post v2.5.1 README；留言自動化是分平台／分能力 Gate，非全面 Live PASS",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "帳號外送與誤發｜評論瀏覽器操作有登入、重複送出及平台政策風險；聲線和隱私｜私人 Voice、成效、Cookie／Token 不可上傳公開 Repo；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63340,11 +65473,17 @@
       "id": "stitch-skills",
       "entityType": "skill",
       "title": "Stitch Skills",
-      "purpose": "Generate-design、code-to-design workflow",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+      "problem": "需要使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "Stitch Project／Design System、目標頁面或前端 Repo",
+        "可用的 Stitch MCP、Host 權限、目標 Framework 與使用限制"
+      ],
+      "outputs": [
+        "選中的正式 Stitch 子技能、設計檔或實作方案",
+        "來源、Prompt、Design Tokens、可驗證前端輸出與改動記錄"
+      ],
+      "execution": "官方 Plugin Marketplace（Codex）或 npx plugins（其他支援 Host），依 task 選 stitch-design、stitch-build、stitch-utilities 子技能。。流程：選子插件 → 確認連線 → 依契約操作 → 跨端驗收。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63367,7 +65506,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "skills",
         "design-to-code",
@@ -63385,6 +65524,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+        "沒有 Stitch 專案／MCP 或設計授權時不能假定已可用；不能用一個泛用 stitch 指令假裝整合集合。"
+      ],
+      "constraints": [
+        "雲端設計資料｜Stitch MCP 可能上傳素材／Design、涉及帳號與 API 配額",
+        "錯誤身分｜此 ID 為合集，子技能路徑／Host 介面需按當次文件查證"
+      ],
+      "source": {
+        "url": "https://github.com/google-labs-code/stitch-skills/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "Google Labs Stitch Skills：stitch-design／stitch-build／stitch-utilities 三組 Plugins；集合不是單一 Skill",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "Google Labs Stitch Skills：stitch-design／stitch-build／stitch-utilities 三組 Plugins；集合不是單一 Skill"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "官方 Plugin Marketplace（Codex）或 npx plugins（其他支援 Host），依 task 選 stitch-design、stitch-build、stitch-utilities 子技能。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有 Stitch 專案／MCP 或設計授權時不能假定已可用；不能用一個泛用 stitch 指令假裝整合集合。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "Stitch Project／Design System、目標頁面或前端 Repo",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "可用的 Stitch MCP、Host 權限、目標 Framework 與使用限制",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "選子插件",
+            "detail": "分清 Design／Build／Utility，按問題選精確 Skill",
+            "result": "避免多裝無關 Plugin"
+          },
+          {
+            "number": "02",
+            "title": "確認連線",
+            "detail": "盤點 Stitch MCP、專案 ID 和既有 Design System",
+            "result": "有權限的工作目標"
+          },
+          {
+            "number": "03",
+            "title": "依契約操作",
+            "detail": "生成／編輯 Screen 或讀設計後實作，不自行補造 ID",
+            "result": "真實結果"
+          },
+          {
+            "number": "04",
+            "title": "跨端驗收",
+            "detail": "對照原設計、前端互動、Tokens、Responsive 和資料外送",
+            "result": "有證據的交付"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+          "meaning": "官方 Plugin Marketplace（Codex）或 npx plugins（其他支援 Host），依 task 選 stitch-design、stitch-build、stitch-utilities 子技能。",
+          "usageNote": "沒有 Stitch 專案／MCP 或設計授權時不能假定已可用；不能用一個泛用 stitch 指令假裝整合集合。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "選中的正式 Stitch 子技能、設計檔或實作方案"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "來源、Prompt、Design Tokens、可驗證前端輸出與改動記錄"
+          }
+        ],
+        "composition": {
+          "problem": "需要使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "Stitch Project／Design System、目標頁面或前端 Repo；可用的 Stitch MCP、Host 權限、目標 Framework 與使用限制",
+              "output": "選中的正式 Stitch 子技能、設計檔或實作方案；來源、Prompt、Design Tokens、可驗證前端輸出與改動記錄",
+              "gate": "選定子技能及專案 ID 存在、MCP 可用"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "雲端設計資料",
+            "action": "Stitch MCP 可能上傳素材／Design、涉及帳號與 API 配額"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "錯誤身分",
+            "action": "此 ID 為合集，子技能路徑／Host 介面需按當次文件查證"
+          }
+        ],
+        "acceptance": [
+          "選定子技能及專案 ID 存在、MCP 可用",
+          "最終設計／程式有實際原始文件、對照與測試，未執行不標已完成"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/google-labs-code/stitch-skills/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "Google Labs Stitch Skills：stitch-design／stitch-build／stitch-utilities 三組 Plugins；集合不是單一 Skill",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "雲端設計資料｜Stitch MCP 可能上傳素材／Design、涉及帳號與 API 配額；錯誤身分｜此 ID 為合集，子技能路徑／Host 介面需按當次文件查證；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63394,7 +65708,7 @@
       "title": "OpenMAIC Skill — 互動教室建置、生成與擴充",
       "status": "active",
       "addedAt": "2026-11-03",
-      "updatedAt": "2026-11-03",
+      "updatedAt": "2026-11-21",
       "tags": [
         "openmaic",
         "agent-skill",
@@ -63418,16 +65732,12 @@
       ],
       "execution": "依官方 skills/openmaic/SKILL.md 的 SOP 分階段確認模式、讀取相應 references、檢查既有設定並在使用者授權後操作；模型供應商選擇以 OpenMAIC 伺服器端設定為準。",
       "whenToUse": [
-        "希望建立 AI 多代理互動教室",
-        "希望安裝或配置 OpenMAIC",
-        "希望透過 @openmaic/* SDK 或 Fork 擴充 OpenMAIC"
+        "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。",
+        "沒有選定模式和權限前不得 Clone、改設定或啟動服務；不可假設 Agent 自身的模型金鑰會提供給 OpenMAIC。"
       ],
       "constraints": [
-        "任何會改變狀態的操作前需確認使用者授權。",
-        "不可假定 Agent 本身的模型或 API Key 可供 OpenMAIC 重用。",
-        "避免要求使用者在對話中貼出 API Key，優先引導本機配置。",
-        "此為 OpenMAIC 專用 Skill，不保證在所有 Agent Runtime 可直接使用。",
-        "未安裝或執行此 Skill。"
+        "Secrets｜不要索取或在對話寫入模型 API Keys",
+        "本機修改與服務成本｜每個 State Change 前確認，避免重複 Clone／覆寫配置"
       ],
       "resourceRefs": [
         {
@@ -63437,8 +65747,10 @@
       ],
       "source": {
         "url": "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md",
-        "reviewedAt": "2026-11-03",
-        "type": "Official upstream SKILL.md"
+        "reviewedAt": "2026-11-21",
+        "type": "Official upstream SKILL.md",
+        "versionEvidence": "官方 OpenMAIC Skill：逐階段確認；Provider Keys 只依伺服器 openmaic.yml",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
       },
       "classification": {
         "primaryDomain": "ai-agent",
@@ -63454,6 +65766,167 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 OpenMAIC Skill：逐階段確認；Provider Keys 只依伺服器 openmaic.yml"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "官方 openmaic Skill，依 SOP Phase 0–5（Mode、Repo、Startup、Provider、Verify、Generate）。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有選定模式和權限前不得 Clone、改設定或啟動服務；不可假設 Agent 自身的模型金鑰會提供給 OpenMAIC。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "Live Demo／Local／Development 模式和可合法取得的 OpenMAIC 服務",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "本機環境、已存在設定、後端模型供應商及資料權限",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "選 Mode",
+            "detail": "依使用者目的決定 Live Demo／本機／擴充",
+            "result": "操作邊界"
+          },
+          {
+            "number": "02",
+            "title": "確認既有環境",
+            "detail": "詢問保留已有 Repo 和 Startup Mode",
+            "result": "不破壞設定"
+          },
+          {
+            "number": "03",
+            "title": "設定 Provider",
+            "detail": "只由使用者在安全檔案處理 API Key，確認 Server 配置",
+            "result": "受控服務"
+          },
+          {
+            "number": "04",
+            "title": "驗證再生成",
+            "detail": "確認服務就緒，已明確要求建立課堂時可提交一次",
+            "result": "真實課程工作結果"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者想在 OpenMAIC 使用 Demo、本機部署、產生互動課堂或二次開發。",
+          "meaning": "官方 openmaic Skill，依 SOP Phase 0–5（Mode、Repo、Startup、Provider、Verify、Generate）。",
+          "usageNote": "沒有選定模式和權限前不得 Clone、改設定或啟動服務；不可假設 Agent 自身的模型金鑰會提供給 OpenMAIC。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "選定模式所需的具體設定與狀態檢查"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "若明確要求，已受權的互動課堂生成工作及結果路徑"
+          }
+        ],
+        "composition": {
+          "problem": "OpenMAIC 具有多階段安裝、模型配置、課程生成與擴充路徑，需要具授權確認的操作指引。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "Live Demo／Local／Development 模式和可合法取得的 OpenMAIC 服務；本機環境、已存在設定、後端模型供應商及資料權限",
+              "output": "選定模式所需的具體設定與狀態檢查；若明確要求，已受權的互動課堂生成工作及結果路徑",
+              "gate": "選定模式、已存狀態及所有有副作用動作均獲核准"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "Secrets",
+            "action": "不要索取或在對話寫入模型 API Keys"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "本機修改與服務成本",
+            "action": "每個 State Change 前確認，避免重複 Clone／覆寫配置"
+          }
+        ],
+        "acceptance": [
+          "選定模式、已存狀態及所有有副作用動作均獲核准",
+          "只有服務與課堂產生真實成功才標 PASS"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 OpenMAIC Skill：逐階段確認；Provider Keys 只依伺服器 openmaic.yml",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "Secrets｜不要索取或在對話寫入模型 API Keys；本機修改與服務成本｜每個 State Change 前確認，避免重複 Clone／覆寫配置；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63511,11 +65984,14 @@
       "source": {
         "url": "https://github.com/unclebob/ub-mode/blob/master/SKILL.md",
         "type": "Official root standalone agent SKILL.md",
-        "summary": "Read-only verification 2026-10-28; upstream has no root LICENSE or skill version, and no external dependencies were executed."
+        "summary": "Read-only verification 2026-10-28; upstream has no root LICENSE or skill version, and no external dependencies were executed.",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 root SKILL.md，無獨立確認版本；crapper/dryer/mutator 工具需獨立審查",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
       },
       "status": "active",
       "addedAt": "2026-10-28",
-      "updatedAt": "2026-10-28",
+      "updatedAt": "2026-11-21",
       "tags": [
         "coding",
         "software-engineering",
@@ -63546,6 +66022,169 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。",
+        "上游『Push main』不是 Git 操作許可；沒有實測測量工具時不能填 CRAP／Duplication／Mutation PASS。"
+      ],
+      "constraints": [
+        "未授權 Push｜上游指示不能凌駕 Git Branch Protection 與使用者權限",
+        "失實指標｜未安裝第三方品質工具時必須標示 NOT TESTED"
+      ],
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 root SKILL.md，無獨立確認版本；crapper/dryer/mutator 工具需獨立審查"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "ub-mode 三段式：測試先行、根因修復、量化品質工具、紀錄／小批次提交。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "上游『Push main』不是 Git 操作許可；沒有實測測量工具時不能填 CRAP／Duplication／Mutation PASS。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "已核准 Issue、Repo、既有測試和公開介面行為",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "可用的品質測量工具與允許變更／Commit／Push 範圍",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "Work",
+            "detail": "先定 Domain Data Shape、外部驗證與最小 Red Test，再做 Green",
+            "result": "真正可觀察行為"
+          },
+          {
+            "number": "02",
+            "title": "Right",
+            "detail": "找根因、排除重複、重構，只有裝有工具才跑 crapper/dryer/mutator",
+            "result": "品質證據"
+          },
+          {
+            "number": "03",
+            "title": "Practice",
+            "detail": "保護 Context／Worktree、留下原因，依使用者授權逐步 Commit",
+            "result": "可復原結果"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。",
+          "meaning": "ub-mode 三段式：測試先行、根因修復、量化品質工具、紀錄／小批次提交。",
+          "usageNote": "上游『Push main』不是 Git 操作許可；沒有實測測量工具時不能填 CRAP／Duplication／Mutation PASS。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "可重現 Red／Green Test、最小 Diff 和根因修正"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "CRAP／Duplications／Mutation 證據（真的執行時）、安全交接與 Log"
+          }
+        ],
+        "composition": {
+          "problem": "AI Coding Agent 常直接改程式、跳過失敗測試、掩蓋根因或留下過度複雜／重複的實作，且沒有可驗證的完成證據與復原能力。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "已核准 Issue、Repo、既有測試和公開介面行為；可用的品質測量工具與允許變更／Commit／Push 範圍",
+              "output": "可重現 Red／Green Test、最小 Diff 和根因修正；CRAP／Duplications／Mutation 證據（真的執行時）、安全交接與 Log",
+              "gate": "每項可驗證行為有實際測試與前後證據"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "未授權 Push",
+            "action": "上游指示不能凌駕 Git Branch Protection 與使用者權限"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "失實指標",
+            "action": "未安裝第三方品質工具時必須標示 NOT TESTED"
+          }
+        ],
+        "acceptance": [
+          "每項可驗證行為有實際測試與前後證據",
+          "沒有超出指定分支／檔案／Push 權限"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/unclebob/ub-mode/blob/master/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 root SKILL.md，無獨立確認版本；crapper/dryer/mutator 工具需獨立審查",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "未授權 Push｜上游指示不能凌駕 Git Branch Protection 與使用者權限；失實指標｜未安裝第三方品質工具時必須標示 NOT TESTED；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63595,7 +66234,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-19",
-      "updatedAt": "2026-10-19",
+      "updatedAt": "2026-11-21",
       "tags": [
         "strix",
         "agent-skills",
@@ -63623,6 +66262,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。",
+        "沒有授權標的、Scope／時間／Rate Limits，禁止任何 Live URL 掃描；CLI 安裝不等於已可執行 Scan。"
+      ],
+      "constraints": [
+        "侵入風險｜自主測試可能執行 Exploit，僅限明確允許的自有／授權環境",
+        "原始碼上傳｜Managed Cloud 上傳 Code 或雲端資產需獨立外送許可與檔案清單"
+      ],
+      "source": {
+        "url": "https://github.com/usestrix/strix/blob/main/skills/penetration-testing-with-strix/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 Strix Apache-2.0；九個 Agent Skills 合集，所引子技能為正式上游",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 Strix Apache-2.0；九個 Agent Skills 合集，所引子技能為正式上游"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "九個官方 Skills 的路由合集；自架 CLI 或 Strix Managed Cloud 可選，需各自核准網路與程式存取。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有授權標的、Scope／時間／Rate Limits，禁止任何 Live URL 掃描；CLI 安裝不等於已可執行 Scan。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "受測 IP／URL／Repo 的所有權證明、Allowlist、時間與預算",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "隔離測試環境、必要權限、模型／Cloud 方案、報告格式",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "先批准 Scope",
+            "detail": "列出目標、排除、Rate、可中斷策略和費用",
+            "result": "明確授權"
+          },
+          {
+            "number": "02",
+            "title": "選 Skill／Mode",
+            "detail": "區分 Code Review、CI、Web／API、Managed Cloud",
+            "result": "適當 Sandbox"
+          },
+          {
+            "number": "03",
+            "title": "受控檢測",
+            "detail": "於隔離環境操作、保留 Logs 與真實 PoC，任何擴範圍停止",
+            "result": "可追查 Findings"
+          },
+          {
+            "number": "04",
+            "title": "修復重測",
+            "detail": "人工確認每個補丁並進行 Regression／Re-scan",
+            "result": "可稽核安全結論"
+          }
+        ],
+        "howToUse": {
+          "trigger": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。",
+          "meaning": "九個官方 Skills 的路由合集；自架 CLI 或 Strix Managed Cloud 可選，需各自核准網路與程式存取。",
+          "usageNote": "沒有授權標的、Scope／時間／Rate Limits，禁止任何 Live URL 掃描；CLI 安裝不等於已可執行 Scan。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "只在實際掃描後才有的 PoC／Severity／SARIF 或 JSON Findings"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "受核准修補 Diff、獨立重測結果和盲區"
+          }
+        ],
+        "composition": {
+          "problem": "一般 AI Coding Agent 可能把資安掃描變成沒有 Scope 與 Evidence 的主觀評論，或在未經授權、缺少資料保護時直接執行具破壞性的真實 exploit；掃描通過也可能只是 budget 截止造成的部分覆蓋。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "受測 IP／URL／Repo 的所有權證明、Allowlist、時間與預算；隔離測試環境、必要權限、模型／Cloud 方案、報告格式",
+              "output": "只在實際掃描後才有的 PoC／Severity／SARIF 或 JSON Findings；受核准修補 Diff、獨立重測結果和盲區",
+              "gate": "每張 Finding 有 Scope、證據和可重現 PoC／誤報審核"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "侵入風險",
+            "action": "自主測試可能執行 Exploit，僅限明確允許的自有／授權環境"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "原始碼上傳",
+            "action": "Managed Cloud 上傳 Code 或雲端資產需獨立外送許可與檔案清單"
+          }
+        ],
+        "acceptance": [
+          "每張 Finding 有 Scope、證據和可重現 PoC／誤報審核",
+          "修復、回歸、重掃皆真實通過才能宣稱驗收完成"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/usestrix/strix/blob/main/skills/penetration-testing-with-strix/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 Strix Apache-2.0；九個 Agent Skills 合集，所引子技能為正式上游",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "侵入風險｜自主測試可能執行 Exploit，僅限明確允許的自有／授權環境；原始碼上傳｜Managed Cloud 上傳 Code 或雲端資產需獨立外送許可與檔案清單；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63630,11 +66444,17 @@
       "id": "viral-hook-title",
       "entityType": "skill",
       "title": "viral-hook-title",
-      "purpose": "Hook、標題、variants",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。",
+      "problem": "需要想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "題目、主要訊息、受眾、平台與內容原始事實",
+        "可接受的口吻、禁止誇張的承諾及可用真實成效資料"
+      ],
+      "outputs": [
+        "多組明確區分情緒／利益／懸念的 Hook 和標題候選",
+        "A/B 假設、預期衡量指標與平台限制"
+      ],
+      "execution": "無已核實的正式 /viral-hook-title 指令；僅整理一般可用的文案 Workflow。。流程：固定事實 → 產生變體 → 品質篩選 → 建立測試。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63649,7 +66469,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "writing",
         "titles",
@@ -63667,6 +66487,183 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。",
+        "原始 Skill ID／作者／正式 Repo 來源無法驗證；不得假稱此網頁為同一 Skill 或已安裝插件。"
+      ],
+      "constraints": [
+        "來源身分｜現有連結只是同類方法參照，原始 Package 與 License 未確認",
+        "誤導流量｜Clickbait 不得捏造承諾或不實數字"
+      ],
+      "source": {
+        "url": "https://creatorskills.co/create/viral-hook-title-engine",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "相關類型範例網站；**非原收藏的確定作者或正式 SKILL.md**",
+        "reviewScope": "Original Skill provenance unverified; comparable workflow only; original SKILL.md, license, runtime NOT FOUND",
+        "sourceGap": "原始 Skill 作者／Repo／Package 無法從目前收藏找回；來源網址僅為相似方法教材，不證明原始身分。"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。",
+        "introNote": "僅供保守候選用法：原始 Skill 身分與完整 SKILL.md 尚未確立，不宣稱已安裝或與參考網站同源。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "相關類型範例網站；**非原收藏的確定作者或正式 SKILL.md**"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "無已核實的正式 /viral-hook-title 指令；僅整理一般可用的文案 Workflow。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE PARTIAL／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "原始 Skill ID／作者／正式 Repo 來源無法驗證；不得假稱此網頁為同一 Skill 或已安裝插件。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "題目、主要訊息、受眾、平台與內容原始事實",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "可接受的口吻、禁止誇張的承諾及可用真實成效資料",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "固定事實",
+            "detail": "抽出真正主題與使用者利益，拒絕捏造數字",
+            "result": "素材清單"
+          },
+          {
+            "number": "02",
+            "title": "產生變體",
+            "detail": "依角度產出不同 Hook／Title，不只重排詞語",
+            "result": "候選文案"
+          },
+          {
+            "number": "03",
+            "title": "品質篩選",
+            "detail": "檢誤導、長度和受眾適配",
+            "result": "可上架方案"
+          },
+          {
+            "number": "04",
+            "title": "建立測試",
+            "detail": "若有平台數據設同樣比較期間與指標",
+            "result": "可檢驗的 A/B Learning"
+          }
+        ],
+        "howToUse": {
+          "trigger": "想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。",
+          "meaning": "無已核實的正式 /viral-hook-title 指令；僅整理一般可用的文案 Workflow。",
+          "usageNote": "原始 Skill ID／作者／正式 Repo 來源無法驗證；不得假稱此網頁為同一 Skill 或已安裝插件。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "多組明確區分情緒／利益／懸念的 Hook 和標題候選"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "A/B 假設、預期衡量指標與平台限制"
+          }
+        ],
+        "composition": {
+          "problem": "需要想對文章或短影音題目產生多種 Hook 與標題作內容 A/B 比較。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "題目、主要訊息、受眾、平台與內容原始事實；可接受的口吻、禁止誇張的承諾及可用真實成效資料",
+              "output": "多組明確區分情緒／利益／懸念的 Hook 和標題候選；A/B 假設、預期衡量指標與平台限制",
+              "gate": "明確標示候選為設計示例而非原作者完整契約"
+            }
+          ],
+          "note": "原始來源尚待確認；此契約不可當正式 Skill 指令。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "來源身分",
+            "action": "現有連結只是同類方法參照，原始 Package 與 License 未確認"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "誤導流量",
+            "action": "Clickbait 不得捏造承諾或不實數字"
+          }
+        ],
+        "acceptance": [
+          "明確標示候選為設計示例而非原作者完整契約",
+          "來源未找到以前維持 PARTIAL、Runtime NOT TESTED"
+        ],
+        "provenance": {
+          "sourceUrl": "https://creatorskills.co/create/viral-hook-title-engine",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "相關類型範例網站；**非原收藏的確定作者或正式 SKILL.md**",
+          "execution": "NOT_EXECUTED",
+          "notes": "相關參考方法存在，但與原始 Skill 身分未確證；沒有 Runtime／License／Security 驗證。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "partial",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "sourceGap": "原始 Skill 身分／作者／SKILL.md 未找到。現存 URL 僅為相近方法，不是正式作者證據。",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "deferred",
+          "reason": "沒有原始 SKILL.md，僅提供保守 Candidate Guide。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "來源身分｜現有連結只是同類方法參照，原始 Package 與 License 未確認；誤導流量｜Clickbait 不得捏造承諾或不實數字；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "同類工作流參考但原 Skill 身分未確定；Runtime/Security/License NOT TESTED。"
+        }
       }
     },
     {
@@ -63674,11 +66671,17 @@
       "id": "voltagent-awesome-agent-skills",
       "entityType": "skill",
       "title": "VoltAgent/awesome-agent-skills",
-      "purpose": "跨 Claude / Codex / Cursor 等 Skills 索引",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。",
+      "problem": "需要需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "要解決的問題、使用的 Agent Host 與操作邊界",
+        "願意審核的候選 Repo、平台權限和 License 限制"
+      ],
+      "outputs": [
+        "候選原子 Skill、原作者與官方來源對照",
+        "Trigger／I/O／安全／授權的後續確認清單"
+      ],
+      "execution": "GitHub Curated Directory；先找到子技能原始 Repo、SKILL.md、License，再決定是否安裝。。流程：按問題檢索 → 逐一追原始專案 → 評估風險 → 實測後收錄。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63693,7 +66696,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "skills",
         "directory",
@@ -63710,6 +66713,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。",
+        "索引項目不一定安全或可商用；不能因收錄在目錄就認定是 VoltAgent 原創／已安裝。"
+      ],
+      "constraints": [
+        "供應鏈｜被列在第三方目錄不代表通過審核或安全",
+        "過時資料｜數量、名稱、版本會改變，1497+ 是來源當下快照"
+      ],
+      "source": {
+        "url": "https://github.com/VoltAgent/awesome-agent-skills/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 awesome-agent-skills Curated Directory；README 顯示 1497+ 索引快照，非單一可執行 Skill",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 awesome-agent-skills Curated Directory；README 顯示 1497+ 索引快照，非單一可執行 Skill"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "GitHub Curated Directory；先找到子技能原始 Repo、SKILL.md、License，再決定是否安裝。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "索引項目不一定安全或可商用；不能因收錄在目錄就認定是 VoltAgent 原創／已安裝。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "要解決的問題、使用的 Agent Host 與操作邊界",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "願意審核的候選 Repo、平台權限和 License 限制",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "按問題檢索",
+            "detail": "依官方或社群分類找最少候選",
+            "result": "來源列表"
+          },
+          {
+            "number": "02",
+            "title": "逐一追原始專案",
+            "detail": "閱讀 SKILL.md、版本、Repo 與權利條款",
+            "result": "真實 Contract"
+          },
+          {
+            "number": "03",
+            "title": "評估風險",
+            "detail": "先做權限、Prompt Injection、Dependencies 和 License Review",
+            "result": "是否允許安裝"
+          },
+          {
+            "number": "04",
+            "title": "實測後收錄",
+            "detail": "只有實際 Host 成功才記錄 Runtime/Integration PASS",
+            "result": "可重用候選"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。",
+          "meaning": "GitHub Curated Directory；先找到子技能原始 Repo、SKILL.md、License，再決定是否安裝。",
+          "usageNote": "索引項目不一定安全或可商用；不能因收錄在目錄就認定是 VoltAgent 原創／已安裝。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "候選原子 Skill、原作者與官方來源對照"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "Trigger／I/O／安全／授權的後續確認清單"
+          }
+        ],
+        "composition": {
+          "problem": "需要需要跨多平台查可用 Agent Skills、比對原作者、用途和 Host。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "要解決的問題、使用的 Agent Host 與操作邊界；願意審核的候選 Repo、平台權限和 License 限制",
+              "output": "候選原子 Skill、原作者與官方來源對照；Trigger／I/O／安全／授權的後續確認清單",
+              "gate": "每個推薦均附原始 Repo／SKILL.md 而非僅目錄名稱"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "供應鏈",
+            "action": "被列在第三方目錄不代表通過審核或安全"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "過時資料",
+            "action": "數量、名稱、版本會改變，1497+ 是來源當下快照"
+          }
+        ],
+        "acceptance": [
+          "每個推薦均附原始 Repo／SKILL.md 而非僅目錄名稱",
+          "未安裝或掃描不宣稱相容與安全"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/VoltAgent/awesome-agent-skills/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 awesome-agent-skills Curated Directory；README 顯示 1497+ 索引快照，非單一可執行 Skill",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "供應鏈｜被列在第三方目錄不代表通過審核或安全；過時資料｜數量、名稱、版本會改變，1497+ 是來源當下快照；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63717,11 +66895,17 @@
       "id": "voltagent-awesome-openclaw-skills",
       "entityType": "skill",
       "title": "VoltAgent/awesome-openclaw-skills",
-      "purpose": "OpenClaw Skills 索引",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。",
+      "problem": "需要要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "需求場景、OpenClaw Host、執行邊界和可用環境",
+        "候選原子 Skill 的原始連結、版本與 Review 條件"
+      ],
+      "outputs": [
+        "分門別類的 Skills 候選與來源",
+        "需進行的 Permission／License／Security／Runtime 驗收清單"
+      ],
+      "execution": "GitHub 索引與 ClawHub 類別導航；OpenClaw／ClawHub CLI 的安裝建議需核對版本與授權。。流程：定位分類 → 審查原子 Skill → 隔離驗證 → 採用決策。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63736,7 +66920,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "openclaw",
         "skills",
@@ -63754,6 +66938,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "whenToUse": [
+        "要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。",
+        "索引不是單一 Skill，列名不等於安全；不在沒有確認前安裝存取裝置的高權限技能。"
+      ],
+      "constraints": [
+        "OpenClaw 高權限｜社群 Skill 可能讀寫本機資料或網路與帳戶",
+        "總數變動｜README 5300+ 與 Badge 5200 不能當精確同步數"
+      ],
+      "source": {
+        "url": "https://github.com/VoltAgent/awesome-openclaw-skills/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 OpenClaw 社群索引；README 標示 5300+，Badge 5200，屬動態快照而非固定數量",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "官方 OpenClaw 社群索引；README 標示 5300+，Badge 5200，屬動態快照而非固定數量"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "GitHub 索引與 ClawHub 類別導航；OpenClaw／ClawHub CLI 的安裝建議需核對版本與授權。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "索引不是單一 Skill，列名不等於安全；不在沒有確認前安裝存取裝置的高權限技能。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "需求場景、OpenClaw Host、執行邊界和可用環境",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "候選原子 Skill 的原始連結、版本與 Review 條件",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "定位分類",
+            "detail": "按問題從 ClawHub 索引選候選",
+            "result": "具體來源清單"
+          },
+          {
+            "number": "02",
+            "title": "審查原子 Skill",
+            "detail": "檢讀寫、外部 API、憑證／檔案操作與 SKILL.md",
+            "result": "最小權限方案"
+          },
+          {
+            "number": "03",
+            "title": "隔離驗證",
+            "detail": "先在可控制環境評估 Trigger、輸入輸出與止損",
+            "result": "實測結果"
+          },
+          {
+            "number": "04",
+            "title": "採用決策",
+            "detail": "記錄版本與更新風險，不做靜默安裝",
+            "result": "可追溯候選"
+          }
+        ],
+        "howToUse": {
+          "trigger": "要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。",
+          "meaning": "GitHub 索引與 ClawHub 類別導航；OpenClaw／ClawHub CLI 的安裝建議需核對版本與授權。",
+          "usageNote": "索引不是單一 Skill，列名不等於安全；不在沒有確認前安裝存取裝置的高權限技能。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "分門別類的 Skills 候選與來源"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "需進行的 Permission／License／Security／Runtime 驗收清單"
+          }
+        ],
+        "composition": {
+          "problem": "需要要從 OpenClaw／ClawHub 的社群 Skills 中按需求找到候選。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "需求場景、OpenClaw Host、執行邊界和可用環境；候選原子 Skill 的原始連結、版本與 Review 條件",
+              "output": "分門別類的 Skills 候選與來源；需進行的 Permission／License／Security／Runtime 驗收清單",
+              "gate": "每個實際採用子 Skill 都有獨立 Scope、來源及安全驗證"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "OpenClaw 高權限",
+            "action": "社群 Skill 可能讀寫本機資料或網路與帳戶"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "總數變動",
+            "action": "README 5300+ 與 Badge 5200 不能當精確同步數"
+          }
+        ],
+        "acceptance": [
+          "每個實際採用子 Skill 都有獨立 Scope、來源及安全驗證",
+          "目錄索引與已安裝執行的狀態明確區分"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/VoltAgent/awesome-openclaw-skills/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 OpenClaw 社群索引；README 標示 5300+，Badge 5200，屬動態快照而非固定數量",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "OpenClaw 高權限｜社群 Skill 可能讀寫本機資料或網路與帳戶；總數變動｜README 5300+ 與 Badge 5200 不能當精確同步數；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -63761,11 +67120,17 @@
       "id": "yanliudesign-mono-color-skill",
       "entityType": "skill",
       "title": "yanliudesign/mono-color-skill",
-      "purpose": "單色／雙色 editorial visual system",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。",
+      "problem": "需要需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。；原始資料缺少完整執行驗收的可讀契約。",
+      "inputs": [
+        "主題、文字／照片、目標用途與辨識需求",
+        "單色或雙色、紙色、Ratio、排版與模仿界線"
+      ],
+      "outputs": [
+        "最終影像生成 Prompt 與 Raster Image（實際生成時）",
+        "簡短 Recipe：Palette、Layout、Typography 和 Print Process"
+      ],
+      "execution": "官方 mono-color SKILL.md；可對主題或合法照片輸出 Prompt＋Image＋Recipe Note。。流程：確定設計意圖 → 建立視覺系統 → 生成圖像 → 視覺 QA。來源契約不是本知識庫的安裝／修改授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -63784,7 +67149,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "visual-design",
         "color-system",
@@ -63801,6 +67166,181 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。",
+        "不是對既有品牌或參考圖照抄；只有想要 Prompt 時不必生成圖片；沒有 Image Tool 不可假裝已出圖。"
+      ],
+      "constraints": [
+        "參考素材版權｜作者示例照片／第三方研究參考不屬自動 MIT License 範圍",
+        "持久副作用｜官方預設 Desktop Save Path 不能視為本環境可存取；應先確認輸出位置"
+      ],
+      "source": {
+        "url": "https://github.com/yanliudesign/mono-color-skill/blob/main/SKILL.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "Monocolor Editorial Print v1.2.0；原始 MIT、示例作品不自動包含於 MIT",
+        "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。",
+        "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。"
+          },
+          {
+            "label": "來源與版本",
+            "value": "Monocolor Editorial Print v1.2.0；原始 MIT、示例作品不自動包含於 MIT"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "官方 mono-color SKILL.md；可對主題或合法照片輸出 Prompt＋Image＋Recipe Note。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "不是對既有品牌或參考圖照抄；只有想要 Prompt 時不必生成圖片；沒有 Image Tool 不可假裝已出圖。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "主題、文字／照片、目標用途與辨識需求",
+            "detail": "缺少必要資料先釐清並確認可合法使用。"
+          },
+          {
+            "title": "單色或雙色、紙色、Ratio、排版與模仿界線",
+            "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "確定設計意圖",
+            "detail": "區分 1-ink 與 2-ink、原創與參考",
+            "result": "可守的版式規格"
+          },
+          {
+            "number": "02",
+            "title": "建立視覺系統",
+            "detail": "決定主墨／Accent、Paper、Typography 和 Negative Space",
+            "result": "原創構圖 Prompt"
+          },
+          {
+            "number": "03",
+            "title": "生成圖像",
+            "detail": "依要求透過獲授權工具輸出 Raster",
+            "result": "真正可檢查 Image"
+          },
+          {
+            "number": "04",
+            "title": "視覺 QA",
+            "detail": "比對拼字、墨色數量、參考差異與授權",
+            "result": "可交付與可重製設計"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。",
+          "meaning": "官方 mono-color SKILL.md；可對主題或合法照片輸出 Prompt＋Image＋Recipe Note。",
+          "usageNote": "不是對既有品牌或參考圖照抄；只有想要 Prompt 時不必生成圖片；沒有 Image Tool 不可假裝已出圖。；官方說明不是安裝或遠端操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "主要成果",
+            "description": "最終影像生成 Prompt 與 Raster Image（實際生成時）"
+          },
+          {
+            "name": "交付成果 2",
+            "description": "簡短 Recipe：Palette、Layout、Typography 和 Print Process"
+          }
+        ],
+        "composition": {
+          "problem": "需要需要單色／雙色 Editorial Poster、Zine、商品視覺或孔版印刷風格的原創圖片。；原始資料缺少完整執行驗收的可讀契約。",
+          "capabilities": [
+            {
+              "id": "documented-skill-contract",
+              "title": "文件層級候選契約",
+              "input": "主題、文字／照片、目標用途與辨識需求；單色或雙色、紙色、Ratio、排版與模仿界線",
+              "output": "最終影像生成 Prompt 與 Raster Image（實際生成時）；簡短 Recipe：Palette、Layout、Typography 和 Print Process",
+              "gate": "新構圖不複製參考的圖像／文字／Logo，印刷墨色符合指定"
+            }
+          ],
+          "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "風險控制 1",
+            "risk": "參考素材版權",
+            "action": "作者示例照片／第三方研究參考不屬自動 MIT License 範圍"
+          },
+          {
+            "title": "風險控制 2",
+            "risk": "持久副作用",
+            "action": "官方預設 Desktop Save Path 不能視為本環境可存取；應先確認輸出位置"
+          }
+        ],
+        "acceptance": [
+          "新構圖不複製參考的圖像／文字／Logo，印刷墨色符合指定",
+          "產出圖片或明确回報 Prompt-only；真實檔案通過圖像檢查"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/yanliudesign/mono-color-skill/blob/main/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "Monocolor Editorial Print v1.2.0；原始 MIT、示例作品不自動包含於 MIT",
+          "execution": "NOT_EXECUTED",
+          "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+        },
+        "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+        },
+        "riskNotes": "參考素材版權｜作者示例照片／第三方研究參考不屬自動 MIT License 範圍；持久副作用｜官方預設 Desktop Save Path 不能視為本環境可存取；應先確認輸出位置；沒有第三方程式執行與完整 License 調查。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+        }
       }
     },
     {

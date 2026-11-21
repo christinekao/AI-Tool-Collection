@@ -3,11 +3,17 @@
   "id": "reverse-skill",
   "entityType": "skill",
   "title": "reverse-skill",
-  "purpose": "Reverse engineering / security expertise",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "purpose": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+  "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+  "inputs": [
+    "授權的 APK、Binary、Web／API 或其他調查案例",
+    "已確認允許掃描的範圍、工具版本和網路政策"
+  ],
+  "outputs": [
+    "具體 Scenario Skill、工具檢查與安全 Scope Gate",
+    "Evidence／Finding／Timeline 的候選調查流程"
+  ],
+  "execution": "reverse-skill 是路由／操作合集；MASTER-ROUTING、RULES、各情境子技能，不存在通用 /reverse-skill 安裝後所有任務通過的保證。。流程：查同源 → Scope Gate → 情境路由 → 保留證據。本專案未安裝或執行第三方工具。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,7 +28,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "reverse-engineering",
     "security",
@@ -40,5 +46,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+    "本 ID 與 reverse-skill-2 是同源候選重複，不應當成兩個可獨立執行的產品；無資產授權不作主動測試。"
+  ],
+  "constraints": [
+    "重複收錄｜同 Repo 多 ID 可能造成搜尋重複、數量錯認，需另案去重",
+    "攻擊與工具執行｜不可把來源說明變成對未知 IP 的掃描授權"
+  ],
+  "source": {
+    "url": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Reverse Skill Router v1.0.1；本 ID 與 reverse-skill-2 指向同一 Repo（待去重審核）",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Reverse Skill Router v1.0.1；本 ID 與 reverse-skill-2 指向同一 Repo（待去重審核）"
+      },
+      {
+        "label": "觸發方式",
+        "value": "reverse-skill 是路由／操作合集；MASTER-ROUTING、RULES、各情境子技能，不存在通用 /reverse-skill 安裝後所有任務通過的保證。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "本 ID 與 reverse-skill-2 是同源候選重複，不應當成兩個可獨立執行的產品；無資產授權不作主動測試。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "授權的 APK、Binary、Web／API 或其他調查案例",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "已確認允許掃描的範圍、工具版本和網路政策",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "查同源",
+        "detail": "核對本 ID 和 reverse-skill-2 共用 Repo，不新增獨立 Source",
+        "result": "清楚身分"
+      },
+      {
+        "number": "02",
+        "title": "Scope Gate",
+        "detail": "先寫授權、目標、資料外送和不允許動作",
+        "result": "安全邊界"
+      },
+      {
+        "number": "03",
+        "title": "情境路由",
+        "detail": "依 APK／Binary／JS 等選 MASTER-ROUTING 及子技能",
+        "result": "可核實調查計畫"
+      },
+      {
+        "number": "04",
+        "title": "保留證據",
+        "detail": "每步記錄來源、版本、變更和未知處",
+        "result": "可追溯結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要從合法逆向或資安調查任務挑選專門工具與調查路徑。",
+      "meaning": "reverse-skill 是路由／操作合集；MASTER-ROUTING、RULES、各情境子技能，不存在通用 /reverse-skill 安裝後所有任務通過的保證。",
+      "usageNote": "本 ID 與 reverse-skill-2 是同源候選重複，不應當成兩個可獨立執行的產品；無資產授權不作主動測試。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "具體 Scenario Skill、工具檢查與安全 Scope Gate"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "Evidence／Finding／Timeline 的候選調查流程"
+      }
+    ],
+    "composition": {
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "授權的 APK、Binary、Web／API 或其他調查案例；已確認允許掃描的範圍、工具版本和網路政策",
+          "output": "具體 Scenario Skill、工具檢查與安全 Scope Gate；Evidence／Finding／Timeline 的候選調查流程",
+          "gate": "本 ID 明記為與 reverse-skill-2 同源、未建立兩條獨立產品聲明"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "重複收錄",
+        "action": "同 Repo 多 ID 可能造成搜尋重複、數量錯認，需另案去重"
+      },
+      {
+        "title": "控制 2",
+        "risk": "攻擊與工具執行",
+        "action": "不可把來源說明變成對未知 IP 的掃描授權"
+      }
+    ],
+    "acceptance": [
+      "本 ID 明記為與 reverse-skill-2 同源、未建立兩條獨立產品聲明",
+      "Scope 和工具未核准時只有文件分析，不執行掃描"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Reverse Skill Router v1.0.1；本 ID 與 reverse-skill-2 指向同一 Repo（待去重審核）",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "本 ID 與 reverse-skill-2 指向同一 GitHub Repo；依本批不破壞原 ID 的政策保留兩筆並列人工去重議題，不宣稱兩套獨立程式。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "重複收錄｜同 Repo 多 ID 可能造成搜尋重複、數量錯認，需另案去重；攻擊與工具執行｜不可把來源說明變成對未知 IP 的掃描授權；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }

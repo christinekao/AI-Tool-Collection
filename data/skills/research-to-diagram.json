@@ -4,10 +4,16 @@
   "entityType": "skill",
   "title": "Research to Diagram",
   "purpose": "從一個 topic / research question 出發，自動進行多輪研究、記錄來源、抽取與整理知識關係、選擇 diagram 結構，再用 Graphviz 產生可編輯 DOT 與向量 PDF；適合人物關係、技術架構、歷史事件與 concept map。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+  "inputs": [
+    "研究問題、範圍、重點對象和可信來源偏好",
+    "可用研究工具／Graphviz、輸出位置和引用要求"
+  ],
+  "outputs": [
+    "可編輯的 Graphviz DOT、向量 PDF 和來源清單",
+    "關係抽取依據、未知／爭議連結及圖表 QA"
+  ],
+  "execution": "Skill research-to-diagram；需要研究工具、Graphviz，本機輸出位置與安裝需先核准。。流程：多輪研究 → 建立結構 → 繪製 DOT → 產生 PDF 與驗證。本專案未安裝或執行第三方工具。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -38,7 +44,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-11-21",
   "tags": [
     "research",
     "diagram",
@@ -60,5 +66,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。",
+    "已具完整結構化資料且只想轉圖可選 structure-to-pdf；沒有網路或可靠來源不能編造關係。"
+  ],
+  "constraints": [
+    "來源錯誤｜研究結果會過時，單一資料來源可能偏誤",
+    "渲染與授權｜依賴 Graphviz 且可能使用有版權人物圖，須確認用法"
+  ],
+  "source": {
+    "url": "https://github.com/wshuyi/research-to-diagram/blob/main/skills/research-to-diagram/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 v1.0 SKILL.md；多輪 WebSearch + Graphviz DOT + Vector PDF",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 v1.0 SKILL.md；多輪 WebSearch + Graphviz DOT + Vector PDF"
+      },
+      {
+        "label": "觸發方式",
+        "value": "Skill research-to-diagram；需要研究工具、Graphviz，本機輸出位置與安裝需先核准。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "已具完整結構化資料且只想轉圖可選 structure-to-pdf；沒有網路或可靠來源不能編造關係。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "研究問題、範圍、重點對象和可信來源偏好",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "可用研究工具／Graphviz、輸出位置和引用要求",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "多輪研究",
+        "detail": "蒐集來源、年份、關係與反證",
+        "result": "可追溯研究資料"
+      },
+      {
+        "number": "02",
+        "title": "建立結構",
+        "detail": "選人物樹、概念圖或技術依賴",
+        "result": "Entity/Edge 清單"
+      },
+      {
+        "number": "03",
+        "title": "繪製 DOT",
+        "detail": "依資料關係配置方向、Cluster 和 Label",
+        "result": "可編輯原稿"
+      },
+      {
+        "number": "04",
+        "title": "產生 PDF 與驗證",
+        "detail": "在有授權環境跑 Graphviz 並目視查 PDF",
+        "result": "真正的可閱讀輸出"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要從沒有已整理資料的主題開始研究，並產出人物、概念或技術關係 PDF 圖。",
+      "meaning": "Skill research-to-diagram；需要研究工具、Graphviz，本機輸出位置與安裝需先核准。",
+      "usageNote": "已具完整結構化資料且只想轉圖可選 structure-to-pdf；沒有網路或可靠來源不能編造關係。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "可編輯的 Graphviz DOT、向量 PDF 和來源清單"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "關係抽取依據、未知／爭議連結及圖表 QA"
+      }
+    ],
+    "composition": {
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "研究問題、範圍、重點對象和可信來源偏好；可用研究工具／Graphviz、輸出位置和引用要求",
+          "output": "可編輯的 Graphviz DOT、向量 PDF 和來源清單；關係抽取依據、未知／爭議連結及圖表 QA",
+          "gate": "每個有爭議的 Edge 可指回出處或列未確認"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "來源錯誤",
+        "action": "研究結果會過時，單一資料來源可能偏誤"
+      },
+      {
+        "title": "控制 2",
+        "risk": "渲染與授權",
+        "action": "依賴 Graphviz 且可能使用有版權人物圖，須確認用法"
+      }
+    ],
+    "acceptance": [
+      "每個有爭議的 Edge 可指回出處或列未確認",
+      "輸出 PDF 可讀、不截字、DOT 可重產"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/wshuyi/research-to-diagram/blob/main/skills/research-to-diagram/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 v1.0 SKILL.md；多輪 WebSearch + Graphviz DOT + Vector PDF",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "來源錯誤｜研究結果會過時，單一資料來源可能偏誤；渲染與授權｜依賴 Graphviz 且可能使用有版權人物圖，須確認用法；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }

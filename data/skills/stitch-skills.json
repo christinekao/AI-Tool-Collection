@@ -3,11 +3,17 @@
   "id": "stitch-skills",
   "entityType": "skill",
   "title": "Stitch Skills",
-  "purpose": "Generate-design、code-to-design workflow",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "purpose": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+  "problem": "需要使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。；原始資料缺少完整執行驗收的可讀契約。",
+  "inputs": [
+    "Stitch Project／Design System、目標頁面或前端 Repo",
+    "可用的 Stitch MCP、Host 權限、目標 Framework 與使用限制"
+  ],
+  "outputs": [
+    "選中的正式 Stitch 子技能、設計檔或實作方案",
+    "來源、Prompt、Design Tokens、可驗證前端輸出與改動記錄"
+  ],
+  "execution": "官方 Plugin Marketplace（Codex）或 npx plugins（其他支援 Host），依 task 選 stitch-design、stitch-build、stitch-utilities 子技能。。流程：選子插件 → 確認連線 → 依契約操作 → 跨端驗收。來源契約不是本知識庫的安裝／修改授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -30,7 +36,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skills",
     "design-to-code",
@@ -48,5 +54,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+    "沒有 Stitch 專案／MCP 或設計授權時不能假定已可用；不能用一個泛用 stitch 指令假裝整合集合。"
+  ],
+  "constraints": [
+    "雲端設計資料｜Stitch MCP 可能上傳素材／Design、涉及帳號與 API 配額",
+    "錯誤身分｜此 ID 為合集，子技能路徑／Host 介面需按當次文件查證"
+  ],
+  "source": {
+    "url": "https://github.com/google-labs-code/stitch-skills/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "Google Labs Stitch Skills：stitch-design／stitch-build／stitch-utilities 三組 Plugins；集合不是單一 Skill",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "Google Labs Stitch Skills：stitch-design／stitch-build／stitch-utilities 三組 Plugins；集合不是單一 Skill"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "官方 Plugin Marketplace（Codex）或 npx plugins（其他支援 Host），依 task 選 stitch-design、stitch-build、stitch-utilities 子技能。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有 Stitch 專案／MCP 或設計授權時不能假定已可用；不能用一個泛用 stitch 指令假裝整合集合。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Stitch Project／Design System、目標頁面或前端 Repo",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "可用的 Stitch MCP、Host 權限、目標 Framework 與使用限制",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "選子插件",
+        "detail": "分清 Design／Build／Utility，按問題選精確 Skill",
+        "result": "避免多裝無關 Plugin"
+      },
+      {
+        "number": "02",
+        "title": "確認連線",
+        "detail": "盤點 Stitch MCP、專案 ID 和既有 Design System",
+        "result": "有權限的工作目標"
+      },
+      {
+        "number": "03",
+        "title": "依契約操作",
+        "detail": "生成／編輯 Screen 或讀設計後實作，不自行補造 ID",
+        "result": "真實結果"
+      },
+      {
+        "number": "04",
+        "title": "跨端驗收",
+        "detail": "對照原設計、前端互動、Tokens、Responsive 和資料外送",
+        "result": "有證據的交付"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。",
+      "meaning": "官方 Plugin Marketplace（Codex）或 npx plugins（其他支援 Host），依 task 選 stitch-design、stitch-build、stitch-utilities 子技能。",
+      "usageNote": "沒有 Stitch 專案／MCP 或設計授權時不能假定已可用；不能用一個泛用 stitch 指令假裝整合集合。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "選中的正式 Stitch 子技能、設計檔或實作方案"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "來源、Prompt、Design Tokens、可驗證前端輸出與改動記錄"
+      }
+    ],
+    "composition": {
+      "problem": "需要使用 Stitch MCP 產生設計畫面、由設計轉實作，或依現有程式碼管理可重用 UI 資產。；原始資料缺少完整執行驗收的可讀契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "Stitch Project／Design System、目標頁面或前端 Repo；可用的 Stitch MCP、Host 權限、目標 Framework 與使用限制",
+          "output": "選中的正式 Stitch 子技能、設計檔或實作方案；來源、Prompt、Design Tokens、可驗證前端輸出與改動記錄",
+          "gate": "選定子技能及專案 ID 存在、MCP 可用"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "雲端設計資料",
+        "action": "Stitch MCP 可能上傳素材／Design、涉及帳號與 API 配額"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "錯誤身分",
+        "action": "此 ID 為合集，子技能路徑／Host 介面需按當次文件查證"
+      }
+    ],
+    "acceptance": [
+      "選定子技能及專案 ID 存在、MCP 可用",
+      "最終設計／程式有實際原始文件、對照與測試，未執行不標已完成"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/google-labs-code/stitch-skills/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Google Labs Stitch Skills：stitch-design／stitch-build／stitch-utilities 三組 Plugins；集合不是單一 Skill",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "雲端設計資料｜Stitch MCP 可能上傳素材／Design、涉及帳號與 API 配額；錯誤身分｜此 ID 為合集，子技能路徑／Host 介面需按當次文件查證；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

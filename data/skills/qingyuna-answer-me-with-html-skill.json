@@ -40,11 +40,14 @@
   "source": {
     "url": "https://github.com/QingYunA/answer-me-with-html/blob/main/skills/answer-me-with-html/SKILL.md",
     "type": "Official standalone SKILL.md with bundled CLI",
-    "summary": "SKILL.md verified on 2026-10-25; not installed, used or benchmarked."
+    "summary": "SKILL.md verified on 2026-10-25; not installed, used or benchmarked.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方單一 HTML 生成 Skill；Node >=20，am.mjs render",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "answer-me-with-html",
     "agent-skill",
@@ -76,5 +79,174 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。",
+    "簡單問答不需要生成 HTML；不得自動寫 AGENTS.md/CLAUDE.md 設 Always-On；影片需明確指定。"
+  ],
+  "constraints": [
+    "全域設定與副作用｜INSTALL.md 不是對修改 Agents 規範或自動安裝的授權",
+    "機密與不正確圖表｜HTML 可能保存原始內部資料，需審查可分享邊界"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方單一 HTML 生成 Skill；Node >=20，am.mjs render"
+      },
+      {
+        "label": "觸發方式",
+        "value": "Skill answer-me-with-html；先寫 Markdown Draft，使用 node <skill-dir>/scripts/am.mjs render - 產 HTML。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "簡單問答不需要生成 HTML；不得自動寫 AGENTS.md/CLAUDE.md 設 Always-On；影片需明確指定。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "要解釋的問題、可信原始資料與語言",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "可用 Node >=20、Skill CLI、HTML 交付目錄、是否要求影片",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "整理 Draft",
+        "detail": "把可靠內容整理成章節、流程和圖表概念",
+        "result": "可審查 Markdown"
+      },
+      {
+        "number": "02",
+        "title": "受權渲染",
+        "detail": "交給 am.mjs 而不是手刻假冒工具輸出",
+        "result": "獨立 HTML 路徑"
+      },
+      {
+        "number": "03",
+        "title": "檢查渲染",
+        "detail": "核對 CLI 錯誤、文字、圖表、檔案權限",
+        "result": "可閱讀頁面"
+      },
+      {
+        "number": "04",
+        "title": "延伸交付",
+        "detail": "只有使用者指定時才做影音及持久規則修改",
+        "result": "實測後結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要把流程、技術架構、決策或複雜解說變成單頁可離線閱讀的 HTML。",
+      "meaning": "Skill answer-me-with-html；先寫 Markdown Draft，使用 node <skill-dir>/scripts/am.mjs render - 產 HTML。",
+      "usageNote": "簡單問答不需要生成 HTML；不得自動寫 AGENTS.md/CLAUDE.md 設 Always-On；影片需明確指定。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "可離線檢視的單頁 HTML 與來源、Markdown Draft"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "CLI Output Path／錯誤行號、選配影片的真實產出"
+      }
+    ],
+    "composition": {
+      "problem": "模型若直接輸出全套 HTML/CSS/SVG，常花大量 Token 在 Layout 與坐標，複雜資訊難檢索，也不容易分享可單檔開啟的視覺說明。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "要解釋的問題、可信原始資料與語言；可用 Node >=20、Skill CLI、HTML 交付目錄、是否要求影片",
+          "output": "可離線檢視的單頁 HTML 與來源、Markdown Draft；CLI Output Path／錯誤行號、選配影片的真實產出",
+          "gate": "CLI 真的有 HTML 輸出並通過瀏覽器視覺與錨點檢查"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "全域設定與副作用",
+        "action": "INSTALL.md 不是對修改 Agents 規範或自動安裝的授權"
+      },
+      {
+        "title": "控制 2",
+        "risk": "機密與不正確圖表",
+        "action": "HTML 可能保存原始內部資料，需審查可分享邊界"
+      }
+    ],
+    "acceptance": [
+      "CLI 真的有 HTML 輸出並通過瀏覽器視覺與錨點檢查",
+      "沒有默認啟用 Always-On 或生成未要求的影片"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/QingYunA/answer-me-with-html/blob/main/skills/answer-me-with-html/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方單一 HTML 生成 Skill；Node >=20，am.mjs render",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "全域設定與副作用｜INSTALL.md 不是對修改 Agents 規範或自動安裝的授權；機密與不正確圖表｜HTML 可能保存原始內部資料，需審查可分享邊界；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }

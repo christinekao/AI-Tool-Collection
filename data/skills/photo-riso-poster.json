@@ -4,10 +4,16 @@
   "entityType": "skill",
   "title": "Photo Riso Poster",
   "purpose": "把照片或文字主題轉成安靜的 risograph archive poster。對照片先抽取可觀察事實，例如數量、間距、遮擋、方向、深度與色彩角色，再把這些 evidence 映射成 2–3 色套印、留白、紙張冷暖與排印資訊；生成階段使用文字化 evidence，而不是把原照片直接交給 image generation。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+  "inputs": [
+    "有權使用的單張照片或文字主題",
+    "希望 likeness 忠實／標準／極簡及輸出比例"
+  ],
+  "outputs": [
+    "依觀察事實整理的文字 Evidence 和生成 Prompt",
+    "一張有文字、油墨層次與適切紙色的海報圖"
+  ],
+  "execution": "Codex $photo-riso-poster，或將原始 SKILL.md 提供給可看圖與生圖的 Assistant；無獨立腳本。。流程：萃取事實 → 映射印刷 → 生成視覺 → 自行校驗。本專案未安裝或執行第三方工具。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -38,7 +44,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "image-generation",
@@ -62,5 +68,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。",
+    "只有文字規則，必須由有影像生成能力的 Host 執行；使用者要求精確照片複製時不能擅自改主體。"
+  ],
+  "constraints": [
+    "照片與人像權｜原始照片、人物、品牌與 Output Platform 條款需檢查",
+    "事實憑空補造｜照片模式無 EXIF 時不捏造日期；文字主題的虛構 Archive Facts 要標示為設計設定"
+  ],
+  "source": {
+    "url": "https://github.com/luckdvr/photo-riso-poster/blob/main/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方單一 SKILL.md 與 README；MIT（示例照片與輸出模型條款另計）",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方單一 SKILL.md 與 README；MIT（示例照片與輸出模型條款另計）"
+      },
+      {
+        "label": "觸發方式",
+        "value": "Codex $photo-riso-poster，或將原始 SKILL.md 提供給可看圖與生圖的 Assistant；無獨立腳本。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "只有文字規則，必須由有影像生成能力的 Host 執行；使用者要求精確照片複製時不能擅自改主體。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "有權使用的單張照片或文字主題",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "希望 likeness 忠實／標準／極簡及輸出比例",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "萃取事實",
+        "detail": "只讀來源照片的物件數、距離、遮擋、色彩角色",
+        "result": "獨立文字證據"
+      },
+      {
+        "number": "02",
+        "title": "映射印刷",
+        "detail": "轉成 2–3 色油墨、Paper Temperature 和構圖",
+        "result": "有依據的印刷 Prompt"
+      },
+      {
+        "number": "03",
+        "title": "生成視覺",
+        "detail": "僅將文字化 Evidence 傳給 Image Generation，不附原始照片",
+        "result": "Riso Poster"
+      },
+      {
+        "number": "04",
+        "title": "自行校驗",
+        "detail": "確認物件、比例、文字、套印效果及使用權",
+        "result": "真正的可檢視海報"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要把提供的照片或文字主題抽象成 2–3 色 Riso 風格檔案海報。",
+      "meaning": "Codex $photo-riso-poster，或將原始 SKILL.md 提供給可看圖與生圖的 Assistant；無獨立腳本。",
+      "usageNote": "只有文字規則，必須由有影像生成能力的 Host 執行；使用者要求精確照片複製時不能擅自改主體。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "依觀察事實整理的文字 Evidence 和生成 Prompt"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "一張有文字、油墨層次與適切紙色的海報圖"
+      }
+    ],
+    "composition": {
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "有權使用的單張照片或文字主題；希望 likeness 忠實／標準／極簡及輸出比例",
+          "output": "依觀察事實整理的文字 Evidence 和生成 Prompt；一張有文字、油墨層次與適切紙色的海報圖",
+          "gate": "可追溯每個重要圖像符號對應觀察到的事實"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "照片與人像權",
+        "action": "原始照片、人物、品牌與 Output Platform 條款需檢查"
+      },
+      {
+        "title": "控制 2",
+        "risk": "事實憑空補造",
+        "action": "照片模式無 EXIF 時不捏造日期；文字主題的虛構 Archive Facts 要標示為設計設定"
+      }
+    ],
+    "acceptance": [
+      "可追溯每個重要圖像符號對應觀察到的事實",
+      "海報清晰、文字可讀且確實輸出，未生成不可寫完成"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/luckdvr/photo-riso-poster/blob/main/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方單一 SKILL.md 與 README；MIT（示例照片與輸出模型條款另計）",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "照片與人像權｜原始照片、人物、品牌與 Output Platform 條款需檢查；事實憑空補造｜照片模式無 EXIF 時不捏造日期；文字主題的虛構 Archive Facts 要標示為設計設定；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }

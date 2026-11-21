@@ -45,7 +45,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-19",
-  "updatedAt": "2026-10-19",
+  "updatedAt": "2026-11-21",
   "tags": [
     "strix",
     "agent-skills",
@@ -73,5 +73,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。",
+    "沒有授權標的、Scope／時間／Rate Limits，禁止任何 Live URL 掃描；CLI 安裝不等於已可執行 Scan。"
+  ],
+  "constraints": [
+    "侵入風險｜自主測試可能執行 Exploit，僅限明確允許的自有／授權環境",
+    "原始碼上傳｜Managed Cloud 上傳 Code 或雲端資產需獨立外送許可與檔案清單"
+  ],
+  "source": {
+    "url": "https://github.com/usestrix/strix/blob/main/skills/penetration-testing-with-strix/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Strix Apache-2.0；九個 Agent Skills 合集，所引子技能為正式上游",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "官方 Strix Apache-2.0；九個 Agent Skills 合集，所引子技能為正式上游"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "九個官方 Skills 的路由合集；自架 CLI 或 Strix Managed Cloud 可選，需各自核准網路與程式存取。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有授權標的、Scope／時間／Rate Limits，禁止任何 Live URL 掃描；CLI 安裝不等於已可執行 Scan。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "受測 IP／URL／Repo 的所有權證明、Allowlist、時間與預算",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "隔離測試環境、必要權限、模型／Cloud 方案、報告格式",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先批准 Scope",
+        "detail": "列出目標、排除、Rate、可中斷策略和費用",
+        "result": "明確授權"
+      },
+      {
+        "number": "02",
+        "title": "選 Skill／Mode",
+        "detail": "區分 Code Review、CI、Web／API、Managed Cloud",
+        "result": "適當 Sandbox"
+      },
+      {
+        "number": "03",
+        "title": "受控檢測",
+        "detail": "於隔離環境操作、保留 Logs 與真實 PoC，任何擴範圍停止",
+        "result": "可追查 Findings"
+      },
+      {
+        "number": "04",
+        "title": "修復重測",
+        "detail": "人工確認每個補丁並進行 Regression／Re-scan",
+        "result": "可稽核安全結論"
+      }
+    ],
+    "howToUse": {
+      "trigger": "具備書面測試授權的 AppSec／Code Security／Web／API 安全評估、修補及重測。",
+      "meaning": "九個官方 Skills 的路由合集；自架 CLI 或 Strix Managed Cloud 可選，需各自核准網路與程式存取。",
+      "usageNote": "沒有授權標的、Scope／時間／Rate Limits，禁止任何 Live URL 掃描；CLI 安裝不等於已可執行 Scan。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "只在實際掃描後才有的 PoC／Severity／SARIF 或 JSON Findings"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "受核准修補 Diff、獨立重測結果和盲區"
+      }
+    ],
+    "composition": {
+      "problem": "一般 AI Coding Agent 可能把資安掃描變成沒有 Scope 與 Evidence 的主觀評論，或在未經授權、缺少資料保護時直接執行具破壞性的真實 exploit；掃描通過也可能只是 budget 截止造成的部分覆蓋。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "受測 IP／URL／Repo 的所有權證明、Allowlist、時間與預算；隔離測試環境、必要權限、模型／Cloud 方案、報告格式",
+          "output": "只在實際掃描後才有的 PoC／Severity／SARIF 或 JSON Findings；受核准修補 Diff、獨立重測結果和盲區",
+          "gate": "每張 Finding 有 Scope、證據和可重現 PoC／誤報審核"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "侵入風險",
+        "action": "自主測試可能執行 Exploit，僅限明確允許的自有／授權環境"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "原始碼上傳",
+        "action": "Managed Cloud 上傳 Code 或雲端資產需獨立外送許可與檔案清單"
+      }
+    ],
+    "acceptance": [
+      "每張 Finding 有 Scope、證據和可重現 PoC／誤報審核",
+      "修復、回歸、重掃皆真實通過才能宣稱驗收完成"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/usestrix/strix/blob/main/skills/penetration-testing-with-strix/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Strix Apache-2.0；九個 Agent Skills 合集，所引子技能為正式上游",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "侵入風險｜自主測試可能執行 Exploit，僅限明確允許的自有／授權環境；原始碼上傳｜Managed Cloud 上傳 Code 或雲端資產需獨立外送許可與檔案清單；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

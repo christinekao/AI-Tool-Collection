@@ -1,5 +1,18 @@
 # Phase 2 Skills — 最新 Session 交接
 
+## Batch 06 — PR／CI／Merge 待驗證（2026-11-21）
+
+- Base main `e31929c4f61d0cec965030d430e4c44ed0eadd30`；Branch `skill-content-batch06-20261121`。
+- 第 101–120 筆 **20/20** Canonical Skill 已增補 `skillGuide`、`intakeReview`，並同步 [Batch 06 逐筆報告](SKILL_CONTENT_REVIEW_BATCH06_20261121.md)、Derived Catalog 和 Knowledge Graph。
+- 上一階段正式合併為 **100/123（81.3%）**，剩 23；**Batch 06 尚未合併，不能提前計入 120/123**。
+- **19 官方 GitHub README／SKILL.md 可查，1 個 `viral-hook-title` 原始身分 PARTIAL**；`reverse-skill` 和 `reverse-skill-2` 同源 `zhaoxuya520/reverse-skill`，保留雙 ID 但列待去重。
+- OneTake **PolyForm Noncommercial**、Punk v2 **商業須另授權**。原始 Tags／Domains／Typed References 不改，Graph 569 Nodes／1816 Edges。
+- 第三方 Runtime、Security、License 法律審查、Integration 未執行；CI、PR、main/Pages/Live Smoke 尚待取得真實 Run IDs。
+- **Batch 07 最後 3 個 IDs**：121 `yusufkaraaslan-skill-seekers`、122 `zhouxiaoka-autoclip-autoclip`、123 `zhouxiaoka-autoclip-product-board`。
+- 新 Session 應先核對最新 `main`、PR、CI、正式 Pages 部署及「部署完成後」Live Smoke；本文件只是狀態快照，不能代替實際檢查。
+
+---
+
 ## Batch 05｜合併與主分支正式環境驗收（2026-11-21）
 
 - **PR [#43](https://github.com/christinekao/AI-Tool-Collection/pull/43) 已 Squash Merge**；合併 Commit：`83ae3f214f69af4dfe0739674fd0eb41cfb30fb2`。內容 20 筆（第 81–100）、Derived Catalog／Graph、[逐筆審查報告](SKILL_CONTENT_REVIEW_BATCH05_20261121.md)。

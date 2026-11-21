@@ -53,11 +53,14 @@
   "source": {
     "url": "https://github.com/unclebob/ub-mode/blob/master/SKILL.md",
     "type": "Official root standalone agent SKILL.md",
-    "summary": "Read-only verification 2026-10-28; upstream has no root LICENSE or skill version, and no external dependencies were executed."
+    "summary": "Read-only verification 2026-10-28; upstream has no root LICENSE or skill version, and no external dependencies were executed.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 root SKILL.md，無獨立確認版本；crapper/dryer/mutator 工具需獨立審查",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md reviewed; external runtime/security/independent license/integration NOT EXECUTED"
   },
   "status": "active",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-11-21",
   "tags": [
     "coding",
     "software-engineering",
@@ -88,5 +91,168 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。",
+    "上游『Push main』不是 Git 操作許可；沒有實測測量工具時不能填 CRAP／Duplication／Mutation PASS。"
+  ],
+  "constraints": [
+    "未授權 Push｜上游指示不能凌駕 Git Branch Protection 與使用者權限",
+    "失實指標｜未安裝第三方品質工具時必須標示 NOT TESTED"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。",
+    "introNote": "按上游公開 README／SKILL.md 整理；未執行第三方程式、Host 整合、安全或完整授權審查。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。"
+      },
+      {
+        "label": "來源與版本",
+        "value": "官方 root SKILL.md，無獨立確認版本；crapper/dryer/mutator 工具需獨立審查"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "ub-mode 三段式：測試先行、根因修復、量化品質工具、紀錄／小批次提交。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "上游『Push main』不是 Git 操作許可；沒有實測測量工具時不能填 CRAP／Duplication／Mutation PASS。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已核准 Issue、Repo、既有測試和公開介面行為",
+        "detail": "缺少必要資料先釐清並確認可合法使用。"
+      },
+      {
+        "title": "可用的品質測量工具與允許變更／Commit／Push 範圍",
+        "detail": "檢查依賴、操作邊界與資料安全；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "Work",
+        "detail": "先定 Domain Data Shape、外部驗證與最小 Red Test，再做 Green",
+        "result": "真正可觀察行為"
+      },
+      {
+        "number": "02",
+        "title": "Right",
+        "detail": "找根因、排除重複、重構，只有裝有工具才跑 crapper/dryer/mutator",
+        "result": "品質證據"
+      },
+      {
+        "number": "03",
+        "title": "Practice",
+        "detail": "保護 Context／Worktree、留下原因，依使用者授權逐步 Commit",
+        "result": "可復原結果"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者明確指定 /ub-mode 或要求以 First Make it Work → Make it Right → Practice 修正程式。",
+      "meaning": "ub-mode 三段式：測試先行、根因修復、量化品質工具、紀錄／小批次提交。",
+      "usageNote": "上游『Push main』不是 Git 操作許可；沒有實測測量工具時不能填 CRAP／Duplication／Mutation PASS。；官方說明不是安裝或遠端操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "可重現 Red／Green Test、最小 Diff 和根因修正"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "CRAP／Duplications／Mutation 證據（真的執行時）、安全交接與 Log"
+      }
+    ],
+    "composition": {
+      "problem": "AI Coding Agent 常直接改程式、跳過失敗測試、掩蓋根因或留下過度複雜／重複的實作，且沒有可驗證的完成證據與復原能力。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級候選契約",
+          "input": "已核准 Issue、Repo、既有測試和公開介面行為；可用的品質測量工具與允許變更／Commit／Push 範圍",
+          "output": "可重現 Red／Green Test、最小 Diff 和根因修正；CRAP／Duplications／Mutation 證據（真的執行時）、安全交接與 Log",
+          "gate": "每項可驗證行為有實際測試與前後證據"
+        }
+      ],
+      "note": "只展示可能重用的 I/O 和 Gate；不新增正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "風險控制 1",
+        "risk": "未授權 Push",
+        "action": "上游指示不能凌駕 Git Branch Protection 與使用者權限"
+      },
+      {
+        "title": "風險控制 2",
+        "risk": "失實指標",
+        "action": "未安裝第三方品質工具時必須標示 NOT TESTED"
+      }
+    ],
+    "acceptance": [
+      "每項可驗證行為有實際測試與前後證據",
+      "沒有超出指定分支／檔案／Push 權限"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/unclebob/ub-mode/blob/master/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 root SKILL.md，無獨立確認版本；crapper/dryer/mutator 工具需獨立審查",
+      "execution": "NOT_EXECUTED",
+      "notes": "只有文件查核；第三方 Runtime、Security、License 法律意見、Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 增補文件契約；不新增重複資源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完全保留原始 Tags、Domains 和 Typed References，不新增詞彙。"
+    },
+    "classificationReason": "僅改內容解說與來源證據，不變更分類、Tag、Typed References。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 GitHub 原始文件已讀，可建立 Trigger、I/O、Steps、Safety、Gate 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不依新 Guide 自動創建能力；已有映射原封不動。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留已有 Concept Ref，無推測新增 Edge。"
+    },
+    "riskNotes": "未授權 Push｜上游指示不能凌駕 Git Branch Protection 與使用者權限；失實指標｜未安裝第三方品質工具時必須標示 NOT TESTED；沒有第三方程式執行與完整 License 調查。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 文件已讀；第三方 Runtime/Security/License/Integration NOT TESTED。"
+    }
   }
 }

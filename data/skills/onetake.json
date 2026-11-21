@@ -4,10 +4,16 @@
   "entityType": "skill",
   "title": "OneTake",
   "purpose": "用 Agent 產生一鏡到底的產品發布片、teaser 與 feature demo：把每個 beat 的交界當成主要設計問題，要求畫面元素從上一段持續存在並轉化成下一段，搭配單一連續鏡頭、HTML 重建 UI、deterministic motion、motion blur、聲音事件與自動 continuity oracle 驗收。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+  "inputs": [
+    "真實產品功能、分鏡 Beats、UI 截圖及動作方向",
+    "長度、比例、合法影音素材、音效與商用授權"
+  ],
+  "outputs": [
+    "連續鏡頭的 HTML 合成、逐格影像和影片（真正渲染後）",
+    "Continuity Oracle 的跨 Beat Score、影音檢查與失敗明細"
+  ],
+  "execution": "Claude Agent Skill onetake；所需 Python Playwright、FFmpeg、音效與 Motion Library 依環境另行核准。。流程：確認授權與真實 UI → 設計 Beat Continuity → 可重現 Render → 連續性驗收。本專案未安裝或執行第三方工具。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -46,7 +52,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "motion-graphics",
@@ -70,5 +76,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "whenToUse": [
+    "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。",
+    "不適合單純套片頭與多張卡片切換；原始碼非商用授權，客戶、商業宣傳要先核對 Pro 許可。"
+  ],
+  "constraints": [
+    "商用授權｜README 明列 PolyForm Noncommercial，不能視為 MIT 或任意接案可用",
+    "高額運算與依賴｜渲染、語音、音樂素材可能涉及外部工具、成本和版權"
+  ],
+  "source": {
+    "url": "https://github.com/feitangyuan/onetake/blob/main/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 SKILL.md + README；PolyForm Noncommercial 1.0.0，商用另需授權",
+    "reviewScope": "2026-11-21 official upstream README/SKILL.md read; third-party installation, runtime, security, independent license and integration NOT EXECUTED"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。",
+    "introNote": "僅依上游官方文件整理操作契約；本知識庫尚未執行第三方 Skill，來源授權及實際成效需於使用時獨立驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 SKILL.md + README；PolyForm Noncommercial 1.0.0，商用另需授權"
+      },
+      {
+        "label": "觸發方式",
+        "value": "Claude Agent Skill onetake；所需 Python Playwright、FFmpeg、音效與 Motion Library 依環境另行核准。"
+      },
+      {
+        "label": "驗證狀態",
+        "value": "SOURCE REVIEWED；THIRD-PARTY NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適用",
+        "description": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。"
+      },
+      {
+        "title": "不適合／停止邊界",
+        "description": "不適合單純套片頭與多張卡片切換；原始碼非商用授權，客戶、商業宣傳要先核對 Pro 許可。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "真實產品功能、分鏡 Beats、UI 截圖及動作方向",
+        "detail": "先確認資訊、目標及合法存取權限，缺漏不得臆測。"
+      },
+      {
+        "title": "長度、比例、合法影音素材、音效與商用授權",
+        "detail": "確認相依工具、成本、資料隱私及安全邊界後才操作。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認授權與真實 UI",
+        "detail": "分辨個人／商業用途，蒐集可合法重建的畫面",
+        "result": "明確素材和權利"
+      },
+      {
+        "number": "02",
+        "title": "設計 Beat Continuity",
+        "detail": "每段結尾的視覺元素變形接續下一段，安排相機節奏",
+        "result": "一鏡到底的 Transition Plan"
+      },
+      {
+        "number": "03",
+        "title": "可重現 Render",
+        "detail": "按時間純函式處理 UI、運鏡、Motion Blur 及同步聲音",
+        "result": "可驗證 Frame／Audio"
+      },
+      {
+        "number": "04",
+        "title": "連續性驗收",
+        "detail": "以官方 probe／verify 測跨段 Carry、卡點、字幕與音畫",
+        "result": "失敗則修改而非僅看單張截圖"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要連續單鏡頭的產品宣傳、功能 Demo 或 10–30 秒 Motion Film。",
+      "meaning": "Claude Agent Skill onetake；所需 Python Playwright、FFmpeg、音效與 Motion Library 依環境另行核准。",
+      "usageNote": "不適合單純套片頭與多張卡片切換；原始碼非商用授權，客戶、商業宣傳要先核對 Pro 許可。；任何上游安裝或執行指令均需另行授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "連續鏡頭的 HTML 合成、逐格影像和影片（真正渲染後）"
+      },
+      {
+        "name": "交付成果 2",
+        "description": "Continuity Oracle 的跨 Beat Score、影音檢查與失敗明細"
+      }
+    ],
+    "composition": {
+      "problem": "原始 Agent Skill 不易直接判斷何時啟用、所需工具、實際輸出與授權停止條件；此頁依上游原始文件呈現可檢查的操作契約。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "文件層級操作契約",
+          "input": "真實產品功能、分鏡 Beats、UI 截圖及動作方向；長度、比例、合法影音素材、音效與商用授權",
+          "output": "連續鏡頭的 HTML 合成、逐格影像和影片（真正渲染後）；Continuity Oracle 的跨 Beat Score、影音檢查與失敗明細",
+          "gate": "每個 Beat Boundary 都有可追踪 Carry，不是換張幻燈片"
+        }
+      ],
+      "note": "僅記錄可組合的行為與 Gate，不新增正式 Capability/Graph 關聯，未經 Host 實測不可直接串接。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "商用授權",
+        "action": "README 明列 PolyForm Noncommercial，不能視為 MIT 或任意接案可用"
+      },
+      {
+        "title": "控制 2",
+        "risk": "高額運算與依賴",
+        "action": "渲染、語音、音樂素材可能涉及外部工具、成本和版權"
+      }
+    ],
+    "acceptance": [
+      "每個 Beat Boundary 都有可追踪 Carry，不是換張幻燈片",
+      "實際影片播放、字幕音畫與授權核對完成才標 PASS"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/feitangyuan/onetake/blob/main/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 SKILL.md + README；PolyForm Noncommercial 1.0.0，商用另需授權",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅官方文件閱讀；第三方程式、License 法律審查、安全掃描、Runtime、Integration 未實測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "既有 Canonical Skill 僅增補文件層級契約，原 ID 和來源 Resource Ref 保留。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部既有 Tags、Domains 和 Typed References；本次不新增或重分類。"
+    },
+    "classificationReason": "只改善 Skill Guide，不改動既有分類／參照。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀官方 README/SKILL.md，整理 Trigger、I/O、Process、Safety、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "不因文件導讀而新增正式 Capability；若已有映射亦不改。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用既有 Concept References，沒有由 Tag 自動新增 Edge。"
+    },
+    "riskNotes": "商用授權｜README 明列 PolyForm Noncommercial，不能視為 MIT 或任意接案可用；高額運算與依賴｜渲染、語音、音樂素材可能涉及外部工具、成本和版權；第三方 Runtime、安全掃描和完整 License 審查尚未進行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方 README/SKILL.md 文件審查；第三方 Runtime／Security／License／Integration NOT TESTED。"
+    }
   }
 }
