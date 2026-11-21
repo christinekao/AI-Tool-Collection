@@ -42,7 +42,7 @@
 - main P1 Graph Unit Tests／Browser **SUCCESS** — [44898756747](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756747)。
 - main Pages Build／Deploy **SUCCESS** — [44898756156](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756156)。
 - main Live Pages Smoke **SUCCESS** — [44898756720](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756720)。
-- **不能視為部署後 Live PASS**：2026-11-21 臺北時間 Live Smoke 約 19:22:25 結束，Pages Deploy 約 19:22:45 才結束。檢查工具無法獨立讀取公開 Pages，沒有新版部署後頁面／截圖驗收證據。整體 **PASS WITH GAPS**。
+- **部署後 Live PASS（另行補跑）**：最初 Live Smoke 約 19:22:25 結束、Pages Deploy 約 19:22:45 才結束，先後順序不合格。已在 19:24:57 完成 [文件交接版 Pages Deploy #44898936832](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898936832) 後，重新執行 [Live Pages Smoke #44898756720 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756720)：**SUCCESS**。實際連線正式網站，19/19 HTTP／JSON 資源 PASS；Chromium 驗證首頁、搜尋、Graph、Prompt、Playground 和 375／430／768／1440px。獨立網頁擷取工具仍無法讀取公開網站，但 GitHub Actions 的正式站 Chromium 運行 Log 可回查。仍有 1 筆 Design to Motion 上游 404 與第三方 Runtime／Security／License 未測，整體 **PASS WITH GAPS**。
 
 ### 尚待驗證
 - 找回 Design to Motion 的上游維護版本／原始 Commit 後才能解除 PARTIAL。

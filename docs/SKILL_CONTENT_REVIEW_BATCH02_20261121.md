@@ -219,9 +219,9 @@
 | main Pages Build／Deploy | **SUCCESS** — [44898756156](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756156) |
 | main Live Pages Smoke | **SUCCESS** — [44898756720](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756720)，但發生於 Deploy 完成之前 |
 
-- **部署時序**：2026-11-21 19:22:25（Asia/Taipei）Live Smoke 結束，19:22:45 Pages Deploy 結束。這次 Smoke 不構成新版本部署後驗收。公開 Pages 無法透過本次獨立網頁檢查工具讀取，亦沒有人工實際頁面截圖，**Post-deploy Live Review NOT VERIFIED**。
+- **部署後網站驗收已補證**：初次 19:22:25 Live Smoke 結束，19:22:45 Deploy 才完成，故初次不能計入。後續文件更新 Commit `c29e3a11aeb2a66d1e3401a35aa226e921a47ec4` 的 [Pages Deploy #44898936832](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898936832) 於 19:24:57 完成。**部署後重新執行** [Live Pages Smoke #44898756720，Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756720) 為 SUCCESS（約 19:25:23–19:25:33）。Job Log：19 項真實 GitHub Pages HTTP/JSON Asset PASS，Chromium 在公開網站檢查 Search、Graph、Prompt、Playground、導覽及 375／430／768／1440px 響應式皆 PASS。此證據是真實網站執行，而非本機 Preview；獨立 HTTP 擷取工具另行嘗試仍無法讀取。
 - 本批 **20/20** 已建立 Guide，**19/20** 現行文件可核對，**1/20** Design to Motion Source PARTIAL。第三方安裝、Runtime／Security／License／Integration 仍 **NOT TESTED**。
-- **結論：PASS WITH GAPS**，Batch 02 正式計入 20 筆完成，累計 Skills **40/123，剩餘 83**。
+- **結論：PASS WITH GAPS（Source Gap 1 筆，非網站 Gate）**。GitHub PR、main、最新網站部署與部署後 Chromium Live Smoke 均有實際 PASS 證據。Batch 02 正式計入 20 筆完成，累計 Skills **40/123，剩餘 83**。
 
 ## Next
 - 下一批：Skills 第 41–60 筆，見 Rolling Handoff。
