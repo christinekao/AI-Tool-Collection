@@ -1,37 +1,40 @@
 # Phase 2 Skills — 最新 Session 交接
 
-## Skills Batch 05 — 分支內容完成，PR／CI／部署待核驗（2026-11-21）
+## Batch 05｜合併與主分支正式環境驗收（2026-11-21）
 
-- Base main：`8fb823d054abaa0b2e8b88a9e9ec20c2d43e3fc4`；分支：`skill-content-batch05-20261121`。
-- 第 81–100 筆 **20/20 Canonical Skills** 已補強專用 `skillGuide` 與 `intakeReview`；同步 Derived Catalog、Graph、[Batch 05 逐筆審查報告](SKILL_CONTENT_REVIEW_BATCH05_20261121.md)。
-- 正式合併進度仍為 Batch 01–04：**80/123（65.0%）**、剩 43；**Batch 05 尚未合併**，不得誤認已達 100/123。
-- 文件證據：15/20 官方 GitHub README／SKILL.md 已讀；5/20 MiniMax 官方 Skills Catalog 已確認名稱與用途，但原始 Package／SKILL.md **PARTIAL**。
-- ID、Tags、分類、Typed References 原狀；Graph 維持 **569 Nodes／1816 Edges**。
-- 第三方 Skill 安裝、Runtime、獨立安全掃描、完整 License、Integration **NOT TESTED**。
-- PR、CI Run IDs、main Merge、Pages Deploy、部署後 Live Smoke **尚未取得可回查證據**，不能先標示 PASS。新 Session 需重新查 GitHub 狀態。
+- **PR [#43](https://github.com/christinekao/AI-Tool-Collection/pull/43) 已 Squash Merge**；合併 Commit：`83ae3f214f69af4dfe0739674fd0eb41cfb30fb2`。內容 20 筆（第 81–100）、Derived Catalog／Graph、[逐筆審查報告](SKILL_CONTENT_REVIEW_BATCH05_20261121.md)。
+- **進度：100 / 123 Skills 已合併（81.3%）；剩 23 筆**。上游證據 15 筆官方 README／SKILL.md 已查，5 筆 MiniMax 官方 Catalog 已確認名稱和用途但完整套件／SKILL.md **PARTIAL**。
+- **PR 三項 Gate PASS**：[Unified Intake](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911764317)、[V2 Data Validate](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911764399)、[P1 Graph／Browser](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911764400)。
+- **main 四項驗證 PASS**：[Unified Intake](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857399)、[Data Validate](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857405)、[Graph／Browser](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857380)、[Catalog Sync](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857397)。
+- **[GitHub Pages Deploy](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911856902) PASS**（14:03:07Z 部署 `83ae3f2`）。[**Live Pages Smoke Attempt 2**](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857348) **PASS**（14:04:20Z，真正部署後重新跑）；正式站 19 項 Asset／Browser／Responsive 375、430、768、1440px 皆有成功 Log。
+- **不變項**：270 Resources／123 Skills／68 Concepts／35 Prompts／17 Combinations／36 Workflows、Graph 569 Nodes／1816 Edges；原 Raw Tags／Domains／Typed References 保留。
+- **Gaps**：第三方 Skill 安裝、Runtime、安全掃描、完整授權與 Integration **NOT TESTED**；MiniMax 5 個 Package 原文不完整。**本交接文件的 Docs-only 更新若觸發另一輪 Pages Deploy，必須另外核對部署與 Smoke，結果以 PR #43 的最新驗收留言為準。**
+- 下一步 Batch 06（第 101–120 筆），先確認最後一次 Pages Deploy／Smoke 是否已通過，再按下列精確 IDs 接續；最後 Batch 07 僅剩 3 筆。
 
-### 下一批 Batch 06：第 101–120 筆（未開始）
-101. `oh-my-mermaid-omm-scan`
-102. `oh-my-mermaid-omm-view`
-103. `onetake`
-104. `photo-riso-poster`
-105. `punk-skill`
-106. `qingyuna-answer-me-with-html-skill`
-107. `rea-reverse-engineer-anything`
-108. `research-to-diagram`
-109. `reverse-skill`
-110. `reverse-skill-2`
-111. `seokwoooo-lucian-uxui`
-112. `social-post`
-113. `stitch-skills`
-114. `thu-maic-openmaic-skill`
-115. `unclebob-ub-mode`
-116. `usestrix-strix-security-skills`
-117. `viral-hook-title`
-118. `voltagent-awesome-agent-skills`
-119. `voltagent-awesome-openclaw-skills`
-120. `yanliudesign-mono-color-skill`
-- Batch 07（121–123）：`yusufkaraaslan-skill-seekers`、`zhouxiaoka-autoclip-autoclip`、`zhouxiaoka-autoclip-product-board`。
+### Batch 06 IDs（尚未開始）
+1. `oh-my-mermaid-omm-scan`
+2. `oh-my-mermaid-omm-view`
+3. `onetake`
+4. `photo-riso-poster`
+5. `punk-skill`
+6. `qingyuna-answer-me-with-html-skill`
+7. `rea-reverse-engineer-anything`
+8. `research-to-diagram`
+9. `reverse-skill`
+10. `reverse-skill-2`
+11. `seokwoooo-lucian-uxui`
+12. `social-post`
+13. `stitch-skills`
+14. `thu-maic-openmaic-skill`
+15. `unclebob-ub-mode`
+16. `usestrix-strix-security-skills`
+17. `viral-hook-title`
+18. `voltagent-awesome-agent-skills`
+19. `voltagent-awesome-openclaw-skills`
+20. `yanliudesign-mono-color-skill`
+
+### Batch 07 IDs（尚未開始）
+`yusufkaraaslan-skill-seekers`、`zhouxiaoka-autoclip-autoclip`、`zhouxiaoka-autoclip-product-board`。
 
 ---
 

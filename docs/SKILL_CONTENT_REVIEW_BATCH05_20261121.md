@@ -284,9 +284,14 @@
 4. **Hallmark／Motion**：Hallmark v2.0.0 既有頁面的 Redesign 須明確觸發；Sloplint 的 Floor／Reflex／Finish 未執行。Motion.dev v3.0.0 文件的 120fps 等為品質目標，不能視為已達到的測量結果。
 5. **資安與傳輸**：mukul975 為社群資安 Skill 合集，不隸屬 Anthropic；NVIDIA SkillSpector 的文件閱讀不等於已掃描本批 Skill；`omm-push` 的 .omm 架構文件外送與 GitHub OAuth 均需另外明確核准。
 
-## GitHub／部署 Gate
+## GitHub／部署 Gate（實際驗收）
 
-本報告為 Documentation Review，**不預先宣稱 GitHub PR CI、main Merge、Pages Deploy 或部署後 Live Smoke 已通過**。待建立 PR 後應驗證 Unified Intake、V2 Data Validate、Graph／Browser，通過後合併，再按 Deploy 完成時間確定獨立正式站 Smoke；任何失敗須保留真正 Log。
+- **PR [#43](https://github.com/christinekao/AI-Tool-Collection/pull/43) 已合併**，main 合併 Commit `83ae3f214f69af4dfe0739674fd0eb41cfb30fb2`。
+- **PR Gate PASS**：Intake [44911764317](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911764317)、V2 Validate [44911764399](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911764399)、Graph／Browser [44911764400](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911764400)。
+- **main PASS**：Intake [44911857399](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857399)、V2 Validate [44911857405](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857405)、Graph／Browser [44911857380](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857380)、Catalog Sync [44911857397](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857397)。
+- **Pages Deploy PASS**：[44911856902](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911856902)，部署紀錄顯示 2026-11-21 14:03:07Z 成功發布 `83ae3f2`。
+- **部署後 Live Smoke PASS**：[44911857348 Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44911857348) 14:04:20Z 成功。Attempt 1 於上述部署結束前就完成，**不採其作為新版部署驗收**；重跑 Attempt 2 實際紀錄為 19 個網站資產成功，Chromium 頁面、Graph、375／430／768／1440px 響應式檢查均通過。
+- **限制**：GitHub CI／Live Browser 的 PASS 不是第三方 Skills 安裝、執行、License 或 Security PASS。此 Docs-only 證據補寫若引發最後一次新的 Pages Deploy，仍須另外完成正式站檢查；詳見 PR #43 的後續驗收留言。
 
 ## 下一批
 
