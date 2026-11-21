@@ -1,9 +1,9 @@
 # Phase 2 Skills — 最新 Session 交接
 
-## Skills Batch 04 — PR／CI 準備中（2026-11-21）
+## Skills Batch 04 — 已合併且 main 部署／正式站驗收通過（2026-11-21）
 
 - Base main：`5b30be7aeda7df09ff99c546e75b9fd8b79ed39c`；工作分支：`skill-content-batch04-20261121`。
-- Batch 01–03 已完成 **60/123（48.8%）**；Batch 04 本次改善 20 筆；**合併成功後**累計 **80/123（65.0%）**，剩 **43**。
+- Batch 01–04 正式合併 **80/123（65.0%）**，剩 **43**，20 個 Canonical Skill 及 Guides 均已在 main。
 - 20 個正式 Canonical Skill：第 61–80 筆全部新增 `skillGuide` 及 `intakeReview`，Generated Catalog、Graph 與逐筆報告、Rolling Handoff 同步。
 - **20/20 現行官方 README／SKILL.md 查核**，全部只有文件審查，未執行第三方程式或 Security／License／Runtime／Integration。
 - 重要差異：Kubai 2.0 雙風格但 Source-Available 非開源；Taste 2.5.1 Stop Hook；Lieflat v2 需先報告再依同意改稿、CC BY-NC；K-Dense 177 Skills；Khazix 6；LoopAgentTeams 主 Skill 路徑已核對。
@@ -32,10 +32,16 @@
 99. `nvidia-skillspector`
 100. `oh-my-mermaid-omm-push`
 
-### 待驗證 Release Gate
-- 最新 PR Head Unified Intake、V2 Validate、P1 Graph＋Browser PASS 後才可 Merge。
-- Merge 後核對 main Catalog Sync、Data Validate、Graph Browser 與正式 Pages Deploy。
-- 部署後另外執行 Live Pages Smoke，不把部署前 smoke 當成新版驗收。
+### Batch 04 PR／CI／Deploy 與真正部署後網站驗收
+
+- [PR #42](https://github.com/christinekao/AI-Tool-Collection/pull/42) **MERGED**；Base `5b30be7aeda7df09ff99c546e75b9fd8b79ed39c`，PR Head `8de4a1c0e4007b53cb5be4c0a89b00a9c47020bd`，Merge `e41d5578820b57c6e5622be3c8f7b65d8b2c62b9`，24 檔（20 Skills、Generated Catalog／Graph、Report、Handoff）。
+- PR 最新 Head Unified Intake **SUCCESS** [44908038389](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908038389)；V2 Data Validate **SUCCESS** [44908038427](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908038427)；P1 Graph Unit Tests／Browser **SUCCESS** [44908038609](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908038609)。
+- main Unified Intake **SUCCESS** [44908151627](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151627)；V2 Validate **SUCCESS** [44908151574](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151574)；Catalog Sync **SUCCESS** [44908151651](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151651)；P1 Graph Unit Tests／Browser **SUCCESS** [44908151608](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151608)。
+- main [Pages Build／Deploy #44908151129](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151129) **SUCCESS**，2026-11-21 **21:18:38（Asia/Taipei）** 完成。
+- main [Live Pages Smoke #44908151717 — Attempt 1](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151717) **SUCCESS**，但約 21:18:31 已結束，早於 Deploy 21:18:38，**不得算作本次新版正式站驗收**。
+- 已在部署完成後補跑同一 [Live Pages Smoke #44908151717 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151717) **SUCCESS**：約 21:19:32 直接連正式站 `https://christinekao.github.io/AI-Tool-Collection`，19/19 HTTP／JSON 資產 PASS；21:20:04–21:20:14 Chromium 首頁、搜尋、Graph、Prompt、Playground、六類實體、375／430／768／1440px PASS，Log 可回查。
+- **PASS WITH GAPS**：本 Repo CI、Catalog/Graph、main Deploy 及實際正式站 Browser 驗收均有證據；所有第三方 Skill 的 Runtime／Security／完整 License 審核／Integration **NOT TESTED**，研究、金融、語音權限只記錄契約而未執行。
+- 本份文件更新會觸發 **新的文件版 Pages Deploy**；部署完成後需再補跑 Live Pages Smoke，確認的是最終文件版本。
 
 ---
 

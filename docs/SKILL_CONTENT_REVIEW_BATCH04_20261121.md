@@ -287,11 +287,24 @@
 9. **LoopAgentTeams**：現行主要 Skill 在 `skills/local/lat/SKILL.md`；Spec 正式確認、Agent Ownership、Reviewer 與 QA 實際測試是必備條件。技能級規則不等於工具層 ACL。
 10. **Rea-video／Lemo／Hairline**：文件能證明 CLI/Build 的設計，不構成已經產出影片、HTML 或擁有任何第三方媒體商用權利的證據。
 
-## Release Gate（提交後填入實際 GitHub Actions）
-- PR 最新 Head：Unified Intake Gate、V2 Data Validate、P1 Graph Unit Tests（含 Browser Smoke）。
-- Merge main 後：Unified Intake、Validate、Catalog Sync、P1 Graph／Browser 及 GitHub Pages Build／Deploy。
-- Live Pages Smoke 必須在 **最新 GitHub Pages 部署完成後** 重新執行，核對正式 URL 與真實 Browser。
-- 原始第三方 Runtime／Security／Integration／完整 License 法律審查均未執行，不得用 GitHub CI PASS 取代。
+## Release Gate — 完整 CI／正式網站證據
+
+- [PR #42 MERGED](https://github.com/christinekao/AI-Tool-Collection/pull/42)：PR Head `8de4a1c0e4007b53cb5be4c0a89b00a9c47020bd`，Merge `e41d5578820b57c6e5622be3c8f7b65d8b2c62b9`。Source Reviewed 20/20、Third-Party Runtime 0/20（NOT TESTED）。
+
+| GitHub Actions | 最新有效結果 |
+|---|---|
+| PR Unified Intake Gate | [SUCCESS #44908038389](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908038389) |
+| PR V2 Data Validate | [SUCCESS #44908038427](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908038427) |
+| PR P1 Graph／Browser | [SUCCESS #44908038609](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908038609) |
+| main Unified Intake | [SUCCESS #44908151627](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151627) |
+| main V2 Data Validate | [SUCCESS #44908151574](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151574) |
+| main V2 Catalog Sync | [SUCCESS #44908151651](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151651) |
+| main P1 Graph Unit Tests／Browser | [SUCCESS #44908151608](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151608) |
+| main Pages Build／Deploy | [SUCCESS #44908151129](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151129) |
+| main Live Pages Smoke | [SUCCESS #44908151717 Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44908151717) |
+
+- **部署／Live 先後順序**：正式 Pages Deploy 21:18:38（2026-11-21 Asia/Taipei）完成；Attempt 1 Smoke 約 21:18:31 結束，**早於 Deploy**，無法驗證新版。補跑 Attempt 2 在 21:19:32 正式站檢查 19/19 HTTP/JSON Assets PASS，接著 Chromium 真站搜尋、Graph、Prompt、Playground、六類資料與 375／430／768／1440px 回歸全部 PASS（約 21:20:14 結束）。
+- **結論：PASS WITH GAPS**。Skills 累計 **80/123（65.0%）**，剩 **43**。所有第三方的 Runtime、License 詳細稽核、Security、Integration 未驗；沒有安裝、接觸 Key、下單、聲音複製或實際生成影片。這份 Docs-only 紀錄 Commit 也會觸發新的 Pages Deploy，需在最終文件版部署完成後再次 Live Smoke。
 
 ## 下一批 Batch 05
 - 第 81–100 筆精確 ID 已同步在 `docs/SKILL_CONTENT_HANDOFF.md`。
