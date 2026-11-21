@@ -203,10 +203,25 @@
 - gstack README 的作者自述 Benchmark 不等於外部成效保證。
 - 高權限或付費操作包括安裝、Figma Token、音訊上傳、API 扣款、Repo Merge／Release 與影片生成，均未執行。
 
-## Release Gate（CI 尚待核對）
-- PR 必須確認 Unified Intake、V2 Validate 和 P1 Graph／Browser Smoke 在最新 Head 真正 SUCCESS 後才可 Merge。
-- Main 的 Catalog Sync、Data Validate、Graph、Pages Deploy 與部署後 Live Smoke 需另外確認；不能把 Deploy 前 Smoke 寫成部署後 PASS。
-- 第三方 Runtime／Security／License／Integration NOT TESTED。
+## PR／main Release Gate — 最終驗證（2026-11-21）
+
+- **PR #40 已合併**：[Pull Request](https://github.com/christinekao/AI-Tool-Collection/pull/40)。Head `037c09335d25441899c00fca8d07c2a056765082`，Merge `871123281e80c28916010d9b6ba0f92a96b7d3b8`。
+
+| 檢查 | 結果及實際 GitHub Actions |
+|---|---|
+| PR Unified Intake | **SUCCESS** — [44898638204](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898638204) |
+| PR V2 Validate | **SUCCESS** — [44898638208](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898638208) |
+| PR P1 Graph／Browser Smoke | **SUCCESS** — [44898638391](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898638391) |
+| main Unified Intake | **SUCCESS** — [44898756746](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756746) |
+| main V2 Validate | **SUCCESS** — [44898756752](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756752) |
+| main Catalog Sync | **SUCCESS** — [44898756707](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756707) |
+| main P1 Graph／Browser | **SUCCESS** — [44898756747](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756747) |
+| main Pages Build／Deploy | **SUCCESS** — [44898756156](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756156) |
+| main Live Pages Smoke | **SUCCESS** — [44898756720](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756720)，但發生於 Deploy 完成之前 |
+
+- **部署時序**：2026-11-21 19:22:25（Asia/Taipei）Live Smoke 結束，19:22:45 Pages Deploy 結束。這次 Smoke 不構成新版本部署後驗收。公開 Pages 無法透過本次獨立網頁檢查工具讀取，亦沒有人工實際頁面截圖，**Post-deploy Live Review NOT VERIFIED**。
+- 本批 **20/20** 已建立 Guide，**19/20** 現行文件可核對，**1/20** Design to Motion Source PARTIAL。第三方安裝、Runtime／Security／License／Integration 仍 **NOT TESTED**。
+- **結論：PASS WITH GAPS**，Batch 02 正式計入 20 筆完成，累計 Skills **40/123，剩餘 83**。
 
 ## Next
 - 下一批：Skills 第 41–60 筆，見 Rolling Handoff。

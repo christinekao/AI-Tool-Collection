@@ -1,9 +1,9 @@
 # Phase 2 Skills — 最新 Session 交接
 
-## Skills Batch 02 — 新交接快照（2026-11-21）
+## Skills Batch 02 — 已合併與驗收（2026-11-21）
 
 - 基準 main `e1f9a799b6aaaf899c2ebfe67d0ba5bfa9b4e73b`；工作分支 `skill-content-batch02-20261121`。
-- Batch 01 已正式完成 **20/123**；本批 20 仍需 PR CI／Merge；完成後方可計為 **40/123**，剩 83。
+- Batch 01–02 已合併：**40/123（32.5%）**，剩 **83**。PR #40 已合併至 main。
 - 來源：19 文件已讀，1 Design to Motion PARTIAL／現行 SKILL.md 404；第三方安裝、Runtime、License、Security、Integration 全部 NOT TESTED。
 - 改動：20 Canonical Skill JSON、20 Guide、Catalog、Graph、[Batch 02 逐筆報告](SKILL_CONTENT_REVIEW_BATCH02_20261121.md)、本 Rolling Handoff。
 - 既有 Tags、分類、Typed References、569 Graph Nodes／1816 Edges 保持不變。
@@ -30,9 +30,21 @@
 59. `jakeschincariol-day-trader-skill-trader-news`
 60. `jakeschincariol-day-trader-skill-trader-pelosi`
 
-### 待辦與驗證
-- PR Head Unified Intake、V2 Validate、P1 Graph／Browser Smoke 實際核對。
-- Merge 後 main Catalog Sync／Graph／Pages Build/Deploy／部署後 Live Smoke 獨立驗收。
+### 完成的 GitHub PR 與 main Gate
+
+- PR [#40](https://github.com/christinekao/AI-Tool-Collection/pull/40) **MERGED**；Head `037c09335d25441899c00fca8d07c2a056765082`；Merge `871123281e80c28916010d9b6ba0f92a96b7d3b8`。正式修改 24 檔；20 Canonical Skills + Derived Catalog／Graph + Batch 02 Report + 本 Handoff。
+- PR Unified Intake Gate **SUCCESS** — [44898638204](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898638204)。
+- PR V2 Data Validate **SUCCESS** — [44898638208](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898638208)。
+- PR P1 Graph／Browser Smoke **SUCCESS** — [44898638391](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898638391)。
+- main Unified Intake Gate **SUCCESS** — [44898756746](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756746)。
+- main V2 Data Validate **SUCCESS** — [44898756752](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756752)。
+- main Catalog Sync **SUCCESS** — [44898756707](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756707)。
+- main P1 Graph Unit Tests／Browser **SUCCESS** — [44898756747](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756747)。
+- main Pages Build／Deploy **SUCCESS** — [44898756156](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756156)。
+- main Live Pages Smoke **SUCCESS** — [44898756720](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44898756720)。
+- **不能視為部署後 Live PASS**：2026-11-21 臺北時間 Live Smoke 約 19:22:25 結束，Pages Deploy 約 19:22:45 才結束。檢查工具無法獨立讀取公開 Pages，沒有新版部署後頁面／截圖驗收證據。整體 **PASS WITH GAPS**。
+
+### 尚待驗證
 - 找回 Design to Motion 的上游維護版本／原始 Commit 後才能解除 PARTIAL。
 
 ---
