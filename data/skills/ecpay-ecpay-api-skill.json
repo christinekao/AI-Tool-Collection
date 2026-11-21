@@ -4,10 +4,17 @@
   "entityType": "skill",
   "title": "ECPay/ECPay-API-Skill",
   "purpose": "API documentation → Agent 可用整合知識",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "綠界金流、發票、物流、票券 API 指引；不是交易授權",
+  "inputs": [
+    "使用者需求、目標與必要來源資料",
+    "有權存取的實際 Host、專案或上下文",
+    "本次任務的完成標準與權限邊界"
+  ],
+  "outputs": [
+    "符合當次 Skill 需求的實際輸出或分析結果",
+    "可以重現的檢查、待補證據與限制"
+  ],
+  "execution": "1. 選子服務與版本 → 2. 確認簽章／加密／Callback → 3. 隔離 Sandbox 範例 → 4. 正式上線另核准",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,7 +29,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "api",
     "documentation",
@@ -42,5 +49,167 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "綠界金流、發票、物流、票券 API 指引；不是交易授權"
+  ],
+  "constraints": [
+    "真實交易和金鑰：不可自動扣款／退款或外洩 HashKey/IV"
+  ],
+  "source": {
+    "url": "https://github.com/ECPay/ECPay-API-Skill/blob/master/README.md",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Official README/SKILL.md documentation reviewed; runtime/security/license not tested",
+    "versionEvidence": "Official README V3.4"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "API documentation → Agent 可用整合知識",
+    "introNote": "來源層級已核對，但上游 Skill 尚未安裝、測試或授權執行。",
+    "facts": [
+      {
+        "label": "何時使用",
+        "value": "綠界金流、發票、物流、票券 API 指引；不是交易授權"
+      },
+      {
+        "label": "來源版本",
+        "value": "Official README V3.4"
+      },
+      {
+        "label": "執行狀態",
+        "value": "DOCUMENTATION REVIEWED / NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "綠界金流、發票、物流、票券 API 指引；不是交易授權",
+        "description": "僅在任務需求、必要輸入和授權符合時使用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "使用者需求、目標與必要來源資料",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "有權存取的實際 Host、專案或上下文",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "本次任務的完成標準與權限邊界",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "選子服務與版本",
+        "detail": "選子服務與版本",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "02",
+        "title": "確認簽章／加密／Callback",
+        "detail": "確認簽章／加密／Callback",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "03",
+        "title": "隔離 Sandbox 範例",
+        "detail": "隔離 Sandbox 範例",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "04",
+        "title": "正式上線另核准",
+        "detail": "正式上線另核准",
+        "result": "可驗收成果或明確未完成原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "綠界金流、發票、物流、票券 API 指引；不是交易授權",
+      "meaning": "綠界金流、發票、物流、票券 API 指引；不是交易授權",
+      "usageNote": "這是建議情境，不代表 Host 已安裝指令；官方命令及權限以原始 README/SKILL.md 為準。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "符合當次 Skill 需求的實際輸出或分析結果"
+      },
+      {
+        "name": "其他產出",
+        "description": "可以重現的檢查、待補證據與限制"
+      }
+    ],
+    "composition": {
+      "problem": "綠界金流、發票、物流、票券 API 指引；不是交易授權",
+      "capabilities": [
+        {
+          "id": "reviewed-operation-contract",
+          "title": "依 Skill 文件作問題到輸出的操作契約",
+          "input": "使用者需求、目標與必要來源資料；有權存取的實際 Host、專案或上下文；本次任務的完成標準與權限邊界",
+          "output": "符合當次 Skill 需求的實際輸出或分析結果；可以重現的檢查、待補證據與限制",
+          "gate": "參數版本正確；沙盒與正式環境分離"
+        }
+      ],
+      "note": "此為可重用知識單元，不代表 Runtime Capability 或新增 Graph 關聯已經驗證。"
+    },
+    "safety": [
+      {
+        "title": "真實交易和金鑰",
+        "risk": "真實交易和金鑰",
+        "action": "不可自動扣款／退款或外洩 HashKey/IV"
+      }
+    ],
+    "acceptance": [
+      "參數版本正確；沙盒與正式環境分離"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/ECPay/ECPay-API-Skill/blob/master/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Official README V3.4",
+      "execution": "NOT_EXECUTED",
+      "notes": "來源原文已閱讀；第三方安裝、Runtime、Security、License、Integration 均未測試。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Canonical Skill ID 與 Resource 來源，不新增重複 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Raw Tags，沒有新增或修改既有標籤。"
+    },
+    "classificationReason": "原 Domain、Tags、Typed References 完整保留；只將過時圖表類別數及 Skill 套件描述更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已整理 Trigger、Input、Execution、Output、Risk、Gate 和 Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本次只建立操作知識契約，不新增未實測的正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維持原有 Concept References；沒有從相似 Tags 建立 Graph Edges。"
+    },
+    "riskNotes": "真實交易和金鑰；不可自動扣款／退款或外洩 HashKey/IV。第三方命令不構成授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 來源原始文件閱讀；第三方安裝、安全、授權與執行均未測試。"
+    }
   }
 }

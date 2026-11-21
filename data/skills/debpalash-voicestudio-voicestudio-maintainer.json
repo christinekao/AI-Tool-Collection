@@ -36,11 +36,14 @@
   "source": {
     "url": "https://github.com/debpalash/VoiceStudio/blob/main/skills/voicestudio-maintainer/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Official README/SKILL.md documentation reviewed; runtime/security/license not tested",
+    "versionEvidence": "Official maintainer"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "voicestudio-maintainer",
@@ -64,5 +67,153 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "VoiceStudio 專案 Issue、PR、CI、Release 維護而非一般 TTS"
+  ],
+  "constraints": [
+    "Repo 副作用：安裝 Skill 不等於合併或發版授權"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "專案維護專用：分流 Issue、審查 PR、診斷 CI、依明確授權準備和驗證合併或發版；不應在一般 TTS 請求中啟動。",
+    "introNote": "來源層級已核對，但上游 Skill 尚未安裝、測試或授權執行。",
+    "facts": [
+      {
+        "label": "何時使用",
+        "value": "VoiceStudio 專案 Issue、PR、CI、Release 維護而非一般 TTS"
+      },
+      {
+        "label": "來源版本",
+        "value": "Official maintainer"
+      },
+      {
+        "label": "執行狀態",
+        "value": "DOCUMENTATION REVIEWED / NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "VoiceStudio 專案 Issue、PR、CI、Release 維護而非一般 TTS",
+        "description": "僅在任務需求、必要輸入和授權符合時使用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "使用者明確的任務、可存取資料與必要授權",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "讀 Repo 政策和現有 PR",
+        "detail": "讀 Repo 政策和現有 PR",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "02",
+        "title": "重現問題",
+        "detail": "重現問題",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "03",
+        "title": "最小修正與測試",
+        "detail": "最小修正與測試",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "04",
+        "title": "授權後 Merge 或 Release",
+        "detail": "授權後 Merge 或 Release",
+        "result": "可驗收成果或明確未完成原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "VoiceStudio 專案 Issue、PR、CI、Release 維護而非一般 TTS",
+      "meaning": "VoiceStudio 專案 Issue、PR、CI、Release 維護而非一般 TTS",
+      "usageNote": "這是建議情境，不代表 Host 已安裝指令；官方命令及權限以原始 README/SKILL.md 為準。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+      }
+    ],
+    "composition": {
+      "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+      "capabilities": [
+        {
+          "id": "reviewed-operation-contract",
+          "title": "依 Skill 文件作問題到輸出的操作契約",
+          "input": "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）；使用者明確的任務、可存取資料與必要授權",
+          "output": "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功",
+          "gate": "CI、重現和 PR Review 有真實證據"
+        }
+      ],
+      "note": "此為可重用知識單元，不代表 Runtime Capability 或新增 Graph 關聯已經驗證。"
+    },
+    "safety": [
+      {
+        "title": "Repo 副作用",
+        "risk": "Repo 副作用",
+        "action": "安裝 Skill 不等於合併或發版授權"
+      }
+    ],
+    "acceptance": [
+      "CI、重現和 PR Review 有真實證據"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/debpalash/VoiceStudio/blob/main/skills/voicestudio-maintainer/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Official maintainer",
+      "execution": "NOT_EXECUTED",
+      "notes": "來源原文已閱讀；第三方安裝、Runtime、Security、License、Integration 均未測試。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Canonical Skill ID 與 Resource 來源，不新增重複 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Raw Tags，沒有新增或修改既有標籤。"
+    },
+    "classificationReason": "原 Domain、Tags、Typed References 完整保留；只將過時圖表類別數及 Skill 套件描述更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已整理 Trigger、Input、Execution、Output、Risk、Gate 和 Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本次只建立操作知識契約，不新增未實測的正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維持原有 Concept References；沒有從相似 Tags 建立 Graph Edges。"
+    },
+    "riskNotes": "Repo 副作用；安裝 Skill 不等於合併或發版授權。第三方命令不構成授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 來源原始文件閱讀；第三方安裝、安全、授權與執行均未測試。"
+    }
   }
 }

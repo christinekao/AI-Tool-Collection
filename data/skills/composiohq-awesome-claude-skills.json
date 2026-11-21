@@ -4,10 +4,17 @@
   "entityType": "skill",
   "title": "ComposioHQ/awesome-claude-skills",
   "purpose": "Claude Skills 索引",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "探索 Skills 來源與用途，並非單一可直接啟動工具",
+  "inputs": [
+    "使用者需求、目標與必要來源資料",
+    "有權存取的實際 Host、專案或上下文",
+    "本次任務的完成標準與權限邊界"
+  ],
+  "outputs": [
+    "符合當次 Skill 需求的實際輸出或分析結果",
+    "可以重現的檢查、待補證據與限制"
+  ],
+  "execution": "1. 按問題尋找類別 → 2. 開啟原作者 SKILL.md → 3. 確認 Trigger、License 和權限 → 4. 選最小候選",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,7 +29,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "claude",
     "skills",
@@ -40,5 +47,167 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "探索 Skills 來源與用途，並非單一可直接啟動工具"
+  ],
+  "constraints": [
+    "供應鏈：目錄收錄不是安全／授權／可用性認證"
+  ],
+  "source": {
+    "url": "https://github.com/ComposioHQ/awesome-claude-skills/blob/master/README.md",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Official README/SKILL.md documentation reviewed; runtime/security/license not tested",
+    "versionEvidence": "Awesome List, not an executable Skill"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "探索 Skills 來源與用途，並非單一可直接啟動工具",
+    "introNote": "來源層級已核對，但上游 Skill 尚未安裝、測試或授權執行。",
+    "facts": [
+      {
+        "label": "何時使用",
+        "value": "探索 Skills 來源與用途，並非單一可直接啟動工具"
+      },
+      {
+        "label": "來源版本",
+        "value": "Awesome List, not an executable Skill"
+      },
+      {
+        "label": "執行狀態",
+        "value": "DOCUMENTATION REVIEWED / NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "探索 Skills 來源與用途，並非單一可直接啟動工具",
+        "description": "僅在任務需求、必要輸入和授權符合時使用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "使用者需求、目標與必要來源資料",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "有權存取的實際 Host、專案或上下文",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "本次任務的完成標準與權限邊界",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "按問題尋找類別",
+        "detail": "按問題尋找類別",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "02",
+        "title": "開啟原作者 SKILL.md",
+        "detail": "開啟原作者 SKILL.md",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "03",
+        "title": "確認 Trigger、License 和權限",
+        "detail": "確認 Trigger、License 和權限",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "04",
+        "title": "選最小候選",
+        "detail": "選最小候選",
+        "result": "可驗收成果或明確未完成原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "探索 Skills 來源與用途，並非單一可直接啟動工具",
+      "meaning": "探索 Skills 來源與用途，並非單一可直接啟動工具",
+      "usageNote": "這是建議情境，不代表 Host 已安裝指令；官方命令及權限以原始 README/SKILL.md 為準。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "符合當次 Skill 需求的實際輸出或分析結果"
+      },
+      {
+        "name": "其他產出",
+        "description": "可以重現的檢查、待補證據與限制"
+      }
+    ],
+    "composition": {
+      "problem": "探索 Skills 來源與用途，並非單一可直接啟動工具",
+      "capabilities": [
+        {
+          "id": "reviewed-operation-contract",
+          "title": "依 Skill 文件作問題到輸出的操作契約",
+          "input": "使用者需求、目標與必要來源資料；有權存取的實際 Host、專案或上下文；本次任務的完成標準與權限邊界",
+          "output": "符合當次 Skill 需求的實際輸出或分析結果；可以重現的檢查、待補證據與限制",
+          "gate": "候選每筆有原始來源，沒有宣稱已安裝"
+        }
+      ],
+      "note": "此為可重用知識單元，不代表 Runtime Capability 或新增 Graph 關聯已經驗證。"
+    },
+    "safety": [
+      {
+        "title": "供應鏈",
+        "risk": "供應鏈",
+        "action": "目錄收錄不是安全／授權／可用性認證"
+      }
+    ],
+    "acceptance": [
+      "候選每筆有原始來源，沒有宣稱已安裝"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/ComposioHQ/awesome-claude-skills/blob/master/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "Awesome List, not an executable Skill",
+      "execution": "NOT_EXECUTED",
+      "notes": "來源原文已閱讀；第三方安裝、Runtime、Security、License、Integration 均未測試。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Canonical Skill ID 與 Resource 來源，不新增重複 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Raw Tags，沒有新增或修改既有標籤。"
+    },
+    "classificationReason": "原 Domain、Tags、Typed References 完整保留；只將過時圖表類別數及 Skill 套件描述更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已整理 Trigger、Input、Execution、Output、Risk、Gate 和 Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本次只建立操作知識契約，不新增未實測的正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維持原有 Concept References；沒有從相似 Tags 建立 Graph Edges。"
+    },
+    "riskNotes": "供應鏈；目錄收錄不是安全／授權／可用性認證。第三方命令不構成授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 來源原始文件閱讀；第三方安裝、安全、授權與執行均未測試。"
+    }
   }
 }

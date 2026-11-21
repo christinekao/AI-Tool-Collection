@@ -5,7 +5,7 @@
   "title": "Claude-Mem mem-search｜跨 Session 記憶的分層檢索",
   "status": "active",
   "addedAt": "2026-10-30",
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-11-21",
   "tags": [
     "claude-mem",
     "mem-search",
@@ -69,8 +69,10 @@
     "url": "https://github.com/thedotmack/claude-mem/blob/main/plugin/skills/mem-search/SKILL.md",
     "referenceUrl": "https://docs.claude-mem.ai/usage/search-tools",
     "type": "Official independent reusable SKILL.md packaged in Claude-Mem",
-    "reviewedAt": "2026-10-30",
-    "summary": "The original instructions belong to upstream; this catalog records a factual summary, not a verbatim copy. No Skill installed or executed; token savings claim not independently benchmarked."
+    "reviewedAt": "2026-11-21",
+    "summary": "The original instructions belong to upstream; this catalog records a factual summary, not a verbatim copy. No Skill installed or executed; token savings claim not independently benchmarked.",
+    "reviewScope": "Official README/SKILL.md documentation reviewed; runtime/security/license not tested",
+    "versionEvidence": "3-step search"
   },
   "classification": {
     "primaryDomain": "data",
@@ -83,5 +85,166 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "constraints": [
+    "跨專案資料：限授權 Project，勿把摘要當原始證據"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "讓 Agent 在需要回想既有專案決策、Bug 修正或先前 Session 工作時，以低 Token 索引先定位，再用時間軸釐清前後文，最後只取回有關的完整 Observation；必要時補讀原始工具 I/O。",
+    "introNote": "來源層級已核對，但上游 Skill 尚未安裝、測試或授權執行。",
+    "facts": [
+      {
+        "label": "何時使用",
+        "value": "需要從跨 Session 記憶找舊決策或 Bug 修復；依 Host 提供的工具名稱操作"
+      },
+      {
+        "label": "來源版本",
+        "value": "3-step search"
+      },
+      {
+        "label": "執行狀態",
+        "value": "DOCUMENTATION REVIEWED / NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "需要從跨 Session 記憶找舊決策或 Bug 修復；依 Host 提供的工具名稱操作",
+        "description": "僅在任務需求、必要輸入和授權符合時使用。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "目前的問題、專案或日期範圍",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "已安裝並授權的 Claude-Mem Worker／MCP 或支援的原生 Host 工具",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      },
+      {
+        "title": "需要原始指令、Diff、API 回應等精確證據的判定標準",
+        "detail": "先確認可取得且有權使用；必要條件缺少就回報 BLOCKED。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先 search 取得索引",
+        "detail": "先 search 取得索引",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "02",
+        "title": "用 timeline 補上下文",
+        "detail": "用 timeline 補上下文",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "03",
+        "title": "只 get_observations 必要 ID",
+        "detail": "只 get_observations 必要 ID",
+        "result": "保留本步驟可追查的中間證據"
+      },
+      {
+        "number": "04",
+        "title": "例外讀原始 Tool I/O",
+        "detail": "例外讀原始 Tool I/O",
+        "result": "可驗收成果或明確未完成原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要從跨 Session 記憶找舊決策或 Bug 修復；依 Host 提供的工具名稱操作",
+      "meaning": "需要從跨 Session 記憶找舊決策或 Bug 修復；依 Host 提供的工具名稱操作",
+      "usageNote": "這是建議情境，不代表 Host 已安裝指令；官方命令及權限以原始 README/SKILL.md 為準。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "少量相關記憶的索引結果和 Observation ID"
+      },
+      {
+        "name": "其他產出",
+        "description": "關鍵事件周圍的 Timeline"
+      },
+      {
+        "name": "其他產出",
+        "description": "經篩選取得的完整 Observation 與來源標識"
+      },
+      {
+        "name": "其他產出",
+        "description": "無法找到／尚未驗證的資訊，及必要時進一步追查原始工具 I/O 的理由"
+      }
+    ],
+    "composition": {
+      "problem": "跨 Session 記憶若一次讀取大量原始對話／工具紀錄，會耗費 Token、混淆專案脈絡，且容易把摘要當成已驗證的精確證據。",
+      "capabilities": [
+        {
+          "id": "reviewed-operation-contract",
+          "title": "依 Skill 文件作問題到輸出的操作契約",
+          "input": "目前的問題、專案或日期範圍；已安裝並授權的 Claude-Mem Worker／MCP 或支援的原生 Host 工具；需要原始指令、Diff、API 回應等精確證據的判定標準",
+          "output": "少量相關記憶的索引結果和 Observation ID；關鍵事件周圍的 Timeline；經篩選取得的完整 Observation 與來源標識；無法找到／尚未驗證的資訊，及必要時進一步追查原始工具 I/O 的理由",
+          "gate": "可引用 Observation、日期與工具證據"
+        }
+      ],
+      "note": "此為可重用知識單元，不代表 Runtime Capability 或新增 Graph 關聯已經驗證。"
+    },
+    "safety": [
+      {
+        "title": "跨專案資料",
+        "risk": "跨專案資料",
+        "action": "限授權 Project，勿把摘要當原始證據"
+      }
+    ],
+    "acceptance": [
+      "可引用 Observation、日期與工具證據"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/thedotmack/claude-mem/blob/main/plugin/skills/mem-search/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "3-step search",
+      "execution": "NOT_EXECUTED",
+      "notes": "來源原文已閱讀；第三方安裝、Runtime、Security、License、Integration 均未測試。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Canonical Skill ID 與 Resource 來源，不新增重複 Entity。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Raw Tags，沒有新增或修改既有標籤。"
+    },
+    "classificationReason": "原 Domain、Tags、Typed References 完整保留；只將過時圖表類別數及 Skill 套件描述更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已整理 Trigger、Input、Execution、Output、Risk、Gate 和 Guide。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本次只建立操作知識契約，不新增未實測的正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維持原有 Concept References；沒有從相似 Tags 建立 Graph Edges。"
+    },
+    "riskNotes": "跨專案資料；限授權 Project，勿把摘要當原始證據。第三方命令不構成授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 來源原始文件閱讀；第三方安裝、安全、授權與執行均未測試。"
+    }
   }
 }
