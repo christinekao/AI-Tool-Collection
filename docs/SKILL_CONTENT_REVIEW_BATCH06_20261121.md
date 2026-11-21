@@ -271,7 +271,7 @@
 - **Outputs**：最終影像生成 Prompt 與 Raster Image（實際生成時）；簡短 Recipe：Palette、Layout、Typography 和 Print Process。
 - **Execution**：確定設計意圖 → 建立視覺系統 → 生成圖像 → 視覺 QA。
 - **Risk**：參考素材版權：作者示例照片／第三方研究參考不屬自動 MIT License 範圍；持久副作用：官方預設 Desktop Save Path 不能視為本環境可存取；應先確認輸出位置。
-- **Acceptance**：新構圖不複製參考的圖像／文字／Logo，印刷墨色符合指定；產出圖片或明确回報 Prompt-only；真實檔案通過圖像檢查。
+- **Acceptance**：新構圖不複製參考的圖像／文字／Logo，印刷墨色符合指定；產出圖片或明確回報 Prompt-only；真實檔案通過圖像檢查。
 - **Test**：SOURCE READ；RUNTIME／SECURITY／INTEGRATION／INDEPENDENT LICENSE **NOT TESTED**。
 
 ## 主要差異和保留缺口
@@ -283,11 +283,14 @@
 5. **索引不是可執行 Skill**：VoltAgent 兩個 Awesome Repo 是子技能的搜尋目錄，不是裝上合集即可直接調用所有 Skills；OpenClaw 目錄 README 5300+ 與 Badge 5200 並存，數字只當當下來源快照。
 6. **待驗來源**：`viral-hook-title` 仍欠原始作者、正式 SKILL.md、License 和 Trigger；不得以功能相近的網站替代來源身分。Reverse Skill 兩筆同源需另設 Dedupe Review。
 
-## GitHub Gate／部署（提交 PR 前）
-- Canonical **20 筆**已寫入獨立 Branch，Derived Catalog／Graph 按最新 main 建立，逐筆 Source 和存取風險已記錄。
-- **PR CI、Merge、main Actions、Pages Deploy、部署後 Live Smoke 尚未驗證，不可先寫 PASS。**
-- 必須依實際 PR 最新 Head 記錄 Unified Intake、V2 Data Validate、Graph／Browser 結果；合併後確認 Pages Deploy 真正完成，再獨立跑 Live Smoke，檢 19 項資產及 375/430/768/1440px。
-- 若失敗，保留原始 Fail 的 Run ID，修正後重新測試；第三方未執行維持 NOT TESTED。
+## GitHub Gate／正式環境驗收
+
+- **[PR #44](https://github.com/christinekao/AI-Tool-Collection/pull/44) MERGED**；Squash Merge Commit `47ba5d48c7b0b97b07ac28b7c6552ddf3ad1a831`，共 24 檔案（20 Canonical Skills、Catalog、Graph、Report、Handoff）。
+- PR Head 三項 Gate **SUCCESS**：Unified Intake [44913338307](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913338307)、V2 Data Validate [44913338287](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913338287)、P1 Graph Unit／Browser [44913338317](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913338317)。
+- Main 四項 Gate **SUCCESS**：Unified Intake [44913481516](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481516)、V2 Data Validate [44913481528](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481528)、P1 Graph／Browser [44913481526](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481526)、Catalog Sync [44913481547](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481547)。
+- Pages Deploy **SUCCESS**：[44913480240](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913480240)，14:21:54Z 發布 main `47ba5d48`。
+- [Live Pages Smoke #44913481627](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481627)：Attempt 1 **SUCCESS 但早於新版部署完成，不能用來驗收新版本**；於部署後重新執行 Attempt 2 **SUCCESS**，Log 14:22:30Z 19 個資產有效，14:22:46Z–14:22:51Z Browser／Responsive 375／430／768／1440px PASS。
+- **PASS WITH GAPS**：本 Repo 的資料、Graph、Browser、Pages／Live Smoke 有真實證據；外部第三方 Skill 安裝、Runtime、獨立安全與完整 License 審查／Integration 未執行；`viral-hook-title` 原始來源 PARTIAL、Reverse Skill 同源重複待決。Docs-only 最終交接更新觸發的新 Deploy 須在完成後另跑 Smoke，記錄於 PR #44 最新驗收留言。
 
 ## 下一批
 Batch 07 為最後 3 筆（121–123）：`yusufkaraaslan-skill-seekers`、`zhouxiaoka-autoclip-autoclip`、`zhouxiaoka-autoclip-product-board`。須先確認 Batch 06 真正合併和正式站驗收後，才可計入 120/123。

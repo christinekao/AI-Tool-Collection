@@ -1,15 +1,25 @@
 # Phase 2 Skills — 最新 Session 交接
 
-## Batch 06 — PR／CI／Merge 待驗證（2026-11-21）
+## Skills Batch 06 — 已合併；正式站與主分支驗收通過（2026-11-21）
 
-- Base main `e31929c4f61d0cec965030d430e4c44ed0eadd30`；Branch `skill-content-batch06-20261121`。
-- 第 101–120 筆 **20/20** Canonical Skill 已增補 `skillGuide`、`intakeReview`，並同步 [Batch 06 逐筆報告](SKILL_CONTENT_REVIEW_BATCH06_20261121.md)、Derived Catalog 和 Knowledge Graph。
-- 上一階段正式合併為 **100/123（81.3%）**，剩 23；**Batch 06 尚未合併，不能提前計入 120/123**。
-- **19 官方 GitHub README／SKILL.md 可查，1 個 `viral-hook-title` 原始身分 PARTIAL**；`reverse-skill` 和 `reverse-skill-2` 同源 `zhaoxuya520/reverse-skill`，保留雙 ID 但列待去重。
-- OneTake **PolyForm Noncommercial**、Punk v2 **商業須另授權**。原始 Tags／Domains／Typed References 不改，Graph 569 Nodes／1816 Edges。
-- 第三方 Runtime、Security、License 法律審查、Integration 未執行；CI、PR、main/Pages/Live Smoke 尚待取得真實 Run IDs。
-- **Batch 07 最後 3 個 IDs**：121 `yusufkaraaslan-skill-seekers`、122 `zhouxiaoka-autoclip-autoclip`、123 `zhouxiaoka-autoclip-product-board`。
-- 新 Session 應先核對最新 `main`、PR、CI、正式 Pages 部署及「部署完成後」Live Smoke；本文件只是狀態快照，不能代替實際檢查。
+- **[PR #44](https://github.com/christinekao/AI-Tool-Collection/pull/44) MERGED**；Base `e31929c4f61d0cec965030d430e4c44ed0eadd30`，PR Head `242f5da79850e48ecf058cb412b5233808cd4eeb`，Squash Merge `47ba5d48c7b0b97b07ac28b7c6552ddf3ad1a831`。
+- 第 **101–120 筆 20/20** Canonical Skills＋Guide＋Intake Review 已在 main，[Batch 06 逐筆來源與驗收報告](SKILL_CONTENT_REVIEW_BATCH06_20261121.md)、Derived Catalog、Graph 與本 Handoff 同步。
+- **合併後累計 120/123（97.6%）Skills，剩最後 3 筆**。來源證據：19/20 官方 README／SKILL.md 已讀，`viral-hook-title` 原始身分 **PARTIAL**；`reverse-skill`、`reverse-skill-2` 同源待去重（保留既有 ID）。
+- **PR CI SUCCESS**：[Unified Intake #44913338307](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913338307)、[V2 Data Validate #44913338287](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913338287)、[P1 Graph／Browser #44913338317](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913338317)。
+- **main Gate SUCCESS**：[Unified Intake #44913481516](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481516)、[V2 Validate #44913481528](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481528)、[P1 Graph／Browser #44913481526](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481526)、[Catalog Sync #44913481547](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481547)。
+- **[main Pages Deploy #44913480240](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913480240) SUCCESS**：2026-11-21 14:21:54Z 發布 `47ba5d48`。
+- **[正式網站 Live Smoke #44913481627 Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44913481627) SUCCESS**：Attempt 1 早於部署完成，不作新版驗收；Attempt 2 在部署完成後直接連正式網站，19/19 資產有效，Chromium、Graph、Prompt、Playground、375／430／768／1440px 響應式 PASS。
+- **已保留事項**：OneTake PolyForm Noncommercial、Punk v2.0+ 商用須書面授權；原始分類、Tags、Typed Refs 保持不變，Graph 569 Nodes／1816 Edges；第三方 Skills Runtime、Security、完整 License 法律審查及 Integration **NOT TESTED**。
+- **本文件與 Batch 報告的 Docs-only 更新可能觸發新的 Pages Deploy；須確認最後一次文件版部署及重新執行 Live Smoke，驗收以 PR #44 最新留言為準。**
+
+### 下一批 Batch 07：最後第 121–123 筆（尚未開始）
+
+121. `yusufkaraaslan-skill-seekers`
+122. `zhouxiaoka-autoclip-autoclip`
+123. `zhouxiaoka-autoclip-product-board`
+
+- 接手時先查最新 main、上述 PR／CI／正式站最後的 Deploy 和 Live Smoke；通過後才開始 Batch 07，不可只依摘要推定。
+- 最終三筆完成後，需對 Skills **123/123** 整體回歸、未核實來源清單、授權與安全未測差異做 Phase 2 封帳總結。
 
 ---
 
