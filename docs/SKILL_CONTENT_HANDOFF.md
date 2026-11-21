@@ -1,5 +1,19 @@
 # Phase 2 Skills — 最新 Session 交接
 
+## Skills Batch 07 — 分支內容已準備，PR／CI／Deploy 待驗證（2026-11-21）
+
+- Base main `7f55d27fd1e8a70074965e3e84da70cf26a3750e`；分支 `skill-content-batch07-20261121`。
+- 最後 **3/3** Canonical Skills（121–123）已有 Guide、Intake Review；Skills 累計候選 **123/123**，最終合併／部署前不可宣稱上線。
+- IDs：`yusufkaraaslan-skill-seekers`、`zhouxiaoka-autoclip-autoclip`、`zhouxiaoka-autoclip-product-board`。
+- 上游 3/3 文件已讀；Skill Seekers README 與 AutoClip 兩個子 SKILL.md、兩 Repo MIT LICENSE 已閱讀；第三方安裝、Runtime、Security、完整 License 與 Integration 一律 NOT TESTED。
+- 原 Tags／Domains／Typed Refs 不動；Catalog、Graph 同步；維持 Graph 569 Nodes／1816 Edges，Tag Index、Manifest 不需改動。
+- [Batch 07 逐筆報告](SKILL_CONTENT_REVIEW_BATCH07_20261121.md)；[Skills 全庫收尾摘要](SKILL_CONTENT_PHASE2_SUMMARY_20261121.md)。
+- **PR／CI／Merge／main CI／Pages Deploy／Live Smoke：尚未完成，必須查實再補更新**；不能引用 Batch 06 的運行紀錄代替本批。
+- 繼承缺口：來源 PARTIAL、上游來源重複、OneTake／Punk 商用限制、123 筆第三方 Runtime／安全／完整授權／整合測試未執行。
+- 接手時先查此分支最近 commit 與 PR，驗證 123 筆 Guide／Intake、所有參照、Catalog／Graph；PR Gate 成功後才 merge，main 部署完成後再做 Live Smoke。
+
+---
+
 ## Skills Batch 06 — 已合併；正式站與主分支驗收通過（2026-11-21）
 
 - **[PR #44](https://github.com/christinekao/AI-Tool-Collection/pull/44) MERGED**；Base `e31929c4f61d0cec965030d430e4c44ed0eadd30`，PR Head `242f5da79850e48ecf058cb412b5233808cd4eeb`，Squash Merge `47ba5d48c7b0b97b07ac28b7c6552ddf3ad1a831`。

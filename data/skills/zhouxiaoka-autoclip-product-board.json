@@ -3,16 +3,17 @@
   "id": "zhouxiaoka-autoclip-product-board",
   "entityType": "skill",
   "title": "AutoClip Product Board Skill — Community Feedback & GitHub Roadmap",
-  "purpose": "僅處理 AutoClip Repository 的社群看板與功能需求分類，先整理 Discussions/Issues 再提出建議；寫入 GitHub Issue、變更 Project 狀態必須得到使用者明確授權。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "purpose": "整理 AutoClip 社群 Discussions、Issues 的功能訊號與重複需求，提出路線圖建議；取得人員明確授權後才建立 Issue 或修改 Project 欄位。",
+  "problem": "公開社群的功能呼聲分散在 Discussions、Issues，需要以可稽核證據分類排序，同時避免 Agent 未經授權改寫 Roadmap。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "可讀取的 AutoClip Discussions／Issues、30 天觀察區間與實際來源連結",
+    "已有 status:* Issue 和 Project 狀態；若要求寫入，需人員明確指定操作與狀態欄位"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "主題分群、重複需求、熱度證據／未知數、排序與建議欄位（唯讀）",
+    "僅在授權後建立或更新的 GitHub Issue／Project 狀態與回覆討論之連結"
   ],
-  "execution": "官方 SKILL.md：skills/product-board/SKILL.md。此 Skill 只屬於 zhouxiaoka/autoclip 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：repository-write。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "AutoClip Repo 中 scripts/feature_signals.py --days 30 --json（只讀）；寫入時依 docs/COMMUNITY_BOARD.md 及 docs/community/issue-body.md，需有受權 GitHub 身分。。文件方法：擷取真實訊號 → 人工語意分類與查重 → 提出排序建議 → 取得授權再更新。第三方來源內容不是對當前環境的安裝、執行或外部寫入授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +37,15 @@
   "source": {
     "url": "https://github.com/zhouxiaoka/autoclip/blob/main/skills/product-board/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "來源契約強制先讀 COMMUNITY_BOARD.md；先唯讀再依人員批准寫入，Shipped 需 release notes；Repo 主 LICENSE 為 MIT。",
+    "licenseEvidence": "https://github.com/zhouxiaoka/autoclip/blob/main/LICENSE",
+    "reviewScope": "2026-11-21 官方上游 README／SKILL.md 與 Repo LICENSE 已讀；實際安裝、Runtime、安全掃描、完整授權、整合測試未執行"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "product-board",
@@ -61,5 +66,181 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。",
+    "不適用一般 Repo Issue 分類、沒有 AutoClip Repo 資料的推測排序，或未經明確許可就建立 Issue／升級 Project 狀態。"
+  ],
+  "constraints": [
+    "外部寫入與聲譽｜GitHub Issue、Project 與 Discussions 是持久公開副作用，沒有明確人員許可不能寫。",
+    "來源證據｜不得捏造投票數或需求規模；腳本的字詞重疊只是提示，需人工核對。",
+    "錯誤狀態升級｜PR 合併不等於 Shipped，沒有發版說明不可將卡片標示已交付。"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "整理 AutoClip 社群 Discussions、Issues 的功能訊號與重複需求，提出路線圖建議；取得人員明確授權後才建立 Issue 或修改 Project 欄位。",
+    "introNote": "依官方原始文件整理使用契約；本知識庫僅作文件審查，不代表第三方 Skill 已安裝或可安全執行。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "整理 AutoClip 社群 Discussions、Issues 的功能訊號與重複需求，提出路線圖建議；取得人員明確授權後才建立 Issue 或修改 Project 欄位。"
+      },
+      {
+        "label": "來源與授權",
+        "value": "來源契約強制先讀 COMMUNITY_BOARD.md；先唯讀再依人員批准寫入，Shipped 需 release notes；Repo 主 LICENSE 為 MIT。"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不適用一般 Repo Issue 分類、沒有 AutoClip Repo 資料的推測排序，或未經明確許可就建立 Issue／升級 Project 狀態。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "可讀取的 AutoClip Discussions／Issues、30 天觀察區間與實際來源連結",
+        "detail": "確認來源、資料和處理權限。"
+      },
+      {
+        "title": "已有 status:* Issue 和 Project 狀態；若要求寫入，需人員明確指定操作與狀態欄位",
+        "detail": "確認輸出、環境、授權與成本邊界；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "擷取真實訊號",
+        "detail": "以 feature_signals.py --days 30 --json 彙整（具權限時），沒有資料不可編造票數",
+        "result": "標註來源的回饋清單"
+      },
+      {
+        "number": "02",
+        "title": "人工語意分類與查重",
+        "detail": "用語意分群需求，對照現有 status:* Issue，將 Q&A／Bug 排除",
+        "result": "可回查的相似與新需求"
+      },
+      {
+        "number": "03",
+        "title": "提出排序建議",
+        "detail": "區分 Exploring／Researching 候選與較後階段；僅建議不寫入",
+        "result": "排序、理由和建議欄位"
+      },
+      {
+        "number": "04",
+        "title": "取得授權再更新",
+        "detail": "人員說明『開 Issue』或指定『放進某欄』後才按模板寫入；Shipped 以發版說明為準",
+        "result": "真正的 Issue／Project 連結或未執行紀錄"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。",
+      "meaning": "AutoClip Repo 中 scripts/feature_signals.py --days 30 --json（只讀）；寫入時依 docs/COMMUNITY_BOARD.md 及 docs/community/issue-body.md，需有受權 GitHub 身分。",
+      "usageNote": "不適用一般 Repo Issue 分類、沒有 AutoClip Repo 資料的推測排序，或未經明確許可就建立 Issue／升級 Project 狀態。；不得將上游範例指令當作本環境的操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "需求盤點",
+        "description": "議題分群、重複比對、證據連結、優先順序"
+      },
+      {
+        "name": "經核准更新",
+        "description": "指定欄位／Issue／Project 和討論回覆連結（僅在實際寫入後）"
+      }
+    ],
+    "composition": {
+      "problem": "公開社群的功能呼聲分散在 Discussions、Issues，需要以可稽核證據分類排序，同時避免 Agent 未經授權改寫 Roadmap。",
+      "capabilities": [
+        {
+          "id": "community-feedback-to-roadmap-review",
+          "title": "回饋整理與受控路線圖更新",
+          "input": "可讀取的 AutoClip Discussions／Issues、30 天觀察區間與實際來源連結；已有 status:* Issue 和 Project 狀態；若要求寫入，需人員明確指定操作與狀態欄位",
+          "output": "主題分群、重複需求、熱度證據／未知數、排序與建議欄位（唯讀）；僅在授權後建立或更新的 GitHub Issue／Project 狀態與回覆討論之連結",
+          "gate": "每條排序建議能回指討論／Issue 與時間範圍，重複項與 Bug／Q&A 清楚區分"
+        }
+      ],
+      "note": "只說明可重用的候選 I/O／Gate，未建立正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "外部寫入與聲譽",
+        "risk": "外部寫入與聲譽",
+        "action": "GitHub Issue、Project 與 Discussions 是持久公開副作用，沒有明確人員許可不能寫。"
+      },
+      {
+        "title": "來源證據",
+        "risk": "來源證據",
+        "action": "不得捏造投票數或需求規模；腳本的字詞重疊只是提示，需人工核對。"
+      },
+      {
+        "title": "錯誤狀態升級",
+        "risk": "錯誤狀態升級",
+        "action": "PR 合併不等於 Shipped，沒有發版說明不可將卡片標示已交付。"
+      }
+    ],
+    "acceptance": [
+      "每條排序建議能回指討論／Issue 與時間範圍，重複項與 Bug／Q&A 清楚區分",
+      "未核准時 GitHub 零寫入；已核准時僅執行指定動作，狀態符合發版證據"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/skills/product-board/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 skills/product-board/SKILL.md（main 2026-11-21）；依 COMMUNITY_BOARD.md／ROADMAP.md／HANDOFF.md 定義邊界",
+      "licenseUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/LICENSE",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅文件來源查核；第三方 Runtime／Security／完整 License 法律審查／Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "原有 Canonical Skill 已存在，增補文件契約；不新增或刪除原有 ID，兩筆 AutoClip 在同 Repo 但獨立 SKILL.md，不視為重複。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原始 Tags、Domains 與 Typed References；本批不新增任何標籤或邊。"
+    },
+    "classificationReason": "維持既有 Primary Domain 和分類候選，不進行跨類改寫。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 README 或個別 SKILL.md 已閱讀，足以整理 Trigger、I/O、步驟、風險與 Gate；未實際執行。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "候選能力僅放在 Guide，未驗證執行與相容性前不建立正式關聯。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原本 Concept Typed References 均保留，無推測新增邊。"
+    },
+    "riskNotes": "外部寫入與聲譽：GitHub Issue、Project 與 Discussions 是持久公開副作用，沒有明確人員許可不能寫。；來源證據：不得捏造投票數或需求規模；腳本的字詞重疊只是提示，需人工核對。；錯誤狀態升級：PR 合併不等於 Shipped，沒有發版說明不可將卡片標示已交付。；第三方程式安裝、Runtime、安全掃描、整合測試與完整授權未做。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 及 Repo LICENSE 已讀；第三方 Runtime／Security／完整 License／Integration NOT TESTED。"
+    }
   }
 }

@@ -3,11 +3,17 @@
   "id": "yusufkaraaslan-skill-seekers",
   "entityType": "skill",
   "title": "yusufkaraaslan/Skill_Seekers",
-  "purpose": "Docs / Web / GitHub / PDF → Skill",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "purpose": "將已授權的文件網站、GitHub 程式庫、PDF、影片等知識來源轉為 Agent Skill、可檢索知識資產或平台輸出；實際輸出內容必須驗證。",
+  "problem": "已有大量技術文件／程式庫內容，但缺少可供 AI Agent 重用、追溯與更新的結構化知識包。",
+  "inputs": [
+    "有權處理的網站 URL、GitHub Repo、本地文件或匯出資料，以及可合法儲存的範圍",
+    "輸出目標（Agent Skill、RAG、平台）、抓取深度、排除內容、預算與資料敏感程度"
+  ],
+  "outputs": [
+    "依選定 Target 產生的 SKILL.md、references 或可供 Agent 讀取的結構化內容（需真實執行）",
+    "打包的平台產物或檢索資料與品質檢查報告（有執行並產出時）"
+  ],
+  "execution": "Python 3.10+；範例 CLI：skill-seekers detect <source> --json；skill-seekers create <source>；skill-seekers quality output/<name>/；skill-seekers package output/<name> --target claude。需另行核准安裝。。文件方法：確認來源與權限 → 預覽與擷取 → 整理與品質檢查 → 輸出與封裝。第三方來源內容不是對當前環境的安裝、執行或外部寫入授權。",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,7 +28,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skill-builder",
     "docs",
@@ -40,5 +46,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。",
+    "只有一般問答或未授權的付費／內部來源時不抓取；沒有相容執行環境、Python、來源與合法存取權時不宣稱完成轉換。"
+  ],
+  "constraints": [
+    "資料與網站權限｜不能繞過登入、授權或 robots／平台限制；不得將私人程式碼、憑證、個資直接送交外部模型。",
+    "成本與依賴｜OCR、影片轉錄、雲端 LLM、Playwright 等是可選依賴且可能產生成本；不自動安裝。",
+    "授權範圍｜Repo LICENSE 為 MIT，但來源文件、截圖、程式碼、影片、模型與依賴授權需另行審查。"
+  ],
+  "source": {
+    "url": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 README 標示 v3.9.0、18 類來源、22 個 Target；這些是文件陳述，非本次實測。主 Repo LICENSE 為 MIT；第三方內容、模型另計。",
+    "licenseEvidence": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/LICENSE",
+    "reviewScope": "2026-11-21 官方上游 README／SKILL.md 與 Repo LICENSE 已讀；實際安裝、Runtime、安全掃描、完整授權、整合測試未執行"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "將已授權的文件網站、GitHub 程式庫、PDF、影片等知識來源轉為 Agent Skill、可檢索知識資產或平台輸出；實際輸出內容必須驗證。",
+    "introNote": "依官方原始文件整理使用契約；本知識庫僅作文件審查，不代表第三方 Skill 已安裝或可安全執行。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "將已授權的文件網站、GitHub 程式庫、PDF、影片等知識來源轉為 Agent Skill、可檢索知識資產或平台輸出；實際輸出內容必須驗證。"
+      },
+      {
+        "label": "來源與授權",
+        "value": "官方 README 標示 v3.9.0、18 類來源、22 個 Target；這些是文件陳述，非本次實測。主 Repo LICENSE 為 MIT；第三方內容、模型另計。"
+      },
+      {
+        "label": "正式觸發前提",
+        "value": "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "只有一般問答或未授權的付費／內部來源時不抓取；沒有相容執行環境、Python、來源與合法存取權時不宣稱完成轉換。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "有權處理的網站 URL、GitHub Repo、本地文件或匯出資料，以及可合法儲存的範圍",
+        "detail": "確認來源、資料和處理權限。"
+      },
+      {
+        "title": "輸出目標（Agent Skill、RAG、平台）、抓取深度、排除內容、預算與資料敏感程度",
+        "detail": "確認輸出、環境、授權與成本邊界；未授權不執行。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認來源與權限",
+        "detail": "查明來源權限、robots／平台條款、資料範圍、需排除的機密及目標格式",
+        "result": "有界的來源與 Target 規格"
+      },
+      {
+        "number": "02",
+        "title": "預覽與擷取",
+        "detail": "先 detect 確認來源，再選對應 create 流程萃取資料",
+        "result": "可追溯的內容與中間檔"
+      },
+      {
+        "number": "03",
+        "title": "整理與品質檢查",
+        "detail": "檢視生成的 SKILL.md、引用、過時內容及隱私；必要時 quality 檢查",
+        "result": "可審查的 Skill 素材與失敗明細"
+      },
+      {
+        "number": "04",
+        "title": "輸出與封裝",
+        "detail": "只在工具實際可用時執行 package --target，確認成果路徑",
+        "result": "實際存在的 Skill ZIP 或知識資產"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。",
+      "meaning": "Python 3.10+；範例 CLI：skill-seekers detect <source> --json；skill-seekers create <source>；skill-seekers quality output/<name>/；skill-seekers package output/<name> --target claude。需另行核准安裝。",
+      "usageNote": "只有一般問答或未授權的付費／內部來源時不抓取；沒有相容執行環境、Python、來源與合法存取權時不宣稱完成轉換。；不得將上游範例指令當作本環境的操作授權。"
+    },
+    "deliverables": [
+      {
+        "name": "知識素材",
+        "description": "SKILL.md、參考文件及中間資料（實際產生後）"
+      },
+      {
+        "name": "封裝成果",
+        "description": "對應 Target 的 ZIP／RAG 文件與來源／品質紀錄（實際產生後）"
+      }
+    ],
+    "composition": {
+      "problem": "已有大量技術文件／程式庫內容，但缺少可供 AI Agent 重用、追溯與更新的結構化知識包。",
+      "capabilities": [
+        {
+          "id": "source-to-agent-knowledge",
+          "title": "來源內容轉知識資產",
+          "input": "有權處理的網站 URL、GitHub Repo、本地文件或匯出資料，以及可合法儲存的範圍；輸出目標（Agent Skill、RAG、平台）、抓取深度、排除內容、預算與資料敏感程度",
+          "output": "依選定 Target 產生的 SKILL.md、references 或可供 Agent 讀取的結構化內容（需真實執行）；打包的平台產物或檢索資料與品質檢查報告（有執行並產出時）",
+          "gate": "生成的內容能追溯到具體來源，引用、時間與敏感資訊經檢查"
+        }
+      ],
+      "note": "只說明可重用的候選 I/O／Gate，未建立正式 Capability 或 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "資料與網站權限",
+        "risk": "資料與網站權限",
+        "action": "不能繞過登入、授權或 robots／平台限制；不得將私人程式碼、憑證、個資直接送交外部模型。"
+      },
+      {
+        "title": "成本與依賴",
+        "risk": "成本與依賴",
+        "action": "OCR、影片轉錄、雲端 LLM、Playwright 等是可選依賴且可能產生成本；不自動安裝。"
+      },
+      {
+        "title": "授權範圍",
+        "risk": "授權範圍",
+        "action": "Repo LICENSE 為 MIT，但來源文件、截圖、程式碼、影片、模型與依賴授權需另行審查。"
+      }
+    ],
+    "acceptance": [
+      "生成的內容能追溯到具體來源，引用、時間與敏感資訊經檢查",
+      "只有 CLI 真正輸出檔案、品質檢查可追蹤時才回報建置成功；未執行標為 NOT TESTED"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "README v3.9.0 (main; 2026-11-21 查核)，安裝包版本未檢查",
+      "licenseUrl": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/LICENSE",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅文件來源查核；第三方 Runtime／Security／完整 License 法律審查／Integration 未測。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source.url"
+      ],
+      "reason": "原有 Canonical Skill 已存在，增補文件契約；不新增或刪除原有 ID，兩筆 AutoClip 在同 Repo 但獨立 SKILL.md，不視為重複。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原始 Tags、Domains 與 Typed References；本批不新增任何標籤或邊。"
+    },
+    "classificationReason": "維持既有 Primary Domain 和分類候選，不進行跨類改寫。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "官方 README 或個別 SKILL.md 已閱讀，足以整理 Trigger、I/O、步驟、風險與 Gate；未實際執行。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "候選能力僅放在 Guide，未驗證執行與相容性前不建立正式關聯。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "原本 Concept Typed References 均保留，無推測新增邊。"
+    },
+    "riskNotes": "資料與網站權限：不能繞過登入、授權或 robots／平台限制；不得將私人程式碼、憑證、個資直接送交外部模型。；成本與依賴：OCR、影片轉錄、雲端 LLM、Playwright 等是可選依賴且可能產生成本；不自動安裝。；授權範圍：Repo LICENSE 為 MIT，但來源文件、截圖、程式碼、影片、模型與依賴授權需另行審查。；第三方程式安裝、Runtime、安全掃描、整合測試與完整授權未做。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "官方 README／SKILL.md 及 Repo LICENSE 已讀；第三方 Runtime／Security／完整 License／Integration NOT TESTED。"
+    }
   }
 }
