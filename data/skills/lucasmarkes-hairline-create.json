@@ -47,11 +47,14 @@
   "source": {
     "url": "https://github.com/lucasmarkes/hairline/blob/main/skills/hairline-create/SKILL.md",
     "type": "Official Hairline SKILL.md",
-    "summary": "Official 2026-10-27 read-only source review. No code, dependencies or browsers executed."
+    "summary": "Official 2026-10-27 read-only source review. No code, dependencies or browsers executed.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Hairline Create；固定 kernel.js/bench.html，單一 Figure、單檔 HTML 產出",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-21",
   "tags": [
     "hairline",
     "skill",
@@ -75,5 +78,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要創作全新的互動式等角線條 SVG 圖形，用於產品／網站畫面",
+    "不能直接改 Engine 或重新發明 Kernel；原文中的範例 Figures 數量不等於本專案 2026-10 早期快照的套件數"
+  ],
+  "constraints": [
+    "安裝副作用：look.mjs 可能需要 Playwright-core／Chromium，須先同意",
+    "網站品質：純裝飾性圖形不能取代文字和資訊",
+    "著作權：品牌資產或外部 Logo 需獨立核對"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "將單一視覺想法轉成使用 Hairline Engine 的等角、線條、能隨游標互動的圖形，依規範比對、驗證並輸出單一 HTML。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要創作全新的互動式等角線條 SVG 圖形，用於產品／網站畫面"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Hairline Create；固定 kernel.js/bench.html，單一 Figure、單檔 HTML 產出"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "在已安裝 Host 使用 `/hairline-create [idea]`；提 2–3 個候選互動概念，經選擇後用 build/validate/look 流程"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要創作全新的互動式等角線條 SVG 圖形，用於產品／網站畫面"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不能直接改 Engine 或重新發明 Kernel；原文中的範例 Figures 數量不等於本專案 2026-10 早期快照的套件數"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "圖像主題或視覺概念",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "使用者選擇的兩至三個候選方案，或既有 SVG 作為來源",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "已明確允許的工作目錄和 Node／Browser 環境（實作時）",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先從概念拆出物件與 2–3 個互動點子",
+        "detail": "先從概念拆出物件與 2–3 個互動點子",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "依作者 rules/API 實作 Figure",
+        "detail": "依作者 rules/API 實作 Figure，不修改 Kernel/Bench",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "執行 Build/Validate/Look",
+        "detail": "執行 Build/Validate/Look，確認線條、立體角度與 Hover",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "修正缺陷並交付單檔 HTML 與互動說明",
+        "detail": "修正缺陷並交付單檔 HTML 與互動說明",
+        "result": "Hairline 相容的獨立 Figure JS 定義"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要創作全新的互動式等角線條 SVG 圖形，用於產品／網站畫面",
+      "meaning": "在已安裝 Host 使用 `/hairline-create [idea]`；提 2–3 個候選互動概念，經選擇後用 build/validate/look 流程",
+      "usageNote": "不能直接改 Engine 或重新發明 Kernel；原文中的範例 Figures 數量不等於本專案 2026-10 早期快照的套件數；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "一份 hairline-<name>.html 無額外執行時相依的展示頁"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "驗證與檢查報告；如未執行 Node 或瀏覽器須註明未測"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "交付圖形的動態隱喻、Tour 停靠點及所依循規則"
+      }
+    ],
+    "composition": {
+      "problem": "AI 產生的互動插圖若沒有統一形狀／描線／動效規則與 Browser QA，容易在樣式、動態與實際可用性上不一致。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "圖像主題或視覺概念；使用者選擇的兩至三個候選方案，或既有 SVG 作為來源；已明確允許的工作目錄和 Node／Browser 環境（實作時）",
+          "output": "一份 hairline-<name>.html 無額外執行時相依的展示頁；驗證與檢查報告；如未執行 Node 或瀏覽器須註明未測；交付圖形的動態隱喻、Tour 停靠點及所依循規則",
+          "gate": "Kernel/Bench 原樣保留，只有 Figure 內容新增"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "安裝副作用",
+        "action": "look.mjs 可能需要 Playwright-core／Chromium，須先同意"
+      },
+      {
+        "title": "控制 2",
+        "risk": "網站品質",
+        "action": "純裝飾性圖形不能取代文字和資訊"
+      },
+      {
+        "title": "控制 3",
+        "risk": "著作權",
+        "action": "品牌資產或外部 Logo 需獨立核對"
+      }
+    ],
+    "acceptance": [
+      "Kernel/Bench 原樣保留，只有 Figure 內容新增",
+      "真實 Browser Look 與 Reduced Motion 已驗證",
+      "HTML 單檔自包含並能操作"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/lucasmarkes/hairline/blob/main/skills/hairline-create/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Hairline Create；固定 kernel.js/bench.html，單一 Figure、單檔 HTML 產出",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "安裝副作用：look.mjs 可能需要 Playwright-core／Chromium，須先同意；網站品質：純裝飾性圖形不能取代文字和資訊；著作權：品牌資產或外部 Logo 需獨立核對。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "Lemo-Opuscar — Code-Rendered Film Director & Custom Styles",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "claude-code",
@@ -65,7 +65,10 @@
   "source": {
     "url": "https://github.com/lemomo-ai/lemo-opuscar/blob/main/plugin/skills/lemo-opuscar/SKILL.md",
     "type": "Official SKILL.md + linked AGENTS.md/DIRECTOR.md/TECHNIQUE.md",
-    "summary": "Checked 2026-10-27; no installation or film generation."
+    "summary": "Checked 2026-10-27; no installation or film generation.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Code-Rendered Film Skill；59 種 Styles 是風格不是 59 個技能",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "classification": {
     "primaryDomain": "content",
@@ -78,5 +81,194 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "使用者要以指定 Style 或自訂美術方向製作新的程式化短片或資料解說",
+    "純剪輯、裁切現有影片不屬本 Skill 主流程；不應自動執行會下載依賴的 setup.sh"
+  ],
+  "constraints": [
+    "安裝與成本：setup.sh 會 Clone/Install/Download，不能默認執行",
+    "授權分層：程式 MIT、示範作品 CC BY、部分語音不包含授權"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "透過單一 Claude Code Skill 指導使用 59 種 Lemo-Opuscar 影片風格，製作腳本、鏡頭、配樂與配音，或以既有 Style 建立自有影片風格。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者要以指定 Style 或自訂美術方向製作新的程式化短片或資料解說"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Code-Rendered Film Skill；59 種 Styles 是風格不是 59 個技能"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "在使用者授權安裝後調用 `lemo-opuscar`，先讀 DIRECTOR／TECHNIQUE／STYLE 和設計 Treatment，再產出影片"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者要以指定 Style 或自訂美術方向製作新的程式化短片或資料解說"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "純剪輯、裁切現有影片不屬本 Skill 主流程；不應自動執行會下載依賴的 setup.sh"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "影片主題、長度、語言、畫面比例與品牌素材",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "指定 STYLE.md 或自訂的美術方向",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "合法擁有的音樂、語音、資料與影片素材",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      },
+      {
+        "title": "是否先預覽分鏡",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      },
+      {
+        "title": "可用且獲授權的本機 Node、Python、FFmpeg、Browser 工具",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先確認影片種類、Style 和必備素材權利",
+        "detail": "先確認影片種類、Style 和必備素材權利",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "建立 Treatment、鏡頭節奏與可檢驗畫面規格",
+        "detail": "建立 Treatment、鏡頭節奏與可檢驗畫面規格",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "按獲准方案使用 Frame Renderer、音效、TTS、FFmpeg",
+        "detail": "按獲准方案使用 Frame Renderer、音效、TTS、FFmpeg",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "驗收鏡頭順序、字幕、音畫同步與檔案",
+        "detail": "驗收鏡頭順序、字幕、音畫同步與檔案",
+        "result": "TREATMENT.md 與可選 Storyboard／Look Frame"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者要以指定 Style 或自訂美術方向製作新的程式化短片或資料解說",
+      "meaning": "在使用者授權安裝後調用 `lemo-opuscar`，先讀 DIRECTOR／TECHNIQUE／STYLE 和設計 Treatment，再產出影片",
+      "usageNote": "純剪輯、裁切現有影片不屬本 Skill 主流程；不應自動執行會下載依賴的 setup.sh；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "TREATMENT.md、可選分鏡與 Look Frame"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "可審查的 Frame Rendering／Timeline／音樂／配音／字幕素材"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "僅在真正產製時才有的 MP4 與 QA 報告"
+      },
+      {
+        "name": "附加成果 4",
+        "description": "可選經同意建立的自訂 Style 資料夾"
+      }
+    ],
+    "composition": {
+      "problem": "Coding Agent 只做畫面容易缺乏影音節奏、場景間連續性與可重現的交付驗證。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "影片主題、長度、語言、畫面比例與品牌素材；指定 STYLE.md 或自訂的美術方向；合法擁有的音樂、語音、資料與影片素材；是否先預覽分鏡；可用且獲授權的本機 Node、Python、FFmpeg、Browser 工具",
+          "output": "TREATMENT.md、可選分鏡與 Look Frame；可審查的 Frame Rendering／Timeline／音樂／配音／字幕素材；僅在真正產製時才有的 MP4 與 QA 報告；可選經同意建立的自訂 Style 資料夾",
+          "gate": "Style／Treatment 與鏡頭符合使用者需求"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "安裝與成本",
+        "action": "setup.sh 會 Clone/Install/Download，不能默認執行"
+      },
+      {
+        "title": "控制 2",
+        "risk": "授權分層",
+        "action": "程式 MIT、示範作品 CC BY、部分語音不包含授權"
+      }
+    ],
+    "acceptance": [
+      "Style／Treatment 與鏡頭符合使用者需求",
+      "影片和字幕實際播放檢查通過",
+      "第三方圖像、音樂及語音權利清楚"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/lemomo-ai/lemo-opuscar/blob/main/plugin/skills/lemo-opuscar/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Code-Rendered Film Skill；59 種 Styles 是風格不是 59 個技能",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "安裝與成本：setup.sh 會 Clone/Install/Download，不能默認執行；授權分層：程式 MIT、示範作品 CC BY、部分語音不包含授權。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

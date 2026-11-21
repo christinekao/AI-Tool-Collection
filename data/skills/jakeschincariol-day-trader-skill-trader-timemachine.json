@@ -4,15 +4,18 @@
   "entityType": "skill",
   "title": "Day Trader /trader-timemachine — Replay historical bars and Monte Carlo paths",
   "purpose": "依近期歷史 K 棒與相同型態執行 10,000 次情境重抽及歷史比對；結果為模擬而非未來勝率保證。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，已有 Entry／Stop／Target，想在配資前評估歷史情境中先觸 Stop、先觸 Target 或收盤無觸發的比例可能產生錯誤或不可用結果。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "trader/plan.json 的 Entry、Stop、Target、時間與交易標的",
+    "可用的歷史 5 分鐘 K 棒、回放區間及種子設定",
+    "模擬次數、時間到期與交易成本／滑價假設"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "Target-first／Stop-first／Neither 的模擬比例",
+    "交易結束價格、平均 R、歷史相似觸發比較",
+    "按需 trader/timemachine.json 或 ASCII Fan Chart"
   ],
-  "execution": "官方 SKILL.md：trader-timemachine/SKILL.md。此 Skill 只屬於 Jakeschincariol/day-trader-skill 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：backtest。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "1. 確認交易計畫及歷史資料有可比期間 → 2. 按設定抽樣／重組歷史 K 棒 10,000 次或指定次數 → 3. 對照歷史相同入場模式，輸出結果分布與假設 → 4. 解讀偏誤、資料窗與風險，再交由 Budget 建立提案",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +39,14 @@
   "source": {
     "url": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-timemachine/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方時間機器：60 天 5 分鐘棒、10,000 次重抽與歷史形態對照",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "trader-timemachine",
@@ -62,5 +68,182 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "已有 Entry／Stop／Target，想在配資前評估歷史情境中先觸 Stop、先觸 Target 或收盤無觸發的比例",
+    "回放與蒙地卡羅是假設性分析，不能稱為經過前瞻驗證的真實未來機率"
+  ],
+  "constraints": [
+    "回測偏誤：隨機重抽保留不了所有時間依存與黑天鵝風險",
+    "成本假設：滑價、交易費與流動性會改變結果"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "依近期歷史 K 棒與相同型態執行 10,000 次情境重抽及歷史比對；結果為模擬而非未來勝率保證。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "已有 Entry／Stop／Target，想在配資前評估歷史情境中先觸 Stop、先觸 Target 或收盤無觸發的比例"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方時間機器：60 天 5 分鐘棒、10,000 次重抽與歷史形態對照"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "在已授權環境使用 `/trader-timemachine [plan.json|TICKER]`；支援 `--replays`、`--seed`、`--offline`"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "已有 Entry／Stop／Target，想在配資前評估歷史情境中先觸 Stop、先觸 Target 或收盤無觸發的比例"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "回放與蒙地卡羅是假設性分析，不能稱為經過前瞻驗證的真實未來機率"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "trader/plan.json 的 Entry、Stop、Target、時間與交易標的",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "可用的歷史 5 分鐘 K 棒、回放區間及種子設定",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "模擬次數、時間到期與交易成本／滑價假設",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "確認交易計畫及歷史資料有可比期間",
+        "detail": "確認交易計畫及歷史資料有可比期間",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "按設定抽樣／重組歷史 K 棒 10,000 次或指定次數",
+        "detail": "按設定抽樣／重組歷史 K 棒 10,000 次或指定次數",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "對照歷史相同入場模式",
+        "detail": "對照歷史相同入場模式，輸出結果分布與假設",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "解讀偏誤、資料窗與風險",
+        "detail": "解讀偏誤、資料窗與風險，再交由 Budget 建立提案",
+        "result": "Target-first／Stop-first／Neither 的模擬比例"
+      }
+    ],
+    "howToUse": {
+      "trigger": "已有 Entry／Stop／Target，想在配資前評估歷史情境中先觸 Stop、先觸 Target 或收盤無觸發的比例",
+      "meaning": "在已授權環境使用 `/trader-timemachine [plan.json|TICKER]`；支援 `--replays`、`--seed`、`--offline`",
+      "usageNote": "回放與蒙地卡羅是假設性分析，不能稱為經過前瞻驗證的真實未來機率；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "Target-first／Stop-first／Neither 的模擬比例"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "交易結束價格、平均 R、歷史相似觸發比較"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "按需 trader/timemachine.json 或 ASCII Fan Chart"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，已有 Entry／Stop／Target，想在配資前評估歷史情境中先觸 Stop、先觸 Target 或收盤無觸發的比例可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "trader/plan.json 的 Entry、Stop、Target、時間與交易標的；可用的歷史 5 分鐘 K 棒、回放區間及種子設定；模擬次數、時間到期與交易成本／滑價假設",
+          "output": "Target-first／Stop-first／Neither 的模擬比例；交易結束價格、平均 R、歷史相似觸發比較；按需 trader/timemachine.json 或 ASCII Fan Chart",
+          "gate": "清楚列出日期窗、次數、種子與情境假設"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "回測偏誤",
+        "action": "隨機重抽保留不了所有時間依存與黑天鵝風險"
+      },
+      {
+        "title": "控制 2",
+        "risk": "成本假設",
+        "action": "滑價、交易費與流動性會改變結果"
+      }
+    ],
+    "acceptance": [
+      "清楚列出日期窗、次數、種子與情境假設",
+      "模擬機率不得解釋成實際勝率保證",
+      "只回放，不提交交易單"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-timemachine/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方時間機器：60 天 5 分鐘棒、10,000 次重抽與歷史形態對照",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "回測偏誤：隨機重抽保留不了所有時間依存與黑天鵝風險；成本假設：滑價、交易費與流動性會改變結果。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

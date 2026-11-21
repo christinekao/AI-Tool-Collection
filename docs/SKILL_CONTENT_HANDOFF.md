@@ -1,5 +1,45 @@
 # Phase 2 Skills — 最新 Session 交接
 
+## Skills Batch 04 — PR／CI 準備中（2026-11-21）
+
+- Base main：`5b30be7aeda7df09ff99c546e75b9fd8b79ed39c`；工作分支：`skill-content-batch04-20261121`。
+- Batch 01–03 已完成 **60/123（48.8%）**；Batch 04 本次改善 20 筆；**合併成功後**累計 **80/123（65.0%）**，剩 **43**。
+- 20 個正式 Canonical Skill：第 61–80 筆全部新增 `skillGuide` 及 `intakeReview`，Generated Catalog、Graph 與逐筆報告、Rolling Handoff 同步。
+- **20/20 現行官方 README／SKILL.md 查核**，全部只有文件審查，未執行第三方程式或 Security／License／Runtime／Integration。
+- 重要差異：Kubai 2.0 雙風格但 Source-Available 非開源；Taste 2.5.1 Stop Hook；Lieflat v2 需先報告再依同意改稿、CC BY-NC；K-Dense 177 Skills；Khazix 6；LoopAgentTeams 主 Skill 路徑已核對。
+- 原 ID、Tags、Domains、Typed References 與 Graph 569 Nodes／1816 Edges 不變。
+- [Batch 04 逐筆審查報告](SKILL_CONTENT_REVIEW_BATCH04_20261121.md)。
+
+### 下一批 Batch 05：第 81–100 筆（尚未開始）
+81. `mattpocock-grill-me`
+82. `mattpocock-grill-with-docs`
+83. `mattpocock-handoff`
+84. `mattpocock-skills`
+85. `mattpocock-tdd`
+86. `mattpocock-triage`
+87. `michael-denyer-pstack-claude`
+88. `minimax-code-community-interactive-visualization-architect`
+89. `minimax-code-community-landing-page-builder`
+90. `minimax-code-community-pptx-generator`
+91. `minimax-code-community-seo-geo-optimization-expert`
+92. `minimax-code-community-visual-content-generator`
+93. `motion-dev-animations-skill`
+94. `mukul975-anthropic-cybersecurity-skills`
+95. `nutlope-hallmark`
+96. `nvidia-auto-ontology-management`
+97. `nvidia-auto-ontology-query`
+98. `nvidia-auto-ontology-setup`
+99. `nvidia-skillspector`
+100. `oh-my-mermaid-omm-push`
+
+### 待驗證 Release Gate
+- 最新 PR Head Unified Intake、V2 Validate、P1 Graph＋Browser PASS 後才可 Merge。
+- Merge 後核對 main Catalog Sync、Data Validate、Graph Browser 與正式 Pages Deploy。
+- 部署後另外執行 Live Pages Smoke，不把部署前 smoke 當成新版驗收。
+
+---
+
+
 ## Skills Batch 03 — 已合併／main 與正式網站驗收（2026-11-21）
 
 - 基準 main：`4ead1d0942d39a61ef6037e1ae044a0b66fa100b`；工作分支：`skill-content-batch03-20261121`。

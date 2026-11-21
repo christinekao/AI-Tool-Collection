@@ -5,7 +5,7 @@
   "title": "UI Feedback Patterns — Dialog, Toast, Tooltip & Safe Confirmation Selection",
   "status": "active",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skill",
     "ui-feedback-patterns",
@@ -53,7 +53,10 @@
   "source": {
     "url": "https://github.com/lawpowen/agent-skills/blob/main/codex/skills/ui-feedback-patterns/SKILL.md",
     "type": "Official SKILL.md in Codex UI design bundle",
-    "summary": "Read-only reviewed 2026-10-28; no installation, code edit or GUI test."
+    "summary": "Read-only reviewed 2026-10-28; no installation, code edit or GUI test.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 UI Feedback 專項：Tooltip、Toast、Alert、Modal、Drawer、Bottom Sheet 等",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "classification": {
     "primaryDomain": "design",
@@ -67,5 +70,182 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "需要決定提示、確認、編輯或錯誤訊息應使用哪種互動元件",
+    "不可把所有警告塞進短暫 Toast 或所有操作都開 Modal；不能只憑組件名稱認定具體 API"
+  ],
+  "constraints": [
+    "誤導：Toast 消失可能隱藏失敗或補救方式",
+    "損失資料：關閉 Dialog 前未確認未儲存輸入"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "依觸發操作、重要性、是否可復原與上下文保留需求，選用 Tooltip、Toast、Alert、Modal、Drawer、Bottom Sheet、Snackbar、AlertDialog、Tour、Lightbox 或欄位錯誤等互動元件。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要決定提示、確認、編輯或錯誤訊息應使用哪種互動元件"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 UI Feedback 專項：Tooltip、Toast、Alert、Modal、Drawer、Bottom Sheet 等"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "在既有 ui-design-standards 下按需載入 `ui-feedback-patterns`，依任務風險和可逆性選元件"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要決定提示、確認、編輯或錯誤訊息應使用哪種互動元件"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不可把所有警告塞進短暫 Toast 或所有操作都開 Modal；不能只憑組件名稱認定具體 API"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "目標使用者操作及其後果",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "既有元件庫／平台行為和可用狀態",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "能否取消／撤銷、錯誤原因及保留輸入需求",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "辨別訊息嚴重性、可逆性與上下文需求",
+        "detail": "辨別訊息嚴重性、可逆性與上下文需求",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "挑合適 Tooltip／Toast／Alert／Modal／Drawer／Sheet",
+        "detail": "挑合適 Tooltip／Toast／Alert／Modal／Drawer／Sheet",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "實作取消與焦點回復、錯誤時保留表單內容",
+        "detail": "實作取消與焦點回復、錯誤時保留表單內容",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "測試 Esc、鍵盤、閱讀器和不可逆操作確認",
+        "detail": "測試 Esc、鍵盤、閱讀器和不可逆操作確認",
+        "result": "元件選型理由與避免打擾的替代方案"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要決定提示、確認、編輯或錯誤訊息應使用哪種互動元件",
+      "meaning": "在既有 ui-design-standards 下按需載入 `ui-feedback-patterns`，依任務風險和可逆性選元件",
+      "usageNote": "不可把所有警告塞進短暫 Toast 或所有操作都開 Modal；不能只憑組件名稱認定具體 API；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "元件選型理由、可用替代元件、關閉與鍵盤互動規則"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "高風險操作的確認及撤銷策略"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "可及性與錯誤狀態的驗證清單"
+      }
+    ],
+    "composition": {
+      "problem": "只是要求「加個彈窗」容易忽略焦點、取消、失敗處理、未儲存輸入與高風險操作的確認。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "目標使用者操作及其後果；既有元件庫／平台行為和可用狀態；能否取消／撤銷、錯誤原因及保留輸入需求",
+          "output": "元件選型理由、可用替代元件、關閉與鍵盤互動規則；高風險操作的確認及撤銷策略；可及性與錯誤狀態的驗證清單",
+          "gate": "高風險操作有明確確認或可逆保護"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "誤導",
+        "action": "Toast 消失可能隱藏失敗或補救方式"
+      },
+      {
+        "title": "控制 2",
+        "risk": "損失資料",
+        "action": "關閉 Dialog 前未確認未儲存輸入"
+      }
+    ],
+    "acceptance": [
+      "高風險操作有明確確認或可逆保護",
+      "焦點與 Esc 規範經可及性驗證",
+      "失敗狀態持續可見且能重試"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/lawpowen/agent-skills/blob/main/codex/skills/ui-feedback-patterns/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 UI Feedback 專項：Tooltip、Toast、Alert、Modal、Drawer、Bottom Sheet 等",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "誤導：Toast 消失可能隱藏失敗或補救方式；損失資料：關閉 Dialog 前未確認未儲存輸入。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "Chat & Desktop UI Interactions — IME, Scroll Following & Resizable Panels",
   "status": "active",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skill",
     "ui-chat-desktop",
@@ -53,7 +53,10 @@
   "source": {
     "url": "https://github.com/lawpowen/agent-skills/blob/main/codex/skills/ui-chat-desktop-interactions/SKILL.md",
     "type": "Official SKILL.md in Codex UI design bundle",
-    "summary": "Read-only reviewed 2026-10-28; no installation, code edit or GUI test."
+    "summary": "Read-only reviewed 2026-10-28; no installation, code edit or GUI test.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Codex 專項 UI Skill；IME／Streaming／Split Pane／檔名辨識",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "classification": {
     "primaryDomain": "design",
@@ -67,5 +70,182 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "修正聊天輸入法 Enter 誤發、Streaming 讓閱讀跳動或分割視窗拖曳問題",
+    "不適用純後端聊天服務，也不應將示例 500ms／40px／120px 當跨產品通用標準"
+  ],
+  "constraints": [
+    "輸入法：誤防護會吞掉使用者合法快速 Enter",
+    "狀態與無障礙：自行設距離與延遲必須有實測，不能抄示例"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "處理 AI 聊天或桌面工作台中的中文 IME Enter 誤發、Stream 更新時的閱讀位置、分欄拖曳與長檔名展示，保留使用者意圖與狀態。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "修正聊天輸入法 Enter 誤發、Streaming 讓閱讀跳動或分割視窗拖曳問題"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Codex 專項 UI Skill；IME／Streaming／Split Pane／檔名辨識"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "透過 ui-design-standards 按需載入 `ui-chat-desktop-interactions`，以當前 UI 的事件與狀態模型實作"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "修正聊天輸入法 Enter 誤發、Streaming 讓閱讀跳動或分割視窗拖曳問題"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不適用純後端聊天服務，也不應將示例 500ms／40px／120px 當跨產品通用標準"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "實際聊天／桌面版 UI 及其輸入法與瀏覽器環境",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "發送快捷鍵、滾動及分欄元件的既有實作",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "可重現的互動問題與可觀察驗收標準",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先從 Bug 和元件找最小修改範圍",
+        "detail": "先從 Bug 和元件找最小修改範圍",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "處理 isComposing 與必要的 fallback",
+        "detail": "處理 isComposing 與必要的 fallback，不全域禁用 Enter",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "將跟隨底部和閱讀歷史分成明確狀態並處理 Streaming",
+        "detail": "將跟隨底部和閱讀歷史分成明確狀態並處理 Streaming",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "驗證 Splitter PointerCancel／Keyboard 與檔名可查",
+        "detail": "驗證 Splitter PointerCancel／Keyboard 與檔名可查",
+        "result": "IME Composition 的提交防護與重複訊息保護"
+      }
+    ],
+    "howToUse": {
+      "trigger": "修正聊天輸入法 Enter 誤發、Streaming 讓閱讀跳動或分割視窗拖曳問題",
+      "meaning": "透過 ui-design-standards 按需載入 `ui-chat-desktop-interactions`，以當前 UI 的事件與狀態模型實作",
+      "usageNote": "不適用純後端聊天服務，也不應將示例 500ms／40px／120px 當跨產品通用標準；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "IME 提交守衛、重複提交防護及焦點復原策略"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "跟隨最新／閱讀歷史／返回最新的狀態機"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "可拖曳分隔器與截斷檔名的內容可及性方案"
+      }
+    ],
+    "composition": {
+      "problem": "流式消息、輸入法和可調分欄容易因事件邊界處理不當，誤發送訊息、打斷閱讀或丟失尺寸與檔名辨識。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "實際聊天／桌面版 UI 及其輸入法與瀏覽器環境；發送快捷鍵、滾動及分欄元件的既有實作；可重現的互動問題與可觀察驗收標準",
+          "output": "IME 提交守衛、重複提交防護及焦點復原策略；跟隨最新／閱讀歷史／返回最新的狀態機；可拖曳分隔器與截斷檔名的內容可及性方案",
+          "gate": "跨中文輸入法確認候選不發送訊息"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "輸入法",
+        "action": "誤防護會吞掉使用者合法快速 Enter"
+      },
+      {
+        "title": "控制 2",
+        "risk": "狀態與無障礙",
+        "action": "自行設距離與延遲必須有實測，不能抄示例"
+      }
+    ],
+    "acceptance": [
+      "跨中文輸入法確認候選不發送訊息",
+      "User 閱讀歷史時不強制跳回底部",
+      "分欄能取消／鍵盤操作且完整檔名可及"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/lawpowen/agent-skills/blob/main/codex/skills/ui-chat-desktop-interactions/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Codex 專項 UI Skill；IME／Streaming／Split Pane／檔名辨識",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "輸入法：誤防護會吞掉使用者合法快速 Enter；狀態與無障礙：自行設距離與延遲必須有實測，不能抄示例。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

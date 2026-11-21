@@ -2,8 +2,8 @@
   "schemaVersion": 2,
   "id": "leonxlnx-taste-skill",
   "entityType": "skill",
-  "title": "Taste Skill — design-taste-frontend v2 & UI Design Variants",
-  "purpose": "讓 AI Coding Agent 以真實品牌內容與視覺研究決定網站 Art Direction，完成網頁實作後透過瀏覽器多尺寸檢視、截圖與分輪修正產生具備實際驗收證據的前端畫面；可切換既有專案改版、指定風格、圖片到程式碼等專用 Skills。",
+  "title": "Taste Skill 2.5.1 — Frontend Art Direction、Browser 與 Stop Gate",
+  "purpose": "以真實品牌內容與一致視覺系統建立公司或產品網站；現行 tasteskill 2.5.1 在 skills/taste-skill/SKILL.md 提供 Browser Checker、Copy Lint 和 Stop Hook 交付 Gate，需審核安裝副作用。",
   "problem": "AI 產生的網頁容易套用相同 Hero／卡片／漸層與籠統設計語彙，缺乏符合產品本身的獨特構圖與內容；只檢視產出的程式碼也無法驗證真實渲染的視覺品質及行動版問題。",
   "inputs": [
     "網站／產品用途、使用者、內容與品牌方向",
@@ -49,7 +49,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill-pack",
     "design-taste-frontend",
@@ -77,5 +77,206 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "針對公司官網、Landing Page、SaaS 產品或行銷頁，實作有產品特性且經瀏覽器驗收的設計",
+    "不適用未授權重設計整個 App 的情境；Stop Hook 可能讀寫專案及強制 Gate，安裝前必須審核"
+  ],
+  "constraints": [
+    "Hook 副作用：Stop Hook 可啟動 Node／新增 .taste-skill 證據，須先審查權限",
+    "素材權利：參考圖與品牌 Logo 要查 Copyright／License",
+    "產品適配：作者的站點設計策略不是所有 Dashboard 的 UI 規範"
+  ],
+  "source": {
+    "url": "https://github.com/Leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 tasteskill 2.5.1，舊 v2 摘要與安裝實體路徑已變；Source 含 Stop Hook、Browser Finish Gate",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "以真實品牌內容與一致視覺系統建立公司或產品網站；現行 tasteskill 2.5.1 在 skills/taste-skill/SKILL.md 提供 Browser Checker、Copy Lint 和 Stop Hook 交付 Gate，需審核安裝副作用。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "針對公司官網、Landing Page、SaaS 產品或行銷頁，實作有產品特性且經瀏覽器驗收的設計"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 tasteskill 2.5.1，舊 v2 摘要與安裝實體路徑已變；Source 含 Stop Hook、Browser Finish Gate"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "現行目錄 `skills/taste-skill/SKILL.md`、名稱 `design-taste-frontend`；先讀 2.5.1 原始規則，再明確批准安裝與 Hook"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "針對公司官網、Landing Page、SaaS 產品或行銷頁，實作有產品特性且經瀏覽器驗收的設計"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不適用未授權重設計整個 App 的情境；Stop Hook 可能讀寫專案及強制 Gate，安裝前必須審核"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "網站／產品用途、使用者、內容與品牌方向",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "既有前端 Repo 或新專案技術棧",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "可使用的品牌圖片／Logo／產品截圖及其授權條件",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      },
+      {
+        "title": "必須呈現的頁面區塊、資料與互動功能",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      },
+      {
+        "title": "可供腳本測試的 Node.js 22+、Chrome／Edge／Chromium 環境",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "按業務類型定內容和視覺結構",
+        "detail": "按業務類型定內容和視覺結構，避免固定 Template",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "使用真實產品圖、授權照片並建立統一 Layout",
+        "detail": "使用真實產品圖、授權照片並建立統一 Layout",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "在原技術棧實作",
+        "detail": "在原技術棧實作，維持動效與排版節制",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "啟用獲核准的 Browser Checker 並逐輪修復",
+        "detail": "啟用獲核准的 Browser Checker 並逐輪修復",
+        "result": "具 Art Direction 的實作頁面／元件"
+      }
+    ],
+    "howToUse": {
+      "trigger": "針對公司官網、Landing Page、SaaS 產品或行銷頁，實作有產品特性且經瀏覽器驗收的設計",
+      "meaning": "現行目錄 `skills/taste-skill/SKILL.md`、名稱 `design-taste-frontend`；先讀 2.5.1 原始規則，再明確批准安裝與 Hook",
+      "usageNote": "不適用未授權重設計整個 App 的情境；Stop Hook 可能讀寫專案及強制 Gate，安裝前必須審核；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "根據主體內容選擇的 Art Direction、版型及設計決策"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "已實作的 HTML／CSS／React 等前端頁面"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "三種寬度的瀏覽器截圖與缺陷清單"
+      },
+      {
+        "name": "附加成果 4",
+        "description": "修復迭代與尚未解決／無法驗證的項目"
+      }
+    ],
+    "composition": {
+      "problem": "AI 產生的網頁容易套用相同 Hero／卡片／漸層與籠統設計語彙，缺乏符合產品本身的獨特構圖與內容；只檢視產出的程式碼也無法驗證真實渲染的視覺品質及行動版問題。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "網站／產品用途、使用者、內容與品牌方向；既有前端 Repo 或新專案技術棧；可使用的品牌圖片／Logo／產品截圖及其授權條件；必須呈現的頁面區塊、資料與互動功能；可供腳本測試的 Node.js 22+、Chrome／Edge／Chromium 環境",
+          "output": "根據主體內容選擇的 Art Direction、版型及設計決策；已實作的 HTML／CSS／React 等前端頁面；三種寬度的瀏覽器截圖與缺陷清單；修復迭代與尚未解決／無法驗證的項目",
+          "gate": "安裝的 Skill 實體路徑與版本 2.5.1 一致"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "Hook 副作用",
+        "action": "Stop Hook 可啟動 Node／新增 .taste-skill 證據，須先審查權限"
+      },
+      {
+        "title": "控制 2",
+        "risk": "素材權利",
+        "action": "參考圖與品牌 Logo 要查 Copyright／License"
+      },
+      {
+        "title": "控制 3",
+        "risk": "產品適配",
+        "action": "作者的站點設計策略不是所有 Dashboard 的 UI 規範"
+      }
+    ],
+    "acceptance": [
+      "安裝的 Skill 實體路徑與版本 2.5.1 一致",
+      "每個審查結論有瀏覽器真實頁面證據",
+      "無未核准的 Hook 執行或遠端素材存取"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 tasteskill 2.5.1，舊 v2 摘要與安裝實體路徑已變；Source 含 Stop Hook、Browser Finish Gate",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "Hook 副作用：Stop Hook 可啟動 Node／新增 .taste-skill 證據，須先審查權限；素材權利：參考圖與品牌 Logo 要查 Copyright／License；產品適配：作者的站點設計策略不是所有 Dashboard 的 UI 規範。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

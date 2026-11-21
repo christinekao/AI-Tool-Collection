@@ -46,11 +46,14 @@
   "source": {
     "url": "https://github.com/lucasmarkes/hairline/blob/main/skills/hairline-adopt/SKILL.md",
     "type": "Official Hairline SKILL.md",
-    "summary": "Official 2026-10-27 read-only source review. No code, dependencies or browsers executed."
+    "summary": "Official 2026-10-27 read-only source review. No code, dependencies or browsers executed.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Hairline Adopt Skill；依賴 hairline-create，不直接動畫原 SVG",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-21",
   "tags": [
     "hairline",
     "skill",
@@ -79,5 +82,178 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "將已有合法 SVG Logo／Icon 的可辨識物件重新建成可互動的等角線條圖形",
+    "如果沒有合法來源 SVG 或未確認商標使用權，不要擅自轉譯；不能只動畫原 SVG 路徑"
+  ],
+  "constraints": [
+    "商標授權：改建不會消除原 SVG/Logo 權利限制",
+    "互動誤判：必須實際重建輪廓，非直接追蹤原線條"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "解析單一既有 SVG 圖示／標誌／插畫的物件與比例，重新搭建成 Hairline 的可互動等角線條圖形，而不是直接移動原 SVG。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "將已有合法 SVG Logo／Icon 的可辨識物件重新建成可互動的等角線條圖形"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Hairline Adopt Skill；依賴 hairline-create，不直接動畫原 SVG"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "已安裝 Host 使用 `/hairline-adopt <file.svg> [gesture]`，轉交 Hairline Create 先做 Step 0 物件拆解"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "將已有合法 SVG Logo／Icon 的可辨識物件重新建成可互動的等角線條圖形"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "如果沒有合法來源 SVG 或未確認商標使用權，不要擅自轉譯；不能只動畫原 SVG 路徑"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "一份授權使用的原始 .svg",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "可選的游標操作意圖",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "使用者對來源物件／保留部分的確認",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "讀取 SVG 的物件、比例、幾何分層",
+        "detail": "讀取 SVG 的物件、比例、幾何分層",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "提出重建後的立體形狀與游標 Gesture",
+        "detail": "提出重建後的立體形狀與游標 Gesture",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "依賴 hairline-create 完成可互動 Figure 工程",
+        "detail": "依賴 hairline-create 完成可互動 Figure 工程",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "用真實瀏覽器檢查形狀、可及性及輸出檔",
+        "detail": "用真實瀏覽器檢查形狀、可及性及輸出檔",
+        "result": "保留來源意象的重新建模 Hairline Figure"
+      }
+    ],
+    "howToUse": {
+      "trigger": "將已有合法 SVG Logo／Icon 的可辨識物件重新建成可互動的等角線條圖形",
+      "meaning": "已安裝 Host 使用 `/hairline-adopt <file.svg> [gesture]`，轉交 Hairline Create 先做 Step 0 物件拆解",
+      "usageNote": "如果沒有合法來源 SVG 或未確認商標使用權，不要擅自轉譯；不能只動畫原 SVG 路徑；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "保留來源主要物件特徵的 Hairline 互動圖形"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "一份由 hairline-create 流程產生的單檔 HTML 與明確驗證限制"
+      }
+    ],
+    "composition": {
+      "problem": "既有平面 SVG 缺少 Hairline 的立體形狀與自然互動，直接動畫或追蹤路徑不等於產生風格一致的新圖形。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "一份授權使用的原始 .svg；可選的游標操作意圖；使用者對來源物件／保留部分的確認",
+          "output": "保留來源主要物件特徵的 Hairline 互動圖形；一份由 hairline-create 流程產生的單檔 HTML 與明確驗證限制",
+          "gate": "原始 SVG 的辨識部件在新圖中可見"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "商標授權",
+        "action": "改建不會消除原 SVG/Logo 權利限制"
+      },
+      {
+        "title": "控制 2",
+        "risk": "互動誤判",
+        "action": "必須實際重建輪廓，非直接追蹤原線條"
+      }
+    ],
+    "acceptance": [
+      "原始 SVG 的辨識部件在新圖中可見",
+      "單檔 HTML 確實存在且可互動",
+      "無授權時只提供設計方案不執行"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/lucasmarkes/hairline/blob/main/skills/hairline-adopt/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Hairline Adopt Skill；依賴 hairline-create，不直接動畫原 SVG",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "商標授權：改建不會消除原 SVG/Logo 權利限制；互動誤判：必須實際重建輪廓，非直接追蹤原線條。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

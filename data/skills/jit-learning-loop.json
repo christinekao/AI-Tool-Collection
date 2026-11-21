@@ -4,10 +4,18 @@
   "entityType": "skill",
   "title": "JIT Learning Loop",
   "purpose": "把 coding agent 從『替你把任務做完』改成『在完成真實工程任務時，把可轉移的認知工作逐步交還給你』。流程先校準 assistance level，將未知拆成 concept / API / codebase / behavior，建立最小 mental model；在實驗前要求 prediction，再實作、解釋 diff 的 invariants / failure modes、用 transfer questions 檢查理解，最後留下 1–3 個可重用 lessons。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，使用者希望在完成工程任務時真正理解 API、Codebase、設計取捨與錯誤模式可能產生錯誤或不可用結果。",
+  "inputs": [
+    "具體工作需求與目前程式碼／錯誤現象",
+    "學習者對本主題的程度 1/2/3，或讓 Agent 校準",
+    "可以實際驗證的測試、實驗環境及任務期限"
+  ],
+  "outputs": [
+    "Concept／API／Codebase／Behavior 四類 Knowledge Gap Map",
+    "3–5 個核心概念的最小 Mental Model、預測與實驗",
+    "最終工程變更、Diff 的 Invariants／Failure Modes 與 1–3 個 Lessons"
+  ],
+  "execution": "1. 校準學習級別與任務緊急度，選出本次要保留的認知工作 → 2. 盤點已知／未知並建立最小模型，不擴張成整堂課 → 3. 在實驗前要求使用者提出預測並記錄可推翻條件 → 4. 實作、讀 Diff、請使用者回答遷移問題，依正確性漸進收回協助",
   "resourceRefs": [
     {
       "type": "resource",
@@ -26,7 +34,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "learning",
@@ -55,5 +63,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "使用者希望在完成工程任務時真正理解 API、Codebase、設計取捨與錯誤模式",
+    "使用者只求立即交付且無學習需求時不要強制提問；重大事故先修復再回顧"
+  ],
+  "constraints": [
+    "認知替代：Agent 不應在 Shared/Review Level 越權重寫所有答案",
+    "事故延誤：發生阻斷或 Outage 時先恢復服務，再做理解回顧"
+  ],
+  "source": {
+    "url": "https://github.com/cyyeh/jit-learning-loop/blob/main/skills/jit-learning-loop/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Apache-2.0；三級 Guided／Shared／Review 與兩個學習檢查點",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "把 coding agent 從『替你把任務做完』改成『在完成真實工程任務時，把可轉移的認知工作逐步交還給你』。流程先校準 assistance level，將未知拆成 concept / API / codebase / behavior，建立最小 mental model；在實驗前要求 prediction，再實作、解釋 diff 的 invariants / failure modes、用 transfer questions 檢查理解，最後留下 1–3 個可重用 lessons。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者希望在完成工程任務時真正理解 API、Codebase、設計取捨與錯誤模式"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Apache-2.0；三級 Guided／Shared／Review 與兩個學習檢查點"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "在 Agent Skills 相容 Host 啟用 `jit-learning-loop` 學習模式；只在預測與遷移理解兩個檢查點暫停"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者希望在完成工程任務時真正理解 API、Codebase、設計取捨與錯誤模式"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "使用者只求立即交付且無學習需求時不要強制提問；重大事故先修復再回顧"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "具體工作需求與目前程式碼／錯誤現象",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "學習者對本主題的程度 1/2/3，或讓 Agent 校準",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "可以實際驗證的測試、實驗環境及任務期限",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "校準學習級別與任務緊急度",
+        "detail": "校準學習級別與任務緊急度，選出本次要保留的認知工作",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "盤點已知／未知並建立最小模型",
+        "detail": "盤點已知／未知並建立最小模型，不擴張成整堂課",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "在實驗前要求使用者提出預測並記錄可推翻條件",
+        "detail": "在實驗前要求使用者提出預測並記錄可推翻條件",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "實作、讀 Diff、請使用者回答遷移問題",
+        "detail": "實作、讀 Diff、請使用者回答遷移問題，依正確性漸進收回協助",
+        "result": "Concept／API／Codebase／Behavior 四類 Knowledge Gap Map"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者希望在完成工程任務時真正理解 API、Codebase、設計取捨與錯誤模式",
+      "meaning": "在 Agent Skills 相容 Host 啟用 `jit-learning-loop` 學習模式；只在預測與遷移理解兩個檢查點暫停",
+      "usageNote": "使用者只求立即交付且無學習需求時不要強制提問；重大事故先修復再回顧；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "Concept／API／Codebase／Behavior 四類 Knowledge Gap Map"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "3–5 個核心概念的最小 Mental Model、預測與實驗"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "最終工程變更、Diff 的 Invariants／Failure Modes 與 1–3 個 Lessons"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，使用者希望在完成工程任務時真正理解 API、Codebase、設計取捨與錯誤模式可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "具體工作需求與目前程式碼／錯誤現象；學習者對本主題的程度 1/2/3，或讓 Agent 校準；可以實際驗證的測試、實驗環境及任務期限",
+          "output": "Concept／API／Codebase／Behavior 四類 Knowledge Gap Map；3–5 個核心概念的最小 Mental Model、預測與實驗；最終工程變更、Diff 的 Invariants／Failure Modes 與 1–3 個 Lessons",
+          "gate": "真實任務完成有 Build/Test 證據"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "認知替代",
+        "action": "Agent 不應在 Shared/Review Level 越權重寫所有答案"
+      },
+      {
+        "title": "控制 2",
+        "risk": "事故延誤",
+        "action": "發生阻斷或 Outage 時先恢復服務，再做理解回顧"
+      }
+    ],
+    "acceptance": [
+      "真實任務完成有 Build/Test 證據",
+      "學習者能回答新的 Transfer Question，而非只複述講解",
+      "只在兩個指定檢查點要求互動"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/cyyeh/jit-learning-loop/blob/main/skills/jit-learning-loop/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Apache-2.0；三級 Guided／Shared／Review 與兩個學習檢查點",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "認知替代：Agent 不應在 Shared/Review Level 越權重寫所有答案；事故延誤：發生阻斷或 Outage 時先恢復服務，再做理解回顧。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }
