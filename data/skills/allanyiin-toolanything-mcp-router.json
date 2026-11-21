@@ -52,11 +52,12 @@
   "source": {
     "url": "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-mcp-router/SKILL.md",
     "type": "Official SKILL.md, version 2026.3.17",
-    "reviewedAt": "2026-11-10"
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Upstream Skill / README documentation reviewed; no installation, runtime, security audit, permission changes or credential access"
   },
   "status": "active",
   "addedAt": "2026-11-10",
-  "updatedAt": "2026-11-10",
+  "updatedAt": "2026-11-21",
   "tags": [
     "toolanything",
     "mcp-router",
@@ -83,5 +84,174 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要把 HTTP、SQL、Python 或模型整理為可重用 Tool Contract",
+    "希望兼顧 MCP 與 OpenAI Tools 的相容描述"
+  ],
+  "constraints": [
+    "封裝外部 API、SQL 或模型可能外送資料與金鑰；最小權限、明確資料流與 Secret Store",
+    "MCP tool 可觸發真實副作用；先檢查 Schema 與讀寫邊界，使用安全測試資料"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "先判斷是否需要 ToolAnything，再選 @tool 或 Source-based 註冊方案，最後定義最小可重現的 MCP 驗證方式。",
+    "introNote": "本筆是上游 Skill 的閱讀與使用契約；未在此專案環境安裝或執行，正式工具權限與輸出須由使用者另外確認。",
+    "facts": [
+      {
+        "label": "使用環境",
+        "value": "支援 ToolAnything 或 Python/MCP 的開發環境"
+      },
+      {
+        "label": "啟動條件",
+        "value": "要把 Python 函式、HTTP API、SQL 或模型封裝成 MCP／OpenAI 工具時；一次性單函式應比較更簡單方案"
+      },
+      {
+        "label": "來源狀態",
+        "value": "官方 README／SKILL.md 已閱讀；執行未驗證"
+      }
+    ],
+    "situations": [
+      {
+        "title": "需要把 HTTP、SQL、Python 或模型整理為可重用 Tool Contract",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      },
+      {
+        "title": "希望兼顧 MCP 與 OpenAI Tools 的相容描述",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "工具來源及其 Input／Output Schema",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "要支援的 Host、Auth 和 Network 邊界",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "部署、Doctor、Inspector、Shared Server 等要求",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "評估最小方案",
+        "detail": "先排除只需一次性本地 Python Callable 的過度設計",
+        "result": "適當的工具骨架"
+      },
+      {
+        "number": "02",
+        "title": "決定註冊方式",
+        "detail": "穩定函式採 @tool，外部 HTTP／SQL／模型採 Source-based",
+        "result": "明確的輸入輸出契約"
+      },
+      {
+        "number": "03",
+        "title": "設計最小測試",
+        "detail": "限定本機端點並規劃 doctor、inspect、tools/list、tools/call",
+        "result": "可重現的驗證情境"
+      },
+      {
+        "number": "04",
+        "title": "移交部署",
+        "detail": "涉及 Host 同步、AGENTS 或 Shared Server 時交由 Platform Ops，在核准後處理",
+        "result": "清楚的責任邊界"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要把 Python 函式、HTTP API、SQL 或模型封裝成 MCP／OpenAI 工具時；一次性單函式應比較更簡單方案",
+      "meaning": "依官方來源在相容的 Agent Host 選擇或呼叫對應 Skill；此處只描述何時使用，並不代表已安裝可直接執行。",
+      "usageNote": "來源文件中的 Shell、套件安裝、檔案寫入、憑證與網路存取指令均需另外審查及授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要輸出",
+        "description": "採 ToolAnything 或輕量方案的架構決策"
+      },
+      {
+        "name": "其他輸出",
+        "description": "工具註冊契約和 tools/list、tools/call 測試計畫"
+      }
+    ],
+    "composition": {
+      "problem": "重複替 MCP、OpenAI 和 CLI 寫不同的 Tool Schema，或為一次性 MCP 函式套用過重的工具層。",
+      "capabilities": [
+        {
+          "id": "skill-reviewed-execution",
+          "title": "依明確輸入執行本 Skill 工作流",
+          "input": "工具來源及其 Input／Output Schema；要支援的 Host、Auth 和 Network 邊界；部署、Doctor、Inspector、Shared Server 等要求",
+          "output": "採 ToolAnything 或輕量方案的架構決策；工具註冊契約和 tools/list、tools/call 測試計畫",
+          "gate": "選擇 ToolAnything 有具體理由，非強制安裝。"
+        }
+      ],
+      "note": "此為知識庫中可重用的操作契約，非正式已測 Runtime Capability 或自動 Workflow 連結。"
+    },
+    "safety": [
+      {
+        "title": "資料與認證",
+        "risk": "封裝外部 API、SQL 或模型可能外送資料與金鑰",
+        "action": "最小權限、明確資料流與 Secret Store"
+      },
+      {
+        "title": "工具權限擴張",
+        "risk": "MCP tool 可觸發真實副作用",
+        "action": "先檢查 Schema 與讀寫邊界，使用安全測試資料"
+      }
+    ],
+    "acceptance": [
+      "選擇 ToolAnything 有具體理由，非強制安裝。",
+      "工具 Input／Output 和 Side Effect 清楚且可測。",
+      "正式測試以執行證據為準；目前僅為文件查核。"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/AllanYiin/ToolAnything/blob/main/skills/toolanything-mcp-router/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "未在本次文件確認版本",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游文件、核對既有 Canonical；未安裝或執行第三方程式。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Skill Canonical ID，對照原始來源與對應 Resource；不以主題或標籤相似新增重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未映射標籤與作者專有詞，不新增、刪除或自動正規化原始 Tags。"
+    },
+    "classificationReason": "保留既有 Domain、Category、Raw Tags、Typed References；只補充實際 Skill 操作閱讀規格和證據。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已依 SKILL_RESOURCE_SPEC.md 補充觸發情境、準備、流程、輸出、風險與實際可查驗 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此輪僅補 Skill 可讀操作契約，未實測可安裝能力、I/O 相容或建立正式 Runtime Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept References；未由標籤自動創建新 Edge。"
+    },
+    "riskNotes": "封裝外部 API、SQL 或模型可能外送資料與金鑰；MCP tool 可觸發真實副作用；原始 Skill 指令不構成安裝、存取機密、修改設定或外傳資料授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 GitHub 官方 README／SKILL.md 文件查核；本批沒有執行第三方 Build、Runtime、Integration、Security 或 License 測試。"
+    }
   }
 }

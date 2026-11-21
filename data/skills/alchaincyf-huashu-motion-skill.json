@@ -43,12 +43,14 @@
   ],
   "source": {
     "url": "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/SKILL.md",
-    "reviewedAt": "2026-11-04",
-    "type": "Official upstream Agent Skill"
+    "reviewedAt": "2026-11-21",
+    "type": "Official upstream Agent Skill",
+    "reviewScope": "Upstream Skill / README documentation reviewed; no installation, runtime, security audit, permission changes or credential access",
+    "currentUpstreamVersion": "0.5.1"
   },
   "status": "active",
   "addedAt": "2026-11-04",
-  "updatedAt": "2026-11-04",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "motion-graphics",
@@ -72,5 +74,166 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "以可編輯的 HTML 動畫為主版本，經產品研究、導演規劃和 Studio 畫面評論完成逐幀影片交付。",
+    "introNote": "本筆是上游 Skill 的閱讀與使用契約；未在此專案環境安裝或執行，正式工具權限與輸出須由使用者另外確認。",
+    "facts": [
+      {
+        "label": "使用環境",
+        "value": "支援 huashu-motion CLI、瀏覽器與影片輸出的 Coding Agent"
+      },
+      {
+        "label": "啟動條件",
+        "value": "產品發表片、品牌動態、可編輯 HTML 動畫，或想按影片時間點／畫面位置迭代時"
+      },
+      {
+        "label": "來源狀態",
+        "value": "官方 README／SKILL.md 已閱讀；執行未驗證"
+      }
+    ],
+    "situations": [
+      {
+        "title": "需要可反覆修改的產品宣傳影片或動畫",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      },
+      {
+        "title": "要根據特定時間點和畫面元素做精準修改",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "產品功能、網站、品牌素材與有授權的截圖",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "影片目標、長度、比例及預期音訊",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "瀏覽器／渲染器及使用者的逐幀意見",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "蒐集真實產品資訊",
+        "detail": "核對產品與素材，規劃有主題的敘事節奏",
+        "result": "素材板與影片主張"
+      },
+      {
+        "number": "02",
+        "title": "建立動畫主版本",
+        "detail": "以 index.html 的可編輯程式碼定義鏡頭、動效與節奏",
+        "result": "可瀏覽器預覽的動畫"
+      },
+      {
+        "number": "03",
+        "title": "Studio 迭代",
+        "detail": "收集時間點與位置意見，針對特定畫面修改後重新檢查",
+        "result": "可追蹤的修改結果"
+      },
+      {
+        "number": "04",
+        "title": "加入音訊與渲染",
+        "detail": "檢查聲畫同步、逐幀 QA，依權限使用本機渲染器輸出",
+        "result": "實際影片與驗收紀錄"
+      }
+    ],
+    "howToUse": {
+      "trigger": "產品發表片、品牌動態、可編輯 HTML 動畫，或想按影片時間點／畫面位置迭代時",
+      "meaning": "依官方來源在相容的 Agent Host 選擇或呼叫對應 Skill；此處只描述何時使用，並不代表已安裝可直接執行。",
+      "usageNote": "來源文件中的 Shell、套件安裝、檔案寫入、憑證與網路存取指令均需另外審查及授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要輸出",
+        "description": "包含 HTML／GSAP 的可編輯動畫主版本"
+      },
+      {
+        "name": "其他輸出",
+        "description": "經畫面 QA 的影片輸出、可選字幕與音訊素材"
+      }
+    ],
+    "composition": {
+      "problem": "AI 影片產出不易局部精準修改，動態設計、配樂與驗收缺乏一致工作流。",
+      "capabilities": [
+        {
+          "id": "skill-reviewed-execution",
+          "title": "依明確輸入執行本 Skill 工作流",
+          "input": "產品功能、網站、品牌素材與有授權的截圖；影片目標、長度、比例及預期音訊；瀏覽器／渲染器及使用者的逐幀意見",
+          "output": "包含 HTML／GSAP 的可編輯動畫主版本；經畫面 QA 的影片輸出、可選字幕與音訊素材",
+          "gate": "影片主張能以真實產品資訊佐證。"
+        }
+      ],
+      "note": "此為知識庫中可重用的操作契約，非正式已測 Runtime Capability 或自動 Workflow 連結。"
+    },
+    "safety": [
+      {
+        "title": "瀏覽器／命令副作用",
+        "risk": "依賴 CLI、Chrome 與可能的本機檔案寫入",
+        "action": "安裝和執行命令前核對權限、工具與輸出路徑"
+      },
+      {
+        "title": "素材版權與成本",
+        "risk": "使用音樂、配音、品牌影像可能受不同授權約束",
+        "action": "確認配樂、字體、圖片與模型的商用權限和輸出成本"
+      }
+    ],
+    "acceptance": [
+      "影片主張能以真實產品資訊佐證。",
+      "有 Studio 或實際畫面檢查證據；不只用成功編譯代替視覺驗收。",
+      "成片、音訊與字幕同步，並保留可編輯原始檔。"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "0.5.1",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游文件、核對既有 Canonical；未安裝或執行第三方程式。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Skill Canonical ID，對照原始來源與對應 Resource；不以主題或標籤相似新增重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未映射標籤與作者專有詞，不新增、刪除或自動正規化原始 Tags。"
+    },
+    "classificationReason": "保留既有 Domain、Category、Raw Tags、Typed References；只補充實際 Skill 操作閱讀規格和證據。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已依 SKILL_RESOURCE_SPEC.md 補充觸發情境、準備、流程、輸出、風險與實際可查驗 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此輪僅補 Skill 可讀操作契約，未實測可安裝能力、I/O 相容或建立正式 Runtime Capability。"
+    },
+    "conceptReview": {
+      "decision": "none",
+      "reason": "沒有足夠的新增 Concept Typed Reference 證據。"
+    },
+    "riskNotes": "依賴 CLI、Chrome 與可能的本機檔案寫入；使用音樂、配音、品牌影像可能受不同授權約束；原始 Skill 指令不構成安裝、存取機密、修改設定或外傳資料授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 GitHub 官方 README／SKILL.md 文件查核；本批沒有執行第三方 Build、Runtime、Integration、Security 或 License 測試。"
+    }
   }
 }
