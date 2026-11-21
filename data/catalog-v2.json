@@ -67348,11 +67348,17 @@
       "id": "yusufkaraaslan-skill-seekers",
       "entityType": "skill",
       "title": "yusufkaraaslan/Skill_Seekers",
-      "purpose": "Docs / Web / GitHub / PDF → Skill",
-      "problem": "",
-      "inputs": [],
-      "outputs": [],
-      "execution": "See source resource and its skill/protocol documentation.",
+      "purpose": "將已授權的文件網站、GitHub 程式庫、PDF、影片等知識來源轉為 Agent Skill、可檢索知識資產或平台輸出；實際輸出內容必須驗證。",
+      "problem": "已有大量技術文件／程式庫內容，但缺少可供 AI Agent 重用、追溯與更新的結構化知識包。",
+      "inputs": [
+        "有權處理的網站 URL、GitHub Repo、本地文件或匯出資料，以及可合法儲存的範圍",
+        "輸出目標（Agent Skill、RAG、平台）、抓取深度、排除內容、預算與資料敏感程度"
+      ],
+      "outputs": [
+        "依選定 Target 產生的 SKILL.md、references 或可供 Agent 讀取的結構化內容（需真實執行）",
+        "打包的平台產物或檢索資料與品質檢查報告（有執行並產出時）"
+      ],
+      "execution": "Python 3.10+；範例 CLI：skill-seekers detect <source> --json；skill-seekers create <source>；skill-seekers quality output/<name>/；skill-seekers package output/<name> --target claude。需另行核准安裝。。文件方法：確認來源與權限 → 預覽與擷取 → 整理與品質檢查 → 輸出與封裝。第三方來源內容不是對當前環境的安裝、執行或外部寫入授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -67367,7 +67373,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-21",
       "tags": [
         "skill-builder",
         "docs",
@@ -67385,6 +67391,189 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。",
+        "只有一般問答或未授權的付費／內部來源時不抓取；沒有相容執行環境、Python、來源與合法存取權時不宣稱完成轉換。"
+      ],
+      "constraints": [
+        "資料與網站權限｜不能繞過登入、授權或 robots／平台限制；不得將私人程式碼、憑證、個資直接送交外部模型。",
+        "成本與依賴｜OCR、影片轉錄、雲端 LLM、Playwright 等是可選依賴且可能產生成本；不自動安裝。",
+        "授權範圍｜Repo LICENSE 為 MIT，但來源文件、截圖、程式碼、影片、模型與依賴授權需另行審查。"
+      ],
+      "source": {
+        "url": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/README.md",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 README 標示 v3.9.0、18 類來源、22 個 Target；這些是文件陳述，非本次實測。主 Repo LICENSE 為 MIT；第三方內容、模型另計。",
+        "licenseEvidence": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/LICENSE",
+        "reviewScope": "2026-11-21 官方上游 README／SKILL.md 與 Repo LICENSE 已讀；實際安裝、Runtime、安全掃描、完整授權、整合測試未執行"
+      },
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "將已授權的文件網站、GitHub 程式庫、PDF、影片等知識來源轉為 Agent Skill、可檢索知識資產或平台輸出；實際輸出內容必須驗證。",
+        "introNote": "依官方原始文件整理使用契約；本知識庫僅作文件審查，不代表第三方 Skill 已安裝或可安全執行。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "將已授權的文件網站、GitHub 程式庫、PDF、影片等知識來源轉為 Agent Skill、可檢索知識資產或平台輸出；實際輸出內容必須驗證。"
+          },
+          {
+            "label": "來源與授權",
+            "value": "官方 README 標示 v3.9.0、18 類來源、22 個 Target；這些是文件陳述，非本次實測。主 Repo LICENSE 為 MIT；第三方內容、模型另計。"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "只有一般問答或未授權的付費／內部來源時不抓取；沒有相容執行環境、Python、來源與合法存取權時不宣稱完成轉換。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "有權處理的網站 URL、GitHub Repo、本地文件或匯出資料，以及可合法儲存的範圍",
+            "detail": "確認來源、資料和處理權限。"
+          },
+          {
+            "title": "輸出目標（Agent Skill、RAG、平台）、抓取深度、排除內容、預算與資料敏感程度",
+            "detail": "確認輸出、環境、授權與成本邊界；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "確認來源與權限",
+            "detail": "查明來源權限、robots／平台條款、資料範圍、需排除的機密及目標格式",
+            "result": "有界的來源與 Target 規格"
+          },
+          {
+            "number": "02",
+            "title": "預覽與擷取",
+            "detail": "先 detect 確認來源，再選對應 create 流程萃取資料",
+            "result": "可追溯的內容與中間檔"
+          },
+          {
+            "number": "03",
+            "title": "整理與品質檢查",
+            "detail": "檢視生成的 SKILL.md、引用、過時內容及隱私；必要時 quality 檢查",
+            "result": "可審查的 Skill 素材與失敗明細"
+          },
+          {
+            "number": "04",
+            "title": "輸出與封裝",
+            "detail": "只在工具實際可用時執行 package --target，確認成果路徑",
+            "result": "實際存在的 Skill ZIP 或知識資產"
+          }
+        ],
+        "howToUse": {
+          "trigger": "需要把有權讀取的網站文件、程式庫、PDF 或其他來源轉為結構化 Agent Skill／RAG 知識包，而非只做一次摘要。",
+          "meaning": "Python 3.10+；範例 CLI：skill-seekers detect <source> --json；skill-seekers create <source>；skill-seekers quality output/<name>/；skill-seekers package output/<name> --target claude。需另行核准安裝。",
+          "usageNote": "只有一般問答或未授權的付費／內部來源時不抓取；沒有相容執行環境、Python、來源與合法存取權時不宣稱完成轉換。；不得將上游範例指令當作本環境的操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "知識素材",
+            "description": "SKILL.md、參考文件及中間資料（實際產生後）"
+          },
+          {
+            "name": "封裝成果",
+            "description": "對應 Target 的 ZIP／RAG 文件與來源／品質紀錄（實際產生後）"
+          }
+        ],
+        "composition": {
+          "problem": "已有大量技術文件／程式庫內容，但缺少可供 AI Agent 重用、追溯與更新的結構化知識包。",
+          "capabilities": [
+            {
+              "id": "source-to-agent-knowledge",
+              "title": "來源內容轉知識資產",
+              "input": "有權處理的網站 URL、GitHub Repo、本地文件或匯出資料，以及可合法儲存的範圍；輸出目標（Agent Skill、RAG、平台）、抓取深度、排除內容、預算與資料敏感程度",
+              "output": "依選定 Target 產生的 SKILL.md、references 或可供 Agent 讀取的結構化內容（需真實執行）；打包的平台產物或檢索資料與品質檢查報告（有執行並產出時）",
+              "gate": "生成的內容能追溯到具體來源，引用、時間與敏感資訊經檢查"
+            }
+          ],
+          "note": "只說明可重用的候選 I/O／Gate，未建立正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "資料與網站權限",
+            "risk": "資料與網站權限",
+            "action": "不能繞過登入、授權或 robots／平台限制；不得將私人程式碼、憑證、個資直接送交外部模型。"
+          },
+          {
+            "title": "成本與依賴",
+            "risk": "成本與依賴",
+            "action": "OCR、影片轉錄、雲端 LLM、Playwright 等是可選依賴且可能產生成本；不自動安裝。"
+          },
+          {
+            "title": "授權範圍",
+            "risk": "授權範圍",
+            "action": "Repo LICENSE 為 MIT，但來源文件、截圖、程式碼、影片、模型與依賴授權需另行審查。"
+          }
+        ],
+        "acceptance": [
+          "生成的內容能追溯到具體來源，引用、時間與敏感資訊經檢查",
+          "只有 CLI 真正輸出檔案、品質檢查可追蹤時才回報建置成功；未執行標為 NOT TESTED"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/README.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "README v3.9.0 (main; 2026-11-21 查核)，安裝包版本未檢查",
+          "licenseUrl": "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/LICENSE",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅文件來源查核；第三方 Runtime／Security／完整 License 法律審查／Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "原有 Canonical Skill 已存在，增補文件契約；不新增或刪除原有 ID，兩筆 AutoClip 在同 Repo 但獨立 SKILL.md，不視為重複。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原始 Tags、Domains 與 Typed References；本批不新增任何標籤或邊。"
+        },
+        "classificationReason": "維持既有 Primary Domain 和分類候選，不進行跨類改寫。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 README 或個別 SKILL.md 已閱讀，足以整理 Trigger、I/O、步驟、風險與 Gate；未實際執行。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "候選能力僅放在 Guide，未驗證執行與相容性前不建立正式關聯。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "原本 Concept Typed References 均保留，無推測新增邊。"
+        },
+        "riskNotes": "資料與網站權限：不能繞過登入、授權或 robots／平台限制；不得將私人程式碼、憑證、個資直接送交外部模型。；成本與依賴：OCR、影片轉錄、雲端 LLM、Playwright 等是可選依賴且可能產生成本；不自動安裝。；授權範圍：Repo LICENSE 為 MIT，但來源文件、截圖、程式碼、影片、模型與依賴授權需另行審查。；第三方程式安裝、Runtime、安全掃描、整合測試與完整授權未做。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 及 Repo LICENSE 已讀；第三方 Runtime／Security／完整 License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -67392,16 +67581,17 @@
       "id": "zhouxiaoka-autoclip-autoclip",
       "entityType": "skill",
       "title": "AutoClip Skill — Convert Long Videos into Platform Publishing Kits",
-      "purpose": "依授權的影片連結或本地長片，用已有 AutoClip MCP/CLI 製作平台格式短片、封面、文案及 ZIP；處理 partial/failed/interrupted，分別回報真實結果。",
-      "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+      "purpose": "將有權處理的 YouTube／B 站連結或本機長影片製成各平台成片、封面、發布文案與 ZIP 發布包；將成功、部分成功與中斷分開回報。",
+      "problem": "想從授權長影片產生可實際檢查的平台發布包，但需要明確版本、輸入、非同步狀態、錯誤復原與輸出契約。",
       "inputs": [
-        "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-        "使用者明確的任務、可存取資料與必要授權"
+        "使用者有權處理的 YouTube／B 站 HTTPS URL 或本機影片絕對路徑、目標平台",
+        "選擇性字幕 SRT、風格（editorial／street／news／cinema／classic）、輸出存放處、模型費用授權"
       ],
       "outputs": [
-        "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+        "依平台裁切渲染的影片、封面及發布文案（實際完成的平台）",
+        "ZIP 發布包、project_id、逐平台狀態與完整檔案路徑（若實際導出）"
       ],
-      "execution": "官方 SKILL.md：skills/autoclip/SKILL.md。此 Skill 只屬於 zhouxiaoka/autoclip 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：copyright-and-model-cost。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+      "execution": "優先已存在的 AutoClip MCP（get_version → start_quick_output → get_quick_output_status）；無 MCP 但有授權 Shell 時使用 autoclip produce <source> --json；無環境時僅提供文件說明。。文件方法：確認版本與素材 → 提交單筆任務 → 輪詢到終態 → 導出與逐平台驗收。第三方來源內容不是對當前環境的安裝、執行或外部寫入授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -67425,11 +67615,15 @@
       "source": {
         "url": "https://github.com/zhouxiaoka/autoclip/blob/main/skills/autoclip/SKILL.md",
         "type": "Official GitHub SKILL.md",
-        "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+        "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "官方 SKILL.md 說明 7 個平台 id、五種風格、狀態輪詢與 ZIP 導出；版本應查 get_version，未實測。Repo 主 LICENSE 為 MIT。",
+        "licenseEvidence": "https://github.com/zhouxiaoka/autoclip/blob/main/LICENSE",
+        "reviewScope": "2026-11-21 官方上游 README／SKILL.md 與 Repo LICENSE 已讀；實際安裝、Runtime、安全掃描、完整授權、整合測試未執行"
       },
       "status": "active",
       "addedAt": "2026-10-25",
-      "updatedAt": "2026-10-25",
+      "updatedAt": "2026-11-21",
       "tags": [
         "agent-skill",
         "autoclip",
@@ -67450,6 +67644,182 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "使用者提供合法影片來源，明確希望產出平台短片、封面、文案與發布包。",
+        "只要原始片段或舊片段 Upload-Post 應走 references/legacy.md；只問安裝或未提供來源不開始製片，未核准不得代替使用者發布。"
+      ],
+      "constraints": [
+        "著作權與肖像｜原片、音樂、訪談人物、字幕與各平台再利用需有授權；MIT 不涵蓋第三方素材。",
+        "費用與憑證｜雲端模型可能按量計費；API Key 僅能放安全設定或環境變數，不寫進對話／工具參數。",
+        "執行與狀態真實性｜partial 不重送整筆成功項目；interrupted 待使用者決定；unknown 不能宣稱完成；不擅自發布。"
+      ],
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "將有權處理的 YouTube／B 站連結或本機長影片製成各平台成片、封面、發布文案與 ZIP 發布包；將成功、部分成功與中斷分開回報。",
+        "introNote": "依官方原始文件整理使用契約；本知識庫僅作文件審查，不代表第三方 Skill 已安裝或可安全執行。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "將有權處理的 YouTube／B 站連結或本機長影片製成各平台成片、封面、發布文案與 ZIP 發布包；將成功、部分成功與中斷分開回報。"
+          },
+          {
+            "label": "來源與授權",
+            "value": "官方 SKILL.md 說明 7 個平台 id、五種風格、狀態輪詢與 ZIP 導出；版本應查 get_version，未實測。Repo 主 LICENSE 為 MIT。"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "使用者提供合法影片來源，明確希望產出平台短片、封面、文案與發布包。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用者提供合法影片來源，明確希望產出平台短片、封面、文案與發布包。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "只要原始片段或舊片段 Upload-Post 應走 references/legacy.md；只問安裝或未提供來源不開始製片，未核准不得代替使用者發布。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "使用者有權處理的 YouTube／B 站 HTTPS URL 或本機影片絕對路徑、目標平台",
+            "detail": "確認來源、資料和處理權限。"
+          },
+          {
+            "title": "選擇性字幕 SRT、風格（editorial／street／news／cinema／classic）、輸出存放處、模型費用授權",
+            "detail": "確認輸出、環境、授權與成本邊界；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "確認版本與素材",
+            "detail": "呼叫 get_version 或 autoclip --version；確認影片權限、平台和現有工具",
+            "result": "版本與合法輸入"
+          },
+          {
+            "number": "02",
+            "title": "提交單筆任務",
+            "detail": "用 start_quick_output 或 autoclip produce；取得 project_id；批量時一次一筆",
+            "result": "可追蹤任務 ID"
+          },
+          {
+            "number": "03",
+            "title": "輪詢到終態",
+            "detail": "依 poll_after_sec 查狀態，區分 completed／partial／failed／interrupted／cancelled／unknown",
+            "result": "真實狀態與完成項目"
+          },
+          {
+            "number": "04",
+            "title": "導出與逐平台驗收",
+            "detail": "終態後以 export_kits=true 重新查詢，確認影片／封面／文案／ZIP 完整路徑",
+            "result": "已存在的發布包或缺漏報告"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者提供合法影片來源，明確希望產出平台短片、封面、文案與發布包。",
+          "meaning": "優先已存在的 AutoClip MCP（get_version → start_quick_output → get_quick_output_status）；無 MCP 但有授權 Shell 時使用 autoclip produce <source> --json；無環境時僅提供文件說明。",
+          "usageNote": "只要原始片段或舊片段 Upload-Post 應走 references/legacy.md；只問安裝或未提供來源不開始製片，未核准不得代替使用者發布。；不得將上游範例指令當作本環境的操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "發布素材",
+            "description": "各平台影片、封面、發布文案"
+          },
+          {
+            "name": "打包與證據",
+            "description": "ZIP 發布包、project_id、實際終態和遺漏清單"
+          }
+        ],
+        "composition": {
+          "problem": "想從授權長影片產生可實際檢查的平台發布包，但需要明確版本、輸入、非同步狀態、錯誤復原與輸出契約。",
+          "capabilities": [
+            {
+              "id": "long-video-to-publishing-kit",
+              "title": "長片轉跨平台發布包",
+              "input": "使用者有權處理的 YouTube／B 站 HTTPS URL 或本機影片絕對路徑、目標平台；選擇性字幕 SRT、風格（editorial／street／news／cinema／classic）、輸出存放處、模型費用授權",
+              "output": "依平台裁切渲染的影片、封面及發布文案（實際完成的平台）；ZIP 發布包、project_id、逐平台狀態與完整檔案路徑（若實際導出）",
+              "gate": "逐平台檢查實際影片、封面、文案與 ZIP；任何缺失分別列出，不將 partial 當 completed"
+            }
+          ],
+          "note": "只說明可重用的候選 I/O／Gate，未建立正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "著作權與肖像",
+            "risk": "著作權與肖像",
+            "action": "原片、音樂、訪談人物、字幕與各平台再利用需有授權；MIT 不涵蓋第三方素材。"
+          },
+          {
+            "title": "費用與憑證",
+            "risk": "費用與憑證",
+            "action": "雲端模型可能按量計費；API Key 僅能放安全設定或環境變數，不寫進對話／工具參數。"
+          },
+          {
+            "title": "執行與狀態真實性",
+            "risk": "執行與狀態真實性",
+            "action": "partial 不重送整筆成功項目；interrupted 待使用者決定；unknown 不能宣稱完成；不擅自發布。"
+          }
+        ],
+        "acceptance": [
+          "逐平台檢查實際影片、封面、文案與 ZIP；任何缺失分別列出，不將 partial 當 completed",
+          "任務有 project_id、版本、終態與檔案路徑，無下載／渲染／發布權限時明確標為未執行"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/skills/autoclip/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 skills/autoclip/SKILL.md（main 2026-11-21）；Runtime 需由 get_version 判定",
+          "licenseUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/LICENSE",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅文件來源查核；第三方 Runtime／Security／完整 License 法律審查／Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "原有 Canonical Skill 已存在，增補文件契約；不新增或刪除原有 ID，兩筆 AutoClip 在同 Repo 但獨立 SKILL.md，不視為重複。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原始 Tags、Domains 與 Typed References；本批不新增任何標籤或邊。"
+        },
+        "classificationReason": "維持既有 Primary Domain 和分類候選，不進行跨類改寫。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 README 或個別 SKILL.md 已閱讀，足以整理 Trigger、I/O、步驟、風險與 Gate；未實際執行。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "候選能力僅放在 Guide，未驗證執行與相容性前不建立正式關聯。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "原本 Concept Typed References 均保留，無推測新增邊。"
+        },
+        "riskNotes": "著作權與肖像：原片、音樂、訪談人物、字幕與各平台再利用需有授權；MIT 不涵蓋第三方素材。；費用與憑證：雲端模型可能按量計費；API Key 僅能放安全設定或環境變數，不寫進對話／工具參數。；執行與狀態真實性：partial 不重送整筆成功項目；interrupted 待使用者決定；unknown 不能宣稱完成；不擅自發布。；第三方程式安裝、Runtime、安全掃描、整合測試與完整授權未做。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 及 Repo LICENSE 已讀；第三方 Runtime／Security／完整 License／Integration NOT TESTED。"
+        }
       }
     },
     {
@@ -67457,16 +67827,17 @@
       "id": "zhouxiaoka-autoclip-product-board",
       "entityType": "skill",
       "title": "AutoClip Product Board Skill — Community Feedback & GitHub Roadmap",
-      "purpose": "僅處理 AutoClip Repository 的社群看板與功能需求分類，先整理 Discussions/Issues 再提出建議；寫入 GitHub Issue、變更 Project 狀態必須得到使用者明確授權。",
-      "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+      "purpose": "整理 AutoClip 社群 Discussions、Issues 的功能訊號與重複需求，提出路線圖建議；取得人員明確授權後才建立 Issue 或修改 Project 欄位。",
+      "problem": "公開社群的功能呼聲分散在 Discussions、Issues，需要以可稽核證據分類排序，同時避免 Agent 未經授權改寫 Roadmap。",
       "inputs": [
-        "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-        "使用者明確的任務、可存取資料與必要授權"
+        "可讀取的 AutoClip Discussions／Issues、30 天觀察區間與實際來源連結",
+        "已有 status:* Issue 和 Project 狀態；若要求寫入，需人員明確指定操作與狀態欄位"
       ],
       "outputs": [
-        "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+        "主題分群、重複需求、熱度證據／未知數、排序與建議欄位（唯讀）",
+        "僅在授權後建立或更新的 GitHub Issue／Project 狀態與回覆討論之連結"
       ],
-      "execution": "官方 SKILL.md：skills/product-board/SKILL.md。此 Skill 只屬於 zhouxiaoka/autoclip 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：repository-write。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+      "execution": "AutoClip Repo 中 scripts/feature_signals.py --days 30 --json（只讀）；寫入時依 docs/COMMUNITY_BOARD.md 及 docs/community/issue-body.md，需有受權 GitHub 身分。。文件方法：擷取真實訊號 → 人工語意分類與查重 → 提出排序建議 → 取得授權再更新。第三方來源內容不是對當前環境的安裝、執行或外部寫入授權。",
       "resourceRefs": [
         {
           "type": "resource",
@@ -67490,11 +67861,15 @@
       "source": {
         "url": "https://github.com/zhouxiaoka/autoclip/blob/main/skills/product-board/SKILL.md",
         "type": "Official GitHub SKILL.md",
-        "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+        "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+        "reviewedAt": "2026-11-21",
+        "versionEvidence": "來源契約強制先讀 COMMUNITY_BOARD.md；先唯讀再依人員批准寫入，Shipped 需 release notes；Repo 主 LICENSE 為 MIT。",
+        "licenseEvidence": "https://github.com/zhouxiaoka/autoclip/blob/main/LICENSE",
+        "reviewScope": "2026-11-21 官方上游 README／SKILL.md 與 Repo LICENSE 已讀；實際安裝、Runtime、安全掃描、完整授權、整合測試未執行"
       },
       "status": "active",
       "addedAt": "2026-10-25",
-      "updatedAt": "2026-10-25",
+      "updatedAt": "2026-11-21",
       "tags": [
         "agent-skill",
         "product-board",
@@ -67515,6 +67890,182 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "whenToUse": [
+        "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。",
+        "不適用一般 Repo Issue 分類、沒有 AutoClip Repo 資料的推測排序，或未經明確許可就建立 Issue／升級 Project 狀態。"
+      ],
+      "constraints": [
+        "外部寫入與聲譽｜GitHub Issue、Project 與 Discussions 是持久公開副作用，沒有明確人員許可不能寫。",
+        "來源證據｜不得捏造投票數或需求規模；腳本的字詞重疊只是提示，需人工核對。",
+        "錯誤狀態升級｜PR 合併不等於 Shipped，沒有發版說明不可將卡片標示已交付。"
+      ],
+      "skillGuide": {
+        "version": 1,
+        "scope": "agent-skill",
+        "overview": "整理 AutoClip 社群 Discussions、Issues 的功能訊號與重複需求，提出路線圖建議；取得人員明確授權後才建立 Issue 或修改 Project 欄位。",
+        "introNote": "依官方原始文件整理使用契約；本知識庫僅作文件審查，不代表第三方 Skill 已安裝或可安全執行。",
+        "facts": [
+          {
+            "label": "用途",
+            "value": "整理 AutoClip 社群 Discussions、Issues 的功能訊號與重複需求，提出路線圖建議；取得人員明確授權後才建立 Issue 或修改 Project 欄位。"
+          },
+          {
+            "label": "來源與授權",
+            "value": "來源契約強制先讀 COMMUNITY_BOARD.md；先唯讀再依人員批准寫入，Shipped 需 release notes；Repo 主 LICENSE 為 MIT。"
+          },
+          {
+            "label": "正式觸發前提",
+            "value": "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。"
+          },
+          {
+            "label": "執行驗證狀態",
+            "value": "SOURCE REVIEWED／RUNTIME NOT TESTED"
+          }
+        ],
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "不適用一般 Repo Issue 分類、沒有 AutoClip Repo 資料的推測排序，或未經明確許可就建立 Issue／升級 Project 狀態。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "可讀取的 AutoClip Discussions／Issues、30 天觀察區間與實際來源連結",
+            "detail": "確認來源、資料和處理權限。"
+          },
+          {
+            "title": "已有 status:* Issue 和 Project 狀態；若要求寫入，需人員明確指定操作與狀態欄位",
+            "detail": "確認輸出、環境、授權與成本邊界；未授權不執行。"
+          }
+        ],
+        "process": [
+          {
+            "number": "01",
+            "title": "擷取真實訊號",
+            "detail": "以 feature_signals.py --days 30 --json 彙整（具權限時），沒有資料不可編造票數",
+            "result": "標註來源的回饋清單"
+          },
+          {
+            "number": "02",
+            "title": "人工語意分類與查重",
+            "detail": "用語意分群需求，對照現有 status:* Issue，將 Q&A／Bug 排除",
+            "result": "可回查的相似與新需求"
+          },
+          {
+            "number": "03",
+            "title": "提出排序建議",
+            "detail": "區分 Exploring／Researching 候選與較後階段；僅建議不寫入",
+            "result": "排序、理由和建議欄位"
+          },
+          {
+            "number": "04",
+            "title": "取得授權再更新",
+            "detail": "人員說明『開 Issue』或指定『放進某欄』後才按模板寫入；Shipped 以發版說明為準",
+            "result": "真正的 Issue／Project 連結或未執行紀錄"
+          }
+        ],
+        "howToUse": {
+          "trigger": "使用者明確要分析 AutoClip 社群回饋、功能需求、重複問題，或指定將已確認項目移入 Roadmap。",
+          "meaning": "AutoClip Repo 中 scripts/feature_signals.py --days 30 --json（只讀）；寫入時依 docs/COMMUNITY_BOARD.md 及 docs/community/issue-body.md，需有受權 GitHub 身分。",
+          "usageNote": "不適用一般 Repo Issue 分類、沒有 AutoClip Repo 資料的推測排序，或未經明確許可就建立 Issue／升級 Project 狀態。；不得將上游範例指令當作本環境的操作授權。"
+        },
+        "deliverables": [
+          {
+            "name": "需求盤點",
+            "description": "議題分群、重複比對、證據連結、優先順序"
+          },
+          {
+            "name": "經核准更新",
+            "description": "指定欄位／Issue／Project 和討論回覆連結（僅在實際寫入後）"
+          }
+        ],
+        "composition": {
+          "problem": "公開社群的功能呼聲分散在 Discussions、Issues，需要以可稽核證據分類排序，同時避免 Agent 未經授權改寫 Roadmap。",
+          "capabilities": [
+            {
+              "id": "community-feedback-to-roadmap-review",
+              "title": "回饋整理與受控路線圖更新",
+              "input": "可讀取的 AutoClip Discussions／Issues、30 天觀察區間與實際來源連結；已有 status:* Issue 和 Project 狀態；若要求寫入，需人員明確指定操作與狀態欄位",
+              "output": "主題分群、重複需求、熱度證據／未知數、排序與建議欄位（唯讀）；僅在授權後建立或更新的 GitHub Issue／Project 狀態與回覆討論之連結",
+              "gate": "每條排序建議能回指討論／Issue 與時間範圍，重複項與 Bug／Q&A 清楚區分"
+            }
+          ],
+          "note": "只說明可重用的候選 I/O／Gate，未建立正式 Capability 或 Graph 關係。"
+        },
+        "safety": [
+          {
+            "title": "外部寫入與聲譽",
+            "risk": "外部寫入與聲譽",
+            "action": "GitHub Issue、Project 與 Discussions 是持久公開副作用，沒有明確人員許可不能寫。"
+          },
+          {
+            "title": "來源證據",
+            "risk": "來源證據",
+            "action": "不得捏造投票數或需求規模；腳本的字詞重疊只是提示，需人工核對。"
+          },
+          {
+            "title": "錯誤狀態升級",
+            "risk": "錯誤狀態升級",
+            "action": "PR 合併不等於 Shipped，沒有發版說明不可將卡片標示已交付。"
+          }
+        ],
+        "acceptance": [
+          "每條排序建議能回指討論／Issue 與時間範圍，重複項與 Bug／Q&A 清楚區分",
+          "未核准時 GitHub 零寫入；已核准時僅執行指定動作，狀態符合發版證據"
+        ],
+        "provenance": {
+          "sourceUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/skills/product-board/SKILL.md",
+          "reviewedAt": "2026-11-21",
+          "reviewedVersion": "官方 skills/product-board/SKILL.md（main 2026-11-21）；依 COMMUNITY_BOARD.md／ROADMAP.md／HANDOFF.md 定義邊界",
+          "licenseUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/LICENSE",
+          "execution": "NOT_EXECUTED",
+          "notes": "僅文件來源查核；第三方 Runtime／Security／完整 License 法律審查／Integration 未測。"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-21",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source.url"
+          ],
+          "reason": "原有 Canonical Skill 已存在，增補文件契約；不新增或刪除原有 ID，兩筆 AutoClip 在同 Repo 但獨立 SKILL.md，不視為重複。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原始 Tags、Domains 與 Typed References；本批不新增任何標籤或邊。"
+        },
+        "classificationReason": "維持既有 Primary Domain 和分類候選，不進行跨類改寫。",
+        "readingSpec": {
+          "id": "skill",
+          "status": "applied",
+          "reason": "官方 README 或個別 SKILL.md 已閱讀，足以整理 Trigger、I/O、步驟、風險與 Gate；未實際執行。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "候選能力僅放在 Guide，未驗證執行與相容性前不建立正式關聯。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "原本 Concept Typed References 均保留，無推測新增邊。"
+        },
+        "riskNotes": "外部寫入與聲譽：GitHub Issue、Project 與 Discussions 是持久公開副作用，沒有明確人員許可不能寫。；來源證據：不得捏造投票數或需求規模；腳本的字詞重疊只是提示，需人工核對。；錯誤狀態升級：PR 合併不等於 Shipped，沒有發版說明不可將卡片標示已交付。；第三方程式安裝、Runtime、安全掃描、整合測試與完整授權未做。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "官方 README／SKILL.md 及 Repo LICENSE 已讀；第三方 Runtime／Security／完整 License／Integration NOT TESTED。"
+        }
       }
     }
   ],
