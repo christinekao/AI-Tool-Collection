@@ -4,10 +4,18 @@
   "entityType": "skill",
   "title": "Impeccable",
   "purpose": "把前端設計 guidance、產品脈絡、browser iteration 與 UI 品質檢查封裝成一個跨 coding-agent harness 的 Skill。提供 24 個設計命令、live browser iteration、61 個 deterministic detector rules，以及 PRODUCT.md / DESIGN.md 分層，讓 Agent 能先理解產品真實需求，再做 shape、critique、audit、polish、animate、layout、typeset 等設計工作。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "用有產品脈絡與確定性檢查方式改善 UI 設計；缺乏可驗收的操作契約或資料證據將造成錯誤結果。",
+  "inputs": [
+    "產品使用者與真實產品事實",
+    "設計系統及 UI 原始碼",
+    "Browser、遙測／外部 Catalog 許可"
+  ],
+  "outputs": [
+    "PRODUCT.md 與 DESIGN.md 分層文件",
+    "指定 UI 的設計建議與修改",
+    "Detectors 報告及 Browser QA"
+  ],
+  "execution": "1. 先讀或建立 PRODUCT.md → 2. 另用 DESIGN.md 記錄視覺系統 → 3. 選最小命令並局部修改 → 4. 執行 Browser 與規則／人工審查",
   "resourceRefs": [
     {
       "type": "resource",
@@ -34,7 +42,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-11-21",
   "tags": [
     "frontend-design",
     "agent-skill",
@@ -62,5 +70,187 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "用有產品脈絡與確定性檢查方式改善 UI 設計"
+  ],
+  "constraints": [
+    "網路：停用遙測仍可能存取設計目錄",
+    "寫入：Live 模式會改原始碼與建立專案文件"
+  ],
+  "source": {
+    "url": "https://github.com/pbakaus/impeccable/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Read official current README/SKILL.md; no third-party installation, runtime, security or license audit",
+    "versionEvidence": "24 Commands、Browser Live、PRODUCT.md、DESIGN.md"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "把前端設計 guidance、產品脈絡、browser iteration 與 UI 品質檢查封裝成一個跨 coding-agent harness 的 Skill。提供 24 個設計命令、live browser iteration、61 個 deterministic detector rules，以及 PRODUCT.md / DESIGN.md 分層，讓 Agent 能先理解產品真實需求，再做 shape、critique、audit、polish、animate、layout、typeset 等設計工作。",
+    "introNote": "依上游官方文件整理的操作契約；本知識庫未執行第三方 Skill。",
+    "facts": [
+      {
+        "label": "適合情境",
+        "value": "用有產品脈絡與確定性檢查方式改善 UI 設計"
+      },
+      {
+        "label": "正式指令或使用邊界",
+        "value": "安裝後用 `/impeccable init`（Codex `$impeccable init`），再依任務選 critique/audit/polish/live"
+      },
+      {
+        "label": "上游版本證據",
+        "value": "24 Commands、Browser Live、PRODUCT.md、DESIGN.md"
+      },
+      {
+        "label": "執行狀態",
+        "value": "SOURCE CHECKED／NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "使用時機",
+        "description": "用有產品脈絡與確定性檢查方式改善 UI 設計"
+      },
+      {
+        "title": "先確認執行條件",
+        "description": "安裝後用 `/impeccable init`（Codex `$impeccable init`），再依任務選 critique/audit/polish/live"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "產品使用者與真實產品事實",
+        "detail": "確認有權取得此資料。"
+      },
+      {
+        "title": "設計系統及 UI 原始碼",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      },
+      {
+        "title": "Browser、遙測／外部 Catalog 許可",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先讀或建立 PRODUCT.md",
+        "detail": "先讀或建立 PRODUCT.md",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "02",
+        "title": "另用 DESIGN.md 記錄視覺系統",
+        "detail": "另用 DESIGN.md 記錄視覺系統",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "03",
+        "title": "選最小命令並局部修改",
+        "detail": "選最小命令並局部修改",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "04",
+        "title": "執行 Browser 與規則／人工審查",
+        "detail": "執行 Browser 與規則／人工審查",
+        "result": "符合需求的成果或具體 BLOCKED 原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "用有產品脈絡與確定性檢查方式改善 UI 設計",
+      "meaning": "安裝後用 `/impeccable init`（Codex `$impeccable init`），再依任務選 critique/audit/polish/live",
+      "usageNote": "文件中的命令不是已安裝或自動執行授權；副作用、憑證與外部 API 須另批准。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "PRODUCT.md 與 DESIGN.md 分層文件"
+      },
+      {
+        "name": "其他產出 2",
+        "description": "指定 UI 的設計建議與修改"
+      },
+      {
+        "name": "其他產出 3",
+        "description": "Detectors 報告及 Browser QA"
+      }
+    ],
+    "composition": {
+      "problem": "用有產品脈絡與確定性檢查方式改善 UI 設計；缺乏可驗收的操作契約或資料證據將造成錯誤結果。",
+      "capabilities": [
+        {
+          "id": "source-reviewed-skill-contract",
+          "title": "文件級可重用 Skill 操作契約",
+          "input": "產品使用者與真實產品事實；設計系統及 UI 原始碼；Browser、遙測／外部 Catalog 許可",
+          "output": "PRODUCT.md 與 DESIGN.md 分層文件；指定 UI 的設計建議與修改；Detectors 報告及 Browser QA",
+          "gate": "產品事實與設計 Tokens 分離"
+        }
+      ],
+      "note": "這是知識庫中的 I/O 設計示例，沒有 Runtime、Tool Binding 或正式 Graph Edge 證據。"
+    },
+    "safety": [
+      {
+        "title": "網路",
+        "risk": "網路",
+        "action": "停用遙測仍可能存取設計目錄"
+      },
+      {
+        "title": "寫入",
+        "risk": "寫入",
+        "action": "Live 模式會改原始碼與建立專案文件"
+      }
+    ],
+    "acceptance": [
+      "產品事實與設計 Tokens 分離",
+      "外部連線與檔案寫入經授權",
+      "Detectors／Browser 證據分明"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/pbakaus/impeccable/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "24 Commands、Browser Live、PRODUCT.md、DESIGN.md",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游 README／SKILL.md；第三方安裝、Runtime、Security、License、Integration 均 NOT TESTED。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "既有 Canonical ID 和 Typed Resource Link 原樣保留，未新增重複 Skill。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原 Raw Tags 完全保留，沒有新增、刪除或自動標準化。"
+    },
+    "classificationReason": "既有 Domain、Tags 和 Typed References 依原紀錄保留；只有版本差異內容更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "依官方內容補齊 Trigger、Input、Execution、Output、Risk、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只新增可閱讀的操作契約，未建立未證實的新正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept References；不從 Tags 或指南產生新的 Graph Edge。"
+    },
+    "riskNotes": "網路：停用遙測仍可能存取設計目錄；寫入：Live 模式會改原始碼與建立專案文件。不因上游文件而授權執行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方文件已閱讀；上游 Runtime、License、Security、Integration 均 NOT TESTED。"
+    }
   }
 }

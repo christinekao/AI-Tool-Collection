@@ -53,7 +53,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-12",
-  "updatedAt": "2026-11-12",
+  "updatedAt": "2026-11-21",
   "tags": [
     "modern-web-guidance",
     "agent-skill",
@@ -75,7 +75,9 @@
   "source": {
     "url": "https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/SKILL.md",
     "type": "Official upstream SKILL.md, README, package.json and Apache-2.0 license",
-    "reviewedAt": "2026-11-12"
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Read official current README/SKILL.md; no third-party installation, runtime, security or license audit",
+    "versionEvidence": "官方 Modern Web Guidance；示例版本 2026_11_10-47b4c80e"
   },
   "classification": {
     "primaryDomain": "software",
@@ -90,5 +92,181 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "開發 HTML/CSS、原生 Web API、Web UI 或 client-side JS 前確認現代指引"
+  ],
+  "constraints": [
+    "外部套件：npx 可執行第三方程式須另授權",
+    "錯誤指南：空結果不代表可以硬用不相干指引"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "在 Coding Agent 進行 HTML、CSS、Web UI、Client-side JS、可存取性或效能修改前，先依功能意圖搜尋官方整理的現代 Web 指引，擷取相應 Guide 並以相容性與 Fallback 驗證實作。",
+    "introNote": "依上游官方文件整理的操作契約；本知識庫未執行第三方 Skill。",
+    "facts": [
+      {
+        "label": "適合情境",
+        "value": "開發 HTML/CSS、原生 Web API、Web UI 或 client-side JS 前確認現代指引"
+      },
+      {
+        "label": "正式指令或使用邊界",
+        "value": "在已安裝環境用 `modern-web-guidance search` 進行 2–5 字聚焦查詢，接著 retrieve Guide ID；不是無權限 npx 安裝授權"
+      },
+      {
+        "label": "上游版本證據",
+        "value": "官方 Modern Web Guidance；示例版本 2026_11_10-47b4c80e"
+      },
+      {
+        "label": "執行狀態",
+        "value": "SOURCE CHECKED／NOT EXECUTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "使用時機",
+        "description": "開發 HTML/CSS、原生 Web API、Web UI 或 client-side JS 前確認現代指引"
+      },
+      {
+        "title": "先確認執行條件",
+        "description": "在已安裝環境用 `modern-web-guidance search` 進行 2–5 字聚焦查詢，接著 retrieve Guide ID；不是無權限 npx 安裝授權"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "具體前端需求（例如 Responsive Table、Dialog、Form Validation、View Transition）",
+        "detail": "確認有權取得此資料。"
+      },
+      {
+        "title": "目標瀏覽器與相容性要求",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      },
+      {
+        "title": "需要更新的前端原始碼；整體現代化任務可指定受控掃描目錄",
+        "detail": "確認來源、版本及明確操作授權；缺少時停止對應步驟。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "將需求縮成單一 Web 能力查詢",
+        "detail": "將需求縮成單一 Web 能力查詢",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "02",
+        "title": "Search 再 Retrieve 匹配 Guide",
+        "detail": "Search 再 Retrieve 匹配 Guide",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "03",
+        "title": "沒匹配時改寫查詢，不硬套",
+        "detail": "沒匹配時改寫查詢，不硬套",
+        "result": "可稽核的中間結果"
+      },
+      {
+        "number": "04",
+        "title": "檢查瀏覽器相容及無障礙",
+        "detail": "檢查瀏覽器相容及無障礙",
+        "result": "符合需求的成果或具體 BLOCKED 原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "開發 HTML/CSS、原生 Web API、Web UI 或 client-side JS 前確認現代指引",
+      "meaning": "在已安裝環境用 `modern-web-guidance search` 進行 2–5 字聚焦查詢，接著 retrieve Guide ID；不是無權限 npx 安裝授權",
+      "usageNote": "文件中的命令不是已安裝或自動執行授權；副作用、憑證與外部 API 須另批准。"
+    },
+    "deliverables": [
+      {
+        "name": "主要產出",
+        "description": "相關 Guide 的搜尋 ID 與內容"
+      },
+      {
+        "name": "其他產出 2",
+        "description": "基於指引的實作選擇、相容性／Fallback 檢查與變更說明"
+      },
+      {
+        "name": "其他產出 3",
+        "description": "僅在整體舊版程式碼掃描時可輸出 legacy-scan 診斷"
+      }
+    ],
+    "composition": {
+      "problem": "Coding Agent 可能沿用訓練資料中的舊版前端模式，忽略現代瀏覽器原生 API、效能、無障礙與跨瀏覽器相容性。",
+      "capabilities": [
+        {
+          "id": "source-reviewed-skill-contract",
+          "title": "文件級可重用 Skill 操作契約",
+          "input": "具體前端需求（例如 Responsive Table、Dialog、Form Validation、View Transition）；目標瀏覽器與相容性要求；需要更新的前端原始碼；整體現代化任務可指定受控掃描目錄",
+          "output": "相關 Guide 的搜尋 ID 與內容；基於指引的實作選擇、相容性／Fallback 檢查與變更說明；僅在整體舊版程式碼掃描時可輸出 legacy-scan 診斷",
+          "gate": "Guide ID 與選用理由可回查"
+        }
+      ],
+      "note": "這是知識庫中的 I/O 設計示例，沒有 Runtime、Tool Binding 或正式 Graph Edge 證據。"
+    },
+    "safety": [
+      {
+        "title": "外部套件",
+        "risk": "外部套件",
+        "action": "npx 可執行第三方程式須另授權"
+      },
+      {
+        "title": "錯誤指南",
+        "risk": "錯誤指南",
+        "action": "空結果不代表可以硬用不相干指引"
+      }
+    ],
+    "acceptance": [
+      "Guide ID 與選用理由可回查",
+      "無故不掃全 Repo",
+      "Fallback 與實際 Browser 行為經驗證"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Modern Web Guidance；示例版本 2026_11_10-47b4c80e",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游 README／SKILL.md；第三方安裝、Runtime、Security、License、Integration 均 NOT TESTED。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "既有 Canonical ID 和 Typed Resource Link 原樣保留，未新增重複 Skill。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原 Raw Tags 完全保留，沒有新增、刪除或自動標準化。"
+    },
+    "classificationReason": "既有 Domain、Tags 和 Typed References 依原紀錄保留；只有版本差異內容更新。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "依官方內容補齊 Trigger、Input、Execution、Output、Risk、Acceptance。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只新增可閱讀的操作契約，未建立未證實的新正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept References；不從 Tags 或指南產生新的 Graph Edge。"
+    },
+    "riskNotes": "外部套件：npx 可執行第三方程式須另授權；錯誤指南：空結果不代表可以硬用不相干指引。不因上游文件而授權執行。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 官方文件已閱讀；上游 Runtime、License、Security、Integration 均 NOT TESTED。"
+    }
   }
 }
