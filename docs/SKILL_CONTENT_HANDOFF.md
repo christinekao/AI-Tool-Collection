@@ -1,9 +1,9 @@
 # Phase 2 Skills — 最新 Session 交接
 
-## Skills Batch 03 — 候選已提交，PR／CI 待驗證（2026-11-21）
+## Skills Batch 03 — 已合併／main 與正式網站驗收（2026-11-21）
 
 - 基準 main：`4ead1d0942d39a61ef6037e1ae044a0b66fa100b`；工作分支：`skill-content-batch03-20261121`。
-- Batch 01–02 已合併 **40/123**；本批新增 20 份 Guide，**合併後**才可計入 60/123（48.8%），剩 63。
+- Batch 01–03 全部已合併：**60/123（48.8%）**，剩 **63**。本批 20 Canonical Skill + 20 Guide 已在 `main`。
 - 19/20 現行官方文件已讀；Sol/Terra/Luna 來源身分 PARTIAL，需另查歷史 Git 作者與重導向。
 - 變更：20 Canonical Skill JSON + 20 Guide、Generated Catalog/Graph、[Batch 03 審查](SKILL_CONTENT_REVIEW_BATCH03_20261121.md) 與 Rolling Handoff。
 - Tags／分類／Typed References 不變；569 Graph Nodes／1816 Edges。第三方 Runtime／Security／License／Integration 未測試。
@@ -31,10 +31,16 @@
 79. `lucasmarkes-hairline-adopt`
 80. `lucasmarkes-hairline-create`
 
-### 必要後續驗收
-- PR 最新 Head 三項 CI 檢查通過後再 Merge，保留 Run IDs。
-- main Catalog Sync、Validation、Graph、Pages Build／Deploy 與 **部署後** Live Smoke 分開驗證。
-- 來源 PARTIAL 保留，不得因 PR CI SUCCESS 消除。
+### Batch 03 的 PR／CI／部署與回歸證據
+
+- [PR #41](https://github.com/christinekao/AI-Tool-Collection/pull/41) **MERGED**，Base `4ead1d0942d39a61ef6037e1ae044a0b66fa100b`，最終 PR Head `2181c0c9969e4d0c945b38719e1d02f635409f95`，Merge Commit `58ad31d05802923329bc42b56b8514503d8eca1c`。
+- PR 曾有一次 **V2 Validate FAIL** — [44904995216](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44904995216)：初次 Derived Catalog 使用舊版 Batch 02 Base，造成 20 筆已合併 Skills 的 Catalog Copy 與 Canonical 不一致。修正時改用最新 main Catalog／Graph 作 Base，僅覆寫本批 20 筆變更，保留既有關係，重新驗證 PASS。原始失敗保留作回歸案例。
+- PR 最新 Head：Unified Intake **SUCCESS** [44905209547](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905209547)；V2 Data Validate **SUCCESS** [44905209613](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905209613)；P1 Graph Unit Tests（含 Browser）**SUCCESS** [44905209533](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905209533)。
+- main：Unified Intake **SUCCESS** [44905304086](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304086)；V2 Validate **SUCCESS** [44905304050](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304050)；V2 Catalog Sync **SUCCESS** [44905304079](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304079)；P1 Graph／Browser **SUCCESS** [44905304088](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304088)。
+- main [Pages Build／Deploy #44905303818](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905303818) **SUCCESS**，2026-11-21 20:43:52（Asia/Taipei）完成。
+- [正式網站 Live Pages Smoke #44905304112 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304112) **SUCCESS**，在上述 Deploy 完成後才重新執行：20:44:41（Asia/Taipei）19/19 HTTP／JSON Asset PASS，20:44:44–20:44:51 Chromium Browser PASS；含首頁搜尋、Graph、Prompt、Playground、響應式 375／430／768／1440。
+- **Status：PASS WITH GAPS**。已驗證的是本知識庫 Repo CI、main Deploy 和公開網站 Browser；未解是 1 筆 Sol/Terra/Luna Source Identity PARTIAL，以及第三方 Skills 的 Runtime、Security、License、Integration **NOT TESTED**。本交接文件如更新產生新的 Docs-only Pages Deploy，需於 Deploy 完成後重新核對最新網站。
+
 
 ---
 

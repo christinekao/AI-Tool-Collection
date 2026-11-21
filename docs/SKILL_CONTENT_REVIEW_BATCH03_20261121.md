@@ -221,11 +221,25 @@
 4. GoogleChrome 的 npx Search/Retrieve、Graphify 的資料擷取與安裝、Herdr 的 Pane 控制及 Impeccable 的遠端目錄查詢都可能有副作用；本批僅記錄來源文件。
 5. Gzh 與 Guizang 上游標示 AGPL-3.0，Unslop 有 CC-BY-4.0 標示；本批未做完整附帶素材或商用授權法律審核。
 
-## Release Gate（待取得真實 Actions）
-- PR 最新 Head：Unified Intake Gate、V2 Data Validate、P1 Graph Unit Tests（含 Browser Smoke）須全部 SUCCESS 才合併。
-- Merge main 後獨立確認 Catalog Sync、Graph／Browser、Pages Build／Deploy。
-- 部署後 Live Smoke 要在最新部署結束之後執行才算該次正式網站驗收。
-- 上游第三方 Runtime／Security／License／Integration 全部 NOT TESTED。
+## Release Gate 最終驗證及 Fail → Fix → Retest
+
+- **PR #41 MERGED**：[GitHub PR](https://github.com/christinekao/AI-Tool-Collection/pull/41)。最新 Head `2181c0c9969e4d0c945b38719e1d02f635409f95`，Merge `58ad31d05802923329bc42b56b8514503d8eca1c`。
+- **首版缺陷（保留）**：V2 Validate [44904995216](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44904995216) **FAIL**，因首次以舊 Catalog／Graph Base 改寫本批 20 筆，回歸覆蓋前一批 20 Skill 的已合併內容；症狀為 Catalog Copy 與 Canonical 不同。根因是衍生資料的 Base 過時，不是本批新 Skill Guide 的 Schema 不合法。修復為讀取最新 main Catalog／Graph 作基準、僅覆蓋第 41–60 筆；重新執行所有 Gate 成功，原失敗作未來回歸案例。
+ 
+| GitHub Actions Gate | 結果 |
+|---|---|
+| PR Unified Intake | [SUCCESS #44905209547](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905209547) |
+| PR V2 Data Validate | [SUCCESS #44905209613](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905209613) |
+| PR P1 Graph／Browser Smoke | [SUCCESS #44905209533](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905209533) |
+| main Unified Intake | [SUCCESS #44905304086](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304086) |
+| main V2 Validate | [SUCCESS #44905304050](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304050) |
+| main Catalog Sync | [SUCCESS #44905304079](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304079) |
+| main P1 Graph／Browser | [SUCCESS #44905304088](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304088) |
+| main Pages Build／Deploy | [SUCCESS #44905303818](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905303818) |
+| main Live Pages Smoke | [SUCCESS #44905304112 Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44905304112) |
+
+- **正式網站部署後驗收**：Pages Deploy 於 2026-11-21 20:43:52（Asia/Taipei）成功，接著重新執行 Attempt 2 Live Pages Smoke，在 20:44:41 讀取正式公開網站 19/19 HTTP／JSON 資產並通過，20:44:44–20:44:51 Chromium 實際導覽、搜尋、Graph、Prompt、Playground 和 375／430／768／1440px 視覺響應檢查成功。這是 Deploy 後的正式網站測試，非本機 Preview。
+- **結論：PASS WITH GAPS**，Batch 03 正式完成，Skills 累計 **60/123（48.8%），剩餘 63**。缺口只在上游身分的 Source PARTIAL 與第三方 Runtime／Security／License／Integration **NOT TESTED**；GitHub Actions 及 Pages 驗收均有實證。本報告更新將產生後續文件版部署，需再確認最新 Deploy 與 Live Smoke。
 
 ## 下一批
 - Batch 04 第 61–80 筆精確 ID 已列在 Rolling Handoff。
