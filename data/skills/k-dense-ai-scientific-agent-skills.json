@@ -2,12 +2,20 @@
   "schemaVersion": 2,
   "id": "k-dense-ai-scientific-agent-skills",
   "entityType": "skill",
-  "title": "K-Dense-AI/scientific-agent-skills",
-  "purpose": "科學、生醫、研究領域 Skills",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "title": "K-Dense Scientific Agent Skills — 177 Research Skills（v2.72.0）",
+  "purpose": "K-Dense 維護的官方科學研究 Agent Skills 合集，README v2.72.0 列出 177 個 Skills，涵蓋生醫、化學、物理、工程、地球科學與研究資料庫；各子 Skill 必須單獨核對輸入、授權、方法與使用限制。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，要為生物、化學、醫學、物理、工程或研究資料查詢選用可重用研究工作流程可能產生錯誤或不可用結果。",
+  "inputs": [
+    "研究問題、資料型態、科學領域與原始文獻",
+    "選定子 Skill 的依賴、資料庫帳戶與科學方法",
+    "研究倫理、敏感資料與可接受的模型／API 成本"
+  ],
+  "outputs": [
+    "與研究任務對應的精確子 Skill／資料庫來源",
+    "適用的研究步驟、輸入輸出與方法限制",
+    "引用、重現性、缺口和獨立領域驗證計畫"
+  ],
+  "execution": "1. 先將問題映射到生醫／化學／計算／論文等領域 → 2. 對選中的子 Skill 再讀上游原始契約、License 和依賴 → 3. 用受控資料源查核假設、版本、研究方法 → 4. 紀錄引用與重現步驟並由領域專家驗收",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,7 +30,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "scientific",
     "biomedical",
@@ -39,5 +47,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "要為生物、化學、醫學、物理、工程或研究資料查詢選用可重用研究工作流程",
+    "不可直接將整包當成經過安全或科學有效性驗證；醫療用途不能取代專業診斷與研究倫理"
+  ],
+  "constraints": [
+    "生醫高風險：研究指引不能視為診斷、治療或臨床安全認證",
+    "依賴與授權：各資料庫需遵守存取、隱私、License 和 API 條款"
+  ],
+  "source": {
+    "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "現行官方 README v2.72.0，177 個 Skill、100+ 資料庫；Agent Skills 合集而非單一 Skill",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "K-Dense 維護的官方科學研究 Agent Skills 合集，README v2.72.0 列出 177 個 Skills，涵蓋生醫、化學、物理、工程、地球科學與研究資料庫；各子 Skill 必須單獨核對輸入、授權、方法與使用限制。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "要為生物、化學、醫學、物理、工程或研究資料查詢選用可重用研究工作流程"
+      },
+      {
+        "label": "版本與來源",
+        "value": "現行官方 README v2.72.0，177 個 Skill、100+ 資料庫；Agent Skills 合集而非單一 Skill"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "先在 177 Skills 清單定位特定子 Skill，再查其 SKILL.md 與依賴；Source README 不構成一個通用 Slash Command"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "要為生物、化學、醫學、物理、工程或研究資料查詢選用可重用研究工作流程"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不可直接將整包當成經過安全或科學有效性驗證；醫療用途不能取代專業診斷與研究倫理"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "研究問題、資料型態、科學領域與原始文獻",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "選定子 Skill 的依賴、資料庫帳戶與科學方法",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "研究倫理、敏感資料與可接受的模型／API 成本",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先將問題映射到生醫／化學／計算／論文等領域",
+        "detail": "先將問題映射到生醫／化學／計算／論文等領域",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "對選中的子 Skill 再讀上游原始契約、License 和依賴",
+        "detail": "對選中的子 Skill 再讀上游原始契約、License 和依賴",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "用受控資料源查核假設、版本、研究方法",
+        "detail": "用受控資料源查核假設、版本、研究方法",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "紀錄引用與重現步驟並由領域專家驗收",
+        "detail": "紀錄引用與重現步驟並由領域專家驗收",
+        "result": "與研究任務對應的精確子 Skill／資料庫來源"
+      }
+    ],
+    "howToUse": {
+      "trigger": "要為生物、化學、醫學、物理、工程或研究資料查詢選用可重用研究工作流程",
+      "meaning": "先在 177 Skills 清單定位特定子 Skill，再查其 SKILL.md 與依賴；Source README 不構成一個通用 Slash Command",
+      "usageNote": "不可直接將整包當成經過安全或科學有效性驗證；醫療用途不能取代專業診斷與研究倫理；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "與研究任務對應的精確子 Skill／資料庫來源"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "適用的研究步驟、輸入輸出與方法限制"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "引用、重現性、缺口和獨立領域驗證計畫"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，要為生物、化學、醫學、物理、工程或研究資料查詢選用可重用研究工作流程可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "研究問題、資料型態、科學領域與原始文獻；選定子 Skill 的依賴、資料庫帳戶與科學方法；研究倫理、敏感資料與可接受的模型／API 成本",
+          "output": "與研究任務對應的精確子 Skill／資料庫來源；適用的研究步驟、輸入輸出與方法限制；引用、重現性、缺口和獨立領域驗證計畫",
+          "gate": "實際選用的每個子 Skill 有原始 SKILL.md 與版本"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "生醫高風險",
+        "action": "研究指引不能視為診斷、治療或臨床安全認證"
+      },
+      {
+        "title": "控制 2",
+        "risk": "依賴與授權",
+        "action": "各資料庫需遵守存取、隱私、License 和 API 條款"
+      }
+    ],
+    "acceptance": [
+      "實際選用的每個子 Skill 有原始 SKILL.md 與版本",
+      "研究結論標示資料與方法誤差及可重現性",
+      "177 是來源當下快照，不當作永遠固定數量"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "現行官方 README v2.72.0，177 個 Skill、100+ 資料庫；Agent Skills 合集而非單一 Skill",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "生醫高風險：研究指引不能視為診斷、治療或臨床安全認證；依賴與授權：各資料庫需遵守存取、隱私、License 和 API 條款。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

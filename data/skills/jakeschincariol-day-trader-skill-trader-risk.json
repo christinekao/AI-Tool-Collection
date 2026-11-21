@@ -4,15 +4,18 @@
   "entityType": "skill",
   "title": "Day Trader /trader-risk — Block orders violating configured limits",
   "purpose": "對單筆損失、每日損失、交易時間、股數、風險報酬及重複委託設定 PASS/BLOCK；風控不會讓策略保證獲利。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，使用者準備審查美股交易提案是否符合每日／單筆風險、交易時窗與帳戶限制可能產生錯誤或不可用結果。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "trader/orders.json 的待驗訂單與今日對應指紋",
+    "trader/config.json 的單筆及每日風險、股數、標的排除規則",
+    "Portfolio／已用風險、最新報價、NYSE 日期及交易窗口"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "每張提案 PASS 或 BLOCK、具體規則與量化原因",
+    "trader/state/risk.json 的當日審核紀錄及相符指紋",
+    "Broker 只可讀取該日該筆 PASS；BLOCK 不可送出"
   ],
-  "execution": "官方 SKILL.md：trader-risk/SKILL.md。此 Skill 只屬於 Jakeschincariol/day-trader-skill 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：risk-gate。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "1. 讀取委託與風險設定，確認有效 Entry/Stop/Target → 2. 以 Entry 與新鮮報價的較高者估算潛在虧損，並計算回報風險比 → 3. 檢查每日風險、時段、重複、禁止標的、現金和委託格式 → 4. 逐張輸出 PASS/BLOCK 及當日 Fingerprint，保留可檢查日誌",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +39,14 @@
   "source": {
     "url": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-risk/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 Risk Manager；交易風控 PASS/BLOCK，不代表策略必然賺錢",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "trader-risk",
@@ -62,5 +68,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "使用者準備審查美股交易提案是否符合每日／單筆風險、交易時窗與帳戶限制",
+    "只有交易提案才審核；離場平倉不應因當日新開倉限額被阻止"
+  ],
+  "constraints": [
+    "Broker 權限：即使 PASS 仍需逐單使用者確認和 Host Allow",
+    "市場變動：風控使用的報價可能變舊，委託更動需重新檢查",
+    "平倉限制：退出既有曝險不能誤套禁止新倉的規則"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "對單筆損失、每日損失、交易時間、股數、風險報酬及重複委託設定 PASS/BLOCK；風控不會讓策略保證獲利。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者準備審查美股交易提案是否符合每日／單筆風險、交易時窗與帳戶限制"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 Risk Manager；交易風控 PASS/BLOCK，不代表策略必然賺錢"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "在已授權的 Day Trader Host 使用 `/trader-risk [orders.json]`，執行 check.py；PASS 是交給 Broker 的必要條件，不是下單許可"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者準備審查美股交易提案是否符合每日／單筆風險、交易時窗與帳戶限制"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "只有交易提案才審核；離場平倉不應因當日新開倉限額被阻止"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "trader/orders.json 的待驗訂單與今日對應指紋",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "trader/config.json 的單筆及每日風險、股數、標的排除規則",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "Portfolio／已用風險、最新報價、NYSE 日期及交易窗口",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "讀取委託與風險設定",
+        "detail": "讀取委託與風險設定，確認有效 Entry/Stop/Target",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "以 Entry 與新鮮報價的較高者估算潛在虧損",
+        "detail": "以 Entry 與新鮮報價的較高者估算潛在虧損，並計算回報風險比",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "檢查每日風險、時段、重複、禁止標的、現金和委託格式",
+        "detail": "檢查每日風險、時段、重複、禁止標的、現金和委託格式",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "逐張輸出 PASS/BLOCK 及當日 Fingerprint",
+        "detail": "逐張輸出 PASS/BLOCK 及當日 Fingerprint，保留可檢查日誌",
+        "result": "每張提案 PASS 或 BLOCK、具體規則與量化原因"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者準備審查美股交易提案是否符合每日／單筆風險、交易時窗與帳戶限制",
+      "meaning": "在已授權的 Day Trader Host 使用 `/trader-risk [orders.json]`，執行 check.py；PASS 是交給 Broker 的必要條件，不是下單許可",
+      "usageNote": "只有交易提案才審核；離場平倉不應因當日新開倉限額被阻止；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "每張提案 PASS 或 BLOCK、具體規則與量化原因"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "trader/state/risk.json 的當日審核紀錄及相符指紋"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "Broker 只可讀取該日該筆 PASS；BLOCK 不可送出"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，使用者準備審查美股交易提案是否符合每日／單筆風險、交易時窗與帳戶限制可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "trader/orders.json 的待驗訂單與今日對應指紋；trader/config.json 的單筆及每日風險、股數、標的排除規則；Portfolio／已用風險、最新報價、NYSE 日期及交易窗口",
+          "output": "每張提案 PASS 或 BLOCK、具體規則與量化原因；trader/state/risk.json 的當日審核紀錄及相符指紋；Broker 只可讀取該日該筆 PASS；BLOCK 不可送出",
+          "gate": "同日指紋和送單參數完全相符"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "Broker 權限",
+        "action": "即使 PASS 仍需逐單使用者確認和 Host Allow"
+      },
+      {
+        "title": "控制 2",
+        "risk": "市場變動",
+        "action": "風控使用的報價可能變舊，委託更動需重新檢查"
+      },
+      {
+        "title": "控制 3",
+        "risk": "平倉限制",
+        "action": "退出既有曝險不能誤套禁止新倉的規則"
+      }
+    ],
+    "acceptance": [
+      "同日指紋和送單參數完全相符",
+      "每條 BLOCK 有機械可查核理由且無券商呼叫",
+      "平倉／新開倉的 Gate 不混用"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-risk/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 Risk Manager；交易風控 PASS/BLOCK，不代表策略必然賺錢",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "Broker 權限：即使 PASS 仍需逐單使用者確認和 Host Allow；市場變動：風控使用的報價可能變舊，委託更動需重新檢查；平倉限制：退出既有曝險不能誤套禁止新倉的規則。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

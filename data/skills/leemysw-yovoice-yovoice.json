@@ -4,15 +4,18 @@
   "entityType": "skill",
   "title": "yovoice Skill — Local or Remote Speech, Music & MIDI Generation",
   "purpose": "依使用者選擇的本機 CLI 或已授權 HTTP API/MCP 生成旁白、語音、音色複製和 MIDI 配樂；先查已安裝的模型和 Voice IDs，禁止猜測音色或擅自切換執行方式。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，需要透過授權的本地或遠端 yovoice 服務合成旁白、歌曲、音效、字幕或 MIDI可能產生錯誤或不可用結果。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "使用者提供的腳本、語言、音樂或音訊需求",
+    "合法授權的 Speaker／參考音色與模型清單",
+    "已存在的 Local CLI 或 HTTPS/MCP Endpoint 和成本限制"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "TTS、音效或歌曲音檔及生成參數",
+    "字幕／分軌／MIDI（按功能選擇）",
+    "來源、模型、Voice ID 與授權／實測結果"
   ],
-  "execution": "官方 SKILL.md：skills/yovoice/SKILL.md。此 Skill 只屬於 leemysw/yovoice 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：voice-cloning。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "1. 先確認本地或遠端執行方式，不能自行切換 → 2. 核對 status、models/voices ID 與引用音色授權 → 3. 選對語音/歌曲/分軌模式並在准許環境執行 → 4. 聽檢輸出內容、版權、語音品質和存檔位置",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +39,14 @@
   "source": {
     "url": "https://github.com/leemysw/yovoice/blob/main/skills/yovoice/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 yovoice：本地 CLI 或遠端 HTTP/MCP；App Apache-2.0，不代表模型權重均可商用",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "yovoice",
@@ -61,5 +67,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要透過授權的本地或遠端 yovoice 服務合成旁白、歌曲、音效、字幕或 MIDI",
+    "未取得聲音本人同意不能做音色複製；遠端失敗不得自動切到本機安裝、反之亦然"
+  ],
+  "constraints": [
+    "聲音權利：未經許可不可模仿真人聲音或進行身分欺騙",
+    "遠端隱私：API/MCP 可能接觸音檔或傳輸文字",
+    "模型授權：部分權重限制非商業用途"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "依使用者選擇的本機 CLI 或已授權 HTTP API/MCP 生成旁白、語音、音色複製和 MIDI 配樂；先查已安裝的模型和 Voice IDs，禁止猜測音色或擅自切換執行方式。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要透過授權的本地或遠端 yovoice 服務合成旁白、歌曲、音效、字幕或 MIDI"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 yovoice：本地 CLI 或遠端 HTTP/MCP；App Apache-2.0，不代表模型權重均可商用"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "先尊重用戶選擇 Local CLI／Remote MCP；Local 用 `yovoice status --json`、models list、voices list 查真實 ID"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要透過授權的本地或遠端 yovoice 服務合成旁白、歌曲、音效、字幕或 MIDI"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "未取得聲音本人同意不能做音色複製；遠端失敗不得自動切到本機安裝、反之亦然"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "使用者提供的腳本、語言、音樂或音訊需求",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "合法授權的 Speaker／參考音色與模型清單",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "已存在的 Local CLI 或 HTTPS/MCP Endpoint 和成本限制",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先確認本地或遠端執行方式",
+        "detail": "先確認本地或遠端執行方式，不能自行切換",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "核對 status、models/voices ID 與引用音色授權",
+        "detail": "核對 status、models/voices ID 與引用音色授權",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "選對語音/歌曲/分軌模式並在准許環境執行",
+        "detail": "選對語音/歌曲/分軌模式並在准許環境執行",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "聽檢輸出內容、版權、語音品質和存檔位置",
+        "detail": "聽檢輸出內容、版權、語音品質和存檔位置",
+        "result": "TTS、音效或歌曲音檔及生成參數"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要透過授權的本地或遠端 yovoice 服務合成旁白、歌曲、音效、字幕或 MIDI",
+      "meaning": "先尊重用戶選擇 Local CLI／Remote MCP；Local 用 `yovoice status --json`、models list、voices list 查真實 ID",
+      "usageNote": "未取得聲音本人同意不能做音色複製；遠端失敗不得自動切到本機安裝、反之亦然；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "TTS、音效或歌曲音檔及生成參數"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "字幕／分軌／MIDI（按功能選擇）"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "來源、模型、Voice ID 與授權／實測結果"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，需要透過授權的本地或遠端 yovoice 服務合成旁白、歌曲、音效、字幕或 MIDI可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "使用者提供的腳本、語言、音樂或音訊需求；合法授權的 Speaker／參考音色與模型清單；已存在的 Local CLI 或 HTTPS/MCP Endpoint 和成本限制",
+          "output": "TTS、音效或歌曲音檔及生成參數；字幕／分軌／MIDI（按功能選擇）；來源、模型、Voice ID 與授權／實測結果",
+          "gate": "選定服務的真實 Model/Voice ID 可查"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "聲音權利",
+        "action": "未經許可不可模仿真人聲音或進行身分欺騙"
+      },
+      {
+        "title": "控制 2",
+        "risk": "遠端隱私",
+        "action": "API/MCP 可能接觸音檔或傳輸文字"
+      },
+      {
+        "title": "控制 3",
+        "risk": "模型授權",
+        "action": "部分權重限制非商業用途"
+      }
+    ],
+    "acceptance": [
+      "選定服務的真實 Model/Voice ID 可查",
+      "同意證據、輸入音檔與輸出授權清楚",
+      "未實際生成不可標示音檔已完成"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/leemysw/yovoice/blob/main/skills/yovoice/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 yovoice：本地 CLI 或遠端 HTTP/MCP；App Apache-2.0，不代表模型權重均可商用",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "聲音權利：未經許可不可模仿真人聲音或進行身分欺騙；遠端隱私：API/MCP 可能接觸音檔或傳輸文字；模型授權：部分權重限制非商業用途。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

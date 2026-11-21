@@ -4,10 +4,18 @@
   "entityType": "skill",
   "title": "LoopAgentTeams",
   "purpose": "把需求釐清、Spec、Ticket 拆分、跨模型派工、獨立 Code Review、整合驗證與 QA 驗收串成可自主推進的多 Agent 交付流程。使用者確認 Spec 後，Orchestrator 在既定授權範圍內持續推進，只在需求／授權邊界改變或缺少僅使用者能提供的資訊時回頭詢問。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，使用者明確要求 LAT／LoopAgentTeams 以多 Agent 對正式 Spec 的工程任務進行協作交付可能產生錯誤或不可用結果。",
+  "inputs": [
+    "明確需求、確認過的 Spec、Tickets 和 Acceptance Criteria",
+    "Repo 工作樹、Issue Tracker、Agent/Model Permissions",
+    "平行工作時的 Worktree／Port／資源 Ownership 邊界"
+  ],
+  "outputs": [
+    "Spec、Tickets、Owner 與相依關係",
+    "各票實作、獨立 Code Review、整合版本與 QA 結果",
+    "PASS／FAIL／UNPROVEN／NOT_EXECUTED 和完整 Session Handoff"
+  ],
+  "execution": "1. Designer 釐清需求並以已確認 Spec 定義範圍 → 2. Orchestrator 檢查工作樹、Model、Cost 與任務相依後派 Tickets → 3. Implementer 實作／測試，另一審查方核對 Diff 與變更完整性 → 4. 合併後 QA 對需求與實際執行路徑操作測試，交付可查證結果",
   "resourceRefs": [
     {
       "type": "resource",
@@ -46,7 +54,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-11-21",
   "tags": [
     "multi-agent",
     "orchestration",
@@ -75,5 +83,194 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "使用者明確要求 LAT／LoopAgentTeams 以多 Agent 對正式 Spec 的工程任務進行協作交付",
+    "普通任務不可自動召喚多 Agent；Spec 未確認、Repo 權限未明或缺少工具時不能假裝已派工"
+  ],
+  "constraints": [
+    "跨 Agent 權限：技能層決策規則不等於底層工具 ACL 強制 Gate",
+    "資料外送：公開 Repo 的 Issue 可能暴露私人路徑／機密，須選私有 Tracker",
+    "衝突成本：共用檔案和自動模型切換不得破壞既有授權"
+  ],
+  "source": {
+    "url": "https://github.com/ouob-tw/LoopAgentTeams/blob/main/skills/local/lat/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "正式 Skill 路徑 `skills/local/lat/SKILL.md`；User Confirmed Spec 後分 Tickets／獨立 Review／QA",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "把需求釐清、Spec、Ticket 拆分、跨模型派工、獨立 Code Review、整合驗證與 QA 驗收串成可自主推進的多 Agent 交付流程。使用者確認 Spec 後，Orchestrator 在既定授權範圍內持續推進，只在需求／授權邊界改變或缺少僅使用者能提供的資訊時回頭詢問。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "使用者明確要求 LAT／LoopAgentTeams 以多 Agent 對正式 Spec 的工程任務進行協作交付"
+      },
+      {
+        "label": "版本與來源",
+        "value": "正式 Skill 路徑 `skills/local/lat/SKILL.md`；User Confirmed Spec 後分 Tickets／獨立 Review／QA"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "透過相容 Host 啟動 `lat`，先讀 project config／issue tracker；Spec 核准後由 Orchestrator 協調 Designer／Implementer／QA"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者明確要求 LAT／LoopAgentTeams 以多 Agent 對正式 Spec 的工程任務進行協作交付"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "普通任務不可自動召喚多 Agent；Spec 未確認、Repo 權限未明或缺少工具時不能假裝已派工"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "明確需求、確認過的 Spec、Tickets 和 Acceptance Criteria",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "Repo 工作樹、Issue Tracker、Agent/Model Permissions",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "平行工作時的 Worktree／Port／資源 Ownership 邊界",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "Designer 釐清需求並以已確認 Spec 定義範圍",
+        "detail": "Designer 釐清需求並以已確認 Spec 定義範圍",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "Orchestrator 檢查工作樹、Model、Cost 與任務相依後派 Tickets",
+        "detail": "Orchestrator 檢查工作樹、Model、Cost 與任務相依後派 Tickets",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "Implementer 實作／測試",
+        "detail": "Implementer 實作／測試，另一審查方核對 Diff 與變更完整性",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "合併後 QA 對需求與實際執行路徑操作測試",
+        "detail": "合併後 QA 對需求與實際執行路徑操作測試，交付可查證結果",
+        "result": "Spec、Tickets、Owner 與相依關係"
+      }
+    ],
+    "howToUse": {
+      "trigger": "使用者明確要求 LAT／LoopAgentTeams 以多 Agent 對正式 Spec 的工程任務進行協作交付",
+      "meaning": "透過相容 Host 啟動 `lat`，先讀 project config／issue tracker；Spec 核准後由 Orchestrator 協調 Designer／Implementer／QA",
+      "usageNote": "普通任務不可自動召喚多 Agent；Spec 未確認、Repo 權限未明或缺少工具時不能假裝已派工；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "Spec、Tickets、Owner 與相依關係"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "各票實作、獨立 Code Review、整合版本與 QA 結果"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "PASS／FAIL／UNPROVEN／NOT_EXECUTED 和完整 Session Handoff"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，使用者明確要求 LAT／LoopAgentTeams 以多 Agent 對正式 Spec 的工程任務進行協作交付可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "明確需求、確認過的 Spec、Tickets 和 Acceptance Criteria；Repo 工作樹、Issue Tracker、Agent/Model Permissions；平行工作時的 Worktree／Port／資源 Ownership 邊界",
+          "output": "Spec、Tickets、Owner 與相依關係；各票實作、獨立 Code Review、整合版本與 QA 結果；PASS／FAIL／UNPROVEN／NOT_EXECUTED 和完整 Session Handoff",
+          "gate": "沒有 Spec 核准不自動擴大 Scope"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "跨 Agent 權限",
+        "action": "技能層決策規則不等於底層工具 ACL 強制 Gate"
+      },
+      {
+        "title": "控制 2",
+        "risk": "資料外送",
+        "action": "公開 Repo 的 Issue 可能暴露私人路徑／機密，須選私有 Tracker"
+      },
+      {
+        "title": "控制 3",
+        "risk": "衝突成本",
+        "action": "共用檔案和自動模型切換不得破壞既有授權"
+      }
+    ],
+    "acceptance": [
+      "沒有 Spec 核准不自動擴大 Scope",
+      "每張 Ticket 有 Reviewer／QA 獨立證據",
+      "真實整合版本才能 PASS，未驗一律 UNPROVEN/NOT_EXECUTED"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/ouob-tw/LoopAgentTeams/blob/main/skills/local/lat/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "正式 Skill 路徑 `skills/local/lat/SKILL.md`；User Confirmed Spec 後分 Tickets／獨立 Review／QA",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "跨 Agent 權限：技能層決策規則不等於底層工具 ACL 強制 Gate；資料外送：公開 Repo 的 Issue 可能暴露私人路徑／機密，須選私有 Tracker；衝突成本：共用檔案和自動模型切換不得破壞既有授權。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

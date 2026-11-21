@@ -2,12 +2,20 @@
   "schemaVersion": 2,
   "id": "kkkkhazix-khazix-skills",
   "entityType": "skill",
-  "title": "KKKKhazix/khazix-skills",
-  "purpose": "多種 AI Skills",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "title": "Khazix Skills — 6 個獨立 Agent Skills",
+  "purpose": "Khazix 作者公開的六個獨立 Skill：leader、storage-analyzer、aihot、neat-freak、hv-analysis、khazix-writer。按任務選擇；清理或寫入資料須有明確批准。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，希望從個人 Agent Skill 合集選擇任務定義、儲存空間分析、資訊整理或寫作技能可能產生錯誤或不可用結果。",
+  "inputs": [
+    "目標任務及是否涉及本機檔案／遠端資訊",
+    "選定子 Skill 的版本和環境要求",
+    "清理範圍、可刪項目及是否只讀 Preview"
+  ],
+  "outputs": [
+    "依問題選擇六種子 Skill 的對照表",
+    "子技能特有的輸入、輸出與風險說明",
+    "需要實際執行時的預覽差異與手動核准清單"
+  ],
+  "execution": "1. 按需求分類 Leader／Storage／AIHOT／Neat-Freak／Analysis／Writer → 2. 打開原子 Skill 文檔，先確認環境與權限 → 3. 先用只讀或 Preview 模式，產出差異和危險動作清單 → 4. 經核准才執行個別 Skill，逐筆檢查成果",
   "resourceRefs": [
     {
       "type": "resource",
@@ -22,7 +30,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "skills",
     "collection",
@@ -39,5 +47,188 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "希望從個人 Agent Skill 合集選擇任務定義、儲存空間分析、資訊整理或寫作技能",
+    "合集不應無條件觸發所有 6 個；磁碟清理或文件整理不可在缺少授權時修改資料"
+  ],
+  "constraints": [
+    "刪檔風險：Storage／Neat-Freak 可能移動／刪除使用者檔案",
+    "遠端查詢：AIHOT 的資訊與流量來源需核對並明示"
+  ],
+  "source": {
+    "url": "https://github.com/KKKKhazix/khazix-skills/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "作者官方 README：6 個技能 leader、storage-analyzer、aihot、neat-freak、hv-analysis、khazix-writer",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "Khazix 作者公開的六個獨立 Skill：leader、storage-analyzer、aihot、neat-freak、hv-analysis、khazix-writer。按任務選擇；清理或寫入資料須有明確批准。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "希望從個人 Agent Skill 合集選擇任務定義、儲存空間分析、資訊整理或寫作技能"
+      },
+      {
+        "label": "版本與來源",
+        "value": "作者官方 README：6 個技能 leader、storage-analyzer、aihot、neat-freak、hv-analysis、khazix-writer"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "先根據目的選唯一適合的子 Skill，再核對其 SKILL.md；合集本身不是單一正式 Command"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "希望從個人 Agent Skill 合集選擇任務定義、儲存空間分析、資訊整理或寫作技能"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "合集不應無條件觸發所有 6 個；磁碟清理或文件整理不可在缺少授權時修改資料"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "目標任務及是否涉及本機檔案／遠端資訊",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "選定子 Skill 的版本和環境要求",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "清理範圍、可刪項目及是否只讀 Preview",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "按需求分類 Leader／Storage／AIHOT／Neat-Freak／Analysis／Writer",
+        "detail": "按需求分類 Leader／Storage／AIHOT／Neat-Freak／Analysis／Writer",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "打開原子 Skill 文檔",
+        "detail": "打開原子 Skill 文檔，先確認環境與權限",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "先用只讀或 Preview 模式",
+        "detail": "先用只讀或 Preview 模式，產出差異和危險動作清單",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "經核准才執行個別 Skill",
+        "detail": "經核准才執行個別 Skill，逐筆檢查成果",
+        "result": "依問題選擇六種子 Skill 的對照表"
+      }
+    ],
+    "howToUse": {
+      "trigger": "希望從個人 Agent Skill 合集選擇任務定義、儲存空間分析、資訊整理或寫作技能",
+      "meaning": "先根據目的選唯一適合的子 Skill，再核對其 SKILL.md；合集本身不是單一正式 Command",
+      "usageNote": "合集不應無條件觸發所有 6 個；磁碟清理或文件整理不可在缺少授權時修改資料；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "依問題選擇六種子 Skill 的對照表"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "子技能特有的輸入、輸出與風險說明"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "需要實際執行時的預覽差異與手動核准清單"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，希望從個人 Agent Skill 合集選擇任務定義、儲存空間分析、資訊整理或寫作技能可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "目標任務及是否涉及本機檔案／遠端資訊；選定子 Skill 的版本和環境要求；清理範圍、可刪項目及是否只讀 Preview",
+          "output": "依問題選擇六種子 Skill 的對照表；子技能特有的輸入、輸出與風險說明；需要實際執行時的預覽差異與手動核准清單",
+          "gate": "六子技能數與官方目錄一致"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "刪檔風險",
+        "action": "Storage／Neat-Freak 可能移動／刪除使用者檔案"
+      },
+      {
+        "title": "控制 2",
+        "risk": "遠端查詢",
+        "action": "AIHOT 的資訊與流量來源需核對並明示"
+      }
+    ],
+    "acceptance": [
+      "六子技能數與官方目錄一致",
+      "每個實際操作有獨立准入與恢復方案",
+      "未安裝執行時不冒稱整理已完成"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/KKKKhazix/khazix-skills/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "作者官方 README：6 個技能 leader、storage-analyzer、aihot、neat-freak、hv-analysis、khazix-writer",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "刪檔風險：Storage／Neat-Freak 可能移動／刪除使用者檔案；遠端查詢：AIHOT 的資訊與流量來源需核對並明示。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

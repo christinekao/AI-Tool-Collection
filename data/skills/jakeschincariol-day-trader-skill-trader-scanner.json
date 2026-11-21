@@ -4,15 +4,18 @@
   "entityType": "skill",
   "title": "Day Trader /trader-scanner — Screen US stocks for intraday setups",
   "purpose": "從 Nasdaq Trader 美國股票清單、Yahoo Charts 找突破、旗型及超賣候選，輸出 trader/watchlist.json，僅是篩選不是買進建議。",
-  "problem": "需要以具體來源驗證的 Skill 說明，區分可重複操作與單純的 Repo／CLI 介紹，並記錄執行、授權和資料存取風險。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，需要建立美股當日監看清單，篩選突破、旗型、超賣或盤中 Opening Range 走勢可能產生錯誤或不可用結果。",
   "inputs": [
-    "已安裝且可用的上游專案／相容 Agent Host（本次未安裝）",
-    "使用者明確的任務、可存取資料與必要授權"
+    "Nasdaq Trader 股票清單與指定 Tickers 或選股 Universe",
+    "合法 Yahoo K 線資料、New York 時間和 Session 時段",
+    "價格／流動性門檻、掃描模式及是否允許寫入檔案"
   ],
   "outputs": [
-    "依該 Skill 類型產生的研究報告、檔案、影音或執行結果；未執行不可宣稱成功"
+    "trader/watchlist.json 的 mode、as_of、scanned／failed 和 hits[]",
+    "命中形態、價格／成交量證據與資料時間",
+    "未取得資料的代碼清單與需後續確認的個股"
   ],
-  "execution": "官方 SKILL.md：trader-scanner/SKILL.md。此 Skill 只屬於 Jakeschincariol/day-trader-skill 對應的使用場景。必須先閱讀官方操作約束並確保模型／資料／檔案／帳號等授權。風險標籤：market-data。在 AI Tool Collection 中僅記錄，不代表本機已安裝或已取得權限；任何對外發送、金額支出、程式庫寫入或券商委託應先得到明確許可。",
+  "execution": "1. 由 Nasdaq Trader 或授權清單建置可掃描股票池 → 2. Daily 模式以歷史收盤價／成交量判斷候選形態 → 3. ORB 模式使用交易日已完成 5 分鐘 K 線確認 Opening Range → 4. 保存 watchlist.json 並交給 News/Entry 作後續人工查驗",
   "resourceRefs": [
     {
       "type": "resource",
@@ -36,11 +39,14 @@
   "source": {
     "url": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-scanner/SKILL.md",
     "type": "Official GitHub SKILL.md",
-    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution."
+    "summary": "Individual SKILL.md checked 2026-10-25; no installation or execution.",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方市場掃描：Nasdaq Trader 股票池、Yahoo Daily/5m、Daily 和 ORB",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
   },
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-21",
   "tags": [
     "agent-skill",
     "trader-scanner",
@@ -62,5 +68,182 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "需要建立美股當日監看清單，篩選突破、旗型、超賣或盤中 Opening Range 走勢",
+    "篩選命中只是符合形態，並不代表推薦買進、實際入場訊號或有效策略驗證"
+  ],
+  "constraints": [
+    "資料負擔：批量網路查詢有限速、延遲和市場休市風險",
+    "選樣偏誤：掃描預設門檻會排除部分標的且並非預測工具"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "從 Nasdaq Trader 美國股票清單、Yahoo Charts 找突破、旗型及超賣候選，輸出 trader/watchlist.json，僅是篩選不是買進建議。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "需要建立美股當日監看清單，篩選突破、旗型、超賣或盤中 Opening Range 走勢"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方市場掃描：Nasdaq Trader 股票池、Yahoo Daily/5m、Daily 和 ORB"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "已授權 Host 使用 `/trader-scanner daily|orb`，可設 `--at HH:MM`、`--min-price`、`--no-write`"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "需要建立美股當日監看清單，篩選突破、旗型、超賣或盤中 Opening Range 走勢"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "篩選命中只是符合形態，並不代表推薦買進、實際入場訊號或有效策略驗證"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Nasdaq Trader 股票清單與指定 Tickers 或選股 Universe",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "合法 Yahoo K 線資料、New York 時間和 Session 時段",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "價格／流動性門檻、掃描模式及是否允許寫入檔案",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "由 Nasdaq Trader 或授權清單建置可掃描股票池",
+        "detail": "由 Nasdaq Trader 或授權清單建置可掃描股票池",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "Daily 模式以歷史收盤價／成交量判斷候選形態",
+        "detail": "Daily 模式以歷史收盤價／成交量判斷候選形態",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "ORB 模式使用交易日已完成 5 分鐘 K 線確認 Opening Range",
+        "detail": "ORB 模式使用交易日已完成 5 分鐘 K 線確認 Opening Range",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "保存 watchlist.json 並交給 News/Entry 作後續人工查驗",
+        "detail": "保存 watchlist.json 並交給 News/Entry 作後續人工查驗",
+        "result": "trader/watchlist.json 的 mode、as_of、scanned／failed 和 hits[]"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要建立美股當日監看清單，篩選突破、旗型、超賣或盤中 Opening Range 走勢",
+      "meaning": "已授權 Host 使用 `/trader-scanner daily|orb`，可設 `--at HH:MM`、`--min-price`、`--no-write`",
+      "usageNote": "篩選命中只是符合形態，並不代表推薦買進、實際入場訊號或有效策略驗證；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "trader/watchlist.json 的 mode、as_of、scanned／failed 和 hits[]"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "命中形態、價格／成交量證據與資料時間"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "未取得資料的代碼清單與需後續確認的個股"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，需要建立美股當日監看清單，篩選突破、旗型、超賣或盤中 Opening Range 走勢可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "Nasdaq Trader 股票清單與指定 Tickers 或選股 Universe；合法 Yahoo K 線資料、New York 時間和 Session 時段；價格／流動性門檻、掃描模式及是否允許寫入檔案",
+          "output": "trader/watchlist.json 的 mode、as_of、scanned／failed 和 hits[]；命中形態、價格／成交量證據與資料時間；未取得資料的代碼清單與需後續確認的個股",
+          "gate": "Universe、失敗數及每個 Hit 的 as_of 清楚"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "資料負擔",
+        "action": "批量網路查詢有限速、延遲和市場休市風險"
+      },
+      {
+        "title": "控制 2",
+        "risk": "選樣偏誤",
+        "action": "掃描預設門檻會排除部分標的且並非預測工具"
+      }
+    ],
+    "acceptance": [
+      "Universe、失敗數及每個 Hit 的 as_of 清楚",
+      "未收盤 K 棒不冒充已確定突破",
+      "不向券商送委託或宣稱保證勝率"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/trader-scanner/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方市場掃描：Nasdaq Trader 股票池、Yahoo Daily/5m、Daily 和 ORB",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "資料負擔：批量網路查詢有限速、延遲和市場休市風險；選樣偏誤：掃描預設門檻會排除部分標的且並非預測工具。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }

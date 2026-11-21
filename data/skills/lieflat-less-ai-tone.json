@@ -2,12 +2,20 @@
   "schemaVersion": 2,
   "id": "lieflat-less-ai-tone",
   "entityType": "skill",
-  "title": "lieflat-less-ai-tone",
-  "purpose": "在成稿後用明確 whitelist 規則辨識與改寫常見 AI writing tells，只處理命中的模式；沒有命中規則的文字必須保留，也不能任意重組整篇文章，以降低『去 AI 味』過度改寫原意與作者聲音的風險。",
-  "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "title": "Lieflat Less AI Tone v2 — 先審查、取得同意後最小改寫",
+  "purpose": "Lieflat Less AI Tone v2 將腳本與語義層 AI 寫作特徵分級，先交付可讀的改前報告，經使用者同意後只修改有效命中項，再復測並生成 Before/After；原始碼 CC BY-NC 4.0，商業使用須另外核對授權。",
+  "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，已完成文章，想有依據地檢查並最小化修正 AI 化語句而保留作者風格可能產生錯誤或不可用結果。",
+  "inputs": [
+    "經授權的最終原稿（非尚在寫的草稿）",
+    "文字格式、作者聲音及修改範圍限制",
+    "本地 detect.py 環境和必要授權，商業用途需另外核實"
+  ],
+  "outputs": [
+    "改前 Rule Hit 分級與原句／修改建議報告",
+    "使用者同意範圍內的最小 Diff 改稿",
+    "改後測試 JSON 與 Before/After Markdown／HTML"
+  ],
+  "execution": "1. 先執行正規表示式和結構層檢測，保存 JSON → 2. 以封閉判據進行語義候選辨識和人工判斷 → 3. 向使用者呈現分級命中／例句／替代方案後等待批准 → 4. 只改允許命中處，復測保存前後對照",
   "resourceRefs": [
     {
       "type": "resource",
@@ -34,7 +42,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-11-21",
   "tags": [
     "writing",
     "editing",
@@ -56,5 +64,194 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "已完成文章，想有依據地檢查並最小化修正 AI 化語句而保留作者風格",
+    "不能直接全篇強制改寫；C 只報告、X 已否決規則不得執行；原作者自述研究數字未獨立複核"
+  ],
+  "constraints": [
+    "著作權：公開版為 CC BY-NC，商業使用須另外取得適合授權",
+    "改寫越界：未命中或 X 級禁用規則的句子不可亂改",
+    "研究限制：官方自述統計結果不等於已獨立重現"
+  ],
+  "source": {
+    "url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/main/SKILL.md",
+    "reviewedAt": "2026-11-21",
+    "versionEvidence": "官方 v2：A/B/C/X/F 級檢查、Script＋Semantic、先交報告待同意再改；CC BY-NC 4.0",
+    "reviewScope": "2026-11-21 read official upstream README/SKILL.md; no installation, third-party runtime, security, integration or independent license audit"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "Lieflat Less AI Tone v2 將腳本與語義層 AI 寫作特徵分級，先交付可讀的改前報告，經使用者同意後只修改有效命中項，再復測並生成 Before/After；原始碼 CC BY-NC 4.0，商業使用須另外核對授權。",
+    "introNote": "依上游官方文件建立可閱讀的使用契約；不代表本資料庫已安裝第三方程式、完成外部模型調用或實作驗證。",
+    "facts": [
+      {
+        "label": "用途",
+        "value": "已完成文章，想有依據地檢查並最小化修正 AI 化語句而保留作者風格"
+      },
+      {
+        "label": "版本與來源",
+        "value": "官方 v2：A/B/C/X/F 級檢查、Script＋Semantic、先交報告待同意再改；CC BY-NC 4.0"
+      },
+      {
+        "label": "正式觸發及前提",
+        "value": "先 `detect.py --json` 和語義候選判讀，交付報告；**收到使用者修改指示後**才改寫並重跑檢查"
+      },
+      {
+        "label": "執行驗證狀態",
+        "value": "SOURCE REVIEWED；RUNTIME NOT TESTED"
+      }
+    ],
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "已完成文章，想有依據地檢查並最小化修正 AI 化語句而保留作者風格"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不能直接全篇強制改寫；C 只報告、X 已否決規則不得執行；原作者自述研究數字未獨立複核"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "經授權的最終原稿（非尚在寫的草稿）",
+        "detail": "先確認此資料的來源與存取權限。"
+      },
+      {
+        "title": "文字格式、作者聲音及修改範圍限制",
+        "detail": "確認資料品質、Host 和版本，缺少時明確標示。"
+      },
+      {
+        "title": "本地 detect.py 環境和必要授權，商業用途需另外核實",
+        "detail": "網路、憑證、隱私、成本及檔案改動需獨立獲准。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "先執行正規表示式和結構層檢測",
+        "detail": "先執行正規表示式和結構層檢測，保存 JSON",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "02",
+        "title": "以封閉判據進行語義候選辨識和人工判斷",
+        "detail": "以封閉判據進行語義候選辨識和人工判斷",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "03",
+        "title": "向使用者呈現分級命中／例句／替代方案後等待批准",
+        "detail": "向使用者呈現分級命中／例句／替代方案後等待批准",
+        "result": "可查核的中間結果及繼續條件"
+      },
+      {
+        "number": "04",
+        "title": "只改允許命中處",
+        "detail": "只改允許命中處，復測保存前後對照",
+        "result": "改前 Rule Hit 分級與原句／修改建議報告"
+      }
+    ],
+    "howToUse": {
+      "trigger": "已完成文章，想有依據地檢查並最小化修正 AI 化語句而保留作者風格",
+      "meaning": "先 `detect.py --json` 和語義候選判讀，交付報告；**收到使用者修改指示後**才改寫並重跑檢查",
+      "usageNote": "不能直接全篇強制改寫；C 只報告、X 已否決規則不得執行；原作者自述研究數字未獨立複核；上游 SKILL.md 中的工具命令是來源資訊，不授權本專案直接執行。"
+    },
+    "deliverables": [
+      {
+        "name": "主要成果",
+        "description": "改前 Rule Hit 分級與原句／修改建議報告"
+      },
+      {
+        "name": "附加成果 2",
+        "description": "使用者同意範圍內的最小 Diff 改稿"
+      },
+      {
+        "name": "附加成果 3",
+        "description": "改後測試 JSON 與 Before/After Markdown／HTML"
+      }
+    ],
+    "composition": {
+      "problem": "缺乏可追溯的操作方法、輸入邊界、實際驗證與失敗控制時，已完成文章，想有依據地檢查並最小化修正 AI 化語句而保留作者風格可能產生錯誤或不可用結果。",
+      "capabilities": [
+        {
+          "id": "documented-skill-contract",
+          "title": "可重用的文件層級操作契約",
+          "input": "經授權的最終原稿（非尚在寫的草稿）；文字格式、作者聲音及修改範圍限制；本地 detect.py 環境和必要授權，商業用途需另外核實",
+          "output": "改前 Rule Hit 分級與原句／修改建議報告；使用者同意範圍內的最小 Diff 改稿；改後測試 JSON 與 Before/After Markdown／HTML",
+          "gate": "改前／改後評估可比對、來源文本可追溯"
+        }
+      ],
+      "note": "僅描述可能組合的 I/O 與品質 Gate，沒有宣稱已連接第三方 Host 或自動新增正式 Graph 關係。"
+    },
+    "safety": [
+      {
+        "title": "控制 1",
+        "risk": "著作權",
+        "action": "公開版為 CC BY-NC，商業使用須另外取得適合授權"
+      },
+      {
+        "title": "控制 2",
+        "risk": "改寫越界",
+        "action": "未命中或 X 級禁用規則的句子不可亂改"
+      },
+      {
+        "title": "控制 3",
+        "risk": "研究限制",
+        "action": "官方自述統計結果不等於已獨立重現"
+      }
+    ],
+    "acceptance": [
+      "改前／改後評估可比對、來源文本可追溯",
+      "沒有授權前只交付審查報告不改原文",
+      "作者立場、數字及引用未被誤改"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/main/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "官方 v2：A/B/C/X/F 級檢查、Script＋Semantic、先交報告待同意再改；CC BY-NC 4.0",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游官方文件；未執行 Build、安裝、Runtime、網路外送、第三方 Security、License 法律審查或 Integration。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "更新既有單一 Canonical Skill；只保留原 ID 與既有 Source / Typed Refs，不新增重複子技能或無據關係。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原始 Tags 完全保留；本批不新增分類詞、不刪既有標籤，分類審查留待後續明確指示。"
+    },
+    "classificationReason": "Primary／Secondary Domains、Raw Tags、Typed References 不變；修正官方 2026-11-21 文件中實際可查的版本與操作資訊。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已閱讀上游官方 README／SKILL.md 並補 Trigger、Input、Execution、Output、Risk 和可驗收 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有第三方執行、Connector 或輸入輸出相容測試，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "既有 Concept Reference 不變；未從 Tag 名稱臆測建立新關聯。"
+    },
+    "riskNotes": "著作權：公開版為 CC BY-NC，商業使用須另外取得適合授權；改寫越界：未命中或 X 級禁用規則的句子不可亂改；研究限制：官方自述統計結果不等於已獨立重現。文件閱讀不構成執行、憑證或修改專案的授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 上游官方文件閱讀完成；Runtime、Integration、Security 與 License 法律審查未實測。"
+    }
   }
 }
