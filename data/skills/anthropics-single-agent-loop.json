@@ -50,11 +50,13 @@
   "source": {
     "url": "https://github.com/anthropics/single-agent-loop-kit/blob/release/skill/SKILL.md",
     "type": "Official Anthropic agent skill and six step files",
-    "summary": "Read original SKILL.md and steps on 2026-10-26, not installed/executed. Repo marked unmaintained; real-model testing limited to two example runs as disclosed in README."
+    "summary": "Read original SKILL.md and steps on 2026-10-26, not installed/executed. Repo marked unmaintained; real-model testing limited to two example runs as disclosed in README.",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Upstream Skill / README documentation reviewed; no installation, runtime, security audit, permission changes or credential access"
   },
   "status": "active",
   "addedAt": "2026-10-26",
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-11-21",
   "tags": [
     "anthropic",
     "agent-skill",
@@ -81,5 +83,180 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "whenToUse": [
+    "既有多代理系統經常因路由和協調產生額外成本",
+    "希望驗證某個 Subagent 能否安全收斂到主 Agent 或 Tool"
+  ],
+  "constraints": [
+    "直接刪除 Subagent 可能損失隔離或專長；一次變動一項並保留 Regression 與獨立 Review",
+    "真實 Eval 可能消耗大量 Token 和需要私有資料；先訂預算與授權，無 Baseline 則不宣稱效果提升"
+  ],
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "以小步驟和成對 Eval 將可合併的 Subagents 轉為單一 Loop、Skills 或 Tools，同時保留必要的專職代理與回滾方案。",
+    "introNote": "本筆是上游 Skill 的閱讀與使用契約；未在此專案環境安裝或執行，正式工具權限與輸出須由使用者另外確認。",
+    "facts": [
+      {
+        "label": "使用環境",
+        "value": "可讀取程式與執行 Eval 的 AI Coding Agent"
+      },
+      {
+        "label": "啟動條件",
+        "value": "希望盤點、減少或重組多 Agent 系統，並依成效決定哪些 Subagents 應 Merge／Fold／Keep 時"
+      },
+      {
+        "label": "來源狀態",
+        "value": "官方 README／SKILL.md 已閱讀；執行未驗證"
+      }
+    ],
+    "situations": [
+      {
+        "title": "既有多代理系統經常因路由和協調產生額外成本",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      },
+      {
+        "title": "希望驗證某個 Subagent 能否安全收斂到主 Agent 或 Tool",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "現有 Orchestrator、Subagents、Tools、Prompt 與執行 Trace",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "基準 Eval、負案例、延遲／成本和任務完成標準",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "可測試的環境及使用者對每一步的調整授權",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "00 盤點",
+        "detail": "記錄代理角色與依賴並提出 Merge、Fold、As-Tool 或 Keep 建議",
+        "result": "可核對的 Inventory"
+      },
+      {
+        "number": "02",
+        "title": "01 基準評估",
+        "detail": "以相同情境建立完成率、錯誤、時間、Token 和成本指標",
+        "result": "可比較的 Baseline"
+      },
+      {
+        "number": "03",
+        "title": "02–04 單點改動",
+        "detail": "一次只調整一個代理責任，保留原版本",
+        "result": "可回滾的候選實作"
+      },
+      {
+        "number": "04",
+        "title": "比較並決策",
+        "detail": "用同一 Eval 和負案例做前後比較，不改善就 Keep 或 Revert",
+        "result": "經核准的變更決策"
+      },
+      {
+        "number": "05",
+        "title": "05 維護",
+        "detail": "驗收穩定後再修整過時 Prompt 和 Skill",
+        "result": "可持續維護的 Agent Loop"
+      }
+    ],
+    "howToUse": {
+      "trigger": "希望盤點、減少或重組多 Agent 系統，並依成效決定哪些 Subagents 應 Merge／Fold／Keep 時",
+      "meaning": "依官方來源在相容的 Agent Host 選擇或呼叫對應 Skill；此處只描述何時使用，並不代表已安裝可直接執行。",
+      "usageNote": "來源文件中的 Shell、套件安裝、檔案寫入、憑證與網路存取指令均需另外審查及授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要輸出",
+        "description": "Agent Inventory 與 PLAN.md、目前系統 Baseline"
+      },
+      {
+        "name": "其他輸出",
+        "description": "每一候選改動的 Before/After 指標、Keep／Revert 決策"
+      }
+    ],
+    "composition": {
+      "problem": "在缺少完整任務測試與回歸證據下重構多 Agent 架構，可能遺失必須的 Handoff、違反業務規則，或只改善平均延遲卻破壞關鍵任務。",
+      "capabilities": [
+        {
+          "id": "skill-reviewed-execution",
+          "title": "依明確輸入執行本 Skill 工作流",
+          "input": "現有 Orchestrator、Subagents、Tools、Prompt 與執行 Trace；基準 Eval、負案例、延遲／成本和任務完成標準；可測試的環境及使用者對每一步的調整授權",
+          "output": "Agent Inventory 與 PLAN.md、目前系統 Baseline；每一候選改動的 Before/After 指標、Keep／Revert 決策",
+          "gate": "Baseline 和 Candidate 使用一致的任務與量測規則。"
+        }
+      ],
+      "note": "此為知識庫中可重用的操作契約，非正式已測 Runtime Capability 或自動 Workflow 連結。"
+    },
+    "safety": [
+      {
+        "title": "代理責任混淆",
+        "risk": "直接刪除 Subagent 可能損失隔離或專長",
+        "action": "一次變動一項並保留 Regression 與獨立 Review"
+      },
+      {
+        "title": "成本與執行環境",
+        "risk": "真實 Eval 可能消耗大量 Token 和需要私有資料",
+        "action": "先訂預算與授權，無 Baseline 則不宣稱效果提升"
+      }
+    ],
+    "acceptance": [
+      "Baseline 和 Candidate 使用一致的任務與量測規則。",
+      "關鍵負案例與安全限制未因 Fold 而退化。",
+      "無實證優勢時允許 Keep Subagent，保留回滾可能性。"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/anthropics/single-agent-loop-kit/blob/release/skill/SKILL.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "未在本次文件確認版本",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游文件、核對既有 Canonical；未安裝或執行第三方程式。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Skill Canonical ID，對照原始來源與對應 Resource；不以主題或標籤相似新增重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未映射標籤與作者專有詞，不新增、刪除或自動正規化原始 Tags。"
+    },
+    "classificationReason": "保留既有 Domain、Category、Raw Tags、Typed References；只補充實際 Skill 操作閱讀規格和證據。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已依 SKILL_RESOURCE_SPEC.md 補充觸發情境、準備、流程、輸出、風險與實際可查驗 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此輪僅補 Skill 可讀操作契約，未實測可安裝能力、I/O 相容或建立正式 Runtime Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept References；未由標籤自動創建新 Edge。"
+    },
+    "riskNotes": "直接刪除 Subagent 可能損失隔離或專長；真實 Eval 可能消耗大量 Token 和需要私有資料；原始 Skill 指令不構成安裝、存取機密、修改設定或外傳資料授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 GitHub 官方 README／SKILL.md 文件查核；本批沒有執行第三方 Build、Runtime、Integration、Security 或 License 測試。"
+    }
   }
 }

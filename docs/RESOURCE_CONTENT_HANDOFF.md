@@ -1,5 +1,7 @@
 # Phase 2 Resources — 最新 Session 交接
 
+> **Skills Phase 2 現在進行中**：最新 Skills 工作進度與接手資料以 [Skills Session Handoff](SKILL_CONTENT_HANDOFF.md) 為準；Resources 已完成 270/270 內容審查，以下保留 Resources 的歷史與來源缺口記錄。
+
 > **Main-first Handoff**：本檔 → [AGENTS.md](../AGENTS.md) → [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) → [Batch 14 逐筆報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261121.md)。切換 Session 應再次核對 GitHub main／PR／Actions；勿把舊對話快照當即時證據。
 
 ## Phase 2 Resources 內容審查完成（2026-11-21，Asia/Taipei）

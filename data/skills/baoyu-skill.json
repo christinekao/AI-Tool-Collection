@@ -5,9 +5,16 @@
   "title": "baoyu-skill",
   "purpose": "生圖、文章、內容分發等 workflow",
   "problem": "",
-  "inputs": [],
-  "outputs": [],
-  "execution": "See source resource and its skill/protocol documentation.",
+  "inputs": [
+    "明確內容、目標平台、比例與品牌風格",
+    "選定的 Skill 及 Node.js／Bun 等必要依賴",
+    "文章、圖片、平台帳號使用權與是否允許發布"
+  ],
+  "outputs": [
+    "依所選 Skill 產出的封面、圖卡、文章或圖像素材",
+    "經明確核准後才可能產生的發布結果與憑證紀錄"
+  ],
+  "execution": "1. 選擇最小必要技能：從 README 列出的獨立 Skills 選擇對應功能 → 2. 檢查環境與權限：檢查 Node.js、npx bun、網路與帳號依賴 → 3. 生成內容草稿：先產圖文或預覽並保存必要原始素材 → 4. 審核後決定發布：檢查事實、版權和平台格式；只有得到授權才操作帳號",
   "resourceRefs": [
     {
       "type": "resource",
@@ -26,7 +33,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-21",
   "tags": [
     "content",
     "image-generation",
@@ -45,5 +52,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "whenToUse": [
+    "需要文章封面、插圖或資訊圖而保留可迭代素材",
+    "希望把審核完成的內容發布到特定平台"
+  ],
+  "constraints": [
+    "發布功能可能需要 API Key、Cookie 或持久登入；不要在未核准狀態使用憑證或發布",
+    "圖像、文字及第三方素材有不同授權；依素材與使用平台逐項確認商用及引用權利"
+  ],
+  "source": {
+    "url": "https://github.com/JimLiu/baoyu-skills/blob/main/README.md",
+    "reviewedAt": "2026-11-21",
+    "reviewScope": "Upstream Skill / README documentation reviewed; no installation, runtime, security audit, permission changes or credential access"
+  },
+  "skillGuide": {
+    "version": 1,
+    "scope": "agent-skill",
+    "overview": "從 baoyu-skills 集合挑選適合的內容製作或發布模組，而不是一次將全部第三方 Skill 加進工作環境。",
+    "introNote": "本筆是上游 Skill 的閱讀與使用契約；未在此專案環境安裝或執行，正式工具權限與輸出須由使用者另外確認。",
+    "facts": [
+      {
+        "label": "使用環境",
+        "value": "支援 Skills 的 Claude Code／Codex 等 Agent，視個別 Skill 依賴而定"
+      },
+      {
+        "label": "啟動條件",
+        "value": "需要文章處理、封面／圖卡／資訊圖生成或授權後的跨平台內容發布時，選用 baoyu-skills 的特定 Skill"
+      },
+      {
+        "label": "來源狀態",
+        "value": "官方 README／SKILL.md 已閱讀；執行未驗證"
+      }
+    ],
+    "situations": [
+      {
+        "title": "需要文章封面、插圖或資訊圖而保留可迭代素材",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      },
+      {
+        "title": "希望把審核完成的內容發布到特定平台",
+        "description": "只有符合此情境且已取得必要資料及授權時，才考慮啟用該 Skill。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "明確內容、目標平台、比例與品牌風格",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "選定的 Skill 及 Node.js／Bun 等必要依賴",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      },
+      {
+        "title": "文章、圖片、平台帳號使用權與是否允許發布",
+        "detail": "執行前先確認此項已備妥、可讀取且符合使用者授權。"
+      }
+    ],
+    "process": [
+      {
+        "number": "01",
+        "title": "選擇最小必要技能",
+        "detail": "從 README 列出的獨立 Skills 選擇對應功能",
+        "result": "明確的內容任務"
+      },
+      {
+        "number": "02",
+        "title": "檢查環境與權限",
+        "detail": "檢查 Node.js、npx bun、網路與帳號依賴",
+        "result": "可安全使用的工作邊界"
+      },
+      {
+        "number": "03",
+        "title": "生成內容草稿",
+        "detail": "先產圖文或預覽並保存必要原始素材",
+        "result": "可人工編輯的草稿"
+      },
+      {
+        "number": "04",
+        "title": "審核後決定發布",
+        "detail": "檢查事實、版權和平台格式；只有得到授權才操作帳號",
+        "result": "經核准的最終內容"
+      }
+    ],
+    "howToUse": {
+      "trigger": "需要文章處理、封面／圖卡／資訊圖生成或授權後的跨平台內容發布時，選用 baoyu-skills 的特定 Skill",
+      "meaning": "依官方來源在相容的 Agent Host 選擇或呼叫對應 Skill；此處只描述何時使用，並不代表已安裝可直接執行。",
+      "usageNote": "來源文件中的 Shell、套件安裝、檔案寫入、憑證與網路存取指令均需另外審查及授權。"
+    },
+    "deliverables": [
+      {
+        "name": "主要輸出",
+        "description": "依所選 Skill 產出的封面、圖卡、文章或圖像素材"
+      },
+      {
+        "name": "其他輸出",
+        "description": "經明確核准後才可能產生的發布結果與憑證紀錄"
+      }
+    ],
+    "composition": {
+      "problem": "從 baoyu-skills 集合挑選適合的內容製作或發布模組，而不是一次將全部第三方 Skill 加進工作環境。",
+      "capabilities": [
+        {
+          "id": "skill-reviewed-execution",
+          "title": "依明確輸入執行本 Skill 工作流",
+          "input": "明確內容、目標平台、比例與品牌風格；選定的 Skill 及 Node.js／Bun 等必要依賴；文章、圖片、平台帳號使用權與是否允許發布",
+          "output": "依所選 Skill 產出的封面、圖卡、文章或圖像素材；經明確核准後才可能產生的發布結果與憑證紀錄",
+          "gate": "只使用與當次目標直接相關的 Skill。"
+        }
+      ],
+      "note": "此為知識庫中可重用的操作契約，非正式已測 Runtime Capability 或自動 Workflow 連結。"
+    },
+    "safety": [
+      {
+        "title": "帳號與平台",
+        "risk": "發布功能可能需要 API Key、Cookie 或持久登入",
+        "action": "不要在未核准狀態使用憑證或發布"
+      },
+      {
+        "title": "版權和模型素材",
+        "risk": "圖像、文字及第三方素材有不同授權",
+        "action": "依素材與使用平台逐項確認商用及引用權利"
+      }
+    ],
+    "acceptance": [
+      "只使用與當次目標直接相關的 Skill。",
+      "成品經事實、版權、格式與清晰度人工確認。",
+      "沒有用『生成完成』代替『已發布』，發布需實際操作證據。"
+    ],
+    "provenance": {
+      "sourceUrl": "https://github.com/JimLiu/baoyu-skills/blob/main/README.md",
+      "reviewedAt": "2026-11-21",
+      "reviewedVersion": "未在本次文件確認版本",
+      "execution": "NOT_EXECUTED",
+      "notes": "僅閱讀上游文件、核對既有 Canonical；未安裝或執行第三方程式。"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-21",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "沿用既有 Skill Canonical ID，對照原始來源與對應 Resource；不以主題或標籤相似新增重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未映射標籤與作者專有詞，不新增、刪除或自動正規化原始 Tags。"
+    },
+    "classificationReason": "保留既有 Domain、Category、Raw Tags、Typed References；只補充實際 Skill 操作閱讀規格和證據。",
+    "readingSpec": {
+      "id": "skill",
+      "status": "applied",
+      "reason": "已依 SKILL_RESOURCE_SPEC.md 補充觸發情境、準備、流程、輸出、風險與實際可查驗 Gate。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此輪僅補 Skill 可讀操作契約，未實測可安裝能力、I/O 相容或建立正式 Runtime Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept References；未由標籤自動創建新 Edge。"
+    },
+    "riskNotes": "發布功能可能需要 API Key、Cookie 或持久登入；圖像、文字及第三方素材有不同授權；原始 Skill 指令不構成安裝、存取機密、修改設定或外傳資料授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "2026-11-21 GitHub 官方 README／SKILL.md 文件查核；本批沒有執行第三方 Build、Runtime、Integration、Security 或 License 測試。"
+    }
   }
 }
