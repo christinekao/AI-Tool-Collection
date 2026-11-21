@@ -217,5 +217,24 @@
 - 完成判準：20 個 Canonical 變更，Generated Catalog／Graph 同步，無 Graph 邊／分類／Tags 破壞性變化，詳細報告與 rolling Handoff 都在 main。
 - **第三方 Build、Runtime、Security、License、Integration：NOT TESTED**；PR CI 只驗證本知識庫的 Schema／Graph／網站回歸。
 
+## GitHub PR／main 實際驗收紀錄（合併後補證）
+
+- **PR #39**：[已合併](https://github.com/christinekao/AI-Tool-Collection/pull/39)；最新 PR Head `94f44c2798185c8c4a1ac9eb9fc4d7f1b47c7215`，Merge SHA `cc554fe41383aa7f32757a1c0b3b212a785483ac`。
+- 修正了原始 Capability Mapping 宣告錯誤；新增 P1 Graph CI 對 `data/skills/**` 的 PR/main Push Trigger。相關差異詳見本報告 Release Gate 修復段落。
+- **實際驗證**：
+| 關卡 | 結果 |
+| --- | --- |
+| PR Unified Intake Gate | **SUCCESS** — [44895186252](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895186252) |
+| PR V2 Data Validate | **SUCCESS** — [44895186307](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895186307) |
+| PR P1 Graph Unit Tests | **SUCCESS** — [44895186260](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895186260) |
+| main Unified Intake Gate | **SUCCESS** — [44895272917](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895272917) |
+| main V2 Data Validate | **SUCCESS** — [44895272865](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895272865) |
+| main V2 Catalog Sync | **SUCCESS** — [44895272824](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895272824) |
+| main P1 Graph Unit Tests | **SUCCESS** — [44895272853](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895272853) |
+| main Live Pages Smoke | **SUCCESS** — [44895273010](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895273010) |
+| main Pages Build／Deploy | **SUCCESS** — [44895272165](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44895272165) |
+- **部署時間差**：Live Smoke 於 2026-11-21 18:38:35（臺北時間）完成，Pages Deploy 於 18:38:47 完成，兩者都 SUCCESS 但前者 **不能作為最新部署完成後的獨立 Smoke**。
+- **未測試**：所有第三方 Skill 的執行、安裝、可用性、成本、實際 License 適用性、Security 與 Integration；GitHub CI 只驗證本 Repo 資料與介面回歸。
+
 ## 下批接手
 - 下一批為依檔名排序的 **第 21–40 個 Skill（20 筆）**，需先核對最新 main、既有 PR 和 Snapshot，再逐筆挑選適用來源；避免重複本批 ID。
