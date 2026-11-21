@@ -59,12 +59,30 @@
 - **Verification**：SOURCE DOCUMENTS REVIEWED；EXTERNAL RUNTIME／SECURITY／INDEPENDENT LICENSE／INTEGRATION NOT TESTED。
 
 
-## Repo 資料驗收（PR CI 及發布證據待填）
+## Repo 資料與正式站驗收
 
 - Canonical Skills：123 筆；具 `skillGuide`：**123/123**；具 `intakeReview`：**123/123**。
 - Review Source Status：`source-checked` 115、`partial` 8。此計數代表**來源審查狀態**，非第三方 Runtime 可用性或授權保證。
-- Graph：569 nodes／1816 edges；六類 Canonical 數量與原 Tags／Typed Refs 不得變動。Build／Schema／Graph／Browser／PR CI／正式 Deploy／Live Smoke **尚待真實執行回填**。
-- PR、CI、Merge、主分支 Deploy、部署後 Smoke 完成前，一律 **IN PROGRESS**，不得把上一批 PASS 當作本批的實測結果。
+- Graph：**569 nodes／1816 edges**；六類 Canonical 數量與原 Tags／Typed Refs 不變。Build、Schema、Graph、Browser、PR CI、正式 Deploy、Live Smoke 的真實結果如下。
+### PR #45／main／正式站驗收證據
+
+| Gate | Run ID／結果 |
+|---|---|
+| [PR Unified Intake](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916449441) | SUCCESS |
+| [PR V2 Data Validate](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916449471) | SUCCESS |
+| [PR P1 Graph／Browser](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916449427) | SUCCESS |
+| [main Unified Intake](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916530785) | SUCCESS |
+| [main Data Validate](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916530746) | SUCCESS |
+| [main Catalog Sync](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916530745) | SUCCESS |
+| [main P1 Graph／Browser](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916530738) | SUCCESS |
+| [Pages Deploy](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916529919) | SUCCESS，14:57:25Z |
+| [Live Pages Smoke Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44916530773) | SUCCESS，14:58:23Z；部署完成**之後** |
+
+- [PR #45](https://github.com/christinekao/AI-Tool-Collection/pull/45) 已 Squash Merge；PR Head `7bd6f4be8c522d77e69bcde18ea0e73bfc5ac590`；main 合併 Commit `a3a4b2ce6651208a61f794bd366915f373ecad57`。
+- 14:57:58Z 19/19 GitHub Pages 真實 HTTP／JSON Assets PASS；Chromium 14:58:07–14:58:15Z 通過知識搜尋、Graph、Prompt、Playground、六類 Entity 及 375／430／768／1440px 響應式測試。
+- Live Smoke Attempt 1 雖 SUCCESS，但其完成時間 14:57:05Z **早於** Pages Deploy 14:57:25Z；不能用它驗收新版本，已於部署後重跑 Attempt 2 且 SUCCESS。
+- **PASS WITH GAPS** 僅適用於此 Repo 的 Canonical 資料、CI、Catalog／Graph 與已部署的 GitHub Pages；不代表第三方 123 Skills 安裝、Runtime、安全、完整 License 或 Integration 已 PASS。
+- **Docs-only 最終交接更新將再次觸發 Pages Deploy**。須等該最後版本部署完成後重跑 Live Smoke；最終證據可記在 PR #45 最新留言，避免本文件再次改動引發循環部署。
 
 ## Skills 123 筆收尾回歸與缺口追蹤
 
@@ -73,6 +91,6 @@
 3. OneTake（PolyForm Noncommercial）、Punk Skill（v2+ 商用書面授權）應保持授權警示；來源 Repo MIT 不代表模型、輸出素材、第三方依賴皆可商用。
 4. 外部第三方 Skills 的 Trigger、Functional、Trajectory、Runtime、Security、完整授權、Integration 尚無跨全庫實測。欲稱「可直接安裝使用」，必須另有隔離環境與取得授權後的驗收。
 
-## 下一動作
+## 後續追蹤
 
-對本 PR 真正執行 Unified Intake、V2 Validate、Graph／Browser；通過後核准合併，再核對 `main`、Catalog Sync、GitHub Pages Deploy 與**部署後** Live Smoke；把完整 run IDs、commit、時間與 gaps 回填 Session Handoff。這份預先交付文件不主張未完成的 Gate 已通過。
+第三方 Skill Runtime／Security／License／Integration 的缺口需獨立研究與受控驗證；8 筆 PARTIAL 來源逐筆回補；同源 ID 另作去重 Review。最後文件更新所觸發的新 Deploy，應於完成後獨立重跑 Live Smoke，證據記於 PR #45 最新留言。
