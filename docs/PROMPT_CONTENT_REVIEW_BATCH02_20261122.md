@@ -35,7 +35,21 @@
 - `scripts/test-prompt-guides.mjs` 由前 20 筆擴大到 35 筆：原文／Adapted 獨立、變數宣告、組合契約、Source Status／NOT_TESTED；新增 pstack、Astra、TradingView、排程、Stepwise 安全回歸。
 - Browser 新增七種代表情境的原始／改良版切換一致性，保留 375px 檢查。
 - 全庫仍應維持 270 Resources／123 Skills／68 Concepts／35 Prompts／17 Combinations／36 Workflows；Graph 569 Nodes／1816 Edges。新建正式 Graph Edge：0。
-- **本文件撰寫時 PR CI／main CI／Pages Deploy／Live Smoke 尚未驗收，狀態為 PENDING，不得聲稱 PASS。**
+- **已完成 PR、main CI、Pages Deploy 與部署後 Live Smoke 驗收；狀態 PASS WITH GAPS**，詳細 Run 證據見下段。
+
+## Batch 02 最終 GitHub／正式站驗收證據（2026-11-22）
+
+**PASS WITH GAPS**：以下 PASS 僅指 Repo 內容、靜態／瀏覽器回歸與 GitHub Pages 的實際發布；外部模型輸出與第三方整合維持 NOT_TESTED。
+
+- **PR [#47](https://github.com/christinekao/AI-Tool-Collection/pull/47) 已 Squash Merge**。最終 PR Head `8353b8a97423c1c7e5180c6837fe9d892be60583`，Merge Commit `f807f56f87b76d928000f933afc0a18514cf3f07`。
+- **PR CI PASS**：[Unified Intake Gate #45019960144](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45019960144)；[V2 Data Validate #45019960093](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45019960093)；[P1 Graph／Browser #45019960149](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45019960149)。
+- **main CI PASS**：[Unified Intake #45020102988](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45020102988)；[Data Validate #45020102972](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45020102972)；[P1 Graph／Browser #45020102923](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45020102923)；[V2 Catalog Sync #45020102924](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45020102924)。
+- **main GitHub Pages Deploy PASS**：[#45020101738](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45020101738)，在 2026-11-22 12:01:33 UTC 左右結束。
+- **部署後 Live Smoke PASS**：[#45020102930 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45020102930)，Chromium 完成於 12:02:02 UTC，**晚於**前述 Pages Deploy。19/19 正式站 HTTP／JSON Assets 有效；Prompt 原始／改良文字一致性、版本切換及 375px；Knowledge／Playground 375、430、768、1440px 無溢出；六類 Collection 可見。
+- **初次主站 Live Smoke Attempt 1 失敗**，因執行時新 Pages Deploy 尚未完成；部署後 Attempt 2 成功，初次失敗仍保留。
+- **首次 PR CI 失敗**：[Intake #45019718059](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45019718059) 中 Stepwise 既有資料沿用 `dedupeReview.decision=new`，修正為 `update`；[Data Validate #45019718005](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45019718005) 發現 Derived Catalog 與新 Canonical 未同步，透過專案的 `V2 Catalog Sync` 產生索引後修復。臨時分支觸發設定已還原，最終 PR 無 workflow 檔案變更。
+- 全庫 **35/35 Guide、35/35 Intake Review**；原始 `prompt`／原分享欄位、Tags、分類、Typed Refs 保留；Graph 實際 **569 Nodes／1816 Edges**，無新增正式 Graph 關聯。
+- 本最終證據文件的 Docs-only Commit 將再觸發 Pages Deploy；其**最後一次**部署／Smoke 結果記在 [PR #47 驗收留言](https://github.com/christinekao/AI-Tool-Collection/pull/47)，避免重複更新文件造成部署循環。
 
 ## 未測與後續
 
