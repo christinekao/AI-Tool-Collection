@@ -280,14 +280,23 @@
 - 每筆新 JSON 相較原欄位只新增 `promptGuide`／`intakeReview` 及更新日期；一筆既有 Guide 維持內容不變。主 `prompt` 原文、`originalSharedText`、`originalUserInput` 及全部 Classification／Refs 不改動。
 - 未提供真實 CV、JD、行情、交易費率、Google Maps 收藏、Notion 行程或完整聊天歷史，因此不能聲稱這些 Prompt 在實際業務資料上驗證過。
 - 報告中的「虛構輸入／輸出格式示意」是人工編寫的預期呈現，不是實際模型答覆。
-- 本 Repo CI 的靜態驗證、Graph、Browser／Copy、main Deploy、部署後 Live Smoke 須各自保留真實 Run ID；在驗收前為 **IN PROGRESS**，不得使用前一批 Skills PASS 當作本次結果。
+- 本 Repo CI、Graph、Browser／Copy、main Deploy、部署後 Live Smoke 的真實驗收 Run ID 與先後順序見下一節；不以 Skills PASS 替代 Prompt Gate。
 
-## 下一步（待填真實執行證據）
+## GitHub PR、CI、正式站驗收證據（2026-11-22）
 
-1. PR #（待建立）：Unified Intake、V2 Data Validate、P1 Graph／Browser 三項 Gate。
-2. 確認最終 PR Head 通過後才能 Merge；隨後核對 main 四個 Gate 與 Catalog Sync。
-3. Pages 完成**後**再跑 Live Smoke，核對正式站資源、原始版／可重用版切換與 Copy，及 375／430／768／1440px。
-4. Session Handoff 應記錄精確 PR、Commit、Run、時間、未測範圍與最後 15 筆 ID；Docs-only 文件更新如觸發新版 Pages Deploy 必須再補部署後 Smoke。
+- **[PR #46](https://github.com/christinekao/AI-Tool-Collection/pull/46) 已 Squash Merge**：最終 PR Head `d77e6a71e4227c7d4c38838438afdc6fbd956d98`，Merge Commit `9c21130232dc5a07ec6da195189152e878cdf7d9`。
+- **PR Gates PASS**：[Unified Intake #44999030064](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999030064)、[V2 Data Validate #44999030072](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999030072)、[P1 Graph／Browser #44999030052](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999030052)。PR [Live-site Check #44999030034](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999030034) 亦 SUCCESS，但 PR 版只檢查當時**已部署的舊正式站**，不可當作本次 Prompt 新版驗收。
+- **main Gates PASS**：[Unified Intake #44999148648](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999148648)、[Data Validate #44999148672](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999148672)、[Catalog Sync #44999148646](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999148646)、[P1 Graph／Browser #44999148652](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999148652)。
+- **[main Pages Deploy #44999147768](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999147768) SUCCESS**，2026-11-22 07:39:02Z。
+- **[Live Pages Smoke #44999148650 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44999148650) SUCCESS**，07:41:44Z，在上述部署後真正驗收。19/19 HTTP／JSON Assets 正常；Chromium 驗證原始 Prompt／可重用 Prompt 字串、Switch／Copy Version 狀態、375px Prompt 詳情頁、Graph、Playground、六種類型與 375／430／768／1440px Responsive。
+- **Live Attempt 1 FAIL（早於部署）**：07:38:46Z，新版 Browser 測試要求 0050 Prompt Guide，但正式站仍是舊版，故 Timeout。此為部署先後競賽，於新版 Pages Deploy 後重新執行 Attempt 2 SUCCESS。保留失敗紀錄，不將 Attempt 1 當作新版驗收。
+- **首次 PR Unified Intake FAIL 已修復**：[44998520132](https://github.com/christinekao/AI-Tool-Collection/actions/runs/44998520132) 指出 `cv-jd-tailored-interview-questions-deep-followups` 與 `ibkr-weekly-risk-adjusted-performance` 的原有 `classification.capabilities` 與新 `capabilityReview=none` 衝突；修正成 `mapped`，**保留原有 canonical-described 映射，沒有新增能力或 Graph Edge**，其餘原文與分類無變動；回歸 CI PASS。
+- **新增預防性回歸**：`scripts/test-prompt-guides.mjs`（20 筆 Guide、原文／Adapted 分離、變數一致、NOT_TESTED、敏感邊界）；`scripts/test-knowledge-browser.mjs` 增加三種 Prompt 的字串／切換／375px 實測；P1 Workflow 已將 `data/prompts/**` 列入 PR 與 main 觸發範圍。
+
+**Status：PASS WITH GAPS**。只表示本 Repo Canonical 內容、Catalog／Graph、靜態與瀏覽器／正式站發布驗收已過；不是 20 個第三方 Prompt 的模型輸出、外部資料執行、資安或完整授權實測。模型 Baseline／Candidate／Functional／Trajectory 評估仍 **NOT_TESTED**。
+
+**版本邊界**：這次回填 GitHub 驗收文件的 Docs-only Commit 會再觸發 Pages Deploy；最後文件版部署完成後還須跑一次 Live Smoke。為避免修改文件造成新的循環部署，最後一次的 Deploy／Smoke 證據另記在 [PR #46 最新驗收留言](https://github.com/christinekao/AI-Tool-Collection/pull/46)。
+
 
 ## 尚未處理的 Batch 02（第 21–35 筆）
 
