@@ -13,9 +13,18 @@
     "將 durable product-marketing context 存成持久檔案，寫作前先讀既有產品事實，只詢問本次任務缺少的資訊",
     "把 Spec、Tickets、decisions、handoff、進度與驗證證據分開保存，compact / resume 後先重讀規則與索引，再接續工作，降低長任務 context 漂移"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "過濾降低成本，可能漏掉少見但重要的限制。",
+    "檢索提高可擴充性，卻有索引過期與來源衝突風險。"
+  ],
+  "signals": [
+    "長 Session 重複工具輸出導致早期決策遺失。",
+    "完整工具 Schema 與歷史資料一次灌入導致延遲。"
+  ],
+  "antiPatterns": [
+    "把整份 Codebase 和所有工具說明常駐 Context。",
+    "Compact 後只剩結論，丟失原始證據與未完成項目。"
+  ],
   "examples": [
     "Graft",
     "RTK",
@@ -31,7 +40,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "context",
     "token-efficiency",
@@ -51,5 +60,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "把有限 Context 視為受治理的工作記憶；只載入當前必要資訊，穩定知識留在可追溯索引並保留交接決策。",
+  "applicationScenarios": [
+    "示意：長期開發專案以 Spec、Decision、Handoff 索引恢復任務。",
+    "示意：企業知識問答只檢索已授權且最新的相關片段。"
+  ],
+  "validationQuestions": [
+    "摘要與檢索後是否仍能回查原始來源？",
+    "資料被排除時是否有回查途徑而非永久遺失？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，來源作者與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Concept ID 與標題，只修改既有紀錄不新增同義實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配標籤保留以供搜尋，本次沒有新增。"
+    },
+    "classificationReason": "保留既有 Domain ai-agent，不憑示意推斷分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、適用訊號、反例及候選應用。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可驗證執行輸入輸出，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現存 Concept，正式 Typed References 不修改。"
+    },
+    "riskNotes": "跨領域情境全為未實測示意，不宣稱工具部署、來源授權或整合已驗證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "完成概念文字整理但未執行模型、工具整合或授權查核；CI 另驗。"
+    }
   }
 }
