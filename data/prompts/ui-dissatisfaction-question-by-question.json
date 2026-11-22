@@ -73,5 +73,192 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "一輪一題找到 UI 不滿意根因",
+    "overview": "由 Sol 每輪只問一個具體、易回答的問題，逐步定位 UI 的不適感與優先改善點，先釐清再提改動。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "在使用者確認前不可修改程式；不能假設已了解使用者偏好",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "使用者覺得介面有問題，卻很難直接說出是資訊、操作、視覺層級、密度或版面順序造成。"
+      },
+      {
+        "title": "停止條件",
+        "description": "在使用者確認前不可修改程式；不能假設已了解使用者偏好"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "畫面截圖／可讀版面",
+        "detail": "畫面截圖／可讀版面（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "主要使用者任務",
+        "detail": "主要使用者任務（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "已知不滿意處",
+        "detail": "已知不滿意處（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "UI",
+        "label": "畫面截圖／可讀版面",
+        "required": true,
+        "example": "畫面截圖／可讀版面（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "TASK",
+        "label": "主要使用者任務",
+        "required": true,
+        "example": "主要使用者任務（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "FEEDBACK",
+        "label": "已知不滿意處",
+        "required": false,
+        "example": "已知不滿意處（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「一輪一題找到 UI 不滿意根因」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 畫面截圖／可讀版面：{{UI}}\n- 主要使用者任務：{{TASK}}\n- 已知不滿意處：{{FEEDBACK}}\n\n請執行：\n1. 先回述可觀察的事實，避免預設問題來源\n2. 一次只問一個具體問題，依使用者上一答再選下一題\n3. 確認兩至三個主要根因後列出可逆修正方向，等待選擇\n\n交付：\n- 每輪單一問題\n- 根因及視覺／流程證據\n- 待核准的改善選項\n\n必要邊界：在使用者確認前不可修改程式；不能假設已了解使用者偏好\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "找不到按鈕"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "每輪單一問題"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "在使用者確認前不可修改程式；不能假設已了解使用者偏好"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "每輪單一問題",
+      "根因及視覺／流程證據",
+      "待核准的改善選項"
+    ],
+    "failureHandling": [
+      "問一個關鍵題",
+      "保持唯讀",
+      "在使用者確認前不可修改程式；不能假設已了解使用者偏好"
+    ],
+    "testCases": [
+      {
+        "name": "具體回答",
+        "input": "找不到按鈕",
+        "expectation": "追問下一題",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "資訊不足",
+        "input": "只有怪怪的",
+        "expectation": "問一個關鍵題",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "催促修改",
+        "input": "尚未確認",
+        "expectation": "保持唯讀",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：每輪單一問題",
+      "可檢查：根因及視覺／流程證據",
+      "可檢查：待核准的改善選項",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "ui-dissatisfaction-question-by-question-prompt-contract",
+        "name": "一輪一題找到 UI 不滿意根因",
+        "problem": "使用者覺得介面有問題，卻很難直接說出是資訊、操作、視覺層級、密度或版面順序造成。",
+        "input": "畫面截圖／可讀版面／主要使用者任務／已知不滿意處",
+        "output": "每輪單一問題；根因及視覺／流程證據；待核准的改善選項",
+        "gate": "在使用者確認前不可修改程式；不能假設已了解使用者偏好"
+      },
+      "example": "必要資料 → 先回述可觀察的事實，避免預設問題來源 → 一次只問一個具體問題，依使用者上一答 → 確認兩至三個主要根因後列出可逆修正方 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "在使用者確認前不可修改程式；不能假設已了解使用者偏好",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided UI feedback techniques and dashboard prompt, 2026-10-28",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "在使用者確認前不可修改程式；不能假設已了解使用者偏好",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

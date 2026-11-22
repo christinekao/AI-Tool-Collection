@@ -77,5 +77,194 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "實測 Todo Reload 後仍只存在一筆",
+    "overview": "以可回放的 App 實測證據，證明按一次新增後恰好只有一筆指定 Todo，Reload 後仍存在，且其他 Todo 未受影響。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "UI 當下顯示新增成功不能證明資料已持久保存；只有程式碼或新增後的 Screenshot 也無法回答重新整理後的行為。"
+      },
+      {
+        "title": "停止條件",
+        "description": "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已授權的隔離測試 App",
+        "detail": "已授權的隔離測試 App（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "測試身分與資料隔離",
+        "detail": "測試身分與資料隔離（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "欲新增 Todo 文字",
+        "detail": "欲新增 Todo 文字（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "APP",
+        "label": "已授權的隔離測試 App",
+        "required": true,
+        "example": "已授權的隔離測試 App（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "ACCOUNT",
+        "label": "測試身分與資料隔離",
+        "required": true,
+        "example": "測試身分與資料隔離（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "TODO",
+        "label": "欲新增 Todo 文字",
+        "required": false,
+        "example": "欲新增 Todo 文字（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「實測 Todo Reload 後仍只存在一筆」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 已授權的隔離測試 App：{{APP}}\n- 測試身分與資料隔離：{{ACCOUNT}}\n- 欲新增 Todo 文字：{{TODO}}\n\n請執行：\n1. 核對 App 啟動與權限、目前清單及 Feature Map\n2. 在核准的測試環境新增一次，保存前後操作證據\n3. Reload 後比對持久化內容、重複筆數及其他待辦；保留日誌與 Cleanup\n\n交付：\n- 前態／操作／重載／結果證據\n- 唯一新增與既有資料無變動\n- PASS／FAIL／BLOCKED 和重跑步驟\n\n必要邊界：正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "實際新增重載"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "前態／操作／重載／結果證據"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "前態／操作／重載／結果證據",
+      "唯一新增與既有資料無變動",
+      "PASS／FAIL／BLOCKED 和重跑步驟"
+    ],
+    "failureHandling": [
+      "不能判 PASS",
+      "停止操作",
+      "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功"
+    ],
+    "testCases": [
+      {
+        "name": "有測試環境",
+        "input": "實際新增重載",
+        "expectation": "恰好一筆",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "只有截圖",
+        "input": "未重載",
+        "expectation": "不能判 PASS",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "沒有權限",
+        "input": "生產帳號",
+        "expectation": "停止操作",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：前態／操作／重載／結果證據",
+      "可檢查：唯一新增與既有資料無變動",
+      "可檢查：PASS／FAIL／BLOCKED 和重跑步驟",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "pstack-create-verification-todo-persistence-example-prompt-contract",
+        "name": "實測 Todo Reload 後仍只存在一筆",
+        "problem": "UI 當下顯示新增成功不能證明資料已持久保存；只有程式碼或新增後的 Screenshot 也無法回答重新整理後的行為。",
+        "input": "已授權的隔離測試 App／測試身分與資料隔離／欲新增 Todo 文字",
+        "output": "前態／操作／重載／結果證據；唯一新增與既有資料無變動；PASS／FAIL／BLOCKED 和重跑步驟",
+        "gate": "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功"
+      },
+      "example": "必要資料 → 核對 App 啟動與權限、目前清單及 → 在核准的測試環境新增一次，保存前後操 → Reload 後比對持久化內容、重複 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided pstack Verification Skills article excerpt; example prompt faithfully preserved",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url",
+      "prompt"
+    ],
+    "sourceCheckedAt": "2026-11-22",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "正式資料不能直接寫入，沒做實際 Reload 不能宣稱持久化成功",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

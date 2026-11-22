@@ -125,5 +125,181 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "程式與測試支撐的正常／異常流程圖",
+    "overview": "只讀取專案程式與測試，將 Happy Path 和 Error Path 的實際行為畫成 Mermaid，逐步對照檔案／函式與測試案例，找出程式未實作、測試未涵蓋及證據不足的情境。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "AI 容易只繪製正常流程圖，忽略逾時、空資料、重試耗盡與失敗處理；流程圖也可能描述程式實際未實作的邏輯，且缺乏測試證據。"
+      },
+      {
+        "title": "停止條件",
+        "description": "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "真實程式碼及入口",
+        "detail": "真實程式碼及入口（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "測試與執行紀錄",
+        "detail": "測試與執行紀錄（請填實際資料，無則未提供）",
+        "required": true
+      }
+    ],
+    "variables": [
+      {
+        "name": "CODE",
+        "label": "真實程式碼及入口",
+        "required": true,
+        "example": "真實程式碼及入口（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "TESTS",
+        "label": "測試與執行紀錄",
+        "required": true,
+        "example": "測試與執行紀錄（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「程式與測試支撐的正常／異常流程圖」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 真實程式碼及入口：{{CODE}}\n- 測試與執行紀錄：{{TESTS}}\n\n請執行：\n1. 由實際程式標記檔案、函式及呼叫關係\n2. 分別繪出 Mermaid Happy／Error Path，涵蓋 Timeout、Empty、Retry 和失敗\n3. 逐分支標已實作／未實作／無法確認，對照測試檔與實際結果\n\n交付：\n- Mermaid 正常與異常流程\n- 程式節點／測試證據表\n- 待補測試及例外處理\n\n必要邊界：不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "可查程式與 CI"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "Mermaid 正常與異常流程"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "Mermaid 正常與異常流程",
+      "程式節點／測試證據表",
+      "待補測試及例外處理"
+    ],
+    "failureHandling": [
+      "標未實作",
+      "不標通過",
+      "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式"
+    ],
+    "testCases": [
+      {
+        "name": "有完整來源",
+        "input": "可查程式與 CI",
+        "expectation": "節點可追溯",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "無 retry",
+        "input": "程式未處理",
+        "expectation": "標未實作",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "無日誌",
+        "input": "只有測試碼",
+        "expectation": "不標通過",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：Mermaid 正常與異常流程",
+      "可檢查：程式節點／測試證據表",
+      "可檢查：待補測試及例外處理",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "mermaid-happy-error-path-code-test-evidence-audit-prompt-contract",
+        "name": "程式與測試支撐的正常／異常流程圖",
+        "problem": "AI 容易只繪製正常流程圖，忽略逾時、空資料、重試耗盡與失敗處理；流程圖也可能描述程式實際未實作的邏輯，且缺乏測試證據。",
+        "input": "真實程式碼及入口／測試與執行紀錄",
+        "output": "Mermaid 正常與異常流程；程式節點／測試證據表；待補測試及例外處理",
+        "gate": "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式"
+      },
+      "example": "必要資料 → 由實際程式標記檔案、函式及呼叫關係 → 分別繪出 Mermaid Happy → 逐分支標已實作／未實作／無法確認，對 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-submitted Traditional Chinese note and reusable prompt, 2026-11-10",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "不可畫出不存在的重試；有測試檔不代表已執行，且不得修改程式",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

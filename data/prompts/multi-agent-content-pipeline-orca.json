@@ -71,5 +71,193 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "可回溯的多 Agent 分工、審查與備援",
+    "overview": "一份角色分工清楚、可替換模型、保留跨 session context、包含獨立 review 與 fallback 的多 Agent 執行計畫與最終交付。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "避免一個人手動在 Claude、Codex、opencode 等多個 Agent 視窗間切換、搬運 context、重複補背景；同時把低價值工作交給便宜模型，把高認知工作交給強模型，並用不同模型做獨立 review，降低單一模型偏誤。"
+      },
+      {
+        "title": "停止條件",
+        "description": "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "最終成果",
+        "detail": "最終成果（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "可用模型與工具",
+        "detail": "可用模型與工具（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "成本／隱私／人工核准",
+        "detail": "成本／隱私／人工核准（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "GOAL",
+        "label": "最終成果",
+        "required": true,
+        "example": "最終成果（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "AGENTS",
+        "label": "可用模型與工具",
+        "required": true,
+        "example": "可用模型與工具（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "LIMITS",
+        "label": "成本／隱私／人工核准",
+        "required": false,
+        "example": "成本／隱私／人工核准（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「可回溯的多 Agent 分工、審查與備援」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 最終成果：{{GOAL}}\n- 可用模型與工具：{{AGENTS}}\n- 成本／隱私／人工核准：{{LIMITS}}\n\n請執行：\n1. 先查工具與授權，按 Collector／Analyst／Reviewer／Finalizer 分工，不預設供應商可用\n2. 定義各角色 Input／Output／Owner／Gate／Fallback，保存已否決方案及來源\n3. 獨立 Reviewer 若未實際呼叫必標 NOT_TESTED；付費、外送、寫入皆須核准\n\n交付：\n- 分工與成本矩陣\n- 跨 Session 證據包\n- 獨立審查與缺口\n\n必要邊界：不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "已核准工具"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "分工與成本矩陣"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "分工與成本矩陣",
+      "跨 Session 證據包",
+      "獨立審查與缺口"
+    ],
+    "failureHandling": [
+      "標未執行",
+      "停止外送",
+      "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料"
+    ],
+    "testCases": [
+      {
+        "name": "多模型可用",
+        "input": "已核准工具",
+        "expectation": "明確分工",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "Reviewer 不可用",
+        "input": "單模型",
+        "expectation": "標未執行",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "資料受限",
+        "input": "含企業秘密",
+        "expectation": "停止外送",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：分工與成本矩陣",
+      "可檢查：跨 Session 證據包",
+      "可檢查：獨立審查與缺口",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "multi-agent-content-pipeline-orca-prompt-contract",
+        "name": "可回溯的多 Agent 分工、審查與備援",
+        "problem": "避免一個人手動在 Claude、Codex、opencode 等多個 Agent 視窗間切換、搬運 context、重複補背景；同時把低價值工作交給便宜模型，把高認知工作交給強模型，並用不同模型做獨立 review，降低單一模型偏誤。",
+        "input": "最終成果／可用模型與工具／成本／隱私／人工核准",
+        "output": "分工與成本矩陣；跨 Session 證據包；獨立審查與缺口",
+        "gate": "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料"
+      },
+      "example": "必要資料 → 先查工具與授權，按 Collecto → 定義各角色 Input／Output → 獨立 Reviewer 若未實際呼叫 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "Threads post",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source.url",
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "none",
+      "reason": "不從標題猜測正式 Graph 關係。"
+    },
+    "riskNotes": "不得冒稱跨模型 Review 或長期執行已開始；不可擅自外送資料",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

@@ -60,5 +60,192 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "真實專案的決策、取捨與 Impact 故事",
+    "overview": "把 Portfolio Project 轉成一到兩個有 Context、決策、困難、Impact 及可回答 Q&A 的深度 Case Study。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "漂亮的 Portfolio Website 未必能在 45–60 分鐘面試中說清楚自己解決了什麼問題、判斷依據與取捨。"
+      },
+      {
+        "title": "停止條件",
+        "description": "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "專案證據與本人貢獻",
+        "detail": "專案證據與本人貢獻（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "目標面試職務",
+        "detail": "目標面試職務（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "時間與語言",
+        "detail": "時間與語言（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "PROJECT",
+        "label": "專案證據與本人貢獻",
+        "required": true,
+        "example": "專案證據與本人貢獻（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "ROLE",
+        "label": "目標面試職務",
+        "required": true,
+        "example": "目標面試職務（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "FORMAT",
+        "label": "時間與語言",
+        "required": false,
+        "example": "時間與語言（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「真實專案的決策、取捨與 Impact 故事」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 專案證據與本人貢獻：{{PROJECT}}\n- 目標面試職務：{{ROLE}}\n- 時間與語言：{{FORMAT}}\n\n請執行：\n1. 先分開事實、推論、本人工作及團隊成果\n2. 選最多兩案，依 Problem→Strategy→Decision→Trade-off→Impact 整理\n3. 每案做 2 分鐘及 6–10 分鐘版本，搭配轉場、畫面與追問\n\n交付：\n- 兩案以內敘事綱要\n- 短長口說與視覺提示\n- 追問及待補證據\n\n必要邊界：沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "真實決策與數據"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "兩案以內敘事綱要"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "兩案以內敘事綱要",
+      "短長口說與視覺提示",
+      "追問及待補證據"
+    ],
+    "failureHandling": [
+      "Impact 待量測",
+      "先問本人貢獻",
+      "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績"
+    ],
+    "testCases": [
+      {
+        "name": "有資料",
+        "input": "真實決策與數據",
+        "expectation": "可完整敘事",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "無數字",
+        "input": "僅功能展示",
+        "expectation": "Impact 待量測",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "角色不明",
+        "input": "團隊專案",
+        "expectation": "先問本人貢獻",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：兩案以內敘事綱要",
+      "可檢查：短長口說與視覺提示",
+      "可檢查：追問及待補證據",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "portfolio-case-study-storytelling-presentation-prompt-contract",
+        "name": "真實專案的決策、取捨與 Impact 故事",
+        "problem": "漂亮的 Portfolio Website 未必能在 45–60 分鐘面試中說清楚自己解決了什麼問題、判斷依據與取捨。",
+        "input": "專案證據與本人貢獻／目標面試職務／時間與語言",
+        "output": "兩案以內敘事綱要；短長口說與視覺提示；追問及待補證據",
+        "gate": "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績"
+      },
+      "example": "必要資料 → 先分開事實、推論、本人工作及團隊成果 → 選最多兩案，依 Problem→St → 每案做 2 分鐘及 6–10 分鐘版 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshot about designer portfolio interviews",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "沒有數據必標尚未量測，不可編造 KPI 或把團隊成績算成個人成績",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

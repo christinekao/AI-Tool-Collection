@@ -66,5 +66,192 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "從任務目的反推可驗收 Prompt",
+    "overview": "讓 AI 模擬提出需求的人類，反向設計可直接使用、清楚且可驗證的 Prompt，再做缺漏與品質檢查。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "角色交換不是權限繞過，不得要求讀取未知私人資料",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "使用者只有粗略需求時，直接要求 AI 執行容易缺少背景、驗收標準及必要限制，造成結果不精準或反覆修改。"
+      },
+      {
+        "title": "停止條件",
+        "description": "角色交換不是權限繞過，不得要求讀取未知私人資料"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "想完成的任務",
+        "detail": "想完成的任務（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "已知限制",
+        "detail": "已知限制（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "期望格式",
+        "detail": "期望格式（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "GOAL",
+        "label": "想完成的任務",
+        "required": true,
+        "example": "想完成的任務（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "CONSTRAINTS",
+        "label": "已知限制",
+        "required": true,
+        "example": "已知限制（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "OUTPUT",
+        "label": "期望格式",
+        "required": false,
+        "example": "期望格式（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「從任務目的反推可驗收 Prompt」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 想完成的任務：{{GOAL}}\n- 已知限制：{{CONSTRAINTS}}\n- 期望格式：{{OUTPUT}}\n\n請執行：\n1. 先釐清受眾、目的、資料來源與驗收\n2. 缺關鍵資訊最多問三題，其他假設明確標示\n3. 產出含背景、輸入、執行步驟、風險、缺值與輸出的 Prompt，刪去冗餘衝突\n\n交付：\n- 可複製 Prompt\n- 待確認資訊與合理預設\n- 自檢和驗收標準\n\n必要邊界：角色交換不是權限繞過，不得要求讀取未知私人資料\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "具體需求"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "可複製 Prompt"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "角色交換不是權限繞過，不得要求讀取未知私人資料"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "可複製 Prompt",
+      "待確認資訊與合理預設",
+      "自檢和驗收標準"
+    ],
+    "failureHandling": [
+      "先問關鍵題",
+      "指出矛盾",
+      "角色交換不是權限繞過，不得要求讀取未知私人資料"
+    ],
+    "testCases": [
+      {
+        "name": "目標完整",
+        "input": "具體需求",
+        "expectation": "生成可測模板",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "目標模糊",
+        "input": "只說做網站",
+        "expectation": "先問關鍵題",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "要求衝突",
+        "input": "最新數據卻不可查",
+        "expectation": "指出矛盾",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：可複製 Prompt",
+      "可檢查：待確認資訊與合理預設",
+      "可檢查：自檢和驗收標準",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "role-reversal-meta-prompt-generator-prompt-contract",
+        "name": "從任務目的反推可驗收 Prompt",
+        "problem": "使用者只有粗略需求時，直接要求 AI 執行容易缺少背景、驗收標準及必要限制，造成結果不精準或反覆修改。",
+        "input": "想完成的任務／已知限制／期望格式",
+        "output": "可複製 Prompt；待確認資訊與合理預設；自檢和驗收標準",
+        "gate": "角色交換不是權限繞過，不得要求讀取未知私人資料"
+      },
+      "example": "必要資料 → 先釐清受眾、目的、資料來源與驗收 → 缺關鍵資訊最多問三題，其他假設明確標 → 產出含背景、輸入、執行步驟、風險、缺 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "角色交換不是權限繞過，不得要求讀取未知私人資料",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided screenshot illustrating a third-party role-reversal prompting tip (2026-11-05); revised template authored during this conversation",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "none",
+      "reason": "不從標題猜測正式 Graph 關係。"
+    },
+    "riskNotes": "角色交換不是權限繞過，不得要求讀取未知私人資料",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

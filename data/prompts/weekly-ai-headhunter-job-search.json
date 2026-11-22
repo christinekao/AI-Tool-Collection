@@ -76,5 +76,203 @@
       }
     ],
     "taxonomyVersion": "1.0"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "每週最多十筆來源可信的高契合職缺",
+    "overview": "依真實履歷建立職涯檔案，搜尋仍開放的高契合職缺，評估技能差距、成長潛力及是否值得投遞，並在具備排程能力時每週定期執行。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "大量職缺資訊分散且重複，缺乏依履歷、工作型態與職涯成長價值進行高品質篩選及定期追蹤的流程。"
+      },
+      {
+        "title": "停止條件",
+        "description": "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "真實履歷與職涯方向",
+        "detail": "真實履歷與職涯方向（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "搜尋地區／遠端／時間",
+        "detail": "搜尋地區／遠端／時間（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "歷史推薦與拒絕職缺",
+        "detail": "歷史推薦與拒絕職缺（請填實際資料，無則未提供）",
+        "required": false
+      },
+      {
+        "title": "可用搜尋與排程工具",
+        "detail": "可用搜尋與排程工具（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "PROFILE",
+        "label": "真實履歷與職涯方向",
+        "required": true,
+        "example": "真實履歷與職涯方向（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "SCOPE",
+        "label": "搜尋地區／遠端／時間",
+        "required": true,
+        "example": "搜尋地區／遠端／時間（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "HISTORY",
+        "label": "歷史推薦與拒絕職缺",
+        "required": false,
+        "example": "歷史推薦與拒絕職缺（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "TOOLS",
+        "label": "可用搜尋與排程工具",
+        "required": false,
+        "example": "可用搜尋與排程工具（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「每週最多十筆來源可信的高契合職缺」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 真實履歷與職涯方向：{{PROFILE}}\n- 搜尋地區／遠端／時間：{{SCOPE}}\n- 歷史推薦與拒絕職缺：{{HISTORY}}\n- 可用搜尋與排程工具：{{TOOLS}}\n\n請執行：\n1. 依已確認履歷建立職務篩選，優先官方 Careers 查證職缺開放與連結\n2. 記錄公司職位、Remote、條件、缺口及排序理由，去除歷史重複，最多十筆不湊數\n3. 有實際工具與核准才建立或更新台灣時間週一 09:00 排程，否則提供手動規格並標未執行\n\n交付：\n- 有據可查的職缺報告\n- 去重與技能落差\n- 真實搜尋／排程狀態\n\n必要邊界：沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "履歷與官方連結"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "有據可查的職缺報告"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "有據可查的職缺報告",
+      "去重與技能落差",
+      "真實搜尋／排程狀態"
+    ],
+    "failureHandling": [
+      "回報無新增",
+      "不宣稱啟用",
+      "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化"
+    ],
+    "testCases": [
+      {
+        "name": "有職缺來源",
+        "input": "履歷與官方連結",
+        "expectation": "依據充分",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "沒有新缺",
+        "input": "全是舊資料",
+        "expectation": "回報無新增",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "排程不可用",
+        "input": "只有文字",
+        "expectation": "不宣稱啟用",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：有據可查的職缺報告",
+      "可檢查：去重與技能落差",
+      "可檢查：真實搜尋／排程狀態",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "weekly-ai-headhunter-job-search-prompt-contract",
+        "name": "每週最多十筆來源可信的高契合職缺",
+        "problem": "大量職缺資訊分散且重複，缺乏依履歷、工作型態與職涯成長價值進行高品質篩選及定期追蹤的流程。",
+        "input": "真實履歷與職涯方向／搜尋地區／遠端／時間／歷史推薦與拒絕職缺／可用搜尋與排程工具",
+        "output": "有據可查的職缺報告；去重與技能落差；真實搜尋／排程狀態",
+        "gate": "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化"
+      },
+      "example": "必要資料 → 依已確認履歷建立職務篩選，優先官方  → 記錄公司職位、Remote、條件、缺 → 有實際工具與核准才建立或更新台灣時間 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided original Traditional Chinese prompt, 2026-11-03",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "mapped",
+      "reason": "保留既有 canonical-described 能力，尚未實測。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "沒有職缺來源不能報最新開缺，沒有排程工具不能假稱已啟用，履歷需去識別化",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }
