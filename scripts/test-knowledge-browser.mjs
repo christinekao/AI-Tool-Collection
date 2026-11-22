@@ -150,6 +150,36 @@ try{
  assert.ok(promptReading.hasCopy&&promptReading.hasSource);
  console.log('PASS: Full Prompt body, inputs and learning notes are readable');
 
+ // Prompt Guide regressions: copy/view controls must display the exact saved original and adapted strings.
+ // Test a short original, a destructive-operation guardrail, and an older existing guide.
+ for (const id of [
+   '0050-leakage-audited-train-validation-backtest',
+   'google-maps-saved-places-cleanup-classification',
+   'cv-jd-tailored-interview-questions-deep-followups'
+ ]) {
+   await send('Page.navigate',{url:origin+'/index.html#/prompts/'+id});
+   await waitFor('location.hash.includes('+JSON.stringify(id)+') && !!document.querySelector(".pg-prompt-text[data-prompt-text=adapted]")','Prompt detail '+id);
+   const probe=await evaluate(`(async()=>{
+     const record=(await (await fetch('data/catalog-v2.json')).json()).prompts.find(p=>p.id===${JSON.stringify(id)});
+     const adapted=document.querySelector('[data-prompt-text="adapted"]');
+     const original=document.querySelector('[data-prompt-text="original"]');
+     const copy=document.querySelector('.pg-editor [data-copy-version]');
+     const initial=adapted&&!adapted.hidden&&original.hidden&&copy?.dataset.copyVersion==='adapted';
+     const same=adapted.textContent===record.promptGuide.adaptedPrompt&&original.textContent===record.prompt;
+     document.querySelector('[data-prompt-view="original"]').click();
+     const changed=!original.hidden&&adapted.hidden&&copy.dataset.copyVersion==='original'&&document.querySelector('[data-prompt-view="original"]').getAttribute('aria-pressed')==='true';
+     document.querySelector('[data-prompt-view="adapted"]').click();
+     const restored=!adapted.hidden&&original.hidden&&copy.dataset.copyVersion==='adapted';
+     return {initial,same,changed,restored};
+   })()`);
+   assert.ok(probe.initial&&probe.same&&probe.changed&&probe.restored,'Prompt Original/Adapted mismatch: '+id+' '+JSON.stringify(probe));
+ }
+ await send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
+ await pause(100);
+ const promptMobile=await evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})');
+ assert.ok(promptMobile.scroll<=promptMobile.client+3,'Prompt guide overflows mobile 375px: '+JSON.stringify(promptMobile));
+ console.log('PASS: Prompt Original/Adapted strings and version toggles; 375px mobile reading');
+
  // Knowledge source handoff must go to a separate Playground rather than embedding a builder.
  await send('Page.navigate',{url:origin+'/knowledge.html#/node/skill/frontend-design'});
  await waitFor('document.querySelector("#kg-playground-link")?.href.includes("seed=skill%3Afrontend-design")','Source to Playground deep link');
