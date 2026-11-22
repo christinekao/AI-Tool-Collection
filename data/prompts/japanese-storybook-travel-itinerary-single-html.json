@@ -39,7 +39,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-23",
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-11-22",
   "tags": [
     "travel",
     "itinerary",
@@ -68,5 +68,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "把有依據的行程做成日系繪本風單檔 HTML",
+    "overview": "把旅行日期、航班、住宿與每日活動轉為可在手機閱讀的互動行程。",
+    "preparationHint": "沒有 Notion 存取權或行程內容時，不擅自編造票價、航班與地點。",
+    "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+    "verificationIntro": "虛構行程、外部字型依賴、無授權存取私人 Notion。",
+    "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "把旅行日期、航班、住宿與每日活動轉為可在手機閱讀的互動行程。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有 Notion 存取權或行程內容時，不擅自編造票價、航班與地點。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "完整行程或已授權 Notion 內容",
+        "detail": "日期、時間、地點、交通、住宿",
+        "required": true
+      },
+      {
+        "title": "視覺規格",
+        "detail": "和紙白／墨灰線框／原創 SVG",
+        "required": false
+      },
+      {
+        "title": "交付和離線需求",
+        "detail": "單檔離線閱讀，是否允許 Google Fonts",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "ITINERARY",
+        "label": "完整行程或已授權 Notion 內容",
+        "required": true,
+        "example": "日期、時間、地點、交通、住宿"
+      },
+      {
+        "name": "VISUALS",
+        "label": "視覺規格",
+        "required": false,
+        "example": "和紙白／墨灰線框／原創 SVG"
+      },
+      {
+        "name": "DEPLOYMENT",
+        "label": "交付和離線需求",
+        "required": false,
+        "example": "單檔離線閱讀，是否允許 Google Fonts"
+      }
+    ],
+    "adaptedPrompt": "請依照提供的真實旅行資訊做**一份可單獨開啟的繁體中文 HTML**。\n行程：{{ITINERARY}}\n風格與色彩：{{VISUALS}}\n交付要求：{{DEPLOYMENT}}\n\n設計採日系繪本語法：和紙白背景、低彩度粉／黃／藍／綠、墨灰粗線、圓角與原創 SVG 插畫；不要照搬他人作品。提供固定導覽、出發倒數、航班／住宿卡片、每日時間軸、日期切換、交通標籤與可勾選待辦。資料缺少時標「待確認」，不得創造航班、票價或地點。HTML 必須能在指定環境開啟、避免 XSS 與無授權遠端資源；互動可用鍵盤且符合 prefers-reduced-motion。最後附 375／430／768／1440px 與日期切換驗收清單；未真正渲染／檢查時標示 NOT TESTED。",
+    "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+    "exampleInput": {
+      "label": "虛構情境，非真實使用者資料",
+      "content": "虛構行程有兩天活動與住宿，但第一天交通時間未定。"
+    },
+    "exampleOutput": {
+      "label": "預期格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "第 1 天：交通時間顯示待確認。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "互動規格：日期可鍵盤切換、待辦可勾選。"
+        }
+      ],
+      "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+    },
+    "adjustments": [
+      {
+        "title": "替換來源內容",
+        "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+      },
+      {
+        "title": "設定執行邊界",
+        "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+      }
+    ],
+    "outputContract": [
+      "單頁 HTML 的資訊架構與互動規格",
+      "有實際執行時才交付 HTML 檔",
+      "手機、鍵盤、動畫減量的驗收清單"
+    ],
+    "failureHandling": [
+      "未提供日期或時間時使用待確認，不顯示假倒數。",
+      "要求完全離線時外部 Fonts 需提供降級選項。"
+    ],
+    "testCases": [
+      {
+        "name": "資料完整",
+        "input": "資料完整",
+        "expectation": "每個航班與日程對應來源",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "缺少日期",
+        "input": "缺少日期",
+        "expectation": "不生成虛構倒數或航班",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "減少動態",
+        "input": "減少動態",
+        "expectation": "所有裝飾動畫受 prefers-reduced-motion 控制",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可回查輸出與來源：單頁 HTML 的資訊架構與互動規格",
+      "可回查輸出與來源：有實際執行時才交付 HTML 檔",
+      "來源與模型執行狀態真實標示。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "japanese-storybook-travel-itinerary-single-html-contract",
+        "name": "把有依據的行程做成日系繪本風單檔 HTML",
+        "problem": "一般行程筆記難以直接形成兼顧美感、交通資訊、每日時間軸、手機瀏覽與待辦互動的旅遊網站。",
+        "input": "完整行程或已授權 Notion 內容＋視覺規格＋交付和離線需求",
+        "output": "單頁 HTML 的資訊架構與互動規格；有實際執行時才交付 HTML 檔；手機、鍵盤、動畫減量的驗收清單",
+        "gate": "未提供日期或時間時使用待確認，不顯示假倒數。"
+      },
+      "example": "行程來源 → 欄位正規化 → HTML/SVG → 互動 → Responsive 驗收",
+      "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+    },
+    "privacy": "Notion 行程可能包含住宿訂單、個人資訊和同行者資料，需移除不必要機密。",
+    "limitations": [
+      "沒有 Notion 存取權或行程內容時，不擅自編造票價、航班與地點。",
+      "虛構行程、外部字型依賴、無授權存取私人 Notion。"
+    ],
+    "provenance": {
+      "source": "User-provided social post excerpt (original post URL not provided)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "獨立改良版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+    },
+    "classificationReason": "只改善展示與重用契約，不修改原分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有相關概念參照，不推測加連結。"
+    },
+    "riskNotes": "虛構行程、外部字型依賴、無授權存取私人 Notion。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+    }
   }
 }

@@ -34,7 +34,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-22",
   "tags": [
     "interview",
     "mock-interview",
@@ -56,5 +56,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "一問一答模擬面試，回答後才評分",
+    "overview": "訓練即時表達能力並逐題收集具體改進證據。",
+    "preparationHint": "使用者尚未答題時不先替他回答或給分。",
+    "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+    "verificationIntro": "未等輸入先評分、把模擬評分誤作錄取預測。",
+    "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "訓練即時表達能力並逐題收集具體改進證據。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "使用者尚未答題時不先替他回答或給分。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "目標職務與 JD",
+        "detail": "Data Analyst 的資料分析與溝通要求",
+        "required": false
+      },
+      {
+        "title": "已確認個人經驗摘要",
+        "detail": "工作經歷與專案重點",
+        "required": false
+      },
+      {
+        "title": "對話語言",
+        "detail": "英文",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "TARGET_ROLE",
+        "label": "目標職務與 JD",
+        "required": false,
+        "example": "Data Analyst 的資料分析與溝通要求"
+      },
+      {
+        "name": "BACKGROUND",
+        "label": "已確認個人經驗摘要",
+        "required": false,
+        "example": "工作經歷與專案重點"
+      },
+      {
+        "name": "LANGUAGE",
+        "label": "對話語言",
+        "required": false,
+        "example": "英文"
+      }
+    ],
+    "adaptedPrompt": "請成為互動式模擬面試官，目標職務：{{TARGET_ROLE}}，經驗：{{BACKGROUND}}，語言：{{LANGUAGE}}。\n\n嚴格維持**一次一題**：先問第一題，停止等待我回答；只有收到我的真實回答後，才依內容相關性、證據具體性、組織和表達清楚程度給出 1–10 的練習分數，指出兩個可觀察的改善點，提供不捏造經歷的精簡示例和一個追問。等我回覆後再問下一題。若只有文字，勿評判聲調、語速、口音。無法確認的事實請我補充，不把模擬評分等同錄取機率。",
+    "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+    "exampleInput": {
+      "label": "虛構情境，非真實使用者資料",
+      "content": "虛構面試主題：請描述你如何協調跨部門的需求不一致。"
+    },
+    "exampleOutput": {
+      "label": "預期格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "第一題：請分享一個你解決需求衝突的經驗。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "等待答題：尚未回答，不提供分數。"
+        }
+      ],
+      "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+    },
+    "adjustments": [
+      {
+        "title": "替換來源內容",
+        "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+      },
+      {
+        "title": "設定執行邊界",
+        "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+      }
+    ],
+    "outputContract": [
+      "第一回合僅一個問題並等待回答",
+      "回答後的可理解評分、回饋與示例",
+      "下輪追問與持續練習紀錄"
+    ],
+    "failureHandling": [
+      "無回答時不得評分或自創答案。",
+      "文字回覆無法證明實際口說韻律與發音。"
+    ],
+    "testCases": [
+      {
+        "name": "初次啟動",
+        "input": "初次啟動",
+        "expectation": "只問第一題",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "提供一段回答",
+        "input": "提供一段回答",
+        "expectation": "評分理由引用實際內容",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "未回覆",
+        "input": "未回覆",
+        "expectation": "不連續產生後續十題",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可回查輸出與來源：第一回合僅一個問題並等待回答",
+      "可回查輸出與來源：回答後的可理解評分、回饋與示例",
+      "來源與模型執行狀態真實標示。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "interactive-one-question-mock-interview-contract",
+        "name": "一問一答模擬面試，回答後才評分",
+        "problem": "只閱讀面試題答案無法訓練即時口頭表達，也缺少逐題診斷與進步紀錄。",
+        "input": "目標職務與 JD＋已確認個人經驗摘要＋對話語言",
+        "output": "第一回合僅一個問題並等待回答；回答後的可理解評分、回饋與示例；下輪追問與持續練習紀錄",
+        "gate": "無回答時不得評分或自創答案。"
+      },
+      "example": "出題 → 使用者回答 → 逐題回饋 → 追問 → 待改善紀錄",
+      "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+    },
+    "privacy": "不保存或分享個人履歷與口說內容到未授權的外部系統。",
+    "limitations": [
+      "使用者尚未答題時不先替他回答或給分。",
+      "未等輸入先評分、把模擬評分誤作錄取預測。"
+    ],
+    "provenance": {
+      "source": "User-provided verbatim Chinese prompt, 2026-10-27",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "獨立改良版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+    },
+    "classificationReason": "只改善展示與重用契約，不修改原分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有相關概念參照，不推測加連結。"
+    },
+    "riskNotes": "未等輸入先評分、把模擬評分誤作錄取預測。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+    }
   }
 }

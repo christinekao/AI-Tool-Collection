@@ -33,7 +33,7 @@
   },
   "status": "generated-draft",
   "addedAt": "2026-10-19",
-  "updatedAt": "2026-10-19",
+  "updatedAt": "2026-11-22",
   "tags": [
     "claude-code",
     "jev-router",
@@ -60,5 +60,191 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "核對路由選項後再設定 Opus／Effort",
+    "overview": "研究希望維持單一模型且只調整 Reasoning Effort 的配置是否可行。",
+    "preparationHint": "不能直接複製舊版參數、使用明文 /jev key 或假設必能鎖住模型。",
+    "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+    "verificationIntro": "外部 Prompt 傳輸與 Secret 洩漏，舊設定造成不可預期模型切換。",
+    "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "研究希望維持單一模型且只調整 Reasoning Effort 的配置是否可行。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不能直接複製舊版參數、使用明文 /jev key 或假設必能鎖住模型。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Claude Code 與實際 Session 模型版本",
+        "detail": "版本與官方模型識別",
+        "required": true
+      },
+      {
+        "title": "jev-router 安裝／預計版本",
+        "detail": "官方 README、OPTIONS、版本號",
+        "required": true
+      },
+      {
+        "title": "隱私與操作邊界",
+        "detail": "禁止外送歷史、不得明文存 Key",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "CLAUDE_VERSION",
+        "label": "Claude Code 與實際 Session 模型版本",
+        "required": true,
+        "example": "版本與官方模型識別"
+      },
+      {
+        "name": "JEV_VERSION",
+        "label": "jev-router 安裝／預計版本",
+        "required": true,
+        "example": "官方 README、OPTIONS、版本號"
+      },
+      {
+        "name": "POLICY",
+        "label": "隱私與操作邊界",
+        "required": false,
+        "example": "禁止外送歷史、不得明文存 Key"
+      }
+    ],
+    "adaptedPrompt": "請先進行 jev-router 的**唯讀相容性與安全檢查**。\nClaude Code 版本與模型：{{CLAUDE_VERSION}}\njev-router 版本與官方文件：{{JEV_VERSION}}\n隱私／操作限制：{{POLICY}}\n\n先查核當前官方 OPTIONS、CHANGELOG、Session Model、Router cache／Stickiness 和每項參數的合法取值。分析能否真正做到「模型固定 Opus、只改 Effort」，並指出各種回退與快取可能造成模型切換的情況；不得直接照抄舊文中的 ceilingBreak 1.01 或用它宣稱已成功鎖定。用受保護環境變數處理 TypeSafe Key，不能要求貼值或透過聊天傳送。先列備份與候選 diff，取得授權才安裝／修改；修改後依實際 /jev status 和觀察到的路由結果回報，不能僅以設定檔存在就判定 PASS。",
+    "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+    "exampleInput": {
+      "label": "虛構情境，非真實使用者資料",
+      "content": "模擬 jev-router 舊版說明包含 ceilingBreak 1.01，但當前 OPTIONS 未查。"
+    },
+    "exampleOutput": {
+      "label": "預期格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "阻塞：目前版本與參數取值尚未核實。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "驗收設計：實測 Session Model 和 /jev status，再核對路由紀錄。"
+        }
+      ],
+      "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+    },
+    "adjustments": [
+      {
+        "title": "替換來源內容",
+        "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+      },
+      {
+        "title": "設定執行邊界",
+        "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+      }
+    ],
+    "outputContract": [
+      "目前版本與設定相容性對照",
+      "固定模型的已知限制、快取及外送風險",
+      "需授權的備份、修改和實際驗證計畫"
+    ],
+    "failureHandling": [
+      "參數對應版本或容許範圍不明時禁止直接修改。",
+      "API Key 一律不可透過聊天或明文設定檔展示。"
+    ],
+    "testCases": [
+      {
+        "name": "有官方版本文件",
+        "input": "有官方版本文件",
+        "expectation": "核對所有參數範圍",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "過期配置",
+        "input": "過期配置",
+        "expectation": "指出 1.01 範圍風險與 Cache 不確定性",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "沒有 key",
+        "input": "沒有 key",
+        "expectation": "不要求貼出 secret，先保持只讀",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可回查輸出與來源：目前版本與設定相容性對照",
+      "可回查輸出與來源：固定模型的已知限制、快取及外送風險",
+      "來源與模型執行狀態真實標示。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "jev-router-opus-effort-only-configuration-contract",
+        "name": "核對路由選項後再設定 Opus／Effort",
+        "problem": "Claude Code 的自動 model router 會因不同任務切換 Haiku／Sonnet／Opus；有些使用者只想固定使用 Opus，讓獨立路由器調整推理強度，並希望保留備份、確認及失敗 fallback。",
+        "input": "Claude Code 與實際 Session 模型版本＋jev-router 安裝／預計版本＋隱私與操作邊界",
+        "output": "目前版本與設定相容性對照；固定模型的已知限制、快取及外送風險；需授權的備份、修改和實際驗證計畫",
+        "gate": "參數對應版本或容許範圍不明時禁止直接修改。"
+      },
+      "example": "版本確認 → 官方參數 → 資料外送檢查 → 備份提案 → 核准修改 → 重讀／測試",
+      "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+    },
+    "privacy": "TypeSafe Key 與 Prompt 內容可能被傳送到外部路由器；必須明確檢查資料外送條件。",
+    "limitations": [
+      "不能直接複製舊版參數、使用明文 /jev key 或假設必能鎖住模型。",
+      "外部 Prompt 傳輸與 Secret 洩漏，舊設定造成不可預期模型切換。"
+    ],
+    "provenance": {
+      "source": "https://github.com/dominicrico/jev-router",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "獨立改良版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-22",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+    },
+    "classificationReason": "只改善展示與重用契約，不修改原分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有相關概念參照，不推測加連結。"
+    },
+    "riskNotes": "外部 Prompt 傳輸與 Secret 洩漏，舊設定造成不可預期模型切換。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+    }
   }
 }

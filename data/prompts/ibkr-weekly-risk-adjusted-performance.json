@@ -46,7 +46,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "ibkr",
     "spy",
@@ -82,5 +82,190 @@
       }
     ],
     "taxonomyVersion": "1.0"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "以可復算資料檢視 IBKR 與 SPY 的風險調整績效",
+    "overview": "依合法匯出帳戶報表檢查週期性投資績效與基準比較。",
+    "preparationHint": "沒有逐日估值或現金流時不能臆測 Rolling Sharpe／Beta。",
+    "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+    "verificationIntro": "帳戶機敏資訊、資料不足而虛構指標、投資決策誤用。",
+    "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "依合法匯出帳戶報表檢查週期性投資績效與基準比較。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有逐日估值或現金流時不能臆測 Rolling Sharpe／Beta。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "去識別化 IBKR 匯出表",
+        "detail": "PortfolioAnalyst／Activity Statement",
+        "required": true
+      },
+      {
+        "title": "分析日期與幣別",
+        "detail": "實際有交易與估值的期間",
+        "required": true
+      },
+      {
+        "title": "基準與利率設定",
+        "detail": "SPY 含股息總報酬及無風險利率",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "STATEMENT",
+        "label": "去識別化 IBKR 匯出表",
+        "required": true,
+        "example": "PortfolioAnalyst／Activity Statement"
+      },
+      {
+        "name": "DATE_RANGE",
+        "label": "分析日期與幣別",
+        "required": true,
+        "example": "實際有交易與估值的期間"
+      },
+      {
+        "name": "BENCHMARK",
+        "label": "基準與利率設定",
+        "required": false,
+        "example": "SPY 含股息總報酬及無風險利率"
+      }
+    ],
+    "adaptedPrompt": "請根據我的**已授權、去識別化** IBKR 報表做唯讀績效資料稽核。\n匯出資料：{{STATEMENT}}\n期間與幣別：{{DATE_RANGE}}\n比較基準：{{BENCHMARK}}\n\n先確認表格期間、幣別、Stock／ETF／Options／Cash、入出金、股息與每日估值是否完整。辨認 TWR／MWR 的適用前提。只有資料足夠時才計算 Sharpe、Sortino、Jensen's Alpha、Beta、Weekly Return、MDD，以及 15／25／63／105 交易日 Rolling 趨勢與 Box Plot；對齊 SPY 含股息資料、幣別和無風險利率。樣本不足或數列不連續時，不產生假圖，列明計算公式、假設與資料缺口；不主動下單或提供個別交易指令。",
+    "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+    "exampleInput": {
+      "label": "虛構情境，非真實使用者資料",
+      "content": "示意：IBKR 只有每月匯總表，且某月有入金；沒有逐日淨值。"
+    },
+    "exampleOutput": {
+      "label": "預期格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "完整性：逐日淨值不足，Rolling Sharpe 暫不能算。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "下一步：補匯出明細，確認現金流與總報酬基準。"
+        }
+      ],
+      "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+    },
+    "adjustments": [
+      {
+        "title": "替換來源內容",
+        "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+      },
+      {
+        "title": "設定執行邊界",
+        "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+      }
+    ],
+    "outputContract": [
+      "資料品質、現金流與金融工具核對",
+      "有足夠資料時的風險調整指標及對照圖",
+      "無法計算的逐項原因、公式與來源"
+    ],
+    "failureHandling": [
+      "缺逐日資料則不能生成 63／105 日移動統計。",
+      "SPY 與帳戶期間、幣別不一致時不得直接比較。"
+    ],
+    "testCases": [
+      {
+        "name": "完整逐日資料",
+        "input": "完整逐日資料",
+        "expectation": "按幣別與現金流解釋 TWR／MWR",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "只有月摘要",
+        "input": "只有月摘要",
+        "expectation": "不虛構日報酬及 Rolling 圖",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "衍生品負收益",
+        "input": "衍生品負收益",
+        "expectation": "正確揭露曝險與結果限制",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可回查輸出與來源：資料品質、現金流與金融工具核對",
+      "可回查輸出與來源：有足夠資料時的風險調整指標及對照圖",
+      "來源與模型執行狀態真實標示。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "ibkr-weekly-risk-adjusted-performance-contract",
+        "name": "以可復算資料檢視 IBKR 與 SPY 的風險調整績效",
+        "problem": "只看資產增長可能混淆市場報酬、現金流、選擇權損益與風險調整後表現。",
+        "input": "去識別化 IBKR 匯出表＋分析日期與幣別＋基準與利率設定",
+        "output": "資料品質、現金流與金融工具核對；有足夠資料時的風險調整指標及對照圖；無法計算的逐項原因、公式與來源",
+        "gate": "缺逐日資料則不能生成 63／105 日移動統計。"
+      },
+      "example": "報表匯出 → 來源與幣別稽核 → 績效計算 → SPY 對照 → 解釋限制",
+      "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+    },
+    "privacy": "券商帳戶、資產、個資與交易明細僅在有權處理範圍分析，不公開原始檔。",
+    "limitations": [
+      "沒有逐日估值或現金流時不能臆測 Rolling Sharpe／Beta。",
+      "帳戶機敏資訊、資料不足而虛構指標、投資決策誤用。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshots (original post URLs unavailable)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "獨立改良版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+    },
+    "classificationReason": "只改善展示與重用契約，不修改原分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有相關概念參照，不推測加連結。"
+    },
+    "riskNotes": "帳戶機敏資訊、資料不足而虛構指標、投資決策誤用。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+    }
   }
 }
