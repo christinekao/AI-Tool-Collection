@@ -1,0 +1,33 @@
+name: Temporary Concepts Batch 01 Catalog Rebuild
+on:
+  push:
+    branches:
+      - concept-content-batch01-20261122
+    paths:
+      - '.github/workflows/concepts-batch01-catalog-sync.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    if: github.repository == 'christinekao/AI-Tool-Collection' && github.ref == 'refs/heads/concept-content-batch01-20261122' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: concept-content-batch01-20261122
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Rebuild exact canonical-derived indexes
+        run: node scripts/build-v2.mjs
+      - name: Commit generated outputs to review branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/catalog-v2.json data/manifest-v2.json data/knowledge-graph-v1.json data/tag-index-v1.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Sync V2 catalog and graph from Concept Batch 01 canonical'
+            git push origin HEAD:concept-content-batch01-20261122
+          fi
