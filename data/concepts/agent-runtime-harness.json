@@ -10,9 +10,18 @@
     "把執行環境、工具權限與模型本身解耦",
     "讓同一套工程 workflow 能跨不同 coding agents 重用"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "通用 Harness 易擴充，但擴大工具與權限暴露面。",
+    "不同 Host 的 MCP、Hook 和沙箱不保證語意相容。"
+  ],
+  "signals": [
+    "需讀寫 Repo、執行測試並交付實際證據。",
+    "多模型共享流程但各自工具權限不同。"
+  ],
+  "antiPatterns": [
+    "把模型的操作意圖當作已成功執行。",
+    "預設給所有 Agent 完整 Shell 和 Secret 權限。"
+  ],
   "examples": [
     "openai/codex",
     "affaan-m/ecc",
@@ -24,7 +33,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "agent-runtime",
     "harness",
@@ -42,5 +51,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "Agent Harness 將模型推理接到工具、檔案、權限及工作狀態；聊天模型本身不代表可可靠交付工作的 Agent。",
+  "applicationScenarios": [
+    "示意：Coding Harness 管理 Worktree、測試與寫入審查。",
+    "示意：資料 Agent 唯讀分析，需核准的寫入使用獨立工具。"
+  ],
+  "validationQuestions": [
+    "是否能追蹤模型決策、工具呼叫與結果？",
+    "禁用某項能力後，能否避免其他路徑繞過權限？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現存 Concept ID／標題，補充同一筆既有資料而非建立重複紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有未匹配 Tags 作為歷史線索；本批沒有增刪。"
+    },
+    "classificationReason": "保留既有分類 ai-agent，未從候選應用推斷新的 Domain。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、反例、候選情境及驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少真實執行契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用既有 Concept；未新增 Typed Reference 或 Graph Edge。"
+    },
+    "riskNotes": "情境均為未實測示意，沒有驗證外部整合、Runtime、安全性、來源作者或授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成內容補強，Runtime／模型／外部整合與授權未測試；CI 另外確認。"
+    }
   }
 }

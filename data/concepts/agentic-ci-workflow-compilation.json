@@ -11,15 +11,24 @@
     "Agent job 預設 read-only / sandboxed，將寫入意圖轉成 safe outputs",
     "由獨立 job 使用 scoped permissions 驗證並套用 Agent 的寫入結果"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "編譯降低重複，但生成器與 Diff 仍需安全審查。",
+    "隔離推理與寫入增加 Artifact 交接成本。"
+  ],
+  "signals": [
+    "想用 Agent 分類 Issue 並維持原有 CI 的可靠性。",
+    "外部 PR 內容不可信且不能直接接觸高權限權杖。"
+  ],
+  "antiPatterns": [
+    "對 Agent Job 提供完整 CI 寫入 Token。",
+    "依模型文字判斷決定測試失敗是否放行。"
+  ],
   "examples": [
     "GitHub Agentic Workflows"
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "agentic-ci",
     "workflow-compiler",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "definition": "以可審核的宣告式來源描述 Agent CI 工作並編譯為標準 Workflow；決定性 Build/Test 仍由傳統 CI 控制。",
+  "applicationScenarios": [
+    "示意：Agent 產出分類建議，獨立 Job 驗證 Schema 後套標。",
+    "示意：Agent 產生文件 Diff，由標準 CI 與人工決定採納。"
+  ],
+  "validationQuestions": [
+    "編譯來源與最終 Workflow 產物是否可重現？",
+    "模型輸出遭注入或無效時，後續寫入 Job 是否拒絕？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現存 Concept ID／標題，補充同一筆既有資料而非建立重複紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有未匹配 Tags 作為歷史線索；本批沒有增刪。"
+    },
+    "classificationReason": "保留既有分類 software，未從候選應用推斷新的 Domain。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、反例、候選情境及驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少真實執行契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用既有 Concept；未新增 Typed Reference 或 Graph Edge。"
+    },
+    "riskNotes": "情境均為未實測示意，沒有驗證外部整合、Runtime、安全性、來源作者或授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成內容補強，Runtime／模型／外部整合與授權未測試；CI 另外確認。"
+    }
   }
 }

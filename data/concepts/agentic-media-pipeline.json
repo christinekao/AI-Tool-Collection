@@ -13,9 +13,18 @@
     "讓 AI rough cut 保持 editable timeline，透過標準交換格式交給專業 NLE 做調色、音訊、效果與 mastering",
     "從 codebase / release notes 取得真實產品訊號，再串 storyboard、real component rendering、motion、music/SFX、review 與可重 render project"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "模組化可局部重製，但需要統一時間碼與檔案格式。",
+    "自動粗剪提高效率，最終品質與授權仍須審核。"
+  ],
+  "signals": [
+    "影音跨多工具傳遞素材且版本經常混亂。",
+    "更換字幕或配音時希望只重製相依部分。"
+  ],
+  "antiPatterns": [
+    "只輸出 MP4 卻宣稱提供可編輯工程。",
+    "未核對音樂、素材和模型授權就聲稱可商用。"
+  ],
   "examples": [
     "DaVinci Resolve",
     "OpenMontage",
@@ -25,7 +34,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "media",
     "video",
@@ -43,5 +52,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "definition": "多媒體工作拆成腳本、素材、剪輯、字幕、音訊與渲染，透過可編輯 Artifact 和獨立 Gate 串接，而非一次性成片。",
+  "applicationScenarios": [
+    "示意：產品片由真實 UI 輸入分鏡、時間軸、字幕再輸出。",
+    "示意：多語影片共用畫面，替換核准的聲音與字幕軌。"
+  ],
+  "validationQuestions": [
+    "每階段是否記錄輸入版本、時間碼及素材來源？",
+    "單一素材更動能否重做相依區塊並保留人工修改？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現存 Concept ID／標題，補充同一筆既有資料而非建立重複紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有未匹配 Tags 作為歷史線索；本批沒有增刪。"
+    },
+    "classificationReason": "保留既有分類 content，未從候選應用推斷新的 Domain。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、反例、候選情境及驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少真實執行契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用既有 Concept；未新增 Typed Reference 或 Graph Edge。"
+    },
+    "riskNotes": "情境均為未實測示意，沒有驗證外部整合、Runtime、安全性、來源作者或授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成內容補強，Runtime／模型／外部整合與授權未測試；CI 另外確認。"
+    }
   }
 }
