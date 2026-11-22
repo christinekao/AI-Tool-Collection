@@ -71688,7 +71688,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "0050",
         "backtest",
@@ -71709,6 +71709,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "先查資料洩漏，再與 0050 買進持有比較",
+        "overview": "使用可追溯的歷史行情對交易規則做樣本外回測。",
+        "preparationHint": "沒有可核對的行情、交易時點或真實上市日期時，不產生績效數字。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "行情／交易時點不一致、資料污染與財務決策風險。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用可追溯的歷史行情對交易規則做樣本外回測。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有可核對的行情、交易時點或真實上市日期時，不產生績效數字。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "行情檔、日期與資料來源",
+            "detail": "含 0050 真正可交易日起的資料",
+            "required": true
+          },
+          {
+            "title": "明確交易規則",
+            "detail": "進場、出場、手續費、滑價",
+            "required": true
+          },
+          {
+            "title": "驗證期間",
+            "detail": "標示不晚於資料最新時間",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "MARKET_DATA",
+            "label": "行情檔、日期與資料來源",
+            "required": true,
+            "example": "含 0050 真正可交易日起的資料"
+          },
+          {
+            "name": "RULES",
+            "label": "明確交易規則",
+            "required": true,
+            "example": "進場、出場、手續費、滑價"
+          },
+          {
+            "name": "PERIOD",
+            "label": "驗證期間",
+            "required": false,
+            "example": "標示不晚於資料最新時間"
+          }
+        ],
+        "adaptedPrompt": "請擔任回測方法稽核員，不提供即時交易建議。\n資料：{{MARKET_DATA}}\n策略：{{RULES}}\n目標期間：{{PERIOD}}\n\n先列出各標的首次可交易日、欄位、調整價格與缺口；不存在的價格絕不回填。依實際有效日期建立時間順序的訓練／驗證切分，驗證集禁止調參；參數最多三個、每個最多五值。逐項檢查前視、存活者偏差、成分股前視、同根 K 棒與價格修正風險。資料足夠才在同一成本與幣別假設下計算 CAGR、MDD、Sharpe、勝率、盈虧比、交易數、平均持有日、曝險比，與 0050 買進持有比較。提供可重現資料版本、程式碼與不足之處；不能跑時只交付回測計畫，不捏造結果。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "虛構示例：策略為月末移動平均，行情檔只涵蓋 2018–2025；交易成本待確認。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "日期檢查：僅使用有實際資料的期間；成本待確認。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "驗證結論：費率尚缺，暫不產生優於 0050 的數字。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "資料可用區間與偏差風險表",
+          "訓練與樣本外績效及 0050 對照（資料足夠才計算）",
+          "可重現程式碼或明確的不可執行原因"
+        ],
+        "failureHandling": [
+          "0050 尚未成立的期間不得補價格或納入回測。",
+          "缺少日資料或費用資料時，不推導精確績效或製造比較圖。"
+        ],
+        "testCases": [
+          {
+            "name": "完整行情",
+            "input": "完整行情",
+            "expectation": "有合法資料、分割與規則時才計算",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "前視時間",
+            "input": "前視時間",
+            "expectation": "輸入 0050 不存在日期時拒絕該期間",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "調參污染",
+            "input": "調參污染",
+            "expectation": "在驗證集挑參數時指出偏差",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：資料可用區間與偏差風險表",
+          "能從所提供的真實來源支援：訓練與樣本外績效及 0050 對照（資料足夠才計算）",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "0050-leakage-audited-train-validation-backtest-contract",
+            "name": "先查資料洩漏，再與 0050 買進持有比較",
+            "problem": "回測成效可能是未來資訊洩漏、過度調參或不合理報酬假設造成。",
+            "input": "行情檔、日期與資料來源＋明確交易規則＋驗證期間",
+            "output": "資料可用區間與偏差風險表；訓練與樣本外績效及 0050 對照（資料足夠才計算）；可重現程式碼或明確的不可執行原因",
+            "gate": "0050 尚未成立的期間不得補價格或納入回測。"
+          },
+          "example": "行情來源稽核 → 前視偏差檢查 → 限制調參 → 樣本外回測 → 人工審查",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "投資帳戶及交易紀錄先去識別化；文件稽核不是已執行回測或投資建議。",
+        "limitations": [
+          "沒有可核對的行情、交易時點或真實上市日期時，不產生績效數字。",
+          "行情／交易時點不一致、資料污染與財務決策風險。"
+        ],
+        "provenance": {
+          "source": "User-provided Threads screenshots (original post URLs unavailable)",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "行情／交易時點不一致、資料污染與財務決策風險。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -71755,7 +71940,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "api-key",
         "ai-providers",
@@ -71777,6 +71962,180 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.3-semantic-audit"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "API Key 最小權限與撤銷計畫",
+        "overview": "檢查多模型、MCP、外部 API 的權限、預算和外送邊界。",
+        "preparationHint": "不要求貼真實 Key，不掃讀 Secret Manager，也不在這個 Prompt 中旋轉金鑰。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "機密外洩、帳務損失與未核准的憑證變更。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "檢查多模型、MCP、外部 API 的權限、預算和外送邊界。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "不要求貼真實 Key，不掃讀 Secret Manager，也不在這個 Prompt 中旋轉金鑰。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "服務及環境清單",
+            "detail": "Provider A / STG；Provider B / PRD",
+            "required": true
+          },
+          {
+            "title": "非機敏現行設定",
+            "detail": "各環境可用 Scope、預算與審核人",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "SERVICES",
+            "label": "服務及環境清單",
+            "required": true,
+            "example": "Provider A / STG；Provider B / PRD"
+          },
+          {
+            "name": "CURRENT_POLICY",
+            "label": "非機敏現行設定",
+            "required": false,
+            "example": "各環境可用 Scope、預算與審核人"
+          }
+        ],
+        "adaptedPrompt": "請對以下非機敏服務清單做**唯讀** API Key 控制稽核，不要要求或讀取任何金鑰實際值。\n服務與環境：{{SERVICES}}\n現行政策：{{CURRENT_POLICY}}\n\n請逐服務列出：金鑰擁有人、環境、可用 Scope、祕密保存位置（只寫型態、不寫值）、資料出站、硬額度與通知額度、撤銷與輪替責任人。對尚未核實的 Provider 功能標「需查官方文件」。最後產生高風險／低風險缺口、分階段改進與故障回復驗證。未獲核准前不得連線、建立 Key、變更權限或消費額度。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "Provider A 的測試／正式環境共用同一組 Key；是否有硬上限尚未確認。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "高風險：STG／PRD 共用憑證，建議分離。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "未知：硬性預算上限功能需依官方確認。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "Provider／環境／Scope／撤銷責任對照",
+          "硬上限與軟通知區別、風險排序",
+          "可回復的輪替草案，零實際寫入"
+        ],
+        "failureHandling": [
+          "任何提供的 Key 應視為敏感資料，不輸出或保存實際值。",
+          "Provider 不支援硬上限時，不假設已能攔截超支。"
+        ],
+        "testCases": [
+          {
+            "name": "匿名清單",
+            "input": "匿名清單",
+            "expectation": "可輸出表格但不含任何 Key",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "貼上 Key",
+            "input": "貼上 Key",
+            "expectation": "隱去值並停止擴散",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "缺少上限資料",
+            "input": "缺少上限資料",
+            "expectation": "標為待查，不冒稱預算已生效",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：Provider／環境／Scope／撤銷責任對照",
+          "能從所提供的真實來源支援：硬上限與軟通知區別、風險排序",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "agent-api-key-budget-and-revocation-guardrails-contract",
+            "name": "API Key 最小權限與撤銷計畫",
+            "problem": "不同服務共用 API Key、沒有預算/權限隔離或撤銷程序，可能擴大濫用、金額損失與資料外流。",
+            "input": "服務及環境清單＋非機敏現行設定",
+            "output": "Provider／環境／Scope／撤銷責任對照；硬上限與軟通知區別、風險排序；可回復的輪替草案，零實際寫入",
+            "gate": "任何提供的 Key 應視為敏感資料，不輸出或保存實際值。"
+          },
+          "example": "服務盤點 → 權限映射 → 財務風險 → 輪替草案 → 人工授權後實施",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "祕密值、Token、帳號與付款資訊不可寫入公開 JSON 或對話。",
+        "limitations": [
+          "不要求貼真實 Key，不掃讀 Secret Manager，也不在這個 Prompt 中旋轉金鑰。",
+          "機密外洩、帳務損失與未核准的憑證變更。"
+        ],
+        "provenance": {
+          "source": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "機密外洩、帳務損失與未核准的憑證變更。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -71862,7 +72221,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-11-05",
-      "updatedAt": "2026-11-05",
+      "updatedAt": "2026-11-22",
       "tags": [
         "career",
         "resume",
@@ -71892,6 +72251,180 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "先建立可追溯的職涯素材庫，再改履歷",
+        "overview": "整理真實經驗、證據與職涯方向，作為多職缺履歷的共用資料。",
+        "preparationHint": "未提供履歷時不編造職涯檔案，也不自行新增學歷或 KPI。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "虛構經驗與個人資料在公開儲存庫外洩。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "整理真實經驗、證據與職涯方向，作為多職缺履歷的共用資料。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "未提供履歷時不編造職涯檔案，也不自行新增學歷或 KPI。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "真實履歷／已確認經驗",
+            "detail": "已去識別化的經歷素材",
+            "required": true
+          },
+          {
+            "title": "職涯方向偏好",
+            "detail": "資料工程／自動化／AI Solutions",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "CV",
+            "label": "真實履歷／已確認經驗",
+            "required": true,
+            "example": "已去識別化的經歷素材"
+          },
+          {
+            "name": "TARGETS",
+            "label": "職涯方向偏好",
+            "required": false,
+            "example": "資料工程／自動化／AI Solutions"
+          }
+        ],
+        "adaptedPrompt": "請先建立個人職涯素材庫，不要直接改寫投遞用履歷。\n履歷與真實經歷：{{CV}}\n職涯偏好：{{TARGETS}}\n\n依「已確認事實／推論候選／待確認」三種證據等級整理：學經歷、專業技能、個人實際行動與成果、可轉移能力、符合的職涯方向及缺失。每項成果指回輸入段落，數字、公司與職級不得憑空補造。若關鍵資訊缺少，一次只提出最多五個高優先問題，待回覆後再補全。最後提供可複用的 Markdown 個人職涯檔案、來源索引與下一步 JD 比對所需資料；未獲同意不寫入外部服務。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "虛構經歷：參與跨部門報表整合；所用工具與具體成效未提供。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "已確認：參與跨部門報表整合。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "待確認：本人責任、工具與量化結果。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "可重複使用的 Markdown 職涯資料庫",
+          "已確認／推論／待補欄位標籤",
+          "最多五個優先補強問題"
+        ],
+        "failureHandling": [
+          "未提供履歷先請求必要內容，不套用他人的個人資料。",
+          "欠缺成果數據時使用待確認標記，絕不推測 KPI。"
+        ],
+        "testCases": [
+          {
+            "name": "完整經歷",
+            "input": "完整經歷",
+            "expectation": "可建立有來源的職涯卡片",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "無數字",
+            "input": "無數字",
+            "expectation": "成果保留待補，不自行造數字",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "矛盾任期",
+            "input": "矛盾任期",
+            "expectation": "標示衝突並提出優先釐清問題",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：可重複使用的 Markdown 職涯資料庫",
+          "能從所提供的真實來源支援：已確認／推論／待補欄位標籤",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "career-profile-knowledge-base-step-1-contract",
+            "name": "先建立可追溯的職涯素材庫，再改履歷",
+            "problem": "AI 直接修改單一履歷，可能忽略求職者的完整工作背景、可轉移能力與證據缺口，難以支援後續職缺分析及客製化履歷。",
+            "input": "真實履歷／已確認經驗＋職涯方向偏好",
+            "output": "可重複使用的 Markdown 職涯資料庫；已確認／推論／待補欄位標籤；最多五個優先補強問題",
+            "gate": "未提供履歷先請求必要內容，不套用他人的個人資料。"
+          },
+          "example": "真實經歷 → 證據卡片 → Career Profile → JD 比對 → 客製 CV",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "使用者履歷可能含姓名、聯絡方式與內部資料；保留在受權範圍，不回寫公開收藏。",
+        "limitations": [
+          "未提供履歷時不編造職涯檔案，也不自行新增學歷或 KPI。",
+          "虛構經驗與個人資料在公開儲存庫外洩。"
+        ],
+        "provenance": {
+          "source": "User-submitted Traditional Chinese prompt (2026-11-05); original authorship and source not specified",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "虛構經驗與個人資料在公開儲存庫外洩。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -71937,7 +72470,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "chat-history",
         "productivity",
@@ -71957,6 +72490,180 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "從已授權的對話找出可實作的工作改善",
+        "overview": "一個月的對話資料轉成問題證據、優先改善機會與 MVP。",
+        "preparationHint": "沒有提供或授權可讀取的對話時，不假裝看過全部聊天。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "未獲授權讀取對話與把敏感紀錄放入公開提案。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "一個月的對話資料轉成問題證據、優先改善機會與 MVP。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有提供或授權可讀取的對話時，不假裝看過全部聊天。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "已授權對話／逐段摘要",
+            "detail": "日期、對話連結與內容摘錄",
+            "required": true
+          },
+          {
+            "title": "工時與環境限制",
+            "detail": "單週 MVP、不接公司敏感系統",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "CHAT_EXPORT",
+            "label": "已授權對話／逐段摘要",
+            "required": true,
+            "example": "日期、對話連結與內容摘錄"
+          },
+          {
+            "name": "CONSTRAINTS",
+            "label": "工時與環境限制",
+            "required": false,
+            "example": "單週 MVP、不接公司敏感系統"
+          }
+        ],
+        "adaptedPrompt": "請僅分析我提供或明確授權的對話紀錄：{{CHAT_EXPORT}}\n限制：{{CONSTRAINTS}}\n\n建立帶日期／對話來源的證據索引，找出重複作業、決策瓶頸與尚未完成的工具構想；每項區分「事實」「推論」「缺資料」。提出三個能在既有環境完成的改善方向，對照價值、資料權限、成本、投入與 MVP 交付物。推薦其中一個並提供靜態規格／原型草案，附驗收條件與尚缺資訊。未獲同意，不連接額外 App、讀取私人資料或部署程式。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "虛構對話 A 與 B 都提到每週手工複製相同報表，卻未提供連線權限。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "觀察：有兩段文字顯示重複搬移報表。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "建議 MVP：先產生不連線的報表模板與核對表。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "逐條來源證據與問題分類",
+          "三個 MVP 的價值／風險／成本比較",
+          "一份不需授權寫入的可採用規格"
+        ],
+        "failureHandling": [
+          "來源未覆蓋完整月份時只代表該抽樣範圍。",
+          "涉及私密內容時匿名化後才產出可分享摘要。"
+        ],
+        "testCases": [
+          {
+            "name": "來源齊全",
+            "input": "來源齊全",
+            "expectation": "每個建議有對應對話證據",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "沒有紀錄",
+            "input": "沒有紀錄",
+            "expectation": "不宣稱已掃描過聊天",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "疑似機密",
+            "input": "疑似機密",
+            "expectation": "避免引入可分享規格",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：逐條來源證據與問題分類",
+          "能從所提供的真實來源支援：三個 MVP 的價值／風險／成本比較",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "chat-history-actionable-productivity-audit-contract",
+            "name": "從已授權的對話找出可實作的工作改善",
+            "problem": "大量對話沒有轉化成可維護的工作證據與可操作改進。",
+            "input": "已授權對話／逐段摘要＋工時與環境限制",
+            "output": "逐條來源證據與問題分類；三個 MVP 的價值／風險／成本比較；一份不需授權寫入的可採用規格",
+            "gate": "來源未覆蓋完整月份時只代表該抽樣範圍。"
+          },
+          "example": "來源索引 → 重複模式 → MVP 評選 → 可逆原型 → 驗證",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "聊天可能含私人身份、客戶資料與工作資訊，輸出前應去識別化。",
+        "limitations": [
+          "沒有提供或授權可讀取的對話時，不假裝看過全部聊天。",
+          "未獲授權讀取對話與把敏感紀錄放入公開提案。"
+        ],
+        "provenance": {
+          "source": "User-provided Threads screenshots (original post URLs unavailable)",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "未獲授權讀取對話與把敏感紀錄放入公開提案。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -71966,7 +72673,7 @@
       "title": "ChatGPT → Opus → Codex｜多 Agent 專案規劃、隔離測試、獨立審查與進度回報",
       "status": "unreviewed",
       "addedAt": "2026-10-29",
-      "updatedAt": "2026-10-29",
+      "updatedAt": "2026-11-22",
       "category": "01 Agentic Coding & Harness",
       "promptType": "User-Provided Multi-Agent Software Development Playbook",
       "tags": [
@@ -72096,6 +72803,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "多 Agent 專案交接與獨立驗收的可控計畫",
+        "overview": "把多 AI 協作構想轉成有 Ownership、資源上限與 Gate 的落地方案。",
+        "preparationHint": "原文的模型代號、插件與整合不代表已存在，不可直接大規模安裝或推 GitHub。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "未知插件、遠端程式、權限與成本、測試資源衝突。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "把多 AI 協作構想轉成有 Ownership、資源上限與 Gate 的落地方案。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "原文的模型代號、插件與整合不代表已存在，不可直接大規模安裝或推 GitHub。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "專案與現況",
+            "detail": "Repo、任務與已完成項目",
+            "required": true
+          },
+          {
+            "title": "實際可用 Agent／服務",
+            "detail": "逐一標示已驗證可用",
+            "required": true
+          },
+          {
+            "title": "授權與資源限制",
+            "detail": "CPU／RAM、推送與費用邊界",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "PROJECT",
+            "label": "專案與現況",
+            "required": true,
+            "example": "Repo、任務與已完成項目"
+          },
+          {
+            "name": "TOOLS",
+            "label": "實際可用 Agent／服務",
+            "required": true,
+            "example": "逐一標示已驗證可用"
+          },
+          {
+            "name": "LIMITS",
+            "label": "授權與資源限制",
+            "required": false,
+            "example": "CPU／RAM、推送與費用邊界"
+          }
+        ],
+        "adaptedPrompt": "請扮演多 Agent 專案協調者，但先做**唯讀 Preflight**。\n專案：{{PROJECT}}\n實際可用工具：{{TOOLS}}\n資源與授權限制：{{LIMITS}}\n\n先核實 GitHub／Notion／模型／Codex／Oracle／Docker 是否真的可用，對來源構想的型號與插件名稱標記「未核實」。產出 Think → Spec → Plan → Execute → Verify → Deliver 的分階段設計：單一 Coordinator、任務鎖／文件 Ownership、隔離測試資源、PR／CI、安全／獨立 Review、失敗回復、跨 Session Handoff。每階段列出可觀察證據與需要人工批准的不可逆動作。未收到明確授權之前，不安裝插件、寫 Issue、Push、Merge、啟動排程或執行付費操作。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "假設一個待開發的網站 Repo，只能讀 Code，無 Docker 與外部審查工具。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "Preflight：缺 Docker／審查工具的實際可用證據。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "方案：先定義 Acceptance 和隔離測試計畫，禁止假稱完成整合。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "工具可用性與不確定性清單",
+          "角色／Ownership／測試資源／審查流程",
+          "分階段核准點與驗收交接格式"
+        ],
+        "failureHandling": [
+          "工具不可用時保留方案與阻塞，不宣稱已安裝。",
+          "沒有 Repo 權限時只出示可複製任務模板，不假裝建立 Issue。"
+        ],
+        "testCases": [
+          {
+            "name": "有工具與 Repo",
+            "input": "有工具與 Repo",
+            "expectation": "產生分工和 Gate 設計",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "模型名稱不存在",
+            "input": "模型名稱不存在",
+            "expectation": "標示未核實並提供功能型替代",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "無寫入權限",
+            "input": "無寫入權限",
+            "expectation": "不建立 PR、不推送",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：工具可用性與不確定性清單",
+          "能從所提供的真實來源支援：角色／Ownership／測試資源／審查流程",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "chatgpt-opus-codex-oracle-multi-agent-development-contract",
+            "name": "多 Agent 專案交接與獨立驗收的可控計畫",
+            "problem": "多個 AI 模型和 Agent 共同開發專案時，需求決策難同步、任務容易衝突、測試搶佔主機資源，且缺少獨立審查及可核對的進度證據。",
+            "input": "專案與現況＋實際可用 Agent／服務＋授權與資源限制",
+            "output": "工具可用性與不確定性清單；角色／Ownership／測試資源／審查流程；分階段核准點與驗收交接格式",
+            "gate": "工具不可用時保留方案與阻塞，不宣稱已安裝。"
+          },
+          "example": "需求與規格 → 任務鎖 → 分層實作 → 隔離測試 → 獨立 Review → 證據交接",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "不得讀取或回報 Keys、私人 Repo 內容與機密測試環境資料。",
+        "limitations": [
+          "原文的模型代號、插件與整合不代表已存在，不可直接大規模安裝或推 GitHub。",
+          "未知插件、遠端程式、權限與成本、測試資源衝突。"
+        ],
+        "provenance": {
+          "source": "User-provided exact-text prompt",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "未知插件、遠端程式、權限與成本、測試資源衝突。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -72155,7 +73047,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-23",
-      "updatedAt": "2026-10-23",
+      "updatedAt": "2026-11-22",
       "tags": [
         "claude-5-5",
         "opus-5-5",
@@ -72185,6 +73077,180 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "精簡 Harness，不讓 Hooks 變成新的負擔",
+        "overview": "審視 AGENTS／CLAUDE／Skills 重複規則並找格式漂移防線。",
+        "preparationHint": "未核對目前 Claude Code 版本與 Hooks 支援能力，不直接改全域設定。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "全域規範漂移、虛構版本支援與誤刪安全邊界。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "審視 AGENTS／CLAUDE／Skills 重複規則並找格式漂移防線。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "未核對目前 Claude Code 版本與 Hooks 支援能力，不直接改全域設定。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "現有 Harness 文件與設定",
+            "detail": "AGENTS.md／CLAUDE.md／Hooks 設定",
+            "required": true
+          },
+          {
+            "title": "目前產品版本與專案邊界",
+            "detail": "現用版本、不可更動政策",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "FILES",
+            "label": "現有 Harness 文件與設定",
+            "required": true,
+            "example": "AGENTS.md／CLAUDE.md／Hooks 設定"
+          },
+          {
+            "name": "ENV",
+            "label": "目前產品版本與專案邊界",
+            "required": false,
+            "example": "現用版本、不可更動政策"
+          }
+        ],
+        "adaptedPrompt": "請先唯讀稽核現有 Harness，不要直接修改檔案。\n設定與文件：{{FILES}}\n環境與不變規則：{{ENV}}\n\n先查**目前實際版本**對應的官方文件，不能假設原始 Prompt 提及的「Claude 5.5」已存在或適用。分別標示：程式碼可推得的重複內容、必保留的隱性限制、相衝規則、Always-On 載入成本、已過時設定。提出最小 diff 與按需載入設計；只針對官方真正支援的 Hook 事件提出防漂移檢查，附觸發案例、失敗案例、回滾方式。得到修改授權後才能套用與測試，不得把設計草案稱為已生效設定。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "AGENTS.md 同時放執行指令和可由 scripts 得知的命令，Hook 設定版本不明。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "可精簡候選：已有腳本可查的命令說明。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "禁止直接刪除：權限、不可逆修改核准條件。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "重複與衝突規則盤點",
+          "精簡 diff 建議與 Hooks 可用性證據",
+          "可驗證觸發／回歸／回滾計畫"
+        ],
+        "failureHandling": [
+          "官方文檔無對應版本時不推測支援的 Hook 事件。",
+          "安全限制即使看似重複也不能因 Context 最佳化刪除。"
+        ],
+        "testCases": [
+          {
+            "name": "有效 Hook 事件",
+            "input": "有效 Hook 事件",
+            "expectation": "可找到官方支援來源與測試方式",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "版本不明",
+            "input": "版本不明",
+            "expectation": "停止變更，明列查證事項",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "安全 Gate 重複",
+            "input": "安全 Gate 重複",
+            "expectation": "保留不可推知的安全限制",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：重複與衝突規則盤點",
+          "能從所提供的真實來源支援：精簡 diff 建議與 Hooks 可用性證據",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "claude-5-5-harness-cleanup-and-hook-guardrails-contract",
+            "name": "精簡 Harness，不讓 Hooks 變成新的負擔",
+            "problem": "多個 Harness、CLAUDE.md、AGENTS.md、Skills 和設定規則可能逐漸重複、衝突或持續常駐載入；往後 Agent 寫入新設定也可能使格式和規範漂移。",
+            "input": "現有 Harness 文件與設定＋目前產品版本與專案邊界",
+            "output": "重複與衝突規則盤點；精簡 diff 建議與 Hooks 可用性證據；可驗證觸發／回歸／回滾計畫",
+            "gate": "官方文檔無對應版本時不推測支援的 Hook 事件。"
+          },
+          "example": "環境版號 → 指令稽核 → 最小差異 → Hook 方案 → 受權修改 → Regression",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "檢視設定不能外送私有 Repo 或包含秘密的環境變數。",
+        "limitations": [
+          "未核對目前 Claude Code 版本與 Hooks 支援能力，不直接改全域設定。",
+          "全域規範漂移、虛構版本支援與誤刪安全邊界。"
+        ],
+        "provenance": {
+          "source": "User-provided social recommendation excerpt (original post URL not supplied)",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "全域規範漂移、虛構版本支援與誤刪安全邊界。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -72228,7 +73294,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "claude-code",
         "autocompact",
@@ -72251,6 +73317,180 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "釐清真正可用的 Context 與 Auto-compact 門檻",
+        "overview": "使用官方文件與本機唯讀資訊評估 Context 控制效果。",
+        "preparationHint": "不盲目把自動 Compact 提升到 400k，不把最大 Context 當成實際 Session 限制。",
+        "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+        "verificationIntro": "特定版本功能變更、成本膨脹與摘要遺失。",
+        "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用官方文件與本機唯讀資訊評估 Context 控制效果。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "不盲目把自動 Compact 提升到 400k，不把最大 Context 當成實際 Session 限制。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "Claude Code 版本與方案（非機密）",
+            "detail": "版本、模型、/context 顯示結果",
+            "required": true
+          },
+          {
+            "title": "希望改善的現象",
+            "detail": "摘要遺失重要限制，或成本太高",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "ENVIRONMENT",
+            "label": "Claude Code 版本與方案（非機密）",
+            "required": true,
+            "example": "版本、模型、/context 顯示結果"
+          },
+          {
+            "name": "GOAL",
+            "label": "希望改善的現象",
+            "required": false,
+            "example": "摘要遺失重要限制，或成本太高"
+          }
+        ],
+        "adaptedPrompt": "請以唯讀方式檢查 Claude Code 的 Context 與 Auto-compact 行為。\n版本、模型、方案、/context 結果：{{ENVIRONMENT}}\n待解決問題：{{GOAL}}\n\n先確認官方文件對目前版本支援哪些 Context／Compact 指令和門檻；區分模型公布的 Context 上限、方案可用額度、目前 Session 有效窗口、自動摘要門檻。分別評估保留背景、延遲、成本、摘要失真風險。提供保持原設定、提高／降低門檻的選項與回復步驟；環境不支援時直接標明，不宣稱已套用。修改只能在人工授權後執行，修改後以實際 /context 或等效證據複驗。",
+        "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "模擬環境：版本未知，看到社群建議直接設定 /autocompact 400k。"
+        },
+        "exampleOutput": {
+          "label": "預期輸出格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "當前有效門檻：未知，不能僅靠社群截圖判斷。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "下一步：先查版本與 /context，再評估設定。"
+            }
+          ],
+          "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+        },
+        "adjustments": [
+          {
+            "title": "依實際資料限縮",
+            "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+          },
+          {
+            "title": "分階段交付",
+            "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+          }
+        ],
+        "outputContract": [
+          "實際 Context 與 Compact 門檻對照",
+          "版本相容性、成本與資訊遺失取捨",
+          "唯讀建議及修改後驗證準則"
+        ],
+        "failureHandling": [
+          "缺少 /context 或模型資訊，必須列未知，不猜 1M。",
+          "若 /autocompact 不支援，不虛構替代命令。"
+        ],
+        "testCases": [
+          {
+            "name": "完整資訊",
+            "input": "完整資訊",
+            "expectation": "能分辨窗口上限與 Compact 門檻",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "未知模型",
+            "input": "未知模型",
+            "expectation": "要求查詢版本而非推測",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "設定無法修改",
+            "input": "設定無法修改",
+            "expectation": "回報不支援並保持原配置",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "能從所提供的真實來源支援：實際 Context 與 Compact 門檻對照",
+          "能從所提供的真實來源支援：版本相容性、成本與資訊遺失取捨",
+          "未執行模型或工具時不冒稱測試／變更已完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "claude-code-autocompact-context-diagnostic-contract",
+            "name": "釐清真正可用的 Context 與 Auto-compact 門檻",
+            "problem": "Claude Code 可能依版本、方案或實驗設定在小於模型最大窗口的門檻自動 Compact，導致使用者混淆 Context Window 與 Compact Threshold。",
+            "input": "Claude Code 版本與方案（非機密）＋希望改善的現象",
+            "output": "實際 Context 與 Compact 門檻對照；版本相容性、成本與資訊遺失取捨；唯讀建議及修改後驗證準則",
+            "gate": "缺少 /context 或模型資訊，必須列未知，不猜 1M。"
+          },
+          "example": "版本辨識 → 有效門檻 → 成本與風險 → 修改提議 → 受權執行 → 複驗",
+          "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+        },
+        "privacy": "不要求分享含憑證、專案內容的完整設定與聊天上下文。",
+        "limitations": [
+          "不盲目把自動 Compact 提升到 400k，不把最大 Context 當成實際 Session 限制。",
+          "特定版本功能變更、成本膨脹與摘要遺失。"
+        ],
+        "provenance": {
+          "source": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+        },
+        "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+        },
+        "riskNotes": "特定版本功能變更、成本膨脹與摘要遺失。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+        }
       }
     },
     {
@@ -72300,7 +73540,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "mattpocock",
         "agent-mistakes",
@@ -72327,6 +73567,180 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "逐項檢查 Coding Agent 的 18 種工作盲點",
+        "overview": "用實際 Repo、規範與 CI 觀察 Agent 開發慣例，排出優先改善點。",
+        "preparationHint": "沒有完整操作證據不能替每項打 PASS，也不應直接重構 Harness。",
+        "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+        "verificationIntro": "空泛的流程評分與過度刪除安全限制。",
+        "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "用實際 Repo、規範與 CI 觀察 Agent 開發慣例，排出優先改善點。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有完整操作證據不能替每項打 PASS，也不應直接重構 Harness。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "專案規則、CI 與工作紀錄",
+            "detail": "AGENTS.md、Hooks、測試和 PR",
+            "required": true
+          },
+          {
+            "title": "不可刪的業務與安全規則",
+            "detail": "保留審核與可回復機制",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "REPO_EVIDENCE",
+            "label": "專案規則、CI 與工作紀錄",
+            "required": true,
+            "example": "AGENTS.md、Hooks、測試和 PR"
+          },
+          {
+            "name": "CONSTRAINTS",
+            "label": "不可刪的業務與安全規則",
+            "required": false,
+            "example": "保留審核與可回復機制"
+          }
+        ],
+        "adaptedPrompt": "請根據以下資料唯讀稽核 Coding Agent 的工作流程。\n專案證據：{{REPO_EVIDENCE}}\n不可變約束：{{CONSTRAINTS}}\n\n請按照原始收藏的 18 類盲點逐一檢查，從推理成本、需求對齊、程式庫可導航性、Skills／全域規則、工具輸出、CI、Review、Sessions、人工監督、Prototype、策略與測試品質各面向判斷。每項標記「符合／部分符合／證據不足／不適用」及可追溯證據，勿以缺資料判定失敗。按改善價值、風險與成本列前三項、最小修改 diff、量測指標、驗收與回滾計畫。先不改程式、不刪除安全與業務限制。",
+        "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "虛構專案有 AGENTS.md 與 CI，但沒有歷史會話 Log。"
+        },
+        "exampleOutput": {
+          "label": "格式示意，未執行模型",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "項目 8：證據不足，缺少舊 Sessions。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "建議：先建立可量測的低風險 Regression Gate。"
+            }
+          ],
+          "note": "以上是人工撰寫的示意，不是測試結果。"
+        },
+        "adjustments": [
+          {
+            "title": "限縮資料來源",
+            "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+          },
+          {
+            "title": "分階段驗收",
+            "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+          }
+        ],
+        "outputContract": [
+          "18 項可追溯稽核表",
+          "前三項改善和預期量測",
+          "最小、可回復的修改建議"
+        ],
+        "failureHandling": [
+          "缺少歷史 Agent Logs 時將有關項目標為證據不足。",
+          "不能因為想降低 Token 成本而移除權限與安全規則。"
+        ],
+        "testCases": [
+          {
+            "name": "完整專案",
+            "input": "完整專案",
+            "expectation": "十八項逐一有狀態和證據",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "缺少 Logs",
+            "input": "缺少 Logs",
+            "expectation": "不假稱觀察過 Session",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "安全規範很長",
+            "input": "安全規範很長",
+            "expectation": "不能直接刪除未經同意的政策",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "真實輸出能支援：18 項可追溯稽核表",
+          "真實輸出能支援：前三項改善和預期量測",
+          "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "coding-agent-18-failure-modes-audit-contract",
+            "name": "逐項檢查 Coding Agent 的 18 種工作盲點",
+            "problem": "Agent Coding 只追求更快寫程式可能忽略需求對齊、成本、驗證、Codebase 品質與不必要的人工監督。",
+            "input": "專案規則、CI 與工作紀錄＋不可刪的業務與安全規則",
+            "output": "18 項可追溯稽核表；前三項改善和預期量測；最小、可回復的修改建議",
+            "gate": "缺少歷史 Agent Logs 時將有關項目標為證據不足。"
+          },
+          "example": "取得專案證據 → 18 項 Gate → 優先 3 項 → 小改動 → 回歸量測",
+          "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+        },
+        "privacy": "僅檢查有權存取的 Repo 與紀錄，不外送私人 Agent 對話。",
+        "limitations": [
+          "沒有完整操作證據不能替每項打 PASS，也不應直接重構 Harness。",
+          "空泛的流程評分與過度刪除安全限制。"
+        ],
+        "provenance": {
+          "source": "User screenshot plus published secondary summary of Matt Pocock 2026-10-13 public checklist",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "僅作 I/O 構想，不新增正式 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "空泛的流程評分與過度刪除安全限制。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -72374,7 +73788,7 @@
       },
       "status": "generated-draft",
       "addedAt": "2026-09-27",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-22",
       "tags": [
         "motion-design",
         "continuity",
@@ -72397,6 +73811,192 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "用 Carry／Beat 設計連續產品動態影片",
+        "overview": "先分析視覺參考與鏡頭交接，再製作產品發表動畫。",
+        "preparationHint": "沒有合法素材、真實產品功能或成片工具，不宣稱已渲染。",
+        "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+        "verificationIntro": "產生假連續性、違反上游非商用授權與產品視覺素材權利。",
+        "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "先分析視覺參考與鏡頭交接，再製作產品發表動畫。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有合法素材、真實產品功能或成片工具，不宣稱已渲染。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "產品與真實功能",
+            "detail": "功能、UI、文案與證據",
+            "required": true
+          },
+          {
+            "title": "合法參考與風格限制",
+            "detail": "節奏、運鏡與不複製界線",
+            "required": false
+          },
+          {
+            "title": "影片時長及格式",
+            "detail": "15 秒、9:16、無音訊",
+            "required": true
+          }
+        ],
+        "variables": [
+          {
+            "name": "PRODUCT",
+            "label": "產品與真實功能",
+            "required": true,
+            "example": "功能、UI、文案與證據"
+          },
+          {
+            "name": "REFERENCES",
+            "label": "合法參考與風格限制",
+            "required": false,
+            "example": "節奏、運鏡與不複製界線"
+          },
+          {
+            "name": "FORMAT",
+            "label": "影片時長及格式",
+            "required": true,
+            "example": "15 秒、9:16、無音訊"
+          }
+        ],
+        "adaptedPrompt": "請設計連續鏡頭的產品動態影片，而不是輪播卡片。\n產品／功能：{{PRODUCT}}\n可合法參考的視覺資料：{{REFERENCES}}\n時長／格式：{{FORMAT}}\n\n先從 Reference 萃取可觀察的節奏、鏡頭、空間與交界行為，但不複製品牌或原始鏡頭。提出三個真正不同的中心視覺機制，逐案說明 Hook、Carry 與禁止的視覺捷徑。選定方案前只做設計；選定後提供 time→beat→movement→stillness→carry 的 Beat Sheet，並對每個主要交界做連續性 Gate。分開標示設計稿、已渲染內容與未執行項目。若需使用 OneTake 上游程式或商用素材，先核實 PolyForm Noncommercial 與另行商用授權。",
+        "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "虛構 App：行事曆的格線縮合成手機畫面，轉入下一個功能。"
+        },
+        "exampleOutput": {
+          "label": "格式示意，未執行模型",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "Carry 1：格線收縮並成為手機 UI 的欄位。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "待驗證：影片尚未真正渲染與播放。"
+            }
+          ],
+          "note": "以上是人工撰寫的示意，不是測試結果。"
+        },
+        "adjustments": [
+          {
+            "title": "限縮資料來源",
+            "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+          },
+          {
+            "title": "分階段驗收",
+            "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+          }
+        ],
+        "outputContract": [
+          "三個不同的連續視覺方案",
+          "含 Carry 的 Beat Sheet 和鏡頭檢核",
+          "素材／工具／授權與尚未渲染狀態"
+        ],
+        "failureHandling": [
+          "只有設計文件不能宣稱已生成影片。",
+          "商業製作使用 OneTake 程式前必須先核對可用授權與素材權利。"
+        ],
+        "testCases": [
+          {
+            "name": "合理 Beat Sheet",
+            "input": "合理 Beat Sheet",
+            "expectation": "各鏡頭交界具有持續的物件／鏡頭因果",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "只有卡片轉場",
+            "input": "只有卡片轉場",
+            "expectation": "辨識成非連續方案",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "商用未授權",
+            "input": "商用未授權",
+            "expectation": "不直接安裝或使用受限制程式",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "真實輸出能支援：三個不同的連續視覺方案",
+          "真實輸出能支援：含 Carry 的 Beat Sheet 和鏡頭檢核",
+          "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "continuity-first-product-motion-film-contract",
+            "name": "用 Carry／Beat 設計連續產品動態影片",
+            "problem": "避免 AI 影片每一鏡單看漂亮、串起來卻像投影片；把 beat 之間的 continuity、camera、節奏與可驗收條件變成一套 Agent 可以執行的製作規則。",
+            "input": "產品與真實功能＋合法參考與風格限制＋影片時長及格式",
+            "output": "三個不同的連續視覺方案；含 Carry 的 Beat Sheet 和鏡頭檢核；素材／工具／授權與尚未渲染狀態",
+            "gate": "只有設計文件不能宣稱已生成影片。"
+          },
+          "example": "參考拆解 → 三概念 → 人工選定 → Beat/Carries → Render → Boundary QA",
+          "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+        },
+        "privacy": "素材、截圖與品牌權利需可追溯；不要外傳受保護的產品 UI。",
+        "limitations": [
+          "沒有合法素材、真實產品功能或成片工具，不宣稱已渲染。",
+          "產生假連續性、違反上游非商用授權與產品視覺素材權利。"
+        ],
+        "provenance": {
+          "source": "https://github.com/feitangyuan/onetake",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-22",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "僅作 I/O 構想，不新增正式 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "產生假連續性、違反上游非商用授權與產品視覺素材權利。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -72467,7 +74067,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-11-09",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-22",
       "tags": [
         "career",
         "interview",
@@ -72686,6 +74286,45 @@
           }
         ],
         "taxonomyVersion": "1.0"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "mapped",
+          "reason": "保留既有 classification.capabilities（canonical-described），其 Evidence Fields 已在原記錄指定；本批沒有新增 Capability，也未宣稱實際 Runtime／輸出品質通過。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "虛構履歷或誤認是真實題庫。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -72695,7 +74334,7 @@
       "title": "Dashboard 結構診斷｜三個問題＋兩種分區方案（修改前）",
       "status": "unreviewed",
       "addedAt": "2026-10-28",
-      "updatedAt": "2026-10-28",
+      "updatedAt": "2026-11-22",
       "tags": [
         "dashboard",
         "ui",
@@ -72767,6 +74406,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "先找三個 Dashboard 摩擦點，再提出兩種排版",
+        "overview": "使用者對面板不滿意但未決定如何改版。",
+        "preparationHint": "未看畫面、任務與限制時，不任意推測用戶研究或直接改 Code。",
+        "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+        "verificationIntro": "缺乏來源的可用性判斷與意外破壞 Dashboard 功能。",
+        "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "使用者對面板不滿意但未決定如何改版。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "未看畫面、任務與限制時，不任意推測用戶研究或直接改 Code。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "現有畫面／文字結構",
+            "detail": "截圖、主要數字與操作入口",
+            "required": true
+          },
+          {
+            "title": "最重要的使用者任務",
+            "detail": "查異常、切換期間、下載",
+            "required": true
+          },
+          {
+            "title": "保留的設計與功能",
+            "detail": "不改資料語義、保留篩選器",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "DASHBOARD",
+            "label": "現有畫面／文字結構",
+            "required": true,
+            "example": "截圖、主要數字與操作入口"
+          },
+          {
+            "name": "TASKS",
+            "label": "最重要的使用者任務",
+            "required": true,
+            "example": "查異常、切換期間、下載"
+          },
+          {
+            "name": "RULES",
+            "label": "保留的設計與功能",
+            "required": false,
+            "example": "不改資料語義、保留篩選器"
+          }
+        ],
+        "adaptedPrompt": "請先診斷，不要修改任何程式碼。\n現有 Dashboard：{{DASHBOARD}}\n最重要任務：{{TASKS}}\n不可變設計／功能：{{RULES}}\n\n根據實際畫面與任務，選出影響最大的三個資訊層級／操作摩擦點，每點要有可見證據、影響、嚴重度。提出 A、B 兩種區塊配置方案，每區列出內容、重要資訊的位置與使用流程、保留功能及取捨；只能建議，不得直接拆元件或改資料。最後指出最小試改範圍與 375／430／768／1440px 的視覺驗收標準，等使用者選定方案後再實作。",
+        "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "虛構面板把主要異常指標藏在第三屏，篩選條件放在最下方。"
+        },
+        "exampleOutput": {
+          "label": "格式示意，未執行模型",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "摩擦點：核心異常需多次捲動才可看見。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "配置 A：將異常摘要置頂，次要統計移到後方。"
+            }
+          ],
+          "note": "以上是人工撰寫的示意，不是測試結果。"
+        },
+        "adjustments": [
+          {
+            "title": "限縮資料來源",
+            "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+          },
+          {
+            "title": "分階段驗收",
+            "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+          }
+        ],
+        "outputContract": [
+          "三個實際可見的 Dashboard 問題",
+          "兩種各區塊有說明的配置方案",
+          "使用者選方案後的最小修改計畫"
+        ],
+        "failureHandling": [
+          "沒有畫面或結構資料則無法判斷具體摩擦點。",
+          "未得到選擇與授權前沒有任何檔案修改。"
+        ],
+        "testCases": [
+          {
+            "name": "完整畫面",
+            "input": "完整畫面",
+            "expectation": "三項問題可指向可見區塊",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "沒有截圖",
+            "input": "沒有截圖",
+            "expectation": "先索取結構不編造視覺問題",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "直接要求改 Code",
+            "input": "直接要求改 Code",
+            "expectation": "維持先診斷、方案核准的邊界",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "真實輸出能支援：三個實際可見的 Dashboard 問題",
+          "真實輸出能支援：兩種各區塊有說明的配置方案",
+          "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "dashboard-three-frictions-two-layout-options-contract",
+            "name": "先找三個 Dashboard 摩擦點，再提出兩種排版",
+            "problem": "面板看起來不順但無明確問題定義，若直接交 AI 改 Code 容易大幅改版且難以對照。",
+            "input": "現有畫面／文字結構＋最重要的使用者任務＋保留的設計與功能",
+            "output": "三個實際可見的 Dashboard 問題；兩種各區塊有說明的配置方案；使用者選方案後的最小修改計畫",
+            "gate": "沒有畫面或結構資料則無法判斷具體摩擦點。"
+          },
+          "example": "可見證據 → 三摩擦 → 兩布局 → 使用者選定 → 小範圍修改 → 視覺回歸",
+          "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+        },
+        "privacy": "內部數值、員工資料和客戶識別欄位需遮蔽。",
+        "limitations": [
+          "未看畫面、任務與限制時，不任意推測用戶研究或直接改 Code。",
+          "缺乏來源的可用性判斷與意外破壞 Dashboard 功能。"
+        ],
+        "provenance": {
+          "source": "User-provided UI feedback techniques and dashboard prompt, 2026-10-28",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "僅作 I/O 構想，不新增正式 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "缺乏來源的可用性判斷與意外破壞 Dashboard 功能。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -72805,7 +74629,7 @@
       },
       "status": "generated-draft",
       "addedAt": "2026-09-29",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-22",
       "tags": [
         "image-generation",
         "visual-abstraction",
@@ -72830,6 +74654,192 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "先拆照片的結構事實，再設計抽象畫面",
+        "overview": "把合法參考圖片轉為 Riso／海報／其他視覺形式，同時保留可核對的結構。",
+        "preparationHint": "來源不明或要求直接照抄品牌與圖像時不得當成已獲授權。",
+        "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+        "verificationIntro": "虛構來源細節、影像過度複製與素材授權問題。",
+        "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "把合法參考圖片轉為 Riso／海報／其他視覺形式，同時保留可核對的結構。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "來源不明或要求直接照抄品牌與圖像時不得當成已獲授權。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "來源圖片或文字主題",
+            "detail": "可合法使用的圖片／主題描述",
+            "required": true
+          },
+          {
+            "title": "目標視覺語法與抽象程度",
+            "detail": "Riso／極簡／忠實",
+            "required": true
+          },
+          {
+            "title": "尺寸、色數與文字",
+            "detail": "3:4、雙色、避免杜撰日期",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "IMAGE",
+            "label": "來源圖片或文字主題",
+            "required": true,
+            "example": "可合法使用的圖片／主題描述"
+          },
+          {
+            "name": "STYLE",
+            "label": "目標視覺語法與抽象程度",
+            "required": true,
+            "example": "Riso／極簡／忠實"
+          },
+          {
+            "name": "OUTPUT",
+            "label": "尺寸、色數與文字",
+            "required": false,
+            "example": "3:4、雙色、避免杜撰日期"
+          }
+        ],
+        "adaptedPrompt": "請把來源的**可觀察證據**與風格分開處理。\n來源：{{IMAGE}}\n視覺語法：{{STYLE}}\n輸出條件：{{OUTPUT}}\n\n先記錄可見的數量、相對位置、方向、間距、遮擋、尺寸層級與留白；來源資訊不清楚則標不確定，不能憑空造地點／日期。逐項列出哪些 relational invariants 必須保留，提出每個輸出主體／形狀對應哪項來源證據；再撰寫原創的生成 Prompt，不直接描摹或複製參考圖。最後列出色數、構圖與事實對照 Gate。若未真正執行生成，僅回報 Prompt／視覺規格，不能宣稱已完成影像。",
+        "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "假設照片有三個大小不一的物件，左側密集、右側留白。"
+        },
+        "exampleOutput": {
+          "label": "格式示意，未執行模型",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "保留的關係：三件、非均勻間距、左重右輕。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "抽象標記：三塊不同尺寸圖形，維持原相對位置。"
+            }
+          ],
+          "note": "以上是人工撰寫的示意，不是測試結果。"
+        },
+        "adjustments": [
+          {
+            "title": "限縮資料來源",
+            "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+          },
+          {
+            "title": "分階段驗收",
+            "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+          }
+        ],
+        "outputContract": [
+          "可追溯的來源觀察與結構約束",
+          "來源證據到視覺標記的映射",
+          "原創影像 Prompt 與驗收清單"
+        ],
+        "failureHandling": [
+          "圖片不清或無圖時不能虛構可見細節。",
+          "沒有實際生成結果時不聲稱圖片可交付。"
+        ],
+        "testCases": [
+          {
+            "name": "合法清楚照片",
+            "input": "合法清楚照片",
+            "expectation": "輸出數量與相對位置可追溯",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "模糊照片",
+            "input": "模糊照片",
+            "expectation": "不捏造精確元素數量",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "版權未明",
+            "input": "版權未明",
+            "expectation": "拒絕原樣複製並界定可用範圍",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "真實輸出能支援：可追溯的來源觀察與結構約束",
+          "真實輸出能支援：來源證據到視覺標記的映射",
+          "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "evidence-first-visual-abstraction-contract",
+            "name": "先拆照片的結構事實，再設計抽象畫面",
+            "problem": "避免 reference image 一進生成模型就變成模糊的 style transfer；先把來源拆成可檢查的事實，再用明確 visual grammar 重建，讓抽象化後仍保留數量、間距、方向、比例與遮擋等結構。",
+            "input": "來源圖片或文字主題＋目標視覺語法與抽象程度＋尺寸、色數與文字",
+            "output": "可追溯的來源觀察與結構約束；來源證據到視覺標記的映射；原創影像 Prompt 與驗收清單",
+            "gate": "圖片不清或無圖時不能虛構可見細節。"
+          },
+          "example": "來源觀察 → 不變關係 → 風格映射 → 生成 Prompt → 輸出核對",
+          "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+        },
+        "privacy": "圖片人物、品牌及 EXIF 可能涉及個資；第三方參考素材需要權利確認。",
+        "limitations": [
+          "來源不明或要求直接照抄品牌與圖像時不得當成已獲授權。",
+          "虛構來源細節、影像過度複製與素材授權問題。"
+        ],
+        "provenance": {
+          "source": "https://github.com/luckdvr/photo-riso-poster",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-22",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "僅作 I/O 構想，不新增正式 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "虛構來源細節、影像過度複製與素材授權問題。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -72885,7 +74895,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "github",
         "agent-skills",
@@ -72913,6 +74923,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.3-semantic-audit"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "比較 Skill 的來源、維護與權限，再選用",
+        "overview": "將需求轉為多種 GitHub 搜尋語義後，比較候選 Skills。",
+        "preparationHint": "無法查到原始專案、授權或完整 SKILL.md 時，不推薦直接安裝。",
+        "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+        "verificationIntro": "未經驗證的上游技能可能含惡意指令與高權限操作。",
+        "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "將需求轉為多種 GitHub 搜尋語義後，比較候選 Skills。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "無法查到原始專案、授權或完整 SKILL.md 時，不推薦直接安裝。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "要完成的工作",
+            "detail": "對大量 Word 檔做摘要並保留來源",
+            "required": true
+          },
+          {
+            "title": "Agent 平台與環境",
+            "detail": "Claude Code／Codex／本機",
+            "required": false
+          },
+          {
+            "title": "資料與安全限制",
+            "detail": "不可外送公司資料",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "NEED",
+            "label": "要完成的工作",
+            "required": true,
+            "example": "對大量 Word 檔做摘要並保留來源"
+          },
+          {
+            "name": "HOST",
+            "label": "Agent 平台與環境",
+            "required": false,
+            "example": "Claude Code／Codex／本機"
+          },
+          {
+            "name": "RESTRICTIONS",
+            "label": "資料與安全限制",
+            "required": false,
+            "example": "不可外送公司資料"
+          }
+        ],
+        "adaptedPrompt": "請在 GitHub 研究符合以下需求的 Agent Skills，**只查找與比較，不安裝**。\n需求：{{NEED}}\n平台／環境：{{HOST}}\n授權與資料限制：{{RESTRICTIONS}}\n\n將需求擴成不同的功能詞、實作詞與官方 Repo 搜尋方式，列出三至五個可核實的候選（不足就如實列數量）。逐筆以官方連結檢查 README／SKILL.md、最新 Commit、Issues、可複製案例、License、資料存取、可執行命令、外部傳輸與可能的 Prompt Injection。以同樣欄位和日期比較，標註 UNKNOWN／PARTIAL，選出條件最相符的一個並說明不確定性。任何安裝、執行、輸入秘密或寫入 Repo 都先取得許可。",
+        "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "需要離線處理 Word 文件，來源不得傳到雲端。"
+        },
+        "exampleOutput": {
+          "label": "格式示意，未執行模型",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "候選比對列：執行環境、是否外送資料、License 狀態。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "關鍵 Gate：缺少完整來源的 Skill 標為 PARTIAL。"
+            }
+          ],
+          "note": "以上是人工撰寫的示意，不是測試結果。"
+        },
+        "adjustments": [
+          {
+            "title": "限縮資料來源",
+            "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+          },
+          {
+            "title": "分階段驗收",
+            "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+          }
+        ],
+        "outputContract": [
+          "三至五個有來源的候選比較",
+          "維護、授權、資料出站與權限評估",
+          "可採用首選、尚未確認的風險"
+        ],
+        "failureHandling": [
+          "只找到兩個可靠候選時不填補假專案。",
+          "未讀官方 SKILL.md 的候選不能標示已核實可安全執行。"
+        ],
+        "testCases": [
+          {
+            "name": "需求明確",
+            "input": "需求明確",
+            "expectation": "候選有 Repo 及文件證據",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "查無來源",
+            "input": "查無來源",
+            "expectation": "回報不足不造假",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "惡意 Skill",
+            "input": "惡意 Skill",
+            "expectation": "列注入／資料外送風險，不安裝",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "真實輸出能支援：三至五個有來源的候選比較",
+          "真實輸出能支援：維護、授權、資料出站與權限評估",
+          "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "github-ai-skill-discovery-and-risk-comparison-contract",
+            "name": "比較 Skill 的來源、維護與權限，再選用",
+            "problem": "只用單一關鍵字找 Skills 容易漏掉合適候選；未檢查最近維護、實際案例、Issue 回應、安裝所需權限與資料出站風險，容易誤用過時或高權限的第三方 Skills。",
+            "input": "要完成的工作＋Agent 平台與環境＋資料與安全限制",
+            "output": "三至五個有來源的候選比較；維護、授權、資料出站與權限評估；可採用首選、尚未確認的風險",
+            "gate": "只找到兩個可靠候選時不填補假專案。"
+          },
+          "example": "需求拆解 → 多詞搜尋 → 官方來源 → 權限風險 → 比較 → 人工核准",
+          "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+        },
+        "privacy": "不得讓待審 Skill 存取任何金鑰、履歷或未公開 Repo。",
+        "limitations": [
+          "無法查到原始專案、授權或完整 SKILL.md 時，不推薦直接安裝。",
+          "未經驗證的上游技能可能含惡意指令與高權限操作。"
+        ],
+        "provenance": {
+          "source": "User-provided Traditional Chinese prompt (no original post URL supplied)",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "僅作 I/O 構想，不新增正式 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "未經驗證的上游技能可能含惡意指令與高權限操作。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -72964,7 +75159,7 @@
       },
       "status": "generated-draft",
       "addedAt": "2026-10-21",
-      "updatedAt": "2026-10-21",
+      "updatedAt": "2026-11-22",
       "tags": [
         "google-maps",
         "saved-places",
@@ -73001,6 +75196,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "有備份、可回讀的 Google Maps 收藏整理",
+        "overview": "清查個人已儲存地點並計畫重新分類。",
+        "preparationHint": "沒有帳戶權限、備份和刪除核准，不清空舊標記或移除永久歇業的地點。",
+        "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+        "verificationIntro": "刪除收藏不可逆、共同清單越權、地點隱私洩漏。",
+        "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "清查個人已儲存地點並計畫重新分類。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有帳戶權限、備份和刪除核准，不清空舊標記或移除永久歇業的地點。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "已授權清單／匯出",
+            "detail": "備份含來源清單、地點連結與備註",
+            "required": true
+          },
+          {
+            "title": "分類偏好",
+            "detail": "咖啡、餐廳、住宿、待確認",
+            "required": false
+          },
+          {
+            "title": "可執行的寫入範圍",
+            "detail": "未核准；僅產生預覽",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "PLACES",
+            "label": "已授權清單／匯出",
+            "required": true,
+            "example": "備份含來源清單、地點連結與備註"
+          },
+          {
+            "name": "CATEGORIES",
+            "label": "分類偏好",
+            "required": false,
+            "example": "咖啡、餐廳、住宿、待確認"
+          },
+          {
+            "name": "WRITE_APPROVAL",
+            "label": "可執行的寫入範圍",
+            "required": false,
+            "example": "未核准；僅產生預覽"
+          }
+        ],
+        "adaptedPrompt": "請協助整理 Google Maps 已儲存地點，但採**盤點／預覽／批准／寫入／回讀**分階段。\n已授權資料：{{PLACES}}\n分類偏好：{{CATEGORIES}}\n寫入核准：{{WRITE_APPROVAL}}\n\n先核對每份清單的來源、數量、Place ID／連結、私人筆記與共同清單建立者，輸出可恢復備份。按照地點的真實身分提案分類；同名分店不得直接合併，暫停營業與未知資料放待確認。提供一份異動預覽，將「永久歇業移除、舊星號／愛心清空、共同清單寫入」列為需**另行明確核准的高風險操作**。未核准不得執行。核准後先小批處理，逐筆存入新類→重新載入回讀→再移除舊標記，保留可回復操作紀錄；結案時報告已確認數、異常數與未完成項目，不以操作成功通知代替真實回讀。",
+        "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+        "exampleInput": {
+          "label": "虛構情境（非真實模型輸入）",
+          "content": "清單有兩家同名但不同地址咖啡店，共同清單有其他人加入的地點。"
+        },
+        "exampleOutput": {
+          "label": "格式示意，未執行模型",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "待確認：同名地點依 Place ID 分開。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "禁止寫入：共同清單他人建立的收藏。"
+            }
+          ],
+          "note": "以上是人工撰寫的示意，不是測試結果。"
+        },
+        "adjustments": [
+          {
+            "title": "限縮資料來源",
+            "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+          },
+          {
+            "title": "分階段驗收",
+            "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+          }
+        ],
+        "outputContract": [
+          "完整備份與地點身分索引",
+          "分類與高風險變更預覽",
+          "僅在授權後的批次驗收及異常清單"
+        ],
+        "failureHandling": [
+          "沒有帳戶、備份或授權，僅提供離線分類草案。",
+          "停業狀態、清單歸屬不明時不刪除地點或他人內容。"
+        ],
+        "testCases": [
+          {
+            "name": "已授權清單",
+            "input": "已授權清單",
+            "expectation": "可產生可回復預覽，不立即寫入",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "共同清單",
+            "input": "共同清單",
+            "expectation": "不能變更他人地點",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "永久歇業待核",
+            "input": "永久歇業待核",
+            "expectation": "未獨立核准前禁止刪除",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "真實輸出能支援：完整備份與地點身分索引",
+          "真實輸出能支援：分類與高風險變更預覽",
+          "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "google-maps-saved-places-cleanup-classification-contract",
+            "name": "有備份、可回讀的 Google Maps 收藏整理",
+            "problem": "Google Maps 的喜愛、想去、加星號和自訂清單互相重疊，地點狀態、備註與共同清單歸屬不一致；若直接批次清除舊標記，可能遺漏收藏、誤刪筆記或變更他人的清單內容。",
+            "input": "已授權清單／匯出＋分類偏好＋可執行的寫入範圍",
+            "output": "完整備份與地點身分索引；分類與高風險變更預覽；僅在授權後的批次驗收及異常清單",
+            "gate": "沒有帳戶、備份或授權，僅提供離線分類草案。"
+          },
+          "example": "備份 → 身分驗證 → 分類預覽 → 高風險核准 → 小批搬移 → 回讀驗收",
+          "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+        },
+        "privacy": "地點收藏可揭露行蹤與住家資訊；公開報告不得帶出原始帳戶資料。",
+        "limitations": [
+          "沒有帳戶權限、備份和刪除核准，不清空舊標記或移除永久歇業的地點。",
+          "刪除收藏不可逆、共同清單越權、地點隱私洩漏。"
+        ],
+        "provenance": {
+          "source": "User-provided Traditional Chinese computer-use prompt",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+        },
+        "classificationReason": "內容 Guide 更新不代表重新分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "僅作 I/O 構想，不新增正式 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保持所有既有 Concept 參照。"
+        },
+        "riskNotes": "刪除收藏不可逆、共同清單越權、地點隱私洩漏。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+        }
       }
     },
     {
@@ -73039,7 +75419,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-10-27",
+      "updatedAt": "2026-11-22",
       "tags": [
         "interview",
         "hiring-manager",
@@ -73062,6 +75442,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "從 Hiring Manager 角度準備五題高難度追問",
+        "overview": "用 CV 與特定 JD 找出最需要準備的能力證據和追問。",
+        "preparationHint": "不宣稱知道該公司真實面試題目或招聘委員評分。",
+        "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+        "verificationIntro": "將模擬 Hiring Manager 推測誤當實際招聘標準。",
+        "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "用 CV 與特定 JD 找出最需要準備的能力證據和追問。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "不宣稱知道該公司真實面試題目或招聘委員評分。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "去識別化真實履歷",
+            "detail": "與 JD 相關的工作／專案經歷",
+            "required": true
+          },
+          {
+            "title": "目標工作說明",
+            "detail": "職務責任與技術要求",
+            "required": true
+          },
+          {
+            "title": "額外可核實成果",
+            "detail": "已確認的數據與貢獻",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "CV",
+            "label": "去識別化真實履歷",
+            "required": true,
+            "example": "與 JD 相關的工作／專案經歷"
+          },
+          {
+            "name": "JD",
+            "label": "目標工作說明",
+            "required": true,
+            "example": "職務責任與技術要求"
+          },
+          {
+            "name": "EVIDENCE",
+            "label": "額外可核實成果",
+            "required": false,
+            "example": "已確認的數據與貢獻"
+          }
+        ],
+        "adaptedPrompt": "請以 Hiring Manager 的**模擬**視角挑出最有挑戰的問題，而非預測真實企業面試題庫。\n履歷：{{CV}}\n職缺 JD：{{JD}}\n可核實成果：{{EVIDENCE}}\n\n先辨認 JD 的核心需求、履歷中的證據與空白。提出五個具挑戰但合理的問題，逐題列出「JD 要求」「履歷依據」「考察重點」「高風險缺口」「忠於事實的回答策略」「需要補充的證據」。若沒有可證實經歷，不虛構回答或暗示使用者具備技能。依風險排序優先演練題目，清楚標示這只是練習。",
+        "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+        "exampleInput": {
+          "label": "虛構情境，非真實使用者資料",
+          "content": "虛構 JD 要求 Azure 資料整合，履歷只提到 Power BI 維運。"
+        },
+        "exampleOutput": {
+          "label": "預期格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "問題：請說明曾如何處理跨系統資料錯誤。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "缺口：尚未提供 Azure 專案證據，不得預設做過。"
+            }
+          ],
+          "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+        },
+        "adjustments": [
+          {
+            "title": "替換來源內容",
+            "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+          },
+          {
+            "title": "設定執行邊界",
+            "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+          }
+        ],
+        "outputContract": [
+          "五題依 JD／CV 排序的模擬追問",
+          "每題考察重點、證據缺口及回應策略",
+          "優先練習次序"
+        ],
+        "failureHandling": [
+          "沒有 JD 或 CV 時先要求資料，不推測企業要求。",
+          "真實成果不完整時以待補標示，不捏造經歷。"
+        ],
+        "testCases": [
+          {
+            "name": "完整 CV 與 JD",
+            "input": "完整 CV 與 JD",
+            "expectation": "五題均對應需求及已知經歷",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "履歷不匹配",
+            "input": "履歷不匹配",
+            "expectation": "誠實指出缺口而非造假",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "只有公司名稱",
+            "input": "只有公司名稱",
+            "expectation": "不猜測內部面試題庫",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "可回查輸出與來源：五題依 JD／CV 排序的模擬追問",
+          "可回查輸出與來源：每題考察重點、證據缺口及回應策略",
+          "來源與模型執行狀態真實標示。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "hiring-manager-five-difficult-questions-contract",
+            "name": "從 Hiring Manager 角度準備五題高難度追問",
+            "problem": "面試練習沒有連回職缺需求與候選人真實履歷，難以辨認將被質疑的經驗缺口。",
+            "input": "去識別化真實履歷＋目標工作說明＋額外可核實成果",
+            "output": "五題依 JD／CV 排序的模擬追問；每題考察重點、證據缺口及回應策略；優先練習次序",
+            "gate": "沒有 JD 或 CV 時先要求資料，不推測企業要求。"
+          },
+          "example": "JD/CV → 證據差距 → 五題 → 練習回答 → 補資料",
+          "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+        },
+        "privacy": "履歷應去識別化，不能把雇主內部專案資料貼入公開知識庫。",
+        "limitations": [
+          "不宣稱知道該公司真實面試題目或招聘委員評分。",
+          "將模擬 Hiring Manager 推測誤當實際招聘標準。"
+        ],
+        "provenance": {
+          "source": "User-provided verbatim Chinese prompt, 2026-10-27",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "獨立改良版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+        },
+        "classificationReason": "只改善展示與重用契約，不修改原分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有相關概念參照，不推測加連結。"
+        },
+        "riskNotes": "將模擬 Hiring Manager 推測誤當實際招聘標準。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+        }
       }
     },
     {
@@ -73112,7 +75677,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-10-24",
+      "updatedAt": "2026-11-22",
       "tags": [
         "ibkr",
         "spy",
@@ -73148,6 +75713,191 @@
           }
         ],
         "taxonomyVersion": "1.0"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "以可復算資料檢視 IBKR 與 SPY 的風險調整績效",
+        "overview": "依合法匯出帳戶報表檢查週期性投資績效與基準比較。",
+        "preparationHint": "沒有逐日估值或現金流時不能臆測 Rolling Sharpe／Beta。",
+        "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+        "verificationIntro": "帳戶機敏資訊、資料不足而虛構指標、投資決策誤用。",
+        "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "依合法匯出帳戶報表檢查週期性投資績效與基準比較。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有逐日估值或現金流時不能臆測 Rolling Sharpe／Beta。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "去識別化 IBKR 匯出表",
+            "detail": "PortfolioAnalyst／Activity Statement",
+            "required": true
+          },
+          {
+            "title": "分析日期與幣別",
+            "detail": "實際有交易與估值的期間",
+            "required": true
+          },
+          {
+            "title": "基準與利率設定",
+            "detail": "SPY 含股息總報酬及無風險利率",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "STATEMENT",
+            "label": "去識別化 IBKR 匯出表",
+            "required": true,
+            "example": "PortfolioAnalyst／Activity Statement"
+          },
+          {
+            "name": "DATE_RANGE",
+            "label": "分析日期與幣別",
+            "required": true,
+            "example": "實際有交易與估值的期間"
+          },
+          {
+            "name": "BENCHMARK",
+            "label": "基準與利率設定",
+            "required": false,
+            "example": "SPY 含股息總報酬及無風險利率"
+          }
+        ],
+        "adaptedPrompt": "請根據我的**已授權、去識別化** IBKR 報表做唯讀績效資料稽核。\n匯出資料：{{STATEMENT}}\n期間與幣別：{{DATE_RANGE}}\n比較基準：{{BENCHMARK}}\n\n先確認表格期間、幣別、Stock／ETF／Options／Cash、入出金、股息與每日估值是否完整。辨認 TWR／MWR 的適用前提。只有資料足夠時才計算 Sharpe、Sortino、Jensen's Alpha、Beta、Weekly Return、MDD，以及 15／25／63／105 交易日 Rolling 趨勢與 Box Plot；對齊 SPY 含股息資料、幣別和無風險利率。樣本不足或數列不連續時，不產生假圖，列明計算公式、假設與資料缺口；不主動下單或提供個別交易指令。",
+        "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+        "exampleInput": {
+          "label": "虛構情境，非真實使用者資料",
+          "content": "示意：IBKR 只有每月匯總表，且某月有入金；沒有逐日淨值。"
+        },
+        "exampleOutput": {
+          "label": "預期格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "完整性：逐日淨值不足，Rolling Sharpe 暫不能算。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "下一步：補匯出明細，確認現金流與總報酬基準。"
+            }
+          ],
+          "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+        },
+        "adjustments": [
+          {
+            "title": "替換來源內容",
+            "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+          },
+          {
+            "title": "設定執行邊界",
+            "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+          }
+        ],
+        "outputContract": [
+          "資料品質、現金流與金融工具核對",
+          "有足夠資料時的風險調整指標及對照圖",
+          "無法計算的逐項原因、公式與來源"
+        ],
+        "failureHandling": [
+          "缺逐日資料則不能生成 63／105 日移動統計。",
+          "SPY 與帳戶期間、幣別不一致時不得直接比較。"
+        ],
+        "testCases": [
+          {
+            "name": "完整逐日資料",
+            "input": "完整逐日資料",
+            "expectation": "按幣別與現金流解釋 TWR／MWR",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "只有月摘要",
+            "input": "只有月摘要",
+            "expectation": "不虛構日報酬及 Rolling 圖",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "衍生品負收益",
+            "input": "衍生品負收益",
+            "expectation": "正確揭露曝險與結果限制",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "可回查輸出與來源：資料品質、現金流與金融工具核對",
+          "可回查輸出與來源：有足夠資料時的風險調整指標及對照圖",
+          "來源與模型執行狀態真實標示。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "ibkr-weekly-risk-adjusted-performance-contract",
+            "name": "以可復算資料檢視 IBKR 與 SPY 的風險調整績效",
+            "problem": "只看資產增長可能混淆市場報酬、現金流、選擇權損益與風險調整後表現。",
+            "input": "去識別化 IBKR 匯出表＋分析日期與幣別＋基準與利率設定",
+            "output": "資料品質、現金流與金融工具核對；有足夠資料時的風險調整指標及對照圖；無法計算的逐項原因、公式與來源",
+            "gate": "缺逐日資料則不能生成 63／105 日移動統計。"
+          },
+          "example": "報表匯出 → 來源與幣別稽核 → 績效計算 → SPY 對照 → 解釋限制",
+          "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+        },
+        "privacy": "券商帳戶、資產、個資與交易明細僅在有權處理範圍分析，不公開原始檔。",
+        "limitations": [
+          "沒有逐日估值或現金流時不能臆測 Rolling Sharpe／Beta。",
+          "帳戶機敏資訊、資料不足而虛構指標、投資決策誤用。"
+        ],
+        "provenance": {
+          "source": "User-provided Threads screenshots (original post URLs unavailable)",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "獨立改良版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+        },
+        "classificationReason": "只改善展示與重用契約，不修改原分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "mapped",
+          "reason": "保留既有 classification.capabilities（canonical-described），其 Evidence Fields 已在原記錄指定；本批沒有新增 Capability，也未宣稱實際 Runtime／輸出品質通過。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有相關概念參照，不推測加連結。"
+        },
+        "riskNotes": "帳戶機敏資訊、資料不足而虛構指標、投資決策誤用。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+        }
       }
     },
     {
@@ -73186,7 +75936,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-10-27",
+      "updatedAt": "2026-11-22",
       "tags": [
         "interview",
         "mock-interview",
@@ -73208,6 +75958,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "一問一答模擬面試，回答後才評分",
+        "overview": "訓練即時表達能力並逐題收集具體改進證據。",
+        "preparationHint": "使用者尚未答題時不先替他回答或給分。",
+        "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+        "verificationIntro": "未等輸入先評分、把模擬評分誤作錄取預測。",
+        "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "訓練即時表達能力並逐題收集具體改進證據。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "使用者尚未答題時不先替他回答或給分。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "目標職務與 JD",
+            "detail": "Data Analyst 的資料分析與溝通要求",
+            "required": false
+          },
+          {
+            "title": "已確認個人經驗摘要",
+            "detail": "工作經歷與專案重點",
+            "required": false
+          },
+          {
+            "title": "對話語言",
+            "detail": "英文",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "TARGET_ROLE",
+            "label": "目標職務與 JD",
+            "required": false,
+            "example": "Data Analyst 的資料分析與溝通要求"
+          },
+          {
+            "name": "BACKGROUND",
+            "label": "已確認個人經驗摘要",
+            "required": false,
+            "example": "工作經歷與專案重點"
+          },
+          {
+            "name": "LANGUAGE",
+            "label": "對話語言",
+            "required": false,
+            "example": "英文"
+          }
+        ],
+        "adaptedPrompt": "請成為互動式模擬面試官，目標職務：{{TARGET_ROLE}}，經驗：{{BACKGROUND}}，語言：{{LANGUAGE}}。\n\n嚴格維持**一次一題**：先問第一題，停止等待我回答；只有收到我的真實回答後，才依內容相關性、證據具體性、組織和表達清楚程度給出 1–10 的練習分數，指出兩個可觀察的改善點，提供不捏造經歷的精簡示例和一個追問。等我回覆後再問下一題。若只有文字，勿評判聲調、語速、口音。無法確認的事實請我補充，不把模擬評分等同錄取機率。",
+        "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+        "exampleInput": {
+          "label": "虛構情境，非真實使用者資料",
+          "content": "虛構面試主題：請描述你如何協調跨部門的需求不一致。"
+        },
+        "exampleOutput": {
+          "label": "預期格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "第一題：請分享一個你解決需求衝突的經驗。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "等待答題：尚未回答，不提供分數。"
+            }
+          ],
+          "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+        },
+        "adjustments": [
+          {
+            "title": "替換來源內容",
+            "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+          },
+          {
+            "title": "設定執行邊界",
+            "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+          }
+        ],
+        "outputContract": [
+          "第一回合僅一個問題並等待回答",
+          "回答後的可理解評分、回饋與示例",
+          "下輪追問與持續練習紀錄"
+        ],
+        "failureHandling": [
+          "無回答時不得評分或自創答案。",
+          "文字回覆無法證明實際口說韻律與發音。"
+        ],
+        "testCases": [
+          {
+            "name": "初次啟動",
+            "input": "初次啟動",
+            "expectation": "只問第一題",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "提供一段回答",
+            "input": "提供一段回答",
+            "expectation": "評分理由引用實際內容",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "未回覆",
+            "input": "未回覆",
+            "expectation": "不連續產生後續十題",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "可回查輸出與來源：第一回合僅一個問題並等待回答",
+          "可回查輸出與來源：回答後的可理解評分、回饋與示例",
+          "來源與模型執行狀態真實標示。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "interactive-one-question-mock-interview-contract",
+            "name": "一問一答模擬面試，回答後才評分",
+            "problem": "只閱讀面試題答案無法訓練即時口頭表達，也缺少逐題診斷與進步紀錄。",
+            "input": "目標職務與 JD＋已確認個人經驗摘要＋對話語言",
+            "output": "第一回合僅一個問題並等待回答；回答後的可理解評分、回饋與示例；下輪追問與持續練習紀錄",
+            "gate": "無回答時不得評分或自創答案。"
+          },
+          "example": "出題 → 使用者回答 → 逐題回饋 → 追問 → 待改善紀錄",
+          "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+        },
+        "privacy": "不保存或分享個人履歷與口說內容到未授權的外部系統。",
+        "limitations": [
+          "使用者尚未答題時不先替他回答或給分。",
+          "未等輸入先評分、把模擬評分誤作錄取預測。"
+        ],
+        "provenance": {
+          "source": "User-provided verbatim Chinese prompt, 2026-10-27",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "獨立改良版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+        },
+        "classificationReason": "只改善展示與重用契約，不修改原分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有相關概念參照，不推測加連結。"
+        },
+        "riskNotes": "未等輸入先評分、把模擬評分誤作錄取預測。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+        }
       }
     },
     {
@@ -73251,7 +76186,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-23",
-      "updatedAt": "2026-10-23",
+      "updatedAt": "2026-11-22",
       "tags": [
         "travel",
         "itinerary",
@@ -73280,6 +76215,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "把有依據的行程做成日系繪本風單檔 HTML",
+        "overview": "把旅行日期、航班、住宿與每日活動轉為可在手機閱讀的互動行程。",
+        "preparationHint": "沒有 Notion 存取權或行程內容時，不擅自編造票價、航班與地點。",
+        "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+        "verificationIntro": "虛構行程、外部字型依賴、無授權存取私人 Notion。",
+        "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "把旅行日期、航班、住宿與每日活動轉為可在手機閱讀的互動行程。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有 Notion 存取權或行程內容時，不擅自編造票價、航班與地點。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "完整行程或已授權 Notion 內容",
+            "detail": "日期、時間、地點、交通、住宿",
+            "required": true
+          },
+          {
+            "title": "視覺規格",
+            "detail": "和紙白／墨灰線框／原創 SVG",
+            "required": false
+          },
+          {
+            "title": "交付和離線需求",
+            "detail": "單檔離線閱讀，是否允許 Google Fonts",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "ITINERARY",
+            "label": "完整行程或已授權 Notion 內容",
+            "required": true,
+            "example": "日期、時間、地點、交通、住宿"
+          },
+          {
+            "name": "VISUALS",
+            "label": "視覺規格",
+            "required": false,
+            "example": "和紙白／墨灰線框／原創 SVG"
+          },
+          {
+            "name": "DEPLOYMENT",
+            "label": "交付和離線需求",
+            "required": false,
+            "example": "單檔離線閱讀，是否允許 Google Fonts"
+          }
+        ],
+        "adaptedPrompt": "請依照提供的真實旅行資訊做**一份可單獨開啟的繁體中文 HTML**。\n行程：{{ITINERARY}}\n風格與色彩：{{VISUALS}}\n交付要求：{{DEPLOYMENT}}\n\n設計採日系繪本語法：和紙白背景、低彩度粉／黃／藍／綠、墨灰粗線、圓角與原創 SVG 插畫；不要照搬他人作品。提供固定導覽、出發倒數、航班／住宿卡片、每日時間軸、日期切換、交通標籤與可勾選待辦。資料缺少時標「待確認」，不得創造航班、票價或地點。HTML 必須能在指定環境開啟、避免 XSS 與無授權遠端資源；互動可用鍵盤且符合 prefers-reduced-motion。最後附 375／430／768／1440px 與日期切換驗收清單；未真正渲染／檢查時標示 NOT TESTED。",
+        "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+        "exampleInput": {
+          "label": "虛構情境，非真實使用者資料",
+          "content": "虛構行程有兩天活動與住宿，但第一天交通時間未定。"
+        },
+        "exampleOutput": {
+          "label": "預期格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "第 1 天：交通時間顯示待確認。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "互動規格：日期可鍵盤切換、待辦可勾選。"
+            }
+          ],
+          "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+        },
+        "adjustments": [
+          {
+            "title": "替換來源內容",
+            "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+          },
+          {
+            "title": "設定執行邊界",
+            "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+          }
+        ],
+        "outputContract": [
+          "單頁 HTML 的資訊架構與互動規格",
+          "有實際執行時才交付 HTML 檔",
+          "手機、鍵盤、動畫減量的驗收清單"
+        ],
+        "failureHandling": [
+          "未提供日期或時間時使用待確認，不顯示假倒數。",
+          "要求完全離線時外部 Fonts 需提供降級選項。"
+        ],
+        "testCases": [
+          {
+            "name": "資料完整",
+            "input": "資料完整",
+            "expectation": "每個航班與日程對應來源",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "缺少日期",
+            "input": "缺少日期",
+            "expectation": "不生成虛構倒數或航班",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "減少動態",
+            "input": "減少動態",
+            "expectation": "所有裝飾動畫受 prefers-reduced-motion 控制",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "可回查輸出與來源：單頁 HTML 的資訊架構與互動規格",
+          "可回查輸出與來源：有實際執行時才交付 HTML 檔",
+          "來源與模型執行狀態真實標示。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "japanese-storybook-travel-itinerary-single-html-contract",
+            "name": "把有依據的行程做成日系繪本風單檔 HTML",
+            "problem": "一般行程筆記難以直接形成兼顧美感、交通資訊、每日時間軸、手機瀏覽與待辦互動的旅遊網站。",
+            "input": "完整行程或已授權 Notion 內容＋視覺規格＋交付和離線需求",
+            "output": "單頁 HTML 的資訊架構與互動規格；有實際執行時才交付 HTML 檔；手機、鍵盤、動畫減量的驗收清單",
+            "gate": "未提供日期或時間時使用待確認，不顯示假倒數。"
+          },
+          "example": "行程來源 → 欄位正規化 → HTML/SVG → 互動 → Responsive 驗收",
+          "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+        },
+        "privacy": "Notion 行程可能包含住宿訂單、個人資訊和同行者資料，需移除不必要機密。",
+        "limitations": [
+          "沒有 Notion 存取權或行程內容時，不擅自編造票價、航班與地點。",
+          "虛構行程、外部字型依賴、無授權存取私人 Notion。"
+        ],
+        "provenance": {
+          "source": "User-provided social post excerpt (original post URL not provided)",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "獨立改良版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+        },
+        "classificationReason": "只改善展示與重用契約，不修改原分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有相關概念參照，不推測加連結。"
+        },
+        "riskNotes": "虛構行程、外部字型依賴、無授權存取私人 Notion。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+        }
       }
     },
     {
@@ -73317,7 +76437,7 @@
       },
       "status": "generated-draft",
       "addedAt": "2026-10-19",
-      "updatedAt": "2026-10-19",
+      "updatedAt": "2026-11-22",
       "tags": [
         "claude-code",
         "jev-router",
@@ -73344,6 +76464,192 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "核對路由選項後再設定 Opus／Effort",
+        "overview": "研究希望維持單一模型且只調整 Reasoning Effort 的配置是否可行。",
+        "preparationHint": "不能直接複製舊版參數、使用明文 /jev key 或假設必能鎖住模型。",
+        "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+        "verificationIntro": "外部 Prompt 傳輸與 Secret 洩漏，舊設定造成不可預期模型切換。",
+        "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "研究希望維持單一模型且只調整 Reasoning Effort 的配置是否可行。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "不能直接複製舊版參數、使用明文 /jev key 或假設必能鎖住模型。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "Claude Code 與實際 Session 模型版本",
+            "detail": "版本與官方模型識別",
+            "required": true
+          },
+          {
+            "title": "jev-router 安裝／預計版本",
+            "detail": "官方 README、OPTIONS、版本號",
+            "required": true
+          },
+          {
+            "title": "隱私與操作邊界",
+            "detail": "禁止外送歷史、不得明文存 Key",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "CLAUDE_VERSION",
+            "label": "Claude Code 與實際 Session 模型版本",
+            "required": true,
+            "example": "版本與官方模型識別"
+          },
+          {
+            "name": "JEV_VERSION",
+            "label": "jev-router 安裝／預計版本",
+            "required": true,
+            "example": "官方 README、OPTIONS、版本號"
+          },
+          {
+            "name": "POLICY",
+            "label": "隱私與操作邊界",
+            "required": false,
+            "example": "禁止外送歷史、不得明文存 Key"
+          }
+        ],
+        "adaptedPrompt": "請先進行 jev-router 的**唯讀相容性與安全檢查**。\nClaude Code 版本與模型：{{CLAUDE_VERSION}}\njev-router 版本與官方文件：{{JEV_VERSION}}\n隱私／操作限制：{{POLICY}}\n\n先查核當前官方 OPTIONS、CHANGELOG、Session Model、Router cache／Stickiness 和每項參數的合法取值。分析能否真正做到「模型固定 Opus、只改 Effort」，並指出各種回退與快取可能造成模型切換的情況；不得直接照抄舊文中的 ceilingBreak 1.01 或用它宣稱已成功鎖定。用受保護環境變數處理 TypeSafe Key，不能要求貼值或透過聊天傳送。先列備份與候選 diff，取得授權才安裝／修改；修改後依實際 /jev status 和觀察到的路由結果回報，不能僅以設定檔存在就判定 PASS。",
+        "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+        "exampleInput": {
+          "label": "虛構情境，非真實使用者資料",
+          "content": "模擬 jev-router 舊版說明包含 ceilingBreak 1.01，但當前 OPTIONS 未查。"
+        },
+        "exampleOutput": {
+          "label": "預期格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "阻塞：目前版本與參數取值尚未核實。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "驗收設計：實測 Session Model 和 /jev status，再核對路由紀錄。"
+            }
+          ],
+          "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+        },
+        "adjustments": [
+          {
+            "title": "替換來源內容",
+            "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+          },
+          {
+            "title": "設定執行邊界",
+            "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+          }
+        ],
+        "outputContract": [
+          "目前版本與設定相容性對照",
+          "固定模型的已知限制、快取及外送風險",
+          "需授權的備份、修改和實際驗證計畫"
+        ],
+        "failureHandling": [
+          "參數對應版本或容許範圍不明時禁止直接修改。",
+          "API Key 一律不可透過聊天或明文設定檔展示。"
+        ],
+        "testCases": [
+          {
+            "name": "有官方版本文件",
+            "input": "有官方版本文件",
+            "expectation": "核對所有參數範圍",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "過期配置",
+            "input": "過期配置",
+            "expectation": "指出 1.01 範圍風險與 Cache 不確定性",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "沒有 key",
+            "input": "沒有 key",
+            "expectation": "不要求貼出 secret，先保持只讀",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "可回查輸出與來源：目前版本與設定相容性對照",
+          "可回查輸出與來源：固定模型的已知限制、快取及外送風險",
+          "來源與模型執行狀態真實標示。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "jev-router-opus-effort-only-configuration-contract",
+            "name": "核對路由選項後再設定 Opus／Effort",
+            "problem": "Claude Code 的自動 model router 會因不同任務切換 Haiku／Sonnet／Opus；有些使用者只想固定使用 Opus，讓獨立路由器調整推理強度，並希望保留備份、確認及失敗 fallback。",
+            "input": "Claude Code 與實際 Session 模型版本＋jev-router 安裝／預計版本＋隱私與操作邊界",
+            "output": "目前版本與設定相容性對照；固定模型的已知限制、快取及外送風險；需授權的備份、修改和實際驗證計畫",
+            "gate": "參數對應版本或容許範圍不明時禁止直接修改。"
+          },
+          "example": "版本確認 → 官方參數 → 資料外送檢查 → 備份提案 → 核准修改 → 重讀／測試",
+          "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+        },
+        "privacy": "TypeSafe Key 與 Prompt 內容可能被傳送到外部路由器；必須明確檢查資料外送條件。",
+        "limitations": [
+          "不能直接複製舊版參數、使用明文 /jev key 或假設必能鎖住模型。",
+          "外部 Prompt 傳輸與 Secret 洩漏，舊設定造成不可預期模型切換。"
+        ],
+        "provenance": {
+          "source": "https://github.com/dominicrico/jev-router",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "獨立改良版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "source-checked",
+        "sourceEvidenceFields": [
+          "source.url"
+        ],
+        "sourceCheckedAt": "2026-11-22",
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+        },
+        "classificationReason": "只改善展示與重用契約，不修改原分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有相關概念參照，不推測加連結。"
+        },
+        "riskNotes": "外部 Prompt 傳輸與 Secret 洩漏，舊設定造成不可預期模型切換。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+        }
       }
     },
     {
@@ -73382,7 +76688,7 @@
       },
       "status": "unreviewed",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-10-27",
+      "updatedAt": "2026-11-22",
       "tags": [
         "resume",
         "cv",
@@ -73405,6 +76711,191 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "promptGuide": {
+        "version": 1,
+        "scope": "text-prompt",
+        "headline": "用 JD 證據找出履歷三個最薄弱之處",
+        "overview": "投遞指定職位前找出履歷表達與職務要求的主要落差。",
+        "preparationHint": "沒有 JD 或 CV 不假裝給出精準職缺匹配結論。",
+        "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+        "verificationIntro": "虛構職涯經驗、把推測錄取條件當作真實企業標準。",
+        "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+        "situations": [
+          {
+            "title": "適合使用",
+            "description": "投遞指定職位前找出履歷表達與職務要求的主要落差。"
+          },
+          {
+            "title": "不適合／停止條件",
+            "description": "沒有 JD 或 CV 不假裝給出精準職缺匹配結論。"
+          }
+        ],
+        "preparation": [
+          {
+            "title": "完整職缺條件",
+            "detail": "職責、必要技能、優先條件",
+            "required": true
+          },
+          {
+            "title": "去識別化現有履歷",
+            "detail": "經驗、技術、成果",
+            "required": true
+          },
+          {
+            "title": "補充證據",
+            "detail": "實際工作成果／年資／工具",
+            "required": false
+          }
+        ],
+        "variables": [
+          {
+            "name": "JD",
+            "label": "完整職缺條件",
+            "required": true,
+            "example": "職責、必要技能、優先條件"
+          },
+          {
+            "name": "CV",
+            "label": "去識別化現有履歷",
+            "required": true,
+            "example": "經驗、技術、成果"
+          },
+          {
+            "name": "EVIDENCE",
+            "label": "補充證據",
+            "required": false,
+            "example": "實際工作成果／年資／工具"
+          }
+        ],
+        "adaptedPrompt": "請從嚴格但客觀的 HR 履歷審查角度分析：\n職缺 JD：{{JD}}\n現有 CV：{{CV}}\n補充證據：{{EVIDENCE}}\n\n先摘出 JD 的三至五項關鍵要求與 CV 中有證據支持的部分，再挑出**影響匹配度最大的三個問題**。每項提供 JD 原文對照、目前 CV 的證據或缺口、招聘方可能的疑慮、可以**忠於真實經驗**修改的具體句子，以及仍待求職者確認的數據。若某項能力真的欠缺，應建議誠實呈現可轉移能力或學習計畫，不偽造技能、年資、職級與績效；所有評估只是模擬，不能預測 ATS 分數或錄取結果。",
+        "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+        "exampleInput": {
+          "label": "虛構情境，非真實使用者資料",
+          "content": "示意 JD 要求部署自動化，CV 只有報表開發描述。"
+        },
+        "exampleOutput": {
+          "label": "預期格式示意（未執行模型）",
+          "items": [
+            {
+              "name": "格式示意 1",
+              "text": "問題：部署與自動化的實作證據不足。"
+            },
+            {
+              "name": "格式示意 2",
+              "text": "改善：確認是否有可核實的工作流建立經驗。"
+            }
+          ],
+          "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+        },
+        "adjustments": [
+          {
+            "title": "替換來源內容",
+            "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+          },
+          {
+            "title": "設定執行邊界",
+            "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+          }
+        ],
+        "outputContract": [
+          "JD 與履歷的可追溯需求對照",
+          "三個排序後的真實落差與修改範例",
+          "待補證據與不能彌補的資格差距"
+        ],
+        "failureHandling": [
+          "沒有 JD 時不擅自設定特定職位要求。",
+          "真實經驗不符時不能虛構資歷補齊差距。"
+        ],
+        "testCases": [
+          {
+            "name": "完整 JD/CV",
+            "input": "完整 JD/CV",
+            "expectation": "三個問題對應明確證據",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "缺少 KPI",
+            "input": "缺少 KPI",
+            "expectation": "不填假的百分比",
+            "status": "NOT_TESTED"
+          },
+          {
+            "name": "不符合硬性資格",
+            "input": "不符合硬性資格",
+            "expectation": "明確列出而非過度包裝",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "acceptance": [
+          "可回查輸出與來源：JD 與履歷的可追溯需求對照",
+          "可回查輸出與來源：三個排序後的真實落差與修改範例",
+          "來源與模型執行狀態真實標示。"
+        ],
+        "composition": {
+          "capability": {
+            "id": "job-application-cv-jd-gap-audit-contract",
+            "name": "用 JD 證據找出履歷三個最薄弱之處",
+            "problem": "通用 CV 沒有針對 JD 提供可查證的職務匹配證據，容易被 HR 或 Hiring Manager 快速略過。",
+            "input": "完整職缺條件＋去識別化現有履歷＋補充證據",
+            "output": "JD 與履歷的可追溯需求對照；三個排序後的真實落差與修改範例；待補證據與不能彌補的資格差距",
+            "gate": "沒有 JD 時不擅自設定特定職位要求。"
+          },
+          "example": "JD → CV → Gap → 證據補強 → 人工核實 → 定稿",
+          "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+        },
+        "privacy": "不將真實履歷、聯絡方式、未公開工作內容回存公開 JSON。",
+        "limitations": [
+          "沒有 JD 或 CV 不假裝給出精準職缺匹配結論。",
+          "虛構職涯經驗、把推測錄取條件當作真實企業標準。"
+        ],
+        "provenance": {
+          "source": "User-provided verbatim Chinese prompt, 2026-10-27",
+          "originalPromptPreserved": true,
+          "originalSharedTextPreserved": false,
+          "adaptation": "獨立改良版",
+          "testStatus": "NOT_TESTED",
+          "modelExecution": "NOT_RUN"
+        }
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "prompt"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title",
+            "source"
+          ],
+          "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+        },
+        "classificationReason": "只改善展示與重用契約，不修改原分類。",
+        "readingSpec": {
+          "id": "prompt",
+          "status": "applied",
+          "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有相關概念參照，不推測加連結。"
+        },
+        "riskNotes": "虛構職涯經驗、把推測錄取條件當作真實企業標準。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+        }
       }
     },
     {

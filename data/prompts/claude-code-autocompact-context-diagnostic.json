@@ -39,7 +39,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "claude-code",
     "autocompact",
@@ -62,5 +62,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "釐清真正可用的 Context 與 Auto-compact 門檻",
+    "overview": "使用官方文件與本機唯讀資訊評估 Context 控制效果。",
+    "preparationHint": "不盲目把自動 Compact 提升到 400k，不把最大 Context 當成實際 Session 限制。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "特定版本功能變更、成本膨脹與摘要遺失。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用官方文件與本機唯讀資訊評估 Context 控制效果。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不盲目把自動 Compact 提升到 400k，不把最大 Context 當成實際 Session 限制。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Claude Code 版本與方案（非機密）",
+        "detail": "版本、模型、/context 顯示結果",
+        "required": true
+      },
+      {
+        "title": "希望改善的現象",
+        "detail": "摘要遺失重要限制，或成本太高",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "ENVIRONMENT",
+        "label": "Claude Code 版本與方案（非機密）",
+        "required": true,
+        "example": "版本、模型、/context 顯示結果"
+      },
+      {
+        "name": "GOAL",
+        "label": "希望改善的現象",
+        "required": false,
+        "example": "摘要遺失重要限制，或成本太高"
+      }
+    ],
+    "adaptedPrompt": "請以唯讀方式檢查 Claude Code 的 Context 與 Auto-compact 行為。\n版本、模型、方案、/context 結果：{{ENVIRONMENT}}\n待解決問題：{{GOAL}}\n\n先確認官方文件對目前版本支援哪些 Context／Compact 指令和門檻；區分模型公布的 Context 上限、方案可用額度、目前 Session 有效窗口、自動摘要門檻。分別評估保留背景、延遲、成本、摘要失真風險。提供保持原設定、提高／降低門檻的選項與回復步驟；環境不支援時直接標明，不宣稱已套用。修改只能在人工授權後執行，修改後以實際 /context 或等效證據複驗。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "模擬環境：版本未知，看到社群建議直接設定 /autocompact 400k。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "當前有效門檻：未知，不能僅靠社群截圖判斷。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "下一步：先查版本與 /context，再評估設定。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "實際 Context 與 Compact 門檻對照",
+      "版本相容性、成本與資訊遺失取捨",
+      "唯讀建議及修改後驗證準則"
+    ],
+    "failureHandling": [
+      "缺少 /context 或模型資訊，必須列未知，不猜 1M。",
+      "若 /autocompact 不支援，不虛構替代命令。"
+    ],
+    "testCases": [
+      {
+        "name": "完整資訊",
+        "input": "完整資訊",
+        "expectation": "能分辨窗口上限與 Compact 門檻",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "未知模型",
+        "input": "未知模型",
+        "expectation": "要求查詢版本而非推測",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "設定無法修改",
+        "input": "設定無法修改",
+        "expectation": "回報不支援並保持原配置",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：實際 Context 與 Compact 門檻對照",
+      "能從所提供的真實來源支援：版本相容性、成本與資訊遺失取捨",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "claude-code-autocompact-context-diagnostic-contract",
+        "name": "釐清真正可用的 Context 與 Auto-compact 門檻",
+        "problem": "Claude Code 可能依版本、方案或實驗設定在小於模型最大窗口的門檻自動 Compact，導致使用者混淆 Context Window 與 Compact Threshold。",
+        "input": "Claude Code 版本與方案（非機密）＋希望改善的現象",
+        "output": "實際 Context 與 Compact 門檻對照；版本相容性、成本與資訊遺失取捨；唯讀建議及修改後驗證準則",
+        "gate": "缺少 /context 或模型資訊，必須列未知，不猜 1M。"
+      },
+      "example": "版本辨識 → 有效門檻 → 成本與風險 → 修改提議 → 受權執行 → 複驗",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "不要求分享含憑證、專案內容的完整設定與聊天上下文。",
+    "limitations": [
+      "不盲目把自動 Compact 提升到 400k，不把最大 Context 當成實際 Session 限制。",
+      "特定版本功能變更、成本膨脹與摘要遺失。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "特定版本功能變更、成本膨脹與摘要遺失。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }

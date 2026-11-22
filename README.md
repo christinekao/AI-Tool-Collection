@@ -2,7 +2,7 @@
 
 > **AI 工具、Skills、Concepts、Prompts、Combinations、Workflows 的可追溯知識庫。**
 >
-> 本 README 保存長期架構；**Phase 2 Skills 的最新工作進度與接手步驟**以 [Skills Session Handoff](docs/SKILL_CONTENT_HANDOFF.md) 為準。已完成的 Resources 歷史及來源缺口見 [Resources Session Handoff](docs/RESOURCE_CONTENT_HANDOFF.md)。新的 ChatGPT／Claude／Codex Session 應先核對 GitHub main、AGENTS.md、現行 Schema 與各項 CI，不可只依賴前一段聊天。
+> 本 README 保存長期架構；**Phase 2 Skills 的最新工作進度與接手步驟**以 [Skills Session Handoff](docs/SKILL_CONTENT_HANDOFF.md) 為準。已完成的 Resources 歷史及來源缺口見 [Resources Session Handoff](docs/RESOURCE_CONTENT_HANDOFF.md)。新的 ChatGPT／Claude／Codex Session 應先核對 GitHub main、AGENTS.md、現行 Schema 與各項 CI，不可只依賴前一段聊天。 **Phase 2 Prompts 最新進度與待辦**見 [Prompts Session Handoff](docs/PROMPT_CONTENT_HANDOFF.md)。
 
 - **網站：** https://christinekao.github.io/AI-Tool-Collection/
 - **GitHub：** https://github.com/christinekao/AI-Tool-Collection

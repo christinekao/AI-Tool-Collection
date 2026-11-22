@@ -55,7 +55,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-23",
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-11-22",
   "tags": [
     "claude-5-5",
     "opus-5-5",
@@ -85,5 +85,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "精簡 Harness，不讓 Hooks 變成新的負擔",
+    "overview": "審視 AGENTS／CLAUDE／Skills 重複規則並找格式漂移防線。",
+    "preparationHint": "未核對目前 Claude Code 版本與 Hooks 支援能力，不直接改全域設定。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "全域規範漂移、虛構版本支援與誤刪安全邊界。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "審視 AGENTS／CLAUDE／Skills 重複規則並找格式漂移防線。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "未核對目前 Claude Code 版本與 Hooks 支援能力，不直接改全域設定。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "現有 Harness 文件與設定",
+        "detail": "AGENTS.md／CLAUDE.md／Hooks 設定",
+        "required": true
+      },
+      {
+        "title": "目前產品版本與專案邊界",
+        "detail": "現用版本、不可更動政策",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "FILES",
+        "label": "現有 Harness 文件與設定",
+        "required": true,
+        "example": "AGENTS.md／CLAUDE.md／Hooks 設定"
+      },
+      {
+        "name": "ENV",
+        "label": "目前產品版本與專案邊界",
+        "required": false,
+        "example": "現用版本、不可更動政策"
+      }
+    ],
+    "adaptedPrompt": "請先唯讀稽核現有 Harness，不要直接修改檔案。\n設定與文件：{{FILES}}\n環境與不變規則：{{ENV}}\n\n先查**目前實際版本**對應的官方文件，不能假設原始 Prompt 提及的「Claude 5.5」已存在或適用。分別標示：程式碼可推得的重複內容、必保留的隱性限制、相衝規則、Always-On 載入成本、已過時設定。提出最小 diff 與按需載入設計；只針對官方真正支援的 Hook 事件提出防漂移檢查，附觸發案例、失敗案例、回滾方式。得到修改授權後才能套用與測試，不得把設計草案稱為已生效設定。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "AGENTS.md 同時放執行指令和可由 scripts 得知的命令，Hook 設定版本不明。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "可精簡候選：已有腳本可查的命令說明。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "禁止直接刪除：權限、不可逆修改核准條件。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "重複與衝突規則盤點",
+      "精簡 diff 建議與 Hooks 可用性證據",
+      "可驗證觸發／回歸／回滾計畫"
+    ],
+    "failureHandling": [
+      "官方文檔無對應版本時不推測支援的 Hook 事件。",
+      "安全限制即使看似重複也不能因 Context 最佳化刪除。"
+    ],
+    "testCases": [
+      {
+        "name": "有效 Hook 事件",
+        "input": "有效 Hook 事件",
+        "expectation": "可找到官方支援來源與測試方式",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "版本不明",
+        "input": "版本不明",
+        "expectation": "停止變更，明列查證事項",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "安全 Gate 重複",
+        "input": "安全 Gate 重複",
+        "expectation": "保留不可推知的安全限制",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：重複與衝突規則盤點",
+      "能從所提供的真實來源支援：精簡 diff 建議與 Hooks 可用性證據",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "claude-5-5-harness-cleanup-and-hook-guardrails-contract",
+        "name": "精簡 Harness，不讓 Hooks 變成新的負擔",
+        "problem": "多個 Harness、CLAUDE.md、AGENTS.md、Skills 和設定規則可能逐漸重複、衝突或持續常駐載入；往後 Agent 寫入新設定也可能使格式和規範漂移。",
+        "input": "現有 Harness 文件與設定＋目前產品版本與專案邊界",
+        "output": "重複與衝突規則盤點；精簡 diff 建議與 Hooks 可用性證據；可驗證觸發／回歸／回滾計畫",
+        "gate": "官方文檔無對應版本時不推測支援的 Hook 事件。"
+      },
+      "example": "環境版號 → 指令稽核 → 最小差異 → Hook 方案 → 受權修改 → Regression",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "檢視設定不能外送私有 Repo 或包含秘密的環境變數。",
+    "limitations": [
+      "未核對目前 Claude Code 版本與 Hooks 支援能力，不直接改全域設定。",
+      "全域規範漂移、虛構版本支援與誤刪安全邊界。"
+    ],
+    "provenance": {
+      "source": "User-provided social recommendation excerpt (original post URL not supplied)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "全域規範漂移、虛構版本支援與誤刪安全邊界。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }

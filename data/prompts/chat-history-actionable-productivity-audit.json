@@ -41,7 +41,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "chat-history",
     "productivity",
@@ -61,5 +61,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "從已授權的對話找出可實作的工作改善",
+    "overview": "一個月的對話資料轉成問題證據、優先改善機會與 MVP。",
+    "preparationHint": "沒有提供或授權可讀取的對話時，不假裝看過全部聊天。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "未獲授權讀取對話與把敏感紀錄放入公開提案。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "一個月的對話資料轉成問題證據、優先改善機會與 MVP。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有提供或授權可讀取的對話時，不假裝看過全部聊天。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已授權對話／逐段摘要",
+        "detail": "日期、對話連結與內容摘錄",
+        "required": true
+      },
+      {
+        "title": "工時與環境限制",
+        "detail": "單週 MVP、不接公司敏感系統",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "CHAT_EXPORT",
+        "label": "已授權對話／逐段摘要",
+        "required": true,
+        "example": "日期、對話連結與內容摘錄"
+      },
+      {
+        "name": "CONSTRAINTS",
+        "label": "工時與環境限制",
+        "required": false,
+        "example": "單週 MVP、不接公司敏感系統"
+      }
+    ],
+    "adaptedPrompt": "請僅分析我提供或明確授權的對話紀錄：{{CHAT_EXPORT}}\n限制：{{CONSTRAINTS}}\n\n建立帶日期／對話來源的證據索引，找出重複作業、決策瓶頸與尚未完成的工具構想；每項區分「事實」「推論」「缺資料」。提出三個能在既有環境完成的改善方向，對照價值、資料權限、成本、投入與 MVP 交付物。推薦其中一個並提供靜態規格／原型草案，附驗收條件與尚缺資訊。未獲同意，不連接額外 App、讀取私人資料或部署程式。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "虛構對話 A 與 B 都提到每週手工複製相同報表，卻未提供連線權限。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "觀察：有兩段文字顯示重複搬移報表。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "建議 MVP：先產生不連線的報表模板與核對表。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "逐條來源證據與問題分類",
+      "三個 MVP 的價值／風險／成本比較",
+      "一份不需授權寫入的可採用規格"
+    ],
+    "failureHandling": [
+      "來源未覆蓋完整月份時只代表該抽樣範圍。",
+      "涉及私密內容時匿名化後才產出可分享摘要。"
+    ],
+    "testCases": [
+      {
+        "name": "來源齊全",
+        "input": "來源齊全",
+        "expectation": "每個建議有對應對話證據",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "沒有紀錄",
+        "input": "沒有紀錄",
+        "expectation": "不宣稱已掃描過聊天",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "疑似機密",
+        "input": "疑似機密",
+        "expectation": "避免引入可分享規格",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：逐條來源證據與問題分類",
+      "能從所提供的真實來源支援：三個 MVP 的價值／風險／成本比較",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "chat-history-actionable-productivity-audit-contract",
+        "name": "從已授權的對話找出可實作的工作改善",
+        "problem": "大量對話沒有轉化成可維護的工作證據與可操作改進。",
+        "input": "已授權對話／逐段摘要＋工時與環境限制",
+        "output": "逐條來源證據與問題分類；三個 MVP 的價值／風險／成本比較；一份不需授權寫入的可採用規格",
+        "gate": "來源未覆蓋完整月份時只代表該抽樣範圍。"
+      },
+      "example": "來源索引 → 重複模式 → MVP 評選 → 可逆原型 → 驗證",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "聊天可能含私人身份、客戶資料與工作資訊，輸出前應去識別化。",
+    "limitations": [
+      "沒有提供或授權可讀取的對話時，不假裝看過全部聊天。",
+      "未獲授權讀取對話與把敏感紀錄放入公開提案。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshots (original post URLs unavailable)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "未獲授權讀取對話與把敏感紀錄放入公開提案。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }

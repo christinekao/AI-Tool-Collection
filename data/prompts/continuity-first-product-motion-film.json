@@ -43,7 +43,7 @@
   },
   "status": "generated-draft",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "motion-design",
     "continuity",
@@ -66,5 +66,191 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "用 Carry／Beat 設計連續產品動態影片",
+    "overview": "先分析視覺參考與鏡頭交接，再製作產品發表動畫。",
+    "preparationHint": "沒有合法素材、真實產品功能或成片工具，不宣稱已渲染。",
+    "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+    "verificationIntro": "產生假連續性、違反上游非商用授權與產品視覺素材權利。",
+    "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "先分析視覺參考與鏡頭交接，再製作產品發表動畫。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有合法素材、真實產品功能或成片工具，不宣稱已渲染。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "產品與真實功能",
+        "detail": "功能、UI、文案與證據",
+        "required": true
+      },
+      {
+        "title": "合法參考與風格限制",
+        "detail": "節奏、運鏡與不複製界線",
+        "required": false
+      },
+      {
+        "title": "影片時長及格式",
+        "detail": "15 秒、9:16、無音訊",
+        "required": true
+      }
+    ],
+    "variables": [
+      {
+        "name": "PRODUCT",
+        "label": "產品與真實功能",
+        "required": true,
+        "example": "功能、UI、文案與證據"
+      },
+      {
+        "name": "REFERENCES",
+        "label": "合法參考與風格限制",
+        "required": false,
+        "example": "節奏、運鏡與不複製界線"
+      },
+      {
+        "name": "FORMAT",
+        "label": "影片時長及格式",
+        "required": true,
+        "example": "15 秒、9:16、無音訊"
+      }
+    ],
+    "adaptedPrompt": "請設計連續鏡頭的產品動態影片，而不是輪播卡片。\n產品／功能：{{PRODUCT}}\n可合法參考的視覺資料：{{REFERENCES}}\n時長／格式：{{FORMAT}}\n\n先從 Reference 萃取可觀察的節奏、鏡頭、空間與交界行為，但不複製品牌或原始鏡頭。提出三個真正不同的中心視覺機制，逐案說明 Hook、Carry 與禁止的視覺捷徑。選定方案前只做設計；選定後提供 time→beat→movement→stillness→carry 的 Beat Sheet，並對每個主要交界做連續性 Gate。分開標示設計稿、已渲染內容與未執行項目。若需使用 OneTake 上游程式或商用素材，先核實 PolyForm Noncommercial 與另行商用授權。",
+    "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "虛構 App：行事曆的格線縮合成手機畫面，轉入下一個功能。"
+    },
+    "exampleOutput": {
+      "label": "格式示意，未執行模型",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "Carry 1：格線收縮並成為手機 UI 的欄位。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "待驗證：影片尚未真正渲染與播放。"
+        }
+      ],
+      "note": "以上是人工撰寫的示意，不是測試結果。"
+    },
+    "adjustments": [
+      {
+        "title": "限縮資料來源",
+        "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+      },
+      {
+        "title": "分階段驗收",
+        "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+      }
+    ],
+    "outputContract": [
+      "三個不同的連續視覺方案",
+      "含 Carry 的 Beat Sheet 和鏡頭檢核",
+      "素材／工具／授權與尚未渲染狀態"
+    ],
+    "failureHandling": [
+      "只有設計文件不能宣稱已生成影片。",
+      "商業製作使用 OneTake 程式前必須先核對可用授權與素材權利。"
+    ],
+    "testCases": [
+      {
+        "name": "合理 Beat Sheet",
+        "input": "合理 Beat Sheet",
+        "expectation": "各鏡頭交界具有持續的物件／鏡頭因果",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "只有卡片轉場",
+        "input": "只有卡片轉場",
+        "expectation": "辨識成非連續方案",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "商用未授權",
+        "input": "商用未授權",
+        "expectation": "不直接安裝或使用受限制程式",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "真實輸出能支援：三個不同的連續視覺方案",
+      "真實輸出能支援：含 Carry 的 Beat Sheet 和鏡頭檢核",
+      "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "continuity-first-product-motion-film-contract",
+        "name": "用 Carry／Beat 設計連續產品動態影片",
+        "problem": "避免 AI 影片每一鏡單看漂亮、串起來卻像投影片；把 beat 之間的 continuity、camera、節奏與可驗收條件變成一套 Agent 可以執行的製作規則。",
+        "input": "產品與真實功能＋合法參考與風格限制＋影片時長及格式",
+        "output": "三個不同的連續視覺方案；含 Carry 的 Beat Sheet 和鏡頭檢核；素材／工具／授權與尚未渲染狀態",
+        "gate": "只有設計文件不能宣稱已生成影片。"
+      },
+      "example": "參考拆解 → 三概念 → 人工選定 → Beat/Carries → Render → Boundary QA",
+      "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+    },
+    "privacy": "素材、截圖與品牌權利需可追溯；不要外傳受保護的產品 UI。",
+    "limitations": [
+      "沒有合法素材、真實產品功能或成片工具，不宣稱已渲染。",
+      "產生假連續性、違反上游非商用授權與產品視覺素材權利。"
+    ],
+    "provenance": {
+      "source": "https://github.com/feitangyuan/onetake",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-22",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+    },
+    "classificationReason": "內容 Guide 更新不代表重新分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅作 I/O 構想，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保持所有既有 Concept 參照。"
+    },
+    "riskNotes": "產生假連續性、違反上游非商用授權與產品視覺素材權利。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+    }
   }
 }

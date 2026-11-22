@@ -47,7 +47,7 @@
   },
   "status": "generated-draft",
   "addedAt": "2026-10-21",
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-11-22",
   "tags": [
     "google-maps",
     "saved-places",
@@ -84,5 +84,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "有備份、可回讀的 Google Maps 收藏整理",
+    "overview": "清查個人已儲存地點並計畫重新分類。",
+    "preparationHint": "沒有帳戶權限、備份和刪除核准，不清空舊標記或移除永久歇業的地點。",
+    "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+    "verificationIntro": "刪除收藏不可逆、共同清單越權、地點隱私洩漏。",
+    "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "清查個人已儲存地點並計畫重新分類。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有帳戶權限、備份和刪除核准，不清空舊標記或移除永久歇業的地點。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "已授權清單／匯出",
+        "detail": "備份含來源清單、地點連結與備註",
+        "required": true
+      },
+      {
+        "title": "分類偏好",
+        "detail": "咖啡、餐廳、住宿、待確認",
+        "required": false
+      },
+      {
+        "title": "可執行的寫入範圍",
+        "detail": "未核准；僅產生預覽",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "PLACES",
+        "label": "已授權清單／匯出",
+        "required": true,
+        "example": "備份含來源清單、地點連結與備註"
+      },
+      {
+        "name": "CATEGORIES",
+        "label": "分類偏好",
+        "required": false,
+        "example": "咖啡、餐廳、住宿、待確認"
+      },
+      {
+        "name": "WRITE_APPROVAL",
+        "label": "可執行的寫入範圍",
+        "required": false,
+        "example": "未核准；僅產生預覽"
+      }
+    ],
+    "adaptedPrompt": "請協助整理 Google Maps 已儲存地點，但採**盤點／預覽／批准／寫入／回讀**分階段。\n已授權資料：{{PLACES}}\n分類偏好：{{CATEGORIES}}\n寫入核准：{{WRITE_APPROVAL}}\n\n先核對每份清單的來源、數量、Place ID／連結、私人筆記與共同清單建立者，輸出可恢復備份。按照地點的真實身分提案分類；同名分店不得直接合併，暫停營業與未知資料放待確認。提供一份異動預覽，將「永久歇業移除、舊星號／愛心清空、共同清單寫入」列為需**另行明確核准的高風險操作**。未核准不得執行。核准後先小批處理，逐筆存入新類→重新載入回讀→再移除舊標記，保留可回復操作紀錄；結案時報告已確認數、異常數與未完成項目，不以操作成功通知代替真實回讀。",
+    "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "清單有兩家同名但不同地址咖啡店，共同清單有其他人加入的地點。"
+    },
+    "exampleOutput": {
+      "label": "格式示意，未執行模型",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "待確認：同名地點依 Place ID 分開。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "禁止寫入：共同清單他人建立的收藏。"
+        }
+      ],
+      "note": "以上是人工撰寫的示意，不是測試結果。"
+    },
+    "adjustments": [
+      {
+        "title": "限縮資料來源",
+        "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+      },
+      {
+        "title": "分階段驗收",
+        "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+      }
+    ],
+    "outputContract": [
+      "完整備份與地點身分索引",
+      "分類與高風險變更預覽",
+      "僅在授權後的批次驗收及異常清單"
+    ],
+    "failureHandling": [
+      "沒有帳戶、備份或授權，僅提供離線分類草案。",
+      "停業狀態、清單歸屬不明時不刪除地點或他人內容。"
+    ],
+    "testCases": [
+      {
+        "name": "已授權清單",
+        "input": "已授權清單",
+        "expectation": "可產生可回復預覽，不立即寫入",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "共同清單",
+        "input": "共同清單",
+        "expectation": "不能變更他人地點",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "永久歇業待核",
+        "input": "永久歇業待核",
+        "expectation": "未獨立核准前禁止刪除",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "真實輸出能支援：完整備份與地點身分索引",
+      "真實輸出能支援：分類與高風險變更預覽",
+      "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "google-maps-saved-places-cleanup-classification-contract",
+        "name": "有備份、可回讀的 Google Maps 收藏整理",
+        "problem": "Google Maps 的喜愛、想去、加星號和自訂清單互相重疊，地點狀態、備註與共同清單歸屬不一致；若直接批次清除舊標記，可能遺漏收藏、誤刪筆記或變更他人的清單內容。",
+        "input": "已授權清單／匯出＋分類偏好＋可執行的寫入範圍",
+        "output": "完整備份與地點身分索引；分類與高風險變更預覽；僅在授權後的批次驗收及異常清單",
+        "gate": "沒有帳戶、備份或授權，僅提供離線分類草案。"
+      },
+      "example": "備份 → 身分驗證 → 分類預覽 → 高風險核准 → 小批搬移 → 回讀驗收",
+      "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+    },
+    "privacy": "地點收藏可揭露行蹤與住家資訊；公開報告不得帶出原始帳戶資料。",
+    "limitations": [
+      "沒有帳戶權限、備份和刪除核准，不清空舊標記或移除永久歇業的地點。",
+      "刪除收藏不可逆、共同清單越權、地點隱私洩漏。"
+    ],
+    "provenance": {
+      "source": "User-provided Traditional Chinese computer-use prompt",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+    },
+    "classificationReason": "內容 Guide 更新不代表重新分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅作 I/O 構想，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保持所有既有 Concept 參照。"
+    },
+    "riskNotes": "刪除收藏不可逆、共同清單越權、地點隱私洩漏。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+    }
   }
 }

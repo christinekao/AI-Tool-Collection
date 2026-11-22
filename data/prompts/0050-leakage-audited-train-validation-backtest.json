@@ -42,7 +42,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "0050",
     "backtest",
@@ -63,5 +63,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "先查資料洩漏，再與 0050 買進持有比較",
+    "overview": "使用可追溯的歷史行情對交易規則做樣本外回測。",
+    "preparationHint": "沒有可核對的行情、交易時點或真實上市日期時，不產生績效數字。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "行情／交易時點不一致、資料污染與財務決策風險。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用可追溯的歷史行情對交易規則做樣本外回測。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有可核對的行情、交易時點或真實上市日期時，不產生績效數字。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "行情檔、日期與資料來源",
+        "detail": "含 0050 真正可交易日起的資料",
+        "required": true
+      },
+      {
+        "title": "明確交易規則",
+        "detail": "進場、出場、手續費、滑價",
+        "required": true
+      },
+      {
+        "title": "驗證期間",
+        "detail": "標示不晚於資料最新時間",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "MARKET_DATA",
+        "label": "行情檔、日期與資料來源",
+        "required": true,
+        "example": "含 0050 真正可交易日起的資料"
+      },
+      {
+        "name": "RULES",
+        "label": "明確交易規則",
+        "required": true,
+        "example": "進場、出場、手續費、滑價"
+      },
+      {
+        "name": "PERIOD",
+        "label": "驗證期間",
+        "required": false,
+        "example": "標示不晚於資料最新時間"
+      }
+    ],
+    "adaptedPrompt": "請擔任回測方法稽核員，不提供即時交易建議。\n資料：{{MARKET_DATA}}\n策略：{{RULES}}\n目標期間：{{PERIOD}}\n\n先列出各標的首次可交易日、欄位、調整價格與缺口；不存在的價格絕不回填。依實際有效日期建立時間順序的訓練／驗證切分，驗證集禁止調參；參數最多三個、每個最多五值。逐項檢查前視、存活者偏差、成分股前視、同根 K 棒與價格修正風險。資料足夠才在同一成本與幣別假設下計算 CAGR、MDD、Sharpe、勝率、盈虧比、交易數、平均持有日、曝險比，與 0050 買進持有比較。提供可重現資料版本、程式碼與不足之處；不能跑時只交付回測計畫，不捏造結果。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "虛構示例：策略為月末移動平均，行情檔只涵蓋 2018–2025；交易成本待確認。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "日期檢查：僅使用有實際資料的期間；成本待確認。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "驗證結論：費率尚缺，暫不產生優於 0050 的數字。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "資料可用區間與偏差風險表",
+      "訓練與樣本外績效及 0050 對照（資料足夠才計算）",
+      "可重現程式碼或明確的不可執行原因"
+    ],
+    "failureHandling": [
+      "0050 尚未成立的期間不得補價格或納入回測。",
+      "缺少日資料或費用資料時，不推導精確績效或製造比較圖。"
+    ],
+    "testCases": [
+      {
+        "name": "完整行情",
+        "input": "完整行情",
+        "expectation": "有合法資料、分割與規則時才計算",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "前視時間",
+        "input": "前視時間",
+        "expectation": "輸入 0050 不存在日期時拒絕該期間",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "調參污染",
+        "input": "調參污染",
+        "expectation": "在驗證集挑參數時指出偏差",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：資料可用區間與偏差風險表",
+      "能從所提供的真實來源支援：訓練與樣本外績效及 0050 對照（資料足夠才計算）",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "0050-leakage-audited-train-validation-backtest-contract",
+        "name": "先查資料洩漏，再與 0050 買進持有比較",
+        "problem": "回測成效可能是未來資訊洩漏、過度調參或不合理報酬假設造成。",
+        "input": "行情檔、日期與資料來源＋明確交易規則＋驗證期間",
+        "output": "資料可用區間與偏差風險表；訓練與樣本外績效及 0050 對照（資料足夠才計算）；可重現程式碼或明確的不可執行原因",
+        "gate": "0050 尚未成立的期間不得補價格或納入回測。"
+      },
+      "example": "行情來源稽核 → 前視偏差檢查 → 限制調參 → 樣本外回測 → 人工審查",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "投資帳戶及交易紀錄先去識別化；文件稽核不是已執行回測或投資建議。",
+    "limitations": [
+      "沒有可核對的行情、交易時點或真實上市日期時，不產生績效數字。",
+      "行情／交易時點不一致、資料污染與財務決策風險。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshots (original post URLs unavailable)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "行情／交易時點不一致、資料污染與財務決策風險。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }

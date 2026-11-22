@@ -42,7 +42,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "api-key",
     "ai-providers",
@@ -64,5 +64,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "API Key 最小權限與撤銷計畫",
+    "overview": "檢查多模型、MCP、外部 API 的權限、預算和外送邊界。",
+    "preparationHint": "不要求貼真實 Key，不掃讀 Secret Manager，也不在這個 Prompt 中旋轉金鑰。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "機密外洩、帳務損失與未核准的憑證變更。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "檢查多模型、MCP、外部 API 的權限、預算和外送邊界。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不要求貼真實 Key，不掃讀 Secret Manager，也不在這個 Prompt 中旋轉金鑰。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "服務及環境清單",
+        "detail": "Provider A / STG；Provider B / PRD",
+        "required": true
+      },
+      {
+        "title": "非機敏現行設定",
+        "detail": "各環境可用 Scope、預算與審核人",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "SERVICES",
+        "label": "服務及環境清單",
+        "required": true,
+        "example": "Provider A / STG；Provider B / PRD"
+      },
+      {
+        "name": "CURRENT_POLICY",
+        "label": "非機敏現行設定",
+        "required": false,
+        "example": "各環境可用 Scope、預算與審核人"
+      }
+    ],
+    "adaptedPrompt": "請對以下非機敏服務清單做**唯讀** API Key 控制稽核，不要要求或讀取任何金鑰實際值。\n服務與環境：{{SERVICES}}\n現行政策：{{CURRENT_POLICY}}\n\n請逐服務列出：金鑰擁有人、環境、可用 Scope、祕密保存位置（只寫型態、不寫值）、資料出站、硬額度與通知額度、撤銷與輪替責任人。對尚未核實的 Provider 功能標「需查官方文件」。最後產生高風險／低風險缺口、分階段改進與故障回復驗證。未獲核准前不得連線、建立 Key、變更權限或消費額度。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "Provider A 的測試／正式環境共用同一組 Key；是否有硬上限尚未確認。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "高風險：STG／PRD 共用憑證，建議分離。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "未知：硬性預算上限功能需依官方確認。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "Provider／環境／Scope／撤銷責任對照",
+      "硬上限與軟通知區別、風險排序",
+      "可回復的輪替草案，零實際寫入"
+    ],
+    "failureHandling": [
+      "任何提供的 Key 應視為敏感資料，不輸出或保存實際值。",
+      "Provider 不支援硬上限時，不假設已能攔截超支。"
+    ],
+    "testCases": [
+      {
+        "name": "匿名清單",
+        "input": "匿名清單",
+        "expectation": "可輸出表格但不含任何 Key",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "貼上 Key",
+        "input": "貼上 Key",
+        "expectation": "隱去值並停止擴散",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "缺少上限資料",
+        "input": "缺少上限資料",
+        "expectation": "標為待查，不冒稱預算已生效",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：Provider／環境／Scope／撤銷責任對照",
+      "能從所提供的真實來源支援：硬上限與軟通知區別、風險排序",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "agent-api-key-budget-and-revocation-guardrails-contract",
+        "name": "API Key 最小權限與撤銷計畫",
+        "problem": "不同服務共用 API Key、沒有預算/權限隔離或撤銷程序，可能擴大濫用、金額損失與資料外流。",
+        "input": "服務及環境清單＋非機敏現行設定",
+        "output": "Provider／環境／Scope／撤銷責任對照；硬上限與軟通知區別、風險排序；可回復的輪替草案，零實際寫入",
+        "gate": "任何提供的 Key 應視為敏感資料，不輸出或保存實際值。"
+      },
+      "example": "服務盤點 → 權限映射 → 財務風險 → 輪替草案 → 人工授權後實施",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "祕密值、Token、帳號與付款資訊不可寫入公開 JSON 或對話。",
+    "limitations": [
+      "不要求貼真實 Key，不掃讀 Secret Manager，也不在這個 Prompt 中旋轉金鑰。",
+      "機密外洩、帳務損失與未核准的憑證變更。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshot excerpt; adapted into actionable prompt",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "機密外洩、帳務損失與未核准的憑證變更。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }

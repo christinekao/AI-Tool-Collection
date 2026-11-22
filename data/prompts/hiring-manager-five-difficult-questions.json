@@ -34,7 +34,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-22",
   "tags": [
     "interview",
     "hiring-manager",
@@ -57,5 +57,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "從 Hiring Manager 角度準備五題高難度追問",
+    "overview": "用 CV 與特定 JD 找出最需要準備的能力證據和追問。",
+    "preparationHint": "不宣稱知道該公司真實面試題目或招聘委員評分。",
+    "originalNote": "原始 Prompt 逐字保存，不同於改良版。",
+    "verificationIntro": "將模擬 Hiring Manager 推測誤當實際招聘標準。",
+    "workflowIntro": "Prompt 契約可作為候選 Workflow 節點，未驗證實際串接。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "用 CV 與特定 JD 找出最需要準備的能力證據和追問。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "不宣稱知道該公司真實面試題目或招聘委員評分。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "去識別化真實履歷",
+        "detail": "與 JD 相關的工作／專案經歷",
+        "required": true
+      },
+      {
+        "title": "目標工作說明",
+        "detail": "職務責任與技術要求",
+        "required": true
+      },
+      {
+        "title": "額外可核實成果",
+        "detail": "已確認的數據與貢獻",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "CV",
+        "label": "去識別化真實履歷",
+        "required": true,
+        "example": "與 JD 相關的工作／專案經歷"
+      },
+      {
+        "name": "JD",
+        "label": "目標工作說明",
+        "required": true,
+        "example": "職務責任與技術要求"
+      },
+      {
+        "name": "EVIDENCE",
+        "label": "額外可核實成果",
+        "required": false,
+        "example": "已確認的數據與貢獻"
+      }
+    ],
+    "adaptedPrompt": "請以 Hiring Manager 的**模擬**視角挑出最有挑戰的問題，而非預測真實企業面試題庫。\n履歷：{{CV}}\n職缺 JD：{{JD}}\n可核實成果：{{EVIDENCE}}\n\n先辨認 JD 的核心需求、履歷中的證據與空白。提出五個具挑戰但合理的問題，逐題列出「JD 要求」「履歷依據」「考察重點」「高風險缺口」「忠於事實的回答策略」「需要補充的證據」。若沒有可證實經歷，不虛構回答或暗示使用者具備技能。依風險排序優先演練題目，清楚標示這只是練習。",
+    "adaptationNote": "根據原收藏內容與必要安全邊界獨立整理的可重用版，不是原始作者的逐字 Prompt；原文保持不變。",
+    "exampleInput": {
+      "label": "虛構情境，非真實使用者資料",
+      "content": "虛構 JD 要求 Azure 資料整合，履歷只提到 Power BI 維運。"
+    },
+    "exampleOutput": {
+      "label": "預期格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "問題：請說明曾如何處理跨系統資料錯誤。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "缺口：尚未提供 Azure 專案證據，不得預設做過。"
+        }
+      ],
+      "note": "以上為人工撰寫的內容範例，不表示模型已經測試通過。"
+    },
+    "adjustments": [
+      {
+        "title": "替換來源內容",
+        "detail": "保留必要輸入與限制，沒有證據的欄位明列未知。"
+      },
+      {
+        "title": "設定執行邊界",
+        "detail": "先完成唯讀分析與人工核准，再處理任何持久寫入或成本操作。"
+      }
+    ],
+    "outputContract": [
+      "五題依 JD／CV 排序的模擬追問",
+      "每題考察重點、證據缺口及回應策略",
+      "優先練習次序"
+    ],
+    "failureHandling": [
+      "沒有 JD 或 CV 時先要求資料，不推測企業要求。",
+      "真實成果不完整時以待補標示，不捏造經歷。"
+    ],
+    "testCases": [
+      {
+        "name": "完整 CV 與 JD",
+        "input": "完整 CV 與 JD",
+        "expectation": "五題均對應需求及已知經歷",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "履歷不匹配",
+        "input": "履歷不匹配",
+        "expectation": "誠實指出缺口而非造假",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "只有公司名稱",
+        "input": "只有公司名稱",
+        "expectation": "不猜測內部面試題庫",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可回查輸出與來源：五題依 JD／CV 排序的模擬追問",
+      "可回查輸出與來源：每題考察重點、證據缺口及回應策略",
+      "來源與模型執行狀態真實標示。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "hiring-manager-five-difficult-questions-contract",
+        "name": "從 Hiring Manager 角度準備五題高難度追問",
+        "problem": "面試練習沒有連回職缺需求與候選人真實履歷，難以辨認將被質疑的經驗缺口。",
+        "input": "去識別化真實履歷＋目標工作說明＋額外可核實成果",
+        "output": "五題依 JD／CV 排序的模擬追問；每題考察重點、證據缺口及回應策略；優先練習次序",
+        "gate": "沒有 JD 或 CV 時先要求資料，不推測企業要求。"
+      },
+      "example": "JD/CV → 證據差距 → 五題 → 練習回答 → 補資料",
+      "note": "候選流程；尚未實際整合、未新增正式 Graph 關係。"
+    },
+    "privacy": "履歷應去識別化，不能把雇主內部專案資料貼入公開知識庫。",
+    "limitations": [
+      "不宣稱知道該公司真實面試題目或招聘委員評分。",
+      "將模擬 Hiring Manager 推測誤當實際招聘標準。"
+    ],
+    "provenance": {
+      "source": "User-provided verbatim Chinese prompt, 2026-10-27",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "獨立改良版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "更新現存 Prompt 而非創建新 ID；保留原文與來源。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／Domains／Typed References 原樣保留。"
+    },
+    "classificationReason": "只改善展示與重用契約，不修改原分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "根據原 Prompt 與已儲存來源建立 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "概念性的 I/O 尚未作相容性測試，不增加正式能力映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有相關概念參照，不推測加連結。"
+    },
+    "riskNotes": "將模擬 Hiring Manager 推測誤當實際招聘標準。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅文件查核與測試案例設計，模型／外部系統未運行。"
+    }
   }
 }

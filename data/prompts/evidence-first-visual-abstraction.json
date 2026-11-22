@@ -34,7 +34,7 @@
   },
   "status": "generated-draft",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "image-generation",
     "visual-abstraction",
@@ -59,5 +59,191 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "先拆照片的結構事實，再設計抽象畫面",
+    "overview": "把合法參考圖片轉為 Riso／海報／其他視覺形式，同時保留可核對的結構。",
+    "preparationHint": "來源不明或要求直接照抄品牌與圖像時不得當成已獲授權。",
+    "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+    "verificationIntro": "虛構來源細節、影像過度複製與素材授權問題。",
+    "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "把合法參考圖片轉為 Riso／海報／其他視覺形式，同時保留可核對的結構。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "來源不明或要求直接照抄品牌與圖像時不得當成已獲授權。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "來源圖片或文字主題",
+        "detail": "可合法使用的圖片／主題描述",
+        "required": true
+      },
+      {
+        "title": "目標視覺語法與抽象程度",
+        "detail": "Riso／極簡／忠實",
+        "required": true
+      },
+      {
+        "title": "尺寸、色數與文字",
+        "detail": "3:4、雙色、避免杜撰日期",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "IMAGE",
+        "label": "來源圖片或文字主題",
+        "required": true,
+        "example": "可合法使用的圖片／主題描述"
+      },
+      {
+        "name": "STYLE",
+        "label": "目標視覺語法與抽象程度",
+        "required": true,
+        "example": "Riso／極簡／忠實"
+      },
+      {
+        "name": "OUTPUT",
+        "label": "尺寸、色數與文字",
+        "required": false,
+        "example": "3:4、雙色、避免杜撰日期"
+      }
+    ],
+    "adaptedPrompt": "請把來源的**可觀察證據**與風格分開處理。\n來源：{{IMAGE}}\n視覺語法：{{STYLE}}\n輸出條件：{{OUTPUT}}\n\n先記錄可見的數量、相對位置、方向、間距、遮擋、尺寸層級與留白；來源資訊不清楚則標不確定，不能憑空造地點／日期。逐項列出哪些 relational invariants 必須保留，提出每個輸出主體／形狀對應哪項來源證據；再撰寫原創的生成 Prompt，不直接描摹或複製參考圖。最後列出色數、構圖與事實對照 Gate。若未真正執行生成，僅回報 Prompt／視覺規格，不能宣稱已完成影像。",
+    "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "假設照片有三個大小不一的物件，左側密集、右側留白。"
+    },
+    "exampleOutput": {
+      "label": "格式示意，未執行模型",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "保留的關係：三件、非均勻間距、左重右輕。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "抽象標記：三塊不同尺寸圖形，維持原相對位置。"
+        }
+      ],
+      "note": "以上是人工撰寫的示意，不是測試結果。"
+    },
+    "adjustments": [
+      {
+        "title": "限縮資料來源",
+        "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+      },
+      {
+        "title": "分階段驗收",
+        "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+      }
+    ],
+    "outputContract": [
+      "可追溯的來源觀察與結構約束",
+      "來源證據到視覺標記的映射",
+      "原創影像 Prompt 與驗收清單"
+    ],
+    "failureHandling": [
+      "圖片不清或無圖時不能虛構可見細節。",
+      "沒有實際生成結果時不聲稱圖片可交付。"
+    ],
+    "testCases": [
+      {
+        "name": "合法清楚照片",
+        "input": "合法清楚照片",
+        "expectation": "輸出數量與相對位置可追溯",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "模糊照片",
+        "input": "模糊照片",
+        "expectation": "不捏造精確元素數量",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "版權未明",
+        "input": "版權未明",
+        "expectation": "拒絕原樣複製並界定可用範圍",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "真實輸出能支援：可追溯的來源觀察與結構約束",
+      "真實輸出能支援：來源證據到視覺標記的映射",
+      "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "evidence-first-visual-abstraction-contract",
+        "name": "先拆照片的結構事實，再設計抽象畫面",
+        "problem": "避免 reference image 一進生成模型就變成模糊的 style transfer；先把來源拆成可檢查的事實，再用明確 visual grammar 重建，讓抽象化後仍保留數量、間距、方向、比例與遮擋等結構。",
+        "input": "來源圖片或文字主題＋目標視覺語法與抽象程度＋尺寸、色數與文字",
+        "output": "可追溯的來源觀察與結構約束；來源證據到視覺標記的映射；原創影像 Prompt 與驗收清單",
+        "gate": "圖片不清或無圖時不能虛構可見細節。"
+      },
+      "example": "來源觀察 → 不變關係 → 風格映射 → 生成 Prompt → 輸出核對",
+      "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+    },
+    "privacy": "圖片人物、品牌及 EXIF 可能涉及個資；第三方參考素材需要權利確認。",
+    "limitations": [
+      "來源不明或要求直接照抄品牌與圖像時不得當成已獲授權。",
+      "虛構來源細節、影像過度複製與素材授權問題。"
+    ],
+    "provenance": {
+      "source": "https://github.com/luckdvr/photo-riso-poster",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "source-checked",
+    "sourceEvidenceFields": [
+      "source.url"
+    ],
+    "sourceCheckedAt": "2026-11-22",
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+    },
+    "classificationReason": "內容 Guide 更新不代表重新分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅作 I/O 構想，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保持所有既有 Concept 參照。"
+    },
+    "riskNotes": "虛構來源細節、影像過度複製與素材授權問題。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+    }
   }
 }
