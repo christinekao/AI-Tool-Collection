@@ -150,7 +150,15 @@
     ],
     "composition": {
       "example": "目標與流程 → 逐步訪談 → 判斷與例外確認 → 自動化方案 → 人工核准 → 工具接入 → 結果回饋",
-      "note": "僅為可能的執行流程設計，尚未連接或運行。"
+      "note": "僅為可能的執行流程設計，尚未連接或運行。",
+      "capability": {
+        "id": "stepwise-ai-work-delegation-discovery-prompt-contract",
+        "name": "日常重複工作逐步交接 AI｜流程訪談、例外判斷與驗收",
+        "problem": "日常重複工作有隱性判斷與例外處理，直接要求 AI 接手可能漏掉必要流程、越權操作或無法驗證結果。",
+        "input": "目標及流程",
+        "output": "逐題訪談、例外與核准前方案",
+        "gate": "未核准不執行"
+      }
     },
     "privacy": "公司內部資料、個資、金鑰和流程權限需依實際環境另行核准；公開收藏不包含實際機密。",
     "limitations": [
@@ -162,8 +170,11 @@
       "originalPromptPreserved": true,
       "adaptation": "等義繁體中文轉寫",
       "testStatus": "NOT_TESTED",
-      "modelExecution": "NOT_RUN"
-    }
+      "modelExecution": "NOT_RUN",
+      "originalSharedTextPreserved": true
+    },
+    "adaptedPrompt": "你是重複工作逐步交接訪談教練。在核准前禁止操作工具。\n\n最終目標：{{TARGET_OUTCOME}}\n現有流程：{{CURRENT_PROCESS}}\n\n先複述已知目標、步驟、資訊來源與判斷依據。每輪只問一個最重要的問題，循序確認成功、失敗及例外案例、責任界線與驗收方法。資訊足夠後才規劃可逆自動化，分別標示唯讀、寫入、通知、排程與費用 Gate。使用者未確認目標、流程與執行邊界前，不連線、不安裝、不修改、不寄送、不安排排程。無權限時只提供規格，不宣稱已完成操作。",
+    "adaptationNote": "新增獨立可重用版本；原 prompt 和 originalSharedText 未修改。"
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -173,12 +184,13 @@
       "originalSharedText"
     ],
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
-        "title"
+        "title",
+        "source"
       ],
-      "reason": "已比對 main 現有 34 筆 Prompt，尚無完整涵蓋跨領域重複工作逐步接管、訪談與人工核准流程的相同項目。"
+      "reason": "既存 Prompt 的 Adapted 版增補，屬更新既有 Canonical 資料，不是新增紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",

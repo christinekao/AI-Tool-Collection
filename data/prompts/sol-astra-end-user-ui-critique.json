@@ -77,5 +77,192 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "獨立 UI Review Brief 與真實回覆分離",
+    "overview": "由 Sol 整理現有畫面並請 Astra 從實際使用者角度評估可發現性、資訊層級與完成主要任務的困難。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "開發者容易習慣現有畫面而忽略新使用者的困惑；主 Agent 的設計方案缺乏獨立使用者觀點驗證。"
+      },
+      {
+        "title": "停止條件",
+        "description": "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "目前畫面與流程",
+        "detail": "目前畫面與流程（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "首次使用者任務",
+        "detail": "首次使用者任務（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "獨立模型可用情況",
+        "detail": "獨立模型可用情況（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "UI",
+        "label": "目前畫面與流程",
+        "required": true,
+        "example": "目前畫面與流程（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "PERSONA",
+        "label": "首次使用者任務",
+        "required": true,
+        "example": "首次使用者任務（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "REVIEWER",
+        "label": "獨立模型可用情況",
+        "required": false,
+        "example": "獨立模型可用情況（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「獨立 UI Review Brief 與真實回覆分離」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 目前畫面與流程：{{UI}}\n- 首次使用者任務：{{PERSONA}}\n- 獨立模型可用情況：{{REVIEWER}}\n\n請執行：\n1. 先產出可轉貼的 UI Brief，不改程式\n2. 僅在真正呼叫獨立 Reviewer 時才引用其原始觀察；否則標未執行\n3. 按嚴重度列三項可發現性、操作或資訊層級問題，分清主 Agent 彙整與分歧\n\n交付：\n- UI Review Brief\n- 原始 Reviewer 意見或 NOT_TESTED\n- 三項問題及待核准方向\n\n必要邊界：不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "實際呼叫"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "UI Review Brief"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "UI Review Brief",
+      "原始 Reviewer 意見或 NOT_TESTED",
+      "三項問題及待核准方向"
+    ],
+    "failureHandling": [
+      "只有 Brief",
+      "先取得證據",
+      "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查"
+    ],
+    "testCases": [
+      {
+        "name": "有 Reviewer",
+        "input": "實際呼叫",
+        "expectation": "原文與摘要分離",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "不可呼叫",
+        "input": "沒有工具",
+        "expectation": "只有 Brief",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "無畫面",
+        "input": "只提供描述",
+        "expectation": "先取得證據",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：UI Review Brief",
+      "可檢查：原始 Reviewer 意見或 NOT_TESTED",
+      "可檢查：三項問題及待核准方向",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "sol-astra-end-user-ui-critique-prompt-contract",
+        "name": "獨立 UI Review Brief 與真實回覆分離",
+        "problem": "開發者容易習慣現有畫面而忽略新使用者的困惑；主 Agent 的設計方案缺乏獨立使用者觀點驗證。",
+        "input": "目前畫面與流程／首次使用者任務／獨立模型可用情況",
+        "output": "UI Review Brief；原始 Reviewer 意見或 NOT_TESTED；三項問題及待核准方向",
+        "gate": "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查"
+      },
+      "example": "必要資料 → 先產出可轉貼的 UI Brief，不 → 僅在真正呼叫獨立 Reviewer  → 按嚴重度列三項可發現性、操作或資訊層 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided UI feedback techniques and dashboard prompt, 2026-10-28",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "不可以 Sol 口吻捏造 Astra 的評語，未取得畫面不能假稱視覺檢查",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

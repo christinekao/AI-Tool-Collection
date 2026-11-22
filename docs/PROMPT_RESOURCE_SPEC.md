@@ -2,7 +2,7 @@
 
 > 狀態：試行規格；2026-11-18（Asia/Taipei）。
 > 已核對的兩筆現有資料：`data/prompts/star-resume-experience-three-rewrites.json` 與 `data/prompts/cv-jd-tailored-interview-questions-deep-followups.json`。
-> 已試行：`star-resume-experience-three-rewrites` 與 `cv-jd-tailored-interview-questions-deep-followups`（同一套原文／可重用版切換、複製及可組合契約）。**模型執行、頁面實機視覺驗收及公開部署仍待驗證**。
+> 歷史試行：`star-resume-experience-three-rewrites` 與 `cv-jd-tailored-interview-questions-deep-followups`；截至 2026-11-22，Phase 2 Batch 02 候選分支已將閱讀契約補到 35/35，**需以 PR、main CI、部署後 Live Smoke 實際結果驗收**；第三方模型執行與外部整合仍 NOT_TESTED。
 > 對照：`docs/LEARNING_CONTENT_SPEC.md`、`docs/REPO_RESOURCE_SPEC.md`、`docs/SKILL_RESOURCE_SPEC.md`。
 
 ## 定位與目標

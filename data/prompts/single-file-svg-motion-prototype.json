@@ -70,5 +70,193 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "單檔 HTML／SVG 動畫與無障礙驗收",
+    "overview": "根據明確場景，產生可獨立在瀏覽器開啟、可播放或重新播放、符合 reduced-motion 偏好且可逐步局部修改的單檔 HTML + SVG 動畫原型。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "只用『讓 Logo 或圖表動起來』等模糊描述，無法穩定控制動作順序、時間、可讀性、手機呈現及最終交付格式。"
+      },
+      {
+        "title": "停止條件",
+        "description": "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "Logo／Loading／Chart 場景",
+        "detail": "Logo／Loading／Chart 場景（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "向量、文字或真實圖表數值",
+        "detail": "向量、文字或真實圖表數值（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "時序與循環政策",
+        "detail": "時序與循環政策（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "SCENE",
+        "label": "Logo／Loading／Chart 場景",
+        "required": true,
+        "example": "Logo／Loading／Chart 場景（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "ASSETS",
+        "label": "向量、文字或真實圖表數值",
+        "required": true,
+        "example": "向量、文字或真實圖表數值（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "TIMELINE",
+        "label": "時序與循環政策",
+        "required": false,
+        "example": "時序與循環政策（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「單檔 HTML／SVG 動畫與無障礙驗收」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- Logo／Loading／Chart 場景：{{SCENE}}\n- 向量、文字或真實圖表數值：{{ASSETS}}\n- 時序與循環政策：{{TIMELINE}}\n\n請執行：\n1. 保留品牌素材及圖表實際數值，不新增未要求效果\n2. 在單一 HTML 中內嵌 SVG／CSS／JS，提供播放、暫停或重播\n3. 支援 prefers-reduced-motion、圖表文字表、375px 手機，列 Browser 驗收項目\n\n交付：\n- 完整 HTML 原型\n- 參數和可修改位置\n- 手機／動畫／數據驗收表\n\n必要邊界：無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "有標籤與數值"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "完整 HTML 原型"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "完整 HTML 原型",
+      "參數和可修改位置",
+      "手機／動畫／數據驗收表"
+    ],
+    "failureHandling": [
+      "仍可閱讀",
+      "不杜撰 Logo",
+      "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖"
+    ],
+    "testCases": [
+      {
+        "name": "完整圖表",
+        "input": "有標籤與數值",
+        "expectation": "圖文一致",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "減少動態",
+        "input": "reduced-motion",
+        "expectation": "仍可閱讀",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "缺向量",
+        "input": "沒有 Logo path",
+        "expectation": "不杜撰 Logo",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：完整 HTML 原型",
+      "可檢查：參數和可修改位置",
+      "可檢查：手機／動畫／數據驗收表",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "single-file-svg-motion-prototype-prompt-contract",
+        "name": "單檔 HTML／SVG 動畫與無障礙驗收",
+        "problem": "只用『讓 Logo 或圖表動起來』等模糊描述，無法穩定控制動作順序、時間、可讀性、手機呈現及最終交付格式。",
+        "input": "Logo／Loading／Chart 場景／向量、文字或真實圖表數值／時序與循環政策",
+        "output": "完整 HTML 原型；參數和可修改位置；手機／動畫／數據驗收表",
+        "gate": "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖"
+      },
+      "example": "必要資料 → 保留品牌素材及圖表實際數值，不新增未 → 在單一 HTML 中內嵌 SVG／C → 支援 prefers-reduced → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "Tutorial with three example prompts",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source.url",
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "無瀏覽器實測不能標 PASS，HTML 不是 MP4，不得修改品牌原圖",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

@@ -73,5 +73,192 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "RSI 超賣與前 20 根完成 K 棒爆量的 Pine 指標",
+    "overview": "將 RSI 低於 30 與當根量大於前 20 根 K 棒平均成交量 2 倍轉成可參數化、可檢查、不偷看未來的 Pine Script v6 指標。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "依直覺描述超賣與異常成交量，容易在 Pine Script 中誤用當根成交量的移動平均、未收盤 K 棒或未明確設定條件，導致訊號不一致。"
+      },
+      {
+        "title": "停止條件",
+        "description": "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "標的與時間週期",
+        "detail": "標的與時間週期（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "RSI 週期／門檻",
+        "detail": "RSI 週期／門檻（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "前 N 根均量／倍數",
+        "detail": "前 N 根均量／倍數（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "MARKET",
+        "label": "標的與時間週期",
+        "required": true,
+        "example": "標的與時間週期（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "RSI",
+        "label": "RSI 週期／門檻",
+        "required": true,
+        "example": "RSI 週期／門檻（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "VOL",
+        "label": "前 N 根均量／倍數",
+        "required": false,
+        "example": "前 N 根均量／倍數（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「RSI 超賣與前 20 根完成 K 棒爆量的 Pine 指標」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 標的與時間週期：{{MARKET}}\n- RSI 週期／門檻：{{RSI}}\n- 前 N 根均量／倍數：{{VOL}}\n\n請執行：\n1. 寫 Pine Script v6 indicator()，均量計算排除當根\n2. 收盤確認時才標記訊號，避免 lookahead/repaint\n3. 提供 alertcondition()、Pine Screener plot()、編譯及圖表測試規格\n\n交付：\n- Pine v6 指標草案\n- 參數／公式與警示\n- 編譯／數據驗證說明\n\n必要邊界：沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "已收盤符合 RSI/量"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "Pine v6 指標草案"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "Pine v6 指標草案",
+      "參數／公式與警示",
+      "編譯／數據驗證說明"
+    ],
+    "failureHandling": [
+      "不誤判",
+      "不標最終訊號",
+      "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進"
+    ],
+    "testCases": [
+      {
+        "name": "訊號成立",
+        "input": "已收盤符合 RSI/量",
+        "expectation": "標候選",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "歷史不足",
+        "input": "少於20根",
+        "expectation": "不誤判",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "未收盤",
+        "input": "盤中爆量",
+        "expectation": "不標最終訊號",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：Pine v6 指標草案",
+      "可檢查：參數／公式與警示",
+      "可檢查：編譯／數據驗證說明",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "tradingview-twstock-rsi-volume-pine-indicator-prompt-contract",
+        "name": "RSI 超賣與前 20 根完成 K 棒爆量的 Pine 指標",
+        "problem": "依直覺描述超賣與異常成交量，容易在 Pine Script 中誤用當根成交量的移動平均、未收盤 K 棒或未明確設定條件，導致訊號不一致。",
+        "input": "標的與時間週期／RSI 週期／門檻／前 N 根均量／倍數",
+        "output": "Pine v6 指標草案；參數／公式與警示；編譯／數據驗證說明",
+        "gate": "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進"
+      },
+      "example": "必要資料 → 寫 Pine Script v6 i → 收盤確認時才標記訊號，避免 look → 提供 alertcondition( → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided Traditional Chinese trading-research article; adapted prompt",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "沒有 Pine 編譯和行情，不宣稱有效；訊號不等於保證反彈或特定機構買進",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

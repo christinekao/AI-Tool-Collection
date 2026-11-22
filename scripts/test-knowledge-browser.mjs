@@ -151,11 +151,18 @@ try{
  console.log('PASS: Full Prompt body, inputs and learning notes are readable');
 
  // Prompt Guide regressions: copy/view controls must display the exact saved original and adapted strings.
- // Test a short original, a destructive-operation guardrail, and an older existing guide.
+ // Cover representatives across two batches, including legacy guides and high-risk execution boundaries.
  for (const id of [
    '0050-leakage-audited-train-validation-backtest',
    'google-maps-saved-places-cleanup-classification',
-   'cv-jd-tailored-interview-questions-deep-followups'
+   'cv-jd-tailored-interview-questions-deep-followups',
+    'knowledge-vault-session-handoff',
+    'pstack-create-verification-todo-persistence-example',
+    'sol-astra-end-user-ui-critique',
+    'star-resume-experience-three-rewrites',
+    'stepwise-ai-work-delegation-discovery',
+    'tradingview-twstock-signal-to-backtest-audit',
+    'weekly-ai-headhunter-job-search'
  ]) {
    await send('Page.navigate',{url:origin+'/index.html#/prompts/'+id});
    await waitFor('location.hash.includes('+JSON.stringify(id)+') && !!document.querySelector(".pg-prompt-text[data-prompt-text=adapted]")','Prompt detail '+id);

@@ -64,5 +64,192 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "既有系統的最小權限 MCP／Skills 契約",
+    "overview": "建立可驗證、安全的 MCP Connector + Skills 操作層。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "只告訴 Coding Agent 去操作其他系統，無法保證工具/欄位有正確存取能力。"
+      },
+      {
+        "title": "停止條件",
+        "description": "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "既有系統清單",
+        "detail": "既有系統清單（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "已確認的讀寫權限",
+        "detail": "已確認的讀寫權限（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "預期操作",
+        "detail": "預期操作（請填實際資料，無則未提供）",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "SYSTEMS",
+        "label": "既有系統清單",
+        "required": true,
+        "example": "既有系統清單（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "ACCESS",
+        "label": "已確認的讀寫權限",
+        "required": true,
+        "example": "已確認的讀寫權限（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "TASKS",
+        "label": "預期操作",
+        "required": false,
+        "example": "預期操作（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「既有系統的最小權限 MCP／Skills 契約」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 既有系統清單：{{SYSTEMS}}\n- 已確認的讀寫權限：{{ACCESS}}\n- 預期操作：{{TASKS}}\n\n請執行：\n1. 按系統查官方 API／MCP／Connector，未知能力標未知，不假定 Browser 可用\n2. 列搜尋／讀取／寫入／刪除／通知／權限矩陣，定義 Tool Input／Output／Error／Gate\n3. 優先設計唯讀最小 Skill，付款、寫入、刪除、寄送及安裝均需單獨人工批准\n\n交付：\n- 官方能力和授權矩陣\n- 候選 Tool／Skill 介面\n- 安全及驗收缺口\n\n必要邊界：不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "已驗證唯讀"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "官方能力和授權矩陣"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "官方能力和授權矩陣",
+      "候選 Tool／Skill 介面",
+      "安全及驗收缺口"
+    ],
+    "failureHandling": [
+      "不造能力",
+      "停止",
+      "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作"
+    ],
+    "testCases": [
+      {
+        "name": "有官方 API",
+        "input": "已驗證唯讀",
+        "expectation": "可設計工具",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "API 未知",
+        "input": "只有網站",
+        "expectation": "不造能力",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "高風險寫入",
+        "input": "未核准",
+        "expectation": "停止",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：官方能力和授權矩陣",
+      "可檢查：候選 Tool／Skill 介面",
+      "可檢查：安全及驗收缺口",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "web-mcp-existing-systems-skills-design-prompt-contract",
+        "name": "既有系統的最小權限 MCP／Skills 契約",
+        "problem": "只告訴 Coding Agent 去操作其他系統，無法保證工具/欄位有正確存取能力。",
+        "input": "既有系統清單／已確認的讀寫權限／預期操作",
+        "output": "官方能力和授權矩陣；候選 Tool／Skill 介面；安全及驗收缺口",
+        "gate": "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作"
+      },
+      "example": "必要資料 → 按系統查官方 API／MCP／Con → 列搜尋／讀取／寫入／刪除／通知／權限 → 優先設計唯讀最小 Skill，付款、 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshots (original post URLs unavailable)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "不能要求 API Key 放進 Prompt 或 Repo，未經同意不得連線安裝與操作",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }

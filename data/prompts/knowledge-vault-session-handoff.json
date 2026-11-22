@@ -65,5 +65,181 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "專案證據與跨 Session 交接",
+    "overview": "建立可追蹤且精簡的專案知識保存與交接流程。",
+    "preparationHint": "必填資料不足時先報告缺口。",
+    "originalNote": "原始 prompt 未改動；既有收藏有些本來就是整理版，不一定是第三方作者逐字原稿。",
+    "verificationIntro": "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定",
+    "workflowIntro": "僅是候選 Workflow I/O/Gate，未執行整合。",
+    "situations": [
+      {
+        "title": "適用",
+        "description": "跨 Session 丟失決策，或把所有資訊塞入 AGENTS.md 造成衝突。"
+      },
+      {
+        "title": "停止條件",
+        "description": "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "本次任務與證據",
+        "detail": "本次任務與證據（請填實際資料，無則未提供）",
+        "required": true
+      },
+      {
+        "title": "既有 README／AGENTS／Skills 文件",
+        "detail": "既有 README／AGENTS／Skills 文件（請填實際資料，無則未提供）",
+        "required": true
+      }
+    ],
+    "variables": [
+      {
+        "name": "WORK",
+        "label": "本次任務與證據",
+        "required": true,
+        "example": "本次任務與證據（請填實際資料，無則未提供）"
+      },
+      {
+        "name": "DOCS",
+        "label": "既有 README／AGENTS／Skills 文件",
+        "required": true,
+        "example": "既有 README／AGENTS／Skills 文件（請填實際資料，無則未提供）"
+      }
+    ],
+    "adaptedPrompt": "你正在處理「專案證據與跨 Session 交接」。請依實際提供或授權讀取的資料，使用以下可重用版指令。\n\n輸入：\n- 本次任務與證據：{{WORK}}\n- 既有 README／AGENTS／Skills 文件：{{DOCS}}\n\n請執行：\n1. 只引用真正看過的來源，列出基準 Commit、已做／未做與失敗\n2. 保留重大決策的理由及替代方案，按單一真實來源消除重複規範\n3. 交付下一個 Session 入口、待辦與驗收；僅提出 Hook 改善方案，不安裝\n\n交付：\n- 來源與決策清單\n- 可續接的最小 Handoff\n- 文件衝突與待驗缺口\n\n必要邊界：沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定\n\n來源或工具不足時，明確標示未確認／未執行；不得製造外部結果、模型輸出或通過測試的證據。使用繁體中文回答。",
+    "adaptationNote": "此為獨立整理的可重用 Prompt，非來源作者原文；原 prompt 完整保留。",
+    "exampleInput": {
+      "label": "虛構輸入（非真實個資／非執行）",
+      "content": "有 diff 與 CI"
+    },
+    "exampleOutput": {
+      "label": "人工格式示意（模型未執行）",
+      "items": [
+        {
+          "name": "01 · 預期產出",
+          "text": "來源與決策清單"
+        },
+        {
+          "name": "02 · 風險",
+          "text": "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定"
+        }
+      ],
+      "note": "僅供理解版型，不能作為模型或第三方整合的測試證據。"
+    },
+    "adjustments": [
+      {
+        "title": "更換輸入",
+        "detail": "使用取得授權的資料，來源不明須標示。"
+      },
+      {
+        "title": "調整產出",
+        "detail": "可增減細節，但保留缺資料、驗證及核准 Gate。"
+      }
+    ],
+    "outputContract": [
+      "來源與決策清單",
+      "可續接的最小 Handoff",
+      "文件衝突與待驗缺口"
+    ],
+    "failureHandling": [
+      "標待查",
+      "列衝突並保留原文",
+      "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定"
+    ],
+    "testCases": [
+      {
+        "name": "完整交接",
+        "input": "有 diff 與 CI",
+        "expectation": "區分部署與測試",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "缺來源",
+        "input": "只有口述",
+        "expectation": "標待查",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "規範衝突",
+        "input": "兩份文件矛盾",
+        "expectation": "列衝突並保留原文",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "可檢查：來源與決策清單",
+      "可檢查：可續接的最小 Handoff",
+      "可檢查：文件衝突與待驗缺口",
+      "未經實際執行不得聲稱 PASS。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "knowledge-vault-session-handoff-prompt-contract",
+        "name": "專案證據與跨 Session 交接",
+        "problem": "跨 Session 丟失決策，或把所有資訊塞入 AGENTS.md 造成衝突。",
+        "input": "本次任務與證據／既有 README／AGENTS／Skills 文件",
+        "output": "來源與決策清單；可續接的最小 Handoff；文件衝突與待驗缺口",
+        "gate": "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定"
+      },
+      "example": "必要資料 → 只引用真正看過的來源，列出基準 Co → 保留重大決策的理由及替代方案，按單一 → 交付下一個 Session 入口、待 → 人工確認",
+      "note": "僅供規格與組合設計，未新增正式 Graph Edge。"
+    },
+    "privacy": "公開 JSON 不保存履歷個資、API Key、交易帳戶、企業機密或測試帳密。",
+    "limitations": [
+      "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定",
+      "模型 Baseline／Candidate、Trigger／Functional／Trajectory 尚未實測。"
+    ],
+    "provenance": {
+      "source": "User-provided Threads screenshots (original post URLs unavailable)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有收藏新增獨立 Adapted 版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "既存 Canonical ID 的內容審查，沒有創建新 Prompt。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原 Tags 和分類，沒有新增受控詞。"
+    },
+    "classificationReason": "本次只新增人類閱讀與重用契約，原有主領域及 Typed Refs 完全不變。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "依既有來源建立 Problem／Input／Copy／Output／Test／Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只有 Prompt I/O 候選契約，不新增正式能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用原有 Concept 引用。"
+    },
+    "riskNotes": "沒有讀取的檔案不得聲稱已核實；未批准不能安裝 Hook 或更動設定",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "靜態文件與案例規格已整理；模型輸出、外部工具與整合尚未執行。"
+    }
   }
 }
