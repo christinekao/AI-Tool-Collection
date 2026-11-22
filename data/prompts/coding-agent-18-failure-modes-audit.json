@@ -45,7 +45,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "mattpocock",
     "agent-mistakes",
@@ -72,5 +72,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "逐項檢查 Coding Agent 的 18 種工作盲點",
+    "overview": "用實際 Repo、規範與 CI 觀察 Agent 開發慣例，排出優先改善點。",
+    "preparationHint": "沒有完整操作證據不能替每項打 PASS，也不應直接重構 Harness。",
+    "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+    "verificationIntro": "空泛的流程評分與過度刪除安全限制。",
+    "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "用實際 Repo、規範與 CI 觀察 Agent 開發慣例，排出優先改善點。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "沒有完整操作證據不能替每項打 PASS，也不應直接重構 Harness。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "專案規則、CI 與工作紀錄",
+        "detail": "AGENTS.md、Hooks、測試和 PR",
+        "required": true
+      },
+      {
+        "title": "不可刪的業務與安全規則",
+        "detail": "保留審核與可回復機制",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "REPO_EVIDENCE",
+        "label": "專案規則、CI 與工作紀錄",
+        "required": true,
+        "example": "AGENTS.md、Hooks、測試和 PR"
+      },
+      {
+        "name": "CONSTRAINTS",
+        "label": "不可刪的業務與安全規則",
+        "required": false,
+        "example": "保留審核與可回復機制"
+      }
+    ],
+    "adaptedPrompt": "請根據以下資料唯讀稽核 Coding Agent 的工作流程。\n專案證據：{{REPO_EVIDENCE}}\n不可變約束：{{CONSTRAINTS}}\n\n請按照原始收藏的 18 類盲點逐一檢查，從推理成本、需求對齊、程式庫可導航性、Skills／全域規則、工具輸出、CI、Review、Sessions、人工監督、Prototype、策略與測試品質各面向判斷。每項標記「符合／部分符合／證據不足／不適用」及可追溯證據，勿以缺資料判定失敗。按改善價值、風險與成本列前三項、最小修改 diff、量測指標、驗收與回滾計畫。先不改程式、不刪除安全與業務限制。",
+    "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "虛構專案有 AGENTS.md 與 CI，但沒有歷史會話 Log。"
+    },
+    "exampleOutput": {
+      "label": "格式示意，未執行模型",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "項目 8：證據不足，缺少舊 Sessions。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "建議：先建立可量測的低風險 Regression Gate。"
+        }
+      ],
+      "note": "以上是人工撰寫的示意，不是測試結果。"
+    },
+    "adjustments": [
+      {
+        "title": "限縮資料來源",
+        "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+      },
+      {
+        "title": "分階段驗收",
+        "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+      }
+    ],
+    "outputContract": [
+      "18 項可追溯稽核表",
+      "前三項改善和預期量測",
+      "最小、可回復的修改建議"
+    ],
+    "failureHandling": [
+      "缺少歷史 Agent Logs 時將有關項目標為證據不足。",
+      "不能因為想降低 Token 成本而移除權限與安全規則。"
+    ],
+    "testCases": [
+      {
+        "name": "完整專案",
+        "input": "完整專案",
+        "expectation": "十八項逐一有狀態和證據",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "缺少 Logs",
+        "input": "缺少 Logs",
+        "expectation": "不假稱觀察過 Session",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "安全規範很長",
+        "input": "安全規範很長",
+        "expectation": "不能直接刪除未經同意的政策",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "真實輸出能支援：18 項可追溯稽核表",
+      "真實輸出能支援：前三項改善和預期量測",
+      "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "coding-agent-18-failure-modes-audit-contract",
+        "name": "逐項檢查 Coding Agent 的 18 種工作盲點",
+        "problem": "Agent Coding 只追求更快寫程式可能忽略需求對齊、成本、驗證、Codebase 品質與不必要的人工監督。",
+        "input": "專案規則、CI 與工作紀錄＋不可刪的業務與安全規則",
+        "output": "18 項可追溯稽核表；前三項改善和預期量測；最小、可回復的修改建議",
+        "gate": "缺少歷史 Agent Logs 時將有關項目標為證據不足。"
+      },
+      "example": "取得專案證據 → 18 項 Gate → 優先 3 項 → 小改動 → 回歸量測",
+      "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+    },
+    "privacy": "僅檢查有權存取的 Repo 與紀錄，不外送私人 Agent 對話。",
+    "limitations": [
+      "沒有完整操作證據不能替每項打 PASS，也不應直接重構 Harness。",
+      "空泛的流程評分與過度刪除安全限制。"
+    ],
+    "provenance": {
+      "source": "User screenshot plus published secondary summary of Matt Pocock 2026-10-13 public checklist",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+    },
+    "classificationReason": "內容 Guide 更新不代表重新分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅作 I/O 構想，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保持所有既有 Concept 參照。"
+    },
+    "riskNotes": "空泛的流程評分與過度刪除安全限制。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+    }
   }
 }

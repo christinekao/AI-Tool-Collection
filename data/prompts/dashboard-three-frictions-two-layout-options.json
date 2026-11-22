@@ -5,7 +5,7 @@
   "title": "Dashboard 結構診斷｜三個問題＋兩種分區方案（修改前）",
   "status": "unreviewed",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-11-22",
   "tags": [
     "dashboard",
     "ui",
@@ -77,5 +77,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "先找三個 Dashboard 摩擦點，再提出兩種排版",
+    "overview": "使用者對面板不滿意但未決定如何改版。",
+    "preparationHint": "未看畫面、任務與限制時，不任意推測用戶研究或直接改 Code。",
+    "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+    "verificationIntro": "缺乏來源的可用性判斷與意外破壞 Dashboard 功能。",
+    "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "使用者對面板不滿意但未決定如何改版。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "未看畫面、任務與限制時，不任意推測用戶研究或直接改 Code。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "現有畫面／文字結構",
+        "detail": "截圖、主要數字與操作入口",
+        "required": true
+      },
+      {
+        "title": "最重要的使用者任務",
+        "detail": "查異常、切換期間、下載",
+        "required": true
+      },
+      {
+        "title": "保留的設計與功能",
+        "detail": "不改資料語義、保留篩選器",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "DASHBOARD",
+        "label": "現有畫面／文字結構",
+        "required": true,
+        "example": "截圖、主要數字與操作入口"
+      },
+      {
+        "name": "TASKS",
+        "label": "最重要的使用者任務",
+        "required": true,
+        "example": "查異常、切換期間、下載"
+      },
+      {
+        "name": "RULES",
+        "label": "保留的設計與功能",
+        "required": false,
+        "example": "不改資料語義、保留篩選器"
+      }
+    ],
+    "adaptedPrompt": "請先診斷，不要修改任何程式碼。\n現有 Dashboard：{{DASHBOARD}}\n最重要任務：{{TASKS}}\n不可變設計／功能：{{RULES}}\n\n根據實際畫面與任務，選出影響最大的三個資訊層級／操作摩擦點，每點要有可見證據、影響、嚴重度。提出 A、B 兩種區塊配置方案，每區列出內容、重要資訊的位置與使用流程、保留功能及取捨；只能建議，不得直接拆元件或改資料。最後指出最小試改範圍與 375／430／768／1440px 的視覺驗收標準，等使用者選定方案後再實作。",
+    "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "虛構面板把主要異常指標藏在第三屏，篩選條件放在最下方。"
+    },
+    "exampleOutput": {
+      "label": "格式示意，未執行模型",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "摩擦點：核心異常需多次捲動才可看見。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "配置 A：將異常摘要置頂，次要統計移到後方。"
+        }
+      ],
+      "note": "以上是人工撰寫的示意，不是測試結果。"
+    },
+    "adjustments": [
+      {
+        "title": "限縮資料來源",
+        "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+      },
+      {
+        "title": "分階段驗收",
+        "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+      }
+    ],
+    "outputContract": [
+      "三個實際可見的 Dashboard 問題",
+      "兩種各區塊有說明的配置方案",
+      "使用者選方案後的最小修改計畫"
+    ],
+    "failureHandling": [
+      "沒有畫面或結構資料則無法判斷具體摩擦點。",
+      "未得到選擇與授權前沒有任何檔案修改。"
+    ],
+    "testCases": [
+      {
+        "name": "完整畫面",
+        "input": "完整畫面",
+        "expectation": "三項問題可指向可見區塊",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "沒有截圖",
+        "input": "沒有截圖",
+        "expectation": "先索取結構不編造視覺問題",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "直接要求改 Code",
+        "input": "直接要求改 Code",
+        "expectation": "維持先診斷、方案核准的邊界",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "真實輸出能支援：三個實際可見的 Dashboard 問題",
+      "真實輸出能支援：兩種各區塊有說明的配置方案",
+      "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "dashboard-three-frictions-two-layout-options-contract",
+        "name": "先找三個 Dashboard 摩擦點，再提出兩種排版",
+        "problem": "面板看起來不順但無明確問題定義，若直接交 AI 改 Code 容易大幅改版且難以對照。",
+        "input": "現有畫面／文字結構＋最重要的使用者任務＋保留的設計與功能",
+        "output": "三個實際可見的 Dashboard 問題；兩種各區塊有說明的配置方案；使用者選方案後的最小修改計畫",
+        "gate": "沒有畫面或結構資料則無法判斷具體摩擦點。"
+      },
+      "example": "可見證據 → 三摩擦 → 兩布局 → 使用者選定 → 小範圍修改 → 視覺回歸",
+      "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+    },
+    "privacy": "內部數值、員工資料和客戶識別欄位需遮蔽。",
+    "limitations": [
+      "未看畫面、任務與限制時，不任意推測用戶研究或直接改 Code。",
+      "缺乏來源的可用性判斷與意外破壞 Dashboard 功能。"
+    ],
+    "provenance": {
+      "source": "User-provided UI feedback techniques and dashboard prompt, 2026-10-28",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+    },
+    "classificationReason": "內容 Guide 更新不代表重新分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅作 I/O 構想，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保持所有既有 Concept 參照。"
+    },
+    "riskNotes": "缺乏來源的可用性判斷與意外破壞 Dashboard 功能。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+    }
   }
 }

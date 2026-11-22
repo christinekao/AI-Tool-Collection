@@ -51,7 +51,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-11-22",
   "tags": [
     "github",
     "agent-skills",
@@ -79,5 +79,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "比較 Skill 的來源、維護與權限，再選用",
+    "overview": "將需求轉為多種 GitHub 搜尋語義後，比較候選 Skills。",
+    "preparationHint": "無法查到原始專案、授權或完整 SKILL.md 時，不推薦直接安裝。",
+    "originalNote": "原始 Prompt 為收藏原文；與整理版本分開保留。",
+    "verificationIntro": "未經驗證的上游技能可能含惡意指令與高權限操作。",
+    "workflowIntro": "僅為候選 Prompt 節點，未完成外部工具或模型整合。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "將需求轉為多種 GitHub 搜尋語義後，比較候選 Skills。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "無法查到原始專案、授權或完整 SKILL.md 時，不推薦直接安裝。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "要完成的工作",
+        "detail": "對大量 Word 檔做摘要並保留來源",
+        "required": true
+      },
+      {
+        "title": "Agent 平台與環境",
+        "detail": "Claude Code／Codex／本機",
+        "required": false
+      },
+      {
+        "title": "資料與安全限制",
+        "detail": "不可外送公司資料",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "NEED",
+        "label": "要完成的工作",
+        "required": true,
+        "example": "對大量 Word 檔做摘要並保留來源"
+      },
+      {
+        "name": "HOST",
+        "label": "Agent 平台與環境",
+        "required": false,
+        "example": "Claude Code／Codex／本機"
+      },
+      {
+        "name": "RESTRICTIONS",
+        "label": "資料與安全限制",
+        "required": false,
+        "example": "不可外送公司資料"
+      }
+    ],
+    "adaptedPrompt": "請在 GitHub 研究符合以下需求的 Agent Skills，**只查找與比較，不安裝**。\n需求：{{NEED}}\n平台／環境：{{HOST}}\n授權與資料限制：{{RESTRICTIONS}}\n\n將需求擴成不同的功能詞、實作詞與官方 Repo 搜尋方式，列出三至五個可核實的候選（不足就如實列數量）。逐筆以官方連結檢查 README／SKILL.md、最新 Commit、Issues、可複製案例、License、資料存取、可執行命令、外部傳輸與可能的 Prompt Injection。以同樣欄位和日期比較，標註 UNKNOWN／PARTIAL，選出條件最相符的一個並說明不確定性。任何安裝、執行、輸入秘密或寫入 Repo 都先取得許可。",
+    "adaptationNote": "原文與改良版獨立：本版本為根據來源方法與既有約束整理的可重用範例，並非官方逐字 Prompt。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "需要離線處理 Word 文件，來源不得傳到雲端。"
+    },
+    "exampleOutput": {
+      "label": "格式示意，未執行模型",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "候選比對列：執行環境、是否外送資料、License 狀態。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "關鍵 Gate：缺少完整來源的 Skill 標為 PARTIAL。"
+        }
+      ],
+      "note": "以上是人工撰寫的示意，不是測試結果。"
+    },
+    "adjustments": [
+      {
+        "title": "限縮資料來源",
+        "detail": "只提供有權使用的資料，未知資料不可變成確定事實。"
+      },
+      {
+        "title": "分階段驗收",
+        "detail": "先驗證設計與 Gate，再依操作權限決定是否真正執行。"
+      }
+    ],
+    "outputContract": [
+      "三至五個有來源的候選比較",
+      "維護、授權、資料出站與權限評估",
+      "可採用首選、尚未確認的風險"
+    ],
+    "failureHandling": [
+      "只找到兩個可靠候選時不填補假專案。",
+      "未讀官方 SKILL.md 的候選不能標示已核實可安全執行。"
+    ],
+    "testCases": [
+      {
+        "name": "需求明確",
+        "input": "需求明確",
+        "expectation": "候選有 Repo 及文件證據",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "查無來源",
+        "input": "查無來源",
+        "expectation": "回報不足不造假",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "惡意 Skill",
+        "input": "惡意 Skill",
+        "expectation": "列注入／資料外送風險，不安裝",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "真實輸出能支援：三至五個有來源的候選比較",
+      "真實輸出能支援：維護、授權、資料出站與權限評估",
+      "沒有模型或工具實測時只記錄預期 Gate，不宣稱完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "github-ai-skill-discovery-and-risk-comparison-contract",
+        "name": "比較 Skill 的來源、維護與權限，再選用",
+        "problem": "只用單一關鍵字找 Skills 容易漏掉合適候選；未檢查最近維護、實際案例、Issue 回應、安裝所需權限與資料出站風險，容易誤用過時或高權限的第三方 Skills。",
+        "input": "要完成的工作＋Agent 平台與環境＋資料與安全限制",
+        "output": "三至五個有來源的候選比較；維護、授權、資料出站與權限評估；可採用首選、尚未確認的風險",
+        "gate": "只找到兩個可靠候選時不填補假專案。"
+      },
+      "example": "需求拆解 → 多詞搜尋 → 官方來源 → 權限風險 → 比較 → 人工核准",
+      "note": "候選 Workflow 組合，未驗證相容性，沒有新增 Graph 關係。"
+    },
+    "privacy": "不得讓待審 Skill 存取任何金鑰、履歷或未公開 Repo。",
+    "limitations": [
+      "無法查到原始專案、授權或完整 SKILL.md 時，不推薦直接安裝。",
+      "未經驗證的上游技能可能含惡意指令與高權限操作。"
+    ],
+    "provenance": {
+      "source": "User-provided Traditional Chinese prompt (no original post URL supplied)",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "依既有原文與來源限制整理，非官方逐字指令",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "原 ID 已在 Canonical，保留原文、引用與分類。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "完整保留原 Tags 與分類，不創造新關聯。"
+    },
+    "classificationReason": "內容 Guide 更新不代表重新分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原文與可用來源，整理 Problem/Input/Copy/Output/Test/Compose 契約。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "僅作 I/O 構想，不新增正式 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保持所有既有 Concept 參照。"
+    },
+    "riskNotes": "未經驗證的上游技能可能含惡意指令與高權限操作。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有文件查核與預期測試案例，未執行第三方模型或實際操作。"
+    }
   }
 }
