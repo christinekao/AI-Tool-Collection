@@ -13,15 +13,24 @@
     "對低信心或尚未 live-canary 驗證的自動化能力 fail closed，不把 fixture、單一 canary 或 target-only evidence 誤報成全面 production capability",
     "私人 voice、真實貼文、帳號洞察與留言資料 local-first 保存，公開 repo 只保留通用程式與匿名測試"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "累積平台成效改善回饋，但資料治理成本提高。",
+    "人工批准降低公開操作風險，卻限制即時全自動發布。"
+  ],
+  "signals": [
+    "跨平台品牌聲線漂移，成效難追溯。",
+    "希望用過往成效改善下輪內容且不越權發布。"
+  ],
+  "antiPatterns": [
+    "把單篇爆文當所有平台的通用法則。",
+    "未獲授權便宣稱帳號發布與留言自動化已完成。"
+  ],
   "examples": [
     "Social Post"
   ],
   "status": "active",
   "addedAt": "2026-10-02",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "social-content",
     "feedback-loop",
@@ -43,5 +52,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "把內容規劃、草稿、批准、發布、成效觀察與修正分開，僅根據授權取得的真實資料更新策略。",
+  "applicationScenarios": [
+    "示意：企業用核准的內容庫建立語氣規則並審核平台草稿。",
+    "示意：創作者保存匿名成效，透過實際實驗比較標題。"
+  ],
+  "validationQuestions": [
+    "每個成效結論能否追溯平台、貼文及期間？",
+    "對外發布前是否有可中止與可稽核的批准點？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原始作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 68 筆 Concept ID 與標題，更新原有紀錄，不新增重複概念。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配 Tags 僅保留搜尋用途，本批不增刪。"
+    },
+    "classificationReason": "保留原 Primary Domain content，不依候選情境另行分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依現有 Knowledge Layers Policy 補原理、風險、反例與驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "抽象原理非可執行 I/O 證據，不建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現有 Concept，不推測新增正式 Typed References。"
+    },
+    "riskNotes": "所有情境只是尚未實測的示意，第三方來源、授權、Runtime 和外部整合未查證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅內容整理，未實際執行外部模型或流程；CI 須另外檢查。"
+    }
   }
 }

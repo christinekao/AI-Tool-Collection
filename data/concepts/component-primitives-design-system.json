@@ -10,9 +10,18 @@
     "讓 Agent 優先組合既有元件而不是每次重新發明",
     "把元件層作為 Generative UI 的安全與一致性邊界"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "有限元件提高一致性，但可能限制特殊介面創作。",
+    "基礎元件先期維護成本較高，後續才有重用收益。"
+  ],
+  "signals": [
+    "相似頁面的按鈕、焦點與表單錯誤行為不同。",
+    "AI 生成頁面常重複 CSS 並造成樣式漂移。"
+  ],
+  "antiPatterns": [
+    "只有視覺 Token，未定義鍵盤和 Disabled 狀態。",
+    "為局部效果直接繞過共用元件。"
+  ],
   "examples": [
     "shadcn/ui",
     "ant-design/ant-design",
@@ -25,7 +34,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "components",
     "design-system",
@@ -43,5 +52,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "先定義可重用的 UI Primitives 與 Design Tokens，再組裝頁面，統一互動、狀態與無障礙規則。",
+  "applicationScenarios": [
+    "示意：管理後臺共用表格、篩選器和表單元件。",
+    "示意：旅行網站沿用共用卡片與時間軸，保留插畫風格。"
+  ],
+  "validationQuestions": [
+    "元件是否通過鍵盤、手機與錯誤狀態測試？",
+    "頁面繞過 Primitive 時是否有可審核的理由？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原始作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 68 筆 Concept ID 與標題，更新原有紀錄，不新增重複概念。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配 Tags 僅保留搜尋用途，本批不增刪。"
+    },
+    "classificationReason": "保留原 Primary Domain design，不依候選情境另行分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依現有 Knowledge Layers Policy 補原理、風險、反例與驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "抽象原理非可執行 I/O 證據，不建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現有 Concept，不推測新增正式 Typed References。"
+    },
+    "riskNotes": "所有情境只是尚未實測的示意，第三方來源、授權、Runtime 和外部整合未查證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅內容整理，未實際執行外部模型或流程；CI 須另外檢查。"
+    }
   }
 }
