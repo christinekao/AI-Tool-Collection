@@ -81,7 +81,7 @@
   },
   "status": "unreviewed",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-22",
   "tags": [
     "career",
     "resume",
@@ -111,5 +111,179 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "先建立可追溯的職涯素材庫，再改履歷",
+    "overview": "整理真實經驗、證據與職涯方向，作為多職缺履歷的共用資料。",
+    "preparationHint": "未提供履歷時不編造職涯檔案，也不自行新增學歷或 KPI。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "虛構經驗與個人資料在公開儲存庫外洩。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "整理真實經驗、證據與職涯方向，作為多職缺履歷的共用資料。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "未提供履歷時不編造職涯檔案，也不自行新增學歷或 KPI。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "真實履歷／已確認經驗",
+        "detail": "已去識別化的經歷素材",
+        "required": true
+      },
+      {
+        "title": "職涯方向偏好",
+        "detail": "資料工程／自動化／AI Solutions",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "CV",
+        "label": "真實履歷／已確認經驗",
+        "required": true,
+        "example": "已去識別化的經歷素材"
+      },
+      {
+        "name": "TARGETS",
+        "label": "職涯方向偏好",
+        "required": false,
+        "example": "資料工程／自動化／AI Solutions"
+      }
+    ],
+    "adaptedPrompt": "請先建立個人職涯素材庫，不要直接改寫投遞用履歷。\n履歷與真實經歷：{{CV}}\n職涯偏好：{{TARGETS}}\n\n依「已確認事實／推論候選／待確認」三種證據等級整理：學經歷、專業技能、個人實際行動與成果、可轉移能力、符合的職涯方向及缺失。每項成果指回輸入段落，數字、公司與職級不得憑空補造。若關鍵資訊缺少，一次只提出最多五個高優先問題，待回覆後再補全。最後提供可複用的 Markdown 個人職涯檔案、來源索引與下一步 JD 比對所需資料；未獲同意不寫入外部服務。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "虛構經歷：參與跨部門報表整合；所用工具與具體成效未提供。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "已確認：參與跨部門報表整合。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "待確認：本人責任、工具與量化結果。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "可重複使用的 Markdown 職涯資料庫",
+      "已確認／推論／待補欄位標籤",
+      "最多五個優先補強問題"
+    ],
+    "failureHandling": [
+      "未提供履歷先請求必要內容，不套用他人的個人資料。",
+      "欠缺成果數據時使用待確認標記，絕不推測 KPI。"
+    ],
+    "testCases": [
+      {
+        "name": "完整經歷",
+        "input": "完整經歷",
+        "expectation": "可建立有來源的職涯卡片",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "無數字",
+        "input": "無數字",
+        "expectation": "成果保留待補，不自行造數字",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "矛盾任期",
+        "input": "矛盾任期",
+        "expectation": "標示衝突並提出優先釐清問題",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：可重複使用的 Markdown 職涯資料庫",
+      "能從所提供的真實來源支援：已確認／推論／待補欄位標籤",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "career-profile-knowledge-base-step-1-contract",
+        "name": "先建立可追溯的職涯素材庫，再改履歷",
+        "problem": "AI 直接修改單一履歷，可能忽略求職者的完整工作背景、可轉移能力與證據缺口，難以支援後續職缺分析及客製化履歷。",
+        "input": "真實履歷／已確認經驗＋職涯方向偏好",
+        "output": "可重複使用的 Markdown 職涯資料庫；已確認／推論／待補欄位標籤；最多五個優先補強問題",
+        "gate": "未提供履歷先請求必要內容，不套用他人的個人資料。"
+      },
+      "example": "真實經歷 → 證據卡片 → Career Profile → JD 比對 → 客製 CV",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "使用者履歷可能含姓名、聯絡方式與內部資料；保留在受權範圍，不回寫公開收藏。",
+    "limitations": [
+      "未提供履歷時不編造職涯檔案，也不自行新增學歷或 KPI。",
+      "虛構經驗與個人資料在公開儲存庫外洩。"
+    ],
+    "provenance": {
+      "source": "User-submitted Traditional Chinese prompt (2026-11-05); original authorship and source not specified",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "虛構經驗與個人資料在公開儲存庫外洩。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "ChatGPT → Opus → Codex｜多 Agent 專案規劃、隔離測試、獨立審查與進度回報",
   "status": "unreviewed",
   "addedAt": "2026-10-29",
-  "updatedAt": "2026-10-29",
+  "updatedAt": "2026-11-22",
   "category": "01 Agentic Coding & Harness",
   "promptType": "User-Provided Multi-Agent Software Development Playbook",
   "tags": [
@@ -135,5 +135,190 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "promptGuide": {
+    "version": 1,
+    "scope": "text-prompt",
+    "headline": "多 Agent 專案交接與獨立驗收的可控計畫",
+    "overview": "把多 AI 協作構想轉成有 Ownership、資源上限與 Gate 的落地方案。",
+    "preparationHint": "原文的模型代號、插件與整合不代表已存在，不可直接大規模安裝或推 GitHub。",
+    "originalNote": "原始 prompt 欄位保留，來源文件與改寫版本不得混同。",
+    "verificationIntro": "未知插件、遠端程式、權限與成本、測試資源衝突。",
+    "workflowIntro": "這只是可組合的 Prompt 節點草案；未實際操作或驗證。",
+    "situations": [
+      {
+        "title": "適合使用",
+        "description": "把多 AI 協作構想轉成有 Ownership、資源上限與 Gate 的落地方案。"
+      },
+      {
+        "title": "不適合／停止條件",
+        "description": "原文的模型代號、插件與整合不代表已存在，不可直接大規模安裝或推 GitHub。"
+      }
+    ],
+    "preparation": [
+      {
+        "title": "專案與現況",
+        "detail": "Repo、任務與已完成項目",
+        "required": true
+      },
+      {
+        "title": "實際可用 Agent／服務",
+        "detail": "逐一標示已驗證可用",
+        "required": true
+      },
+      {
+        "title": "授權與資源限制",
+        "detail": "CPU／RAM、推送與費用邊界",
+        "required": false
+      }
+    ],
+    "variables": [
+      {
+        "name": "PROJECT",
+        "label": "專案與現況",
+        "required": true,
+        "example": "Repo、任務與已完成項目"
+      },
+      {
+        "name": "TOOLS",
+        "label": "實際可用 Agent／服務",
+        "required": true,
+        "example": "逐一標示已驗證可用"
+      },
+      {
+        "name": "LIMITS",
+        "label": "授權與資源限制",
+        "required": false,
+        "example": "CPU／RAM、推送與費用邊界"
+      }
+    ],
+    "adaptedPrompt": "請扮演多 Agent 專案協調者，但先做**唯讀 Preflight**。\n專案：{{PROJECT}}\n實際可用工具：{{TOOLS}}\n資源與授權限制：{{LIMITS}}\n\n先核實 GitHub／Notion／模型／Codex／Oracle／Docker 是否真的可用，對來源構想的型號與插件名稱標記「未核實」。產出 Think → Spec → Plan → Execute → Verify → Deliver 的分階段設計：單一 Coordinator、任務鎖／文件 Ownership、隔離測試資源、PR／CI、安全／獨立 Review、失敗回復、跨 Session Handoff。每階段列出可觀察證據與需要人工批准的不可逆動作。未收到明確授權之前，不安裝插件、寫 Issue、Push、Merge、啟動排程或執行付費操作。",
+    "adaptationNote": "本版由原始收藏與現有安全限制獨立整理，非來源作者逐字原文。原始 prompt 保持不變。",
+    "exampleInput": {
+      "label": "虛構情境（非真實模型輸入）",
+      "content": "假設一個待開發的網站 Repo，只能讀 Code，無 Docker 與外部審查工具。"
+    },
+    "exampleOutput": {
+      "label": "預期輸出格式示意（未執行模型）",
+      "items": [
+        {
+          "name": "格式示意 1",
+          "text": "Preflight：缺 Docker／審查工具的實際可用證據。"
+        },
+        {
+          "name": "格式示意 2",
+          "text": "方案：先定義 Acceptance 和隔離測試計畫，禁止假稱完成整合。"
+        }
+      ],
+      "note": "上例僅用於解釋輸出結構，沒有實際模型執行紀錄。"
+    },
+    "adjustments": [
+      {
+        "title": "依實際資料限縮",
+        "detail": "只填入你有權處理的來源；遇未知資料明列缺口。"
+      },
+      {
+        "title": "分階段交付",
+        "detail": "先產出可審查的方案與 Gate；未授權不執行會產生副作用的操作。"
+      }
+    ],
+    "outputContract": [
+      "工具可用性與不確定性清單",
+      "角色／Ownership／測試資源／審查流程",
+      "分階段核准點與驗收交接格式"
+    ],
+    "failureHandling": [
+      "工具不可用時保留方案與阻塞，不宣稱已安裝。",
+      "沒有 Repo 權限時只出示可複製任務模板，不假裝建立 Issue。"
+    ],
+    "testCases": [
+      {
+        "name": "有工具與 Repo",
+        "input": "有工具與 Repo",
+        "expectation": "產生分工和 Gate 設計",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "模型名稱不存在",
+        "input": "模型名稱不存在",
+        "expectation": "標示未核實並提供功能型替代",
+        "status": "NOT_TESTED"
+      },
+      {
+        "name": "無寫入權限",
+        "input": "無寫入權限",
+        "expectation": "不建立 PR、不推送",
+        "status": "NOT_TESTED"
+      }
+    ],
+    "acceptance": [
+      "能從所提供的真實來源支援：工具可用性與不確定性清單",
+      "能從所提供的真實來源支援：角色／Ownership／測試資源／審查流程",
+      "未執行模型或工具時不冒稱測試／變更已完成。"
+    ],
+    "composition": {
+      "capability": {
+        "id": "chatgpt-opus-codex-oracle-multi-agent-development-contract",
+        "name": "多 Agent 專案交接與獨立驗收的可控計畫",
+        "problem": "多個 AI 模型和 Agent 共同開發專案時，需求決策難同步、任務容易衝突、測試搶佔主機資源，且缺少獨立審查及可核對的進度證據。",
+        "input": "專案與現況＋實際可用 Agent／服務＋授權與資源限制",
+        "output": "工具可用性與不確定性清單；角色／Ownership／測試資源／審查流程；分階段核准點與驗收交接格式",
+        "gate": "工具不可用時保留方案與阻塞，不宣稱已安裝。"
+      },
+      "example": "需求與規格 → 任務鎖 → 分層實作 → 隔離測試 → 獨立 Review → 證據交接",
+      "note": "設計示例，不建立正式 Graph Edge，未驗證整合相容性。"
+    },
+    "privacy": "不得讀取或回報 Keys、私人 Repo 內容與機密測試環境資料。",
+    "limitations": [
+      "原文的模型代號、插件與整合不代表已存在，不可直接大規模安裝或推 GitHub。",
+      "未知插件、遠端程式、權限與成本、測試資源衝突。"
+    ],
+    "provenance": {
+      "source": "User-provided exact-text prompt",
+      "originalPromptPreserved": true,
+      "originalSharedTextPreserved": false,
+      "adaptation": "從原始 Prompt 和既有約束重寫的可重用版",
+      "testStatus": "NOT_TESTED",
+      "modelExecution": "NOT_RUN"
+    }
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "prompt"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title",
+        "source"
+      ],
+      "reason": "沿用原有 Canonical Prompt；未增加任何新實體或原文替代資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "原有 Tags／分類／Typed References 全部保留；未加新詞。"
+    },
+    "classificationReason": "只整理 Prompt 內容與閱讀契約，不修改既有分類。",
+    "readingSpec": {
+      "id": "prompt",
+      "status": "applied",
+      "reason": "已讀原有 Prompt 原文與來源說明，建立 Problem/Input/Copy/Output/Test/Compose。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "只提出 Guide 中候選能力，未驗證可執行相容性前不新增正式映射。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留既有 Concept Typed Refs，不新增推測關係。"
+    },
+    "riskNotes": "未知插件、遠端程式、權限與成本、測試資源衝突。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "已完成原文保存與靜態 Prompt 契約、測試情境設計；外部模型、實際工具與整合測試未執行。"
+    }
   }
 }
