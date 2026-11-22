@@ -297,10 +297,14 @@ function detail(x){
   body+=section('相關 Concepts',refsHtml(x.conceptRefs));
   }
  }else if(x.entityType==='concept'){
+  body+=section('概念定義',para(x.definition));
   body+=section('解決方法',bullets(x.solutionMethods));
-  body+=section('實際案例與參考項目',examples(x));
   body+=section('取捨',bullets(x.tradeoffs));
+  body+=section('適用訊號',bullets(x.signals));
   body+=section('反模式',bullets(x.antiPatterns));
+  body+=section('候選跨領域應用（非實測）',bullets(x.applicationScenarios));
+  body+=section('驗證時該問',bullets(x.validationQuestions));
+  body+=section('實際案例與參考項目',examples(x));
  }else if(x.entityType==='prompt'){
   if(hasPromptGuide){body+=promptGuideHtml(x)}else{
   body+=section('使用目標',para(x.goal));
