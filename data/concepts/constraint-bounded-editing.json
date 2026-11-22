@@ -11,15 +11,24 @@
     "每個修改應能指出觸發的規則或可觀察問題，讓變更可審核",
     "在語氣清理與內容／結構決策之間建立明確權限邊界"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "最小改動易追溯，卻不利大幅結構性重寫。",
+    "規則太窄可能漏掉問題，需要人工變更允許範圍。"
+  ],
+  "signals": [
+    "只想修正不自然措辭，卻常連事實和段落都被改。",
+    "合規或履歷文件要求非指定段落不能更動。"
+  ],
+  "antiPatterns": [
+    "以模糊的「更專業」授權任意重寫。",
+    "只看流暢度，不比對未要求修改的文字。"
+  ],
   "examples": [
     "lieflat-less-ai-tone"
   ],
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "editing",
     "constraints",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "編輯應是遵循明確白名單的最小修改；每處差異對應可檢查的問題，不以改語氣為由重生整篇內容。",
+  "applicationScenarios": [
+    "示意：履歷英文只修措辭，不改原有工作成果和數字。",
+    "示意：技術操作文件只去重語句，不動指令和安全警告。"
+  ],
+  "validationQuestions": [
+    "每個 Diff 是否能說明命中的編輯規則？",
+    "不在編輯範圍內的數據和段落是否保持一致？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，來源作者與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Concept ID 與標題，只修改既有紀錄不新增同義實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配標籤保留以供搜尋，本次沒有新增。"
+    },
+    "classificationReason": "保留既有 Domain content，不憑示意推斷分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、適用訊號、反例及候選應用。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可驗證執行輸入輸出，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現存 Concept，正式 Typed References 不修改。"
+    },
+    "riskNotes": "跨領域情境全為未實測示意，不宣稱工具部署、來源授權或整合已驗證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "完成概念文字整理但未執行模型、工具整合或授權查核；CI 另驗。"
+    }
   }
 }

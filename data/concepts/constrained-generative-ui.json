@@ -10,9 +10,18 @@
     "使用 streaming renderer 把結構逐步轉成 UI",
     "把視覺品質與互動行為納入 acceptance"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "有限 Schema 提高一致性，卻限制特殊需求的表達。",
+    "串流渲染需要處理中斷、焦點與無效狀態。"
+  ],
+  "signals": [
+    "模型生成 UI 常有不支援元件或無效 Props。",
+    "產品希望動態組裝介面但仍守住 Design System。"
+  ],
+  "antiPatterns": [
+    "把模型字串直接當作可執行 HTML 插入。",
+    "只驗視覺，不驗鍵盤、狀態與資料契約。"
+  ],
   "examples": [
     "OpenUI",
     "shadcn/ui",
@@ -21,7 +30,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "generative-ui",
     "design-system",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "讓模型產生受 Schema 與白名單限制的 UI 描述，再由受控 Renderer 組裝元件；不允許任意 HTML 或可執行指令。",
+  "applicationScenarios": [
+    "示意：客服分析介面從核准的 Chart、Table、Filter 中選擇。",
+    "示意：多步驟表單由 Schema 決定 UI，提交走獨立受控 API。"
+  ],
+  "validationQuestions": [
+    "生成輸出是否只能使用白名單元件與 Props？",
+    "串流中斷或 Schema 無效時，介面能否安全降級？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，來源作者與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Concept ID 與標題，只修改既有紀錄不新增同義實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配標籤保留以供搜尋，本次沒有新增。"
+    },
+    "classificationReason": "保留既有 Domain design，不憑示意推斷分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、適用訊號、反例及候選應用。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可驗證執行輸入輸出，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現存 Concept，正式 Typed References 不修改。"
+    },
+    "riskNotes": "跨領域情境全為未實測示意，不宣稱工具部署、來源授權或整合已驗證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "完成概念文字整理但未執行模型、工具整合或授權查核；CI 另驗。"
+    }
   }
 }

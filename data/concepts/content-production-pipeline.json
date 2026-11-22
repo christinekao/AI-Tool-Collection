@@ -10,9 +10,18 @@
     "定義中間 artifact contract，讓下一步可以直接消費",
     "在交付前加入品質檢查與人工 final polish"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "分階段可局部重跑，卻須維護檔案格式和版本。",
+    "自動化減少搬運，仍須審查事實、授權及品牌適配。"
+  ],
+  "signals": [
+    "同一研究要轉成文章、簡報和短影音。",
+    "素材變更時希望重做受影響階段，而非整條管線。"
+  ],
+  "antiPatterns": [
+    "沒有中間契約，無法分辨哪個檔案是最新版。",
+    "未驗證內容直接自動發布到多個平台。"
+  ],
   "examples": [
     "acheAIsuiyimen/ache-life-to-comic-skill",
     "baoyu-skill",
@@ -37,7 +46,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "content",
     "pipeline",
@@ -58,5 +67,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "將研究、草稿、素材、審核與匯出拆成可重用階段；中間 Artifact 有版本、來源與接續契約。",
+  "applicationScenarios": [
+    "示意：有引用的研究摘要生成簡報，圖表與敘述再獨立審查。",
+    "示意：教學長文轉為字幕和短片，仍共享同一事實來源。"
+  ],
+  "validationQuestions": [
+    "每個 Artifact 是否保存輸入版本與來源？",
+    "驗收是否包含正確性、素材授權和格式規格？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，來源作者與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Concept ID 與標題，只修改既有紀錄不新增同義實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配標籤保留以供搜尋，本次沒有新增。"
+    },
+    "classificationReason": "保留既有 Domain content，不憑示意推斷分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、適用訊號、反例及候選應用。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可驗證執行輸入輸出，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現存 Concept，正式 Typed References 不修改。"
+    },
+    "riskNotes": "跨領域情境全為未實測示意，不宣稱工具部署、來源授權或整合已驗證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "完成概念文字整理但未執行模型、工具整合或授權查核；CI 另驗。"
+    }
   }
 }

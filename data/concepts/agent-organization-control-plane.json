@@ -13,15 +13,24 @@
     "把 approval gate、pause / resume / terminate、audit log 與 rollback 做成治理層",
     "用 RBAC、scoped secrets 與 company boundary 限制每個 Agent 能接觸的能力與資料"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "集中治理改善稽核但帶來單點故障風險。",
+    "審批能減少事故，卻提高人工成本與延遲。"
+  ],
+  "signals": [
+    "多 Agent 修改相依任務造成重複寫入。",
+    "需追蹤每項執行的目標、成本與責任歸屬。"
+  ],
+  "antiPatterns": [
+    "以共享待辦取代 Task Lock 或 Lease。",
+    "只計算 Token，未設超支停止與審批條件。"
+  ],
   "examples": [
     "Paperclip"
   ],
   "status": "active",
   "addedAt": "2026-09-26",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "agent-organization",
     "control-plane",
@@ -42,5 +51,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "將多 Agent 的任務所有權、權限、成本、審批、心跳與稽核集中於治理層，與模型執行環境分離。",
+  "applicationScenarios": [
+    "示意：財務審批 Agent 與資料查核 Agent 具不同權限。",
+    "示意：多 Coding Agent 使用隔離 Worktree 並共用合併 Gate。"
+  ],
+  "validationQuestions": [
+    "每個任務是否有可追溯目標、擁有者和批准紀錄？",
+    "Agent 中斷或超支時，能否安全暫停並移交？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現存 Concept ID／標題，補充同一筆既有資料而非建立重複紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有未匹配 Tags 作為歷史線索；本批沒有增刪。"
+    },
+    "classificationReason": "保留既有分類 ai-agent，未從候選應用推斷新的 Domain。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、反例、候選情境及驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少真實執行契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用既有 Concept；未新增 Typed Reference 或 Graph Edge。"
+    },
+    "riskNotes": "情境均為未實測示意，沒有驗證外部整合、Runtime、安全性、來源作者或授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成內容補強，Runtime／模型／外部整合與授權未測試；CI 另外確認。"
+    }
   }
 }

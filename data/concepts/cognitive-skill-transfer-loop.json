@@ -12,15 +12,24 @@
     "用 transfer questions 檢查能否把概念套到變形情境，而不是只測記憶",
     "把可轉移 lessons 留進 learning log，並隨熟悉度由 guided → shared → review 逐步減少 Agent 代做比例"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "練習和複盤增加當次工作時間，但可能減少長期重複求助。",
+    "過度教學可能干擾急迫交付，應按學習目標調整。"
+  ],
+  "signals": [
+    "使用者能操作結果卻說不出根因和限制。",
+    "相似問題重複發生，解決過程未形成可轉移原理。"
+  ],
+  "antiPatterns": [
+    "每次直接給最終答案而不讓學習者推理。",
+    "把小型修正變成大量無關教材。"
+  ],
   "examples": [
     "JIT Learning Loop"
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "learning",
     "cognitive-scaffolding",
@@ -45,5 +54,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "透過建立最小心智模型、先預測再驗證、解釋決策與遷移練習，逐步讓使用者自己掌握 Agent 代做的判斷能力。",
+  "applicationScenarios": [
+    "示意：SQL Join 錯誤先預測粒度，再看實際重複筆數。",
+    "示意：Power Automate 故障先預測 Trigger 與 Output，再比對 Run History。"
+  ],
+  "validationQuestions": [
+    "換成新案例時，學習者能否提出合理假設與測試？",
+    "是否記錄可重用的錯誤原因，而不只是完成狀態？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原始作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 68 筆 Concept ID 與標題，更新原有紀錄，不新增重複概念。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配 Tags 僅保留搜尋用途，本批不增刪。"
+    },
+    "classificationReason": "保留原 Primary Domain ai-agent，不依候選情境另行分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依現有 Knowledge Layers Policy 補原理、風險、反例與驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "抽象原理非可執行 I/O 證據，不建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現有 Concept，不推測新增正式 Typed References。"
+    },
+    "riskNotes": "所有情境只是尚未實測的示意，第三方來源、授權、Runtime 和外部整合未查證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅內容整理，未實際執行外部模型或流程；CI 須另外檢查。"
+    }
   }
 }

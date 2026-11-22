@@ -5,7 +5,7 @@
   "title": "Cross-Agent Harness Portability",
   "status": "active",
   "addedAt": "2026-10-10",
-  "updatedAt": "2026-10-10",
+  "updatedAt": "2026-11-22",
   "tags": [
     "agent",
     "harness",
@@ -36,5 +36,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "跨 Coding Agent 的設定移植應先比較規則、Skill、Hook、MCP 和記憶的實際語意，再轉成目標平台原生設定並驗證。",
+  "tradeoffs": [
+    "共用規範方便遷移，但仍須保留平台專屬差異。",
+    "同步可減少漂移，卻可能傳播錯誤設定或 Secret。"
+  ],
+  "signals": [
+    "團隊切換 Agent 時發生規則重複或 Hook 失效。",
+    "希望共用專案不可推知的限制而保留各工具原生格式。"
+  ],
+  "antiPatterns": [
+    "直接複製 CLAUDE.md，假設各平台語意相同。",
+    "同步設定檔時將 API Key 或 Secret 提交到 Repo。"
+  ],
+  "applicationScenarios": [
+    "示意：不同 Coding Agent 共用驗收標準，但各自維護原生 Hook。",
+    "示意：工具遷移先產差異報告，只同步明確批准的非敏感規則。"
+  ],
+  "validationQuestions": [
+    "每項規則是否記錄來源語意和目標支援差異？",
+    "是否可備份、排除 Secrets 並回滾遷移？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，來源作者與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Concept ID 與標題，只修改既有紀錄不新增同義實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配標籤保留以供搜尋，本次沒有新增。"
+    },
+    "classificationReason": "保留既有 Domain ai-agent，不憑示意推斷分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、適用訊號、反例及候選應用。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可驗證執行輸入輸出，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現存 Concept，正式 Typed References 不修改。"
+    },
+    "riskNotes": "跨領域情境全為未實測示意，不宣稱工具部署、來源授權或整合已驗證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "完成概念文字整理但未執行模型、工具整合或授權查核；CI 另驗。"
+    }
   }
 }

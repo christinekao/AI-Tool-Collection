@@ -12,15 +12,24 @@
     "用可重現的 motion primitives、motion blur 與 event-driven sound 建立動作與聲音的一致因果",
     "把 continuity 轉成可量測的 acceptance gate，在人工審片前先用 oracle 檢查"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "連續運鏡提升敘事，但物件狀態與相機路徑要更細緻。",
+    "自動 Oracle 可查量化項目，無法取代人工節奏判斷。"
+  ],
+  "signals": [
+    "單個鏡頭精緻，剪接後仍像互不相干的投影片。",
+    "希望在產品 UI 與抽象動畫之間保持觀眾的空間理解。"
+  ],
+  "antiPatterns": [
+    "用大量 Hard Cut 隱藏狀態不一致。",
+    "只驗單張畫面，不檢查跨段動作和音效因果。"
+  ],
   "examples": [
     "OneTake"
   ],
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "motion",
     "continuity",
@@ -39,5 +48,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以相鄰 Beat 間的視覺因果與鏡頭連續性設計動畫；先訂跨段元素、動作方向和攝影機規則，再設計內容。",
+  "applicationScenarios": [
+    "示意：按鈕被觸發後變形為下一幕的引導元素。",
+    "示意：資料流節點沿相同路徑進入真實 Dashboard。"
+  ],
+  "validationQuestions": [
+    "每個主要 Beat 交界是否有具體延續元素？",
+    "人工是否核對節奏、轉場可讀性與音畫同步？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，來源作者與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Concept ID 與標題，只修改既有紀錄不新增同義實體。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配標籤保留以供搜尋，本次沒有新增。"
+    },
+    "classificationReason": "保留既有 Domain content，不憑示意推斷分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、適用訊號、反例及候選應用。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可驗證執行輸入輸出，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現存 Concept，正式 Typed References 不修改。"
+    },
+    "riskNotes": "跨領域情境全為未實測示意，不宣稱工具部署、來源授權或整合已驗證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "完成概念文字整理但未執行模型、工具整合或授權查核；CI 另驗。"
+    }
   }
 }

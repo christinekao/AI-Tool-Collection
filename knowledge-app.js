@@ -242,7 +242,7 @@ function renderKnowledge(){
  const byType={
   resource:[['主要用途',rec.purpose],['適合什麼情境',rec.recommendation],['核心能力',rec.features],['使用條件',rec.requirements],['使用限制',rec.limitations],['重要備註',rec.notes]],
   skill:[['它解決的問題',rec.problem],['用途',rec.purpose],['輸入／前置條件',rec.inputs],['預期輸出',rec.outputs],['操作方式',rec.execution]],
-  concept:[['核心問題',rec.coreProblem],['概念定義',rec.definition],['解決方法',rec.solutionMethods],['取捨與限制',rec.tradeoffs],['適用訊號',rec.signals],['常見反模式',rec.antiPatterns],['已記錄的案例',rec.examples]],
+  concept:[['核心問題',rec.coreProblem],['概念定義',rec.definition],['解決方法',rec.solutionMethods],['取捨與限制',rec.tradeoffs],['適用訊號',rec.signals],['常見反模式',rec.antiPatterns],['候選跨領域應用（非實測）',rec.applicationScenarios],['驗證時該問',rec.validationQuestions],['已記錄的案例',rec.examples]],
   prompt:[['它解決的問題',rec.problem],['使用目標',rec.goal],['適用情境',rec.whenToUse],['需要提供什麼',rec.inputs],['預期輸出',rec.expectedOutput],['限制',rec.constraints]],
   workflow:[['目標',rec.goal],['主要問題',rec.problem],['流程策略',rec.solutionStrategy],['適用情境',rec.useCases],['備註',rec.notes]],
   combination:[['組合目標',rec.goal],['要解決的問題',rec.problem],['為什麼一起使用',rec.rationale],['適用情境',rec.useCases],['已記錄的替代方式',rec.alternatives]]

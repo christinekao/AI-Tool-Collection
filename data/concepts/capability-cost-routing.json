@@ -11,9 +11,18 @@
     "設定 quota / price / latency fallback",
     "在真正呼叫昂貴 LLM 前，先用快速 typed decision layer 做需求分類、風險判斷與模型路由"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "錯誤路由高風險任務會抵銷模型費用節省。",
+    "多次降級與重試可能提高延遲、複雜度和實際成本。"
+  ],
+  "signals": [
+    "混合大量格式整理與少量複雜決策。",
+    "需控制多模型的延遲、用量及失敗率。"
+  ],
+  "antiPatterns": [
+    "只看 Token 價格，不計入返工與錯誤成本。",
+    "未查兼容性就宣稱 Provider Fallback 一定可用。"
+  ],
   "examples": [
     "OmniRoute",
     "Sol/Terra/Luna orchestration",
@@ -25,7 +34,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-22",
   "tags": [
     "routing",
     "cost",
@@ -43,5 +52,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "依任務歧義、失敗成本與可驗收性分派模型或決定性工具，衡量總成本與輸出品質而非只選最低單價。",
+  "applicationScenarios": [
+    "示意：客服工單先分流，歧義與高風險案件升級人工審查。",
+    "示意：程式碼格式整理走決定性工具，架構設計才使用推理模型。"
+  ],
+  "validationQuestions": [
+    "同一組案例能否比較準確率、成本、延遲與返工？",
+    "路由錯誤時是否有補救和人工升級條件？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原始作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 68 筆 Concept ID 與標題，更新原有紀錄，不新增重複概念。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配 Tags 僅保留搜尋用途，本批不增刪。"
+    },
+    "classificationReason": "保留原 Primary Domain ai-agent，不依候選情境另行分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依現有 Knowledge Layers Policy 補原理、風險、反例與驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "抽象原理非可執行 I/O 證據，不建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現有 Concept，不推測新增正式 Typed References。"
+    },
+    "riskNotes": "所有情境只是尚未實測的示意，第三方來源、授權、Runtime 和外部整合未查證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅內容整理，未實際執行外部模型或流程；CI 須另外檢查。"
+    }
   }
 }

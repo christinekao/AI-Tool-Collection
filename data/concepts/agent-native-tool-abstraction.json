@@ -5,7 +5,7 @@
   "title": "Agent-Native Tool Abstraction",
   "status": "active",
   "addedAt": "2026-10-05",
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-11-22",
   "tags": [
     "agents",
     "mcp",
@@ -36,5 +36,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以一致的 Agent 能力介面封裝 Provider API、驗證與錯誤格式；上層依契約選能力，底層 Adapter 負責差異。",
+  "tradeoffs": [
+    "統一介面降低認知成本，卻可能遮蔽供應商特殊能力。",
+    "Adapter 需維護版本與例外處理，否則增加偵錯成本。"
+  ],
+  "signals": [
+    "同一任務跨多個 Provider，提示詞常需解釋各家 API。",
+    "更換服務時希望保留上層任務邏輯。"
+  ],
+  "antiPatterns": [
+    "把相同工具名稱視為完全相容的輸入輸出。",
+    "把權限錯誤轉成空結果，令 Agent 誤判沒有資料。"
+  ],
+  "applicationScenarios": [
+    "示意：跨文件服務提供統一 Search/Fetch 契約並保留權限標籤。",
+    "示意：查詢工具統一輸入，但 SQL 方言由 Adapter 處理。"
+  ],
+  "validationQuestions": [
+    "每個 Adapter 是否符合相同的 I/O 及錯誤契約？",
+    "Provider 特有能力是否清楚標成選用而非共同保證？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現存 Concept ID／標題，補充同一筆既有資料而非建立重複紀錄。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原有未匹配 Tags 作為歷史線索；本批沒有增刪。"
+    },
+    "classificationReason": "保留既有分類 ai-agent，未從候選應用推斷新的 Domain。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補定義、權衡、反例、候選情境及驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少真實執行契約，不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用既有 Concept；未新增 Typed Reference 或 Graph Edge。"
+    },
+    "riskNotes": "情境均為未實測示意，沒有驗證外部整合、Runtime、安全性、來源作者或授權。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成內容補強，Runtime／模型／外部整合與授權未測試；CI 另外確認。"
+    }
   }
 }

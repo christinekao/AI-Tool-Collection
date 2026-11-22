@@ -10,9 +10,18 @@
     "透過 MCP 或 retrieval API 讓 Agent 按需查詢",
     "背景更新索引，避免每次從零探索"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "索引減少重複閱讀，動態呼叫和反射可能不完整。",
+    "索引更新需消耗資源，陳舊 Graph 會誤導重構。"
+  ],
+  "signals": [
+    "大型 Repo 跨模組，Agent 每次都要重找呼叫鏈。",
+    "變更前需找出受影響的元件與測試。"
+  ],
+  "antiPatterns": [
+    "憑文字相似就宣稱有真實呼叫關係。",
+    "未標示來源 Commit 就使用過期索引修改程式。"
+  ],
   "examples": [
     "Codebase Memory MCP",
     "Graphify",
@@ -25,7 +34,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "code-intelligence",
     "knowledge-graph",
@@ -44,5 +53,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "建立包含符號、模組、依賴和呼叫關係的可查詢程式碼索引，輔助定位影響範圍但不替代實際測試。",
+  "applicationScenarios": [
+    "示意：企業 API 專案由資料欄位改動追蹤可能受影響的 Endpoint。",
+    "示意：元件庫以引用圖定位共用 Component 的消費者。"
+  ],
+  "validationQuestions": [
+    "每條關係是靜態分析、動態追蹤還是推測？",
+    "索引是否標示來源 Commit 並在修改後重建？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原始作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 68 筆 Concept ID 與標題，更新原有紀錄，不新增重複概念。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配 Tags 僅保留搜尋用途，本批不增刪。"
+    },
+    "classificationReason": "保留原 Primary Domain software，不依候選情境另行分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依現有 Knowledge Layers Policy 補原理、風險、反例與驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "抽象原理非可執行 I/O 證據，不建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現有 Concept，不推測新增正式 Typed References。"
+    },
+    "riskNotes": "所有情境只是尚未實測的示意，第三方來源、授權、Runtime 和外部整合未查證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅內容整理，未實際執行外部模型或流程；CI 須另外檢查。"
+    }
   }
 }

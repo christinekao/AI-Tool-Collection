@@ -11,9 +11,18 @@
     "在實際 domain 上校準 probability，而不是直接相信 raw confidence",
     "特別檢查模型是否存在『高信心但錯誤』的語言或資料分佈"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "保守閾值降低錯誤操作，但增加人工量和延遲。",
+    "原始信心不等於實際正確率，分佈改變須重校準。"
+  ],
+  "signals": [
+    "高量自動化工作中不同錯誤成本差距很大。",
+    "出現高信心卻錯誤的模型判斷。"
+  ],
+  "antiPatterns": [
+    "把自報 0.95 當作已校準的 95% 正確率。",
+    "讓信心分數跳過不可逆操作的安全 Gate。"
+  ],
   "examples": [
     "Laya confidence gating",
     "human escalation threshold",
@@ -22,7 +31,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-22",
   "tags": [
     "confidence",
     "calibration",
@@ -40,5 +49,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "將經校準的模型不確定性轉成執行門檻：僅在資料充足且風險可接受時自動處理，其他轉人工或升級。",
+  "applicationScenarios": [
+    "示意：招聘資料抽取的歧義欄位轉 Recruiter 人工確認。",
+    "示意：帳務差異只有來源與金額均符合時才自動結案。"
+  ],
+  "validationQuestions": [
+    "各信心區間的實際錯誤率是否有足夠樣本？",
+    "高風險操作是否另有不可跳過的審批條件？"
+  ],
+  "source": {
+    "type": "existing-canonical-material",
+    "description": "既有 Concept 文字資料，原始作者、上游來源及授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 68 筆 Concept ID 與標題，更新原有紀錄，不新增重複概念。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未匹配 Tags 僅保留搜尋用途，本批不增刪。"
+    },
+    "classificationReason": "保留原 Primary Domain automation，不依候選情境另行分類。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依現有 Knowledge Layers Policy 補原理、風險、反例與驗證問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "抽象原理非可執行 I/O 證據，不建立新 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "重用現有 Concept，不推測新增正式 Typed References。"
+    },
+    "riskNotes": "所有情境只是尚未實測的示意，第三方來源、授權、Runtime 和外部整合未查證。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅內容整理，未實際執行外部模型或流程；CI 須另外檢查。"
+    }
   }
 }
