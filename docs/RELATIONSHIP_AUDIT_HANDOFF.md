@@ -1,12 +1,36 @@
-## Phase 3 Audit 03｜進行中（2026-11-23）
+# Knowledge Relations｜Phase 3 Handoff（2026-11-23）
 
-- 基準 `main`：`6a6718506d58ae4ec6a871d3b8e10887d670df50`，分支：`relation-audit-phase03-20261123`。
-- 新增純離線 Synthetic Gate 與來源追溯函式，合成 Fixture、14 個 Node Tests，納入 V2 Data Validate CI。
-- 驗證目標：Risk-first／權限／未校準信心值／Unknown／Fallback Fail-Closed；MinerU/Crawl4AI 文檔＋WrenAI SQL 的來源 ID／版本／時間／ACL／指標版本追溯。
-- 原始 `data/` 全部不變，沒有 Provider API、真實 SQL、Credential 或文件資料外送；所有 `allow-low-risk` 都只代表路由候選，`executed:false`。
-- [Audit 03 Report](RELATIONSHIP_AUDIT_PHASE03_20261123.md)，`node --test scripts/test-relationship-synthetic.mjs`。本階段 GitHub PR／CI／部署的實際結果待寫入，不得預先宣告 PASS。
+**Audit 03：PASS WITH GAPS。完成純合成、無外部副作用的 Risk Gate 與來源追溯測試；14／14 個 Node Regression PASS。**
+
+## 正式封帳與範圍
+
+- [PR #54](https://github.com/christinekao/AI-Tool-Collection/pull/54) 已 Squash Merge，Base main `6a6718506d58ae4ec6a871d3b8e10887d670df50`，PR Head `632bcce6d62de4c3dc9816010ffeb0b2ca9e664e`，Merge Commit `4abae7665d46cbd8be1cedb161f1c8c2c791d2eb`。
+- [PR V2 Data Validate #45148860331](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45148860331) **PASS**：新增 Synthetic Risk／Provenance 14／14 Test PASS、0 FAIL，原有全庫 V2／Concept／Graph／Workflow Regression PASS。
+- [main V2 Data Validate #45149042876](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45149042876)：**PASS**；[Pages Merge Deploy #45149042055](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45149042055)：**PASS**，完成 2026-11-23 **09:40:13 UTC**。
+- 新增 `scripts/relationship-synthetic-core.mjs`（只回傳決策，不執行）、`scripts/test-relationship-synthetic.mjs`（14 Regression）、`scripts/fixtures/relationship-audit03-synthetic.json`（全部為合成資料）；更新 V2 CI、[Audit03 報告](RELATIONSHIP_AUDIT_PHASE03_20261123.md) 及本 Handoff。
+- PR Diff 共 **6 個非 Canonical** 檔案；無 `data/` Canonical／Catalog／Graph、Schema、ID、Tag、Typed Reference、Web UI 變更，原本 68 Concepts／36 Workflows／17 Combinations 保留。
+- 完全不連接任何第三方服務或 Provider、不操作 Token／工作資料、不執行 SQL，也不授權真實操作。所有函式均強制 `actionAuthorized:false`、`executed:false`；`candidate-supported` 是**合成 Metadata 契約通過**，不是外部檢索／SQL 真實性已確認。
+- **NOT_TESTED**：真正的 Laya Calibration／OmniRoute Fallback／Codex 執行、Onyx EE ACL、WrenAI SQL 查詢、上游 Provider API 與跨工具整合、安全與商用授權。沒有此批正式站專屬 Chromium Live Smoke，**Browser NOT_TESTED**。
+- Docs-only 最終封帳 Commit 會再次觸發 Pages；最後 Docs Deploy 回執以 [PR #54 留言](https://github.com/christinekao/AI-Tool-Collection/pull/54) 記錄，避免重複文件更新／部署循環。
+
+## 可重現命令
+
+```sh
+node --test scripts/test-relationship-synthetic.mjs
+node --test scripts/test-relationship-proposals.mjs
+node --test scripts/test-knowledge-relations-audit.mjs
+node scripts/validate-v2.mjs
+```
+
+## 下一步與權限邊界
+
+- **Audit 04 候選**：Review 是否有必要設計接近真實、但仍全部合成資料的 Adapter Simulator；先證明 Source ACL、Provider Data Policy 與 Risk Gate 由**不同的獨立層**檢查，不能讓單一呼叫端自由宣稱 `calibrated:true` 就取得權限。
+- 下一步評估時，需將 **Test Fixture 僅申報校準** 與 **實際 held-out 校準測試**嚴格區分；若要接真實模型或外部服務，先取得明確範圍和權限，不得以本輪 PASS 自動授權。
+- 不刪除、不合併或更名 Combination；不依相同 Tag 自動新增正式 Graph Edge。
 
 ---
+
+## 歷史 Audit 02／01 Handoff（完整保留）
 
 # Knowledge Relations｜Phase 3 Session Handoff（2026-11-23）
 
