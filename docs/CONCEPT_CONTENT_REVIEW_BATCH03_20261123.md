@@ -54,3 +54,9 @@
 ## 下一步
 
 待 PR 實際驗收通過才可合併；正式站部署後再驗收，最後更新 Handoff。下一批為剩餘 ID 61–68。
+
+## CI Failure → Fix（保留失敗證據）
+
+- PR #50 首次 [Unified Intake Gate #45127459267](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45127459267) **FAIL**：20 筆的 `tagReview.reason`、`capabilityReview.reason` 低於現有欄位長度契約；不是資料遺失或分類變更。
+- 修正：只延長兩個 Review 理由文字，補足保留既有 Tags 和不建立未實測 Capability 的邏輯；原始欄位、分類和 Typed References 不變。
+- 修正後 PR CI、回歸與部署結果需另以實際 Run 驗證；此處不提前標 PASS。
