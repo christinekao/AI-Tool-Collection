@@ -11,9 +11,18 @@
     "review 後再由原作者或第三個 Agent 修正",
     "將 implementation 與 Code Review / QA 職責分離，必要時以不同模型或不同 Agent context 進行交叉審查，降低同一執行者自我驗證的盲點"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "多模型審查可能找到單一模型忽略的問題，卻增加成本、延遲和資料外送面。",
+    "不同模型仍可能共享錯誤假設，若沒有獨立證據就不能視為真正獨立驗證。"
+  ],
+  "signals": [
+    "同一模型自寫自審反覆認可錯誤的假設。",
+    "高風險決策需要另一個 Context 或工具執行路徑重查證據。"
+  ],
+  "antiPatterns": [
+    "把兩個模型都同意當成事實正確的充分證據。",
+    "在沒有可查原文、測試資料和審查準則時只要求另一個模型打分數。"
+  ],
   "examples": [
     "Claude → Codex Review",
     "Orca multi-agent workflow",
@@ -23,7 +32,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "review",
     "multi-agent",
@@ -41,5 +50,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "作者與審查者使用不同模型、不同資訊路徑或獨立上下文，以降低共同盲點；但模型差異只是降低相關偏誤的手段，品質仍取決於證據與可驗收規則。",
+  "applicationScenarios": [
+    "示意：Coding Agent 完成 Diff，由另一模型對照 Acceptance Criteria 找邊界問題。",
+    "示意：資料報告交給另一審查者重新核算關鍵指標並核對來源。"
+  ],
+  "validationQuestions": [
+    "審查者是否拿到原始證據而不只看作者結論？",
+    "不同 Reviewer 的結果是否有經可重現測試、反例與人工判斷確認？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依據既有 Canonical Concept 的先前整理文字，上游作者、授權與完整來源未獨立核實。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "已比對現有 68 筆 Concept，保留原有 ID 與身分，只補同一筆知識的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未對應標籤僅保留作原始檢索線索，未新增。"
+    },
+    "classificationReason": "不變更現有 Primary Domain ai-agent 與其他分類欄位，假設情境不等於實測資料。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補原理定義、權衡、反例、跨域示意和驗收問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有可驗證的執行 I/O 證據，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維護現有 Concept，不新增正式 Typed References、Workflow 或 Graph Edge。"
+    },
+    "riskNotes": "跨領域應用皆為未實測示意；外部模型、工具執行、來源作者和授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅整理概念文字；Runtime、外部整合、來源授權與真實效果均未測試，Repo CI 另驗。"
+    }
   }
 }

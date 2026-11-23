@@ -5,7 +5,7 @@
   "title": "Evidence Before Execution",
   "status": "active",
   "addedAt": "2026-10-07",
-  "updatedAt": "2026-10-07",
+  "updatedAt": "2026-11-23",
   "tags": [
     "evidence",
     "validation",
@@ -36,5 +36,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "先用獨立資料與可重現實驗驗證核心效果，再逐級解鎖模擬及真實執行；有效性證據與操作授權是兩道不同 Gate。",
+  "tradeoffs": [
+    "較長的驗證期會推遲上線，但能減少把假訊號放大成真實損失。",
+    "歷史或樣本外證據仍可能因分佈改變失效，需要持續監控與停止條件。"
+  ],
+  "signals": [
+    "演算法、交易策略或自動化規則宣稱有效，但只有單一次測試結果。",
+    "模型想將研究成果直接連到付款、交易或發布系統。"
+  ],
+  "antiPatterns": [
+    "把回測高報酬直接視為可連真倉執行的許可。",
+    "同一份資料反覆調參又用相同測試宣稱樣本外驗證。"
+  ],
+  "applicationScenarios": [
+    "示意：交易訊號先經資料洩漏檢查、樣本外回測與 Paper Trading，真實資金需另行核准。",
+    "示意：招募自動化先在匿名歷史案例評估錯誤率，再批准有限範圍寫入。"
+  ],
+  "validationQuestions": [
+    "核心效果是否經不同期間或獨立資料檢驗？",
+    "即使有效性通過，真實操作是否還需權限、監控與 Kill Switch？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "僅以既有 Canonical Concept 描述作為整理依據，原始來源／授權仍待上游查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 Canonical Concept ID 與標題後補強原記錄，無新增同義或重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未對應詞彙作原始搜尋線索；未新增或修改標籤。"
+    },
+    "classificationReason": "維持原有 Domain automation，候選情境不是實測能力或分類證據。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補跨域可用原理、風險及驗證問題，避免把 Concept 當作工具。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有具體已驗證操作輸入／輸出，不推斷 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用同 ID 既有 Concept，完整保留 Typed References，不建立推測關聯。"
+    },
+    "riskNotes": "新增的跨域情境只是未實測示意；外部 Runtime、效果、作者來源及授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有 Canonical 內容整理；外部模型、Runtime、工具整合與授權未實測，Repo CI 需另驗收。"
+    }
   }
 }

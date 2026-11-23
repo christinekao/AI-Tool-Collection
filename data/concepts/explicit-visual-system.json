@@ -13,9 +13,18 @@
     "將 typography、layout、color、motion、tone 等設計方向寫成可版本化 DESIGN.md，而不是只留在單次 prompt",
     "把紙張冷暖、墨色數量、留白比例、cluster 大小、排印語彙與禁用樣式寫成明確 generation grammar，降低視覺漂移"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "明確規則提升一致性，但過度僵硬會限制探索與創意。",
+    "Token 需要維護與跨平台驗證，否則文件和實作仍可能偏離。"
+  ],
+  "signals": [
+    "UI 多次改版後樣式漂移，且難以解釋視覺決策。",
+    "多個設計或程式 Agent 需要共享可核對的品牌規格。"
+  ],
+  "antiPatterns": [
+    "只寫『高級科技感』而不明確定義字體、顏色和間距。",
+    "建立 Design Tokens 卻不檢查實際畫面與互動是否符合。"
+  ],
   "examples": [
     "frontend-design",
     "Google Stitch",
@@ -54,7 +63,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "visual-system",
     "design-tokens",
@@ -73,5 +82,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "將顏色、文字階層、排版、空間比例、互動狀態與動效節奏寫成可版本化的視覺規則，讓設計不靠模糊形容詞猜測。",
+  "applicationScenarios": [
+    "示意：個人作品集建立字級、間距與卡片規則，所有頁面共用。",
+    "示意：短片視覺識別使用固定色彩角色與排版比例，仍容許場景變化。"
+  ],
+  "validationQuestions": [
+    "每一個視覺規則是否可在畫面或程式中驗證？",
+    "新版本修改設計 Token 後，是否有跨頁與裝置回歸？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "僅以既有 Canonical Concept 描述作為整理依據，原始來源／授權仍待上游查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 Canonical Concept ID 與標題後補強原記錄，無新增同義或重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未對應詞彙作原始搜尋線索；未新增或修改標籤。"
+    },
+    "classificationReason": "維持原有 Domain design，候選情境不是實測能力或分類證據。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補跨域可用原理、風險及驗證問題，避免把 Concept 當作工具。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有具體已驗證操作輸入／輸出，不推斷 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用同 ID 既有 Concept，完整保留 Typed References，不建立推測關聯。"
+    },
+    "riskNotes": "新增的跨域情境只是未實測示意；外部 Runtime、效果、作者來源及授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有 Canonical 內容整理；外部模型、Runtime、工具整合與授權未實測，Repo CI 需另驗收。"
+    }
   }
 }

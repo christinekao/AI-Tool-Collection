@@ -11,9 +11,18 @@
     "允許人直接 grep、Obsidian 編輯、rsync、review diff",
     "把 LLM consolidation 與 vector search設計成可選能力，而非基礎依賴"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "檔案優先便於 Git Review 和移轉，但大量即時並行修改時會出現合併衝突。",
+    "衍生索引可提升查找速度，卻需處理版本過期、重建與資料權限傳播。"
+  ],
+  "signals": [
+    "專案記憶需要人工直接檢查和修改，不能依賴單一供應商。",
+    "搜尋索引與原始筆記常出現內容不一致。"
+  ],
+  "antiPatterns": [
+    "把向量索引的生成摘要當成不能被修改的正式事實。",
+    "不同 Agent 各自維護一份隱藏記憶而無法回查來源檔。"
+  ],
   "examples": [
     "ai-memory",
     "claude-obsidian",
@@ -22,7 +31,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "file-first",
     "markdown",
@@ -44,5 +53,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "將可閱讀、可版控的檔案作為 Agent 記憶唯一正式來源；向量庫、全文索引與圖譜皆為可重建的衍生視圖，而非彼此競爭的真相。",
+  "applicationScenarios": [
+    "示意：技術決策保存在可版控 Markdown，向量索引只負責檢索。",
+    "示意：個人知識庫以資料夾內文本為主，換搜尋工具時重新建立索引。"
+  ],
+  "validationQuestions": [
+    "刪除衍生索引後是否能從 Canonical 檔案完整重建？",
+    "使用者修改檔案後，系統能否檢查索引版本與來源對齊？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依據既有 Canonical Concept 的先前整理文字，上游作者、授權與完整來源未獨立核實。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "已比對現有 68 筆 Concept，保留原有 ID 與身分，只補同一筆知識的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未對應標籤僅保留作原始檢索線索，未新增。"
+    },
+    "classificationReason": "不變更現有 Primary Domain data 與其他分類欄位，假設情境不等於實測資料。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補原理定義、權衡、反例、跨域示意和驗收問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有可驗證的執行 I/O 證據，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維護現有 Concept，不新增正式 Typed References、Workflow 或 Graph Edge。"
+    },
+    "riskNotes": "跨領域應用皆為未實測示意；外部模型、工具執行、來源作者和授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅整理概念文字；Runtime、外部整合、來源授權與真實效果均未測試，Repo CI 另驗。"
+    }
   }
 }

@@ -11,9 +11,18 @@
     "保留 subject、daily log、recent activity 等觀察入口",
     "保留 mutation audit log，讓長期記憶的變更可追蹤"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "可觀察性增加透明度，但展示敏感記憶需額外權限與遮罩設計。",
+    "完整 Mutation Log 可協助追蹤，卻可能暴露已不應再使用的資料，需訂定保留與刪除策略。"
+  ],
+  "signals": [
+    "Agent 引用過期背景或錯誤記憶，使用者無從追溯來源。",
+    "系統能儲存記憶但無法說明最近有哪些新增、修訂或撤銷。"
+  ],
+  "antiPatterns": [
+    "只提供記憶總數，沒有條目來源、版本和使用紀錄。",
+    "將未確認推論自動升格為長期真相而不顯示審查狀態。"
+  ],
   "examples": [
     "Hermes Memory Wiki",
     "claude-obsidian",
@@ -24,7 +33,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-23",
   "tags": [
     "memory",
     "observability",
@@ -44,5 +53,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "長期記憶不只要能讀寫，也要能審計來源、更新歷史、影響範圍和過期程度，讓使用者知道何種記憶正影響 Agent 行為。",
+  "applicationScenarios": [
+    "示意：專案記憶儀表板顯示每條決策的來源、更新者與有效期。",
+    "示意：學習筆記區分使用者原文、AI 摘要和可撤回的候選結論。"
+  ],
+  "validationQuestions": [
+    "能否由一次 Agent 回覆追蹤其使用的記憶條目及來源？",
+    "錯誤或過期記憶是否可標記、修正與檢查後續影響？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依據既有 Canonical Concept 的先前整理文字，上游作者、授權與完整來源未獨立核實。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "已比對現有 68 筆 Concept，保留原有 ID 與身分，只補同一筆知識的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未對應標籤僅保留作原始檢索線索，未新增。"
+    },
+    "classificationReason": "不變更現有 Primary Domain ai-agent 與其他分類欄位，假設情境不等於實測資料。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補原理定義、權衡、反例、跨域示意和驗收問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有可驗證的執行 I/O 證據，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維護現有 Concept，不新增正式 Typed References、Workflow 或 Graph Edge。"
+    },
+    "riskNotes": "跨領域應用皆為未實測示意；外部模型、工具執行、來源作者和授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅整理概念文字；Runtime、外部整合、來源授權與真實效果均未測試，Repo CI 另驗。"
+    }
   }
 }

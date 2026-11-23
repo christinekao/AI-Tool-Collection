@@ -1,41 +1,55 @@
 #!/usr/bin/env node
-/** Concept content regression tests: no model, external service or runtime execution. */
+/** Source-preserving Concept guide contracts. These tests invoke no model or third-party service. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+
 const dir='data/concepts';
 const ids=fs.readdirSync(dir).filter(x=>x.endsWith('.json')).sort().map(x=>x.slice(0,-5));
-const batch=ids.slice(0,20).map(id=>JSON.parse(fs.readFileSync(path.join(dir,id+'.json'),'utf8')));
-test('Concepts Batch 01 is exactly first 20 of 68 canonical IDs',()=>{
- assert.equal(ids.length,68);assert.equal(batch.length,20);
- assert.equal(batch[0].id,'agent-credential-isolation');
- assert.equal(batch[19].id,'cross-agent-harness-portability');
+const read=id=>JSON.parse(fs.readFileSync(path.join(dir,id+'.json'),'utf8'));
+const reviewed=ids.slice(0,40).map(read);
+const batch02=ids.slice(20,40).map(read);
+test('68 stable Concept IDs; completed 40 reviewed in two ordered batches',()=>{
+ assert.equal(ids.length,68);
+ assert.equal(reviewed.length,40);
+ assert.equal(reviewed[0].id,'agent-credential-isolation');
+ assert.equal(reviewed[19].id,'cross-agent-harness-portability');
+ assert.equal(batch02.length,20);
+ assert.equal(batch02[0].id,'cross-agent-memory-portability');
+ assert.equal(batch02[19].id,'memory-observability');
 });
-test('Each Concept has a durable explanation, tradeoffs, anti-patterns and untested transfer',()=>{
- for(const p of batch){
+test('40 Concepts describe transferable principles, genuine tradeoffs, counterexamples and validation questions',()=>{
+ for(const p of reviewed){
   assert.equal(p.entityType,'concept',p.id);
-  assert.ok(p.coreProblem?.length>20&&p.solutionMethods?.length>=2,p.id);
+  assert.ok(p.coreProblem?.length>20&&p.solutionMethods?.length>=2,p.id+' problem and methods');
   assert.ok(p.definition?.length>=24,p.id+' definition');
-  for(const key of ['tradeoffs','signals','antiPatterns','applicationScenarios','validationQuestions'])
-   assert.ok(p[key]?.length>=2,p.id+' '+key);
-  assert.ok(p.applicationScenarios.every(x=>x.startsWith('示意：')),p.id+' provenance');
-  assert.ok(p.validationQuestions.every(x=>x.endsWith('？')),p.id+' checks');
+  for(const field of ['tradeoffs','signals','antiPatterns','applicationScenarios','validationQuestions'])
+   assert.ok(p[field]?.length>=2,p.id+' '+field);
+  assert.ok(p.applicationScenarios.every(x=>x.startsWith('示意：')),p.id+' hypothetical scenarios');
+  assert.ok(p.validationQuestions.every(x=>x.endsWith('？')),p.id+' verification questions');
  }
 });
-test('Source review and real external execution remain explicitly unverified',()=>{
- for(const p of batch){
-  const r=p.intakeReview;
-  assert.equal(r?.policyVersion,'1.0',p.id);
-  assert.equal(r?.sourceStatus,'provided-material',p.id);
-  assert.equal(r?.dedupeReview?.decision,'update',p.id);
-  assert.equal(r?.readingSpec?.id,'standard',p.id);
-  assert.equal(r?.verification?.status,'not-tested',p.id);
-  assert.ok(r?.riskNotes.includes('未實測'),p.id);
-  assert.ok(!p.applicationScenarios.some(x=>x.includes('已部署')),p.id);
+test('Review provenance remains provided-material and real external execution NOT_TESTED',()=>{
+ for(const p of reviewed){
+  const review=p.intakeReview;
+  assert.equal(review?.policyVersion,'1.0',p.id);
+  assert.equal(review?.sourceStatus,'provided-material',p.id);
+  assert.equal(review?.dedupeReview?.decision,'update',p.id);
+  assert.equal(review?.readingSpec?.id,'standard',p.id);
+  assert.equal(review?.verification?.status,'not-tested',p.id);
+  assert.ok(review?.riskNotes?.includes('未實測'),p.id);
+  assert.ok(p.applicationScenarios.every(x=>!x.includes('已部署')),p.id);
  }
 });
-test('Concept application labels are visible without mixing them into real examples',()=>{
+test('Original examples and formal typed references remain separate from scenario drafts',()=>{
+ for(const p of batch02){
+  assert.ok(p.applicationScenarios.length>=2,p.id);
+  assert.ok(!p.applicationScenarios.some(x=>/PASS|已完成驗收|正式部署/.test(x)),p.id);
+  assert.ok(p.intakeReview.conceptReview.reason.includes('Typed References')||p.intakeReview.conceptReview.reason.includes('Typed Reference'),p.id);
+ }
+});
+test('Both detail renderers label hypothetical scenarios and validation gates',()=>{
  const knowledge=fs.readFileSync('knowledge-app.js','utf8');
  const catalog=fs.readFileSync('catalog-app.js','utf8');
  for(const content of [knowledge,catalog]){

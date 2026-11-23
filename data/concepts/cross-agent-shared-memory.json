@@ -5,7 +5,7 @@
   "title": "Cross-Agent Shared Memory",
   "status": "active",
   "addedAt": "2026-10-04",
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-11-23",
   "tags": [
     "multi-agent",
     "shared-memory",
@@ -36,5 +36,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "多個 Agent 透過獨立記憶層讀寫可追溯的長期知識，按主題、來源、驗證狀態與權限共享；其核心是共用可見資料，而不是跨 Host 遷移流程。",
+  "tradeoffs": [
+    "共用記憶可減少重複整理，但錯誤記憶也可能被多個 Agent 放大。",
+    "跨用戶共享增加協作效率，卻需要資料隔離、修改權限與衝突合併規則。"
+  ],
+  "signals": [
+    "多個 Agent 反覆詢問相同專案決策。",
+    "不同 Session 需要共享已驗證的專案事實與來源。"
+  ],
+  "antiPatterns": [
+    "讓未驗證模型推論直接覆寫已核實的記憶。",
+    "把所有工作記錄混在單一無權限邊界的共享向量庫。"
+  ],
+  "applicationScenarios": [
+    "示意：多模型共讀具來源的專案決策庫，仍由權限層控制編輯。",
+    "示意：資料團隊保留規格與錯誤案例的共用知識索引，按專案隔離。"
+  ],
+  "validationQuestions": [
+    "記憶條目是否標示作者、來源、時間與驗證狀態？",
+    "當兩個 Agent 提出衝突結論時，是否可保留歷史並交由審核？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain ai-agent 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }

@@ -40,7 +40,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-22",
-  "updatedAt": "2026-10-22",
+  "updatedAt": "2026-11-23",
   "tags": [
     "multi-agent",
     "task-leases",
@@ -66,5 +66,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以具到期時間和心跳的 Task Lease 表示暫時所有權，再用非強制 File Scope Claim 提前暴露工作衝突；提交與合併仍以 Git、測試和授權 Gate 驗收。",
+  "applicationScenarios": [
+    "示意：兩個 Agent 在開工前聲明 File Glob，重疊時重新分派工作。",
+    "示意：中斷任務經 Lease 逾期後，先核對 Git 與前次 Trace 再重新認領。"
+  ],
+  "validationQuestions": [
+    "Lease 到期、心跳逾時或雙重認領時，如何避免重複寫入？",
+    "交接時有沒有核對最新 Git、Claim、測試與 Owner？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依據既有 Canonical Concept 的先前整理文字，上游作者、授權與完整來源未獨立核實。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "已比對現有 68 筆 Concept，保留原有 ID 與身分，只補同一筆知識的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未對應標籤僅保留作原始檢索線索，未新增。"
+    },
+    "classificationReason": "不變更現有 Primary Domain ai-agent 與其他分類欄位，假設情境不等於實測資料。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補原理定義、權衡、反例、跨域示意和驗收問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有可驗證的執行 I/O 證據，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維護現有 Concept，不新增正式 Typed References、Workflow 或 Graph Edge。"
+    },
+    "riskNotes": "跨領域應用皆為未實測示意；外部模型、工具執行、來源作者和授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅整理概念文字；Runtime、外部整合、來源授權與真實效果均未測試，Repo CI 另驗。"
+    }
   }
 }

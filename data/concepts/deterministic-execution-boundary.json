@@ -11,16 +11,25 @@
     "對真實動作加入 kill switch、人工 redline、權限限制與 audit log",
     "每次高風險 action 後從外部系統 read-back 驗證實際狀態"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "分離推理與執行提高可稽核性，卻增加 Contract、工作流和例外處理成本。",
+    "決定性程式仍可能有錯，必須配合測試、權限與外部狀態回讀。"
+  ],
+  "signals": [
+    "模型建議可能直接影響付款、部署或不可逆資料變更。",
+    "需要重放相同輸入以驗證動作是否一致且符合限制。"
+  ],
+  "antiPatterns": [
+    "讓模型自行決定每筆真實交易並持續掌握執行憑證。",
+    "只看 API 成功回應就認定最終狀態符合預期，不執行 read-back。"
+  ],
   "examples": [
     "Blave Agent",
     "GitHub Agentic Workflows"
   ],
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "deterministic-execution",
     "agent-safety",
@@ -42,5 +51,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "讓 LLM 產生可審核的研究與計畫，將付款、交易、部署和資料寫入交由明確狀態機及決定性程式執行；高風險操作另設審批、上限與回讀核對。",
+  "applicationScenarios": [
+    "示意：模型只產生待核准的付款批次，受控系統驗證金額與權限後執行。",
+    "示意：模型提出部署方案，CI 測試及人工 Release Gate 決定是否套用。"
+  ],
+  "validationQuestions": [
+    "相同狀態與命令是否會產生可預測、可重放的動作？",
+    "模型輸出無效或外部回讀不符時，是否能停止並留下稽核紀錄？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain security 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }
