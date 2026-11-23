@@ -1,3 +1,13 @@
+## Batch 04 進行中｜61–68（最後 8 筆）
+
+- 工作分支：`concept-content-batch04-20261123`，Base main `c8f426d1233fac19278f51ebf6f3238001e77ae4`。
+- 8/8 Canonical 已補強並保留原始欄位；逐筆見 [Batch 04 Review](CONCEPT_CONTENT_REVIEW_BATCH04_20261123.md)。
+- **進度口徑**：內容改善預備完成 68/68；PR、main CI、正式站和部署後 Live Smoke 仍需各自核實，未完成時不得標示正式封帳。
+- 維持 `provided-material`，外部模型成效、第三方整合、原作者／授權查核仍 **NOT_TESTED**。
+- 完成本批後，Concepts Phase 2 68 筆內容改善可正式結束；後續只進入獨立的跨類關聯、來源補驗或品質抽檢，不自動改分類或建立 Workflow。
+
+---
+
 # Phase 2 Concepts｜Session Handoff（2026-11-23）
 
 **Batch 03 最終狀態：60/68，PASS WITH GAPS；剩餘 8 筆（Batch 04）。**
