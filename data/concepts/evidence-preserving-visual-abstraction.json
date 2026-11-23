@@ -11,15 +11,24 @@
     "把 style grammar 與 source evidence 分開：style 決定如何畫，evidence 決定畫什麼與彼此關係",
     "生成後重新檢查 evidence 是否仍可追溯，而不是只憑主觀美感判斷"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "越忠於來源的空間關係，創作自由度可能越低。",
+    "視覺證據標記增加前處理，但能減少憑風格印象產生不相關裝飾。"
+  ],
+  "signals": [
+    "希望將實拍照片轉成海報或插畫，但仍保留結構。",
+    "設計風格多次重生時來源物件的數量或排列持續漂移。"
+  ],
+  "antiPatterns": [
+    "只用『像某風格』描述任務，沒有約束保留哪些來源事實。",
+    "只評分美感，忽略物件數量、相對大小與遮擋關係。"
+  ],
   "examples": [
     "Photo Riso Poster"
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "visual-abstraction",
     "evidence",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "先抽取照片等參考圖的可檢查視覺事實與空間關係，再套用風格語法；輸出必須保留數量、尺度、方向、遮擋與色彩角色等關鍵不變量。",
+  "applicationScenarios": [
+    "示意：建築照片轉為雙色海報，保留窗戶節奏和透視方向。",
+    "示意：旅行景觀轉為平面插畫，保留地平線、主要地標與前後景關係。"
+  ],
+  "validationQuestions": [
+    "輸出中的主要視覺標記是否能對回具體來源事實？",
+    "換另一種風格時，事先列出的不變量是否仍保留？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "僅以既有 Canonical Concept 描述作為整理依據，原始來源／授權仍待上游查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 Canonical Concept ID 與標題後補強原記錄，無新增同義或重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未對應詞彙作原始搜尋線索；未新增或修改標籤。"
+    },
+    "classificationReason": "維持原有 Domain design，候選情境不是實測能力或分類證據。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補跨域可用原理、風險及驗證問題，避免把 Concept 當作工具。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有具體已驗證操作輸入／輸出，不推斷 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用同 ID 既有 Concept，完整保留 Typed References，不建立推測關聯。"
+    },
+    "riskNotes": "新增的跨域情境只是未實測示意；外部 Runtime、效果、作者來源及授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有 Canonical 內容整理；外部模型、Runtime、工具整合與授權未實測，Repo CI 需另驗收。"
+    }
   }
 }

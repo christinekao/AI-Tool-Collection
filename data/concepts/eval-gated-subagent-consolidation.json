@@ -44,7 +44,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-26",
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-11-23",
   "tags": [
     "agent-architecture",
     "subagents",
@@ -67,5 +67,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "多 Agent 架構縮減必須先有可重跑的端到端任務 Baseline，再按 Context、工具權限與協作成本調整邊界；每次整併須證明核心功能未退步。",
+  "applicationScenarios": [
+    "示意：程式 Agent 整併多個重複規劃子流程，仍保留獨立 Security Review。",
+    "示意：客服分類 Agent 將共用規則改成 Skill，但人工升級 Gate 保留。"
+  ],
+  "validationQuestions": [
+    "候選架構在相同 Held-out Case 上是否不低於 Baseline？",
+    "有沒有任務從 PASS 轉 FAIL，尤其在安全與例外情境？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "僅以既有 Canonical Concept 描述作為整理依據，原始來源／授權仍待上游查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 Canonical Concept ID 與標題後補強原記錄，無新增同義或重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未對應詞彙作原始搜尋線索；未新增或修改標籤。"
+    },
+    "classificationReason": "維持原有 Domain ai-agent，候選情境不是實測能力或分類證據。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補跨域可用原理、風險及驗證問題，避免把 Concept 當作工具。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有具體已驗證操作輸入／輸出，不推斷 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用同 ID 既有 Concept，完整保留 Typed References，不建立推測關聯。"
+    },
+    "riskNotes": "新增的跨域情境只是未實測示意；外部 Runtime、效果、作者來源及授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有 Canonical 內容整理；外部模型、Runtime、工具整合與授權未實測，Repo CI 需另驗收。"
+    }
   }
 }

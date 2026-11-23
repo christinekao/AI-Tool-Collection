@@ -10,9 +10,18 @@
     "需要時轉成 React component 或 animation asset",
     "把生成、修改、motion 與 UI integration 接成同一 pipeline"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "向量與結構化格式利於編輯，但無法完整表達所有照片細節或特效。",
+    "多格式輸出需管理字體、遮罩、外掛和版本差異，否則會失去可編輯性。"
+  ],
+  "signals": [
+    "Logo 或圖示生成後常需改色、縮放或局部動畫。",
+    "設計素材將重用於網站、投影片與影片等不同介面。"
+  ],
+  "antiPatterns": [
+    "將由 PNG 自動描邊的結果視為與原生可編輯設計完全相同。",
+    "只驗證畫面像不像，不驗證路徑、圖層、字體和授權。"
+  ],
   "examples": [
     "Arrow 2",
     "Recraft",
@@ -21,7 +30,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "svg",
     "vector",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "生成素材應優先交付帶有可操作圖層、路徑、色彩和尺寸語意的結構，而不只是單張像素圖；後續編輯與動畫共用同一個來源。",
+  "applicationScenarios": [
+    "示意：AI 製作簡報圖示後保留 SVG 路徑，再接成網站動畫。",
+    "示意：品牌圖形保留配色 Token，供產品 UI 與社群模板共用。"
+  ],
+  "validationQuestions": [
+    "交付檔是否能不重生就修改顏色、尺寸和形狀？",
+    "輸出到瀏覽器或動畫工具後，關鍵結構是否仍可被編輯？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "僅以既有 Canonical Concept 描述作為整理依據，原始來源／授權仍待上游查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 Canonical Concept ID 與標題後補強原記錄，無新增同義或重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未對應詞彙作原始搜尋線索；未新增或修改標籤。"
+    },
+    "classificationReason": "維持原有 Domain design，候選情境不是實測能力或分類證據。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補跨域可用原理、風險及驗證問題，避免把 Concept 當作工具。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有具體已驗證操作輸入／輸出，不推斷 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用同 ID 既有 Concept，完整保留 Typed References，不建立推測關聯。"
+    },
+    "riskNotes": "新增的跨域情境只是未實測示意；外部 Runtime、效果、作者來源及授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有 Canonical 內容整理；外部模型、Runtime、工具整合與授權未實測，Repo CI 需另驗收。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "Evidence-Backed Agent Investigation",
   "status": "active",
   "addedAt": "2026-10-05",
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-11-23",
   "tags": [
     "agents",
     "evidence",
@@ -21,7 +21,8 @@
     "在重建功能前保留來源、觀察方式與限制，讓後續 review 能追溯。"
   ],
   "tradeoffs": [
-    "Evidence capture 會增加調查成本與資料量，但可降低錯誤推論與不可重現的 agent output。"
+    "Evidence capture 會增加調查成本與資料量，但可降低錯誤推論與不可重現的 agent output。",
+    "證據蒐集會增加時間、儲存與權限需求。"
   ],
   "exampleRefs": [
     {
@@ -39,5 +40,64 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "definition": "Agent 的每個重要調查結論都需要連到可重現的證據、時間與觀察方法；將靜態推論、實際執行和未解假設分層呈現。",
+  "signals": [
+    "調查陌生系統時，模型給出看似合理卻沒有執行依據的答案。",
+    "需要將實驗、日誌與程式線索交給另一個審查者驗證。"
+  ],
+  "antiPatterns": [
+    "把程式註解或模型猜測當作實際執行證據。",
+    "只保存結論，不保存重現所需輸入、版本和觀察步驟。"
+  ],
+  "applicationScenarios": [
+    "示意：後端 API 事故分析將 Trace、SQL Query 和修正 Commit 對應到每項結論。",
+    "示意：桌面軟體功能重建時標出 UI 觀察與 Native Call 推論的差別。"
+  ],
+  "validationQuestions": [
+    "每項結論可否指出來源及如何再次觀察？",
+    "證據失效或環境不同時，系統是否能降級結論可信度？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "僅以既有 Canonical Concept 描述作為整理依據，原始來源／授權仍待上游查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "比對現有 Canonical Concept ID 與標題後補強原記錄，無新增同義或重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有未對應詞彙作原始搜尋線索；未新增或修改標籤。"
+    },
+    "classificationReason": "維持原有 Domain software，候選情境不是實測能力或分類證據。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補跨域可用原理、風險及驗證問題，避免把 Concept 當作工具。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有具體已驗證操作輸入／輸出，不推斷 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "沿用同 ID 既有 Concept，完整保留 Typed References，不建立推測關聯。"
+    },
+    "riskNotes": "新增的跨域情境只是未實測示意；外部 Runtime、效果、作者來源及授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只有 Canonical 內容整理；外部模型、Runtime、工具整合與授權未實測，Repo CI 需另驗收。"
+    }
   }
 }
