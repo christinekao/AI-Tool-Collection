@@ -12,9 +12,18 @@
     "用 heartbeat queue、persistent task state、budget checks 與 orphaned-run recovery 支撐 24/7 Agent 執行",
     "在使用者確認 Spec 後，已授權工作可持續推進；待決事項只阻擋相依工作，其餘 Tickets 繼續執行，避免整條流程因單一 decision point 停住"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "持續執行提高吞吐，但需要監控、預算上限和無人值守的錯誤復原。",
+    "每階段保存狀態增加維護成本，卻能避免失敗後整條工作重跑。"
+  ],
+  "signals": [
+    "多小時的工作遇到中斷後不知道哪一步完成。",
+    "單一待確認問題讓不相依任務全部停擺。"
+  ],
+  "antiPatterns": [
+    "只有聊天視窗中的進度敘述，沒有實際任務狀態與重跑證據。",
+    "不設費用、權限或停止條件就無限重試。"
+  ],
   "examples": [
     "Orca",
     "Shared Handoff Bridge pattern",
@@ -24,7 +33,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "long-running-agent",
     "operations",
@@ -41,5 +50,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "長時間 Agent 工作須拆成可觀察的任務狀態、心跳、預算、阻礙與恢復契約；可自動前進的部分只在已授權範圍內運作，重大決策仍升級人工。",
+  "applicationScenarios": [
+    "示意：專案任務由 Queue 管理依賴，阻礙項暫停但獨立測試繼續。",
+    "示意：批次資料同步記錄 Checkpoint、失敗範圍和可重跑階段。"
+  ],
+  "validationQuestions": [
+    "任務停止後是否能從最新可信 Checkpoint 恢復而不重複副作用？",
+    "逾時、超支或授權撤銷時是否有明確停機與通知責任？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依據既有 Canonical Concept 的先前整理文字，上游作者、授權與完整來源未獨立核實。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "已比對現有 68 筆 Concept，保留原有 ID 與身分，只補同一筆知識的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未對應標籤僅保留作原始檢索線索，未新增。"
+    },
+    "classificationReason": "不變更現有 Primary Domain ai-agent 與其他分類欄位，假設情境不等於實測資料。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補原理定義、權衡、反例、跨域示意和驗收問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有可驗證的執行 I/O 證據，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維護現有 Concept，不新增正式 Typed References、Workflow 或 Graph Edge。"
+    },
+    "riskNotes": "跨領域應用皆為未實測示意；外部模型、工具執行、來源作者和授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅整理概念文字；Runtime、外部整合、來源授權與真實效果均未測試，Repo CI 另驗。"
+    }
   }
 }

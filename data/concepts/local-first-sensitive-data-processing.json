@@ -15,7 +15,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-02",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "local-first",
     "privacy",
@@ -33,5 +33,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "在資料離開可信裝置之前，於本機完成敏感資料辨識、最小化、遮罩和必要映射；外部推理只收到可審核且合目的的衍生 Payload。",
+  "tradeoffs": [
+    "本機處理減少外送敏感度，卻需承擔資源、維護和裝置安全管理。",
+    "過度遮罩可能破壞模型完成任務所需的關聯，需要在隱私與可用性間取捨。"
+  ],
+  "signals": [
+    "工作包含身分資料、薪資或內部系統憑證。",
+    "外部模型只需要聚合統計，不需要個別員工原始紀錄。"
+  ],
+  "antiPatterns": [
+    "先把原始個資送到雲端，再在回傳前做遮罩。",
+    "認定資料留在筆電就沒有端點遺失、備份或本機權限風險。"
+  ],
+  "applicationScenarios": [
+    "示意：出勤資料先於可信環境去識別，再讓外部模型只分析匯總異常模式。",
+    "示意：客服對話於本機移除聯絡資訊後，輸出匿名問題分類供知識庫改善。"
+  ],
+  "validationQuestions": [
+    "外送前能否列出每個欄位、目的與遮罩理由？",
+    "本機暫存、日誌、備份和中間檔是否受到相同資料保護？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依據既有 Canonical Concept 的先前整理文字，上游作者、授權與完整來源未獨立核實。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "已比對現有 68 筆 Concept，保留原有 ID 與身分，只補同一筆知識的內容。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "既有未對應標籤僅保留作原始檢索線索，未新增。"
+    },
+    "classificationReason": "不變更現有 Primary Domain security 與其他分類欄位，假設情境不等於實測資料。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補原理定義、權衡、反例、跨域示意和驗收問題。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "沒有可驗證的執行 I/O 證據，不建立 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "維護現有 Concept，不新增正式 Typed References、Workflow 或 Graph Edge。"
+    },
+    "riskNotes": "跨領域應用皆為未實測示意；外部模型、工具執行、來源作者和授權未核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "僅整理概念文字；Runtime、外部整合、來源授權與真實效果均未測試，Repo CI 另驗。"
+    }
   }
 }
