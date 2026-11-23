@@ -1,0 +1,33 @@
+name: Temporary Batch 03 Derived Catalog Rebuild
+on:
+  push:
+    branches: [concept-content-batch03-20261123]
+    paths:
+      - '.github/workflows/_temporary-concepts-batch03-rebuild.yml'
+permissions:
+  contents: write
+concurrency:
+  group: concept-batch03-derived-sync
+  cancel-in-progress: false
+jobs:
+  rebuild:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: concept-content-batch03-20261123
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/build-v2.mjs
+      - name: Commit only generated artifacts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/catalog-v2.json data/manifest-v2.json data/knowledge-graph-v1.json data/tag-index-v1.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Sync Batch 03 derived artifacts after Intake fix'
+            git push origin HEAD:refs/heads/concept-content-batch03-20261123
+          fi
