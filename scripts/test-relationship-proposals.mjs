@@ -31,7 +31,7 @@ export function checkProposals(data,records){
   const res=records.resources[source.resourceId];sourceRefs.add('resource:'+source.resourceId);
   fail(Boolean(res),'Unknown source Resource: '+source.resourceId);
   if(!res)continue;
-  fail(res.url===source.repoUrl||res.url===source.documentationUrl||res.url.includes(source.resourceId)||res.repo?.toLowerCase().includes(source.resourceId.replace('unclecode-','').replace('opendatalab-','')),'Source not traceable to Canonical Resource: '+source.resourceId);
+  fail(source.repoUrl===res.url||Boolean(res.repo&&source.repoUrl.toLowerCase().includes('/'+res.repo.toLowerCase())),'Source not traceable to Canonical Resource: '+source.resourceId);
   fail(source.documentationUrl?.startsWith('https://github.com/'),'Documentation must be an approved upstream GitHub reference: '+source.resourceId);
   fail(source.sourceLevel==='upstream-documentation-reviewed'&&source.integrationStatus==='not-tested','No source can claim runtime PASS: '+source.resourceId);
   fail(nonempty(source.verifiedClaim),'Missing source interpretation: '+source.resourceId);
