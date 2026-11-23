@@ -4,7 +4,7 @@
 
 ## 範圍與保存原則
 
-- 本批只更新既有 Canonical Concept **8/8**，完成內容改善目標 **68/68**；不新增、刪除、合併任何 Concept。
+- 本批只更新既有 Canonical Concept **8/8**，已完成內容改善 **68/68**；不新增、刪除、合併任何 Concept。
 - 原始 `coreProblem`、`solutionMethods`、`examples`、`exampleRefs`、`layers`、`originalNote`、`source`、Tags、Classification、ID 和所有 Typed References 全部保留；原有 Trade-offs／Signals／Anti-patterns 一律保留為相同順序的前綴。
 - 缺漏才補 `definition`、Trade-offs／Signals／Anti-patterns；第 62 與 68 筆已具長篇內容，不重寫原本方法與關係。
 - 每筆新增兩項 `applicationScenarios`（均以「示意：」標示）與兩個 `validationQuestions`，僅是假設的跨領域應用及驗證問題，不表示已完成外部執行。
@@ -31,7 +31,7 @@
 | 67 | `web-to-desktop-application-shell` | Renderer／Main Process／IPC 隔離與桌面權限 | NOT_TESTED |
 | 68 | `workflow-agent-system-agent-os-three-layer-architecture` | 保留原有 Layers、Scenario、Concept Refs；只補跨領域示意和判斷問題 | NOT_TESTED |
 
-## 測試與交付條件（結果須由實際 Run 更新）
+## 測試契約與交付（結果詳見最終驗收）
 
 - `scripts/test-concept-guides.mjs` 擴增到全部 **68/68**；同時保留前三批 60 筆的 regression。每筆至少兩組取捨、訊號、反例、候選情境與驗證問題。
 - `scripts/test-knowledge-browser.mjs` 增加 Batch04 三筆代表性的 Knowledge 真實顯示與 Catalog 詳情深連結、375／430／768／1440px 無水平溢出；不得移除既有其他頁面或 Prompt／Graph／Playground 測試。
@@ -41,4 +41,36 @@
 
 ## 下一步
 
-完成 PR 實際 CI 和審核才可合併；部署後驗收通過，再更新最終 Session Handoff，確認 Phase 2 Concepts **68/68** 封帳。
+PR #51、main CI、Pages Deploy 與部署後 Live Smoke 已有真實成功收據；Phase 2 Concepts **68/68** 內容改善正式封帳，外部實效與授權仍 NOT_TESTED。
+
+## Batch 04 最終 PR／main／正式站驗收（2026-11-23）
+
+**PASS WITH GAPS**：68/68 Concepts 內容改善完成，PR、main CI、瀏覽器與正式站部署驗收成功；外部模型品質、整合效果及作者／授權仍 NOT_TESTED。
+
+| 驗收項目 | 真實結果 |
+|---|---|
+| [PR #51](https://github.com/christinekao/AI-Tool-Collection/pull/51) | Squash Merge PASS；Head `7f2928a5fe7154168061e19e12d389127c742ac8`，Merge `ae6745c398a4928a340519bd00a1eec0ff2fe332` |
+| PR Intake | [#45132812401 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132812401) |
+| PR V2 Data Validate | [#45132812435 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132812435) |
+| PR P1 Graph／Browser／68 Concepts | [#45132812404 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132812404) |
+| main Intake | [#45132941415 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941415) |
+| main V2 Data Validate | [#45132941106 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941106) |
+| main P1 Graph／Browser | [#45132941104 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941104) |
+| main V2 Catalog Sync | [#45132941149 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941149) |
+| Pages Deploy | [#45132940427 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132940427)，完成 07:42:12 UTC |
+| 部署後 Live Smoke | [#45132941178 Attempt 2 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941178)，完成 07:43:12 UTC，晚於 Pages |
+| 正式站 HTTP＋JSON 資源 | 19/19 PASS |
+| Batch04 Knowledge／Catalog 與響應式 | 375／430／768／1440px PASS |
+| 全庫六類／Graph | 270／123／68／35／17／36；569 Nodes／1816 Edges |
+| Derived Catalog 重建 | [#45132695596 PASS](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132695596)；暫時 Workflow 已於 PR 前移除 |
+| 原始資料保留 | 8/8 原欄位與既有陣列順序比對通過；無新增正式 Typed Refs |
+
+### Failure-to-Improvement 證據
+
+- [Live Smoke #45132941178 Attempt 1](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941178) 於新 Pages Deploy **之前**執行，尚無新 Concept 資料，等待 `semantic-layer-for-ai` 顯示時逾時 **FAIL**，不是正常通過。部署完成後的 Attempt 2 才 PASS。
+- 此次失敗起因為 Pages 與 Smoke 非同步啟動順序，不是原始 Concept／Typed Reference 遺失；保留第一次失敗紀錄。日後可另評估工作流依賴控制，不在本次內容整理中擅自調整部署架構。
+- Docs-only 封帳後會觸發新的 Pages Deploy，最新最終部署與 Smoke 的實際收據記在 [PR #51 留言](https://github.com/christinekao/AI-Tool-Collection/pull/51)，避免編輯文件造成無限部署。
+
+### 未驗範圍
+
+所有假設跨域場景、真實模型品質、外部第三方 Provider/API 互通、完整上游作者和商用授權：**NOT_TESTED**。內容改善 68/68 不等於 68 筆都通過實際應用。

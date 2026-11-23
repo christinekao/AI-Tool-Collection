@@ -1,14 +1,35 @@
-## Batch 04 進行中｜61–68（最後 8 筆）
+# Concepts Phase 2｜Session Handoff（2026-11-23）
 
-- 工作分支：`concept-content-batch04-20261123`，Base main `c8f426d1233fac19278f51ebf6f3238001e77ae4`。
-- 8/8 Canonical 已補強並保留原始欄位；逐筆見 [Batch 04 Review](CONCEPT_CONTENT_REVIEW_BATCH04_20261123.md)。
-- **進度口徑**：內容改善預備完成 68/68；PR、main CI、正式站和部署後 Live Smoke 仍需各自核實，未完成時不得標示正式封帳。
-- 維持 `provided-material`，外部模型成效、第三方整合、原作者／授權查核仍 **NOT_TESTED**。
-- 完成本批後，Concepts Phase 2 68 筆內容改善可正式結束；後續只進入獨立的跨類關聯、來源補驗或品質抽檢，不自動改分類或建立 Workflow。
+**全部 68/68 筆 Concept 內容整理完成；Batch 04 最終狀態 PASS WITH GAPS，剩餘 0 筆。**
+
+## Batch 04（第 61–68 筆）｜正式站封帳收據
+
+- [PR #51](https://github.com/christinekao/AI-Tool-Collection/pull/51) 已 Squash Merge；Base main `c8f426d1233fac19278f51ebf6f3238001e77ae4`，最終 PR Head `7f2928a5fe7154168061e19e12d389127c742ac8`，Merge Commit `ae6745c398a4928a340519bd00a1eec0ff2fe332`。
+- 8/8 Canonical 內容改善；完成總數 **68/68**。每筆保留原始 Problem、Methods、Examples、Tags、Classification、來源與 Typed References；全部新增候選跨域情境和驗證問題；逐筆審查見 [Batch 04 Review](CONCEPT_CONTENT_REVIEW_BATCH04_20261123.md)。
+- **PR CI PASS**：[Unified Intake #45132812401](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132812401)、[V2 Data Validate #45132812435](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132812435)、[P1 Graph／Browser＋68 Concepts #45132812404](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132812404)。
+- **main CI PASS**：[Unified Intake #45132941415](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941415)、[V2 Data Validate #45132941106](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941106)、[P1 Graph／Browser #45132941104](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941104)、[Catalog Sync #45132941149](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941149)。
+- **Pages Deploy PASS**：[Run #45132940427](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132940427)，完成約 **2026-11-23 07:42:12 UTC**；**部署後 Live Smoke PASS**：[Run #45132941178 Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941178)，完成 **07:43:12 UTC**。正式站 19/19 資源 PASS，Batch 04 Concept Knowledge／Catalog 真實顯示與 375／430／768／1440px PASS；保留既有 Prompt／Graph／Playground 與所有六類收藏回歸。
+- **保留 Failure-to-Improvement 證據**：首次 [Live Smoke #45132941178 Attempt 1](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132941178) 在 Pages Deploy 完成前執行，舊站尚未有新 Batch04 Concept 顯示區塊，Browser 等待 `semantic-layer-for-ai` 逾時而 FAIL；正式站更新後 Attempt 2 才 PASS，不得將首次 FAIL 抹除。
+- 8/8 原紀錄欄位比對：原有 `source-first-job-intelligence.exampleRefs`、`workflow-agent-system-agent-os-three-layer-architecture.relatedConceptRefs` 和 `layers` 等維持，既有非空陣列保留原序；PR Diff 只顯示內容新增、空陣列補足及 `updatedAt` 變更。六類基準數量仍 **270／123／68／35／17／36**；Graph **569 Nodes／1816 Edges**，沒有新增正式 Typed Edges。
+- [一次性 Derived Rebuild #45132695596](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45132695596) PASS；暫時具寫入權限的 branch-only workflow 已於 PR 前刪除，不存在於正式 main。
+- **仍未驗證**：第三方模型輸出品質、Provider／外部工具真實相容性、原始作者與完整商用授權，以及候選跨領域使用結果，均為 **NOT_TESTED**。CI／Browser PASS 僅代表設計的資料與程式契約通過，不能取代外部成效驗證。
+- Docs-only 封帳 Commit 會再次觸發 Pages Deploy；**最後一版 Docs 的 Pages 與真正部署後 Live Smoke 收據將寫在 [PR #51 留言](https://github.com/christinekao/AI-Tool-Collection/pull/51)**，避免為更新文件造成無限部署循環。
+
+## Phase 2 Concepts 完成範圍與後續
+
+- **Batch 01**：第 1–20 筆，PR #48。
+- **Batch 02**：第 21–40 筆，PR #49。
+- **Batch 03**：第 41–60 筆，PR #50。
+- **Batch 04**：第 61–68 筆，PR #51。
+- **完成**：內容可讀性、可遷移原理、Trade-offs、Signals、Anti-patterns、跨領域候選示意、驗證問題，以及 68/68 靜態回歸與瀏覽器代表性實測。
+- **非本階段完成**：對每筆上游外部來源的完整驗證、實際第三方整合、已證實的 Workflow 互通性、授權與實際模型效能；若日後處理需另開獨立審查工作，不能以 68/68 內容進度視作上述任務已完成。
+- 下一步可回顧整個知識圖譜的語意品質及跨 Entity 連結候選；**不得自動修改既有 Tags、分類、Typed Refs 或合併／刪除 Concept**。
 
 ---
 
-# Phase 2 Concepts｜Session Handoff（2026-11-23）
+## 歷史 Batch 03／02 Handoff（原紀錄保留）
+
+## Batch 03 原始 Handoff（2026-11-23）
 
 **Batch 03 最終狀態：60/68，PASS WITH GAPS；剩餘 8 筆（Batch 04）。**
 
