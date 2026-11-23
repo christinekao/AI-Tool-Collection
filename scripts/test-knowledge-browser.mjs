@@ -187,6 +187,30 @@ try{
  assert.ok(promptMobile.scroll<=promptMobile.client+3,'Prompt guide overflows mobile 375px: '+JSON.stringify(promptMobile));
  console.log('PASS: Prompt Original/Adapted strings and version toggles; 375px mobile reading');
 
+ // Concept Batch 02 regressions: real renderer must expose sourced principle vs hypothetical applications.
+ for(const id of ['cross-agent-shared-memory','episodic-character-asset-consistency','memory-observability']){
+  const record=JSON.parse(fs.readFileSync(path.join(root,'data/concepts',id+'.json'),'utf8'));
+  await send('Page.navigate',{url:origin+'/knowledge.html#/node/concept/'+id});
+  await waitFor('document.querySelector("#kg-knowledge")?.textContent.includes("候選跨領域應用（非實測）")','Concept scenario detail '+id);
+  const expr='({visible:document.querySelector("#kg-knowledge")?.textContent.includes('+JSON.stringify(record.applicationScenarios[0])+'),question:document.querySelector("#kg-knowledge")?.textContent.includes('+JSON.stringify(record.validationQuestions[0])+'),title:document.querySelector("#kg-knowledge")?.textContent.includes("驗證時該問")})';
+  const probe=await evaluate(expr);
+  assert.ok(probe.visible&&probe.question&&probe.title,'Concept fields missing in Knowledge Explorer '+id+': '+JSON.stringify(probe));
+ }
+ await send('Page.navigate',{url:origin+'/index.html#/concepts/cross-agent-memory-portability'});
+ await waitFor('document.querySelector("#app")?.textContent.includes("候選跨領域應用（非實測）")','Catalog Concept route');
+ for(const width of [375,430,768,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(125);
+  const m=await evaluate('({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth})');
+  assert.ok(m.scroll<=m.client+3,'Concept detail overflow '+width+': '+JSON.stringify(m));
+  if(width===375||width===1440){
+   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+   fs.writeFileSync(path.join(screenshotDir,'concept-batch02-'+width+'.png'),Buffer.from(shot.data,'base64'));
+  }
+ }
+ console.log('PASS: Concept Batch 02 actual Knowledge/Catalog rendering and 375/430/768/1440px responsive');
+
+
  // Knowledge source handoff must go to a separate Playground rather than embedding a builder.
  await send('Page.navigate',{url:origin+'/knowledge.html#/node/skill/frontend-design'});
  await waitFor('document.querySelector("#kg-playground-link")?.href.includes("seed=skill%3Afrontend-design")','Source to Playground deep link');
