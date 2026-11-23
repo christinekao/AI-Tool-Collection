@@ -1,14 +1,38 @@
-## Phase 3 Audit 04（進行中）｜2026-11-23
+# Knowledge Relations｜Phase 3 Audit 04 Handoff（2026-11-23）
 
-- Base main `10fea1e2dcd16a073242b6da318137f35699af59`；實作分支 `relation-audit-phase04-20261123`。
-- Audit 03 的重點缺口：Caller 自行帶入 `authorization`／`calibrated`／`providerRoute`／`source ACL`／`sql.dryRunValidated` 並被當作判斷真相。
-- Audit 04 新增**私有、固定、合成的 trusted registry**，以純函式區分不可信 Payload 與模擬 Session／Risk／Calibration／Provider／Document ACL／SQL Attestation；21 個正反向 Node Tests 與 CI Gate。
-- 限制：全部 Session 與 Event 是公開合成 ID，**不是**實際 Server Authentication／Authorization；沒有真正 Held-out Calibration、網路、SQL、第三方服務或 Provider 實測。
-- 保存：不改動 Canonical／Graph／Typed References／Tags／分類／網站 UI；本批應只有 Scripts、Fixtures、V2 CI、Audit 報告與 Handoff。
-- [Audit 04 詳細設計與驗收](RELATIONSHIP_AUDIT_PHASE04_20261123.md)。
-- GitHub PR、CI、main 與 Pages Deploy 實際證據尚待補錄，未經驗證不能標 PASS。
+**最終判定：PASS WITH GAPS。已完成 21/21 個獨立合成信任來源測試；保留全部原始 Canonical、Graph、ID、Tags 與 Typed References。**
+
+## Audit 04 封帳與驗收證據
+
+- [PR #55](https://github.com/christinekao/AI-Tool-Collection/pull/55)：Squash Merge 完成。基準 main `10fea1e2dcd16a073242b6da318137f35699af59`，最終 PR Head `46ef1a35f06757063f5d76774453acef4c38b2a3`，Merge Commit `6508e58e4b6ac5858e3dc68d499f3916cc5e5f03`。
+- [最終 PR V2 Data Validate #45155680953](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155680953)：**PASS**，包含新增 **21/21** 模擬信任邊界測試與既有全部 V2、Taxonomy、Concept、Graph、Workflow 測試。
+- [main V2 Data Validate #45155828882](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155828882)：**PASS**。
+- [Merge Pages Deploy #45155828187](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155828187)：**PASS**（完成 2026-11-23 10:25:13 UTC）。
+- 原 PR Diff **6 個非 Canonical 檔案**：`scripts/relationship-trusted-synthetic-core.mjs`、`scripts/test-relationship-trusted-synthetic.mjs`、`scripts/fixtures/relationship-audit04-untrusted.json`、既有 V2 CI，以及本批報告／Handoff。沒有改動 `data/`、正式 Graph、網站 UI／執行時程式，沒有新增正式 Concept Links 或跨 Workflow 重用聲明。
+- 來源信任邊界：Request 夾帶的 `approved`、`calibrated`、偽造 Provider、ACL、SQL 狀態不能替代**測試模組的獨立固定合成紀錄**；高風險不得降級、未知 Session／Event 拒絕、無外部 API／真實 SQL／檔案外送／任何實際執行。
+- 舊 Audit 03 的 14 項合成 regression 均保留；本輪測試 **21 PASS、0 FAIL**。CI 通過證明的是本 Repo 的離線函式，而不是任何第三方的權限安全或真實模型品質。
+- **未驗範圍**：測試 Session ID／Event ID 皆為公開字串，無真實身份驗證、防重播與安全 Token；`calibration registry` 只是合成資料，沒有真正 held-out evaluation；Laya／OmniRoute／Codex／Onyx／WrenAI 實際連線、ACL、API、SQL 與商用授權仍 **NOT_TESTED**。本批 UI／Canonical 無變更，**未重新執行正式站 Chromium Smoke（NOT_TESTED）**。
+- 最終 Docs-only Commit 會再次觸發 Pages Deploy；其實際部署證據只附在 [PR #55 留言](https://github.com/christinekao/AI-Tool-Collection/pull/55) 中，避免文件與部署無限循環。
+
+## 可重現命令
+
+```sh
+node --test scripts/test-relationship-trusted-synthetic.mjs
+node --test scripts/test-relationship-synthetic.mjs
+node --test scripts/test-relationship-proposals.mjs
+node --test scripts/test-knowledge-relations-audit.mjs
+node scripts/validate-v2.mjs
+```
+
+## 後續建議與安全 Gate
+
+下一輪不應把靜態 Registry 直接升格為實際授權系統。應先定義真正可信的**伺服器端身份與 Request 綁定、校準結果的獨立簽核與版本、資料來源 ACL 的實際端點、Provider 動態權限、錯誤回滾／Replay 保護**，從一個可驗證的最小流程開始。所有實作前需審查權限、資料外送與實際測試環境。
+
+原有 **68 Concepts／36 Workflows／17 Combinations** 保留；任何 Canonical 修改、Typed Reference 升級、組合刪除或合併，須另外具備來源／行為證據及核准。
 
 ---
+
+## 歷史 Audit 03／02／01 Handoff（保留）
 
 # Knowledge Relations｜Phase 3 Handoff（2026-11-23）
 

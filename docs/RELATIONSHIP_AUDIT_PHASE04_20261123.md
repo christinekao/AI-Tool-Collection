@@ -46,10 +46,27 @@ node scripts/validate-v2.mjs
 
 ## PR、CI 與 Release 結果
 
-第一版 PR CI 已 PASS；最終 PR Head、main 與 Pages Deploy 尚待實際確認。
+最終 PR、main CI 與 Merge Pages Deploy 均已 PASS，詳見下列驗收收據。
 
 ## 首次 PR 實際驗證收據（尚非最終 Head）
 
 - [PR #55 V2 Data Validate Run #45155463517](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155463517)：**PASS**，新增 Audit 04 21/21 Tests 通過，原有 V2/Concept/Graph/Workflow 契約回歸也通過。
 - Repo 內的獨立合成紀錄測試通過，不等同第三方系統或真正安全認證。
 - 本次文件修正不修改 JavaScript 行為或資料，但因 PR Head 會改變，仍需要再取得最新 Head 的 CI PASS 才可合併。
+
+## Audit 04 最終 PR／CI／部署收據（2026-11-23）
+
+**PASS WITH GAPS**：只驗證 Repo 自帶的離線合成規則與對偽造宣告的負向測試，真實模型、身份與資料權限並未實測。
+
+| 項目 | 實際結果 |
+|---|---|
+| [PR #55](https://github.com/christinekao/AI-Tool-Collection/pull/55) | 已 Squash Merge；Head `46ef1a35f06757063f5d76774453acef4c38b2a3`；Merge `6508e58e4b6ac5858e3dc68d499f3916cc5e5f03` |
+| [最終 PR V2 Data Validate #45155680953](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155680953) | **PASS**，21/21 新增測試及原有全部 V2 測試 |
+| [main V2 Data Validate #45155828882](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155828882) | **PASS** |
+| [main Pages Deploy #45155828187](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155828187) | **PASS**，完成 2026-11-23 10:25:13 UTC |
+| Canonical、Graph、分類、Tags、正式 Typed Refs | **全部保留、0 改動** |
+| 新增 Provider 或第三方 Integration | **0**；全部仍 **NOT_TESTED** |
+| 真實 Server Authentication、Replay Protection、Model Calibration | **NOT_TESTED** |
+| 本批獨立正式站 Browser Smoke | **NOT_TESTED**（無網站 UI／Canonical 變更） |
+
+最後的 Docs-only Main Commit 將重新觸發 Pages；最終版本部署的回執只記錄在 [PR #55 留言](https://github.com/christinekao/AI-Tool-Collection/pull/55)，避免因更新驗收文件形成部署循環。
