@@ -50,4 +50,28 @@ CI 加入既有 V2 Data Validate；**不得修改原始 `data/`、Graph、Tags�
 
 ## Release 狀態
 
-第一輪 PR #56 CI 已完成 22／22 PASS；獨立審查發現 Null Input 未 Fail-Closed，已新增第 23 項負向回歸並修正，最新 Head CI 仍待驗證。任何 Production Security、真正身分驗證、Key 管理、分散式防重播與外部整合均為 **NOT_TESTED**。
+**PASS WITH GAPS**：最終 PR 與 main CI、程式合併 Pages Deploy 已 PASS（詳見下列收據）。但真正 Production Security／身份認證／Key 管理／跨實例 Replay／第三方系統仍 **NOT_TESTED**。
+
+## Audit 05 最終 PR／main／部署收據（2026-11-23）
+
+| 驗收項目 | 結果 |
+|---|---|
+| [PR #56](https://github.com/christinekao/AI-Tool-Collection/pull/56) | 已 Squash Merge；最終 Head `9f2e0c076c00f32783f14c8c63d013fd79105fad`；Merge `6f6ce950705352c4949fb912602a89f163c02d99` |
+| [第一次 PR V2 Data Validate #45177335544](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177335544) | PASS，22／22 新增測試。後續 Cold Review 發現 Null Input 例外未涵蓋，故非最終驗收版 |
+| [最終 PR V2 Data Validate #45177588867](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177588867) | **PASS，23／23，0 FAIL**，加上原有 14+21 項合成測試及現有全庫 V2 回歸 |
+| [main V2 Data Validate #45177722412](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177722412) | **PASS** |
+| [Main Merge Pages Deploy #45177721287](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177721287) | **PASS**，完成 **12:48:43 UTC** |
+| 原始 Canonical／Graph／Typed References／網站 UI | **全部保留；無改動** |
+| 真實 Server Auth、分散式原子 Replay、Provider／SQL／ACL | **NOT_TESTED** |
+| 本批獨立正式站 Chromium Live Smoke | **NOT_TESTED** |
+
+### Failure → Improvement → Regression
+
+- **Before**：Audit 05 第一版 `route({envelope,payload}={})` 和 `evidence({envelope,payload}={})` 對直接傳入 `null` 會在解構參數時拋出 TypeError。
+- **Fix**：入口先驗證是否為普通物件，不符合則改為空合約後安全拒絕。
+- **Retest**：新增第 23 項測試覆蓋 `null`、`undefined`、字串、數字、Array 和空物件，並重新執行完整 PR CI **PASS**。之前 22 項全部保留。
+- **Remaining gap**：不共享 Replay Set 的兩個實例依然會各自接受同一有效 Token；不能以本批宣稱真正跨節點安全。
+
+最終 Docs-only Main Commit 再觸發 Pages。為避免「寫入 Deploy 時間 → 再次 Deploy」循環，最後一個部署回執只在 [PR #56 留言](https://github.com/christinekao/AI-Tool-Collection/pull/56) 記錄。
+
+**驗收結論：PASS WITH GAPS**，限於合成安全規則、靜態 CI 與無破壞式 Repo 修改。

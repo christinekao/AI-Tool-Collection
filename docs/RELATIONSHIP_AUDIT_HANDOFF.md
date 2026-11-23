@@ -1,13 +1,40 @@
-## Audit 05｜進行中（2026-11-23）
+# Knowledge Relations｜Phase 3 Audit 05 Handoff（2026-11-23）
 
-- Baseline `d44ec9edbb124ea67740442a7ec10a8a58d7f8f7`，branch `relation-audit-phase05-20261123`。
-- 對 Audit 04 合成 Registry 加一層 **HMAC-SHA256 短期簽章、Audience／Scope／Body Hash、Nonce One-use**，不將公開 Fixture ID 當作真實身份。
-- 明確測試：Payload 竄改／偽造簽章／過期與未生效／跨 Scope／局部 Replay 與**獨立 Gate 無共享 Replay State 的安全缺口**。
-- 23 個新 Node Test，連同 Audit 03／04 既有回歸納入 V2 CI；沒有授權真實執行。
-- 實作限新的 2 個 Script、既有 V2 CI、[Audit 05](RELATIONSHIP_AUDIT_PHASE05_20261123.md)、本 Handoff。沒有 Canonical、Graph、UI 變更。
-- PR #56 第一輪 V2 CI #45177335544：22/22 PASS；獨立審查後新增 Null Input Fail-Closed 第 23 項測試，最新 PR CI／main／Pages 仍須驗證。
+**狀態：PASS WITH GAPS。已完成合成簽章與 Request Binding 的 23／23 測試；GitHub PR／main CI、程式合併後 Pages 部署均 PASS。正式身分驗證、金鑰服務與分散式 Replay 安全仍 NOT_TESTED。**
+
+## Audit 05 最終交付
+
+- [PR #56](https://github.com/christinekao/AI-Tool-Collection/pull/56)：最終 PR Head `9f2e0c076c00f32783f14c8c63d013fd79105fad`，Squash Merge `6f6ce950705352c4949fb912602a89f163c02d99`。基準 Main `d44ec9edbb124ea67740442a7ec10a8a58d7f8f7`。
+- [PR 最終 V2 Data Validate #45177588867](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177588867)：**PASS**，新增 **23／23** 測試、0 FAIL，Audit 03 14 項、Audit 04 21 項、其他 V2／Taxonomy／Graph／Concept／Workflow Regression 全部維持 PASS。
+- [main V2 Data Validate #45177722412](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177722412)：**PASS**。
+- [Merge Pages Deploy #45177721287](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177721287)：**PASS**，完成 2026-11-23 **12:48:43 UTC**。
+- 第一次 PR CI [#45177335544](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45177335544) **22／22 PASS**；獨立覆核發現 `gate.route(null)`／`gate.evidence(null)` 會拋例外，因此修復並增補第 23 項測試。完整 Before→After 和新版結果均可在 PR Commits、測試與 [Audit 05 Report](RELATIONSHIP_AUDIT_PHASE05_20261123.md) 驗證。
+- 修改範圍 **5 個非 Canonical 檔**：新增 `scripts/relationship-signed-synthetic-core.mjs`、`scripts/test-relationship-signed-synthetic.mjs`；更新 CI、Audit 05 Report 及 Handoff。無 `data/` Canonical、Schema、衍生 Catalog／Graph、Tags、IDs、正式 Typed Refs、網站 UI／資料變更。
+- 只在本機 Node CI 使用於執行當下產生的暫時 Key、HMAC-SHA256 與短效 Envelope；驗證 Audience／Scope／Body Hash／期限／Nonce。**從未存放任何私密 Key 在 Repository**；未下載／執行外部 Provider、未接真實資料／API 或 SQL。
+- 實測確認：同 Gate 或共用同進程 Set 時可以阻擋重播；不同 Gate 使用互相獨立 Set 仍可能各自接受同一 Token，**這是已保留的負面案例與阻擋正式上線的限制**。
+- **NOT_TESTED**：真正 Server Identity、實際 Key Rotation／KMS、跨節點原子 Single-use Store、失敗時的 Session 撤銷／重試、Laya Calibration、OmniRoute／Codex／Onyx／WrenAI 實際整合、安全／授權／商用授權。本輪未修改網站程式碼，**沒有新一輪 Live Chromium Browser Smoke（NOT_TESTED）**。
+- 最後 Docs-only Main Commit 仍會觸發 Pages；其最終部署收據只記錄在 [PR #56 留言](https://github.com/christinekao/AI-Tool-Collection/pull/56)，避免反覆修改文件造成循環部署。
+
+## 可重現命令
+
+```sh
+node --test scripts/test-relationship-signed-synthetic.mjs
+node --test scripts/test-relationship-trusted-synthetic.mjs
+node --test scripts/test-relationship-synthetic.mjs
+node --test scripts/test-relationship-proposals.mjs
+node --test scripts/test-knowledge-relations-audit.mjs
+node scripts/validate-v2.mjs
+```
+
+## 後續工程判斷
+
+正式使用前，至少需要**可信的 Server-side Issuer／User Session、綁定 Request ID 與權限、可撤銷且可輪替的 Key、跨節點原子且可持久化的 Replay Store、時鐘容忍與資料出站政策、獨立安全驗證**。即使這些通過，還要單獨評估真正的 Provider／ACL／SQL／校準與端到端契約。不要以本合成測試自動修改 17 筆 Combination 或 36 筆 Workflow。
+
+**不再延長只有純合成模擬的同類 Phase**，除非有具體未驗風險或新的可執行適用案例；優先回到 Knowledge Layer 對 17 筆組合的獨立價值、Implementation Options 和實際來源相容性證據。
 
 ---
+
+## 歷史 Audit 04／03／02／01 Handoff（完整保留）
 
 # Knowledge Relations｜Phase 3 Audit 04 Handoff（2026-11-23）
 
