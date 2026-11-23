@@ -11,7 +11,7 @@ Audit 04 把不可信 Request 與註冊的合成政策分開，但沒有 Request
 ## 實作界線
 
 - 新增 `scripts/relationship-signed-synthetic-core.mjs`：`createSyntheticIssuer` 模擬可信端簽發 `scope+payload hash+issuedAt+notBefore+expiresAt+nonce+audience`；`createSyntheticGate` 以 HMAC 與常數時間比較驗簽後才進 Audit 04 的獨立合成 Registry。
-- 新增 `scripts/test-relationship-signed-synthetic.mjs`，22 個正向／負向測試，並保留 Audit 03 的 14 個與 Audit 04 的 21 個回歸案例。
+- 新增 `scripts/test-relationship-signed-synthetic.mjs`，23 個正向／負向測試，並保留 Audit 03 的 14 個與 Audit 04 的 21 個回歸案例。
 - 測試 `ttlMs` 最長一分鐘；每次簽章包含隨機 Nonce。單一 Gate 同步使用 Set 檢查 One-use；也可明確提供**同進程共享**的 Set。
 - 保留 `scripts/relationship-trusted-synthetic-core.mjs` 的既有測試來源／權限規則，不另建真實 Provider 接口、Credential、SQL 或外部動作。
 - `allow-low-risk` 永遠只是合成路由候選；所有結果 `actionAuthorized:false`，絕不執行工具、查詢資料或外送。
@@ -50,4 +50,4 @@ CI 加入既有 V2 Data Validate；**不得修改原始 `data/`、Graph、Tags�
 
 ## Release 狀態
 
-待 GitHub CI 驗證。任何 Production Security、真正身分驗證、Key 管理、分散式防重播與外部整合均為 **NOT_TESTED**。
+第一輪 PR #56 CI 已完成 22／22 PASS；獨立審查發現 Null Input 未 Fail-Closed，已新增第 23 項負向回歸並修正，最新 Head CI 仍待驗證。任何 Production Security、真正身分驗證、Key 管理、分散式防重播與外部整合均為 **NOT_TESTED**。

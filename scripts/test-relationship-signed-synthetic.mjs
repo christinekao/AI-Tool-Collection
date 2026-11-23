@@ -172,3 +172,12 @@ test('signing payload is immutable and tokens carry no key material',()=>{
  assert.equal(envelope.signature.length,64);
  assert.equal(JSON.stringify(payload),before);
 });
+
+test('null and non-object verifier inputs fail closed without throwing',()=>{
+ const s=setup();
+ for(const bad of [null,undefined,0,'bad',[],{}]){
+  const a=s.gate.route(bad),b=s.gate.evidence(bad);
+  assert.equal(a.decision,'reject');safe(a);
+  assert.equal(b.decision,'blocked');safe(b);
+ }
+});

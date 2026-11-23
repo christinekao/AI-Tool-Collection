@@ -3,9 +3,9 @@
 - Baseline `d44ec9edbb124ea67740442a7ec10a8a58d7f8f7`，branch `relation-audit-phase05-20261123`。
 - 對 Audit 04 合成 Registry 加一層 **HMAC-SHA256 短期簽章、Audience／Scope／Body Hash、Nonce One-use**，不將公開 Fixture ID 當作真實身份。
 - 明確測試：Payload 竄改／偽造簽章／過期與未生效／跨 Scope／局部 Replay 與**獨立 Gate 無共享 Replay State 的安全缺口**。
-- 22 個新 Node Test，連同 Audit 03／04 既有回歸納入 V2 CI；沒有授權真實執行。
+- 23 個新 Node Test，連同 Audit 03／04 既有回歸納入 V2 CI；沒有授權真實執行。
 - 實作限新的 2 個 Script、既有 V2 CI、[Audit 05](RELATIONSHIP_AUDIT_PHASE05_20261123.md)、本 Handoff。沒有 Canonical、Graph、UI 變更。
-- 尚未取得本批 PR／CI／部署回執，不得提前標記完成。
+- PR #56 第一輪 V2 CI #45177335544：22/22 PASS；獨立審查後新增 Null Input Fail-Closed 第 23 項測試，最新 PR CI／main／Pages 仍須驗證。
 
 ---
 

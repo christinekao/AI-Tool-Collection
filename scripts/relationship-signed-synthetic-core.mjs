@@ -114,12 +114,14 @@ export function createSyntheticGate({key,now,usedNonces}){
   return null;
  }
  return Object.freeze({
-  route({envelope,payload}={}){
+  route(input){
+   const {envelope,payload}=isObject(input)?input:{};
    const reason=validate(envelope,payload,'route');
    if(reason)return rejectRoute(reason);
    return output(evaluateTrustedSyntheticRoute(payload));
   },
-  evidence({envelope,payload}={}){
+  evidence(input){
+   const {envelope,payload}=isObject(input)?input:{};
    const reason=validate(envelope,payload,'evidence');
    if(reason)return rejectEvidence(reason);
    return output(checkTrustedSyntheticEvidence(payload));
