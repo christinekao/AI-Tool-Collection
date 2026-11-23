@@ -10,15 +10,24 @@
     "避免讓不受信任的 renderer 直接取得完整 Node / OS 權限",
     "用單一 Web codebase 打包成多平台桌面應用"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "共享 Web 技術降低跨平台 UI 開發成本，但增加桌面封裝、更新和 Runtime 的維護負擔。",
+    "窄 IPC API 強化權限邊界，卻要求逐功能設計、驗證與跨程序錯誤處理。"
+  ],
+  "signals": [
+    "Web App 需要檔案系統、系統選單、視窗或離線桌面能力。",
+    "有既有前端程式碼，想提供跨平台桌面體驗而不直接開放 OS 權限。"
+  ],
+  "antiPatterns": [
+    "將 Node Integration 開放給不可信網頁 Renderer，直接讀寫 OS。",
+    "IPC Handler 未驗證來源與參數，讓任何畫面都能觸發高權限命令。"
+  ],
   "examples": [
     "Electron"
   ],
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "desktop",
     "web-runtime",
@@ -39,5 +48,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "以 Web Renderer 承載介面，將檔案、系統通知及視窗等高權限功能保留在獨立桌面程序，透過有限的 IPC／Bridge API 提供必要能力並驗證來源與參數。",
+  "applicationScenarios": [
+    "示意：個人知識桌面 App 以 Web UI 瀏覽資料，本機匯入經限定的檔案選擇 IPC。",
+    "示意：離線報表閱讀器由主程序控制讀取目錄及儲存權限，前端只取得明確允許的內容。"
+  ],
+  "validationQuestions": [
+    "Renderer 能否僅呼叫最小 IPC API，且 Main Process 驗證發送來源與輸入？",
+    "打包、更新、權限、離線資料與跨平台回歸是否在真實環境驗證？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "本批依先前保存的 Canonical Concept 內容整理；上游作者、原始來源與商用授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "先核對既有 Canonical Concept ID 與標題，只在原紀錄補強內容，不建立重複 Concept。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有原始 Tags 與未匹配標籤供歷史查詢，不在本批新增、移除或重新映射任何標籤。"
+    },
+    "classificationReason": "原有 Primary Domain software 及分類欄位全部保留，不將候選示意轉換為新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "將原理、Trade-offs、適用訊號、反例和候選跨領域應用整理為可閱讀的 Concept，不冒充 Workflow 執行。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本批只補強既有 Concept 的內容，缺少真實執行的輸入輸出契約與測試結果，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "僅補強原有 Concept，所有正式 Typed References 和既有 Graph 關聯均不修改。"
+    },
+    "riskNotes": "新增應用情境全屬未實測示意，不代表第三方工具、原始作者授權或實際整合效果已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成現有 Canonical 內容改善；外部模型、第三方 Runtime、整合與授權均未實際驗證，Repo CI 獨立檢查。"
+    }
   }
 }

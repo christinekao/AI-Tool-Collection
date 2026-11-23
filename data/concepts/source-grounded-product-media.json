@@ -11,15 +11,24 @@
     "從產品已有色彩、字體、圓角、互動與資訊層級推導影片視覺語言",
     "輸出可重新 render 的工程、素材來源與檢查記錄，讓媒體產物可追溯且可修改"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "以真實元件與功能畫面為基準可減少誤導，但需處理產品版本變更與機敏資料遮蔽。",
+    "工程化可重製影片提升一致性，但可能限制純視覺生成的自由度且增加素材整合成本。"
+  ],
+  "signals": [
+    "宣傳影片中的操作畫面與實際產品不一致。",
+    "產品版本頻繁變動且需要大量、可更新的介紹影片。"
+  ],
+  "antiPatterns": [
+    "用 AI 生成不存在的產品按鈕或數值並聲稱為真實功能。",
+    "直接展示含客戶資料的正式介面，沒有遮罩、授權或來源確認。"
+  ],
   "examples": [
     "Guizang Product Video Skill"
   ],
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "product-video",
     "source-grounding",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以真實產品的程式碼、元件、設計規範與發行紀錄為宣傳媒體的事實來源，從已實作功能提煉價值主張並保留素材追溯；視覺效果不得創造產品實際沒有的能力。",
+  "applicationScenarios": [
+    "示意：內部報表產品影片直接使用經核准的 Demo 元件，將資料改為合成樣本。",
+    "示意：SaaS 新功能發布將 Release Notes 對應到實際頁面與互動，產生可重新渲染的版本化短片。"
+  ],
+  "validationQuestions": [
+    "每個宣傳功能與畫面能否追溯到產品版本、真實元件或可查核的規格？",
+    "素材授權、機敏資料遮蔽與實際觀看驗收是否都完成，而不只檢查影片檔能輸出？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "本批依先前保存的 Canonical Concept 內容整理；上游作者、原始來源與商用授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "先核對既有 Canonical Concept ID 與標題，只在原紀錄補強內容，不建立重複 Concept。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有原始 Tags 與未匹配標籤供歷史查詢，不在本批新增、移除或重新映射任何標籤。"
+    },
+    "classificationReason": "原有 Primary Domain content 及分類欄位全部保留，不將候選示意轉換為新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "將原理、Trade-offs、適用訊號、反例和候選跨領域應用整理為可閱讀的 Concept，不冒充 Workflow 執行。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本批只補強既有 Concept 的內容，缺少真實執行的輸入輸出契約與測試結果，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "僅補強原有 Concept，所有正式 Typed References 和既有 Graph 關聯均不修改。"
+    },
+    "riskNotes": "新增應用情境全屬未實測示意，不代表第三方工具、原始作者授權或實際整合效果已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成現有 Canonical 內容改善；外部模型、第三方 Runtime、整合與授權均未實際驗證，Repo CI 獨立檢查。"
+    }
   }
 }
