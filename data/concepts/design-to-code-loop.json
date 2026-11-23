@@ -13,9 +13,18 @@
     "在 live browser 中生成與比較 visual variants，再把選擇回寫到實際前端實作",
     "把 motion implementation 也納入 design-to-code：從設計意圖映射到 timeline、ScrollTrigger、framework lifecycle 與 cleanup，而不是只把動畫當 decoration"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "雙向同步減少手動交接，但設計元件不一定能一對一對映程式行為。",
+    "視覺迭代速度提升，若缺少測試容易犧牲可及性、資料契約與效能。"
+  ],
+  "signals": [
+    "設計稿與正式網站的間距、元件、狀態持續漂移。",
+    "使用者需先比較版型與 UX，再進入程式實作。"
+  ],
+  "antiPatterns": [
+    "把 Screenshot-to-Code 視為像素與互動都完全還原。",
+    "只看靜態截圖，不實測鍵盤、回應式與錯誤狀態。"
+  ],
   "examples": [
     "Google Stitch",
     "Stitch MCP",
@@ -26,7 +35,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "design-to-code",
     "code-to-design",
@@ -45,5 +54,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "將設計意圖、可編輯視覺稿、實作與真實瀏覽器驗收連成反覆回饋，確保每輪修改可回溯至規格及視覺差異。",
+  "applicationScenarios": [
+    "示意：以 Figma 元件和現有 React Primitives 對照實作，再跑行動版差異檢查。",
+    "示意：製作儀表板先比較兩種篩選互動，再由實際資料驗收。"
+  ],
+  "validationQuestions": [
+    "設計與程式是否共享元件狀態與 Token 契約？",
+    "每輪視覺改善是否經真實 Browser、無障礙和回歸驗證？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain design 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }

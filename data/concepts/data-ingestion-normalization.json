@@ -10,9 +10,18 @@
     "將不同來源正規化成一致 ingestion contract",
     "把擷取與推理分離，避免每個 Agent 自己重做 parser / crawler"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "統一格式可提高下游可重用性，但扁平化可能丟失表格、版面及時間脈絡。",
+    "擷取流程需要版本管理與錯誤隔離，來源更新後可能造成 Schema 漂移。"
+  ],
+  "signals": [
+    "同一流程需處理網頁、PDF、圖片和不同供應商 API。",
+    "回答需要能追溯到文件頁碼、時間或原始紀錄。"
+  ],
+  "antiPatterns": [
+    "只保存抽取文字，遺失來源頁碼、表格關係與取得日期。",
+    "將 OCR 或模型補出的缺字視為可靠原文而不留不確定性。"
+  ],
   "examples": [
     "opendatalab/MinerU",
     "unclecode/crawl4ai",
@@ -23,7 +32,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "ingestion",
     "parsing",
@@ -41,5 +50,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "把異質原始來源轉成有來源定位、時間、資料結構與品質標記的共通輸入契約；擷取、清理、推理分層處理。",
+  "applicationScenarios": [
+    "示意：PDF 報表解析成帶頁碼與表格欄位的記錄供分析。",
+    "示意：客服 KB 從網站與 API 擷取後對齊統一 Article Schema 再同步。"
+  ],
+  "validationQuestions": [
+    "正規化後能否回到原頁、原圖或原始 API 回應？",
+    "缺欄位、表格結構改變時，是否會隔離而非悄悄接受錯資料？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain data 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "Cross-Layer Software Reconstruction",
   "status": "active",
   "addedAt": "2026-10-05",
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-11-23",
   "tags": [
     "reverse-engineering",
     "runtime",
@@ -35,5 +35,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "從可觀察的產品功能出發，綜合 UI、程式模組、原生層與 Runtime 證據還原控制流；觀察與推論必須分開，重建的是行為契約而非抄取未知原碼。",
+  "tradeoffs": [
+    "跨層調查能揭露真正依賴，卻需要較多工具、時間與環境權限。",
+    "靜態證據不足以保證所有動態分支都被覆蓋，未驗證邊界仍需明示。"
+  ],
+  "signals": [
+    "UI 看似簡單，但操作涉及原生模組、子行程與資料存取。",
+    "重新實作跨平台功能時需要釐清哪一層負責狀態與副作用。"
+  ],
+  "antiPatterns": [
+    "僅看到 UI 點擊就推斷後端實際執行路徑。",
+    "將靜態搜尋得到的可疑函式當成已觀察的 Runtime 行為。"
+  ],
+  "applicationScenarios": [
+    "示意：調查桌面應用的檔案匯出，從按鈕事件追查原生轉檔與檔案輸出。",
+    "示意：替換舊版內部報表流程時先記錄輸入與輸出契約，不推測無法觀察的模組。"
+  ],
+  "validationQuestions": [
+    "每條跨層關聯是否區分實際觀察、靜態推論與待查假設？",
+    "重建功能是否用相同輸入、例外與輸出驗證行為一致？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain software 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }

@@ -11,9 +11,18 @@
     "把 handoff 做成 typed、可 claim、可追蹤的 protocol",
     "將 project knowledge 與 personal handoff 分開，支援多使用者與跨機器"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "標準化交接降低模型切換成本，但不同 Agent 的 Hook、能力與權限不一定等價。",
+    "共享 Handoff 可能把過期決策或未核對的秘密同步出去，必須分清資料範圍和撤銷規則。"
+  ],
+  "signals": [
+    "同一專案在 Claude Code、Codex 等 Host 間切換並經常重新說明上下文。",
+    "跨機器交接需要知道最新 Commit、阻礙、Owner 與下一個可執行步驟。"
+  ],
+  "antiPatterns": [
+    "把整份 Session Transcript 視為已確認的交接真相。",
+    "在未驗證目標 Host 權限與能力下，自動恢復高風險操作。"
+  ],
   "examples": [
     "ai-memory",
     "Orca session handoff pattern",
@@ -22,7 +31,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "memory",
     "cross-agent",
@@ -41,5 +50,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "把專案記憶與 Session 交接設計成可跨 Harness 移植的交換契約，重點是有界摘要、狀態、來源、認領與衝突處理，而不只是共用儲存。",
+  "applicationScenarios": [
+    "示意：開發專案用帶 Commit 與未測項目的 Handoff Pack 交給另一個 Agent。",
+    "示意：資料維運的班次交接只轉移核准的狀態與異常，不同步敏感憑證。"
+  ],
+  "validationQuestions": [
+    "跨 Host 接手時是否仍可追溯原始決策、失敗與最新 Git 狀態？",
+    "交接資料包含敏感內容或衝突版本時，能否停止自動套用？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain ai-agent 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }

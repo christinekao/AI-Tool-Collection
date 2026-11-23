@@ -11,16 +11,25 @@
     "無法透過 timeline interchange 保留的 motion graphics，可另外輸出帶 alpha 的中介素材",
     "AI 負責高頻初剪與生成，專業 NLE 負責 color、audio、effects、finishing 與 mastering"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "可編輯工程方便精修與局部重製，但需管理 NLE 版本、素材路徑與交換格式差異。",
+    "複雜 Motion Graphics 轉成中介畫面可能失去部分原生可編輯能力。"
+  ],
+  "signals": [
+    "AI 粗剪完成後需要人工調整節奏、調色或音訊。",
+    "更換字幕或音樂時需要保留舊剪輯決策與時間軸。"
+  ],
+  "antiPatterns": [
+    "只輸出 MP4 卻標示可供專業剪輯軟體完整編輯。",
+    "未檢查素材參照與時間碼就宣稱 XML 匯入會精確還原。"
+  ],
   "examples": [
     "ChatCut",
     "DaVinci Resolve"
   ],
   "status": "active",
   "addedAt": "2026-09-28",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "video-editing",
     "timeline",
@@ -39,5 +48,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit"
+  },
+  "definition": "AI 影音工作以真正可編輯的 Clip、Track、字幕和時間碼作為交付介面；渲染檔只是其中一種輸出，不能取代時間軸工程。",
+  "applicationScenarios": [
+    "示意：自動剪輯產生帶字幕 Track 的工程，交由 DaVinci Resolve 人工精修。",
+    "示意：訪談短片以語音轉錄調整 Clip，保留原始影音來源與手動修剪。"
+  ],
+  "validationQuestions": [
+    "時間軸重開後 Clip、字幕、音訊與素材連結是否仍正確？",
+    "匯入不同 NLE 時有哪些效果不支援，是否有明確降級清單？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "以既有 Canonical Concept 文字作為整理依據；上游作者、原始來源與授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "核對現有 Canonical Concept ID 與標題後補充原紀錄，不建立同義重複項目。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始未匹配標籤供歷史檢索，本批未新增任何 Tags。"
+    },
+    "classificationReason": "保留原有 Primary Domain content 與所有分類欄位，不從案例推導新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "依 Knowledge Layers Policy 補強概念與跨域適用情境，與 Workflow、Tool 的執行能力保持分離。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "缺少可實測操作契約，暫不指派 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "直接改善既有 Concept 並保留所有 Typed References，沒有新增正式 Graph Edge。"
+    },
+    "riskNotes": "候選應用為未實測示意，不代表工具運作、作者授權或外部資料整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成 Canonical 內容整理；外部模型、Runtime、整合與授權均未執行測試；Repo CI 獨立驗證。"
+    }
   }
 }
