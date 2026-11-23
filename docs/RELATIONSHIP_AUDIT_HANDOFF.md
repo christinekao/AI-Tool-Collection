@@ -1,13 +1,29 @@
-## Phase 3 Audit 02｜進行中（2026-11-23）
+# Knowledge Relations｜Phase 3 Session Handoff（2026-11-23）
 
-- 本批 Base main `106be4d37cb9ee7c38dab25c75ff7979ee7ed618`；工作分支 `relation-audit-phase02-20261123`。
-- 深入審查 `stack` 和 `system-1-system-2-agent-routing-stack`（2 個同名 Combo/Workflow、7 個 Resource、9 個原始 Stage）。
-- 7 筆 Resource 以官方公開 README／Documentation 做來源對照，紀錄在 [Audit 02 Report](RELATIONSHIP_AUDIT_PHASE02_20261123.md) 和 [9 項候選 Stage Contract](RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json)。
-- **新增明確風險**：Laya 未校準信心不能直接決定高風險執行；Onyx 原始來源權限同步為 EE 功能；MinerU 輸出格式依入口不同；OmniRoute Repo 路徑有更動；OmniRoute↔Codex、Onyx↔WrenAI 的端到端契約仍 NOT_TESTED。
-- 暫定決策：兩個 Combination 都 **retain-pending-independent-value**；不刪除、不合併、不更名，不新增 `conceptRefs` 或正式 Typed References。
-- 候選契約有 CI 測試；實際 GitHub PR／CI／main／部署結論必須由後續 Run 補齊，本項暫不可宣稱已正式完成。
+**Audit 02 已封帳：PASS WITH GAPS。兩個案例、七個 Resource、九個候選 Stage Contract 完成文件與靜態 CI 審查；全部原始 Canonical 與 Typed References 不變。**
+
+## Audit 02 最終交付
+
+- [PR #53](https://github.com/christinekao/AI-Tool-Collection/pull/53) 已 Squash Merge。Base main `106be4d37cb9ee7c38dab25c75ff7979ee7ed618`，PR 最終 Head `6d2a91c2da9e3b1cb9dd901cd2c72d083f996fd9`，Merge Commit `d42140cccac8412df07552dd04190907975506db`。
+- [PR V2 Data Validate #45144895208](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45144895208)：**PASS**；[main V2 Data Validate #45145001326](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45145001326)：**PASS**。
+- [Merge Pages Deploy #45145000808](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45145000808)：**PASS**，完成 **2026-11-23 09:13:31 UTC**。本次只編輯 Review Docs／Contract Proposals／Test／CI Workflow，沒有改動正式網站 UI 或資料；未新增此批專屬 Live Chromium Smoke，故 **Browser Live Smoke NOT_TESTED（本批）**。
+- 機器可檢查候選契約：[Audit 02 JSON](RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json)（2 Pair、7 Resource、9 Stage），驗證器 `node --test scripts/test-relationship-proposals.mjs`；**新增測試 4/4 PASS**，包含 Source IDs／Stage IDs、No-Mutation、不可擅改權限、偽造實測、未校準信心值與自動高風險操作的負向回歸。
+- [Audit 02 審查報告](RELATIONSHIP_AUDIT_PHASE02_20261123.md) 記錄兩組拆解、完整 Stage Input／Output／Gate／Failure、7 個上游文件 URL、真正的風險與尚未查核的互通性。
+- 內容重點：Laya `confidence` 不等於已校準 `answer_confidence`，執行前要 Risk-first 與明確授權；Onyx 的來源文件權限同步是 Enterprise Edition 功能；MinerU 不同 Output 入口的 JSON 不完全相同；OmniRoute 的 GitHub Source 目前從舊 owner URL 轉至 `cheaper-inference/OmniRoute`。以上為官方公開文件審查，**不是 Runtime 實測**。
+- 資料與決策：兩組 Combination 均 **retain-pending-independent-value**；沒有刪除、合併、修改 ID、建立 Concept Typed Refs 或正式 Graph Edges，沒有調整分類／Tags、沒有下載或執行第三方工具。範圍限 5 個非 Canonical 檔案。
+- 外部 API 相容、真實 Confidence 校準、權限的強制執行、上游完整授權、安全與商業效益仍 **NOT_TESTED**；CI PASS 不代替真實風險或 Provider 合約驗證。
+- 最終 Docs-only Commit 會重新觸發 Pages；最後文件版本部署收據將放在 [PR #53 留言](https://github.com/christinekao/AI-Tool-Collection/pull/53)；不再反覆變更本文件造成部署循環。
+
+## 下一輪建議：Audit 03
+
+1. 以**合成案例**先建立小型離線驗收矩陣：System 1 未校準／高風險／未知語言／Quota Fallback 的 Fail-Closed 契約；無需任何 Provider Key。
+2. 對知識問答檢查不同 MinerU/Crawl4AI 輸出來源標記、Onyx 使用者權限與 WrenAI SQL 口徑如何對應。先做合同與測試資料，再選可執行 Adapter。
+3. 修正已核實的 **OmniRoute repo 來源路徑漂移** 應獨立進行 Source／Alias Review。若要正式改動 Resource Canonical，需按 Intake 重新查核並維護衍生 Catalog，不可只改文件宣稱解決。
+4. 待真正有可核對 I/O 與跨 Workflow 重用證據，再提出 Combination 保留或 Implementation Options 遷移建議；**不得自動刪改原記錄**。
 
 ---
+
+## Audit 01 封帳紀錄（原始保留）
 
 # Knowledge Relations｜Phase 3 Handoff（2026-11-23）
 
