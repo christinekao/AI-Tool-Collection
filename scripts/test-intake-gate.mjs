@@ -116,3 +116,15 @@ test('Previously reviewed classification-only updates do not misinterpret origin
  const contentEdit=structuredClone(old);contentEdit.purpose='new objective';
  assert.equal(shouldCheckIntake(old,contentEdit,taxonomy),true);
 });
+
+test('Batch 03 regression: Intake rejects abbreviated tag and capability explanations',()=>{
+ const p=sample();p.intakeReview.dedupeReview.decision='update';
+ p.intakeReview.tagReview.reason='保留全部原始標籤。';
+ p.intakeReview.capabilityReview.reason='尚未實測操作能力。';
+ const failures=reviewErrors(p,'update',taxonomy);
+ assert.ok(failures.some(s=>s.includes('tagReview.reason too short')));
+ assert.ok(failures.some(s=>s.includes('capabilityReview.reason too short')));
+ p.intakeReview.tagReview.reason='原有的 Tags 保留供歷史索引與檢索，不在此批新增、刪除或重分類任何標籤。';
+ p.intakeReview.capabilityReview.reason='現階段沒有可實測的輸入輸出與操作契約，因此只記錄概念而不新增 Capability。';
+ assert.deepEqual(reviewErrors(p,'update',taxonomy),[]);
+});
