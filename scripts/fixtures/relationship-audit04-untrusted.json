@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "audit04-untrusted-payload-v1",
+  "syntheticOnly": true,
+  "note": "All claims in this file are untrusted. Independent authority is module-private synthetic registry only.",
+  "route": {
+    "environment": "synthetic-offline",
+    "request": {
+      "sessionId": "session-analyst",
+      "actor": "fixture-analyst",
+      "eventId": "event-low",
+      "operation": "classify-read-only",
+      "risk": "low",
+      "language": "zh-TW",
+      "dataClass": "synthetic",
+      "authorization": {
+        "approved": true,
+        "scopes": [
+          "classify-read-only"
+        ]
+      }
+    },
+    "system1": {
+      "checkpointId": "model-fixture-a",
+      "confidenceType": "answer_confidence",
+      "answerConfidence": 0.93,
+      "calibrated": true,
+      "threshold": 0.1,
+      "heldOutEvidence": {
+        "datasetId": "untrusted-fake",
+        "sampleSize": 999999
+      }
+    },
+    "providerRoute": {
+      "primaryId": "provider-blocked",
+      "fallbackApproved": true,
+      "providers": [
+        {
+          "id": "provider-blocked",
+          "approved": true,
+          "available": true,
+          "quotaRemaining": 100,
+          "dataClasses": [
+            "synthetic"
+          ],
+          "capabilities": [
+            "typed-decision"
+          ]
+        }
+      ]
+    }
+  },
+  "evidence": {
+    "environment": "synthetic-offline",
+    "request": {
+      "sessionId": "session-analyst",
+      "actor": "fixture-analyst",
+      "scopes": [
+        "review-synthetic-evidence"
+      ]
+    },
+    "documents": [
+      {
+        "parser": "mineru",
+        "source": {
+          "id": "doc-fixture-001",
+          "uri": "synthetic://docs/manual.pdf",
+          "version": "v1",
+          "asOf": "2026-11-01",
+          "locator": "page:3"
+        },
+        "access": {
+          "mode": "source-acl",
+          "edition": "community",
+          "sourceAclSynced": false,
+          "allowedActors": []
+        }
+      },
+      {
+        "parser": "crawl4ai",
+        "source": {
+          "id": "web-fixture-002",
+          "uri": "synthetic://web/help-page",
+          "version": "hash-abc",
+          "asOf": "2026-11-01",
+          "locator": "section:overview"
+        },
+        "access": {
+          "mode": "source-acl",
+          "edition": "enterprise",
+          "sourceAclSynced": false,
+          "allowedActors": []
+        }
+      }
+    ],
+    "sql": {
+      "queryId": "sql-fixture-001",
+      "metricId": "ticket-resolution-rate",
+      "metricVersion": "v1",
+      "modelVersion": "mdl-v1",
+      "sourceSnapshotId": "synthetic-snapshot-2026-11-01",
+      "asOf": "2026-11-01",
+      "readOnly": false,
+      "dryRunValidated": false,
+      "allowedActors": []
+    }
+  }
+}

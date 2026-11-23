@@ -1,3 +1,15 @@
+## Phase 3 Audit 04（進行中）｜2026-11-23
+
+- Base main `10fea1e2dcd16a073242b6da318137f35699af59`；實作分支 `relation-audit-phase04-20261123`。
+- Audit 03 的重點缺口：Caller 自行帶入 `authorization`／`calibrated`／`providerRoute`／`source ACL`／`sql.dryRunValidated` 並被當作判斷真相。
+- Audit 04 新增**私有、固定、合成的 trusted registry**，以純函式區分不可信 Payload 與模擬 Session／Risk／Calibration／Provider／Document ACL／SQL Attestation；21 個正反向 Node Tests 與 CI Gate。
+- 限制：全部 Session 與 Event 是公開合成 ID，**不是**實際 Server Authentication／Authorization；沒有真正 Held-out Calibration、網路、SQL、第三方服務或 Provider 實測。
+- 保存：不改動 Canonical／Graph／Typed References／Tags／分類／網站 UI；本批應只有 Scripts、Fixtures、V2 CI、Audit 報告與 Handoff。
+- [Audit 04 詳細設計與驗收](RELATIONSHIP_AUDIT_PHASE04_20261123.md)。
+- GitHub PR、CI、main 與 Pages Deploy 實際證據尚待補錄，未經驗證不能標 PASS。
+
+---
+
 # Knowledge Relations｜Phase 3 Handoff（2026-11-23）
 
 **Audit 03：PASS WITH GAPS。完成純合成、無外部副作用的 Risk Gate 與來源追溯測試；14／14 個 Node Regression PASS。**
