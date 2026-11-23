@@ -4,7 +4,7 @@
 
 ## 問題與這次實際修正
 
-Audit 03 的合成判斷有規則，但是把呼叫端送進來的 \`authorization.approved\`、\`system1.calibrated\`、\`heldOutEvidence\`、\`providerRoute.providers\`、\`documents[].access\`、\`sql.dryRunValidated\` 等欄位直接用來判斷是否放行。**這是信任來源不分離的設計缺口**：只要輸入的欄位被偽造，該合成決策函式可能誤判允許。
+Audit 03 的合成判斷有規則，但是把呼叫端送進來的 `authorization.approved`、`system1.calibrated`、`heldOutEvidence`、`providerRoute.providers`、`documents[].access`、`sql.dryRunValidated` 等欄位直接用來判斷是否放行。**這是信任來源不分離的設計缺口**：只要輸入的欄位被偽造，該合成決策函式可能誤判允許。
 
 Audit 04 新增**獨立的純合成註冊紀錄**，將「要求者可以宣稱」與「測試端另存的核准、風險、校準、供應商政策與文件／SQL 證據」分開。
 
@@ -38,7 +38,7 @@ node scripts/validate-v2.mjs
 - Audit 04 的 21 個 Test 同時包含允許與拒絕情境，並保留 Audit 03 的 14 個回歸案例。
 - 新增內容進入既有 `V2 Data Validate` CI。
 - 本批不修改任何 `data/` Canonical、Graph、Tags、Typed References、網站程式碼，也不新增 Skill 或正式 Workflow。
-- **正式 Integration／Security、第三方模型精度、Provider Data Policy、上游商用授權、Chrome Live Production Smoke**：全部 \`NOT_TESTED\`。
+- **正式 Integration／Security、第三方模型精度、Provider Data Policy、上游商用授權、Chrome Live Production Smoke**：全部 `NOT_TESTED`。
 
 ## 後續判定
 
@@ -46,4 +46,10 @@ node scripts/validate-v2.mjs
 
 ## PR、CI 與 Release 結果
 
-尚待 GitHub PR／CI 回執；開始時不宣稱 PASS。
+第一版 PR CI 已 PASS；最終 PR Head、main 與 Pages Deploy 尚待實際確認。
+
+## 首次 PR 實際驗證收據（尚非最終 Head）
+
+- [PR #55 V2 Data Validate Run #45155463517](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45155463517)：**PASS**，新增 Audit 04 21/21 Tests 通過，原有 V2/Concept/Graph/Workflow 契約回歸也通過。
+- Repo 內的獨立合成紀錄測試通過，不等同第三方系統或真正安全認證。
+- 本次文件修正不修改 JavaScript 行為或資料，但因 PR Head 會改變，仍需要再取得最新 Head 的 CI PASS 才可合併。
