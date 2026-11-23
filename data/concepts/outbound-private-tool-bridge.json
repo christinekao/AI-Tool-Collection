@@ -10,15 +10,24 @@
     "把 tunnel control-plane credential 存在 OS credential store，而不是放進專案檔案",
     "本機工具仍以使用者權限執行，因此要搭配最小權限、tool trust 與 audit"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "減少 inbound 暴露，卻增加 relay 信任與撤銷成本。",
+    "本機工具能力完整，卻可能繼承過大權限。"
+  ],
+  "signals": [
+    "Agent 需要操作防火牆內工具。",
+    "環境禁止公開本機 port。"
+  ],
+  "antiPatterns": [
+    "將 tunnel 加密視為所有命令皆授權。",
+    "對遠端請求開放完整本機管理員權限。"
+  ],
   "examples": [
     "OpenChatX + Secure MCP Tunnel"
   ],
   "status": "active",
   "addedAt": "2026-09-28",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "secure-tunnel",
     "mcp",
@@ -40,5 +49,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "由本機主動建立安全外連通道，讓雲端 Agent 經受控 relay 使用私有工具；通道安全不等於工具執行授權。",
+  "applicationScenarios": [
+    "示意：設計 Agent 透過 relay 讀取指定本機預覽。",
+    "示意：資料工作站提供可稽核的唯讀工具。"
+  ],
+  "validationQuestions": [
+    "Relay 與本機工具是否分別驗證身分及授權？",
+    "中斷或越權時能否拒絕並保留日誌？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 security，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

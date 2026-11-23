@@ -1,6 +1,17 @@
+## Batch 03 進行中｜第 41–60 筆
+
+- 工作分支：`concept-content-batch03-20261123`，基準 main `62b81f55a0cd655ad76d5512122575bce5574cf5`。
+- 20 筆 Canonical 內容已補強並保留原資料；[Batch 03 逐筆審查](CONCEPT_CONTENT_REVIEW_BATCH03_20261123.md)。
+- **進度口徑**：內容改善 60/68；PR／main CI／正式站和部署後 Smoke 尚待分別驗證，不能視為已正式完成。
+  - PR #50 第一次 Intake Gate（Run #45127459267）因 20 筆 Review 的理由長度不足失敗；已依 Gate 規格擴充理由，保留失敗紀錄並等待重新驗證。
+- 外部實際模型／工具整合／授權一律 NOT_TESTED，失敗必須保留證據。只有在真正的 CI 與正式站完成後才能更新最終狀態。
+- 後續 Batch 04：ID 61–68（8 筆）。
+
+---
+
 # Phase 2 Concepts｜Session Handoff（2026-11-23）
 
-**Batch 02 最終狀態：40/68，PASS WITH GAPS**
+**Batch 02 最終狀態：40/68，PASS WITH GAPS；Batch 03（41–60）內容已撰寫，GitHub 驗收待確認**
 
 ## 進度與基準
 - Batch 01：ID 01–20，已合併 [PR #48](https://github.com/christinekao/AI-Tool-Collection/pull/48)，詳細驗收見 [Batch 01](CONCEPT_CONTENT_REVIEW_BATCH01_20261122.md)。

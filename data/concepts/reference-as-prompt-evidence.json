@@ -13,9 +13,18 @@
     "先把照片轉成 counts、spacing、occlusion、direction、depth、color roles 等文字 evidence，再用這些 evidence 驅動生成，而不是直接要求模型模仿原圖",
     "影片 reference 只提煉節奏、構圖與 motion 手法；產品畫面與功能則回到 codebase / real components 取得 ground truth"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "具體參考減少模糊性但可能限制創意。",
+    "抽象規則易重用，卻可能丟失原作脈絡。"
+  ],
+  "signals": [
+    "『更高級』等模糊要求無法穩定溝通。",
+    "有合法參考可拆出具體設計訊號。"
+  ],
+  "antiPatterns": [
+    "要求一比一複製來源作品。",
+    "只貼連結卻不說學習和禁止複製的元素。"
+  ],
   "examples": [
     "Inspora",
     "Landing Love",
@@ -30,7 +39,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "design-evidence",
     "reference",
@@ -51,5 +60,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "把參考作品抽成可觀察的排版、節奏與互動訊號作為 Prompt 證據；參考不等於複製授權。",
+  "applicationScenarios": [
+    "示意：簡報以字級層級和留白作為參考。",
+    "示意：短影音只提取節奏，素材獨立製作。"
+  ],
+  "validationQuestions": [
+    "Prompt 是否描述具體 layout、spacing 與 motion？",
+    "能否說明哪些原則來自參考而非複製素材？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 design，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

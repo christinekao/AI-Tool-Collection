@@ -5,7 +5,7 @@
   "title": "Prompt-to-Output Comparative Learning",
   "status": "active",
   "addedAt": "2026-10-07",
-  "updatedAt": "2026-10-07",
+  "updatedAt": "2026-11-23",
   "tags": [
     "prompt",
     "output",
@@ -41,5 +41,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "保存 Prompt、輸入、模型環境與實際輸出配對，控制條件比較差異並轉成可測規則，而非只收藏好結果。",
+  "tradeoffs": [
+    "配對提升歸因性但模型非決定性影響重現。",
+    "控制變因提高可信度卻增加實驗成本。"
+  ],
+  "signals": [
+    "反覆改 Prompt 卻不了解結果變化原因。",
+    "已有原作品、再製輸出與可評分指標。"
+  ],
+  "antiPatterns": [
+    "只保留成品並事後虛構 Prompt。",
+    "同時換模型和素材卻聲稱單句 Prompt 有效。"
+  ],
+  "applicationScenarios": [
+    "示意：UI 團隊比較相同素材下的 Prompt 與截圖。",
+    "示意：資料摘要比較版本間的事實正確率。"
+  ],
+  "validationQuestions": [
+    "是否保留原 Prompt、輸入、環境與實際輸出？",
+    "是否保留失敗樣本並控制重要變因？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

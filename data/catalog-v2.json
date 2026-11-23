@@ -72514,9 +72514,18 @@
         "把 timeline、scroll trigger、plugin behavior、framework cleanup 與 performance constraints 寫成可重用 motion grammar",
         "產品影片的 motion 手法由真實產品 interaction / visual language 推導，而不是套固定模板"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "一致的動態節奏增強回饋，但增加效能與維護負擔。",
+        "豐富轉場可能降低可及性，須支援 reduced-motion。"
+      ],
+      "signals": [
+        "狀態切換、scroll 與 gesture 大量存在且不一致。",
+        "靜態稿漂亮，實際互動卻迷失方向。"
+      ],
+      "antiPatterns": [
+        "只驗產品影片不驗可操作畫面。",
+        "所有畫面套固定動畫且不能取消。"
+      ],
       "examples": [
         "Motion.dev",
         "Anime.js",
@@ -72533,7 +72542,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "motion",
         "interaction",
@@ -72551,6 +72560,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "將 Motion 與互動視為具觸發、狀態、節奏、轉場和可及性約束的產品設計層，而非靜態畫面的附加裝飾。",
+      "applicationScenarios": [
+        "示意：Dashboard 以短動畫提示資料更新。",
+        "示意：教育網站用可取消轉場保留章節脈絡。"
+      ],
+      "validationQuestions": [
+        "是否訂定 timing、trigger 與 reduced-motion 規格？",
+        "是否實測手機、低效能與鍵盤操作？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 design，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72565,15 +72625,24 @@
         "把 tunnel control-plane credential 存在 OS credential store，而不是放進專案檔案",
         "本機工具仍以使用者權限執行，因此要搭配最小權限、tool trust 與 audit"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "減少 inbound 暴露，卻增加 relay 信任與撤銷成本。",
+        "本機工具能力完整，卻可能繼承過大權限。"
+      ],
+      "signals": [
+        "Agent 需要操作防火牆內工具。",
+        "環境禁止公開本機 port。"
+      ],
+      "antiPatterns": [
+        "將 tunnel 加密視為所有命令皆授權。",
+        "對遠端請求開放完整本機管理員權限。"
+      ],
       "examples": [
         "OpenChatX + Secure MCP Tunnel"
       ],
       "status": "active",
       "addedAt": "2026-09-28",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "secure-tunnel",
         "mcp",
@@ -72595,6 +72664,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "definition": "由本機主動建立安全外連通道，讓雲端 Agent 經受控 relay 使用私有工具；通道安全不等於工具執行授權。",
+      "applicationScenarios": [
+        "示意：設計 Agent 透過 relay 讀取指定本機預覽。",
+        "示意：資料工作站提供可稽核的唯讀工具。"
+      ],
+      "validationQuestions": [
+        "Relay 與本機工具是否分別驗證身分及授權？",
+        "中斷或越權時能否拒絕並保留日誌？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 security，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72647,7 +72767,7 @@
       ],
       "status": "active",
       "addedAt": "2026-11-09",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-23",
       "tags": [
         "ai-web-design",
         "minimal-brief",
@@ -72674,6 +72794,52 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "applicationScenarios": [
+        "示意：企業網站固定真實案例與轉換目標，讓 AI 提案版面。",
+        "示意：活動頁固定活動事實及無障礙要求，開放風格探索。"
+      ],
+      "validationQuestions": [
+        "是否區分不可修改的事實與創意選擇？",
+        "是否實測手機、SEO、無障礙與效能？"
+      ],
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 design，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72683,7 +72849,7 @@
       "title": "Outcome-Weighted Agent Memory",
       "status": "active",
       "addedAt": "2026-10-04",
-      "updatedAt": "2026-10-04",
+      "updatedAt": "2026-11-23",
       "tags": [
         "agent-memory",
         "feedback-loop",
@@ -72719,6 +72885,65 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "以記憶被使用後的可驗證結果調整召回權重，對易過時經驗衰減；權重不等於事實可信度。",
+      "signals": [
+        "過時經驗被反覆召回。",
+        "可觀測任務結果並連回使用的記憶。"
+      ],
+      "antiPatterns": [
+        "把模型自評成功當成事實驗證。",
+        "刪除失敗記錄而不保留回歸案例。"
+      ],
+      "applicationScenarios": [
+        "示意：客服依人工核實結果調整檢索排序。",
+        "示意：開發 Agent 對失敗修復策略降低權重。"
+      ],
+      "validationQuestions": [
+        "結果標籤是否有外部證據？",
+        "永久事實與失敗案例是否免於 decay？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72737,9 +72962,18 @@
         "以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續",
         "把 episodic memories 依 bank / project 隔離，透過 retain / recall 持續累積，而不是每次重新餵完整歷史"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "可減少重複探索但增加過期與衝突記錄。",
+        "共享方便協作但需要隔離與權限治理。"
+      ],
+      "signals": [
+        "新 Session 反覆重問已確認決策。",
+        "長期任務需在不同時段接續。"
+      ],
+      "antiPatterns": [
+        "永久注入所有聊天逐字稿。",
+        "讓未證實推論直接覆寫事實。"
+      ],
       "examples": [
         "claude-mem",
         "Hermes Memory Wiki",
@@ -72756,7 +72990,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-09-22",
+      "updatedAt": "2026-11-23",
       "tags": [
         "memory",
         "persistent-memory",
@@ -72773,6 +73007,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "以獨立持久層跨 Session 保存有來源的決策、事實與進度；記憶存續不等於跨 Agent 移植或準確召回。",
+      "applicationScenarios": [
+        "示意：專案交接保存資料來源和未解風險。",
+        "示意：研究助手保存引用版本與待查問題。"
+      ],
+      "validationQuestions": [
+        "是否保留來源、時間與變更歷史？",
+        "記憶衝突時能否辨別事實與假設？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72787,15 +73072,24 @@
         "固定 archive snapshot 以提高可重現性",
         "把 retrieval time semantics 視為資料品質的一部分"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "嚴格 cutoff 提高可信度卻減少可用資料。",
+        "封存快照方便重現但增加版本成本。"
+      ],
+      "signals": [
+        "需重建歷史某一刻的判斷。",
+        "資料常有延遲公開或事後修訂。"
+      ],
+      "antiPatterns": [
+        "以事件日冒充資料已公開日。",
+        "使用今天搜尋結果假裝歷史無後見之明。"
+      ],
       "examples": [
         "Hermes BackSearch"
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "historical-search",
         "backtest",
@@ -72814,6 +73108,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "檢索僅採用歷史決策時實際可得的資料版本，區分事件、發布、收錄及查詢時間，避免未來資訊洩漏。",
+      "applicationScenarios": [
+        "示意：財務回測只用當時已發布財報。",
+        "示意：事故調查只用當時收到的監控警示。"
+      ],
+      "validationQuestions": [
+        "能否證明每份資料在 cutoff 前可得？",
+        "是否保存快照、時區與修訂紀錄？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 data，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72823,7 +73168,7 @@
       "title": "Progressive Context Recall",
       "status": "active",
       "addedAt": "2026-10-04",
-      "updatedAt": "2026-10-04",
+      "updatedAt": "2026-11-23",
       "tags": [
         "context-management",
         "agent-memory",
@@ -72853,6 +73198,69 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "採索引→摘要→完整紀錄的分層召回，只按需求展開脈絡；控制 Context 量不同於記憶持久化與排序。",
+      "tradeoffs": [
+        "節省 Token 但增加多輪查詢延遲。",
+        "小索引容易導航卻可能漏掉重要長文。"
+      ],
+      "signals": [
+        "記憶太多，無法全塞進 Context。",
+        "多數任務只需少數背景事實。"
+      ],
+      "antiPatterns": [
+        "每次注入整份歷史對話。",
+        "摘要沒有原文追溯路徑。"
+      ],
+      "applicationScenarios": [
+        "示意：交接先看專案目錄再展開決策證據。",
+        "示意：法規檢索先讀索引後讀原條文。"
+      ],
+      "validationQuestions": [
+        "摘要能否回溯完整原文？",
+        "是否量測 Token、延遲及漏召回？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72862,7 +73270,7 @@
       "title": "Prompt-to-Output Comparative Learning",
       "status": "active",
       "addedAt": "2026-10-07",
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-11-23",
       "tags": [
         "prompt",
         "output",
@@ -72898,6 +73306,69 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "definition": "保存 Prompt、輸入、模型環境與實際輸出配對，控制條件比較差異並轉成可測規則，而非只收藏好結果。",
+      "tradeoffs": [
+        "配對提升歸因性但模型非決定性影響重現。",
+        "控制變因提高可信度卻增加實驗成本。"
+      ],
+      "signals": [
+        "反覆改 Prompt 卻不了解結果變化原因。",
+        "已有原作品、再製輸出與可評分指標。"
+      ],
+      "antiPatterns": [
+        "只保留成品並事後虛構 Prompt。",
+        "同時換模型和素材卻聲稱單句 Prompt 有效。"
+      ],
+      "applicationScenarios": [
+        "示意：UI 團隊比較相同素材下的 Prompt 與截圖。",
+        "示意：資料摘要比較版本間的事實正確率。"
+      ],
+      "validationQuestions": [
+        "是否保留原 Prompt、輸入、環境與實際輸出？",
+        "是否保留失敗樣本並控制重要變因？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72923,9 +73394,18 @@
         "產品影片在輸出前用 contact sheet、transition review、full-size frame 與實際試看片做人工 acceptance",
         "整合與交付時從 Git、實際測試與 QA evidence 核對結果，不直接採信 Agent 自述；QA 用 PASS / FAIL / UNPROVEN / NOT_EXECUTED 明確區分驗證狀態"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "自動化增加一致性但無法覆蓋所有主觀品質。",
+        "多層驗證降低風險但增加成本和時間。"
+      ],
+      "signals": [
+        "Agent 宣稱完成卻沒有測試證據。",
+        "交付影響正式系統或高風險資料。"
+      ],
+      "antiPatterns": [
+        "把 CI PASS 當作正式站和第三方整合都已通過。",
+        "把未執行或失敗檢查改寫成 PASS。"
+      ],
       "examples": [
         "NVIDIA/SkillSpector",
         "akto-api-security/akto",
@@ -72947,7 +73427,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "verification",
         "acceptance",
@@ -72968,6 +73448,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "definition": "以預先定義、可重現的證據關卡驗收產物；CI、部署、外部效果和授權屬不同驗證範圍。",
+      "applicationScenarios": [
+        "示意：報表部署前核對來源與刷新紀錄。",
+        "示意：影片輸出結合格式檢查與實際看片。"
+      ],
+      "validationQuestions": [
+        "每個 PASS 是否有可重現證據？",
+        "FAIL、UNPROVEN、NOT_TESTED 是否被區分？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -72982,16 +73513,25 @@
         "記錄值得借鑑的 trade-off，而不是直接複製 code",
         "把 pattern 回灌到自己的 Concept / Combination"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "參考成熟案例可省探索但設計未必適合新規模。",
+        "完整拆解成本高且須查核授權。"
+      ],
+      "signals": [
+        "開發成熟類型產品並有可合法研究的應用。",
+        "只看截圖無法理解資料流。"
+      ],
+      "antiPatterns": [
+        "直接照搬產品架構而不理解取捨。",
+        "未核實授權就複製程式或畫面。"
+      ],
       "examples": [
         "ZhuLinsen/daily_stock_analysis",
         "Reactive Resume"
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "reference-app",
         "pattern-mining",
@@ -73013,6 +73553,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "definition": "拆解成熟應用的資料模型、架構、UX 與交付流程，抽取可移植模式，不直接複製程式或素材。",
+      "applicationScenarios": [
+        "示意：人資產品研究履歷系統資料與匯出模式。",
+        "示意：分析平台研究成熟資料擷取與報表分層。"
+      ],
+      "validationQuestions": [
+        "模式是否脫離原產品假設仍成立？",
+        "是否記錄來源、授權與不可複製部分？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 software，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73030,9 +73621,18 @@
         "先把照片轉成 counts、spacing、occlusion、direction、depth、color roles 等文字 evidence，再用這些 evidence 驅動生成，而不是直接要求模型模仿原圖",
         "影片 reference 只提煉節奏、構圖與 motion 手法；產品畫面與功能則回到 codebase / real components 取得 ground truth"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "具體參考減少模糊性但可能限制創意。",
+        "抽象規則易重用，卻可能丟失原作脈絡。"
+      ],
+      "signals": [
+        "『更高級』等模糊要求無法穩定溝通。",
+        "有合法參考可拆出具體設計訊號。"
+      ],
+      "antiPatterns": [
+        "要求一比一複製來源作品。",
+        "只貼連結卻不說學習和禁止複製的元素。"
+      ],
       "examples": [
         "Inspora",
         "Landing Love",
@@ -73047,7 +73647,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "design-evidence",
         "reference",
@@ -73068,6 +73668,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "把參考作品抽成可觀察的排版、節奏與互動訊號作為 Prompt 證據；參考不等於複製授權。",
+      "applicationScenarios": [
+        "示意：簡報以字級層級和留白作為參考。",
+        "示意：短影音只提取節奏，素材獨立製作。"
+      ],
+      "validationQuestions": [
+        "Prompt 是否描述具體 layout、spacing 與 motion？",
+        "能否說明哪些原則來自參考而非複製素材？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 design，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73077,7 +73728,7 @@
       "title": "Reference-Backed Pattern Mining",
       "status": "active",
       "addedAt": "2026-10-07",
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-11-23",
       "tags": [
         "reference",
         "pattern-mining",
@@ -73112,6 +73763,69 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "definition": "從多份來源案例比較輸入、方法、限制與結果，找出跨案例仍成立的原則，保留原文與反例作為證據。",
+      "tradeoffs": [
+        "多例可降低單例偏誤但來源仍可能同質。",
+        "保守歸納增加可信度卻較難採用新手法。"
+      ],
+      "signals": [
+        "蒐集多個案例並想建立可重用方法。",
+        "單例熱門 Prompt 效果難以遷移。"
+      ],
+      "antiPatterns": [
+        "從單一爆紅案例推論普遍效果。",
+        "刪掉來源或反例只留下通用結論。"
+      ],
+      "applicationScenarios": [
+        "示意：多個 Dashboard 案例歸納權限與刷新原則。",
+        "示意：教學網站案例比較提示與回饋設計。"
+      ],
+      "validationQuestions": [
+        "通用原則是否有獨立案例支持？",
+        "是否保留原始證據與適用邊界？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 data，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73127,15 +73841,24 @@
         "增量 refresh 只處理新 facts，避免每次重新摘要整份歷史",
         "將不同 user / project / agent memory 放進獨立 banks，同時允許匯出與移轉"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "反思提高可重用性但可能過度概括。",
+        "增量更新省成本但需處理衝突和撤銷。"
+      ],
+      "signals": [
+        "Agent 記得案例卻無法歸納經驗。",
+        "已有來源與結果可供跨案例分析。"
+      ],
+      "antiPatterns": [
+        "把模型猜測的偏好標成使用者確認。",
+        "只留最新規則而丟失原始事件。"
+      ],
       "examples": [
         "Hindsight"
       ],
       "status": "active",
       "addedAt": "2026-09-29",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "agent-memory",
         "learning",
@@ -73154,6 +73877,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "由多次可追溯經驗歸納可修訂的決策規則與領域模型；模型反思屬推論，不能冒充使用者確認。",
+      "applicationScenarios": [
+        "示意：客服從已核實工單歸納常見根因。",
+        "示意：開發 Agent 從失敗修復提出回歸案例。"
+      ],
+      "validationQuestions": [
+        "規則是否能追溯支持和反對的事件？",
+        "衝突出現時能否回滾或標待審？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73169,15 +73943,24 @@
         "輸出可編輯的 diagram source 與 final artifact，保留人工修訂能力",
         "將來源連結與圖形節點分離保存，使圖表可追溯回研究 evidence"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "視覺結構更易理解但可能簡化脈絡。",
+        "可編輯圖源便於維護但增加同步成本。"
+      ],
+      "signals": [
+        "研究包含複雜實體、時間與關係。",
+        "需反覆更新並追蹤引用的視覺結果。"
+      ],
+      "antiPatterns": [
+        "將沒有證據的相關性畫成因果。",
+        "只交付不能編輯或追溯來源的圖片。"
+      ],
       "examples": [
         "Research to Diagram"
       ],
       "status": "active",
       "addedAt": "2026-09-30",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "research",
         "visualization",
@@ -73196,6 +73979,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "把研究來源轉成可追溯的實體、關係與階層，輸出可編輯圖源；圖表不能隱藏推論和不確定性。",
+      "applicationScenarios": [
+        "示意：技術交接以來源證據繪製架構圖。",
+        "示意：政策研究標示法規時效和不確定連結。"
+      ],
+      "validationQuestions": [
+        "每個主要關係是否能追溯來源？",
+        "圖表是否可重建與驗證？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 data，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73211,9 +74045,18 @@
         "將搜尋、RAG、deep research 與 Agent tool access 統一",
         "研究結果先保留 source links 與 evidence，再把結構化 entities / relations 轉成 diagram，避免圖形與來源脫鉤"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "可回答私有新資訊但依賴索引新鮮度。",
+        "多來源整合便利但提高 ACL 與注入風險。"
+      ],
+      "signals": [
+        "回答必須依賴持續更新或私有文件。",
+        "不同使用者需要不同可見範圍。"
+      ],
+      "antiPatterns": [
+        "檢索時忽略來源 ACL。",
+        "執行檢索文件中嵌入的指令。"
+      ],
       "examples": [
         "opendatalab/MinerU",
         "unclecode/crawl4ai",
@@ -73223,7 +74066,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "rag",
         "retrieval",
@@ -73242,6 +74085,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review"
+      },
+      "definition": "以權限受控的擷取、索引和按需檢索支撐回答，並保留來源；引用存在不表示內容必然正確。",
+      "applicationScenarios": [
+        "示意：HR 問答只引用有權查看的規格。",
+        "示意：工程問答連結版本化決策和測試。"
+      ],
+      "validationQuestions": [
+        "檢索前後是否檢查權限？",
+        "是否能抗文件 Prompt Injection 並追溯版本？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 data，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73269,9 +74163,18 @@
         "把產品 codebase、真實元件、motion、sound 與 render workflow 封裝成可重用 product-video Skill",
         "把完整 SDLC 的角色分工、階段轉換、交接、測試與驗收規則封裝成 Agent Skills，而不是依賴另一個常駐 orchestration service"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "重用性提高但路由、依賴與版本需要維護。",
+        "跨 Agent 移植仍受工具與權限差異限制。"
+      ],
+      "signals": [
+        "反覆重寫相同任務步驟。",
+        "已有明確流程、驗收與測試樣本。"
+      ],
+      "antiPatterns": [
+        "安裝不明來源 Skill 並放開金鑰權限。",
+        "只測成功案例不測觸發與回歸。"
+      ],
       "examples": [
         "affaan-m/ecc",
         "acheAIsuiyimen/ache-life-to-comic-skill",
@@ -73315,7 +74218,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "skills",
         "reuse",
@@ -73333,6 +74236,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "將專業流程、工具契約、觸發與驗收封裝成版本化、按需載入 Skill；可重用不代表已安全安裝或已實測。",
+      "applicationScenarios": [
+        "示意：面試教練 Skill 固定問題和品質檢查。",
+        "示意：程式交接 Skill 使用 Scope、Diff、Evidence Gate。"
+      ],
+      "validationQuestions": [
+        "是否測過 Trigger、Functional 與 Regression？",
+        "是否審查 Skill 來源、相依與安全權限？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73354,7 +74308,7 @@
       ],
       "status": "active",
       "addedAt": "2026-10-02",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "privacy-boundary",
         "pii",
@@ -73373,6 +74327,69 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "在資料出信任邊界前以本機對照表替換敏感實體，必要時於可信端還原；可逆遮罩並非完全匿名化。",
+      "tradeoffs": [
+        "占位符保留關係但映射表本身高度敏感。",
+        "遮罩降低暴露仍有漏遮罩和間接識別風險。"
+      ],
+      "signals": [
+        "雲端處理含個資且須保留實體關係。",
+        "有可信環境存放還原 mapping。"
+      ],
+      "antiPatterns": [
+        "把可逆遮罩當成零洩漏匿名化。",
+        "將 mapping 和遮罩資料一起送往外部。"
+      ],
+      "applicationScenarios": [
+        "示意：員工文件在本機遮罩後才送模型摘要。",
+        "示意：客服記錄用占位符維持跨訊息實體一致。"
+      ],
+      "validationQuestions": [
+        "Mapping 是否隔離加密且可撤銷？",
+        "是否測試漏遮罩和間接識別？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 security，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73382,7 +74399,7 @@
       "title": "Risk-Adaptive Agent Code Review & Review Convergence",
       "status": "active",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-10-18",
+      "updatedAt": "2026-11-23",
       "tags": [
         "agentic-code-review",
         "risk-tiering",
@@ -73438,6 +74455,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.3-semantic-audit"
+      },
+      "definition": "以變更風險、敏感路徑與爆炸半徑分級配置自動測試、AI 審查與真人核准，限制無限反覆審查。",
+      "applicationScenarios": [
+        "示意：文件改動由自動檢查，Auth 變更強制真人核准。",
+        "示意：資料管線按影響範圍決定回歸和回滾要求。"
+      ],
+      "validationQuestions": [
+        "是否按 blast radius 設定不同合併門檻？",
+        "是否追蹤誤報、審查輪數和事故率？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 software，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73454,15 +74522,24 @@
         "限制自動重調參次數並如實保留失敗結果",
         "把 live strategy 與已回測版本做一致性追蹤，程式變更後明確標示 drift"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "嚴格測試降低偏誤也有多重比較成本。",
+        "加入真實成本使績效保守但更可信。"
+      ],
+      "signals": [
+        "策略只在單一期間與參數最優。",
+        "Agent 不斷調參只留亮眼績效。"
+      ],
+      "antiPatterns": [
+        "把調參用的資料當獨立樣本外。",
+        "忽略成本、滑價或未來資訊。"
+      ],
       "examples": [
         "Blave Agent"
       ],
       "status": "active",
       "addedAt": "2026-09-27",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "backtest",
         "overfitting",
@@ -73481,6 +74558,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "以樣本外、交易成本、時間隔離與參數穩定性判斷歷史策略是否過度擬合，不能保證未來收益。",
+      "applicationScenarios": [
+        "示意：風險模型以滾動時間窗評估泛化。",
+        "示意：商業預測以 walk-forward 檢驗跨期穩定。"
+      ],
+      "validationQuestions": [
+        "是否保存所有調參與失敗結果？",
+        "是否確認資料當時可得及成本假設？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 business，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {
@@ -73498,9 +74626,18 @@
         "在 reverse / pentest case 初始化時先建立 authorization scope 與 network profile，scope 未就緒前不得對 target 執行 ACT",
         "將使用者確認的 Spec 視為正式授權邊界；超出範圍、需要帳號／金鑰或預留核准事項時才要求使用者決策，並明確記錄授權缺口。此為 workflow constraint，不能誤當成工具層安全隔離"
       ],
-      "tradeoffs": [],
-      "signals": [],
-      "antiPatterns": [],
+      "tradeoffs": [
+        "前置掃描減少已知風險但帶來誤報成本。",
+        "工具掃描不能取代權限批准和威脅建模。"
+      ],
+      "signals": [
+        "Agent 會修改 Repo 或接觸憑證。",
+        "交付包含 Container、API、IaC 或正式權限。"
+      ],
+      "antiPatterns": [
+        "CI 功能全綠就跳過安全驗證。",
+        "關閉掃描規則或讓 Agent 自行升權。"
+      ],
       "examples": [
         "Hermes Snyk Plugin",
         "Akto",
@@ -73514,7 +74651,7 @@
       ],
       "status": "active",
       "addedAt": "2026-09-22",
-      "updatedAt": "2026-10-02",
+      "updatedAt": "2026-11-23",
       "tags": [
         "security",
         "sast",
@@ -73534,6 +74671,57 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1"
+      },
+      "definition": "把明確授權、最小權限、安全掃描及修復再驗證設為不可省略的放行條件，獨立於一般功能品質驗收。",
+      "applicationScenarios": [
+        "示意：企業自動化部署前檢查資料外送與權限。",
+        "示意：安裝開源 Skill 前掃描指令與依賴。"
+      ],
+      "validationQuestions": [
+        "是否查核授權、秘密、依賴與外送路徑？",
+        "Critical Finding 是否會確實阻擋發布？"
+      ],
+      "source": {
+        "type": "previously-collected-material",
+        "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+      },
+      "intakeReview": {
+        "policyVersion": "1.0",
+        "sourceStatus": "provided-material",
+        "sourceEvidenceFields": [
+          "source"
+        ],
+        "dedupeReview": {
+          "decision": "update",
+          "checkedFields": [
+            "id",
+            "title"
+          ],
+          "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+        },
+        "tagReview": {
+          "decision": "retain-unmapped",
+          "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+        },
+        "classificationReason": "保留原分類 security，不新增 Capability。",
+        "readingSpec": {
+          "id": "standard",
+          "status": "applied",
+          "reason": "概念內容與示意應用分開呈現。"
+        },
+        "capabilityReview": {
+          "decision": "none",
+          "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+        },
+        "conceptReview": {
+          "decision": "reused",
+          "reason": "保留原有 Typed References，未新增 Graph Edge。"
+        },
+        "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+        "verification": {
+          "status": "not-tested",
+          "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+        }
       }
     },
     {

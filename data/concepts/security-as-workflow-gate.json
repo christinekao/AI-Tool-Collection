@@ -13,9 +13,18 @@
     "在 reverse / pentest case 初始化時先建立 authorization scope 與 network profile，scope 未就緒前不得對 target 執行 ACT",
     "將使用者確認的 Spec 視為正式授權邊界；超出範圍、需要帳號／金鑰或預留核准事項時才要求使用者決策，並明確記錄授權缺口。此為 workflow constraint，不能誤當成工具層安全隔離"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "前置掃描減少已知風險但帶來誤報成本。",
+    "工具掃描不能取代權限批准和威脅建模。"
+  ],
+  "signals": [
+    "Agent 會修改 Repo 或接觸憑證。",
+    "交付包含 Container、API、IaC 或正式權限。"
+  ],
+  "antiPatterns": [
+    "CI 功能全綠就跳過安全驗證。",
+    "關閉掃描規則或讓 Agent 自行升權。"
+  ],
   "examples": [
     "Hermes Snyk Plugin",
     "Akto",
@@ -29,7 +38,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "security",
     "sast",
@@ -49,5 +58,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "把明確授權、最小權限、安全掃描及修復再驗證設為不可省略的放行條件，獨立於一般功能品質驗收。",
+  "applicationScenarios": [
+    "示意：企業自動化部署前檢查資料外送與權限。",
+    "示意：安裝開源 Skill 前掃描指令與依賴。"
+  ],
+  "validationQuestions": [
+    "是否查核授權、秘密、依賴與外送路徑？",
+    "Critical Finding 是否會確實阻擋發布？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 security，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

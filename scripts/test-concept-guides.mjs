@@ -8,18 +8,22 @@ import path from 'node:path';
 const dir='data/concepts';
 const ids=fs.readdirSync(dir).filter(x=>x.endsWith('.json')).sort().map(x=>x.slice(0,-5));
 const read=id=>JSON.parse(fs.readFileSync(path.join(dir,id+'.json'),'utf8'));
-const reviewed=ids.slice(0,40).map(read);
+const reviewed=ids.slice(0,60).map(read);
 const batch02=ids.slice(20,40).map(read);
-test('68 stable Concept IDs; completed 40 reviewed in two ordered batches',()=>{
+const batch03=ids.slice(40,60).map(read);
+test('68 stable Concept IDs; completed 60 reviewed in three ordered batches',()=>{
  assert.equal(ids.length,68);
- assert.equal(reviewed.length,40);
+ assert.equal(reviewed.length,60);
  assert.equal(reviewed[0].id,'agent-credential-isolation');
  assert.equal(reviewed[19].id,'cross-agent-harness-portability');
  assert.equal(batch02.length,20);
  assert.equal(batch02[0].id,'cross-agent-memory-portability');
  assert.equal(batch02[19].id,'memory-observability');
+ assert.equal(batch03.length,20);
+ assert.equal(batch03[0].id,'motion-interaction-layer');
+ assert.equal(batch03[19].id,'security-as-workflow-gate');
 });
-test('40 Concepts describe transferable principles, genuine tradeoffs, counterexamples and validation questions',()=>{
+test('60 Concepts describe transferable principles, genuine tradeoffs, counterexamples and validation questions',()=>{
  for(const p of reviewed){
   assert.equal(p.entityType,'concept',p.id);
   assert.ok(p.coreProblem?.length>20&&p.solutionMethods?.length>=2,p.id+' problem and methods');
@@ -43,7 +47,7 @@ test('Review provenance remains provided-material and real external execution NO
  }
 });
 test('Original examples and formal typed references remain separate from scenario drafts',()=>{
- for(const p of batch02){
+ for(const p of [...batch02,...batch03]){
   assert.ok(p.applicationScenarios.length>=2,p.id);
   assert.ok(!p.applicationScenarios.some(x=>/PASS|已完成驗收|正式部署/.test(x)),p.id);
   assert.ok(p.intakeReview.conceptReview.reason.includes('Typed References')||p.intakeReview.conceptReview.reason.includes('Typed Reference'),p.id);

@@ -11,9 +11,18 @@
     "將搜尋、RAG、deep research 與 Agent tool access 統一",
     "研究結果先保留 source links 與 evidence，再把結構化 entities / relations 轉成 diagram，避免圖形與來源脫鉤"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "可回答私有新資訊但依賴索引新鮮度。",
+    "多來源整合便利但提高 ACL 與注入風險。"
+  ],
+  "signals": [
+    "回答必須依賴持續更新或私有文件。",
+    "不同使用者需要不同可見範圍。"
+  ],
+  "antiPatterns": [
+    "檢索時忽略來源 ACL。",
+    "執行檢索文件中嵌入的指令。"
+  ],
   "examples": [
     "opendatalab/MinerU",
     "unclecode/crawl4ai",
@@ -23,7 +32,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "rag",
     "retrieval",
@@ -42,5 +51,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "以權限受控的擷取、索引和按需檢索支撐回答，並保留來源；引用存在不表示內容必然正確。",
+  "applicationScenarios": [
+    "示意：HR 問答只引用有權查看的規格。",
+    "示意：工程問答連結版本化決策和測試。"
+  ],
+  "validationQuestions": [
+    "檢索前後是否檢查權限？",
+    "是否能抗文件 Prompt Injection 並追溯版本？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 data，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

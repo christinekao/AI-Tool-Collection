@@ -21,9 +21,18 @@
     "產品影片在輸出前用 contact sheet、transition review、full-size frame 與實際試看片做人工 acceptance",
     "整合與交付時從 Git、實際測試與 QA evidence 核對結果，不直接採信 Agent 自述；QA 用 PASS / FAIL / UNPROVEN / NOT_EXECUTED 明確區分驗證狀態"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "自動化增加一致性但無法覆蓋所有主觀品質。",
+    "多層驗證降低風險但增加成本和時間。"
+  ],
+  "signals": [
+    "Agent 宣稱完成卻沒有測試證據。",
+    "交付影響正式系統或高風險資料。"
+  ],
+  "antiPatterns": [
+    "把 CI PASS 當作正式站和第三方整合都已通過。",
+    "把未執行或失敗檢查改寫成 PASS。"
+  ],
   "examples": [
     "NVIDIA/SkillSpector",
     "akto-api-security/akto",
@@ -45,7 +54,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "verification",
     "acceptance",
@@ -66,5 +75,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "以預先定義、可重現的證據關卡驗收產物；CI、部署、外部效果和授權屬不同驗證範圍。",
+  "applicationScenarios": [
+    "示意：報表部署前核對來源與刷新紀錄。",
+    "示意：影片輸出結合格式檢查與實際看片。"
+  ],
+  "validationQuestions": [
+    "每個 PASS 是否有可重現證據？",
+    "FAIL、UNPROVEN、NOT_TESTED 是否被區分？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

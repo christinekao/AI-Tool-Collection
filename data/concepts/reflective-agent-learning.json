@@ -11,15 +11,24 @@
     "增量 refresh 只處理新 facts，避免每次重新摘要整份歷史",
     "將不同 user / project / agent memory 放進獨立 banks，同時允許匯出與移轉"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "反思提高可重用性但可能過度概括。",
+    "增量更新省成本但需處理衝突和撤銷。"
+  ],
+  "signals": [
+    "Agent 記得案例卻無法歸納經驗。",
+    "已有來源與結果可供跨案例分析。"
+  ],
+  "antiPatterns": [
+    "把模型猜測的偏好標成使用者確認。",
+    "只留最新規則而丟失原始事件。"
+  ],
   "examples": [
     "Hindsight"
   ],
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "agent-memory",
     "learning",
@@ -38,5 +47,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "由多次可追溯經驗歸納可修訂的決策規則與領域模型；模型反思屬推論，不能冒充使用者確認。",
+  "applicationScenarios": [
+    "示意：客服從已核實工單歸納常見根因。",
+    "示意：開發 Agent 從失敗修復提出回歸案例。"
+  ],
+  "validationQuestions": [
+    "規則是否能追溯支持和反對的事件？",
+    "衝突出現時能否回滾或標待審？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留原始 Tags 及歷史未匹配標籤供既有索引與檢索使用，本批未新增、刪除或重新映射任何標籤。"
+    },
+    "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "此 Concept 只補強可遷移的原則與假設應用，尚無經實測的輸入輸出及執行契約，因此不指派新的 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }
