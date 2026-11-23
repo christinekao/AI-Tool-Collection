@@ -11,6 +11,9 @@ on:
       - 'scripts/test-relationship-proposals.mjs'
       - 'scripts/relationship-synthetic-core.mjs'
       - 'scripts/test-relationship-synthetic.mjs'
+      - 'scripts/relationship-trusted-synthetic-core.mjs'
+      - 'scripts/test-relationship-trusted-synthetic.mjs'
+      - 'scripts/fixtures/relationship-audit04-untrusted.json'
       - 'scripts/fixtures/relationship-audit03-synthetic.json'
       - 'docs/RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json'
       - 'scripts/audit-domain-classification.mjs'
@@ -32,6 +35,9 @@ on:
       - 'scripts/test-relationship-proposals.mjs'
       - 'scripts/relationship-synthetic-core.mjs'
       - 'scripts/test-relationship-synthetic.mjs'
+      - 'scripts/relationship-trusted-synthetic-core.mjs'
+      - 'scripts/test-relationship-trusted-synthetic.mjs'
+      - 'scripts/fixtures/relationship-audit04-untrusted.json'
       - 'scripts/fixtures/relationship-audit03-synthetic.json'
       - 'docs/RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json'
       - 'scripts/tag-taxonomy-core.mjs'
@@ -69,5 +75,7 @@ jobs:
         run: node --test scripts/test-relationship-proposals.mjs
       - name: Run synthetic-only fail-closed routing and document-SQL provenance regressions
         run: node --test scripts/test-relationship-synthetic.mjs
+      - name: Audit 04 trusted-registry synthetic boundary and forged assertion regressions
+        run: node --test scripts/test-relationship-trusted-synthetic.mjs
       - name: Verify canonical JSON, catalog, manifest, graph and references
         run: node scripts/validate-v2.mjs
