@@ -211,6 +211,28 @@ try{
  console.log('PASS: Concept Batch 02 actual Knowledge/Catalog rendering and 375/430/768/1440px responsive');
 
 
+ // Concept Batch 03: verify new source-preserved detail fields and responsive deep link.
+ for(const id of ['point-in-time-retrieval','reversible-privacy-boundary','security-as-workflow-gate']){
+  const record=JSON.parse(fs.readFileSync(path.join(root,'data/concepts',id+'.json'),'utf8'));
+  await send('Page.navigate',{url:origin+'/knowledge.html#/node/concept/'+id});
+  await waitFor('document.querySelector("#kg-knowledge")?.textContent.includes("候選跨領域應用（非實測）")','Concept Batch03 detail '+id);
+  const probe=await evaluate('({scenario:document.querySelector("#kg-knowledge")?.textContent.includes('+JSON.stringify(record.applicationScenarios[0])+'),question:document.querySelector("#kg-knowledge")?.textContent.includes('+JSON.stringify(record.validationQuestions[0])+')})');
+  assert.ok(probe.scenario&&probe.question,'Batch 03 Concept details missing '+id+': '+JSON.stringify(probe));
+ }
+ await send('Page.navigate',{url:origin+'/index.html#/concepts/point-in-time-retrieval'});
+ await waitFor('document.querySelector("#app")?.textContent.includes("候選跨領域應用（非實測）")','Batch03 Catalog deep link');
+ for(const width of [375,430,768,1440]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+  await pause(125);
+  const size=await evaluate('({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth})');
+  assert.ok(size.scroll<=size.client+3,'Batch 03 Concept overflow '+width+': '+JSON.stringify(size));
+  if(width===375||width===1440){
+   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+   fs.writeFileSync(path.join(screenshotDir,'concept-batch03-'+width+'.png'),Buffer.from(shot.data,'base64'));
+  }
+ }
+ console.log('PASS: Concept Batch 03 real Knowledge/Catalog 375/430/768/1440px');
+
  // Knowledge source handoff must go to a separate Playground rather than embedding a builder.
  await send('Page.navigate',{url:origin+'/knowledge.html#/node/skill/frontend-design'});
  await waitFor('document.querySelector("#kg-playground-link")?.href.includes("seed=skill%3Afrontend-design")','Source to Playground deep link');
