@@ -10,15 +10,24 @@
     "讓 SQL generation 受治理規則限制",
     "把語意定義版本化並可 review"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "共用指標定義減少 SQL 口徑漂移，但語意模型需隨來源與業務規則變更持續維護。",
+    "嚴格治理能降低任意 Join 或誤算，卻可能限制探索性問題與尚未定義的新指標。"
+  ],
+  "signals": [
+    "相同 KPI 在不同報表或 Agent 產生不一致數字。",
+    "跨表查詢有多種 Join 路徑、複雜權限或業務定義。"
+  ],
+  "antiPatterns": [
+    "只提供資料表名稱就要求 LLM 自行推測營收、在職人數等指標定義。",
+    "將語意層視為資料庫權限控制的替代品，不做實際資料列級授權。"
+  ],
   "examples": [
     "WrenAI"
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "semantic-layer",
     "genbi",
@@ -36,5 +45,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "在資料來源與 AI 查詢之間建立受治理的商業語意層，集中定義指標口徑、維度、Join、存取規則與版本；讓自然語言查詢先對齊可信定義，而不是讓 LLM 從原始 Schema 猜測商業含義。",
+  "applicationScenarios": [
+    "示意：人資分析定義在職人數、Hire Date 與 Org 歸屬，再由 Agent 產生受約束的報表查詢。",
+    "示意：客服營運讓多個 Dashboard 共用同一張工單的結案率口徑與維度對照。"
+  ],
+  "validationQuestions": [
+    "能否從生成 SQL 回溯所用指標定義、Join 規則與語意版本？",
+    "新指標或資料權限變更時，是否有測試能防止既有報表與 AI 查詢口徑漂移？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "本批依先前保存的 Canonical Concept 內容整理；上游作者、原始來源與商用授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "先核對既有 Canonical Concept ID 與標題，只在原紀錄補強內容，不建立重複 Concept。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有原始 Tags 與未匹配標籤供歷史查詢，不在本批新增、移除或重新映射任何標籤。"
+    },
+    "classificationReason": "原有 Primary Domain data 及分類欄位全部保留，不將候選示意轉換為新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "將原理、Trade-offs、適用訊號、反例和候選跨領域應用整理為可閱讀的 Concept，不冒充 Workflow 執行。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本批只補強既有 Concept 的內容，缺少真實執行的輸入輸出契約與測試結果，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "僅補強原有 Concept，所有正式 Typed References 和既有 Graph 關聯均不修改。"
+    },
+    "riskNotes": "新增應用情境全屬未實測示意，不代表第三方工具、原始作者授權或實際整合效果已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成現有 Canonical 內容改善；外部模型、第三方 Runtime、整合與授權均未實際驗證，Repo CI 獨立檢查。"
+    }
   }
 }

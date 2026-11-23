@@ -11,9 +11,18 @@
     "只把需要深度推理或生成的工作升級給 System 2 LLM",
     "為不同語言、domain 或 task 選擇專用 checkpoint，而不是期待單一模型萬能"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "快速分類可降低延遲與費用，但小模型在分布外輸入或多語情境可能誤判。",
+    "Typed outputs 提高可解析性，卻無法自動代表決策合理或具備正式執行權限。"
+  ],
+  "signals": [
+    "大量請求只需布林、類別、分數或固定路由答案。",
+    "成本與延遲主要來自不必要的每次大型模型推理。"
+  ],
+  "antiPatterns": [
+    "用分類模型的高信心分數替代高風險事件的真實核准。",
+    "只報告平均延遲降低，不評估誤判、未知輸入與升級成本。"
+  ],
   "examples": [
     "Laya",
     "small classifier before frontier LLM",
@@ -21,7 +30,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "system-1",
     "decision-layer",
@@ -41,5 +50,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review"
+  },
+  "definition": "將高頻、低歧義、輸出型別固定的判斷交給可量測的小型決策層，只有模糊或高風險案例才升級至較昂貴的生成式推理；快速不等於可跳過信心校準和人工核准。",
+  "applicationScenarios": [
+    "示意：招募流程先由小型分類器辨識履歷文件類型，不確定時交給人工覆核。",
+    "示意：客服查詢以 typed intent 判斷入口流程，遇到退款或身份風險則升級完整推理和核准。"
+  ],
+  "validationQuestions": [
+    "是否在不同語言、未知類別與分布漂移情況下測過校準和召回率？",
+    "快速決策與升級流程的總成本、失誤率及不可執行邊界是否可量測？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "本批依先前保存的 Canonical Concept 內容整理；上游作者、原始來源與商用授權尚未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "先核對既有 Canonical Concept ID 與標題，只在原紀錄補強內容，不建立重複 Concept。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留既有原始 Tags 與未匹配標籤供歷史查詢，不在本批新增、移除或重新映射任何標籤。"
+    },
+    "classificationReason": "原有 Primary Domain ai-agent 及分類欄位全部保留，不將候選示意轉換為新的 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "將原理、Trade-offs、適用訊號、反例和候選跨領域應用整理為可閱讀的 Concept，不冒充 Workflow 執行。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "本批只補強既有 Concept 的內容，缺少真實執行的輸入輸出契約與測試結果，因此不新增 Capability。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "僅補強原有 Concept，所有正式 Typed References 和既有 Graph 關聯均不修改。"
+    },
+    "riskNotes": "新增應用情境全屬未實測示意，不代表第三方工具、原始作者授權或實際整合效果已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "只完成現有 Canonical 內容改善；外部模型、第三方 Runtime、整合與授權均未實際驗證，Repo CI 獨立檢查。"
+    }
   }
 }
