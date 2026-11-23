@@ -17,7 +17,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-02",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "privacy-boundary",
     "pii",
@@ -36,5 +36,68 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "在資料出信任邊界前以本機對照表替換敏感實體，必要時於可信端還原；可逆遮罩並非完全匿名化。",
+  "tradeoffs": [
+    "占位符保留關係但映射表本身高度敏感。",
+    "遮罩降低暴露仍有漏遮罩和間接識別風險。"
+  ],
+  "signals": [
+    "雲端處理含個資且須保留實體關係。",
+    "有可信環境存放還原 mapping。"
+  ],
+  "antiPatterns": [
+    "把可逆遮罩當成零洩漏匿名化。",
+    "將 mapping 和遮罩資料一起送往外部。"
+  ],
+  "applicationScenarios": [
+    "示意：員工文件在本機遮罩後才送模型摘要。",
+    "示意：客服記錄用占位符維持跨訊息實體一致。"
+  ],
+  "validationQuestions": [
+    "Mapping 是否隔離加密且可撤銷？",
+    "是否測試漏遮罩和間接識別？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部原始標籤。"
+    },
+    "classificationReason": "保留原分類 security，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚未實測操作能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

@@ -12,15 +12,24 @@
     "限制自動重調參次數並如實保留失敗結果",
     "把 live strategy 與已回測版本做一致性追蹤，程式變更後明確標示 drift"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "嚴格測試降低偏誤也有多重比較成本。",
+    "加入真實成本使績效保守但更可信。"
+  ],
+  "signals": [
+    "策略只在單一期間與參數最優。",
+    "Agent 不斷調參只留亮眼績效。"
+  ],
+  "antiPatterns": [
+    "把調參用的資料當獨立樣本外。",
+    "忽略成本、滑價或未來資訊。"
+  ],
   "examples": [
     "Blave Agent"
   ],
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "backtest",
     "overfitting",
@@ -39,5 +48,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以樣本外、交易成本、時間隔離與參數穩定性判斷歷史策略是否過度擬合，不能保證未來收益。",
+  "applicationScenarios": [
+    "示意：風險模型以滾動時間窗評估泛化。",
+    "示意：商業預測以 walk-forward 檢驗跨期穩定。"
+  ],
+  "validationQuestions": [
+    "是否保存所有調參與失敗結果？",
+    "是否確認資料當時可得及成本假設？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部原始標籤。"
+    },
+    "classificationReason": "保留原分類 business，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚未實測操作能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "title": "Outcome-Weighted Agent Memory",
   "status": "active",
   "addedAt": "2026-10-04",
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-11-23",
   "tags": [
     "agent-memory",
     "feedback-loop",
@@ -41,5 +41,64 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以記憶被使用後的可驗證結果調整召回權重，對易過時經驗衰減；權重不等於事實可信度。",
+  "signals": [
+    "過時經驗被反覆召回。",
+    "可觀測任務結果並連回使用的記憶。"
+  ],
+  "antiPatterns": [
+    "把模型自評成功當成事實驗證。",
+    "刪除失敗記錄而不保留回歸案例。"
+  ],
+  "applicationScenarios": [
+    "示意：客服依人工核實結果調整檢索排序。",
+    "示意：開發 Agent 對失敗修復策略降低權重。"
+  ],
+  "validationQuestions": [
+    "結果標籤是否有外部證據？",
+    "永久事實與失敗案例是否免於 decay？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部原始標籤。"
+    },
+    "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚未實測操作能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

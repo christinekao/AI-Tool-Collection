@@ -23,9 +23,18 @@
     "把產品 codebase、真實元件、motion、sound 與 render workflow 封裝成可重用 product-video Skill",
     "把完整 SDLC 的角色分工、階段轉換、交接、測試與驗收規則封裝成 Agent Skills，而不是依賴另一個常駐 orchestration service"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "重用性提高但路由、依賴與版本需要維護。",
+    "跨 Agent 移植仍受工具與權限差異限制。"
+  ],
+  "signals": [
+    "反覆重寫相同任務步驟。",
+    "已有明確流程、驗收與測試樣本。"
+  ],
+  "antiPatterns": [
+    "安裝不明來源 Skill 並放開金鑰權限。",
+    "只測成功案例不測觸發與回歸。"
+  ],
   "examples": [
     "affaan-m/ecc",
     "acheAIsuiyimen/ache-life-to-comic-skill",
@@ -69,7 +78,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-23",
   "tags": [
     "skills",
     "reuse",
@@ -87,5 +96,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "將專業流程、工具契約、觸發與驗收封裝成版本化、按需載入 Skill；可重用不代表已安全安裝或已實測。",
+  "applicationScenarios": [
+    "示意：面試教練 Skill 固定問題和品質檢查。",
+    "示意：程式交接 Skill 使用 Scope、Diff、Evidence Gate。"
+  ],
+  "validationQuestions": [
+    "是否測過 Trigger、Functional 與 Regression？",
+    "是否審查 Skill 來源、相依與安全權限？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部原始標籤。"
+    },
+    "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚未實測操作能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }

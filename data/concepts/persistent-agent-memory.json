@@ -14,9 +14,18 @@
     "以 compact summary + recent context + UUID handoff 讓長任務跨新的聊天 session 接續",
     "把 episodic memories 依 bank / project 隔離，透過 retain / recall 持續累積，而不是每次重新餵完整歷史"
   ],
-  "tradeoffs": [],
-  "signals": [],
-  "antiPatterns": [],
+  "tradeoffs": [
+    "可減少重複探索但增加過期與衝突記錄。",
+    "共享方便協作但需要隔離與權限治理。"
+  ],
+  "signals": [
+    "新 Session 反覆重問已確認決策。",
+    "長期任務需在不同時段接續。"
+  ],
+  "antiPatterns": [
+    "永久注入所有聊天逐字稿。",
+    "讓未證實推論直接覆寫事實。"
+  ],
   "examples": [
     "claude-mem",
     "Hermes Memory Wiki",
@@ -33,7 +42,7 @@
   ],
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-11-23",
   "tags": [
     "memory",
     "persistent-memory",
@@ -50,5 +59,56 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1"
+  },
+  "definition": "以獨立持久層跨 Session 保存有來源的決策、事實與進度；記憶存續不等於跨 Agent 移植或準確召回。",
+  "applicationScenarios": [
+    "示意：專案交接保存資料來源和未解風險。",
+    "示意：研究助手保存引用版本與待查問題。"
+  ],
+  "validationQuestions": [
+    "是否保留來源、時間與變更歷史？",
+    "記憶衝突時能否辨別事實與假設？"
+  ],
+  "source": {
+    "type": "previously-collected-material",
+    "description": "依既有 Canonical 素材整理；上游原始來源與授權未獨立查核。"
+  },
+  "intakeReview": {
+    "policyVersion": "1.0",
+    "sourceStatus": "provided-material",
+    "sourceEvidenceFields": [
+      "source"
+    ],
+    "dedupeReview": {
+      "decision": "update",
+      "checkedFields": [
+        "id",
+        "title"
+      ],
+      "reason": "確認既有 Canonical ID 與標題，僅補強原資料。"
+    },
+    "tagReview": {
+      "decision": "retain-unmapped",
+      "reason": "保留全部原始標籤。"
+    },
+    "classificationReason": "保留原分類 ai-agent，不新增 Capability。",
+    "readingSpec": {
+      "id": "standard",
+      "status": "applied",
+      "reason": "概念內容與示意應用分開呈現。"
+    },
+    "capabilityReview": {
+      "decision": "none",
+      "reason": "尚未實測操作能力。"
+    },
+    "conceptReview": {
+      "decision": "reused",
+      "reason": "保留原有 Typed References，未新增 Graph Edge。"
+    },
+    "riskNotes": "應用情境僅為未實測示意，不代表外部授權與實際整合已核實。",
+    "verification": {
+      "status": "not-tested",
+      "evidence": "本批未執行第三方實際效果、整合或授權查核；GitHub CI 另行驗證。"
+    }
   }
 }
