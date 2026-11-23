@@ -24,9 +24,13 @@
 | 同時具 rationale 與 2 筆以上 typed members | **0** | 依現有欄位，尚無完整組合主張的基本前提 |
 | 有 alternatives | **0** | 替代條件未建模 |
 | 被其他不同 Workflow 正式引用的 Combination | **0** | 尚無多 Workflow 重用證據 |
+| 同名 Workflow 缺結構化 Outputs／Gate | **16／17** | 只有 `cross-agent-continuity-stack` 的交接階段具結構化 Outputs／Gate；不能以這個欄位單獨判定可執行性 |
+| 非同名的 19 個 Workflow 有結構化 Outputs | **19／19** | 與前述 16/17 形成值得後續補強的資料契約落差 |
+| 擁有正式 Concept Refs 的 Workflow／Combination | **19／36、3／17** | 其他是未建立關係，不等於經審查後確認不適用 |
+| 目前 Typed Reference 錯誤 | **0** | 靜態檢查 PASS，並非證明外部工具互通 |
 | 狀態 | **REVIEW REQUIRED** | 所有 17 筆保留，不標記為可安全刪除 |
 
-上面是**現有欄位的可觀測事實**，不等同實際上不存在相容工具或跨流程用途。真正的元件 I/O、版本、風險、上游資料與授權尚未全面獨立驗證。量化檢查由 `node scripts/audit-knowledge-relations.mjs` 以 Canonical 即時重算；若資料變更，以即時輸出為準。
+上面是**現有欄位的可觀測事實**，不等同實際上不存在相容工具或跨流程用途。真正的元件 I/O、版本、風險、上游資料與授權尚未全面獨立驗證。量化檢查由 `node scripts/audit-knowledge-relations.mjs` 以 Canonical 即時重算（摘要輸出）；加入 `--details` 顯示 17 筆逐筆 Review Flags。若資料變更，以即時輸出為準。
 
 ## 17 筆 Combination 逐筆審查佇列
 
@@ -83,3 +87,11 @@
 - 加入既有 V2 Data Validate Workflow 作為獨立 Test Gate。報告旗標不會直接讓 Workflow Fail；只有引用破損／程式測試失敗才 FAIL。
 - 不改動 `data/` 任何檔案；無須重建 Derived Catalog。完成時須核對 PR Diff、CI 與 main CI，並記錄實際驗收證據。
 - 後續針對 `stack`、`system-1-system-2-agent-routing-stack` 等代表案例做來源／契約 Review，未查證前不能把候選關聯升格成正式 Graph Edge。
+
+## PR #52 初次實際驗收（靜態／無正式站變更）
+
+- [V2 Data Validate PR Run #45143105771](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45143105771)：**PASS**，包含既有 Taxonomy、Tags、Workflow Engine、Graph、68 Concepts、Canonical→Derived 的回歸及新增 4 個關聯稽核 Test。
+- 新增關聯測試 4/4 PASS，包含「不能依同名自動刪除」、「不能從 Tag／名稱推導正式 Graph」、「Explicit Typed Ref 損壞的負向案例」。實際掃描的 Integrity Errors 為 0。
+- 實際 CI 掃描 68／36／17，17/17 同 ID 互引；14 筆無 rationale、3 筆有理由但少於兩個正式成員，17/17 無 alternatives／跨 Workflow 正式重用；16/17 同名 Workflow 沒有 Stage Outputs 或 Gate，而另外 19/19 個 Workflow 有結構化 Outputs。
+- PR Diff 不含任何 `data/` 路徑；修改僅限 Audit scripts／test／既有 V2 Workflow／Docs。未實測 Provider / API。
+- 因後續會再補一版較精簡的 CLI 輸出與本審查紀錄，**此處 Run 是前一 PR Head 的 PASS**；最新 PR Head 仍須實際重跑 CI。

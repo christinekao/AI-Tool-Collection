@@ -92,6 +92,7 @@ export function loadCanonical(rootDir=root){
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const audit=auditKnowledgeRelations(loadCanonical());
- console.log(JSON.stringify(audit,null,2));
+ const detail=process.argv.includes('--details');
+ console.log(JSON.stringify(detail?audit:{scope:audit.scope,summary:audit.summary,integrityErrors:audit.integrityErrors},null,2));
  if(audit.integrityErrors.length){process.exitCode=1;}
 }
