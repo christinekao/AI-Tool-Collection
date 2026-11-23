@@ -6,6 +6,8 @@ on:
     paths:
       - 'data/**'
       - 'scripts/validate-v2.mjs'
+      - 'scripts/audit-knowledge-relations.mjs'
+      - 'scripts/test-knowledge-relations-audit.mjs'
       - 'scripts/audit-domain-classification.mjs'
       - 'data/taxonomy-v1.json'
       - 'scripts/test-taxonomy-v1.mjs'
@@ -20,6 +22,8 @@ on:
       - 'data/**'
       - 'scripts/test-taxonomy-v1.mjs'
       - 'scripts/validate-v2.mjs'
+      - 'scripts/audit-knowledge-relations.mjs'
+      - 'scripts/test-knowledge-relations-audit.mjs'
       - 'scripts/tag-taxonomy-core.mjs'
       - 'scripts/test-tag-taxonomy.mjs'
       - 'data/tag-index-v1.json'
@@ -47,7 +51,9 @@ jobs:
         run: node --test scripts/test-workflow-engine.cjs
       - name: Unit test graph rules
         run: node --test scripts/test-knowledge-graph.mjs
-      - name: Verify 60 source-preserved Concept guide contracts
+      - name: Verify all 68 source-preserved Concept guide contracts
         run: node --test scripts/test-concept-guides.mjs
+      - name: Audit Concept, Workflow and Combination relationships without mutation
+        run: node --test scripts/test-knowledge-relations-audit.mjs && node scripts/audit-knowledge-relations.mjs
       - name: Verify canonical JSON, catalog, manifest, graph and references
         run: node scripts/validate-v2.mjs
