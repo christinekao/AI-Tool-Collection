@@ -1,3 +1,14 @@
+## Phase 3 Audit 02｜進行中（2026-11-23）
+
+- 本批 Base main `106be4d37cb9ee7c38dab25c75ff7979ee7ed618`；工作分支 `relation-audit-phase02-20261123`。
+- 深入審查 `stack` 和 `system-1-system-2-agent-routing-stack`（2 個同名 Combo/Workflow、7 個 Resource、9 個原始 Stage）。
+- 7 筆 Resource 以官方公開 README／Documentation 做來源對照，紀錄在 [Audit 02 Report](RELATIONSHIP_AUDIT_PHASE02_20261123.md) 和 [9 項候選 Stage Contract](RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json)。
+- **新增明確風險**：Laya 未校準信心不能直接決定高風險執行；Onyx 原始來源權限同步為 EE 功能；MinerU 輸出格式依入口不同；OmniRoute Repo 路徑有更動；OmniRoute↔Codex、Onyx↔WrenAI 的端到端契約仍 NOT_TESTED。
+- 暫定決策：兩個 Combination 都 **retain-pending-independent-value**；不刪除、不合併、不更名，不新增 `conceptRefs` 或正式 Typed References。
+- 候選契約有 CI 測試；實際 GitHub PR／CI／main／部署結論必須由後續 Run 補齊，本項暫不可宣稱已正式完成。
+
+---
+
 # Knowledge Relations｜Phase 3 Handoff（2026-11-23）
 
 **Phase 3 Audit 01 已完成：PASS WITH GAPS。已審查 68 Concepts／36 Workflows／17 Combinations；原始 Canonical 保留，Graph 新增正式關聯 0。**

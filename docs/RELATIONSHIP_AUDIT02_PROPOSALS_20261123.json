@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "audit02-review-only-v1",
+  "reviewedAt": "2026-11-23",
+  "baselineMain": "106be4d37cb9ee7c38dab25c75ff7979ee7ed618",
+  "authority": "non-destructive-review-only",
+  "reviewScope": [
+    "stack",
+    "system-1-system-2-agent-routing-stack"
+  ],
+  "independentExternalExecution": "not-tested",
+  "canonicalMutationsAuthorized": false,
+  "typedReferencePromotionAuthorized": false,
+  "sourceClaims": "Official upstream documentation reviewed; upstream changes, versions, licenses and runtime behavior are not automatically verified.",
+  "pairs": [
+    {
+      "id": "stack",
+      "title": "企業知識問答 Stack",
+      "combinationDecision": "retain-pending-independent-value",
+      "workflowDecision": "strengthen-contract-candidate",
+      "independentCombinationValue": "目前 4 個 Resource 涵蓋文件擷取、RAG 檢索與受治理 BI，但缺少一套已驗證的介面和跨 Workflow 重用證據；不以工具數量作為保留的充分證據。",
+      "rehomeOption": "若後續仍無可證實的跨流程共用合約，考慮將工具配置的說明轉為同名 Workflow 的 Implementation Options；需要保留舊 ID／引用與獨立核准。",
+      "keyRisks": [
+        "onyx-enterprise-permission-sync",
+        "document-ingestion-format-drift",
+        "unverified-onyx-wren-interoperability"
+      ],
+      "members": [
+        "onyx",
+        "wrenai",
+        "unclecode-crawl4ai",
+        "opendatalab-mineru"
+      ],
+      "conceptCandidates": [
+        {
+          "conceptId": "semantic-layer-for-ai",
+          "basis": "workflow.stages[2].purpose 與 concept.solutionMethods 的語意層及 KPI 定義對應，候選未建立正式關聯"
+        },
+        {
+          "conceptId": "retrieval-grounded-knowledge-layer",
+          "basis": "workflow.stages[1].purpose 與 concept.solutionMethods 的索引／檢索原理對應，候選未建立正式關聯"
+        }
+      ],
+      "stageContracts": [
+        {
+          "stageId": "stage-1",
+          "proposedInput": "受核准的 PDF、網頁 URL 與採集範圍；禁止未核准資料外送",
+          "proposedOutput": "帶來源網址／檔案版本／擷取時間／文件 ID 的 Markdown 或結構化內容",
+          "proposedGate": "原文來源與處理版本可回溯；敏感資訊和 robots／授權規則已核對；MinerU 與 Crawl4AI 輸出先做正規化",
+          "onFailure": "無法解析、掃描錯誤、缺來源或內容敏感時標記待人工審查，禁止直接進索引",
+          "evidenceRefs": [
+            "resource:opendatalab-mineru",
+            "resource:unclecode-crawl4ai"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-2",
+          "proposedInput": "前階段經審查的文件、metadata、文件層級存取規則",
+          "proposedOutput": "可檢索索引與帶文件 ID／權限脈絡的檢索結果",
+          "proposedGate": "在指定使用者／群組的授權範圍內查詢；核對 Edition，Onyx 上游來源權限同步需 Enterprise Edition，不能預設 Community 可用",
+          "onFailure": "權限同步不可用時只使用已明確隔離的測試資料或阻擋敏感來源；來源無法檢索時返回 Unknown",
+          "evidenceRefs": [
+            "resource:onyx"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-3",
+          "proposedInput": "帶受核准資料庫權限的商業問題、已版本化 MDL、口徑與資料來源",
+          "proposedOutput": "SQL 計畫／欄位口徑／指標版本／查詢結果及來源",
+          "proposedGate": "先 dry-plan／dry-run 和權限控制；不以單次生成 SQL 直接宣稱業務指標正確",
+          "onFailure": "未知 KPI、跨來源 Join、權限不明、SQL 驗證失敗時退回人工建模或要求澄清",
+          "evidenceRefs": [
+            "resource:wrenai"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-4",
+          "proposedInput": "可回溯文件檢索結果與結構化查詢結果；兩路輸出未必有共同 API",
+          "proposedOutput": "有來源引用、指標口徑、未知項目及不確定性說明的候選整合回答",
+          "proposedGate": "引用與數值都能指回來源；不混淆文件日期與 SQL 截止日；獨立授權及抽樣審查",
+          "onFailure": "兩路數字衝突、沒有聯合協定或資料來源無權存取時分開回答並顯示缺口，不虛構整合",
+          "evidenceRefs": [
+            "resource:onyx",
+            "resource:wrenai"
+          ],
+          "status": "proposal-not-implemented"
+        }
+      ]
+    },
+    {
+      "id": "system-1-system-2-agent-routing-stack",
+      "title": "System 1 → System 2 Agent Routing Stack",
+      "combinationDecision": "retain-pending-independent-value",
+      "workflowDecision": "safety-redesign-proposal",
+      "independentCombinationValue": "Laya 提供 typed decision，OmniRoute 提供 Provider Routing，Codex 提供實際 Coding Agent 執行；能力不同不表示已存在跨 Runtime I/O 合約。",
+      "rehomeOption": "若 Laya、路由器與 Coding Agent 缺少已驗證的通用介面，可將分工方式保留為 Workflow Implementation Options，不宣稱可互換的 Combination。",
+      "keyRisks": [
+        "uncalibrated-laya-confidence",
+        "high-risk-automatic-execution",
+        "unverified-omniroute-codex-interoperability",
+        "provider-data-egress"
+      ],
+      "members": [
+        "laya",
+        "omniroute",
+        "openai-codex"
+      ],
+      "unresolvedMembers": [
+        "Claude Code",
+        "Human Review"
+      ],
+      "conceptCandidates": [
+        {
+          "conceptId": "system-1-decision-layer",
+          "basis": "workflow.stages[0].purpose 涵蓋高頻 typed decision；仍需真實校準及錯誤率證據"
+        },
+        {
+          "conceptId": "confidence-gated-automation",
+          "basis": "workflow.stages[1].purpose 以信心值決策；但缺 held-out 校準與風險優先 Gate，故尚不能建立正式關聯"
+        },
+        {
+          "conceptId": "vendor-agnostic-orchestration",
+          "basis": "workflow.stages[2].purpose 提到跨模型 routing；僅語意相符，不代表 runtime interoperability"
+        }
+      ],
+      "stageContracts": [
+        {
+          "stageId": "stage-1",
+          "proposedInput": "經最小化處理的使用者請求；允許的標籤集合與工作範圍",
+          "proposedOutput": "typed intent／risk 候選、模型 checkpoint 和未校準的分數／不確定性",
+          "proposedGate": "記錄輸入語言與 checkpoint；禁止將 Laya 原始 confidence 當作能直接執行的可信度",
+          "onFailure": "分布外、語言不支援、標籤未知或偵測可能敏感時立即轉保守路由／人工審查",
+          "evidenceRefs": [
+            "resource:laya"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-2",
+          "proposedInput": "typed decision、風險分類、業務授權規則、已校準的 held-out 評估",
+          "proposedOutput": "allow-low-risk／escalate-model／human-review／reject 的受控路由決策",
+          "proposedGate": "**風險與權限檢查優先於 confidence**；對 Laya 僅能用經 held-out 校準的 answer_confidence，不能用未校準 confidence 放行；高風險必須人工核准",
+          "onFailure": "缺評估、模型漂移、權限不符、信心未校準一律 fail closed，禁止自動寫入、寄送或對外執行",
+          "evidenceRefs": [
+            "resource:laya"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-3",
+          "proposedInput": "前階段已核准的 System 2 工作請求、允許 Provider 名單、成本／資料政策",
+          "proposedOutput": "實際選用 Provider 與模型、可支援的 API／Tool Contract、Fallback 決策及路由記錄",
+          "proposedGate": "先檢查資料駐留、成本上限、Quota、模型工具相容性；OmniRoute 支援 Fallback 不等於任意 Agent Runtime 都可互換",
+          "onFailure": "沒有核准的備援目標、格式不相容或資料政策不符時拒絕 Fallback，返回人工／安全中止",
+          "evidenceRefs": [
+            "resource:omniroute"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-4",
+          "proposedInput": "經核准模型／Agent 的輸入、工具權限與 Acceptance Criteria",
+          "proposedOutput": "深度推理／程式修改候選、Trace、實際測試證據或拒絕執行資訊",
+          "proposedGate": "模型生成與 Coding Agent 執行分開驗證；Codex 是 Runtime，不假設能以 OmniRoute 任意 API 直接調用其工作流程",
+          "onFailure": "執行環境不相容、需寫入高權限資產、模型錯誤或驗證失敗則隔離輸出、轉人工決策",
+          "evidenceRefs": [
+            "resource:openai-codex",
+            "resource:omniroute"
+          ],
+          "status": "proposal-not-implemented"
+        },
+        {
+          "stageId": "stage-5",
+          "proposedInput": "高風險／低信心／不相容案例及可回溯的決策理由",
+          "proposedOutput": "核准／駁回／退回補證據紀錄、人工簽核身份和審核範圍",
+          "proposedGate": "高風險操作只能在獲明確人類核准後執行；必須能追溯來源、審核人及實際執行權限",
+          "onFailure": "無審核人、超出授權、來源不可驗證時維持暫停，不能因模型反覆請求而跳過 Gate",
+          "evidenceRefs": [
+            "resource:laya",
+            "resource:openai-codex"
+          ],
+          "status": "proposal-not-implemented"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "resourceId": "onyx",
+      "repoUrl": "https://github.com/onyx-dot-app/onyx",
+      "documentationUrl": "https://github.com/onyx-dot-app/onyx/blob/main/documentation/overview/core_features/connectors.mdx",
+      "verifiedClaim": "Connector 會索引文件；原始來源的文件權限同步需要 Enterprise Edition。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested"
+    },
+    {
+      "resourceId": "wrenai",
+      "repoUrl": "https://github.com/Canner/WrenAI",
+      "documentationUrl": "https://github.com/Canner/WrenAI/blob/main/docs/core/reference/architecture.md",
+      "verifiedClaim": "使用 MDL、SQL planning、dry-plan／dry-run、資料來源 Connector 的受治理查詢層；未查得與 Onyx 的官方直接互通合約。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested"
+    },
+    {
+      "resourceId": "unclecode-crawl4ai",
+      "repoUrl": "https://github.com/unclecode/crawl4ai",
+      "documentationUrl": "https://github.com/unclecode/crawl4ai/blob/main/docs/md_v2/core/quickstart.md",
+      "verifiedClaim": "官方 Quickstart 說明將網站內容整理為 Markdown；和 MinerU、Onyx 的欄位標準化需另行設計。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested"
+    },
+    {
+      "resourceId": "opendatalab-mineru",
+      "repoUrl": "https://github.com/opendatalab/MinerU",
+      "documentationUrl": "https://github.com/opendatalab/MinerU/blob/master/docs/en/reference/output_files.md",
+      "verifiedClaim": "不同解析入口有不同的 Markdown、Middle JSON、Structured Content 產物，不能無條件當成相同 JSON Schema。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested"
+    },
+    {
+      "resourceId": "laya",
+      "repoUrl": "https://github.com/NandhaKishorM/laya",
+      "documentationUrl": "https://github.com/NandhaKishorM/laya/blob/main/docs/questions-and-answers.md",
+      "verifiedClaim": "answer_confidence 與 confidence 定義不同；出廠信心未經 held-out 校準，必須按型別／候選數與任務評估後才能設定 Gate。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested"
+    },
+    {
+      "resourceId": "omniroute",
+      "repoUrl": "https://github.com/diegosouzapw/OmniRoute",
+      "documentationUrl": "https://github.com/cheaper-inference/OmniRoute/wiki/Resilience-Guide",
+      "verifiedClaim": "原 Repo 路徑目前會轉向 cheaper-inference/OmniRoute；提供 provider fallback／cooldown 相關能力，但不能證明對特定 Codex 任務有端到端契約。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested",
+      "provenanceGap": "Canonical resource.repo 仍是舊路徑 diegosouzapw/OmniRoute；應另開專門的來源身分及歷史 aliases 審查，暫不修改。"
+    },
+    {
+      "resourceId": "openai-codex",
+      "repoUrl": "https://github.com/openai/codex",
+      "documentationUrl": "https://github.com/openai/codex/blob/main/README.md",
+      "verifiedClaim": "Codex CLI 是本地操作的 Coding Agent，執行權限與模型路由不等同於 OmniRoute 任何標準 Provider API。",
+      "sourceLevel": "upstream-documentation-reviewed",
+      "integrationStatus": "not-tested"
+    }
+  ],
+  "releaseBoundary": {
+    "deleteAllowed": false,
+    "mergeAllowed": false,
+    "rewriteIdAllowed": false,
+    "updateCanonicalAllowed": false,
+    "createGraphEdgeAllowed": false,
+    "runExternalToolsAllowed": false
+  },
+  "decisionsRequired": [
+    {
+      "id": "stack",
+      "question": "是否有第二個明確 Workflow 需要相同能力組合，且其輸入輸出與權限可跨系統驗證？",
+      "nextEvidence": "安全的測試資料集、標準化索引紀錄、WrenAI SQL dry-plan／dry-run、引用與權限對照紀錄",
+      "result": "unproven"
+    },
+    {
+      "id": "system-1-system-2-agent-routing-stack",
+      "question": "是否有獨立 held-out 校準、業務風險 Gate、Provider/Codex 執行契約與人工核准證據？",
+      "nextEvidence": "分類校準曲線、實際路由失敗樣本、供應商備援格式測試、人工核准審計紀錄",
+      "result": "unproven"
+    }
+  ]
+}
