@@ -46,7 +46,21 @@
 - 將 `scripts/test-concept-guides.mjs` 擴增至 **40/68**，涵蓋 ID 範圍、定義、取捨、反例、示意／原案例分離、來源與執行宣告。
 - 瀏覽器檢查三個新 Concept 在 Knowledge 的實際文字顯示、Catalog 深連結與 375／430／768／1440px 無水平溢出，保留其餘所有舊回歸。
 - 驗證 20 筆原資料未被覆寫、Graph Nodes/Edges 及 Canonical 六類總數不漂移，Derived Catalog 必須由 `scripts/build-v2.mjs` 產生；不可直接把衍生資料當手動主來源。
-- **目前初稿：PR CI、main CI、GitHub Pages 與部署後 Live Smoke 尚未執行或核對，均為 PENDING。** 不能先填 PASS。
+- **實際 PR、main CI、Pages Deploy、部署後 Live Smoke 均已 PASS，整體狀態 PASS WITH GAPS**，詳見下方實際驗收證據。
+
+## Batch 02 最終 PR／正式站驗收證據（2026-11-23）
+
+**PASS WITH GAPS**：以下 PASS 僅限 Canonical Data、GitHub CI、Browser／Responsive 與 Pages Deploy。外部模型效果、工具整合、原始作者與商用授權等**未測項目持續 NOT_TESTED**。
+
+- **PR [#49](https://github.com/christinekao/AI-Tool-Collection/pull/49) 已 Squash Merge**：PR 最終 Head `38db2b455e23a1288cc82f6b6789098c19acb635`，Merge Commit `0c7ddcccd062306c9bc364507071ecb9226c26e3`。
+- **PR 最終 Head CI PASS**：[Unified Intake #45112377140](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112377140)、[V2 Data Validate #45112377072](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112377072)、[P1 Graph／Browser + 40 Concept Contracts #45112377104](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112377104)。
+- **main CI PASS**：[Unified Intake #45112563204](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112563204)、[V2 Data Validate #45112563384](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112563384)、[P1 Graph／Browser #45112563206](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112563206)、[Catalog Sync #45112563255](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112563255)。
+- **main Pages Deploy PASS**：[Run #45112561902](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112561902)，完成於 **2026-11-23 04:34:05 UTC**。
+- **部署後 Live Smoke PASS**：[Run #45112563356 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112563356)，完成於 **04:34:55 UTC**，晚於 Pages Deploy。Chromium 包含 Concept Batch 02 三筆代表性詳細閱讀、Catalog 深連結和 375／430／768／1440px 版面；並保留原 Prompt、Graph／Playground／其他收藏回歸。
+- **首次 Live Smoke Attempt 1 FAIL**：同一 [Run #45112563356](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112563356) 於新版 Pages Deploy 完成**之前**運行，正式站尚無新版 Concept `applicationScenarios`，Browser 在 `cross-agent-shared-memory` 新區塊等待逾時。**不是把提前執行的 FAIL 改為 PASS**；待頁面發布後重新執行 Attempt 2 通過。
+- **Catalog 正規重建**：一次性、限制在 PR 分支的 [Run #45112282995](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45112282995) 使用既有 `scripts/build-v2.mjs` 產出 Catalog／Graph，暫時 Workflow 在 PR 建立前已刪除，最終 PR 不包含額外寫入權限。
+- **逐欄完整性驗證**：20 筆新舊資料沒有未授權欄位差異，已存在的 Tradeoffs／Signals／AntiPatterns 保留原值、只補空缺；六類數量仍 270／123／68／35／17／36，Graph **569 Nodes／1816 Edges**，未新增正式 Typed Ref。
+- 本文件與最新 Handoff 最後一次 Docs-only Commit 將觸發另一次 Pages Deploy，**最後文件版本的 Deploy／部署後 Live Smoke 實際收據會寫入 [PR #49 驗收留言](https://github.com/christinekao/AI-Tool-Collection/pull/49)**，避免為更新收據而反覆觸發部署。
 
 ## 仍未驗證
 第三方原文／作者與商用授權、各情境的真實效果、外部 Provider API 或執行整合、跨模型獨立評估、Prompt／Agent Runtime：一律 NOT_TESTED。CI 通過只代表資料與網頁契約未退步，不能代表外部有效。
