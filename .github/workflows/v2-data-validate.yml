@@ -9,6 +9,9 @@ on:
       - 'scripts/audit-knowledge-relations.mjs'
       - 'scripts/test-knowledge-relations-audit.mjs'
       - 'scripts/test-relationship-proposals.mjs'
+      - 'scripts/relationship-synthetic-core.mjs'
+      - 'scripts/test-relationship-synthetic.mjs'
+      - 'scripts/fixtures/relationship-audit03-synthetic.json'
       - 'docs/RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json'
       - 'scripts/audit-domain-classification.mjs'
       - 'data/taxonomy-v1.json'
@@ -27,6 +30,9 @@ on:
       - 'scripts/audit-knowledge-relations.mjs'
       - 'scripts/test-knowledge-relations-audit.mjs'
       - 'scripts/test-relationship-proposals.mjs'
+      - 'scripts/relationship-synthetic-core.mjs'
+      - 'scripts/test-relationship-synthetic.mjs'
+      - 'scripts/fixtures/relationship-audit03-synthetic.json'
       - 'docs/RELATIONSHIP_AUDIT02_PROPOSALS_20261123.json'
       - 'scripts/tag-taxonomy-core.mjs'
       - 'scripts/test-tag-taxonomy.mjs'
@@ -61,5 +67,7 @@ jobs:
         run: node --test scripts/test-knowledge-relations-audit.mjs && node scripts/audit-knowledge-relations.mjs
       - name: Verify Audit 02 source-matched, review-only contract proposals and negative gates
         run: node --test scripts/test-relationship-proposals.mjs
+      - name: Run synthetic-only fail-closed routing and document-SQL provenance regressions
+        run: node --test scripts/test-relationship-synthetic.mjs
       - name: Verify canonical JSON, catalog, manifest, graph and references
         run: node scripts/validate-v2.mjs

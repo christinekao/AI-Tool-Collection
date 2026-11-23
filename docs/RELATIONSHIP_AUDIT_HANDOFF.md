@@ -1,3 +1,13 @@
+## Phase 3 Audit 03｜進行中（2026-11-23）
+
+- 基準 `main`：`6a6718506d58ae4ec6a871d3b8e10887d670df50`，分支：`relation-audit-phase03-20261123`。
+- 新增純離線 Synthetic Gate 與來源追溯函式，合成 Fixture、14 個 Node Tests，納入 V2 Data Validate CI。
+- 驗證目標：Risk-first／權限／未校準信心值／Unknown／Fallback Fail-Closed；MinerU/Crawl4AI 文檔＋WrenAI SQL 的來源 ID／版本／時間／ACL／指標版本追溯。
+- 原始 `data/` 全部不變，沒有 Provider API、真實 SQL、Credential 或文件資料外送；所有 `allow-low-risk` 都只代表路由候選，`executed:false`。
+- [Audit 03 Report](RELATIONSHIP_AUDIT_PHASE03_20261123.md)，`node --test scripts/test-relationship-synthetic.mjs`。本階段 GitHub PR／CI／部署的實際結果待寫入，不得預先宣告 PASS。
+
+---
+
 # Knowledge Relations｜Phase 3 Session Handoff（2026-11-23）
 
 **Audit 02 已封帳：PASS WITH GAPS。兩個案例、七個 Resource、九個候選 Stage Contract 完成文件與靜態 CI 審查；全部原始 Canonical 與 Typed References 不變。**
