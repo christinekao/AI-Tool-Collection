@@ -100,3 +100,34 @@ test('Phase 3: both new structured guides render from canonical data and prior g
   assert.ok(d.source.reviewScope);
  }
 });
+
+test('Phase 3 batch 02: catalog, guide routes and review boundaries',()=>{
+ const context=vm.createContext({URL});
+ const code=fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n');
+ vm.runInContext(code,context,{filename:'catalog-app.js'});
+ const ids=['pydantic-pydantic-ai','huggingface-smolagents','microsoft-ai-agents-for-beginners','nirdiamant-genai-agents','anthropics-skills','openrouter-ai','google-pagespeed-insights'];
+ for(const id of ids){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  const built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['id','url','classification','tags','conceptRefs','workflowRefs','features','requirements','limitations','repoGuide','learningGuide'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.intakeReview.capabilityReview.decision,'none',id);
+  const html=context.detail(built);
+  if(d.repoGuide){
+   assert.match(html,/class="repo-guide"/);
+   assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+   assert.ok(d.repoGuide.architecture.nodes.every(n=>n.files?.length));
+   assert.ok(d.repoGuide.rebuild.gaps.length);
+  }else if(id==='microsoft-ai-agents-for-beginners'){
+   assert.match(html,/主題重點筆記（3 章）/);
+   assert.equal(d.learningGuide.modules.length,3);
+   assert.equal(d.intakeReview.readingSpec.status,'deferred');
+   assert.ok(d.learningGuide.modules.every(m=>m.sourceUrl.includes(d.source.upstreamCommit)&&m.essentials.length===3&&m.apply&&m.output));
+  }else{
+   assert.equal(d.intakeReview.readingSpec.id,'standard');
+   assert.ok(d.features.length>=3&&d.requirements.length>=3);
+   assert.doesNotMatch(html,/class="repo-guide"/);
+  }
+ }
+});
