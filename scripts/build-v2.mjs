@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {readProblems,buildKnowledgeGraph} from './knowledge-graph-core.mjs';
 import {buildTagIndex} from './tag-taxonomy-core.mjs';
+import {validateResourceLayerLinks} from './resource-layer-links.mjs';
 
 const types = {resources:'resource',skills:'skill',concepts:'concept',prompts:'prompt',combinations:'combination',workflows:'workflow'};
 const records = {}, errors = [];
@@ -28,6 +29,7 @@ function walk(value, location) {
   for (const [key,item] of Object.entries(value)) walk(item,`${location}.${key}`);
 }
 for (const [plural,items] of Object.entries(records)) items.forEach(x=>walk(x,`${plural}/${x.id}`));
+for(const resource of records.resources)errors.push(...validateResourceLayerLinks(resource));
 if (errors.length) { console.error(JSON.stringify({ok:false,errors},null,2)); process.exit(1); }
 const catalog = {schemaVersion:2,...records};
 const manifest = {schemaVersion:2,generatedAt:new Date().toISOString(),entities:Object.fromEntries(Object.entries(records).map(([plural,items])=>[plural,items.map(x=>x.id)]))};
