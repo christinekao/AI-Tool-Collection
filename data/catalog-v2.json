@@ -246,13 +246,13 @@
       "category": "06 Skills",
       "resourceType": "Skill Collection",
       "purpose": "提供給 AI Coding Agent 的工程 Skills 與指令，按照需求規格、規劃、開發、測試、審查及發布的生命週期組織工作。",
-      "recommendation": "適合希望讓多次 AI Coding 工作遵循相同規格與品質門檻的團隊；先閱讀技能清單，選擇必要技能，不必一次安裝全部。",
+      "recommendation": "已有成熟專案時，先補目前最薄弱的品質關卡；新專案才從規格到發布建立完整流程。不要把所有 Skills 長期注入 context，也不要把安裝完成當作流程完成。",
       "url": "https://github.com/addyosmani/agent-skills",
       "repo": "addyosmani/agent-skills",
-      "notes": "",
+      "notes": "選讀來源：https://github.com/addyosmani/agent-skills/tree/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills 。跨工具可複用的原則：任務階段決定 Skill，專門風險決定附加 Skill，交付證據決定能否完成。這是挑選方法，不是新增正式 Workflow 或已測整合。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-24",
       "tags": [
         "skills",
         "production",
@@ -291,24 +291,29 @@
       },
       "homepage": "https://skills.addy.ie",
       "features": [
-        "以 /spec、/plan、/build、/test、/review、/ship 等指令對應開發階段。",
-        "涵蓋程式碼審查、測試驅動開發、網站效能與可及性等專門 Skills。",
-        "README 說明可經 Skills CLI 安裝整套或選擇單一 Skill。"
+        "需求不清楚｜interview-me 釐清問題；spec-driven-development 將新功能轉為規格與驗收標準；已有規格不必重寫，改用 planning-and-task-breakdown。",
+        "開發與修錯｜incremental-implementation 控制修改範圍；test-driven-development 適用行為變更；debugging-and-error-recovery 適用已有可重現問題。",
+        "驗收與審查｜browser-testing-with-devtools 用於瀏覽器中的實際畫面與狀態；code-review-and-quality 檢查正確性、可讀性、架構、安全及效能；兩者不是替代關係。",
+        "發布與專門風險｜git-workflow-and-versioning、ci-cd-and-automation 適合交付流程；涉及權限、安全、效能、無障礙時才加入對應專門 Skill。",
+        "索引入口｜using-agent-skills 依當前任務挑選技能；官方 README 的生命週期目錄提供其他 Skills 的用途與入口。"
       ],
       "requirements": [
-        "使用前確認 Agent 環境及 Skills CLI 的相容性與安裝方式。",
-        "在真實專案使用前先檢查 SKILL.md、腳本、權限與執行副作用。"
+        "選擇方法｜先寫下目前任務、缺少的交付物及驗收條件，再開啟對應 SKILL.md；先查來源、腳本、權限和現有 AGENTS.md/CLAUDE.md 是否衝突。",
+        "安裝方式依 Host 而異：Codex、Claude Code、Cursor 等使用各自官方 Repo setup 文件；先專案範圍試用，確認可發現與呼叫，避免直接改全域規則。",
+        "示例｜修復網頁儲存問題：先重現 → debugging-and-error-recovery → test-driven-development → browser-testing-with-devtools → code-review-and-quality。交付 PR、測試輸出及資料讀回證據。"
       ],
       "limitations": [
-        "README 的跨 Agent 支援不代表所有平台功能完全相同；需依實際環境驗證。",
-        "安裝 Skills 不代表測試、審查與發布已通過，仍須保留獨立驗收。"
+        "只有 meta、spec、review、browser-testing 四份 SKILL.md 及 LICENSE 本輪逐檔查閱；其他名稱與用途來自官方 README 索引，未逐項執行驗證。",
+        "瀏覽器驗證需要可用的 Chrome DevTools MCP；不應為了測試任意使用已登入的個人瀏覽器。",
+        "Repo LICENSE 為 MIT；第三方工具、依賴及實際使用條款仍需個別核對。技能流程不等於測試通過或有權限部署。"
       ],
       "source": {
         "url": "https://github.com/addyosmani/agent-skills",
         "readmeUrl": "https://github.com/addyosmani/agent-skills/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-24",
+        "reviewScope": "Pinned SKILL.md files (using-agent-skills, spec-driven-development, code-review-and-quality, browser-testing-with-devtools), LICENSE and README index; no installation or runtime.",
+        "upstreamCommit": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74"
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -317,7 +322,7 @@
           "source.url",
           "repo"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -333,7 +338,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain ai-agent，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "standard",
-          "status": "applied"
+          "status": "applied",
+          "reason": "Standard 內容採策展導覽，重點為按任務挑選、適用邊界及產物，不套用 Repo 重建教學。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -346,7 +352,7 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "已讀取四個版本化 SKILL.md 及 MIT LICENSE；其他項目為 README 索引，所有安裝與實際執行均未驗證。"
         }
       }
     },
@@ -608,7 +614,7 @@
       "notes": "Official upstream identified. It positions itself as a capability layer that routes to preferred/fallback platform backends.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-24",
       "tags": [
         "web-access",
         "social-media",
@@ -667,9 +673,10 @@
       "source": {
         "url": "https://github.com/Panniantong/Agent-Reach",
         "readmeUrl": "https://github.com/Panniantong/Agent-Reach/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-24",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "Pinned pyproject.toml, CLI entry, runtime/cli.py, runtime/dispatch.py (routing and errors), runtime/result.py (envelope), channels/base.py, docs/install.md, LICENSE; no execution.",
+        "upstreamCommit": "a8ab1e9a2475957d759eac2dbedfe91b0a1e1021"
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -678,7 +685,7 @@
           "source.url",
           "url"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -694,8 +701,8 @@
         "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已建立核心原始碼指南，版本化契約與重建 Gap 明確；不代表完整 adapter 審查或實測。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -708,8 +715,278 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "已讀取固定 Commit 核心原始碼及 LICENSE，未安裝、Build、Runtime、Security 或 Integration 測試。"
         }
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以統一 CLI 將跨平台讀取動作和平台後端分開，讓 Agent 依來源取得資料與錯誤狀態，而不必解析各工具的終端文字。",
+        "status": [
+          {
+            "label": "版本化來源",
+            "value": "已讀取核心介面與派送邏輯（1.6.1）"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝、未登入、未測試"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約可作設計參考，平台實作仍待審查"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python 3.10+ · CLI · JSON"
+          },
+          {
+            "label": "版本",
+            "value": "1.6.1（核對的原始碼）"
+          },
+          {
+            "label": "授權",
+            "value": "MIT（Repo；外部工具另計）"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "能力發現",
+            "detail": "channels 列出平台、動作、參數及後端，Agent 可以先確認功能才呼叫。",
+            "source": "agent_reach/runtime/cli.py"
+          },
+          {
+            "title": "網址辨識",
+            "detail": "read 依網址挑選可處理的平台，沒有專屬 reader 才使用 web channel。",
+            "source": "agent_reach/runtime/cli.py"
+          },
+          {
+            "title": "統一回傳",
+            "detail": "回傳單一 JSON，包含成功狀態、來源、資料及錯誤；一般動作成功 exit 0，失敗 exit 1。",
+            "source": "agent_reach/runtime/result.py"
+          },
+          {
+            "title": "健康狀態與實際檢查",
+            "detail": "doctor 檢查本機狀態；check 執行網路測試。前者不代表後者成功。",
+            "source": "agent_reach/runtime/cli.py"
+          }
+        ],
+        "architecture": {
+          "summary": "輸入解析 → 平台 Action → 後端派送 → JSON 結果。",
+          "readerSummary": "Agent 先交付一個查詢或網址；程式選擇通道，檢查參數並執行允許的後端，最後回傳資料或可辨識的錯誤。",
+          "nodes": [
+            {
+              "title": "CLI 入口",
+              "detail": "pyproject.toml 登記 agent_reach.cli:main；轉交 runtime.cli。",
+              "files": [
+                "pyproject.toml",
+                "agent_reach/cli.py"
+              ],
+              "readerTitle": "接收查詢",
+              "readerText": "從命令列接收網址、平台與查詢參數。"
+            },
+            {
+              "title": "Action 與 Channel",
+              "detail": "Channel 宣告 actions、params、backends 與 session 需求；read 使用 can_handle 匹配。",
+              "files": [
+                "agent_reach/channels/base.py",
+                "agent_reach/runtime/cli.py"
+              ],
+              "readerTitle": "找到適當通道",
+              "readerText": "判斷網址歸屬及支援動作，再檢查輸入格式。"
+            },
+            {
+              "title": "Dispatcher",
+              "detail": "validate_action 驗證；run_action 管理 timeout、public route、依序後端及終止型錯誤。",
+              "files": [
+                "agent_reach/runtime/dispatch.py"
+              ],
+              "readerTitle": "依規則讀取",
+              "readerText": "在符合設定與權限時選擇後端；遇到限流、平台封鎖或登入需求應停止，而非持續重試。"
+            },
+            {
+              "title": "JSON 契約",
+              "detail": "schema_version、ok、channel、action、backend、items、meta、error；正規化 item 含 title/url/author/published_at/text/raw。",
+              "files": [
+                "agent_reach/runtime/result.py"
+              ],
+              "readerTitle": "取得結果及證據",
+              "readerText": "讀取結果、來源後端與錯誤原因；缺失的資料不能視為已成功讀取。"
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "先驗證參數",
+            "rule": "validate_action 在 setup 或登入前拒絕無效 action、參數及 timeout。",
+            "source": "agent_reach/runtime/dispatch.py"
+          },
+          {
+            "name": "停止與備援",
+            "rule": "FINAL_CODES 包含 RATE_LIMITED、PLATFORM_BLOCKED、NEED_LOGIN、BAD_INPUT、NOT_FOUND、BUSY；不得視為可無限重試的失敗。",
+            "source": "agent_reach/runtime/result.py"
+          },
+          {
+            "name": "資料格式",
+            "rule": "make_item 將缺值設為 null，raw 保留來源內容；下游應將 raw 視為不可信資料。",
+            "source": "agent_reach/runtime/result.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "先讀來源（不安裝）",
+            "description": "核對版本、安裝與登入風險；特別注意同名 PyPI 套件不是官方專案。",
+            "commands": [],
+            "files": [
+              "docs/install.md",
+              "pyproject.toml"
+            ],
+            "approval": false
+          },
+          {
+            "title": "安裝與初始化（需核准）",
+            "description": "官方安裝文件採 uv 與 GitHub release；setup 會安裝預設通道及 Skill。先審查指定版本下載物、依賴與寫入路徑，不直接執行未審查的 latest 安裝。",
+            "commands": [],
+            "files": [
+              "docs/install.md"
+            ],
+            "approval": true,
+            "approvalNote": "安裝、瀏覽器及登入設定皆可能修改環境；本指南未代為執行。"
+          },
+          {
+            "title": "已授權環境的健康檢查",
+            "description": "先看版本與通道清單，再用 doctor 檢查本機狀態。只有核准的網路測試才執行 check。",
+            "commands": [
+              "agent-reach version",
+              "agent-reach channels",
+              "agent-reach doctor"
+            ],
+            "files": [
+              "agent_reach/runtime/cli.py"
+            ],
+            "approval": false,
+            "commandGroups": [
+              {
+                "label": "已安裝環境的本機查詢",
+                "commands": [
+                  "agent-reach version",
+                  "agent-reach channels",
+                  "agent-reach doctor"
+                ]
+              }
+            ]
+          }
+        ],
+        "extension": [
+          {
+            "title": "定義一個平台 Action",
+            "detail": "從 Channel、Action 與 Param 宣告設計新的公開來源讀取介面；不要將登入或寫入混在讀取契約中。",
+            "file": "agent_reach/channels/base.py"
+          },
+          {
+            "title": "測試派送與失敗",
+            "detail": "以模擬後端測參數不合法、逾時、可備援錯誤與必須停止的錯誤；再核對新平台註冊機制。",
+            "file": "agent_reach/runtime/dispatch.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "channel-discovery",
+            "name": "通道能力發現",
+            "problem": "Agent 不知道某平台支援的操作",
+            "input": "本機已安裝的 Channel 定義",
+            "output": "channels 清單與參數",
+            "source": "agent_reach/runtime/cli.py",
+            "gate": "確認版本和安裝狀態，未實測"
+          },
+          {
+            "id": "normalized-read",
+            "name": "統一讀取結果",
+            "problem": "不同來源的資料格式與錯誤不同",
+            "input": "合法網址或 Channel Action 參數",
+            "output": "JSON envelope 與 items/error",
+            "source": "agent_reach/runtime/result.py",
+            "gate": "僅讀取已授權的內容，必須保留來源與錯誤，未實測"
+          }
+        ],
+        "workflow": {
+          "title": "公開資料調查（設計示例）",
+          "problem": "讓研究 Agent 先辨識可用來源，再蒐集並保留出處。",
+          "steps": [
+            {
+              "capability": "channel-discovery",
+              "action": "確認通道及可用動作"
+            },
+            {
+              "capability": "normalized-read",
+              "action": "在合法公開來源讀取，保留 URL、文字及失敗狀態"
+            }
+          ],
+          "gate": "示例僅為設計；不得繞過平台限制或將第三方內容當作指令。未執行整合。"
+        },
+        "rebuild": {
+          "verdict": "已掌握核心路由與資料契約，可先重建不含登入的 Mock MVP；尚未逐個核對各平台工具及完整註冊、管理流程。",
+          "stages": [
+            {
+              "title": "01 定義介面",
+              "detail": "定義兩個公開資料來源的 Action、參數、JSON 結果及錯誤。",
+              "deliverable": "契約及模擬回傳"
+            },
+            {
+              "title": "02 模擬派送",
+              "detail": "實作優先順序、錯誤終止與逾時，測試備援與空資料。",
+              "deliverable": "Mock 測試及結果"
+            },
+            {
+              "title": "03 接入來源",
+              "detail": "核對一個官方公開 API 或允許的資料來源，明確限制權限及速率。",
+              "deliverable": "經授權的來源契約及實際測試"
+            }
+          ],
+          "gaps": [
+            "各平台 adapter、session reuse、manage、browser 完整實作尚未逐檔審查。",
+            "Build、Runtime、第三方依賴授權、平台政策及 Integration 未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "帳號與 Session",
+            "severity": "高",
+            "issue": "部分通道涉及現有瀏覽器登入狀態。",
+            "control": "預設不複製、不登入；只在使用者授權的環境使用最小權限，勿記錄或傳送憑證。"
+          },
+          {
+            "title": "平台限制",
+            "severity": "高",
+            "issue": "公開資料不等於允許任意擷取。",
+            "control": "遵守條款、速率限制與平台停止訊號；不切換帳號或後端規避限制。"
+          },
+          {
+            "title": "來源內容與安裝",
+            "severity": "高",
+            "issue": "外部文字及安裝依賴可能有不可信指令或副作用。",
+            "control": "將內容當作資料，審查下載物、版本與依賴；核准後才安裝。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "核心來源與 MIT",
+            "state": "已查閱",
+            "evidence": "固定 Commit 的核心 CLI、dispatch、result、base、install、LICENSE"
+          },
+          {
+            "item": "安裝／Runtime",
+            "state": "未驗證",
+            "evidence": "未執行任何第三方指令"
+          },
+          {
+            "item": "各平台／整合",
+            "state": "未驗證",
+            "evidence": "需逐個 adapter 及授權環境測試"
+          }
+        ]
       }
     },
     {
@@ -1083,7 +1360,7 @@
       "url": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/",
       "status": "active",
       "addedAt": "2026-10-13",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-24",
       "tags": [
         "ai-coding",
         "acceptance",
@@ -1143,8 +1420,8 @@
       ],
       "source": {
         "url": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
+        "reviewedAt": "2026-11-24",
+        "reviewScope": "Original article sections on requirements, review, tests, user operation, branch protection, staged rollout and rollback; independently authored exercises.",
         "type": "Original article"
       },
       "intakeReview": {
@@ -1154,7 +1431,7 @@
           "url",
           "source.url"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -1170,8 +1447,8 @@
         "classificationReason": "維持現有 Primary Domain、Category、Tags 與 Typed References；僅補上來源形式與使用資訊。",
         "readingSpec": {
           "id": "learning",
-          "status": "deferred",
-          "reason": "僅核對來源與實用資訊，尚未建立可驗收的完整學習教材。"
+          "status": "applied",
+          "reason": "四個主題皆有核心問題、方法、示例、練習及可驗收產物；發布與實際練習尚未執行。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -1184,8 +1461,111 @@
         "riskNotes": "此為教學文章與案例，不是能自動部署或保證程式正確的驗收工具。；自動測試、人工審查與部署驗收各有盲點，需依專案風險補安全與資料測試。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "已閱讀文章正文；教材示例及練習未執行。"
         }
+      },
+      "learningGuide": {
+        "version": 2,
+        "headline": "從需求到發布：讓 AI 的交付可被獨立驗收",
+        "takeaway": "各種證據回答不同問題，不能互相取代。",
+        "audience": "AI Coding 使用者、工程師與交付審查者。",
+        "outcomes": [],
+        "readingPath": [],
+        "modules": [
+          {
+            "id": "acceptance-contract",
+            "group": "實作驗收",
+            "title": "01 定義驗收條件",
+            "question": "怎麼避免 AI 修好了錯的問題？",
+            "learn": "把需求改寫成可觀察的輸入、操作與預期結果；先確認重要業務規則。",
+            "essentials": [
+              "把需求改寫成可觀察的輸入、操作與預期結果；先確認重要業務規則。",
+              "列出正常、無效及邊界輸入；資料、權限等重大決定不能由 Agent 猜測。",
+              "同時明訂不應變更的行為，讓驗收能發現越界修改。"
+            ],
+            "example": "示例：履歷管理表單截止日可否提交，需先由產品負責人決定；原先填寫的公司與職位不得因日期驗證失敗而消失。",
+            "apply": "寫出四個 Given/When/Then 案例：正常、缺值、截止邊界、保留欄位。",
+            "output": "一張含預期結果與未決規則的驗收表。",
+            "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+          },
+          {
+            "id": "review-and-tests",
+            "group": "實作驗收",
+            "title": "02 審查與測試",
+            "question": "如何證明測試真的抓得到原問題？",
+            "learn": "先比對 PR 差異與需求，沿著輸入、轉換、儲存追蹤必要修改。",
+            "essentials": [
+              "先比對 PR 差異與需求，沿著輸入、轉換、儲存追蹤必要修改。",
+              "先讓代表原缺陷的測試在舊版失敗，再在修正版通過；測試預期由需求決定。",
+              "擴大測試範圍的依據是受影響的資料、權限與相鄰流程，而非程式碼由誰產生。"
+            ],
+            "example": "示例：搜尋頁的日期篩選修正，測試應檢查實際回傳記錄，而不只是篩選函式存在。",
+            "apply": "挑出一個缺陷，寫下舊版預期失敗與新版預期成功的結果，檢查 Diff 是否修改了無關模組。",
+            "output": "可重現的前後測試及範圍審查紀錄。",
+            "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+          },
+          {
+            "id": "user-evidence",
+            "group": "實作驗收",
+            "title": "03 操作與資料驗證",
+            "question": "畫面成功後，如何確認資料真的正確？",
+            "learn": "用接近實際的環境完成完整操作，不僅測試單一函式。",
+            "essentials": [
+              "用接近實際的環境完成完整操作，不僅測試單一函式。",
+              "提交後重新讀取資料，比對保存的實際值，避免 UI 成功提示掩蓋後端問題。",
+              "記錄版本、環境、操作與證據；在窄螢幕檢查提示、焦點及主要按鈕。"
+            ],
+            "example": "示例：新增職缺後重新整理，確認職缺名稱與日期保持一致；手機畫面也能完成提交。",
+            "apply": "規劃桌面與手機的新增、失敗、重新讀取三條路徑。",
+            "output": "具有版本與環境標記的操作驗收紀錄。",
+            "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+          },
+          {
+            "id": "release-gate",
+            "group": "實作驗收",
+            "title": "04 發布與回復",
+            "question": "什麼時候可以擴大發布？",
+            "learn": "合併前使用 PR 審查及必要的 CI 檢查；確認是否存在可繞過的規則。",
+            "essentials": [
+              "合併前使用 PR 審查及必要的 CI 檢查；確認是否存在可繞過的規則。",
+              "依風險選擇發布範圍，先定義觀察指標與停止條件；已確認資料遺失應阻止擴大。",
+              "備妥可回復版本、資料相容性及負責人；本機小工具可以使用更輕量的備份與復原措施。"
+            ],
+            "example": "示例：先對測試群組發布新版表單，觀察提交異常；若有資料遺失立即暫停並按既定回復程序處理。",
+            "apply": "寫一張 Release Gate：證據、監控、停止條件、回復方式、責任人。",
+            "output": "明確的 Go/No-Go 決策及回復計畫。",
+            "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+          }
+        ],
+        "practice": {
+          "title": "整體練習｜驗收 AI 修正的職缺管理表單（自訂示例）",
+          "scenario": "日期欄位驗證失效，修改只允許影響表單及必要測試。",
+          "tasks": [
+            {
+              "action": "確認業務規則與範圍",
+              "deliverable": "四個驗收案例及不應改動的功能",
+              "sourceId": "acceptance-contract"
+            },
+            {
+              "action": "檢查差異及前後測試",
+              "deliverable": "舊版失敗、新版通過及 PR 差異紀錄",
+              "sourceId": "review-and-tests"
+            },
+            {
+              "action": "實際操作與重新讀回",
+              "deliverable": "桌面、手機、實際保存值及版本證據",
+              "sourceId": "user-evidence"
+            },
+            {
+              "action": "作出發布決定",
+              "deliverable": "未驗證事項、停止條件及回復計畫",
+              "sourceId": "release-gate"
+            }
+          ],
+          "check": "每一項結果皆對應一個需求及可重現證據；未執行項目不得填通過。"
+        },
+        "caveat": "依原作者文章整理的方法論；職缺管理例子與練習是自訂教學情境，非實際測試或部署。",
+        "inlineSummary": "需求 → Diff → 測試 → 操作與讀回 → Release Gate"
       }
     },
     {
@@ -5341,13 +5721,13 @@
       "category": "08 UI & Design Engineering",
       "resourceType": "AI Vector Model / Editable SVG Generation",
       "purpose": "QuiverAI 的向量設計模型，可從文字或圖片生成精確、可編輯的 SVG，並支援 vectorization、editing 與 animation 工作流；可透過 App、API、MCP、Codex/Cursor plugins 與 CLI 整合到 Agent 流程。",
-      "recommendation": "適合 logo、icon、illustration、品牌素材與需要後續程式化修改／動畫的向量資產，避免把 AI 生圖後的扁平 PNG 當最終資產。",
+      "recommendation": "先判斷你需要新的圖案、重現既有圖片，還是只修改現有 SVG。適合可重複著色、縮放與程式化調整的介面圖示、品牌插畫；若成品是照片或依賴像素紋理，通常保留點陣圖較合理。",
       "url": "https://quiver.ai/",
       "repo": "",
-      "notes": "Official QuiverAI source confirmed on 2026-09-17. Arrow 2 is positioned for generating and editing production-ready vector graphics; QuiverAI also exposes text-to-SVG and image-to-SVG APIs plus MCP/plugins for agent workflows.",
+      "notes": "Official QuiverAI source confirmed on 2026-09-17. Arrow 2 is positioned for generating and editing production-ready vector graphics; QuiverAI also exposes text-to-SVG and image-to-SVG APIs plus MCP/plugins for agent workflows.\nPhase 3 查核入口： https://docs.quiver.ai/developers/models/text-to-svg ; https://docs.quiver.ai/developers/models/image-to-svg ; https://docs.quiver.ai/api-reference/edit-svg/edit-svg ; https://docs.quiver.ai/app/prompt-guide ; https://docs.quiver.ai/api-reference/introduction . 24 px 圖示為自訂示範，未實測。",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-24",
       "tags": [
         "svg",
         "vector",
@@ -5399,24 +5779,27 @@
         ]
       },
       "features": [
-        "透過文字或參考素材生成可編輯的 SVG 向量資產，包括 Logo、插畫與圖示。",
-        "官方網站展示 Vectorize、向量編輯、向量動畫及可供開發者呼叫的 API。",
-        "提供模型清單／開發者文件入口，方便將向量素材流程接到應用程式。"
+        "從零設計｜用文字指定形狀、風格、顏色與尺寸，產生 SVG；參考圖可用於設計方向，而非保證忠實重製。使用官方 Text to SVG API。",
+        "向量化｜已有點陣圖且希望保留輪廓時，使用 POST /v1/svgs/vectorizations，輸入 image（URL 或文件允許的直接資料格式）。",
+        "局部修改｜已有 SVG 時使用 SVG edit，明確指定要改的元素及不應變動的 viewBox、輪廓或色彩。",
+        "選型｜先以 Arrow 2 測試常見圖示；細節密度高的圖像可與 Arrow 2 Telos 比較，用同一批樣本評估，而非預設較昂貴模型一定較好。"
       ],
       "requirements": [
-        "使用 App 或 API 前需申請對應服務帳號，API 呼叫要有授權 Token。",
-        "先定義尺寸、SVG 結構和品牌需求，並確認當前方案的模型及功能可用性。"
+        "操作路線｜一次性設計先使用 App；大量產出一致素材才接 API。整合前以 GET /v1/models 確認組織的模型及能力，建立專案範圍 API Key，放在伺服器環境變數。",
+        "實作示例｜假設要做 24×24 介面圖示：指定單色、可替換 fill、透明背景與一致線寬；先產出少量樣本，瀏覽器預覽後交付 SVG，保留原始檔供後續編輯。",
+        "輸出驗收｜解析 SVG、檢查 viewBox 與縮放效果、路徑可編輯性、色彩一致性、16/24/48 px 可辨識性；若將第三方 SVG 嵌入網站，先移除不允許的 script、事件屬性與外部資源。"
       ],
       "limitations": [
-        "圖像品質、文字路徑、SVG 可編輯度與生成結果需人工審核，不能視為品牌定稿。",
-        "不同模式的費用、速率、使用條款及模型可用性會變動，需閱讀官方最新 Pricing／Docs。"
+        "Test Key 的 Responses Sandbox 用來檢查串接協議與錯誤處理，不代表實際模型生成品質已驗證；真實模型測試需有核准的帳號及費用。",
+        "不保證商標相似度、文字輪廓、圖形忠實度或授權；使用素材須有權利，商用前查核條款及實際產物。",
+        "模型、費用、端點和整合方式可能更新；未執行 API 或 App，也未核對商用條款。"
       ],
       "source": {
         "url": "https://quiver.ai/",
         "readmeUrl": "https://quiver.ai/",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-24",
         "type": "Official author / product documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "Official product documentation: model selection, native generation/vectorization/edit references, prompt guide and Responses test-key behavior; no API execution."
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -5425,7 +5808,7 @@
           "url",
           "source.url"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -5442,7 +5825,7 @@
         "readingSpec": {
           "id": "standard",
           "status": "applied",
-          "reason": "依一般 Resource 規格核對官方文件及使用限制；非深度安裝驗證。"
+          "reason": "以既有 Standard 欄位提供產品選型、操作路徑與輸出驗收；不建立 Repo Guide。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -5455,7 +5838,7 @@
         "riskNotes": "圖像品質、文字路徑、SVG 可編輯度與生成結果需人工審核，不能視為品牌定稿。；不同模式的費用、速率、使用條款及模型可用性會變動，需閱讀官方最新 Pricing／Docs。；未執行第三方程式、未存取帳號憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "來源頁／官方 README 已閱讀；Build／Runtime／Security／Integration 未實測。"
+          "evidence": "官方 API/Prompt 文件已查核；Sandbox、實際 API、SVG 品質、商用條款均未測。"
         }
       }
     },
