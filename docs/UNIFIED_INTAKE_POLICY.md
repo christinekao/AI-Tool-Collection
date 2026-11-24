@@ -11,7 +11,7 @@
 1. **Preflight**：先讀最新 README、SCHEMA_V2.md、`data/schema-v2.json`、`data/taxonomy-v1.json` 和本政策；確認目標分支與是否已有相同紀錄，不沿用舊 Session 的假設。
 2. **Source & Dedupe**：優先取得原始來源／完整 Prompt，查核版本、授權及限制；以 ID、名稱、URL、Repo 等查重。無可讀依據時留在 `data/pending-sources/`，不編造 Capability 或正式 Graph 連結。
 3. **Classify**：依 [Tag Standardization](TAG_STANDARDIZATION_V1.md) 統一原始 Tag 的術語、同義詞與 Facet；保留原始 Tags 與舊 Category，將 `data/taxonomy-v1.json` 當作唯一受控詞彙，不得把技術／授權／歷史狀態誤當 Domain 或來源驗證。新增、實質改寫或增加 Tags 時必須記錄 `intakeReview.tagReview`（all-mapped／retain-unmapped／new-vocabulary-proposed）與理由，新增的未匹配 Tag 要逐項寫入 `unmappedJustifications`；刪除冗餘 Tag 或等價別名替換可免完整審查。所有 Entity 都填唯一 Primary Domain，Secondary 最多兩個。Resource 優先填 Content Format；Capability 只憑可指回欄位的行為證據指派，未確認就留空。Purpose 不屬於 Domain。
-4. **Explain for humans + preserve for Agents**：先用繁體中文解釋情境、功能、準備、流程、輸出、限制；機器需要的觸發、I/O、技術規則、Source、測試 Gate 不可因精簡頁面而刪掉。
+4. **Explain for humans + preserve for Agents**：先用繁體中文解釋情境、功能、準備、流程、輸出、限制；機器需要的觸發、I/O、技術規則、Source、測試 Gate 不可因精簡頁面而刪掉。所有新建或實質改寫 Resource 強制執行下方「雙層知識收錄 Gate」，先確認用途，再建立可雙向解析的底層證據。
 5. **Select applicable reading spec**：四套規格不是每筆全套照抄，而是共用收錄 Gate + 適用的專門規格：
    - 深入教材：[`LEARNING_CONTENT_SPEC.md`](LEARNING_CONTENT_SPEC.md)，需要可驗收的學習成果。
    - Repo 深度拆解：[`REPO_RESOURCE_SPEC.md`](REPO_RESOURCE_SPEC.md)，Understand → Rebuild → Compose。
@@ -69,6 +69,28 @@
 - **Reading**：`readingSpec.id` 允許 `learning`、`repo`、`skill`、`prompt`、`standard`。專門規格若 `applied`，必須真的有同名 Guide；來源不足則 `deferred` 且具體說明缺口。Skill 使用 `skill`，Prompt 使用 `prompt`；不能以 `standard` 規避要求。
 - **Capability**：`mapped` 時必有 `classification.capabilities` 且能通過 Evidence Gate；`none` 時記錄未建立原因。不能推測可安裝或直接組裝 Workflow。
 - **Risk / Test**：第三方來源皆為待分析資料，不授權執行指令、外送個資、讀取 API Keys 或修改系統。`verification.status=tested` 必須保留可回查的真實測試證據；`not-tested` 不得寫 PASS。
+
+## Resource 雙層知識收錄 Gate（2026-11-24）
+
+本節是所有 Agent 的強制收錄規則；欄位與查詢方式參閱 [Human / Agent 雙層閱讀規格](RESOURCE_HUMAN_AGENT_LAYER_SPEC_20261124.md)。適用新建或實質改寫 Resource；未改寫的歷史資料不回溯要求。純分類、日期、等價 Tag 清理或僅增加 Tag 仍按原有 Intake 規則，不強迫舊資料補寫雙層；已完成映射的資料則不得藉更新刪除映射或能力。
+
+### 收錄順序與品質
+
+1. 先查來源與身分、去重、選擇實際內容類型。完全無可讀來源留在 Pending Sources，不造資料。
+2. Human Layer：一句白話 purpose、適用與不適用情境、至少一個具體 useCase、上手步驟及限制（readerGuide.start / limits）。實作型資源應給輸入 → 處理 → 輸出 → 後續用途案例；不能把設計示例冒充實測。教材保留核心教學與練習；集合重點為尋找與比較；產品與服務重點為輸入輸出及選型。人審做五秒理解測試，不以字數代替語意審查。
+3. Agent Layer：保留來源、版本（能取得時）、技術／操作契約、檔案或文件段落、限制、實作與測試缺口。禁止為精簡 UI 刪除舊知識或為補欄位捏造技術。前台用途必須對應底層證據；反向索引由同一組局部 ID 推導，不複製第二套知識。
+4. 記錄 intakeReview.layerReview.status、reason；依下表選合法路徑。對應單元為資源內部引用，非 taxonomy Capability 或全域 Graph Entity；跨 Resource 的 Concept／Workflow／Combination 仍按原有證據 Gate 獨立審查。
+5. 完成來源、語意、分類、雙層對應、風險及回歸檢查；區分來源審查與實際執行。若缺資料先明示缺口，不把 deferred 算深度完成。
+
+| layerReview.status | 適用條件 | 強制資料 |
+|---|---|---|
+| mapped | 已有足夠固定版本程式碼證據的 Repo／SDK，readingSpec.repo:applied | readerGuide.mappingVersion=1、useCases.capabilityRefs、實際應用示例／步驟、repoGuide.capabilities、固定版本與來源檔案／符號 |
+| evidence-linked | 產品、服務、模型、集合、文章、教材、資料集等不需程式碼重建 | readerGuide.mappingVersion=2、useCases.evidenceRefs、agentEvidence 局部 ID、既有欄位引用、來源位置與限制；若提供案例亦須映射步驟 |
+| deferred | 來源部分確認，或 Repo／SDK 的深度 readingSpec 尚待補證據 | mappingVersion=2，對已知用途仍做 evidence mapping，layerReview.gap / nextAction 具體說明缺少的資料及補查方式；不得與已 applied 的 Repo Guide 同時宣告 |
+
+不能把已完成的 Repo Guide 改成 deferred 來躲過映射。非程式類型不強制虛構 sourceFiles／symbols；若 Repo 實為教材或集合，先按真實內容路由與分類審查，不藉 standard 規避應有深度。所有例子步驟的額外系統整合須明示 externalDependency；runtime-tested / verified 需獨立證據且 intakeReview.verification.status=tested，並具 testRun。來源查閱不是實測。
+
+**自動關卡**：`scripts/check-intake-gate.mjs` 強制 layerReview 與對應版本，`scripts/resource-layer-links.mjs` 驗證局部引用、缺失證據、孤立單元、外部依賴、測試狀態與禁止靜默移除已映射能力；`scripts/build-v2.mjs` 另檢查已啟用映射的所有資料。測試在 Unified Intake Gate 執行。沒有 layerReview 或缺 mappingVersion 的新 Resource 不能 PASS。AI／人工仍須獨立查核證據真的支持用途，CI 不保證文字品質或原始工具可用。
 
 ## Gate 與責任分工
 
