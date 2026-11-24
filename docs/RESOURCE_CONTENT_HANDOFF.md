@@ -1,3 +1,19 @@
+# Resource Phase 3｜深度內容標準化交接（2026-11-24）
+
+**狀態：270／270 基礎審查已存在，但專屬深度 Guide 僅 2／270；Phase 3 Pilot 尚未實作。** 最新 Repo audit baseline `b5ed6953704f25853f779df0012376173dc5786a`。這與早前的 Phase 2「內容審查完成」並不矛盾：**兩個完成指標不可混用**。
+
+- [Source-grounded Phase 3 Resource Inventory & Pilot Plan](RESOURCE_DEPTH_PHASE3_PLAN_20261124.md)。
+- 正式 Content Format 四組候選：Repo 207、Product／Service／Model 33、Collection 15、Learning／Docs 15；並非改變原分類或自動宣稱 270 筆都需要深度教材。
+- 現行 Reading Spec：215 `repo:deferred`、3 `learning:deferred`、50 `standard:applied`、1 `repo:applied`、1 `learning:applied`。
+- `source-checked` 264、`partial` 6；11 個 Content Format／Reading Spec 需覆核，不可一概批次變更。
+- 下一個實作 Gate：Pilot 四筆（`agent-reach`、`arrow-2`、`addyosmani-agent-skills`、`ai-code-acceptance-review-testing-rollout-guide`），先重新確認上游版本與原始原理，再產出依類型適用的內容與 UI，不能只換標題、補假功能或重複 Summary。
+- 本輪**只產生分析文件**，尚未變更 Canonical 或完成深度內容；不要在 Phase 2 270／270 的描述上覆蓋歷史。
+- PR、CI、main、Pages 實際驗收收據將在合併後補於 PR 留言，不提前宣稱 PASS。
+
+---
+
+## Phase 2 Resource 歷史交接（原文保留）
+
 # Phase 2 Resources — 最新 Session 交接
 
 > **Skills Phase 2 現在進行中**：最新 Skills 工作進度與接手資料以 [Skills Session Handoff](SKILL_CONTENT_HANDOFF.md) 為準；Resources 已完成 270/270 內容審查，以下保留 Resources 的歷史與來源缺口記錄。
