@@ -5,7 +5,7 @@
   "category": "Website Performance & Quality Auditing",
   "resourceType": "Google web performance audit and report service",
   "purpose": "評估網站手機與桌面體驗，整合 Lighthouse 實驗室診斷和 CrUX 真實使用者資料，提供效能、SEO、無障礙及最佳實務建議。",
-  "recommendation": "適合部署前與優化後進行 Web Performance 驗證；要區分單次 Lighthouse Lab 分數與過去 28 天的 CrUX Field Data，不能把測試分數當成所有使用者的真實體驗。",
+  "recommendation": "用 PSI 先定位公開網站的效能瓶頸，並追蹤改善後的使用者體驗；若是登入後頁面、內部系統或完整操作流程，另用本機 Lighthouse、DevTools 或瀏覽器測試。",
   "url": "https://pagespeed.web.dev/",
   "license": "Google-hosted service governed by Google Terms; Lighthouse open-source code has its own license",
   "commercialUse": {
@@ -32,10 +32,9 @@
     "privacy": "PageSpeed 分析需將使用者輸入的 URL 提供給 Google；公開網站的 CrUX 真實使用者資訊為聚合資料。"
   },
   "features": [
-    "手機／桌面 Lighthouse 測試",
-    "Core Web Vitals（LCP/INP/CLS）",
-    "CrUX 28 天真實使用者資料（若資料量足夠）",
-    "效能、無障礙、SEO 和最佳實務診斷"
+    "Field data：CrUX 過去 28 天真實使用者資料，主要看第 75 百分位；網址樣本不足時可能顯示整個 Origin，兩者不可混用。",
+    "Lab data：Lighthouse 模擬載入，用診斷找出影響載入及呈現的因素；分數不是 Core Web Vitals 的現場通過證明。",
+    "三項主要使用者體驗指標：LCP（最大內容呈現）良好門檻 2.5 秒；INP（互動反應）200 毫秒；CLS（版面位移）0.1。"
   ],
   "tags": [
     "pagespeed-insights",
@@ -55,16 +54,20 @@
       "https://developers.google.com/speed/docs/insights/v5/about",
       "https://policies.google.com/terms"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-24",
     "type": "Official Google PageSpeed Insights and developer documentation",
     "readmeUrl": "https://developers.google.com/speed/docs/insights/v5/about",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "Official PSI methodology and API v5 introduction; no live URL performance tests.",
+    "referenceUrls": [
+      "https://developers.google.com/speed/docs/insights/v5/about",
+      "https://developers.google.com/speed/docs/insights/v5/get-started"
+    ]
   },
   "schemaVersion": 2,
   "entityType": "resource",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-24",
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
   "classification": {
@@ -84,10 +87,14 @@
     "taxonomyVersion": "1.0"
   },
   "requirements": [
-    "輸入網址後分別檢視行動與桌面結果，依官方文件解讀欄位"
+    "操作：輸入同一頁面網址，分別記錄 mobile／desktop、檢測時間、頁面或 Origin、Field／Lab 指標及 Lighthouse 稽核項目。",
+    "改善決策：LCP 慢先查主要內容、圖片與資源載入；INP 差查長任務及事件處理；CLS 高查未保留尺寸的圖片、字型或動態內容。這些是排查方向，不是自動診斷結論。",
+    "驗收：同一測試條件做多次 Lab 前後比較，保存版本及結果；後續再觀察現場資料趨勢。若要自動化，可用官方 v5 API，保留每次測試的 JSON。"
   ],
   "limitations": [
-    "CrUX 資料並非每個網址都有；實驗室數據受測試環境影響"
+    "沒有 CrUX 資料不等於頁面通過或失敗；新站與低流量站常無足夠樣本。",
+    "Lab 分數受硬體、網路與測試環境影響；不要以一次分數決定發布。",
+    "PSI 的無障礙與 SEO 自動稽核不等於完整人工驗收；本次未實測任何網站。"
   ],
   "intakeReview": {
     "policyVersion": "1.0",
@@ -96,7 +103,7 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -111,9 +118,9 @@
     },
     "classificationReason": "原有 Domain software 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -126,7 +133,7 @@
     "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "Official PSI methodology and API v5 introduction; no live URL performance tests."
     }
   }
 }
