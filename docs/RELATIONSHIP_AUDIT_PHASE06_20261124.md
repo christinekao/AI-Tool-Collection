@@ -38,39 +38,73 @@
 
 ## 每筆 Resource → Workflow Stage 候選
 
-**`agent-stack`**：角色、路由、worktree、Codex 的整合介面與跨流程重用尚無證據。下一步：核對可重播的多 Agent 交接、Provider capability 與隔離驗證。候選 Resource／Stage：`agency-agents`（Stage 1）、`omniroute`（Stage 2）、`orca`（Stage 3）、`openai-codex`（Stage 4）。
+### `agent-stack`
 
-**`agentic-video-production-stack`**：腳本、素材、轉錄品質與 DaVinci 時間軸交接規格尚未驗證。下一步：取得具格式、版本與 QA 的影音輸出交換樣本。候選 Resource／Stage：`openmontage`（Stage 1）、`gbro-collage-broll`（Stage 2）、`vulture-s-whisper-guard`（Stage 3）、`davinci-resolve`（Stage 4）。
+角色、路由、worktree、Codex 的整合介面與跨流程重用尚無證據。下一步：核對可重播的多 Agent 交接、Provider capability 與隔離驗證。候選 Resource／Stage：`agency-agents`（Stage 1）、`omniroute`（Stage 2）、`orca`（Stage 3）、`openai-codex`（Stage 4）。
 
-**`ai-vector-asset-code-stack`**：偏向 SVG→Code→Motion 的 Workflow 工具配置，缺跨流程 I/O 合約。下一步：驗證可編輯 SVG 在程式、動態效果與 Stitch 專案的相容性。候選 Resource／Stage：`arrow-2`（Stage 1）、`openai-codex`（Stage 2）、`motion-dev`（Stage 3）、`google-stitch`（Stage 4）。
+### `agentic-video-production-stack`
 
-**`codebase-agent-context-stack`**：程式碼視圖、持久圖譜、CLI 壓縮屬不同能力，尚無共通介面。下一步：檢查大型 Repo 的 Context 節省、記憶新鮮度與輸出驗證。候選 Resource／Stage：`graft`（Stage 1）、`codebase-memory-mcp`（Stage 2）、`rtk`（Stage 3）、`openai-codex`（Stage 4）。
+腳本、素材、轉錄品質與 DaVinci 時間軸交接規格尚未驗證。下一步：取得具格式、版本與 QA 的影音輸出交換樣本。候選 Resource／Stage：`openmontage`（Stage 1）、`gbro-collage-broll`（Stage 2）、`vulture-s-whisper-guard`（Stage 3）、`davinci-resolve`（Stage 4）。
 
-**`coding-agent-stack`**：與大型 Codebase 組合有多個共用工具，但成本／Fallback 是不同問題。下一步：核對 Agent Host 與 Provider 能力及相同任務的 Token／成本基線。候選 Resource／Stage：`omniroute`（Stage 1）、`graft`（Stage 2）、`rtk`（Stage 3）、`openai-codex`（Stage 4）。
+### `ai-vector-asset-code-stack`
 
-**`cross-agent-continuity-stack`**：版本 Handoff Stage 已有 Gate，但跨 Host Memory／Permission 無實測。下一步：核對不同 Agent 的讀寫入口、權限及版本化 Handoff 交接。候選 Resource／Stage：`ai-memory`（Stage 1）、`orca`（Stage 2）、`omniroute`（Stage 3）、`openai-codex`（Stage 4）。
+偏向 SVG→Code→Motion 的 Workflow 工具配置，缺跨流程 I/O 合約。下一步：驗證可編輯 SVG 在程式、動態效果與 Stitch 專案的相容性。候選 Resource／Stage：`arrow-2`（Stage 1）、`openai-codex`（Stage 2）、`motion-dev`（Stage 3）、`google-stitch`（Stage 4）。
 
-**`generative-ui-stack`**：OpenUI／shadcn／Stitch 不具已證明的 Component Schema 互通性。下一步：取得允許元件 Schema、Renderer、A11y 與互動驗證案例。候選 Resource／Stage：`openui`（Stage 3）、`shadcn-ui`（Stage 2）、`google-stitch`（Stage 1）、`frontend-design`（Stage 1）。
+### `codebase-agent-context-stack`
 
-**`goal-build-evidence-learning-loop`**：零正式成員，核心是可重複的學習驗收程序，不是已證明的工具組合。下一步：先核實 unresolved 技能來源，再於 Workflow 提出工具候選，不創造 Resource。候選 Resource／Stage：無已正式關聯的 Resource；不補入 unresolvedMembers。
+程式碼視圖、持久圖譜、CLI 壓縮屬不同能力，尚無共通介面。下一步：檢查大型 Repo 的 Context 節省、記憶新鮮度與輸出驗證。候選 Resource／Stage：`graft`（Stage 1）、`codebase-memory-mcp`（Stage 2）、`rtk`（Stage 3）、`openai-codex`（Stage 4）。
 
-**`local-pii-ai-processing-loop`**：僅一個正式 Resource，敏感資料處理 Gate 比組合名稱重要。下一步：先驗證本機 Mapping、漏遮罩測試與雲端資料出站政策。候選 Resource／Stage：`pii-guard`（Stage 1、2、4、5）。
+### `coding-agent-stack`
 
-**`long-running-agent-foundation-stack`**：記憶、掃描、時點研究的 Hermes Runtime 接線與版本尚未查明。下一步：核對三種 Plugin 的 Host 版本、權限與 API 介面。候選 Resource／Stage：`hermes-memory-wiki`（Stage 1）、`hermes-snyk-plugin`（Stage 2）、`hermes-backsearch`（Stage 3）。
+與大型 Codebase 組合有多個共用工具，但成本／Fallback 是不同問題。下一步：核對 Agent Host 與 Provider 能力及相同任務的 Token／成本基線。候選 Resource／Stage：`omniroute`（Stage 1）、`graft`（Stage 2）、`rtk`（Stage 3）、`openai-codex`（Stage 4）。
 
-**`reference-agent-implementation`**：參考網站與 Agent／QA 工具混用，適合先整理分 Stage 選項。下一步：核實設計引用授權及 Browse QA，分開 Reference 與實作工具。候選 Resource／Stage：`inspora`（Stage 1）、`wellmade`（Stage 1）、`bencho`（Stage 1）、`landing-love`（Stage 1）、`maxibestof`（Stage 1）、`frontend-design`（Stage 4）、`impeccable`（Stage 3、4、5）、`google-stitch`（Stage 4）、`openai-codex`（Stage 4）。
+### `cross-agent-continuity-stack`
 
-**`spec-multi-agent-delivery-evidence-qa-stack`**：Matt Skills、LoopAgentTeams 與 HCOM 的跨工具執行契約未齊。下一步：核對 HCOM、工作樹、Spec/Tickets 以及獨立 QA 的實際介面。候選 Resource／Stage：`loopagentteams`（Stage 2）、`mattpocock-skills`（Stage 未建立）、`openai-codex`（Stage 4）。
+版本 Handoff Stage 已有 Gate，但跨 Host Memory／Permission 無實測。下一步：核對不同 Agent 的讀寫入口、權限及版本化 Handoff 交接。候選 Resource／Stage：`ai-memory`（Stage 1）、`orca`（Stage 2）、`omniroute`（Stage 3）、`openai-codex`（Stage 4）。
 
-**`stack`**：Onyx 文件 ACL 與 WrenAI SQL 的版本及權限隔離未實測。下一步：核對 MinerU/Crawl4AI→Onyx、WrenAI 的真實來源權限及證據整合。候選 Resource／Stage：`onyx`（Stage 2）、`wrenai`（Stage 3）、`unclecode-crawl4ai`（Stage 1）、`opendatalab-mineru`（Stage 1）。
+### `generative-ui-stack`
 
-**`stateful-repository-agent-automation-stack`**：原始 notes 明確不宣稱 gh-aw／Hindsight 官方整合，GitHub 寫入另有授權。下一步：檢查 Hindsight 介面、gh-aw Safe Outputs 與權限隔離的沙盒案例。候選 Resource／Stage：`github-agentic-workflows`（Stage 1、4）、`hindsight`（Stage 2、5）、`openai-codex`（Stage 3）。
+OpenUI／shadcn／Stitch 不具已證明的 Component Schema 互通性。下一步：取得允許元件 Schema、Renderer、A11y 與互動驗證案例。候選 Resource／Stage：`openui`（Stage 3）、`shadcn-ui`（Stage 2）、`google-stitch`（Stage 1）、`frontend-design`（Stage 1）。
 
-**`system-1-system-2-agent-routing-stack`**：未有真正 Laya 校準或 OmniRoute／Codex 實測，先保留 Risk-first Gate。下一步：做獨立校準與 Provider 介面／資料政策實測；不能以分數直接放行。候選 Resource／Stage：`laya`（Stage 1）、`omniroute`（Stage 3）、`openai-codex`（Stage 4）。
+### `goal-build-evidence-learning-loop`
 
-**`voice-publish-evidence-social-content-loop`**：只有 social-post 為正式成員，發布與成效分析要獨立安全 Gate。下一步：確定工具草稿能力及人工核准與平台發布能力後才提正式選項。候選 Resource／Stage：`social-post`（Stage 1、2、3）。
+零正式成員，核心是可重複的學習驗收程序，不是已證明的工具組合。下一步：先核實 unresolved 技能來源，再於 Workflow 提出工具候選，不創造 Resource。候選 Resource／Stage：無已正式關聯的 Resource；不補入 unresolvedMembers。
 
-**`web-research-agent-stack`**：平台存取、Crawl4AI 抽取、LLM 整理缺可重跑、可核對之介面。下一步：核對平台條款、抽取來源、時點引用及 SQLite 匯入驗證。候選 Resource／Stage：`agent-reach`（Stage 1）、`unclecode-crawl4ai`（Stage 2）、`llm`（Stage 3）。
+### `local-pii-ai-processing-loop`
+
+僅一個正式 Resource，敏感資料處理 Gate 比組合名稱重要。下一步：先驗證本機 Mapping、漏遮罩測試與雲端資料出站政策。候選 Resource／Stage：`pii-guard`（Stage 1、2、4、5）。
+
+### `long-running-agent-foundation-stack`
+
+記憶、掃描、時點研究的 Hermes Runtime 接線與版本尚未查明。下一步：核對三種 Plugin 的 Host 版本、權限與 API 介面。候選 Resource／Stage：`hermes-memory-wiki`（Stage 1）、`hermes-snyk-plugin`（Stage 2）、`hermes-backsearch`（Stage 3）。
+
+### `reference-agent-implementation`
+
+參考網站與 Agent／QA 工具混用，適合先整理分 Stage 選項。下一步：核實設計引用授權及 Browse QA，分開 Reference 與實作工具。候選 Resource／Stage：`inspora`（Stage 1）、`wellmade`（Stage 1）、`bencho`（Stage 1）、`landing-love`（Stage 1）、`maxibestof`（Stage 1）、`frontend-design`（Stage 4）、`impeccable`（Stage 3、4、5）、`google-stitch`（Stage 4）、`openai-codex`（Stage 4）。
+
+### `spec-multi-agent-delivery-evidence-qa-stack`
+
+Matt Skills、LoopAgentTeams 與 HCOM 的跨工具執行契約未齊。下一步：核對 HCOM、工作樹、Spec/Tickets 以及獨立 QA 的實際介面。候選 Resource／Stage：`loopagentteams`（Stage 2）、`mattpocock-skills`（Stage 未建立）、`openai-codex`（Stage 4）。
+
+### `stack`
+
+Onyx 文件 ACL 與 WrenAI SQL 的版本及權限隔離未實測。下一步：核對 MinerU/Crawl4AI→Onyx、WrenAI 的真實來源權限及證據整合。候選 Resource／Stage：`onyx`（Stage 2）、`wrenai`（Stage 3）、`unclecode-crawl4ai`（Stage 1）、`opendatalab-mineru`（Stage 1）。
+
+### `stateful-repository-agent-automation-stack`
+
+原始 notes 明確不宣稱 gh-aw／Hindsight 官方整合，GitHub 寫入另有授權。下一步：檢查 Hindsight 介面、gh-aw Safe Outputs 與權限隔離的沙盒案例。候選 Resource／Stage：`github-agentic-workflows`（Stage 1、4）、`hindsight`（Stage 2、5）、`openai-codex`（Stage 3）。
+
+### `system-1-system-2-agent-routing-stack`
+
+未有真正 Laya 校準或 OmniRoute／Codex 實測，先保留 Risk-first Gate。下一步：做獨立校準與 Provider 介面／資料政策實測；不能以分數直接放行。候選 Resource／Stage：`laya`（Stage 1）、`omniroute`（Stage 3）、`openai-codex`（Stage 4）。
+
+### `voice-publish-evidence-social-content-loop`
+
+只有 social-post 為正式成員，發布與成效分析要獨立安全 Gate。下一步：確定工具草稿能力及人工核准與平台發布能力後才提正式選項。候選 Resource／Stage：`social-post`（Stage 1、2、3）。
+
+### `web-research-agent-stack`
+
+平台存取、Crawl4AI 抽取、LLM 整理缺可重跑、可核對之介面。下一步：核對平台條款、抽取來源、時點引用及 SQLite 匯入驗證。候選 Resource／Stage：`agent-reach`（Stage 1）、`unclecode-crawl4ai`（Stage 2）、`llm`（Stage 3）。
 
 ## 為何這次不是直接整理掉 Combination
 

@@ -1,3 +1,13 @@
+## Phase 3 Audit 08｜Workflow Usability Walkthrough 進行中（2026-11-24）
+
+- Baseline main `7049717491e300bb7af7bc9a9086c67a8ff7bed6`。
+- 對 3 條具體使用任務做瀏覽器端操作驗證，不將自動化測試冒充使用者研究或「5 秒測試」。
+- 從已上線程式碼確認：點選 Workflow 不更新分享網址、帶有 Problem+Workflow 的深連結忽略指定 Workflow、零搜尋結果難以重設、Audit06 證據連結無法直接定位案例。
+- 修復 URL 更新／Browser Back Forward／衝突網址處理、清除篩選與 17 筆個案深連結；保留原始 Workflow、17 組 Combination、58 個候選、Recipe／自由草稿。
+- 驗收及限制：[Audit08 Task Walkthrough](WORKFLOW_USABILITY_PHASE08_20261124.md)，等待 PR/main CI 與實際部署結果。所有原始 Canonical／Graph／Typed References 不變。
+
+---
+
 # Knowledge Relations｜Phase 3 Audit 07 Handoff（2026-11-24）
 
 **最終驗收：PASS WITH GAPS。** Workflow Playground 已發布唯讀 Implementation Options Review：17／17 個同 ID Pair、58 個正式 Resource Stage 候選；13 項 Source Integrity 測試與 PR／main／本機、正式站 Chromium 全部通過。**工具實際互通、跨 Workflow 重用、授權與商用條件未驗證**。
