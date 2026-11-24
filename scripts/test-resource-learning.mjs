@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {validateResourceLayerLinks,resolveResourceLayerLinks} from './resource-layer-links.mjs';
 
 const ID='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
 const resource=JSON.parse(fs.readFileSync('data/resources/'+ID+'.json','utf8'));
@@ -138,4 +139,44 @@ test('Phase 3 batch 02: catalog, guide routes and review boundaries',()=>{
    assert.doesNotMatch(html,/class="repo-guide"/);
   }
  }
+});
+
+test('Human and agent layers resolve both directions and reject unsupported mappings',()=>{
+ const d=JSON.parse(fs.readFileSync('data/resources/pydantic-pydantic-ai.json','utf8'));
+ const built=catalog.resources.find(r=>r.id===d.id);
+ assert.deepEqual(built.readerGuide,d.readerGuide);
+ assert.deepEqual(built.repoGuide,d.repoGuide);
+ assert.deepEqual(validateResourceLayerLinks(d),[]);
+ const forward=resolveResourceLayerLinks(d,{caseId:'document-extraction'});
+ assert.equal(forward.useCases[0].id,'document-extraction');
+ assert.equal(forward.example.id,'resume-extraction');
+ assert.ok(forward.capabilities.some(c=>c.id==='typed-output'&&c.symbols.includes('output_type')&&c.sourceUrls.every(u=>u.includes(d.source.upstreamCommit))));
+ assert.ok(forward.externalDependencies.some(s=>s.stepId==='prepare-text'));
+ assert.ok(forward.externalDependencies.some(s=>s.stepId==='deliver-result'));
+ assert.equal(forward.example.verificationStatus,'design-only');
+ assert.ok(forward.capabilities.every(c=>c.runtimeStatus==='not-tested'));
+ const reverse=resolveResourceLayerLinks(d,{capabilityId:'typed-output'});
+ assert.deepEqual(reverse.useCases.map(u=>u.id),['document-extraction','workflow-integration']);
+ assert.deepEqual(reverse.capabilities[0].exampleStepIds,['extract-fields']);
+ assert.deepEqual(reverse.example.steps.map(s=>s.id),['extract-fields']);
+ const query=resolveResourceLayerLinks(d,{caseId:'data-query'});
+ assert.equal(query.example,null);
+ assert.deepEqual(query.capabilities.map(c=>c.id),['function-tools','usage-limits']);
+ for(const [mutate,pattern] of [
+  [x=>x.readerGuide.useCases[0].capabilityRefs.push('missing'),/dangling reference/],
+  [x=>x.readerGuide.useCases[1].id=x.readerGuide.useCases[0].id,/duplicate use case/],
+  [x=>x.repoGuide.capabilities.push({...x.repoGuide.capabilities[0],id:'orphan'}),/orphan capability/],
+  [x=>delete x.readerGuide.example.steps[0].externalDependency,/requires references/],
+  [x=>x.repoGuide.capabilities[0].sourceFiles=[],/lacks source anchors/],
+  [x=>x.readerGuide.example.verificationStatus='runtime-tested',/needs its own evidence/],
+  [x=>x.repoGuide.capabilities[0].runtimeStatus='verified',/invalid runtime claim/]
+ ]){
+  const copy=structuredClone(d);mutate(copy);assert.match(validateResourceLayerLinks(copy).join('\n'),pattern);
+ }
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ const html=context.detail(built);
+ assert.match(html,/data-use-case-id="document-extraction"/);
+ assert.match(html,/data-example-id="resume-extraction"/);
+ assert.doesNotMatch(html,/pydantic_ai_slim\/pydantic_ai|class="repo-guide"/);
 });
