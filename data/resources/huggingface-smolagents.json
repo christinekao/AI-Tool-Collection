@@ -7,7 +7,7 @@
   "category": "AI Agent / Framework & Learning",
   "resourceType": "CodeAgent 與 Agent 工具框架",
   "purpose": "使用簡潔的 Agent 介面探索工具使用、程式碼型行動與多 Agent 協作。",
-  "recommendation": "適合研究 Agent 規劃與工具調用；需要執行程式碼時，必須先建立隔離及權限限制。",
+  "recommendation": "需要在受限環境研究模型如何用程式碼組合工具時，可評估 CodeAgent；若需要固定 Schema、清楚的操作白名單或可預測的副作用，優先評估 ToolCallingAgent 或一般 Workflow。",
   "url": "https://github.com/huggingface/smolagents",
   "repo": "huggingface/smolagents",
   "notes": "",
@@ -33,20 +33,25 @@
     "taxonomyVersion": "1.0"
   },
   "features": [
-    "提供 CodeAgent 的實作路徑，讓 Agent 以程式碼操作工具。",
-    "可以用範例了解工具與模型如何協調完成工作。"
+    "前者把動作寫成程式碼，後者使用具名工具及參數；兩者共同使用 MultiStepAgent 迴圈。",
+    "CodeAgent 預設 local；executor_type 另宣告 blaxel、e2b、modal、docker。選擇環境不等於安全已驗收。",
+    "_run_stream 追蹤 step_number，依 final answer 或 max_steps 控制迴圈。",
+    "LocalPythonExecutor 產出 CodeOutput，包含 output、logs、is_final_answer，供下一步或完成判斷使用。"
   ],
   "requirements": [
-    "依上游文件準備 Python、模型提供者與受限的執行環境。"
+    "Python 隔離環境；依選定模型及執行器準備依賴。",
+    "先採無外部連線的測試環境與純函式工具，避免接觸真實資料及憑證。"
   ],
   "limitations": [
-    "執行模型產生的程式碼有副作用及安全風險；預設範例不能取代沙箱、審核和測試。"
+    "local 執行器不等於完整安全沙箱；即使限制 import，外部工具仍可有副作用。",
+    "未實測遠端執行器、模型、工具整合或隔離強度。"
   ],
   "source": {
     "url": "https://github.com/huggingface/smolagents",
     "type": "Official GitHub repository metadata and README",
     "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewScope": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited.",
+    "upstreamCommit": "5107d3aec21d26ed808aabd95d93a63d4244226f"
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -57,13 +62,13 @@
     ],
     "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +77,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "完成限定範圍的核心來源指南，明確保留完整框架重建與實測缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +91,219 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited."
     }
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以輕量多步迴圈比較模型的具名工具呼叫與程式碼式工具協作。此指南聚焦兩種 Agent 和本機執行介面。",
+    "status": [
+      {
+        "label": "核心原始碼",
+        "value": "已查閱固定 Commit"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約可作設計參考，完整框架尚待查核"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Apache 2.0"
+      },
+      {
+        "label": "重點",
+        "value": "CodeAgent · ToolCallingAgent"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "CodeAgent 與 ToolCallingAgent",
+        "detail": "前者把動作寫成程式碼，後者使用具名工具及參數；兩者共同使用 MultiStepAgent 迴圈。",
+        "source": "src/smolagents/agents.py"
+      },
+      {
+        "title": "控制執行環境",
+        "detail": "CodeAgent 預設 local；executor_type 另宣告 blaxel、e2b、modal、docker。選擇環境不等於安全已驗收。",
+        "source": "src/smolagents/agents.py"
+      },
+      {
+        "title": "逐步停止",
+        "detail": "_run_stream 追蹤 step_number，依 final answer 或 max_steps 控制迴圈。",
+        "source": "src/smolagents/agents.py"
+      },
+      {
+        "title": "執行回傳",
+        "detail": "LocalPythonExecutor 產出 CodeOutput，包含 output、logs、is_final_answer，供下一步或完成判斷使用。",
+        "source": "src/smolagents/local_python_executor.py"
+      }
+    ],
+    "architecture": {
+      "summary": "任務 → 模型動作 → 執行與觀察 → 停止或下一步",
+      "nodes": [
+        {
+          "title": "定義任務",
+          "detail": "MultiStepAgent 接收 task、tools、model 及 max_steps。",
+          "files": [
+            "src/smolagents/agents.py"
+          ]
+        },
+        {
+          "title": "模型決定下一步",
+          "detail": "ToolCallingAgent 選具名工具，CodeAgent 產生待執行程式碼。",
+          "files": [
+            "src/smolagents/agents.py"
+          ]
+        },
+        {
+          "title": "執行及觀察",
+          "detail": "LocalPythonExecutor 接收程式碼，回傳 CodeOutput 與執行紀錄；工具的副作用仍須由系統限制。",
+          "files": [
+            "src/smolagents/local_python_executor.py"
+          ]
+        },
+        {
+          "title": "終止或繼續",
+          "detail": "_run_stream 依 final answer、step_number 及 max_steps 控制流程。",
+          "files": [
+            "src/smolagents/agents.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "執行策略",
+        "rule": "executor_type 預設 local；additional_authorized_imports 不應放寬為任意匯入。",
+        "source": "src/smolagents/agents.py"
+      },
+      {
+        "name": "迴圈終止",
+        "rule": "max_steps 限制步數；最終答案須依業務標準驗證。",
+        "source": "src/smolagents/agents.py"
+      },
+      {
+        "name": "輸出及狀態",
+        "rule": "CodeOutput 含 output、logs 與 is_final_answer；執行紀錄可能包含敏感資訊，須管理。",
+        "source": "src/smolagents/local_python_executor.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "先看原始碼",
+        "description": "從固定 Commit 的核心檔案理解介面；不需安裝即可研究。",
+        "commands": [],
+        "files": [
+          "src/smolagents/agents.py",
+          "src/smolagents/local_python_executor.py"
+        ],
+        "approval": false
+      },
+      {
+        "title": "建立隔離測試",
+        "description": "官方 README 提供 pip install smolagents 的入口；先固定版本並審查依賴，只在隔離測試環境使用無副作用工具。",
+        "commands": [],
+        "files": [
+          "README.md"
+        ],
+        "approval": true,
+        "approvalNote": "安裝第三方套件、連線及使用憑證需事先核准；本次未執行。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "新增一個純函式工具",
+        "detail": "使用固定輸入及輸出，對比 ToolCallingAgent 和 CodeAgent 的同一任務結果；限制可用工具。",
+        "file": "src/smolagents/agents.py"
+      },
+      {
+        "title": "補失敗路徑",
+        "detail": "測無效工具參數、程式錯誤、步數上限及禁止的操作。",
+        "file": "src/smolagents/agents.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "agent-loop",
+        "name": "多步工具協作",
+        "problem": "模型需要觀察工具結果再決定下一步",
+        "input": "任務、模型、工具清單與步數限制",
+        "output": "最終結果、步驟與執行狀態",
+        "source": "src/smolagents/agents.py",
+        "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+      }
+    ],
+    "workflow": {
+      "title": "假資料的分析任務（設計示例）",
+      "problem": "比較兩種 Agent 對同一分析工作的表現",
+      "steps": [
+        {
+          "capability": "agent-loop",
+          "action": "對同一個假資料計算任務限制工具與步數，比對輸出及執行紀錄。"
+        }
+      ],
+      "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+    },
+    "rebuild": {
+      "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
+      "stages": [
+        {
+          "title": "01 定義契約",
+          "detail": "建立工具、模型動作、觀察結果與停止條件。",
+          "deliverable": "輸入輸出規格"
+        },
+        {
+          "title": "02 建立最小測試",
+          "detail": "使用固定回應的模擬模型測兩步迴圈與停止。",
+          "deliverable": "可重現 Mock 測試"
+        },
+        {
+          "title": "03 驗證真實環境",
+          "detail": "核對依賴、模型服務、權限、費用、失敗及資料處理，再決定能否接正式流程。",
+          "deliverable": "實際驗收與風險紀錄"
+        }
+      ],
+      "gaps": [
+        "遠端 executor、工具註冊與外部服務隔離尚未逐檔審查。",
+        "Runtime、Security、Integration 及第三方依賴授權未測。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "模型產生程式碼",
+        "severity": "高",
+        "issue": "程式碼執行可能存取不應接觸的資料或造成副作用。",
+        "control": "隔離網路、檔案、憑證與工具；不依賴模型自行遵守安全規則。"
+      },
+      {
+        "title": "成本及迴圈",
+        "severity": "高",
+        "issue": "多步請求可能增加成本或延遲。",
+        "control": "設上限、測錯誤、保留紀錄並明訂停止條件。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本核心原始碼與 LICENSE",
+        "state": "已查閱",
+        "evidence": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited."
+      },
+      {
+        "item": "安裝／Runtime／Integration",
+        "state": "未驗證",
+        "evidence": "本次無第三方執行"
+      }
+    ]
   }
 }

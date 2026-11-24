@@ -488,7 +488,14 @@ try{
   ['agent-reach','.repo-guide','核心判斷規則'],
   ['arrow-2','.detail-panel','輸出驗收'],
   ['addyosmani-agent-skills','.detail-panel','選擇方法'],
-  ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）']
+  ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）'],
+  ['pydantic-pydantic-ai','.repo-guide','型別化輸出'],
+  ['huggingface-smolagents','.repo-guide','CodeAgent 與 ToolCallingAgent'],
+  ['microsoft-ai-agents-for-beginners','.learning-guide','主題重點筆記（3 章）'],
+  ['nirdiamant-genai-agents','.detail-panel','比較方式'],
+  ['anthropics-skills','.detail-panel','建立及改善技能'],
+  ['openrouter-ai','.detail-panel','供應商策略'],
+  ['google-pagespeed-insights','.detail-panel','Field data']
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -509,12 +516,13 @@ try{
    assert.equal(await evaluate('location.hash'),'#/resources/agent-reach','Repository section navigation must not discard resource route');
    assert.ok(await evaluate('!!document.querySelector(".repo-guide #repo-architecture")'));
   }
-  if(id==='ai-code-acceptance-review-testing-rollout-guide'){
-   assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),4);
-   assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),4);
+  if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners'].includes(id)){
+   const expected=id==='microsoft-ai-agents-for-beginners'?3:4;
+   assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),expected);
+   assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 four rendered Resource pages at 375/430/768/1440px; repository section navigation; four learning exercises');
+ console.log('PASS: Phase 3 eleven Resource pages at 375/430/768/1440px; repository section navigation and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

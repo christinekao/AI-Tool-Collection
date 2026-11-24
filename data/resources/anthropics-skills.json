@@ -7,13 +7,13 @@
   "category": "06 Skills",
   "resourceType": "Skill Collection",
   "purpose": "Anthropic 公開的 Agent Skills 規格、範例與文件類技能，示範 SKILL.md 如何封裝任務指示、輔助檔案與逐步載入。",
-  "recommendation": "適合研究 Skill 結構、建立自有任務技能或選用文件處理範例；要區分整個 Repo 和單獨的 frontend-design 等 Skill。",
+  "recommendation": "需要建立自己的可重複工作方式時，先從 template 與 skill-creator 找結構和測試方法；需要執行具體任務時，才選一個對應技能，不必安裝整套集合。",
   "url": "https://github.com/anthropics/skills",
   "repo": "anthropics/skills",
-  "notes": "",
+  "notes": "版本化索引：https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/README.md 。本次查核範圍見 source.reviewScope。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-24",
   "tags": [
     "skills",
     "agent-design",
@@ -30,8 +30,9 @@
     "type": "Official GitHub repository",
     "summary": "Historical V1 resource collection restored as a distinct repository-level Resource; official repository identity verified 2026-11-12.",
     "readmeUrl": "https://github.com/anthropics/skills/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README or source SKILL.md only; no code execution, install, dependency, license or integration audit"
+    "reviewedAt": "2026-11-24",
+    "reviewScope": "Official README index plus pinned template/SKILL.md, webapp-testing/SKILL.md, skill-creator/SKILL.md; no execution or per-skill license audit.",
+    "upstreamCommit": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba"
   },
   "legacyMetadata": {
     "sources": [
@@ -61,17 +62,20 @@
     "taxonomyVersion": "1.0"
   },
   "features": [
-    "提供 Skill 規格與多份範例目錄。",
-    "README 說明 Claude Code、Claude.ai 與 API 的不同使用入口。",
-    "包含最小 SKILL.md 範例與技能設計指引。"
+    "結構入門｜template/SKILL.md 示範最小 YAML frontmatter：name 與 description；正文交代任務規則。description 應同時描述能力與觸發情境。",
+    "建立及改善技能｜skills/skill-creator/SKILL.md 將需求、草稿、測試提示、定量／定性評估與迭代串起來；可比較有／無 Skill 的表現，而非只檢查文字是否漂亮。",
+    "實際驗收網頁｜skills/webapp-testing/SKILL.md 採 Playwright，先讓頁面完成渲染，再取得 DOM 或畫面、辨認選擇器與執行操作；適合驗證真正的互動。",
+    "文件產出與設計｜官方 skills/ 索引還包含 docx、pdf、pptx、xlsx 等文件技能及設計範例；本輪僅核對索引，並未審查各自的實作。"
   ],
   "requirements": [
-    "先確認目標 Host 的技能／插件支援方式。",
-    "逐一審查下載的技能指令、腳本與外部依賴再使用。"
+    "選讀：依任務列出輸入、預期產物、觸發條件與不應觸發的情況，再從 pinned 目錄挑選對應 SKILL.md。",
+    "使用：確認目標 Host 的安裝規則與工具權限，先在單一專案試用；檢查腳本、外部依賴及授權。",
+    "驗收示例：建立 Resource 教材整理 Skill，準備 Repo、服務、教材及來源不足四種輸入；比較結果是否選對版型、保留來源且沒有虛構已測狀態。"
   ],
   "limitations": [
-    "Repo 包含多個技能，不能將整個 Repo 視為一個可執行 Skill。",
-    "支援方式、適用權限及輸出品質會因 Host、模型與技能內容而異。"
+    "官方集合為示範與教育用途；同名 Host 內建能力可能與 Repo 不同。",
+    "README 宣告多項技能為 Apache 2.0；不同子目錄可能另有 LICENSE，本輪未逐一確認。",
+    "未安裝技能、執行腳本或核對跨 Host 相容性。"
   ],
   "intakeReview": {
     "policyVersion": "1.0",
@@ -80,7 +84,7 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -95,9 +99,9 @@
     },
     "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -110,7 +114,7 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "Official README index plus pinned template/SKILL.md, webapp-testing/SKILL.md, skill-creator/SKILL.md; no execution or per-skill license audit."
     }
   }
 }

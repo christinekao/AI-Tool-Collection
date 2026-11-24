@@ -7,7 +7,7 @@
   "category": "AI Agent / Framework & Learning",
   "resourceType": "Agent 系統性入門課程",
   "purpose": "從 Agent 核心概念出發，依課程學習工具使用、記憶、檢索增強生成與多代理應用的設計與實作。",
-  "recommendation": "適合想先建立 Agent 全貌，再挑選一個小型範例練習的讀者；優先由繁體中文目錄選一章實作。",
+  "recommendation": "先用 Agent 基礎、Tool Use 與可信任設計三章建立最小可控 Agent，再依需求選讀原課程的 RAG、Planning、Multi-Agent、Context、Memory 與部署安全；不要先從複雜多 Agent 範例開始。",
   "url": "https://github.com/microsoft/ai-agents-for-beginners",
   "repo": "microsoft/ai-agents-for-beginners",
   "notes": "",
@@ -33,21 +33,25 @@
     "taxonomyVersion": "1.0"
   },
   "features": [
-    "提供按主題安排的 Agent 課程與實作範例。",
-    "提供臺灣繁體中文翻譯入口，便於依課程循序學習。"
+    "課程索引目前涵蓋基礎、設計模式、工具、RAG、可信任 Agent、規劃、協作、協定、Context、Memory、部署與安全等主題。",
+    "本頁先深入第 01、04、06 章；原課程其餘章節從原始目錄選讀。",
+    "課程目前主要使用 Microsoft Agent Framework 與 Microsoft Foundry Agent Service V2；以該版課程 Setup 為準。"
   ],
   "requirements": [
-    "閱讀課程先核對每章使用的語言、模型服務與環境設定。"
+    "概念學習不需先開 Azure；執行正式範例才依 Course Setup 核對 Python、Azure 帳號、模型部署與費用。",
+    "先用本機假資料及只讀工具練習，需外部服務時再取得核准與配置最小權限。"
   ],
   "limitations": [
-    "不同章節可能使用不同 SDK、API 金鑰或外部服務；翻譯與主線更新不一定同步。"
+    "只完成三個選讀章節的教學整理，不宣稱整門課程已逐章查核。",
+    "原始 Notebook、程式執行及整合未測；翻譯可能落後英文主線。"
   ],
   "source": {
     "url": "https://github.com/microsoft/ai-agents-for-beginners",
     "type": "Official GitHub repository metadata and README",
     "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests",
-    "originalSavedUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-TW/README.md"
+    "reviewScope": "Pinned course index and lessons 01, 04, 06 only; partial guided study, not whole-course review.",
+    "originalSavedUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-TW/README.md",
+    "upstreamCommit": "3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e"
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -58,13 +62,13 @@
     ],
     "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -74,7 +78,7 @@
     "readingSpec": {
       "id": "learning",
       "status": "deferred",
-      "reason": "尚未逐章閱讀、完成教學範例及自我驗收，暫不標為深入教材已完成。"
+      "reason": "已完成第 01、04、06 章選讀教材，整門課程的其他章節仍待深入查核。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -87,7 +91,88 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "Pinned course index and lessons 01, 04, 06 only; partial guided study, not whole-course review."
     }
+  },
+  "learningGuide": {
+    "version": 2,
+    "headline": "三個基礎章節選讀：從 Agent 的用途到工具與安全邊界",
+    "takeaway": "先判斷是否需要動態行動，再建立工具契約及獨立權限檢查。",
+    "audience": "初次建立 Agent 或想從固定自動化轉向受控 Agent 的開發者。",
+    "outcomes": [],
+    "readingPath": [],
+    "modules": [
+      {
+        "id": "agent-intro",
+        "group": "先學",
+        "title": "何時需要 Agent？",
+        "question": "何時固定流程已足夠，何時才需要 Agent？",
+        "learn": "先定義任務的環境、可讀取的狀態與允許的動作，才能判斷系統是否需要行動能力。",
+        "essentials": [
+          "先定義任務的環境、可讀取的狀態與允許的動作，才能判斷系統是否需要行動能力。",
+          "固定規則可完成時，不需要模型決定下一步；遇到資訊缺口及多種合法操作，才考慮動態決策。",
+          "明訂完成條件與停止條件，防止模型反覆執行沒有進展的工作。"
+        ],
+        "example": "示例：查詢某筆申請狀態只需固定 API；若要從多個已授權來源判斷缺少的資訊，再考慮讓 Agent 選擇下一個查詢。",
+        "apply": "選一個固定自動化流程，標出環境、讀取工具、可執行動作與完成條件。",
+        "output": "一張包含固定流程替代方案的系統設計表。",
+        "sourceUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/01-intro-to-ai-agents/README.md"
+      },
+      {
+        "id": "tool-contract",
+        "group": "先學",
+        "title": "Tool Use 的執行鏈",
+        "question": "模型提出工具呼叫後，誰真正執行？",
+        "learn": "工具定義讓模型知道名稱、用途及參數；模型回傳呼叫建議，不等於已執行。",
+        "essentials": [
+          "工具定義讓模型知道名稱、用途及參數；模型回傳呼叫建議，不等於已執行。",
+          "應用程式驗證參數、身份及權限，再執行工具並將結果與呼叫識別資訊送回模型。",
+          "將逾時、無資料與拒絕存取轉成可區別的結果；不可讓模型憑空補出查詢資料。"
+        ],
+        "example": "示例：只讀的 get_ticket_status 接受 ticket_id，回傳狀態或 access_denied；Agent 不應因查不到就自行建立新工單。",
+        "apply": "設計工具 JSON Schema，寫出正常、無效 ID、越權與逾時四種預期回傳。",
+        "output": "一份工具 I/O 契約及四個失敗處理案例。",
+        "sourceUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/04-tool-use/README.md"
+      },
+      {
+        "id": "trust-boundary",
+        "group": "先學",
+        "title": "可信任 Agent",
+        "question": "如何防止 Agent 做出未授權操作？",
+        "learn": "在系統指令寫明職責與不應執行的行為，但不能把指令本身當成安全控制。",
+        "essentials": [
+          "在系統指令寫明職責與不應執行的行為，但不能把指令本身當成安全控制。",
+          "於工具／資料層實作最小權限與使用者驗證；寫入、傳送、刪除等副作用須依風險核准。",
+          "用代表性正常與越權案例驗證，記錄哪些拒絕應由程式強制執行，而非只相信模型回覆。"
+        ],
+        "example": "示例：員工支援 Agent 只能查本人申請狀態；對他人資料的查詢由後端拒絕，即使提示文字要求略過規則。",
+        "apply": "畫出使用者、模型、工具與資料四層邊界，寫出一個越權案例與預期拒絕結果。",
+        "output": "權限矩陣及可重現的安全驗收案例。",
+        "sourceUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/06-building-trustworthy-agents/README.md"
+      }
+    ],
+    "practice": {
+      "title": "整體練習｜設計只讀工單 Agent（自訂情境）",
+      "scenario": "員工希望查詢自己的工單；不得任意讀取他人資料、修改工單或無限重試。",
+      "tasks": [
+        {
+          "action": "定義最小架構",
+          "deliverable": "固定查詢與 Agent 的選型理由",
+          "sourceId": "agent-intro"
+        },
+        {
+          "action": "設計工具契約",
+          "deliverable": "輸入輸出及錯誤案例",
+          "sourceId": "tool-contract"
+        },
+        {
+          "action": "設計權限驗收",
+          "deliverable": "越權拒絕與停止條件",
+          "sourceId": "trust-boundary"
+        }
+      ],
+      "check": "每個可行動步驟都有可檢查的權限與結果；未測試不得標記通過。"
+    },
+    "caveat": "本頁為三章選讀教材；其餘原課程尚未深入整理。案例與練習是自訂設計，未實測。"
   }
 }
