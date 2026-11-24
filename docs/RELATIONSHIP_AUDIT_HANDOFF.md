@@ -1,12 +1,41 @@
-## Phase 3 Audit 06 進行中（2026-11-24）
+# Knowledge Relations｜Phase 3 Audit 06 Handoff（2026-11-24）
 
-- Baseline main `dc6702deab02a3a42b041f79393a1a8c2587bc05`；Branch `relation-audit-phase06-20261124`。
-- 完整審查 17 個同 ID Combo／Workflow Pair，提出 58 個**只限原始 Resource ID** 的 Workflow Stage 選項候選。
-- 三個動線：Workflow Options First 5、Composition Interface Review 9、Safety Boundary First 3。所有紀錄維持 `retain-original-pending-evidence`。
-- JSON：[Audit06 Review](RELATIONSHIP_AUDIT06_OPTIONS_REVIEW_20261124.json)；逐筆報告：[Audit06 Report](RELATIONSHIP_AUDIT_PHASE06_20261124.md)；10 個測試與原始 Source Integrity Gate。
-- 尚未取得本批 CI／Deploy 收據，不宣稱完成；無 Canonical／Graph／Tags／Typed Refs／UI 變更。
+**最終狀態：PASS WITH GAPS。17／17 Combination–Workflow Pair 完整來源對照、58 個候選 Resource → Workflow Stage 對應；10／10 新增審查測試 PASS。沒有改動任何 Canonical 或正式 Graph。**
+
+## PR 與驗證回執
+
+- [PR #57](https://github.com/christinekao/AI-Tool-Collection/pull/57) 已 Squash Merge。Base main `dc6702deab02a3a42b041f79393a1a8c2587bc05`，最終 PR Head `ec6bf0c17249eaa7d9beea017894d24561f22ab1`，Merge Commit `fb77d69a54b3d6e26a7c7fba80c64f9e2023fa46`。
+- [PR V2 Data Validate #45309146257](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45309146257)：**PASS**，新增 10／10 tests、0 failures；全庫 Concept、Taxonomy、Workflow Engine、Graph、既有 Audit 01–05 與 V2 Validate PASS。
+- [Main V2 Data Validate #45309237216](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45309237216)：**PASS**。
+- [Merge Pages Deploy #45309236521](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45309236521)：**PASS**，完成 2026-11-24 **02:01:32 UTC**。
+- 6 個非 Canonical 檔案：新增 [Audit06 Review JSON](RELATIONSHIP_AUDIT06_OPTIONS_REVIEW_20261124.json)、[Audit06 Report](RELATIONSHIP_AUDIT_PHASE06_20261124.md)、`scripts/validate-relationship-options.mjs`、`scripts/test-relationship-options.mjs`；更新 V2 CI 與本 Handoff。
+- 完整保留 68 Concepts、36 Workflows、17 Combinations，所有原始 ID、Members、Unresolved Members、Tags、分類、Typed Refs、衍生 Graph／Catalog 及正式網站程式碼均 **0 修改**。
+
+## 新增的知識治理結論
+
+- **17／17** Combo 與同名 Workflow 具相同標題、目標及雙向正式引用；不能由同名直接推論應刪除。
+- **14／17** 缺 `rationale`；其餘 3／17 都少於兩個正式 Resource；**17／17** 尚無不同 Workflow 的正式重用關聯。
+- 針對正式已有的 **58 個 Member** 提出候選 Stage 對應：**Workflow Options 優先 5、Composition Interface 審查 9、安全／權限優先 3**。
+- 所有建議都仍 `retain-original-pending-evidence`、`interoperabilityVerified:false`；單一或零成員的記錄不自動添增 `unresolvedMembers` 成正式 Resource。
+- 已讀 Audit 02 的兩組上游文件審查可作參考；**沒有**將 Audit 03–05 的離線合成 Gate 當作真實工具相容證據。
+- **NOT_TESTED**：實際跨 Workflow 重用、第三方 API／權限／資料型別、商用授權、真正運作與安全、效益量測；本批沒有網站 UI 或 Canonical 更新，專屬 Live Chromium Smoke **NOT_TESTED**。
+- 最後 Docs-only Main Commit 的 Pages 部署結果會寫入 [PR #57 留言](https://github.com/christinekao/AI-Tool-Collection/pull/57)，避免修改 Handoff 造成重複部署。
+
+## 可重現命令
+
+```sh
+node --test scripts/test-relationship-options.mjs
+node scripts/audit-knowledge-relations.mjs --details
+node scripts/validate-v2.mjs
+```
+
+## 下階段建議
+
+先在 **Workflow 的使用者閱讀介面／Review 預覽** 呈現本批 58 個「未驗證 Implementation Options 候選」，清楚區分 Capability／Source／Stage／Compat Status，並讓閱讀者在單一流程看懂用途與證據；**不讓候選覆寫 Canonical**。若要正式寫回 Workflow 或精簡 17 筆 Combination，須有來源／互通證據、依賴與遷移方案及獨立授權。
 
 ---
+
+## 歷史 Audit 05／04／03／02／01 Handoff（完整保留）
 
 # Knowledge Relations｜Phase 3 Audit 05 Handoff（2026-11-23）
 

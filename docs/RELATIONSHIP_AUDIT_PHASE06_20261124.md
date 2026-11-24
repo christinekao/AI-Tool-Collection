@@ -92,4 +92,23 @@ CI 綁定 `docs/RELATIONSHIP_AUDIT06_OPTIONS_REVIEW_20261124.json`、Review Scri
 
 ## Release 與限制
 
-PR／main CI、Pages Deploy 回執待實際檢查。正式 UI／Canonical 沒有改變，獨立 Browser Live Smoke：**NOT_TESTED**。外部相容、來源授權、安全、成本與商業效益：**NOT_TESTED**。
+實際 PR／main CI 與首次合併後 Pages Deploy 已完成 PASS（詳細收據如下）。正式 UI／Canonical 沒有改變，獨立 Browser Live Smoke：**NOT_TESTED**。外部相容、來源授權、安全、成本與商業效益：**NOT_TESTED**。
+
+## Audit 06 最終驗收收據（2026-11-24）
+
+**PASS WITH GAPS**：已完成 Canonical 原文對照及 Candidate Options 的靜態規則／負向回歸；**不是**第三方 Adapter 的執行與相容性實測。
+
+| 驗收項目 | 實際結果 |
+|---|---|
+| [PR #57](https://github.com/christinekao/AI-Tool-Collection/pull/57) | Squash Merge，Head `ec6bf0c17249eaa7d9beea017894d24561f22ab1`、Merge `fb77d69a54b3d6e26a7c7fba80c64f9e2023fa46` |
+| [PR V2 Data Validate #45309146257](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45309146257) | **PASS**，10／10 新增測試，0 FAIL；既有 V2／Graph／Concept／Taxonomy 回歸通過 |
+| [Main V2 Data Validate #45309237216](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45309237216) | **PASS** |
+| [Merge Pages Deploy #45309236521](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45309236521) | **PASS**，完成 02:01:32 UTC |
+| 17／17 Combination Review，58 筆 Resource Stage 候選 | **PASS**，有原始 Canonical Member IDs 且 Stage Index 有效 |
+| 原始 68／36／17 Canonical、Graph／Tags／Typed Refs | **全數保留，0 改動** |
+| 實際外部 Adapter／跨 Workflow 重用／商用授權 | **NOT_TESTED** |
+| 本批專屬 Browser Live Smoke | **NOT_TESTED**（無網站 UI／Canonical 變更） |
+
+最後 Docs-only Main Commit 再觸發 Pages，最終版本部署證據只寫在 [PR #57 留言](https://github.com/christinekao/AI-Tool-Collection/pull/57)，不反覆修改文件以追記部署時間。
+
+下輪的可用性目標應是**把不影響原始資料的候選 Mapping 以 Review 模式供使用者瀏覽與決策**，不能再把單純文字對應自動提升為已證實的跨工具接口。
