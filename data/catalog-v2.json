@@ -607,8 +607,8 @@
       "canonicalName": "Agent Reach",
       "category": "05 Data & Ingestion",
       "resourceType": "Agent Capability Layer / Web & Social Access",
-      "purpose": "為 CLI Agent 安裝並管理多種社群與影音平台的搜尋、讀取和資料擷取通道，提供通道健康檢查及優先／備援後端。",
-      "recommendation": "適合有跨平台公開資料調查需求的 Agent；登入平台時須先評估 Cookie、瀏覽器 Session、服務條款和帳號權限。",
+      "purpose": "讓 AI Agent 透過統一入口搜尋或讀取不同網站支援的內容，不必為每個平台自行建立一套讀取介面。",
+      "recommendation": "適合跨網站蒐集文章、影音資訊與來源證據；如果只讀單一網站且已有官方 API，先用更簡單的官方入口。",
       "url": "https://github.com/Panniantong/Agent-Reach",
       "repo": "Panniantong/Agent-Reach",
       "notes": "Official upstream identified. It positions itself as a capability layer that routes to preferred/fallback platform backends.",
@@ -692,7 +692,7 @@
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，補足人類閱讀及技術對應，不新增重複紀錄。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -716,6 +716,10 @@
         "verification": {
           "status": "not-tested",
           "evidence": "已讀取固定 Commit 核心原始碼及 LICENSE，未安裝、Build、Runtime、Security 或 Integration 測試。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 CLI、Channel、Dispatch、Result 核心證據支持三項用途；各平台讀取及下游摘要仍須獨立驗證。"
         }
       },
       "repoGuide": {
@@ -899,7 +903,18 @@
             "input": "本機已安裝的 Channel 定義",
             "output": "channels 清單與參數",
             "source": "agent_reach/runtime/cli.py",
-            "gate": "確認版本和安裝狀態，未實測"
+            "gate": "確認版本和安裝狀態，未實測",
+            "sourceFiles": [
+              "agent_reach/runtime/cli.py",
+              "agent_reach/channels/base.py"
+            ],
+            "symbols": [
+              "_cmd_channels",
+              "Channel",
+              "Action"
+            ],
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
           },
           {
             "id": "normalized-read",
@@ -908,7 +923,40 @@
             "input": "合法網址或 Channel Action 參數",
             "output": "JSON envelope 與 items/error",
             "source": "agent_reach/runtime/result.py",
-            "gate": "僅讀取已授權的內容，必須保留來源與錯誤，未實測"
+            "gate": "僅讀取已授權的內容，必須保留來源與錯誤，未實測",
+            "sourceFiles": [
+              "agent_reach/runtime/result.py",
+              "agent_reach/runtime/cli.py"
+            ],
+            "symbols": [
+              "envelope",
+              "make_item",
+              "_cmd_read"
+            ],
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "route-and-fallback",
+            "name": "平台路由與備援",
+            "problem": "各網站支援的操作及後端不同",
+            "input": "網址、平台動作及已授權後端",
+            "output": "路由結果或分類錯誤",
+            "source": "agent_reach/runtime/dispatch.py",
+            "sourceFiles": [
+              "agent_reach/runtime/dispatch.py",
+              "agent_reach/runtime/cli.py",
+              "agent_reach/channels/base.py"
+            ],
+            "symbols": [
+              "run_action",
+              "validate_action",
+              "_cmd_read",
+              "Channel.can_handle"
+            ],
+            "gate": "確認平台規則與通道設定；遇登入或禁止存取不得繞過限制，實際平台未測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
           }
         ],
         "workflow": {
@@ -924,7 +972,8 @@
               "action": "在合法公開來源讀取，保留 URL、文字及失敗狀態"
             }
           ],
-          "gate": "示例僅為設計；不得繞過平台限制或將第三方內容當作指令。未執行整合。"
+          "gate": "示例僅為設計；不得繞過平台限制或將第三方內容當作指令。未執行整合。",
+          "readerExampleRef": "research-reading"
         },
         "rebuild": {
           "verdict": "已掌握核心路由與資料契約，可先重建不含登入的 Mock MVP；尚未逐個核對各平台工具及完整註冊、管理流程。",
@@ -986,6 +1035,114 @@
             "state": "未驗證",
             "evidence": "需逐個 adapter 及授權環境測試"
           }
+        ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "web-research",
+            "title": "跨網站資料蒐集",
+            "detail": "從支援的網站取得文章與來源，交給後續摘要或研究流程。",
+            "capabilityRefs": [
+              "channel-discovery",
+              "normalized-read",
+              "route-and-fallback"
+            ]
+          },
+          {
+            "id": "check-platform",
+            "title": "先確認能不能讀",
+            "detail": "檢視已設定的通道與支援動作，避免假設每個網站都能搜尋。",
+            "capabilityRefs": [
+              "channel-discovery"
+            ]
+          },
+          {
+            "id": "track-failure",
+            "title": "辨識資料讀取失敗",
+            "detail": "將讀取不到、需登入或平台限制的結果分開處理，保留錯誤。",
+            "capabilityRefs": [
+              "normalized-read",
+              "route-and-fallback"
+            ]
+          }
+        ],
+        "example": {
+          "id": "research-reading",
+          "title": "整理三篇研究文章",
+          "input": "三個已確認可合法讀取的文章網址。",
+          "process": "確認通道 → 逐筆讀取 → 檢查結果與錯誤 → 交給摘要流程",
+          "output": {
+            "items": [
+              "文章標題、網址、文字（若取得）"
+            ],
+            "errors": [
+              "無法讀取時保留錯誤及網址"
+            ]
+          },
+          "destination": "研究筆記或知識庫；摘要、去重及寫入由下游流程負責。",
+          "note": "自訂設計示例，未連線或執行工具；不保證各平台或網址均可讀取。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "web-research",
+            "check-platform",
+            "track-failure"
+          ],
+          "steps": [
+            {
+              "id": "discover",
+              "title": "確認通道",
+              "capabilityRefs": [
+                "channel-discovery"
+              ]
+            },
+            {
+              "id": "read",
+              "title": "選擇支援路由",
+              "capabilityRefs": [
+                "route-and-fallback"
+              ]
+            },
+            {
+              "id": "check",
+              "title": "保留內容及錯誤",
+              "capabilityRefs": [
+                "normalized-read"
+              ]
+            },
+            {
+              "id": "summarize",
+              "title": "整理至知識庫",
+              "capabilityRefs": [],
+              "externalDependency": "另行設計摘要、去重及寫入流程，保留來源及授權。"
+            }
+          ]
+        },
+        "comparison": {
+          "title": "什麼時候需要它？",
+          "headers": [
+            "單一網站官方 API",
+            "Agent Reach"
+          ],
+          "rows": [
+            [
+              "已知單一網站契約，直接串接較簡單",
+              "多平台需要統一讀取及錯誤處理"
+            ]
+          ],
+          "note": "通道可用性和實際授權需逐項確認。"
+        },
+        "start": [
+          "先檢查固定版本 README、安裝文件、平台需求及授權。",
+          "若獲准安裝，先用 version、channels、doctor 檢視狀態，不直接使用個人登入資料。",
+          "使用無敏感資訊的公開網址驗證可讀性及錯誤處理，再接摘要流程。"
+        ],
+        "limits": [
+          "部分平台功能依賴登入 Session、外部工具及平台政策，不能保證永遠可用。",
+          "官方說明涉及由 Chrome 複製網站登入狀態至專用瀏覽器，可能帶來憑證與隱私風險。",
+          "本次只查固定版本核心程式，未安裝或實測各平台；不保證替代所有 API。"
         ]
       }
     },
@@ -5724,8 +5881,8 @@
       "canonicalName": "Arrow 2",
       "category": "08 UI & Design Engineering",
       "resourceType": "AI Vector Model / Editable SVG Generation",
-      "purpose": "QuiverAI 的向量設計模型，可從文字或圖片生成精確、可編輯的 SVG，並支援 vectorization、editing 與 animation 工作流；可透過 App、API、MCP、Codex/Cursor plugins 與 CLI 整合到 Agent 流程。",
-      "recommendation": "先判斷你需要新的圖案、重現既有圖片，還是只修改現有 SVG。適合可重複著色、縮放與程式化調整的介面圖示、品牌插畫；若成品是照片或依賴像素紋理，通常保留點陣圖較合理。",
+      "purpose": "用文字描述生成可縮放的 SVG 圖示與插畫，也能把既有圖片轉成向量圖或修改 SVG。",
+      "recommendation": "適合網站圖示、品牌素材及向量插畫；若要攝影寫實圖片或精確複製商標，應考慮其他工具並確認權利。",
       "url": "https://quiver.ai/",
       "repo": "",
       "notes": "Official QuiverAI source confirmed on 2026-09-17. Arrow 2 is positioned for generating and editing production-ready vector graphics; QuiverAI also exposes text-to-SVG and image-to-SVG APIs plus MCP/plugins for agent workflows.\nPhase 3 查核入口： https://docs.quiver.ai/developers/models/text-to-svg ; https://docs.quiver.ai/developers/models/image-to-svg ; https://docs.quiver.ai/api-reference/edit-svg/edit-svg ; https://docs.quiver.ai/app/prompt-guide ; https://docs.quiver.ai/api-reference/introduction . 24 px 圖示為自訂示範，未實測。",
@@ -5803,7 +5960,14 @@
         "readmeUrl": "https://quiver.ai/",
         "reviewedAt": "2026-11-24",
         "type": "Official author / product documentation",
-        "reviewScope": "Official product documentation: model selection, native generation/vectorization/edit references, prompt guide and Responses test-key behavior; no API execution."
+        "reviewScope": "Official product documentation: model selection, native generation/vectorization/edit references, prompt guide and Responses test-key behavior; no API execution.",
+        "referenceUrls": [
+          "https://docs.quiver.ai/api-reference/create-svgs/generate-svg",
+          "https://docs.quiver.ai/api-reference/vectorize-svg/vectorize-svg",
+          "https://docs.quiver.ai/api-reference/edit-svg/edit-svg",
+          "https://docs.quiver.ai/app/prompt-guide",
+          "https://docs.quiver.ai/developers"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -5819,7 +5983,7 @@
             "id",
             "url"
           ],
-          "reason": "比對現有 ID 和原始來源，本批只更新既有資料，不新增新 Entity。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀與證據對應，不建立重複紀錄。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -5843,7 +6007,165 @@
         "verification": {
           "status": "not-tested",
           "evidence": "官方 API/Prompt 文件已查核；Sandbox、實際 API、SVG 品質、商用條款均未測。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "官方生成、向量化、編輯與 Prompt 文件對應用途；驗收是獨立設計，不虛構產品程式碼。"
         }
+      },
+      "agentEvidence": [
+        {
+          "id": "generate-svg",
+          "detail": "文字提示生成 SVG；原生生成端點 POST /v1/svgs/generations，先確認模型及輸入選項。",
+          "locator": "https://docs.quiver.ai/api-reference/create-svgs/generate-svg",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未呼叫 API；品質、費用與模型可用性需另測。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "vectorize-image",
+          "detail": "以 image 輸入呼叫 POST /v1/svgs/vectorizations 將點陣圖片轉成 SVG。",
+          "locator": "https://docs.quiver.ai/api-reference/vectorize-svg/vectorize-svg",
+          "evidenceFields": [
+            "features.1",
+            "limitations.1"
+          ],
+          "limitations": "不保證忠實輪廓；素材須有使用權。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "edit-svg",
+          "detail": "POST /v1/svgs/edits 接收 SVG 與修改描述，須核對不應變動的部分。",
+          "locator": "https://docs.quiver.ai/api-reference/edit-svg/edit-svg",
+          "evidenceFields": [
+            "features.2"
+          ],
+          "limitations": "未實測局部變更或圖形保留程度。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "svg-quality",
+          "detail": "檢查縮放、viewBox、可編輯性與不安全元素；為自行制定的下游驗收方法。",
+          "locator": "https://docs.quiver.ai/app/prompt-guide",
+          "evidenceFields": [
+            "requirements.1",
+            "requirements.2",
+            "limitations.2"
+          ],
+          "limitations": "設計與安全驗收建議，不代表產品自帶完整安全檢查。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "create-icon",
+            "title": "從零製作圖示",
+            "detail": "描述圖案與風格，取得可縮放向量圖，方便放進網站介面。",
+            "evidenceRefs": [
+              "generate-svg",
+              "svg-quality"
+            ]
+          },
+          {
+            "id": "convert-image",
+            "title": "圖片轉向量圖",
+            "detail": "有現成標誌草圖或點陣圖時，產生 SVG，再人工核對。",
+            "evidenceRefs": [
+              "vectorize-image",
+              "svg-quality"
+            ]
+          },
+          {
+            "id": "revise-vector",
+            "title": "修改既有圖示",
+            "detail": "指定需要修改的顏色、形狀或線條，保留不應變動的元素。",
+            "evidenceRefs": [
+              "edit-svg",
+              "svg-quality"
+            ]
+          }
+        ],
+        "example": {
+          "id": "icon-set",
+          "title": "製作一組網站圖示",
+          "input": "24×24、單色、透明背景、線寬一致的搜尋與設定圖示需求。",
+          "process": "文字生成 SVG → 檢查縮放及一致性 → 必要時修正 → 匯出",
+          "output": "兩份 SVG 圖示檔（預期產物，未生成）。",
+          "destination": "網站元件或設計系統；使用前確認素材權利及 SVG 安全。",
+          "note": "設計示例，未生成圖示、未測 API 或商用權利。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "create-icon",
+            "revise-vector"
+          ],
+          "steps": [
+            {
+              "id": "generate",
+              "title": "生成向量圖示",
+              "evidenceRefs": [
+                "generate-svg"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "檢查尺寸與一致性",
+              "evidenceRefs": [
+                "svg-quality"
+              ]
+            },
+            {
+              "id": "revise",
+              "title": "視需要修改",
+              "evidenceRefs": [
+                "edit-svg"
+              ]
+            },
+            {
+              "id": "integrate",
+              "title": "加入網站元件",
+              "evidenceRefs": [],
+              "externalDependency": "前端程式、資產管理、安全處理及版權審查需另行完成。"
+            }
+          ]
+        },
+        "comparison": {
+          "title": "什麼時候選向量生成？",
+          "headers": [
+            "點陣圖片生成",
+            "Arrow 2"
+          ],
+          "rows": [
+            [
+              "適合照片與材質細節",
+              "適合圖示與可縮放資產"
+            ],
+            [
+              "放大可能失真",
+              "SVG 可縮放，仍須檢查路徑及視覺效果"
+            ]
+          ],
+          "note": "不是所有 SVG 都具備容易編輯的路徑。"
+        },
+        "start": [
+          "先在 App 選一個圖示需求，描述形狀、顏色及尺寸。",
+          "比較少量樣本的縮放與一致性，匯出 SVG 後檢查安全及使用權。",
+          "需要批次生成時再核對官方 API、模型、費用與金鑰設定。"
+        ],
+        "limits": [
+          "Test Key 的 Responses Sandbox 用來檢查串接協議與錯誤處理，不代表實際模型生成品質已驗證；真實模型測試需有核准的帳號及費用。",
+          "不保證商標相似度、文字輪廓、圖形忠實度或授權；使用素材須有權利，商用前查核條款及實際產物。",
+          "模型、費用、端點和整合方式可能更新；未執行 API 或 App，也未核對商用條款。"
+        ]
       }
     },
     {
@@ -14599,8 +14921,8 @@
       "canonicalName": "PageSpeed Insights",
       "category": "Website Performance & Quality Auditing",
       "resourceType": "Google web performance audit and report service",
-      "purpose": "評估網站手機與桌面體驗，整合 Lighthouse 實驗室診斷和 CrUX 真實使用者資料，提供效能、SEO、無障礙及最佳實務建議。",
-      "recommendation": "用 PSI 先定位公開網站的效能瓶頸，並追蹤改善後的使用者體驗；若是登入後頁面、內部系統或完整操作流程，另用本機 Lighthouse、DevTools 或瀏覽器測試。",
+      "purpose": "輸入網站網址，就能找出網頁載入、互動反應與版面穩定性的問題，作為改善網站速度的依據。",
+      "recommendation": "適合網站上線前後比較效能、找出優化方向，以及追蹤真實訪客體驗；不適合用一次分數決定網站品質。",
       "url": "https://pagespeed.web.dev/",
       "license": "Google-hosted service governed by Google Terms; Lighthouse open-source code has its own license",
       "commercialUse": {
@@ -14705,7 +15027,7 @@
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀與證據對應，不建立重複紀錄。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -14729,7 +15051,156 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Official PSI methodology and API v5 introduction; no live URL performance tests."
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "官方 PSI 方法與 v5 API 文件對應人類任務；前後比較是獨立設計案例，並未執行網站測試。"
         }
+      },
+      "agentEvidence": [
+        {
+          "id": "field-metrics",
+          "detail": "CrUX 真實訪客資料為近 28 天及第 75 百分位；注意 URL 與 Origin 範圍及缺資料。",
+          "locator": "https://developers.google.com/speed/docs/insights/v5/about",
+          "evidenceFields": [
+            "features.0",
+            "features.2",
+            "limitations.0"
+          ],
+          "limitations": "需足夠樣本，目前未測任何網站。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "lab-diagnosis",
+          "detail": "Lighthouse 模擬載入，以稽核結果找效能問題；不能將 Lab 分數視為現場 CWV 結論。",
+          "locator": "https://developers.google.com/speed/docs/insights/v5/about",
+          "evidenceFields": [
+            "features.1",
+            "requirements.1",
+            "limitations.1"
+          ],
+          "limitations": "測試環境會變動，根因須查證。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "repeat-and-compare",
+          "detail": "PSI API v5 可取得效能資料；固定 URL、裝置策略及版本、多次比較是自訂驗收流程。",
+          "locator": "https://developers.google.com/speed/docs/insights/v5/get-started",
+          "evidenceFields": [
+            "requirements.0",
+            "requirements.2",
+            "limitations.2"
+          ],
+          "limitations": "未呼叫 API；整合前核對回傳欄位、額度及範圍。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "find-bottleneck",
+            "title": "找出網站變慢的原因",
+            "detail": "查看載入報告，找出圖片或資源阻塞等可能的改善方向。",
+            "evidenceRefs": [
+              "lab-diagnosis"
+            ]
+          },
+          {
+            "id": "real-user-experience",
+            "title": "了解訪客使用體驗",
+            "detail": "有足夠樣本時查看實際訪客載入、互動與版面穩定性。",
+            "evidenceRefs": [
+              "field-metrics"
+            ]
+          },
+          {
+            "id": "compare-versions",
+            "title": "驗證改版有沒有改善",
+            "detail": "記錄改版前後同一頁面的結果，而不是只看一次分數。",
+            "evidenceRefs": [
+              "lab-diagnosis",
+              "repeat-and-compare"
+            ]
+          }
+        ],
+        "example": {
+          "id": "web-performance-review",
+          "title": "驗收作品集首頁改版",
+          "input": "同一公開首頁網址，改版前後各保存版本及測試條件。",
+          "process": "測手機／桌面 → 找診斷項目 → 修改 → 同條件多次比較 → 觀察現場資料",
+          "output": "改版前後效能紀錄、改善項目與待觀察指標（未取得實際分數）。",
+          "destination": "前端開發待辦與發布驗收紀錄。",
+          "note": "自訂驗收流程，未測任何網址；現場資料可能不足且不會立即反映改版。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "find-bottleneck",
+            "real-user-experience",
+            "compare-versions"
+          ],
+          "steps": [
+            {
+              "id": "baseline",
+              "title": "保存真實資料及模擬測試基準",
+              "evidenceRefs": [
+                "field-metrics",
+                "lab-diagnosis"
+              ]
+            },
+            {
+              "id": "diagnose",
+              "title": "依診斷選擇改善方向",
+              "evidenceRefs": [
+                "lab-diagnosis"
+              ]
+            },
+            {
+              "id": "implement",
+              "title": "實際修改網站",
+              "evidenceRefs": [],
+              "externalDependency": "前端修改、測試及發布需由專案完成。"
+            },
+            {
+              "id": "retest",
+              "title": "重測及保存比較紀錄",
+              "evidenceRefs": [
+                "repeat-and-compare"
+              ]
+            }
+          ]
+        },
+        "comparison": {
+          "title": "兩種資料應該怎麼看？",
+          "headers": [
+            "真實使用者資料（Field data）",
+            "模擬測試（Lab data）"
+          ],
+          "rows": [
+            [
+              "反映近 28 天真實體驗，需足夠樣本",
+              "當下模擬載入，適合診斷及快速比較"
+            ],
+            [
+              "改版後須持續觀察",
+              "受環境影響，應重複測試"
+            ]
+          ],
+          "note": "兩者不可互相替代；Lighthouse 分數不等於現場 CWV 通過。"
+        },
+        "start": [
+          "輸入公開頁面網址，分別查看手機及桌面結果。",
+          "先看是否有真實使用者資料，再看模擬診斷及改善建議。",
+          "保留結果與版本，實際修改後在相近條件重測。"
+        ],
+        "limits": [
+          "沒有 CrUX 資料不等於頁面通過或失敗；新站與低流量站常無足夠樣本。",
+          "Lab 分數受硬體、網路與測試環境影響；不要以一次分數決定發布。",
+          "PSI 的無障礙與 SEO 自動稽核不等於完整人工驗收；本次未實測任何網站。"
+        ]
       }
     },
     {
@@ -17920,8 +18391,8 @@
       "canonicalName": "smolagents",
       "category": "AI Agent / Framework & Learning",
       "resourceType": "CodeAgent 與 Agent 工具框架",
-      "purpose": "使用簡潔的 Agent 介面探索工具使用、程式碼型行動與多 Agent 協作。",
-      "recommendation": "需要在受限環境研究模型如何用程式碼組合工具時，可評估 CodeAgent；若需要固定 Schema、清楚的操作白名單或可預測的副作用，優先評估 ToolCallingAgent 或一般 Workflow。",
+      "purpose": "用 Python 建立能選擇工具、分多步處理任務，並根據中間結果決定下一步的 AI Agent。",
+      "recommendation": "適合多次查詢、計算與工具協作；若任務步驟固定，先用普通 Python 函式或固定 Workflow，較容易測試與控制。",
       "url": "https://github.com/huggingface/smolagents",
       "repo": "huggingface/smolagents",
       "notes": "",
@@ -17982,7 +18453,7 @@
             "url",
             "repo"
           ],
-          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，補足人類閱讀及技術對應，不新增重複紀錄。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -18006,6 +18477,10 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited."
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 Agent、ToolCallingAgent、CodeAgent 與 LocalPythonExecutor 程式證據支持人類案例；未審查遠端執行器或執行。"
         }
       },
       "repoGuide": {
@@ -18155,7 +18630,56 @@
             "input": "任務、模型、工具清單與步數限制",
             "output": "最終結果、步驟與執行狀態",
             "source": "src/smolagents/agents.py",
-            "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+            "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。",
+            "sourceFiles": [
+              "src/smolagents/agents.py"
+            ],
+            "symbols": [
+              "MultiStepAgent",
+              "MultiStepAgent._run_stream",
+              "RunResult"
+            ],
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "named-tool-calling",
+            "name": "具名工具呼叫",
+            "problem": "模型需透過限定介面操作工具",
+            "input": "工具清單及參數",
+            "output": "工具結果或錯誤",
+            "source": "src/smolagents/agents.py",
+            "sourceFiles": [
+              "src/smolagents/agents.py"
+            ],
+            "symbols": [
+              "ToolCallingAgent",
+              "process_tool_calls",
+              "execute_tool_call"
+            ],
+            "gate": "先用純函式與假資料；實際工具權限、副作用及錯誤需控制。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "code-execution",
+            "name": "程式碼型動作",
+            "problem": "多個計算步驟可用程式表示",
+            "input": "模型生成程式及允許工具",
+            "output": "CodeOutput 的 output、logs、is_final_answer",
+            "source": "src/smolagents/agents.py",
+            "sourceFiles": [
+              "src/smolagents/agents.py",
+              "src/smolagents/local_python_executor.py"
+            ],
+            "symbols": [
+              "CodeAgent",
+              "LocalPythonExecutor",
+              "CodeOutput"
+            ],
+            "gate": "本機執行器並非完整安全沙箱，未審查遠端隔離或實測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
           }
         ],
         "workflow": {
@@ -18167,7 +18691,8 @@
               "action": "對同一個假資料計算任務限制工具與步數，比對輸出及執行紀錄。"
             }
           ],
-          "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+          "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。",
+          "readerExampleRef": "inventory-analysis"
         },
         "rebuild": {
           "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
@@ -18218,6 +18743,111 @@
             "state": "未驗證",
             "evidence": "本次無第三方執行"
           }
+        ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "multi-tool-task",
+            "title": "多步資料查詢",
+            "detail": "讓 AI 先查資料，再決定需要計算或補查什麼，最後回傳結果。",
+            "capabilityRefs": [
+              "agent-loop",
+              "named-tool-calling"
+            ]
+          },
+          {
+            "id": "code-based-analysis",
+            "title": "用程式組合資料處理",
+            "detail": "讓 Agent 用程式表示多個計算步驟，適合需要組合操作的研究情境。",
+            "capabilityRefs": [
+              "agent-loop",
+              "code-execution"
+            ]
+          },
+          {
+            "id": "bounded-execution",
+            "title": "限制處理步數",
+            "detail": "明訂工具與步數上限，遇到無法完成的任務保留狀態，避免無限制循環。",
+            "capabilityRefs": [
+              "agent-loop"
+            ]
+          }
+        ],
+        "example": {
+          "id": "inventory-analysis",
+          "title": "庫存查詢與缺貨分析",
+          "input": "兩項商品的假庫存與安全庫存資料、只讀查詢及比較工具。",
+          "process": "查庫存 → 比較安全庫存 → 必要時補查 → 回傳結果",
+          "output": {
+            "example_result": "商品 A：低於安全庫存；商品 B：正常",
+            "status": "示意，非實際回傳"
+          },
+          "destination": "採購人員核對的補貨清單，不自動下單。",
+          "note": "自訂假資料示例，未呼叫模型或執行程式；示意文字不是固定 RunResult Schema。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "multi-tool-task",
+            "bounded-execution"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "建立假資料及只讀工具",
+              "capabilityRefs": [],
+              "externalDependency": "庫存來源、業務規則、授權及驗收資料由應用程式提供。"
+            },
+            {
+              "id": "query",
+              "title": "選擇查詢與比較工具",
+              "capabilityRefs": [
+                "named-tool-calling"
+              ]
+            },
+            {
+              "id": "iterate",
+              "title": "依觀察結果決定下一步",
+              "capabilityRefs": [
+                "agent-loop"
+              ]
+            },
+            {
+              "id": "deliver",
+              "title": "輸出待核對清單",
+              "capabilityRefs": [],
+              "externalDependency": "業務驗證及採購系統寫入需另行開發與核准。"
+            }
+          ]
+        },
+        "comparison": {
+          "title": "兩種 Agent 有什麼不同？",
+          "headers": [
+            "ToolCallingAgent",
+            "CodeAgent"
+          ],
+          "rows": [
+            [
+              "使用具名工具和參數",
+              "由模型生成程式表示動作"
+            ],
+            [
+              "適合需要清楚限制操作的任務",
+              "適合研究多個計算步驟組合，隔離風險較高"
+            ]
+          ],
+          "note": "兩者均需驗收；具名工具也可能有副作用。"
+        },
+        "start": [
+          "先選能用合成資料重現的簡單任務。",
+          "用具名只讀工具定義可用操作和步數上限，驗證錯誤及停止狀態。",
+          "具備獨立隔離、權限及安全測試時才評估程式碼執行模式。"
+        ],
+        "limits": [
+          "local 執行器不等於完整安全沙箱；即使限制 import，外部工具仍可有副作用。",
+          "未實測遠端執行器、模型、工具整合或隔離強度。",
+          "已閱讀固定版本核心檔案，尚未實測模型行為與真實資料。"
         ]
       }
     },
