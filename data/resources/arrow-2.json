@@ -7,13 +7,13 @@
   "category": "08 UI & Design Engineering",
   "resourceType": "AI Vector Model / Editable SVG Generation",
   "purpose": "QuiverAI 的向量設計模型，可從文字或圖片生成精確、可編輯的 SVG，並支援 vectorization、editing 與 animation 工作流；可透過 App、API、MCP、Codex/Cursor plugins 與 CLI 整合到 Agent 流程。",
-  "recommendation": "適合 logo、icon、illustration、品牌素材與需要後續程式化修改／動畫的向量資產，避免把 AI 生圖後的扁平 PNG 當最終資產。",
+  "recommendation": "先判斷你需要新的圖案、重現既有圖片，還是只修改現有 SVG。適合可重複著色、縮放與程式化調整的介面圖示、品牌插畫；若成品是照片或依賴像素紋理，通常保留點陣圖較合理。",
   "url": "https://quiver.ai/",
   "repo": "",
-  "notes": "Official QuiverAI source confirmed on 2026-09-17. Arrow 2 is positioned for generating and editing production-ready vector graphics; QuiverAI also exposes text-to-SVG and image-to-SVG APIs plus MCP/plugins for agent workflows.",
+  "notes": "Official QuiverAI source confirmed on 2026-09-17. Arrow 2 is positioned for generating and editing production-ready vector graphics; QuiverAI also exposes text-to-SVG and image-to-SVG APIs plus MCP/plugins for agent workflows.\nPhase 3 查核入口： https://docs.quiver.ai/developers/models/text-to-svg ; https://docs.quiver.ai/developers/models/image-to-svg ; https://docs.quiver.ai/api-reference/edit-svg/edit-svg ; https://docs.quiver.ai/app/prompt-guide ; https://docs.quiver.ai/api-reference/introduction . 24 px 圖示為自訂示範，未實測。",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-24",
   "tags": [
     "svg",
     "vector",
@@ -65,24 +65,27 @@
     ]
   },
   "features": [
-    "透過文字或參考素材生成可編輯的 SVG 向量資產，包括 Logo、插畫與圖示。",
-    "官方網站展示 Vectorize、向量編輯、向量動畫及可供開發者呼叫的 API。",
-    "提供模型清單／開發者文件入口，方便將向量素材流程接到應用程式。"
+    "從零設計｜用文字指定形狀、風格、顏色與尺寸，產生 SVG；參考圖可用於設計方向，而非保證忠實重製。使用官方 Text to SVG API。",
+    "向量化｜已有點陣圖且希望保留輪廓時，使用 POST /v1/svgs/vectorizations，輸入 image（URL 或文件允許的直接資料格式）。",
+    "局部修改｜已有 SVG 時使用 SVG edit，明確指定要改的元素及不應變動的 viewBox、輪廓或色彩。",
+    "選型｜先以 Arrow 2 測試常見圖示；細節密度高的圖像可與 Arrow 2 Telos 比較，用同一批樣本評估，而非預設較昂貴模型一定較好。"
   ],
   "requirements": [
-    "使用 App 或 API 前需申請對應服務帳號，API 呼叫要有授權 Token。",
-    "先定義尺寸、SVG 結構和品牌需求，並確認當前方案的模型及功能可用性。"
+    "操作路線｜一次性設計先使用 App；大量產出一致素材才接 API。整合前以 GET /v1/models 確認組織的模型及能力，建立專案範圍 API Key，放在伺服器環境變數。",
+    "實作示例｜假設要做 24×24 介面圖示：指定單色、可替換 fill、透明背景與一致線寬；先產出少量樣本，瀏覽器預覽後交付 SVG，保留原始檔供後續編輯。",
+    "輸出驗收｜解析 SVG、檢查 viewBox 與縮放效果、路徑可編輯性、色彩一致性、16/24/48 px 可辨識性；若將第三方 SVG 嵌入網站，先移除不允許的 script、事件屬性與外部資源。"
   ],
   "limitations": [
-    "圖像品質、文字路徑、SVG 可編輯度與生成結果需人工審核，不能視為品牌定稿。",
-    "不同模式的費用、速率、使用條款及模型可用性會變動，需閱讀官方最新 Pricing／Docs。"
+    "Test Key 的 Responses Sandbox 用來檢查串接協議與錯誤處理，不代表實際模型生成品質已驗證；真實模型測試需有核准的帳號及費用。",
+    "不保證商標相似度、文字輪廓、圖形忠實度或授權；使用素材須有權利，商用前查核條款及實際產物。",
+    "模型、費用、端點和整合方式可能更新；未執行 API 或 App，也未核對商用條款。"
   ],
   "source": {
     "url": "https://quiver.ai/",
     "readmeUrl": "https://quiver.ai/",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-24",
     "type": "Official author / product documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "Official product documentation: model selection, native generation/vectorization/edit references, prompt guide and Responses test-key behavior; no API execution."
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -91,7 +94,7 @@
       "url",
       "source.url"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -108,7 +111,7 @@
     "readingSpec": {
       "id": "standard",
       "status": "applied",
-      "reason": "依一般 Resource 規格核對官方文件及使用限制；非深度安裝驗證。"
+      "reason": "以既有 Standard 欄位提供產品選型、操作路徑與輸出驗收；不建立 Repo Guide。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -121,7 +124,7 @@
     "riskNotes": "圖像品質、文字路徑、SVG 可編輯度與生成結果需人工審核，不能視為品牌定稿。；不同模式的費用、速率、使用條款及模型可用性會變動，需閱讀官方最新 Pricing／Docs。；未執行第三方程式、未存取帳號憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "來源頁／官方 README 已閱讀；Build／Runtime／Security／Integration 未實測。"
+      "evidence": "官方 API/Prompt 文件已查核；Sandbox、實際 API、SVG 品質、商用條款均未測。"
     }
   }
 }
