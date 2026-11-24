@@ -6,8 +6,8 @@
   "canonicalName": "Arrow 2",
   "category": "08 UI & Design Engineering",
   "resourceType": "AI Vector Model / Editable SVG Generation",
-  "purpose": "QuiverAI 的向量設計模型，可從文字或圖片生成精確、可編輯的 SVG，並支援 vectorization、editing 與 animation 工作流；可透過 App、API、MCP、Codex/Cursor plugins 與 CLI 整合到 Agent 流程。",
-  "recommendation": "先判斷你需要新的圖案、重現既有圖片，還是只修改現有 SVG。適合可重複著色、縮放與程式化調整的介面圖示、品牌插畫；若成品是照片或依賴像素紋理，通常保留點陣圖較合理。",
+  "purpose": "用文字描述生成可縮放的 SVG 圖示與插畫，也能把既有圖片轉成向量圖或修改 SVG。",
+  "recommendation": "適合網站圖示、品牌素材及向量插畫；若要攝影寫實圖片或精確複製商標，應考慮其他工具並確認權利。",
   "url": "https://quiver.ai/",
   "repo": "",
   "notes": "Official QuiverAI source confirmed on 2026-09-17. Arrow 2 is positioned for generating and editing production-ready vector graphics; QuiverAI also exposes text-to-SVG and image-to-SVG APIs plus MCP/plugins for agent workflows.\nPhase 3 查核入口： https://docs.quiver.ai/developers/models/text-to-svg ; https://docs.quiver.ai/developers/models/image-to-svg ; https://docs.quiver.ai/api-reference/edit-svg/edit-svg ; https://docs.quiver.ai/app/prompt-guide ; https://docs.quiver.ai/api-reference/introduction . 24 px 圖示為自訂示範，未實測。",
@@ -85,7 +85,14 @@
     "readmeUrl": "https://quiver.ai/",
     "reviewedAt": "2026-11-24",
     "type": "Official author / product documentation",
-    "reviewScope": "Official product documentation: model selection, native generation/vectorization/edit references, prompt guide and Responses test-key behavior; no API execution."
+    "reviewScope": "Official product documentation: model selection, native generation/vectorization/edit references, prompt guide and Responses test-key behavior; no API execution.",
+    "referenceUrls": [
+      "https://docs.quiver.ai/api-reference/create-svgs/generate-svg",
+      "https://docs.quiver.ai/api-reference/vectorize-svg/vectorize-svg",
+      "https://docs.quiver.ai/api-reference/edit-svg/edit-svg",
+      "https://docs.quiver.ai/app/prompt-guide",
+      "https://docs.quiver.ai/developers"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -101,7 +108,7 @@
         "id",
         "url"
       ],
-      "reason": "比對現有 ID 和原始來源，本批只更新既有資料，不新增新 Entity。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀與證據對應，不建立重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -125,6 +132,164 @@
     "verification": {
       "status": "not-tested",
       "evidence": "官方 API/Prompt 文件已查核；Sandbox、實際 API、SVG 品質、商用條款均未測。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "官方生成、向量化、編輯與 Prompt 文件對應用途；驗收是獨立設計，不虛構產品程式碼。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "generate-svg",
+      "detail": "文字提示生成 SVG；原生生成端點 POST /v1/svgs/generations，先確認模型及輸入選項。",
+      "locator": "https://docs.quiver.ai/api-reference/create-svgs/generate-svg",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未呼叫 API；品質、費用與模型可用性需另測。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "vectorize-image",
+      "detail": "以 image 輸入呼叫 POST /v1/svgs/vectorizations 將點陣圖片轉成 SVG。",
+      "locator": "https://docs.quiver.ai/api-reference/vectorize-svg/vectorize-svg",
+      "evidenceFields": [
+        "features.1",
+        "limitations.1"
+      ],
+      "limitations": "不保證忠實輪廓；素材須有使用權。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "edit-svg",
+      "detail": "POST /v1/svgs/edits 接收 SVG 與修改描述，須核對不應變動的部分。",
+      "locator": "https://docs.quiver.ai/api-reference/edit-svg/edit-svg",
+      "evidenceFields": [
+        "features.2"
+      ],
+      "limitations": "未實測局部變更或圖形保留程度。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "svg-quality",
+      "detail": "檢查縮放、viewBox、可編輯性與不安全元素；為自行制定的下游驗收方法。",
+      "locator": "https://docs.quiver.ai/app/prompt-guide",
+      "evidenceFields": [
+        "requirements.1",
+        "requirements.2",
+        "limitations.2"
+      ],
+      "limitations": "設計與安全驗收建議，不代表產品自帶完整安全檢查。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "create-icon",
+        "title": "從零製作圖示",
+        "detail": "描述圖案與風格，取得可縮放向量圖，方便放進網站介面。",
+        "evidenceRefs": [
+          "generate-svg",
+          "svg-quality"
+        ]
+      },
+      {
+        "id": "convert-image",
+        "title": "圖片轉向量圖",
+        "detail": "有現成標誌草圖或點陣圖時，產生 SVG，再人工核對。",
+        "evidenceRefs": [
+          "vectorize-image",
+          "svg-quality"
+        ]
+      },
+      {
+        "id": "revise-vector",
+        "title": "修改既有圖示",
+        "detail": "指定需要修改的顏色、形狀或線條，保留不應變動的元素。",
+        "evidenceRefs": [
+          "edit-svg",
+          "svg-quality"
+        ]
+      }
+    ],
+    "example": {
+      "id": "icon-set",
+      "title": "製作一組網站圖示",
+      "input": "24×24、單色、透明背景、線寬一致的搜尋與設定圖示需求。",
+      "process": "文字生成 SVG → 檢查縮放及一致性 → 必要時修正 → 匯出",
+      "output": "兩份 SVG 圖示檔（預期產物，未生成）。",
+      "destination": "網站元件或設計系統；使用前確認素材權利及 SVG 安全。",
+      "note": "設計示例，未生成圖示、未測 API 或商用權利。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "create-icon",
+        "revise-vector"
+      ],
+      "steps": [
+        {
+          "id": "generate",
+          "title": "生成向量圖示",
+          "evidenceRefs": [
+            "generate-svg"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "檢查尺寸與一致性",
+          "evidenceRefs": [
+            "svg-quality"
+          ]
+        },
+        {
+          "id": "revise",
+          "title": "視需要修改",
+          "evidenceRefs": [
+            "edit-svg"
+          ]
+        },
+        {
+          "id": "integrate",
+          "title": "加入網站元件",
+          "evidenceRefs": [],
+          "externalDependency": "前端程式、資產管理、安全處理及版權審查需另行完成。"
+        }
+      ]
+    },
+    "comparison": {
+      "title": "什麼時候選向量生成？",
+      "headers": [
+        "點陣圖片生成",
+        "Arrow 2"
+      ],
+      "rows": [
+        [
+          "適合照片與材質細節",
+          "適合圖示與可縮放資產"
+        ],
+        [
+          "放大可能失真",
+          "SVG 可縮放，仍須檢查路徑及視覺效果"
+        ]
+      ],
+      "note": "不是所有 SVG 都具備容易編輯的路徑。"
+    },
+    "start": [
+      "先在 App 選一個圖示需求，描述形狀、顏色及尺寸。",
+      "比較少量樣本的縮放與一致性，匯出 SVG 後檢查安全及使用權。",
+      "需要批次生成時再核對官方 API、模型、費用與金鑰設定。"
+    ],
+    "limits": [
+      "Test Key 的 Responses Sandbox 用來檢查串接協議與錯誤處理，不代表實際模型生成品質已驗證；真實模型測試需有核准的帳號及費用。",
+      "不保證商標相似度、文字輪廓、圖形忠實度或授權；使用素材須有權利，商用前查核條款及實際產物。",
+      "模型、費用、端點和整合方式可能更新；未執行 API 或 App，也未核對商用條款。"
+    ]
   }
 }
