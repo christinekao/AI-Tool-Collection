@@ -489,7 +489,7 @@ try{
   ['arrow-2','.detail-panel','輸出驗收'],
   ['addyosmani-agent-skills','.detail-panel','選擇方法'],
   ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）'],
-  ['pydantic-pydantic-ai','.repo-guide','型別化輸出'],
+  ['pydantic-pydantic-ai','.resource-reader-guide','實際應用：AI 履歷分析'],
   ['huggingface-smolagents','.repo-guide','CodeAgent 與 ToolCallingAgent'],
   ['microsoft-ai-agents-for-beginners','.learning-guide','主題重點筆記（3 章）'],
   ['nirdiamant-genai-agents','.detail-panel','比較方式'],
