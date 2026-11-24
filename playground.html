@@ -6,9 +6,10 @@
 <meta name="description" content="Workflow Playground：從已整理的 Problem 和推薦 Flow 出發，規劃並驗證工作流程的依賴條件。">
 <title>Workflow Playground · AI Tool Collection</title>
 <link rel="stylesheet" href="catalog-style.css?v=20261118">
-<link rel="stylesheet" href="playground-style.css?v=20261118">
+<link rel="stylesheet" href="playground-style.css?v=20261124-audit07">
 <script defer src="workflow-engine.js?v=20261118"></script>
-<script defer src="playground-app.js?v=20261118"></script>
+<script defer src="workflow-review.js?v=20261124-audit07"></script>
+<script defer src="playground-app.js?v=20261124-audit07"></script>
 </head>
 <body>
 <header class="topbar"><div class="wrap topbar-inner">
@@ -18,14 +19,14 @@
 <main class="wrap pg-page">
 <header class="pg-hero">
 <div class="eyebrow">WORKFLOW PLAYGROUND · PLAN, DON'T EXECUTE</div>
-<h1>從推薦 Flow 開始，再自由組合</h1>
-<p>先選擇要解決的問題，閱讀有依據的工作流程；需要時更換候選工具、檢查前置產物，或建立自己的草稿。本站不會執行、安裝或自動串接外部工具。</p>
+<h1>從問題到 Workflow，找到可查證的實作選項</h1>
+<p>先選問題與 Workflow，看原始階段和有來源的工具候選；確認相容性與權限仍待驗證後，再使用 Recipe 或建立草稿。本站不會執行、安裝或自動串接外部工具。</p>
 <div class="pg-hero-actions"><a href="knowledge.html">返回知識探索</a><button type="button" id="pg-open-draft">建立自由草稿</button></div>
 </header>
 <div class="pg-shell" id="pg-root">
 <aside class="pg-sidebar" aria-label="已整理問題與推薦流程">
 <section class="pg-sidebar-section"><h2>已整理的 Problem</h2><p>選擇真實需求，查看有明確來源連結的推薦 Flow。</p><div id="pg-problems" class="pg-problems">載入中…</div></section>
-<section class="pg-sidebar-section"><h2>推薦與已收藏 Workflow</h2><label for="pg-search">搜尋流程</label><input id="pg-search" type="search" autocomplete="off" placeholder="例如：Coding、RAG、QA、影片…"><div id="pg-flow-count" class="pg-tiny"></div><div id="pg-flows" class="pg-flow-list"></div></section>
+<section class="pg-sidebar-section"><h2>推薦與已收藏 Workflow</h2><label for="pg-search">搜尋流程</label><input id="pg-search" type="search" autocomplete="off" placeholder="例如：Coding、RAG、QA、影片…"><label class="pg-review-filter" for="pg-review-only"><input id="pg-review-only" type="checkbox" disabled><span>只看有 Implementation Options 候選的流程</span></label><div id="pg-review-filter-note" class="pg-tiny" aria-live="polite"></div><div id="pg-flow-count" class="pg-tiny"></div><div id="pg-flows" class="pg-flow-list"></div></section>
 </aside>
 <section class="pg-workspace" aria-label="流程規劃與編輯">
 <div id="pg-editor" aria-live="polite"><p>正在讀取推薦流程…</p></div>

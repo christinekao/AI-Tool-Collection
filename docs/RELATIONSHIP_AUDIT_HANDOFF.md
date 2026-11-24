@@ -1,3 +1,14 @@
+## Phase 3 Audit 07｜Workflow Implementation Options Preview 進行中（2026-11-24）
+
+- Baseline main `17106449c434cdb066bfc235f65f18305aa5051d`。
+- Playground 顯示 Audit06 的 17 個 Review Case／58 個 Resource Stage Candidates，兩種模式：Recorded Workflow 按 Stage 提示，Recipe 則分開列原始 Stage 候選，絕不改變 Recipe 的 Tool Choice。
+- 新增 Review-only filter／來源與證據缺口／原始 Resource 連結／未映射或零正式成員提示；資料載入或來源對不上時 fail-closed，不妨礙原始 Workflow。
+- Source Boundary：審查 JSON 是候選，不是正式 Tool Compatibility；`data/` Canonical／Graph／Typed Refs／Tags／Catalog 不改動。
+- [Audit 07 Report](WORKFLOW_REVIEW_UI_PHASE07_20261124.md)；13 項 review model tests + local Chromium preview；CI、Main、Pages、Live Smoke 實際回執待補。
+- 正式合併或刪除 Combination 沒有授權。
+
+---
+
 # Knowledge Relations｜Phase 3 Audit 06 Handoff（2026-11-24）
 
 **最終狀態：PASS WITH GAPS。17／17 Combination–Workflow Pair 完整來源對照、58 個候選 Resource → Workflow Stage 對應；10／10 新增審查測試 PASS。沒有改動任何 Canonical 或正式 Graph。**

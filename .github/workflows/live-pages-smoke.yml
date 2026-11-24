@@ -9,11 +9,19 @@ on:
       - 'knowledge.html'
       - 'playground.html'
       - 'playground-app.js'
+      - 'playground-style.css'
+      - 'workflow-review.js'
+      - 'scripts/test-playground-review-browser.mjs'
       - 'data/knowledge-graph-v1.json'
       - 'data/catalog-v2.json'
       - '.github/workflows/live-pages-smoke.yml'
   pull_request:
     paths:
+      - 'playground-app.js'
+      - 'playground.html'
+      - 'playground-style.css'
+      - 'workflow-review.js'
+      - 'scripts/test-playground-review-browser.mjs'
       - 'scripts/test-live-pages.mjs'
       - 'scripts/test-knowledge-browser.mjs'
       - '.github/workflows/live-pages-smoke.yml'
@@ -30,6 +38,8 @@ jobs:
           node-version: '22'
       - name: Check deployed GitHub Pages HTTP assets and JSON contracts
         run: node scripts/test-live-pages.mjs
+      - name: Check Audit 07 review-only UI in local Chromium (PR and main checkout)
+        run: node scripts/test-playground-review-browser.mjs
       - name: Check actual deployed site in Chromium (not local preview)
         if: github.event_name != 'pull_request'
         env:

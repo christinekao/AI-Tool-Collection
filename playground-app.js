@@ -2,7 +2,7 @@
 /* Independent Workflow Playground. Plans only; no tool execution or compatibility claims. */
 const PG_RECIPES=['website-build-review','agent-delivery-qa','enterprise-knowledge-qa'];
 const PG={catalog:null,graph:null,index:new Map(),nodes:new Map(),recipes:[],mode:'home',
- workflowId:null,recipeId:null,choices:{},problemId:null,draft:[],search:'',toolSearch:''};
+ workflowId:null,recipeId:null,choices:{},problemId:null,draft:[],search:'',toolSearch:'',reviewCases:new Map(),reviewState:'unavailable',reviewOnly:false};
 const p$=s=>document.querySelector(s);
 const pEsc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pKey=r=>r.type+':'+r.id;
@@ -15,7 +15,7 @@ function pCuratedCount(workflowId){return pProblems().filter(p=>pLinkedWorkflows
 function pFlowList(){
  const selected=PG.problemId?pLinkedWorkflows(PG.problemId):null;
  const q=PG.search.toLowerCase().trim();
- return PG.catalog.workflows.filter(w=>(!selected||selected.has(w.id))&&(!q||[w.title,w.goal,w.problem,...(w.tags||[])].join(' ').toLowerCase().includes(q)))
+ return PG.catalog.workflows.filter(w=>(!selected||selected.has(w.id))&&(!PG.reviewOnly||PG.reviewCases.has(w.id))&&(!q||[w.title,w.goal,w.problem,...(w.tags||[])].join(' ').toLowerCase().includes(q)))
   .sort((a,b)=>Number(Boolean(pRecipeFor(b.id)))-Number(Boolean(pRecipeFor(a.id)))||pCuratedCount(b.id)-pCuratedCount(a.id)||a.title.localeCompare(b.title,'zh-Hant'));
 }
 function pRenderProblems(){
@@ -29,6 +29,8 @@ function pRenderProblems(){
 }
 function pRenderFlowList(){
  const list=pFlowList();
+ const checkbox=p$('#pg-review-only');if(checkbox){checkbox.disabled=PG.reviewState!=='ready';checkbox.checked=PG.reviewOnly}
+ const note=p$('#pg-review-filter-note');if(note)note.textContent=PG.reviewState==='ready'?'可預覽 '+PG.reviewCases.size+' 個流程的工具候選':'候選資料未載入；原有流程仍可使用';
  p$('#pg-flow-count').textContent=PG.problemId?'這個問題已連結 '+list.length+' 個 Flow':'共 '+list.length+' 個已收藏 Workflow；其中 '+PG.recipes.length+' 個有依賴條件範本';
  p$('#pg-flows').innerHTML=list.map(w=>{
   const recipe=pRecipeFor(w.id),curated=pCuratedCount(w.id);
@@ -38,9 +40,55 @@ function pRenderFlowList(){
 function pSourceLink(type,id){const plural={resource:'resources',skill:'skills',concept:'concepts',workflow:'workflows',prompt:'prompts',combination:'combinations'}[type];return plural?'index.html#/'+plural+'/'+encodeURIComponent(id):'knowledge.html'}
 function pIntro(){
  const recipes=PG.recipes.map(r=>'<button type="button" class="pg-feature" data-flow-id="'+pEsc(r.sourceWorkflowRef.id)+'"><span class="pg-kicker">CURATED RECIPE · '+r.stages.length+' STEPS</span><strong>'+pEsc(r.title)+'</strong><small>'+pEsc(r.description)+'</small></button>').join('');
- return '<div class="pg-editor-panel"><span class="pg-kicker">START WITH A RECOMMENDED FLOW</span><h2>先看成熟的流程，再決定要不要組合工具</h2><p>左側可以先選 Problem。已連結問題的 Workflow 會優先排列；只有建立了明確 requires／produces 契約的 Recipe，才能檢查階段缺口。</p><div class="pg-feature-grid">'+recipes+'</div><div class="pg-note">現有 '+PG.catalog.workflows.length+' 個 Workflow 不是全部都能直接編輯：尚未補足候選工具或依賴條件的流程，會先顯示原始階段，不虛構工具相容性。</div></div>';
+ const featured=['stack','reference-agent-implementation','cross-agent-continuity-stack'].filter(id=>PG.reviewCases.has(id));
+ const samples=PG.reviewState==='ready'?
+  '<section class="pg-review-discover"><div class="pg-review-section-header"><span class="pg-kicker">AUDIT 06 · READ-ONLY</span><h3>查看工具如何對應流程階段</h3><p>已整理 '+PG.reviewCases.size+' 個 Workflow 的候選工具對應。這些是文字證據與待審提案，不是相容性測試或自動執行。</p></div><div class="pg-review-samples">'+featured.map(id=>'<button type="button" data-flow-id="'+pEsc(id)+'">'+pEsc(PG.index.get('workflow:'+id)?.title||id)+'<small>查看原始階段與待驗證事項</small></button>').join('')+'</div></section>':
+  '<p class="pg-muted">Implementation Options 審查資料目前無法驗證，仍可瀏覽原有 Workflow。</p>';
+ return '<div class="pg-editor-panel"><span class="pg-kicker">START WITH A RECOMMENDED FLOW</span><h2>先看成熟的流程，再決定要不要組合工具</h2><p>左側可以先選 Problem。已連結問題的 Workflow 會優先排列；只有建立了明確 requires／produces 契約的 Recipe，才能檢查階段缺口。</p><div class="pg-feature-grid">'+recipes+'</div>'+samples+'<div class="pg-note">現有 '+PG.catalog.workflows.length+' 個 Workflow 不是全部都能直接編輯：尚未補足候選工具或依賴條件的流程，會先顯示原始階段，不虛構工具相容性。</div></div>';
 }
 function pResult(html){return '<div class="pg-result">'+html+'</div>'}
+
+/* Audit 06 suggestions are advisory and never change Recipe choices or Canonical data. */
+function pReviewSummary(workflowId){
+ const row=PG.reviewCases.get(workflowId);if(!row)return '';
+ const matched=row.options.filter(o=>o.stageIndexes.length>0).length;
+ return '<section id="pg-review-summary" class="pg-review-summary" aria-label="Implementation Options 唯讀候選">'+
+  '<div class="pg-review-heading"><span class="pg-kicker">IMPLEMENTATION OPTIONS · REVIEW ONLY</span><span class="pg-review-badge">候選，未驗證</span></div>'+
+  '<h3>可用哪些工具實作這個流程？</h3>'+
+  '<p>原始 Combination 保留不變。這裡只是將已記錄的 Resource 對應到原始 Workflow 階段文字，並未證實各工具可直接串接。</p>'+
+  '<dl class="pg-review-facts"><div><dt>審查方向</dt><dd>'+pEsc(WorkflowReview.laneLabel(row.reviewLane))+'</dd></div>'+
+  '<div><dt>工具候選</dt><dd>'+row.options.length+' 個原有 Resource（'+matched+' 個有階段對應）</dd></div>'+
+  '<div><dt>依據</dt><dd>'+pEsc(WorkflowReview.sourceLabel(row.sourceLevel))+'</dd></div></dl>'+
+  '<div class="pg-review-decision"><strong>目前缺口</strong><p>'+pEsc(row.gap)+'</p><strong>下一個驗證項目</strong><p>'+pEsc(row.nextEvidence)+'</p></div>'+
+  '<a class="pg-source-link" href="https://github.com/christinekao/AI-Tool-Collection/blob/main/docs/RELATIONSHIP_AUDIT_PHASE06_20261124.md" target="_blank" rel="noopener noreferrer">查看 Audit 06 逐筆審查依據</a></section>';
+}
+function pReviewStageOptions(workflowId,stageIndex){
+ const row=PG.reviewCases.get(workflowId);
+ if(!row||!row.options.length)return '';
+ const options=WorkflowReview.optionsForStage(row,stageIndex);
+ if(!options.length)return '<p class="pg-review-empty">此階段尚無已對應的候選 Resource；仍需查證。</p>';
+ return '<section class="pg-stage-review" aria-label="階段候選工具"><div class="pg-stage-review-title">候選工具 <span>相容性未驗證</span></div><ul class="pg-review-option-list">'+options.map(opt=>{
+  const title=PG.index.get('resource:'+opt.resourceId)?.title||opt.resourceId;
+  return '<li class="pg-review-option" data-review-resource="'+pEsc(opt.resourceId)+'"><a href="'+pSourceLink('resource',opt.resourceId)+'">'+pEsc(title)+'</a><small>Resource · '+pEsc(opt.resourceId)+'</small></li>';
+ }).join('')+'</ul></section>';
+}
+function pReviewUnassigned(workflowId){
+ const row=PG.reviewCases.get(workflowId);if(!row)return '';
+ if(!row.options.length)return '<p class="pg-review-empty pg-review-unassigned">這份 Combination 目前沒有正式 Resource 成員，因此沒有工具候選；未核實的名稱不會自動加入。</p>';
+ const options=WorkflowReview.unassignedOptions(row);
+ if(!options.length)return '';
+ return '<section class="pg-review-unassigned" aria-label="尚未對應階段的原有工具"><h4>尚未找到明確階段的原有工具</h4><p>以下 Resource 雖然已記錄在 Combination，但現有 Workflow 階段文字不足以判斷應放在哪一步。</p><ul class="pg-review-option-list">'+options.map(opt=>
+  '<li class="pg-review-option"><a href="'+pSourceLink('resource',opt.resourceId)+'">'+pEsc(PG.index.get('resource:'+opt.resourceId)?.title||opt.resourceId)+'</a><small>Resource · '+pEsc(opt.resourceId)+' · 待確認 Stage</small></li>').join('')+'</ul></section>';
+}
+function pReviewOriginalStages(workflowId){
+ const row=PG.reviewCases.get(workflowId),wf=PG.catalog.workflows.find(w=>w.id===workflowId);
+ if(!row||!wf)return '';
+ return '<details id="pg-reviewed-stages" class="pg-review-original" open><summary>查看原始 Workflow 的階段與候選工具</summary>'+
+  '<p class="pg-muted">下列映射來自原始 Workflow，與上方可調整的 Recipe 不一定一對一對應；不會自動選取或更改 Recipe 工具。</p>'+
+  (wf.stages||[]).map((stage,index)=>'<section class="pg-review-source-stage"><div class="pg-review-source-head"><span class="pg-index">'+String(index+1).padStart(2,'0')+'</span><strong>'+pEsc(stage.title||stage.id)+'</strong></div><p>'+pEsc(stage.purpose||'')+'</p>'+pReviewStageOptions(workflowId,index)+'</section>').join('')+
+  pReviewUnassigned(workflowId)+'</details>';
+}
+
 function pRecipeEditor(){
  const recipe=PG.recipes.find(x=>x.id===PG.recipeId);if(!recipe)return pIntro();
  const result=WorkflowEngine.compose(recipe,PG.choices);
@@ -54,15 +102,22 @@ function pRecipeEditor(){
    '<div class="pg-contract"><span>需要：'+pEsc(s.requires.join('、')||'無')+'</span><span>預期產出：'+pEsc(s.produces.join('、')||'尚未定義')+'</span><span>Gate：'+pEsc(s.gate||'尚未定義')+'</span></div></article>';
  }).join('<div class="pg-connector" aria-hidden="true">↓</div>');
  const gaps=result.gaps.length?'<ul>'+result.gaps.map(x=>'<li>'+pEsc(x)+'</li>').join('')+'</ul>':'<p>所有已選步驟滿足此 Recipe 的前置產物定義；仍未驗證真實 API、資料格式、執行或輸出品質。</p>';
- return '<div class="pg-editor-panel"><span class="pg-kicker">EDITABLE RECIPE · PLANNING ONLY</span><h2>'+pEsc(recipe.title)+'</h2><p>'+pEsc(recipe.description)+'</p><div class="pg-toolbar"><button class="pg-action" type="button" data-reset-recipe>重設選擇</button><button class="pg-action pg-action-primary" type="button" data-copy-plan>複製流程</button><a class="pg-action" href="'+pSourceLink('workflow',recipe.sourceWorkflowRef.id)+'">查看原始 Workflow</a></div>'+stages+pResult('<strong>'+(result.structurallyPlanned?'結構規劃完整（未實測）':'目前有流程缺口')+'</strong>'+gaps)+'<div class="pg-note">'+pEsc(recipe.disclaimer||'未驗證工具相容性。')+'</div></div>';
+ return '<div class="pg-editor-panel"><span class="pg-kicker">EDITABLE RECIPE · PLANNING ONLY</span><h2>'+pEsc(recipe.title)+'</h2><p>'+pEsc(recipe.description)+'</p><div class="pg-toolbar"><button class="pg-action" type="button" data-reset-recipe>重設選擇</button><button class="pg-action pg-action-primary" type="button" data-copy-plan>複製流程</button><a class="pg-action" href="'+pSourceLink('workflow',recipe.sourceWorkflowRef.id)+'">查看原始 Workflow</a></div>'+pReviewSummary(recipe.sourceWorkflowRef.id)+stages+pResult('<strong>'+(result.structurallyPlanned?'結構規劃完整（未實測）':'目前有流程缺口')+'</strong>'+gaps)+pReviewOriginalStages(recipe.sourceWorkflowRef.id)+'<div class="pg-note">'+pEsc(recipe.disclaimer||'未驗證工具相容性。')+'</div></div>';
 }
 function pRecordedEditor(){
  const wf=PG.catalog.workflows.find(x=>x.id===PG.workflowId);if(!wf)return pIntro();
- const stages=(wf.stages||[]).map((s,i)=>{
-  const uses=(s.uses||[]).map(ref=>'<a href="'+pSourceLink(ref.type,ref.id)+'">'+pEsc(PG.index.get(pKey(ref))?.title||ref.id)+'</a>').join('、');
-  return '<article class="pg-step"><div class="pg-step-head"><span class="pg-index">'+String(i+1).padStart(2,'0')+'</span><strong>'+pEsc(s.title||s.id)+'</strong></div><p>'+pEsc(s.purpose||'尚未整理階段內容')+'</p>'+(uses?'<div class="pg-step-use">引用：'+uses+'</div>':'<p class="pg-muted">此階段沒有正式指定工具。</p>')+'<div class="pg-contract"><span>已記錄產物：'+pEsc((s.outputs||[]).join('、')||'尚未定義')+'</span><span>驗收：'+pEsc(s.gate||'尚未定義')+'</span></div></article>';
+ const stages=(wf.stages||[]).map((stage,index)=>{
+  const uses=(stage.uses||[]).map(ref=>'<a href="'+pSourceLink(ref.type,ref.id)+'">'+pEsc(PG.index.get(pKey(ref))?.title||ref.id)+'</a>').join('、');
+  return '<article class="pg-step"><div class="pg-step-head"><span class="pg-index">'+String(index+1).padStart(2,'0')+'</span><strong>'+pEsc(stage.title||stage.id)+'</strong></div><p>'+pEsc(stage.purpose||'尚未整理階段內容')+'</p>'+
+   (uses?'<div class="pg-step-use">正式引用：'+uses+'</div>':'<p class="pg-muted">此階段沒有正式指定工具。</p>')+
+   pReviewStageOptions(wf.id,index)+
+   '<div class="pg-contract"><span>已記錄產物：'+pEsc((stage.outputs||[]).join('、')||'尚未定義')+'</span><span>驗收：'+pEsc(stage.gate||'尚未定義')+'</span></div></article>';
  }).join('<div class="pg-connector" aria-hidden="true">↓</div>');
- return '<div class="pg-editor-panel"><span class="pg-kicker">RECORDED WORKFLOW · REFERENCE</span><h2>'+pEsc(wf.title)+'</h2><p>'+pEsc(wf.goal||wf.problem||'')+'</p><div class="pg-toolbar"><button type="button" class="pg-action pg-action-primary" data-from-workflow="'+pEsc(wf.id)+'">以引用工具建立自由草稿</button><button type="button" class="pg-action" data-copy-plan>複製流程</button><a class="pg-action" href="'+pSourceLink('workflow',wf.id)+'">查看完整原始資料</a></div><div class="pg-note">這是已收藏 Workflow 的階段筆記。尚未建立可驗證的候選工具與 I/O 契約，因此不可把步驟順序視為可直接串接。</div>'+stages+'</div>';
+ return '<div class="pg-editor-panel"><span class="pg-kicker">RECORDED WORKFLOW · REFERENCE</span><h2>'+pEsc(wf.title)+'</h2><p>'+pEsc(wf.goal||wf.problem||'')+'</p>'+
+  '<div class="pg-toolbar"><button type="button" class="pg-action pg-action-primary" data-from-workflow="'+pEsc(wf.id)+'">以正式引用工具建立自由草稿</button><button type="button" class="pg-action" data-copy-plan>複製流程</button><a class="pg-action" href="'+pSourceLink('workflow',wf.id)+'">查看完整原始資料</a></div>'+
+  pReviewSummary(wf.id)+
+  '<div class="pg-note">這是已收藏 Workflow 的原始階段。候選工具並非正式 Stage 引用，沒有實測 I/O 或相容契約；不可把這些候選當作已建立的 Recipe。</div>'+
+  stages+pReviewUnassigned(wf.id)+'</div>';
 }
 function pDraftEditor(){
  const rows=PG.draft.map((key,i)=>{
@@ -129,6 +184,7 @@ function pBind(){
  });
  document.addEventListener('change',e=>{const el=e.target.closest('[data-stage-choice]');if(!el)return;PG.choices[el.dataset.stageChoice]=el.value||null;pRender()});
  p$('#pg-search').addEventListener('input',e=>{PG.search=e.target.value;pRenderFlowList()});
+ p$('#pg-review-only').addEventListener('change',e=>{PG.reviewOnly=e.target.checked&&PG.reviewState==='ready';pRenderFlowList()});
  p$('#pg-tool-search').addEventListener('input',e=>{PG.toolSearch=e.target.value;pRenderTools()});
 }
 async function pInit(){
@@ -138,6 +194,13 @@ async function pInit(){
   PG.catalog=await cRes.json();PG.graph=await gRes.json();
   if(!Array.isArray(PG.catalog.workflows)||!Array.isArray(PG.graph.edges))throw Error('資料格式不正確');
   PG.index=WorkflowEngine.indexCatalog(PG.catalog);PG.nodes=new Map(PG.graph.nodes.map(n=>[n.key,n]));
+  try{
+   const reviewResponse=await fetch('docs/RELATIONSHIP_AUDIT06_OPTIONS_REVIEW_20261124.json',{cache:'no-store'});
+   if(!reviewResponse.ok)throw Error('Review JSON HTTP '+reviewResponse.status);
+   const validated=WorkflowReview.inspect(await reviewResponse.json(),PG.catalog);
+   if(!validated.ok)throw Error('Review source integrity: '+validated.errors.slice(0,4).join(', '));
+   PG.reviewCases=validated.byWorkflow;PG.reviewState='ready';
+  }catch(error){PG.reviewCases=new Map();PG.reviewState='unavailable';console.warn('Review preview disabled:',error.message)}
   const loaded=await Promise.all(rRes.map(r=>r.ok?r.json():null));
   PG.recipes=loaded.filter(Boolean).filter(r=>{try{WorkflowEngine.validateRecipe(r,PG.catalog);return true}catch(error){console.warn('Recipe ignored:',r.id,error);return false}});
   try{const old=JSON.parse(localStorage.getItem('ai-tool-playground-draft-v1')||'[]');PG.draft=Array.isArray(old)?old.filter(k=>PG.index.has(k)&&['resource','skill'].includes(PG.index.get(k).entityType)).slice(0,50):[]}catch{}
