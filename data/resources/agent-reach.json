@@ -6,8 +6,8 @@
   "canonicalName": "Agent Reach",
   "category": "05 Data & Ingestion",
   "resourceType": "Agent Capability Layer / Web & Social Access",
-  "purpose": "為 CLI Agent 安裝並管理多種社群與影音平台的搜尋、讀取和資料擷取通道，提供通道健康檢查及優先／備援後端。",
-  "recommendation": "適合有跨平台公開資料調查需求的 Agent；登入平台時須先評估 Cookie、瀏覽器 Session、服務條款和帳號權限。",
+  "purpose": "讓 AI Agent 透過統一入口搜尋或讀取不同網站支援的內容，不必為每個平台自行建立一套讀取介面。",
+  "recommendation": "適合跨網站蒐集文章、影音資訊與來源證據；如果只讀單一網站且已有官方 API，先用更簡單的官方入口。",
   "url": "https://github.com/Panniantong/Agent-Reach",
   "repo": "Panniantong/Agent-Reach",
   "notes": "Official upstream identified. It positions itself as a capability layer that routes to preferred/fallback platform backends.",
@@ -91,7 +91,7 @@
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，補足人類閱讀及技術對應，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -115,6 +115,10 @@
     "verification": {
       "status": "not-tested",
       "evidence": "已讀取固定 Commit 核心原始碼及 LICENSE，未安裝、Build、Runtime、Security 或 Integration 測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 CLI、Channel、Dispatch、Result 核心證據支持三項用途；各平台讀取及下游摘要仍須獨立驗證。"
     }
   },
   "repoGuide": {
@@ -298,7 +302,18 @@
         "input": "本機已安裝的 Channel 定義",
         "output": "channels 清單與參數",
         "source": "agent_reach/runtime/cli.py",
-        "gate": "確認版本和安裝狀態，未實測"
+        "gate": "確認版本和安裝狀態，未實測",
+        "sourceFiles": [
+          "agent_reach/runtime/cli.py",
+          "agent_reach/channels/base.py"
+        ],
+        "symbols": [
+          "_cmd_channels",
+          "Channel",
+          "Action"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       },
       {
         "id": "normalized-read",
@@ -307,7 +322,40 @@
         "input": "合法網址或 Channel Action 參數",
         "output": "JSON envelope 與 items/error",
         "source": "agent_reach/runtime/result.py",
-        "gate": "僅讀取已授權的內容，必須保留來源與錯誤，未實測"
+        "gate": "僅讀取已授權的內容，必須保留來源與錯誤，未實測",
+        "sourceFiles": [
+          "agent_reach/runtime/result.py",
+          "agent_reach/runtime/cli.py"
+        ],
+        "symbols": [
+          "envelope",
+          "make_item",
+          "_cmd_read"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "route-and-fallback",
+        "name": "平台路由與備援",
+        "problem": "各網站支援的操作及後端不同",
+        "input": "網址、平台動作及已授權後端",
+        "output": "路由結果或分類錯誤",
+        "source": "agent_reach/runtime/dispatch.py",
+        "sourceFiles": [
+          "agent_reach/runtime/dispatch.py",
+          "agent_reach/runtime/cli.py",
+          "agent_reach/channels/base.py"
+        ],
+        "symbols": [
+          "run_action",
+          "validate_action",
+          "_cmd_read",
+          "Channel.can_handle"
+        ],
+        "gate": "確認平台規則與通道設定；遇登入或禁止存取不得繞過限制，實際平台未測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       }
     ],
     "workflow": {
@@ -323,7 +371,8 @@
           "action": "在合法公開來源讀取，保留 URL、文字及失敗狀態"
         }
       ],
-      "gate": "示例僅為設計；不得繞過平台限制或將第三方內容當作指令。未執行整合。"
+      "gate": "示例僅為設計；不得繞過平台限制或將第三方內容當作指令。未執行整合。",
+      "readerExampleRef": "research-reading"
     },
     "rebuild": {
       "verdict": "已掌握核心路由與資料契約，可先重建不含登入的 Mock MVP；尚未逐個核對各平台工具及完整註冊、管理流程。",
@@ -385,6 +434,114 @@
         "state": "未驗證",
         "evidence": "需逐個 adapter 及授權環境測試"
       }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "web-research",
+        "title": "跨網站資料蒐集",
+        "detail": "從支援的網站取得文章與來源，交給後續摘要或研究流程。",
+        "capabilityRefs": [
+          "channel-discovery",
+          "normalized-read",
+          "route-and-fallback"
+        ]
+      },
+      {
+        "id": "check-platform",
+        "title": "先確認能不能讀",
+        "detail": "檢視已設定的通道與支援動作，避免假設每個網站都能搜尋。",
+        "capabilityRefs": [
+          "channel-discovery"
+        ]
+      },
+      {
+        "id": "track-failure",
+        "title": "辨識資料讀取失敗",
+        "detail": "將讀取不到、需登入或平台限制的結果分開處理，保留錯誤。",
+        "capabilityRefs": [
+          "normalized-read",
+          "route-and-fallback"
+        ]
+      }
+    ],
+    "example": {
+      "id": "research-reading",
+      "title": "整理三篇研究文章",
+      "input": "三個已確認可合法讀取的文章網址。",
+      "process": "確認通道 → 逐筆讀取 → 檢查結果與錯誤 → 交給摘要流程",
+      "output": {
+        "items": [
+          "文章標題、網址、文字（若取得）"
+        ],
+        "errors": [
+          "無法讀取時保留錯誤及網址"
+        ]
+      },
+      "destination": "研究筆記或知識庫；摘要、去重及寫入由下游流程負責。",
+      "note": "自訂設計示例，未連線或執行工具；不保證各平台或網址均可讀取。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "web-research",
+        "check-platform",
+        "track-failure"
+      ],
+      "steps": [
+        {
+          "id": "discover",
+          "title": "確認通道",
+          "capabilityRefs": [
+            "channel-discovery"
+          ]
+        },
+        {
+          "id": "read",
+          "title": "選擇支援路由",
+          "capabilityRefs": [
+            "route-and-fallback"
+          ]
+        },
+        {
+          "id": "check",
+          "title": "保留內容及錯誤",
+          "capabilityRefs": [
+            "normalized-read"
+          ]
+        },
+        {
+          "id": "summarize",
+          "title": "整理至知識庫",
+          "capabilityRefs": [],
+          "externalDependency": "另行設計摘要、去重及寫入流程，保留來源及授權。"
+        }
+      ]
+    },
+    "comparison": {
+      "title": "什麼時候需要它？",
+      "headers": [
+        "單一網站官方 API",
+        "Agent Reach"
+      ],
+      "rows": [
+        [
+          "已知單一網站契約，直接串接較簡單",
+          "多平台需要統一讀取及錯誤處理"
+        ]
+      ],
+      "note": "通道可用性和實際授權需逐項確認。"
+    },
+    "start": [
+      "先檢查固定版本 README、安裝文件、平台需求及授權。",
+      "若獲准安裝，先用 version、channels、doctor 檢視狀態，不直接使用個人登入資料。",
+      "使用無敏感資訊的公開網址驗證可讀性及錯誤處理，再接摘要流程。"
+    ],
+    "limits": [
+      "部分平台功能依賴登入 Session、外部工具及平台政策，不能保證永遠可用。",
+      "官方說明涉及由 Chrome 複製網站登入狀態至專用瀏覽器，可能帶來憑證與隱私風險。",
+      "本次只查固定版本核心程式，未安裝或實測各平台；不保證替代所有 API。"
     ]
   }
 }
