@@ -30954,8 +30954,8 @@
       "canonicalName": "Pydantic AI",
       "category": "AI Agent / Framework & Learning",
       "resourceType": "型別化 Python Agent 框架",
-      "purpose": "以 Python 型別、結構化輸出和驗證機制建立可測試的 AI Agent 應用。",
-      "recommendation": "需要將模型結果接入 Python 商業邏輯、資料模型與可重現測試時，優先評估 Pydantic AI。若只需固定 ETL 規則或單次摘要，不必先建複雜 Harness。",
+      "purpose": "用 Python 建立能操作工具、查詢資料，並回傳指定格式結果的 AI Agent。",
+      "recommendation": "適合要將 AI 接到既有應用程式、API、資料庫或企業流程的開發者；若只是單次問答或固定規則即可完成的工作，先用更簡單的方式。",
       "url": "https://github.com/pydantic/pydantic-ai",
       "repo": "pydantic/pydantic-ai",
       "notes": "",
@@ -31040,6 +31040,10 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited."
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "已將四個人類使用情境與五個來源支援的實作能力建立局部穩定引用；履歷示例的外部依賴與未實測狀態均保留。"
         }
       },
       "repoGuide": {
@@ -31190,7 +31194,99 @@
             "input": "任務、輸出型別及經授權工具",
             "output": "符合契約的結果或可辨識失敗",
             "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
-            "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+            "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。",
+            "sourceFiles": [
+              "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+              "pydantic_ai_slim/pydantic_ai/output.py"
+            ],
+            "symbols": [
+              "Agent",
+              "output_type",
+              "ToolOutput",
+              "NativeOutput",
+              "PromptedOutput"
+            ],
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "function-tools",
+            "name": "函式工具與依賴",
+            "problem": "模型需要透過受控程式查詢或執行操作",
+            "input": "工具簽章、經核准的依賴、模型工具參數",
+            "output": "具名工具的結果或可辨識的失敗",
+            "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+            "sourceFiles": [
+              "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+            ],
+            "symbols": [
+              "Agent.tool",
+              "Agent.tool_plain",
+              "RunContext"
+            ],
+            "gate": "資料庫/API connector、身份驗證、授權與副作用控制由應用程式提供；未測實際工具呼叫。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "output-validation",
+            "name": "輸出驗證",
+            "problem": "下游程式需要明確型別與錯誤路徑",
+            "input": "輸出型別、模型回傳值、應用程式驗證條件",
+            "output": "符合格式的結果或可辨識的驗證失敗",
+            "source": "pydantic_ai_slim/pydantic_ai/output.py",
+            "sourceFiles": [
+              "pydantic_ai_slim/pydantic_ai/output.py",
+              "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+            ],
+            "symbols": [
+              "ToolOutput",
+              "NativeOutput",
+              "PromptedOutput",
+              "output_type"
+            ],
+            "gate": "格式驗證不保證來源正確或語意正確；模型與輸出模式須另測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "usage-limits",
+            "name": "用量上限",
+            "problem": "多次模型請求與工具呼叫可能超出預算",
+            "input": "UsageLimits 設定、實際用量",
+            "output": "可辨識的限制超出或允許繼續執行",
+            "source": "pydantic_ai_slim/pydantic_ai/usage.py",
+            "sourceFiles": [
+              "pydantic_ai_slim/pydantic_ai/usage.py"
+            ],
+            "symbols": [
+              "UsageLimits",
+              "check_before_request",
+              "check_before_tool_call",
+              "check_tokens"
+            ],
+            "gate": "Token 使用量有些須於回傳後確認；不保證精準金額上限，正式成本及失敗處理未測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "mock-testing",
+            "name": "模擬模型測試",
+            "problem": "需要不呼叫真實模型就能測試程式契約",
+            "input": "TestModel、工具 Schema、可控測試資料",
+            "output": "可檢查的模擬模型回傳及程式行為",
+            "source": "pydantic_ai_slim/pydantic_ai/models/test.py",
+            "sourceFiles": [
+              "pydantic_ai_slim/pydantic_ai/models/test.py"
+            ],
+            "symbols": [
+              "TestModel",
+              "request",
+              "gen_tool_args"
+            ],
+            "gate": "模擬測試只驗證測試條件下的程式行為；不等於真實模型品質、權限或整合通過。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
           }
         ],
         "workflow": {
@@ -31202,7 +31298,8 @@
               "action": "用假履歷與輸出 Schema 驗證欄位；保留來源並禁止虛構經歷。"
             }
           ],
-          "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+          "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。",
+          "readerExampleRef": "resume-extraction"
         },
         "rebuild": {
           "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
@@ -31254,6 +31351,138 @@
             "evidence": "本次無第三方執行"
           }
         ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "useCases": [
+          {
+            "title": "文件資料擷取",
+            "detail": "從已取得的履歷、合約或發票文字擷取指定欄位，讓其他系統能繼續使用。",
+            "id": "document-extraction",
+            "capabilityRefs": [
+              "typed-output",
+              "output-validation"
+            ]
+          },
+          {
+            "title": "智慧資料查詢",
+            "detail": "把已授權的 API 或資料庫查詢包裝成工具，讓 AI 依問題選擇查詢。",
+            "id": "data-query",
+            "capabilityRefs": [
+              "function-tools",
+              "usage-limits"
+            ]
+          },
+          {
+            "title": "企業流程整合",
+            "detail": "將 AI 的判斷結果交給後續程式或自動化流程；寫入和核准由應用程式控制。",
+            "id": "workflow-integration",
+            "capabilityRefs": [
+              "function-tools",
+              "typed-output",
+              "usage-limits"
+            ]
+          },
+          {
+            "title": "控制輸出格式",
+            "detail": "檢查必要欄位及資料型別，讓格式不符的結果能被辨識與處理。",
+            "id": "output-quality",
+            "capabilityRefs": [
+              "output-validation",
+              "mock-testing"
+            ]
+          }
+        ],
+        "example": {
+          "title": "AI 履歷分析",
+          "note": "自訂示例，未實際執行。PDF 文字擷取是前置處理，並非 Pydantic AI 自帶的 PDF 解析保證。",
+          "input": "已取得的履歷文字：職稱 Data Engineer，5 年工作經驗，技能 Python、SQL，未提供學歷。",
+          "process": "Pydantic AI Agent：擷取欄位 → 檢查格式 → 交付結果",
+          "output": {
+            "job_title": "Data Engineer",
+            "years_of_experience": 5,
+            "skills": [
+              "Python",
+              "SQL"
+            ],
+            "education": null
+          },
+          "destination": "招募系統／資料庫／Dashboard（需自行串接）",
+          "id": "resume-extraction",
+          "useCaseRefs": [
+            "document-extraction",
+            "workflow-integration",
+            "output-quality"
+          ],
+          "verificationStatus": "design-only",
+          "steps": [
+            {
+              "id": "prepare-text",
+              "title": "取得履歷文字",
+              "capabilityRefs": [],
+              "externalDependency": "PDF 解析及文件讀取需另行實作，確認授權並移除不必要個資。"
+            },
+            {
+              "id": "extract-fields",
+              "title": "擷取指定欄位",
+              "capabilityRefs": [
+                "typed-output"
+              ]
+            },
+            {
+              "id": "validate-fields",
+              "title": "檢查格式與錯誤",
+              "capabilityRefs": [
+                "output-validation",
+                "mock-testing"
+              ],
+              "note": "Mock 驗收是開發階段，不代表每次正式請求都執行 TestModel。"
+            },
+            {
+              "id": "deliver-result",
+              "title": "交付結果給招募系統",
+              "capabilityRefs": [],
+              "externalDependency": "資料庫或招募系統 API、存取權限、寫入核准及失敗處理須由應用程式實作。"
+            }
+          ]
+        },
+        "comparison": {
+          "title": "為什麼不直接呼叫 LLM API？",
+          "headers": [
+            "自行使用 LLM API",
+            "使用 Pydantic AI"
+          ],
+          "rows": [
+            [
+              "自行安排工具呼叫及結果回傳",
+              "提供 Agent 與工具呼叫機制"
+            ],
+            [
+              "自行解析及驗證輸出",
+              "提供型別化輸出與驗證"
+            ],
+            [
+              "自行管理重試及使用上限",
+              "提供重試及用量限制機制"
+            ],
+            [
+              "自行搭建模擬測試",
+              "提供 TestModel 等測試工具"
+            ]
+          ],
+          "note": "直接使用 API 也能做到；框架主要減少自行建立共通機制的負擔。"
+        },
+        "start": [
+          "選擇一個小任務，先用假資料定義需要的輸出欄位。",
+          "在隔離 Python 環境依官方文件安裝相容版本，使用 TestModel 測試格式、缺值及錯誤。",
+          "再接核准的模型與只讀工具，比較實際輸出及成本；確認權限後才考慮寫入其他系統。"
+        ],
+        "limits": [
+          "格式正確不代表內容正確；仍需驗證來源與業務規則。",
+          "模型不能自行取得資料庫權限；工具、授權及整合由開發者設定。",
+          "此收藏已查閱核心原始碼，尚未執行安裝、模型、API 或正式整合測試。"
+        ],
+        "mappingVersion": 1
       }
     },
     {
