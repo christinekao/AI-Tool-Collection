@@ -294,6 +294,13 @@ try{
  assert.ok(agentRecipe>=3);
  await send('Page.navigate',{url:origin+'/playground.html?workflow=stack'});
  await waitFor('document.querySelectorAll("#pg-editor .pg-step[data-stage-id]").length===4','Enterprise RAG recipe');
+ await waitFor('document.querySelector("#pg-review-summary")?.textContent.includes("候選，未驗證") && document.querySelectorAll("#pg-reviewed-stages .pg-review-option").length===4','Deployed Workflow Review options');
+ const deployedReview=await evaluate('({count:PG.reviewCases.size,links:[...document.querySelectorAll("#pg-reviewed-stages .pg-review-option a")].every(a=>a.getAttribute("href").startsWith("index.html#/resources/")),unverified:document.querySelector("#pg-review-summary")?.textContent.includes("未測試")||document.querySelector("#pg-review-summary")?.textContent.includes("未驗證")})');
+ assert.equal(deployedReview.count,17);
+ assert.equal(deployedReview.links,true);
+ assert.equal(deployedReview.unverified,true);
+ console.log('PASS: Deployed Audit07 Workflow Preview shows 17 review-only cases and 4 source-bound Enterprise RAG options');
+
  console.log('PASS: Three independently curated recipes are readable and editable');
 
  // Problem-first navigation and free drafts with real Resource / Skill records.
