@@ -7,13 +7,13 @@
   "category": "06 Skills",
   "resourceType": "Skill Collection",
   "purpose": "提供給 AI Coding Agent 的工程 Skills 與指令，按照需求規格、規劃、開發、測試、審查及發布的生命週期組織工作。",
-  "recommendation": "適合希望讓多次 AI Coding 工作遵循相同規格與品質門檻的團隊；先閱讀技能清單，選擇必要技能，不必一次安裝全部。",
+  "recommendation": "已有成熟專案時，先補目前最薄弱的品質關卡；新專案才從規格到發布建立完整流程。不要把所有 Skills 長期注入 context，也不要把安裝完成當作流程完成。",
   "url": "https://github.com/addyosmani/agent-skills",
   "repo": "addyosmani/agent-skills",
-  "notes": "",
+  "notes": "選讀來源：https://github.com/addyosmani/agent-skills/tree/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills 。跨工具可複用的原則：任務階段決定 Skill，專門風險決定附加 Skill，交付證據決定能否完成。這是挑選方法，不是新增正式 Workflow 或已測整合。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-24",
   "tags": [
     "skills",
     "production",
@@ -52,24 +52,29 @@
   },
   "homepage": "https://skills.addy.ie",
   "features": [
-    "以 /spec、/plan、/build、/test、/review、/ship 等指令對應開發階段。",
-    "涵蓋程式碼審查、測試驅動開發、網站效能與可及性等專門 Skills。",
-    "README 說明可經 Skills CLI 安裝整套或選擇單一 Skill。"
+    "需求不清楚｜interview-me 釐清問題；spec-driven-development 將新功能轉為規格與驗收標準；已有規格不必重寫，改用 planning-and-task-breakdown。",
+    "開發與修錯｜incremental-implementation 控制修改範圍；test-driven-development 適用行為變更；debugging-and-error-recovery 適用已有可重現問題。",
+    "驗收與審查｜browser-testing-with-devtools 用於瀏覽器中的實際畫面與狀態；code-review-and-quality 檢查正確性、可讀性、架構、安全及效能；兩者不是替代關係。",
+    "發布與專門風險｜git-workflow-and-versioning、ci-cd-and-automation 適合交付流程；涉及權限、安全、效能、無障礙時才加入對應專門 Skill。",
+    "索引入口｜using-agent-skills 依當前任務挑選技能；官方 README 的生命週期目錄提供其他 Skills 的用途與入口。"
   ],
   "requirements": [
-    "使用前確認 Agent 環境及 Skills CLI 的相容性與安裝方式。",
-    "在真實專案使用前先檢查 SKILL.md、腳本、權限與執行副作用。"
+    "選擇方法｜先寫下目前任務、缺少的交付物及驗收條件，再開啟對應 SKILL.md；先查來源、腳本、權限和現有 AGENTS.md/CLAUDE.md 是否衝突。",
+    "安裝方式依 Host 而異：Codex、Claude Code、Cursor 等使用各自官方 Repo setup 文件；先專案範圍試用，確認可發現與呼叫，避免直接改全域規則。",
+    "示例｜修復網頁儲存問題：先重現 → debugging-and-error-recovery → test-driven-development → browser-testing-with-devtools → code-review-and-quality。交付 PR、測試輸出及資料讀回證據。"
   ],
   "limitations": [
-    "README 的跨 Agent 支援不代表所有平台功能完全相同；需依實際環境驗證。",
-    "安裝 Skills 不代表測試、審查與發布已通過，仍須保留獨立驗收。"
+    "只有 meta、spec、review、browser-testing 四份 SKILL.md 及 LICENSE 本輪逐檔查閱；其他名稱與用途來自官方 README 索引，未逐項執行驗證。",
+    "瀏覽器驗證需要可用的 Chrome DevTools MCP；不應為了測試任意使用已登入的個人瀏覽器。",
+    "Repo LICENSE 為 MIT；第三方工具、依賴及實際使用條款仍需個別核對。技能流程不等於測試通過或有權限部署。"
   ],
   "source": {
     "url": "https://github.com/addyosmani/agent-skills",
     "readmeUrl": "https://github.com/addyosmani/agent-skills/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-24",
+    "reviewScope": "Pinned SKILL.md files (using-agent-skills, spec-driven-development, code-review-and-quality, browser-testing-with-devtools), LICENSE and README index; no installation or runtime.",
+    "upstreamCommit": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74"
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -78,7 +83,7 @@
       "source.url",
       "repo"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -94,7 +99,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain ai-agent，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "standard",
-      "status": "applied"
+      "status": "applied",
+      "reason": "Standard 內容採策展導覽，重點為按任務挑選、適用邊界及產物，不套用 Repo 重建教學。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -107,7 +113,7 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "已讀取四個版本化 SKILL.md 及 MIT LICENSE；其他項目為 README 索引，所有安裝與實際執行均未驗證。"
     }
   }
 }
