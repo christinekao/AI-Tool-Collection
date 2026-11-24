@@ -7,7 +7,7 @@
   "category": "AI Agent / Framework & Learning",
   "resourceType": "型別化 Python Agent 框架",
   "purpose": "以 Python 型別、結構化輸出和驗證機制建立可測試的 AI Agent 應用。",
-  "recommendation": "適合 Python 後端與需要可明確檢查輸入、輸出及依賴的 Agent 專案。",
+  "recommendation": "需要將模型結果接入 Python 商業邏輯、資料模型與可重現測試時，優先評估 Pydantic AI。若只需固定 ETL 規則或單次摘要，不必先建複雜 Harness。",
   "url": "https://github.com/pydantic/pydantic-ai",
   "repo": "pydantic/pydantic-ai",
   "notes": "",
@@ -33,20 +33,25 @@
     "taxonomyVersion": "1.0"
   },
   "features": [
-    "以型別化資料模型定義 Agent 輸入與輸出。",
-    "支援工具及模型提供者的整合模式，便於撰寫測試。"
+    "Agent 的 output_type 定義最終輸出契約；可用 Pydantic Model 限制欄位與型別。",
+    "Agent.tool 注入 RunContext，tool_plain 不需 context；工具簽章是參數契約的基礎。",
+    "ToolOutput、NativeOutput、PromptedOutput 代表不同的結構化輸出途徑；模型支援需另驗證。",
+    "UsageLimits 可限制請求、工具呼叫及 Token；TestModel 可在無真實模型的情境測介面。"
   ],
   "requirements": [
-    "需有 Python 開發環境，並依選定模型配置授權和依賴。"
+    "Python 隔離環境；依官方文件選擇模型依賴和認證。",
+    "先採 TestModel 與假資料測試 Schema 與工具，再接經核准的模型。"
   ],
   "limitations": [
-    "型別驗證不等於語意正確；模型費用、資料隱私及測試仍需自行處理。"
+    "型別驗證不代表內容正確、未越權或符合業務規則。",
+    "本輪僅查核心檔案，未測模型、Harness、持久化、API 或正式部署。"
   ],
   "source": {
     "url": "https://github.com/pydantic/pydantic-ai",
     "type": "Official GitHub repository metadata and README",
     "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewScope": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited.",
+    "upstreamCommit": "48152fb97f25ea53792c4285eec058371f0e2c89"
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -72,8 +77,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "完成限定範圍的核心來源指南，明確保留完整框架重建與實測缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +91,220 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited."
     }
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以 Python 型別和工具契約約束 Agent 的輸入輸出，將模型回傳轉成可供應用程式使用的資料。此指南聚焦核心 Agent 與驗證，不涵蓋完整 Harness。",
+    "status": [
+      {
+        "label": "核心原始碼",
+        "value": "已查閱固定 Commit"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約可作設計參考，完整框架尚待查核"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "重點",
+        "value": "Typed Output · Tool Contract"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "型別化輸出",
+        "detail": "Agent 的 output_type 定義最終輸出契約；可用 Pydantic Model 限制欄位與型別。",
+        "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+      },
+      {
+        "title": "函式工具",
+        "detail": "Agent.tool 注入 RunContext，tool_plain 不需 context；工具簽章是參數契約的基礎。",
+        "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+      },
+      {
+        "title": "輸出模式",
+        "detail": "ToolOutput、NativeOutput、PromptedOutput 代表不同的結構化輸出途徑；模型支援需另驗證。",
+        "source": "pydantic_ai_slim/pydantic_ai/output.py"
+      },
+      {
+        "title": "限制與測試",
+        "detail": "UsageLimits 可限制請求、工具呼叫及 Token；TestModel 可在無真實模型的情境測介面。",
+        "source": "pydantic_ai_slim/pydantic_ai/usage.py"
+      }
+    ],
+    "architecture": {
+      "summary": "Agent 定義 → 模型與工具 → 輸出契約 → 觀察及測試",
+      "nodes": [
+        {
+          "title": "定義 Agent",
+          "detail": "配置模型、指令、工具及 output_type；將業務需求寫入型別與程式。",
+          "files": [
+            "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+          ]
+        },
+        {
+          "title": "請求模型與工具",
+          "detail": "模型可能產生工具呼叫；Agent 依註冊工具及參數處理，RunContext 提供依賴。",
+          "files": [
+            "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+          ]
+        },
+        {
+          "title": "驗證輸出",
+          "detail": "依 OutputSpec 選擇輸出 Schema；失敗應留在錯誤／重試路徑而非當成有效資料。",
+          "files": [
+            "pydantic_ai_slim/pydantic_ai/output.py"
+          ]
+        },
+        {
+          "title": "限制與測試",
+          "detail": "使用 UsageLimits 設門檻，並用 TestModel 檢查契約；真實模型品質需另做 Evals。",
+          "files": [
+            "pydantic_ai_slim/pydantic_ai/usage.py",
+            "pydantic_ai_slim/pydantic_ai/models/test.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "結構化不等於正確",
+        "rule": "Schema 只能驗證形式與明訂規則；業務語意、來源與權限另行驗證。",
+        "source": "pydantic_ai_slim/pydantic_ai/output.py"
+      },
+      {
+        "name": "限制資源",
+        "rule": "UsageLimits 對請求及工具呼叫設界線；Token 限制需留意回傳後才知道的用量。",
+        "source": "pydantic_ai_slim/pydantic_ai/usage.py"
+      },
+      {
+        "name": "模擬與實際分開",
+        "rule": "TestModel 用於可控測試，不代表真實供應商行為。",
+        "source": "pydantic_ai_slim/pydantic_ai/models/test.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "先看原始碼",
+        "description": "從固定 Commit 的核心檔案理解介面；不需安裝即可研究。",
+        "commands": [],
+        "files": [
+          "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+          "pydantic_ai_slim/pydantic_ai/output.py"
+        ],
+        "approval": false
+      },
+      {
+        "title": "建立隔離測試",
+        "description": "官方 README 安裝入口為 uv add pydantic-ai；先固定可用版本、檢查依賴，再用 TestModel 及無副作用工具測試。",
+        "commands": [],
+        "files": [
+          "README.md"
+        ],
+        "approval": true,
+        "approvalNote": "安裝第三方套件、連線及使用憑證需事先核准；本次未執行。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "新增資料契約與只讀工具",
+        "detail": "建立明確的 Pydantic Model 與具名工具；先驗證資料欄位及錯誤，不讓模型直接決定寫入。",
+        "file": "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+      },
+      {
+        "title": "補失敗路徑",
+        "detail": "測不合法輸出、工具失敗、超出呼叫限制與模型拒答。",
+        "file": "pydantic_ai_slim/pydantic_ai/usage.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "typed-output",
+        "name": "結構化結果",
+        "problem": "自由文字難以直接交給程式使用",
+        "input": "任務、輸出型別及經授權工具",
+        "output": "符合契約的結果或可辨識失敗",
+        "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+        "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+      }
+    ],
+    "workflow": {
+      "title": "履歷摘要欄位擷取（設計示例）",
+      "problem": "從非結構化文字產生可供程式核對的欄位",
+      "steps": [
+        {
+          "capability": "typed-output",
+          "action": "用假履歷與輸出 Schema 驗證欄位；保留來源並禁止虛構經歷。"
+        }
+      ],
+      "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+    },
+    "rebuild": {
+      "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
+      "stages": [
+        {
+          "title": "01 定義契約",
+          "detail": "建立資料型別、工具參數及錯誤契約。",
+          "deliverable": "輸入輸出規格"
+        },
+        {
+          "title": "02 建立最小測試",
+          "detail": "先用模擬模型測成功、錯誤及資源限制。",
+          "deliverable": "可重現 Mock 測試"
+        },
+        {
+          "title": "03 驗證真實環境",
+          "detail": "核對依賴、模型服務、權限、費用、失敗及資料處理，再決定能否接正式流程。",
+          "deliverable": "實際驗收與風險紀錄"
+        }
+      ],
+      "gaps": [
+        "完整模型 adapter、tool dispatch、Harness 與持久化尚未逐檔審查。",
+        "Runtime、Security、Integration 及第三方依賴授權未測。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "語意與權限",
+        "severity": "高",
+        "issue": "符合 Schema 的結果仍可能錯誤或越權。",
+        "control": "業務驗證、最小權限、來源核對及人審獨立於模型輸出。"
+      },
+      {
+        "title": "成本及迴圈",
+        "severity": "高",
+        "issue": "多步請求可能增加成本或延遲。",
+        "control": "設上限、測錯誤、保留紀錄並明訂停止條件。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本核心原始碼與 LICENSE",
+        "state": "已查閱",
+        "evidence": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited."
+      },
+      {
+        "item": "安裝／Runtime／Integration",
+        "state": "未驗證",
+        "evidence": "本次無第三方執行"
+      }
+    ]
   }
 }
