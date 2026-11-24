@@ -32,10 +32,11 @@ function pRenderFlowList(){
  const checkbox=p$('#pg-review-only');if(checkbox){checkbox.disabled=PG.reviewState!=='ready';checkbox.checked=PG.reviewOnly}
  const note=p$('#pg-review-filter-note');if(note)note.textContent=PG.reviewState==='ready'?'可預覽 '+PG.reviewCases.size+' 個流程的工具候選':'候選資料未載入；原有流程仍可使用';
  p$('#pg-flow-count').textContent=PG.problemId?'這個問題已連結 '+list.length+' 個 Flow':'共 '+list.length+' 個已收藏 Workflow；其中 '+PG.recipes.length+' 個有依賴條件範本';
+ const clear=p$('#pg-clear-filters');if(clear)clear.hidden=!(PG.problemId||PG.search||PG.reviewOnly);
  p$('#pg-flows').innerHTML=list.map(w=>{
   const recipe=pRecipeFor(w.id),curated=pCuratedCount(w.id);
   return '<button type="button" class="pg-sidebar-btn" data-flow-id="'+pEsc(w.id)+'" aria-pressed="'+(PG.workflowId===w.id)+'"><strong>'+pEsc(w.title)+'</strong><small>'+ (recipe?'可調整依賴條件的 Recipe':curated?'已整理 Problem 推薦｜尚無互動 Recipe':'已收藏的 Workflow｜待策展')+' · '+(w.stages||[]).length+' 階段</small></button>';
- }).join('')||'<p class="pg-empty">目前沒有符合篩選的推薦 Flow；清除問題篩選可看完整收藏。</p>';
+ }).join('')||'<div class="pg-empty-state"><p class="pg-empty">沒有符合目前條件的 Workflow。這不代表來源資料不存在，可清除搜尋、Problem 或候選篩選。</p><button class="pg-action" type="button" data-clear-filters>清除全部篩選</button></div>';
 }
 function pSourceLink(type,id){const plural={resource:'resources',skill:'skills',concept:'concepts',workflow:'workflows',prompt:'prompts',combination:'combinations'}[type];return plural?'index.html#/'+plural+'/'+encodeURIComponent(id):'knowledge.html'}
 function pIntro(){
@@ -60,7 +61,7 @@ function pReviewSummary(workflowId){
   '<div><dt>工具候選</dt><dd>'+row.options.length+' 個原有 Resource（'+matched+' 個有階段對應）</dd></div>'+
   '<div><dt>依據</dt><dd>'+pEsc(WorkflowReview.sourceLabel(row.sourceLevel))+'</dd></div></dl>'+
   '<div class="pg-review-decision"><strong>目前缺口</strong><p>'+pEsc(row.gap)+'</p><strong>下一個驗證項目</strong><p>'+pEsc(row.nextEvidence)+'</p></div>'+
-  '<a class="pg-source-link" href="https://github.com/christinekao/AI-Tool-Collection/blob/main/docs/RELATIONSHIP_AUDIT_PHASE06_20261124.md" target="_blank" rel="noopener noreferrer">查看 Audit 06 逐筆審查依據</a></section>';
+  '<a class="pg-source-link" href="https://github.com/christinekao/AI-Tool-Collection/blob/main/docs/RELATIONSHIP_AUDIT_PHASE06_20261124.md#'+encodeURIComponent(workflowId)+'" target="_blank" rel="noopener noreferrer">查看 Audit 06 逐筆審查依據</a></section>';
 }
 function pReviewStageOptions(workflowId,stageIndex){
  const row=PG.reviewCases.get(workflowId);
@@ -151,12 +152,45 @@ function pRenderTools(){
  }).join(''):'<p class="pg-empty">'+(q?'找不到相符的 Resource／Skill，請換關鍵字。':'先搜尋工具；加入草稿後，這裡會顯示共同 Concept 的相關候選工具。')+'</p>';
 }
 function pRender(){pRenderProblems();pRenderFlowList();p$('#pg-editor').innerHTML=PG.mode==='recipe'?pRecipeEditor():PG.mode==='recorded'?pRecordedEditor():PG.mode==='draft'?pDraftEditor():pIntro();pRenderTools()}
-function pOpenWorkflow(id){
+function pSyncUrl(workflow=PG.workflowId,problem=PG.problemId,method='pushState'){
+ const url=new URL(location.href);
+ if(workflow)url.searchParams.set('workflow',workflow);else url.searchParams.delete('workflow');
+ if(problem)url.searchParams.set('problem',problem);else url.searchParams.delete('problem');
+ url.searchParams.delete('seed');
+ if(url.href!==location.href)history[method](null,'',url.href);
+}
+function pOpenWorkflow(id,{push=false,scroll=true}={}){
  const wf=PG.catalog.workflows.find(x=>x.id===id);if(!wf)return;
  PG.workflowId=id;const r=pRecipeFor(id);
  if(r){PG.recipeId=r.id;PG.choices=WorkflowEngine.defaultChoices(r);PG.mode='recipe'}
  else{PG.recipeId=null;PG.mode='recorded'}
- pRender();p$('#pg-editor').scrollIntoView({block:'start',behavior:'auto'});
+ if(push)pSyncUrl(id,PG.problemId);
+ pRender();
+ if(scroll)p$('#pg-editor').scrollIntoView({block:'start',behavior:'auto'});
+}
+function pRestoreRoute({scroll=false}={}){
+ // URL is a shareable view state; never infer graph relationships from query params.
+ PG.reviewOnly=false;PG.search='';
+ const search=p$('#pg-search');if(search)search.value='';
+ const params=new URLSearchParams(location.search);
+ const workflow=params.get('workflow'),problem=params.get('problem'),seed=params.get('seed');
+ PG.problemId=problem&&PG.nodes.has('problem:'+problem)?problem:null;
+ if(workflow&&PG.catalog.workflows.some(w=>w.id===workflow)){
+  if(PG.problemId&&!pLinkedWorkflows(PG.problemId).has(workflow)){
+   PG.problemId=null;
+   pSyncUrl(workflow,null,'replaceState'); // Keep explicit Workflow over conflicting Problem.
+  }
+  pOpenWorkflow(workflow,{scroll});return;
+ }
+ if(PG.problemId){
+  const first=pFlowList()[0];
+  if(first){pOpenWorkflow(first.id,{scroll});return}
+ }
+ if(seed&&PG.index.has(seed)&&['resource','skill'].includes(PG.index.get(seed).entityType)){
+  if(!PG.draft.includes(seed)){PG.draft.push(seed);pPersistDraft()}
+  PG.mode='draft';PG.workflowId=null;PG.recipeId=null;pRender();return;
+ }
+ PG.mode='home';PG.workflowId=null;PG.recipeId=null;pRender();
 }
 function pOpenDraft(){PG.mode='draft';PG.workflowId=null;PG.recipeId=null;pRender()}
 function pPersistDraft(){try{localStorage.setItem('ai-tool-playground-draft-v1',JSON.stringify(PG.draft))}catch{}}
@@ -171,9 +205,10 @@ function pCopyText(){
 function pBind(){
  document.addEventListener('click',async e=>{
   const btn=e.target.closest('button');if(!btn)return;
-  if(btn.dataset.problemId){PG.problemId=PG.problemId===btn.dataset.problemId?null:btn.dataset.problemId;const list=pFlowList();if(list.length){pOpenWorkflow(list[0].id)}else pRender();return}
-  if(btn.dataset.flowId){pOpenWorkflow(btn.dataset.flowId);return}
+  if(btn.dataset.problemId){PG.problemId=PG.problemId===btn.dataset.problemId?null:btn.dataset.problemId;const list=pFlowList();if(list.length){pOpenWorkflow(list[0].id,{push:true})}else{PG.mode='home';PG.workflowId=null;PG.recipeId=null;pSyncUrl(null,PG.problemId);pRender()}return}
+  if(btn.dataset.flowId){pOpenWorkflow(btn.dataset.flowId,{push:true});return}
   if(btn.id==='pg-open-draft'){pOpenDraft();return}
+  if(btn.id==='pg-clear-filters'||btn.hasAttribute('data-clear-filters')){PG.problemId=null;PG.reviewOnly=false;PG.search='';p$('#pg-search').value='';pSyncUrl(PG.workflowId,null);pRender();return}
   if(btn.hasAttribute('data-reset-recipe')){const r=PG.recipes.find(x=>x.id===PG.recipeId);PG.choices=WorkflowEngine.defaultChoices(r);pRender();return}
   if(btn.hasAttribute('data-from-workflow')){const w=PG.catalog.workflows.find(x=>x.id===btn.dataset.fromWorkflow);const keys=[...new Set((w?.stages||[]).flatMap(s=>s.uses||[]).filter(r=>['resource','skill'].includes(r.type)).map(pKey).filter(k=>PG.index.has(k)))];PG.draft=keys;pPersistDraft();pOpenDraft();return}
   if(btn.hasAttribute('data-add-tool')){const key=btn.dataset.addTool;const rec=PG.index.get(key);if(rec&&['resource','skill'].includes(rec.entityType)&&!PG.draft.includes(key)){PG.draft.push(key);pPersistDraft();pOpenDraft()}return}
@@ -185,6 +220,7 @@ function pBind(){
  document.addEventListener('change',e=>{const el=e.target.closest('[data-stage-choice]');if(!el)return;PG.choices[el.dataset.stageChoice]=el.value||null;pRender()});
  p$('#pg-search').addEventListener('input',e=>{PG.search=e.target.value;pRenderFlowList()});
  p$('#pg-review-only').addEventListener('change',e=>{PG.reviewOnly=e.target.checked&&PG.reviewState==='ready';pRenderFlowList()});
+ window.addEventListener('popstate',()=>pRestoreRoute());
  p$('#pg-tool-search').addEventListener('input',e=>{PG.toolSearch=e.target.value;pRenderTools()});
 }
 async function pInit(){
@@ -204,11 +240,7 @@ async function pInit(){
   const loaded=await Promise.all(rRes.map(r=>r.ok?r.json():null));
   PG.recipes=loaded.filter(Boolean).filter(r=>{try{WorkflowEngine.validateRecipe(r,PG.catalog);return true}catch(error){console.warn('Recipe ignored:',r.id,error);return false}});
   try{const old=JSON.parse(localStorage.getItem('ai-tool-playground-draft-v1')||'[]');PG.draft=Array.isArray(old)?old.filter(k=>PG.index.has(k)&&['resource','skill'].includes(PG.index.get(k).entityType)).slice(0,50):[]}catch{}
-  pBind();const params=new URLSearchParams(location.search),seed=params.get('seed'),workflow=params.get('workflow'),problem=params.get('problem');
-  if(problem&&PG.nodes.has('problem:'+problem)){PG.problemId=problem;const first=pFlowList()[0];if(first){pOpenWorkflow(first.id);return}}
-  if(workflow&&PG.catalog.workflows.some(w=>w.id===workflow)){pOpenWorkflow(workflow);return}
-  if(seed&&PG.index.has(seed)&&['resource','skill'].includes(PG.index.get(seed).entityType)){if(!PG.draft.includes(seed))PG.draft.push(seed);pPersistDraft();PG.mode='draft'}
-  pRender();
+  pBind();pRestoreRoute({scroll:true});
  }catch(error){console.error(error);p$('#pg-editor').innerHTML='<div class="pg-error">Playground 載入失敗。請確認最新資料已部署並重新整理。</div>'}
 }
 pInit();
