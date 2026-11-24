@@ -1,3 +1,15 @@
+# Resource 最新交接｜雙層知識改善（2026-11-24）
+
+**本段為最新檢查點；以下 Phase 3 與 Phase 2 歷史原文保留，不可用舊數字覆蓋新進度。**
+
+- 基線 main e71dc7029396d0f251518b8b24a6ba8b0818a1bb，PR #65 已合併、Catalog Sync 已確認。286 筆 Resource／565 Canonical；新增或實質修改依 [Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) 與 [雙層規格](RESOURCE_HUMAN_AGENT_LAYER_SPEC_20261124.md)。
+- Pydantic AI 是已合併的雙層試作（1/286）。本批分支 resource/dual-layer-batch01-20261124 再完成 4 筆候選：agent-reach、huggingface-smolagents、arrow-2、google-pagespeed-insights。合併前仍算 1 筆 main 已完成；合併後 5/286，需再次核對 CI 和 Catalog/Pages。
+- [Batch 01 逐筆報告](RESOURCE_DUAL_LAYER_BATCH01_20261124.md)：四筆人類用途及案例、13 個局部技術／文件證據單元、正反向解析與保留原知識。四筆皆未執行第三方工具。
+- 既有深度內容批次 11 筆與雙層改善進度分開。保留舊來源缺口、版本、Tags、Classification、Typed Refs。未修改 Resource 不回溯強制。
+- 下一批：addyosmani-agent-skills、nirdiamant-genai-agents、anthropics-skills、openrouter-ai；之後為 ai-code-acceptance-review-testing-rollout-guide、microsoft-ai-agents-for-beginners。先核對 main、PR、各 CI、部署及實際 Canonical 狀態，保留教材章節。不得將 source-reviewed 或 deferred 誤認為實測或深度完成。
+
+---
+
 # Resource Phase 3｜深度內容標準化交接（2026-11-24）
 
 **狀態：270／270 基礎審查已存在，但專屬深度 Guide 僅 2／270；Phase 3 Pilot 尚未實作。** 最新 Repo audit baseline `b5ed6953704f25853f779df0012376173dc5786a`。這與早前的 Phase 2「內容審查完成」並不矛盾：**兩個完成指標不可混用**。
