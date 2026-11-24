@@ -6,8 +6,8 @@
   "canonicalName": "Pydantic AI",
   "category": "AI Agent / Framework & Learning",
   "resourceType": "型別化 Python Agent 框架",
-  "purpose": "以 Python 型別、結構化輸出和驗證機制建立可測試的 AI Agent 應用。",
-  "recommendation": "需要將模型結果接入 Python 商業邏輯、資料模型與可重現測試時，優先評估 Pydantic AI。若只需固定 ETL 規則或單次摘要，不必先建複雜 Harness。",
+  "purpose": "用 Python 建立能操作工具、查詢資料，並回傳指定格式結果的 AI Agent。",
+  "recommendation": "適合要將 AI 接到既有應用程式、API、資料庫或企業流程的開發者；若只是單次問答或固定規則即可完成的工作，先用更簡單的方式。",
   "url": "https://github.com/pydantic/pydantic-ai",
   "repo": "pydantic/pydantic-ai",
   "notes": "",
@@ -305,6 +305,79 @@
         "state": "未驗證",
         "evidence": "本次無第三方執行"
       }
+    ]
+  },
+  "readerGuide": {
+    "version": 1,
+    "useCases": [
+      {
+        "title": "文件資料擷取",
+        "detail": "從已取得的履歷、合約或發票文字擷取指定欄位，讓其他系統能繼續使用。"
+      },
+      {
+        "title": "智慧資料查詢",
+        "detail": "把已授權的 API 或資料庫查詢包裝成工具，讓 AI 依問題選擇查詢。"
+      },
+      {
+        "title": "企業流程整合",
+        "detail": "將 AI 的判斷結果交給後續程式或自動化流程；寫入和核准由應用程式控制。"
+      },
+      {
+        "title": "控制輸出格式",
+        "detail": "檢查必要欄位及資料型別，讓格式不符的結果能被辨識與處理。"
+      }
+    ],
+    "example": {
+      "title": "AI 履歷分析",
+      "note": "自訂示例，未實際執行。PDF 文字擷取是前置處理，並非 Pydantic AI 自帶的 PDF 解析保證。",
+      "input": "已取得的履歷文字：職稱 Data Engineer，5 年工作經驗，技能 Python、SQL，未提供學歷。",
+      "process": "Pydantic AI Agent：擷取欄位 → 檢查格式 → 交付結果",
+      "output": {
+        "job_title": "Data Engineer",
+        "years_of_experience": 5,
+        "skills": [
+          "Python",
+          "SQL"
+        ],
+        "education": null
+      },
+      "destination": "招募系統／資料庫／Dashboard（需自行串接）"
+    },
+    "comparison": {
+      "title": "為什麼不直接呼叫 LLM API？",
+      "headers": [
+        "自行使用 LLM API",
+        "使用 Pydantic AI"
+      ],
+      "rows": [
+        [
+          "自行安排工具呼叫及結果回傳",
+          "提供 Agent 與工具呼叫機制"
+        ],
+        [
+          "自行解析及驗證輸出",
+          "提供型別化輸出與驗證"
+        ],
+        [
+          "自行管理重試及使用上限",
+          "提供重試及用量限制機制"
+        ],
+        [
+          "自行搭建模擬測試",
+          "提供 TestModel 等測試工具"
+        ]
+      ],
+      "note": "直接使用 API 也能做到；框架主要減少自行建立共通機制的負擔。"
+    },
+    "start": [
+      "選擇一個小任務，先用假資料定義需要的輸出欄位。",
+      "在隔離 Python 環境依官方文件安裝相容版本，使用 TestModel 測試格式、缺值及錯誤。",
+      "再接核准的模型與只讀工具，比較實際輸出及成本；確認權限後才考慮寫入其他系統。"
+    ],
+    "limits": [
+      "格式正確不代表內容正確；仍需驗證來源與業務規則。",
+      "模型不能自行取得資料庫權限；工具、授權及整合由開發者設定。",
+      "此收藏已查閱核心原始碼，尚未執行安裝、模型、API 或正式整合測試。"
     ]
   }
 }
