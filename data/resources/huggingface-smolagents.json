@@ -6,8 +6,8 @@
   "canonicalName": "smolagents",
   "category": "AI Agent / Framework & Learning",
   "resourceType": "CodeAgent 與 Agent 工具框架",
-  "purpose": "使用簡潔的 Agent 介面探索工具使用、程式碼型行動與多 Agent 協作。",
-  "recommendation": "需要在受限環境研究模型如何用程式碼組合工具時，可評估 CodeAgent；若需要固定 Schema、清楚的操作白名單或可預測的副作用，優先評估 ToolCallingAgent 或一般 Workflow。",
+  "purpose": "用 Python 建立能選擇工具、分多步處理任務，並根據中間結果決定下一步的 AI Agent。",
+  "recommendation": "適合多次查詢、計算與工具協作；若任務步驟固定，先用普通 Python 函式或固定 Workflow，較容易測試與控制。",
   "url": "https://github.com/huggingface/smolagents",
   "repo": "huggingface/smolagents",
   "notes": "",
@@ -68,7 +68,7 @@
         "url",
         "repo"
       ],
-      "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，補足人類閱讀及技術對應，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -92,6 +92,10 @@
     "verification": {
       "status": "not-tested",
       "evidence": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited."
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 Agent、ToolCallingAgent、CodeAgent 與 LocalPythonExecutor 程式證據支持人類案例；未審查遠端執行器或執行。"
     }
   },
   "repoGuide": {
@@ -241,7 +245,56 @@
         "input": "任務、模型、工具清單與步數限制",
         "output": "最終結果、步驟與執行狀態",
         "source": "src/smolagents/agents.py",
-        "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+        "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。",
+        "sourceFiles": [
+          "src/smolagents/agents.py"
+        ],
+        "symbols": [
+          "MultiStepAgent",
+          "MultiStepAgent._run_stream",
+          "RunResult"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "named-tool-calling",
+        "name": "具名工具呼叫",
+        "problem": "模型需透過限定介面操作工具",
+        "input": "工具清單及參數",
+        "output": "工具結果或錯誤",
+        "source": "src/smolagents/agents.py",
+        "sourceFiles": [
+          "src/smolagents/agents.py"
+        ],
+        "symbols": [
+          "ToolCallingAgent",
+          "process_tool_calls",
+          "execute_tool_call"
+        ],
+        "gate": "先用純函式與假資料；實際工具權限、副作用及錯誤需控制。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "code-execution",
+        "name": "程式碼型動作",
+        "problem": "多個計算步驟可用程式表示",
+        "input": "模型生成程式及允許工具",
+        "output": "CodeOutput 的 output、logs、is_final_answer",
+        "source": "src/smolagents/agents.py",
+        "sourceFiles": [
+          "src/smolagents/agents.py",
+          "src/smolagents/local_python_executor.py"
+        ],
+        "symbols": [
+          "CodeAgent",
+          "LocalPythonExecutor",
+          "CodeOutput"
+        ],
+        "gate": "本機執行器並非完整安全沙箱，未審查遠端隔離或實測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       }
     ],
     "workflow": {
@@ -253,7 +306,8 @@
           "action": "對同一個假資料計算任務限制工具與步數，比對輸出及執行紀錄。"
         }
       ],
-      "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+      "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。",
+      "readerExampleRef": "inventory-analysis"
     },
     "rebuild": {
       "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
@@ -304,6 +358,111 @@
         "state": "未驗證",
         "evidence": "本次無第三方執行"
       }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "multi-tool-task",
+        "title": "多步資料查詢",
+        "detail": "讓 AI 先查資料，再決定需要計算或補查什麼，最後回傳結果。",
+        "capabilityRefs": [
+          "agent-loop",
+          "named-tool-calling"
+        ]
+      },
+      {
+        "id": "code-based-analysis",
+        "title": "用程式組合資料處理",
+        "detail": "讓 Agent 用程式表示多個計算步驟，適合需要組合操作的研究情境。",
+        "capabilityRefs": [
+          "agent-loop",
+          "code-execution"
+        ]
+      },
+      {
+        "id": "bounded-execution",
+        "title": "限制處理步數",
+        "detail": "明訂工具與步數上限，遇到無法完成的任務保留狀態，避免無限制循環。",
+        "capabilityRefs": [
+          "agent-loop"
+        ]
+      }
+    ],
+    "example": {
+      "id": "inventory-analysis",
+      "title": "庫存查詢與缺貨分析",
+      "input": "兩項商品的假庫存與安全庫存資料、只讀查詢及比較工具。",
+      "process": "查庫存 → 比較安全庫存 → 必要時補查 → 回傳結果",
+      "output": {
+        "example_result": "商品 A：低於安全庫存；商品 B：正常",
+        "status": "示意，非實際回傳"
+      },
+      "destination": "採購人員核對的補貨清單，不自動下單。",
+      "note": "自訂假資料示例，未呼叫模型或執行程式；示意文字不是固定 RunResult Schema。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "multi-tool-task",
+        "bounded-execution"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "建立假資料及只讀工具",
+          "capabilityRefs": [],
+          "externalDependency": "庫存來源、業務規則、授權及驗收資料由應用程式提供。"
+        },
+        {
+          "id": "query",
+          "title": "選擇查詢與比較工具",
+          "capabilityRefs": [
+            "named-tool-calling"
+          ]
+        },
+        {
+          "id": "iterate",
+          "title": "依觀察結果決定下一步",
+          "capabilityRefs": [
+            "agent-loop"
+          ]
+        },
+        {
+          "id": "deliver",
+          "title": "輸出待核對清單",
+          "capabilityRefs": [],
+          "externalDependency": "業務驗證及採購系統寫入需另行開發與核准。"
+        }
+      ]
+    },
+    "comparison": {
+      "title": "兩種 Agent 有什麼不同？",
+      "headers": [
+        "ToolCallingAgent",
+        "CodeAgent"
+      ],
+      "rows": [
+        [
+          "使用具名工具和參數",
+          "由模型生成程式表示動作"
+        ],
+        [
+          "適合需要清楚限制操作的任務",
+          "適合研究多個計算步驟組合，隔離風險較高"
+        ]
+      ],
+      "note": "兩者均需驗收；具名工具也可能有副作用。"
+    },
+    "start": [
+      "先選能用合成資料重現的簡單任務。",
+      "用具名只讀工具定義可用操作和步數上限，驗證錯誤及停止狀態。",
+      "具備獨立隔離、權限及安全測試時才評估程式碼執行模式。"
+    ],
+    "limits": [
+      "local 執行器不等於完整安全沙箱；即使限制 import，外部工具仍可有副作用。",
+      "未實測遠端執行器、模型、工具整合或隔離強度。",
+      "已閱讀固定版本核心檔案，尚未實測模型行為與真實資料。"
     ]
   }
 }

@@ -4,8 +4,8 @@
   "canonicalName": "PageSpeed Insights",
   "category": "Website Performance & Quality Auditing",
   "resourceType": "Google web performance audit and report service",
-  "purpose": "評估網站手機與桌面體驗，整合 Lighthouse 實驗室診斷和 CrUX 真實使用者資料，提供效能、SEO、無障礙及最佳實務建議。",
-  "recommendation": "用 PSI 先定位公開網站的效能瓶頸，並追蹤改善後的使用者體驗；若是登入後頁面、內部系統或完整操作流程，另用本機 Lighthouse、DevTools 或瀏覽器測試。",
+  "purpose": "輸入網站網址，就能找出網頁載入、互動反應與版面穩定性的問題，作為改善網站速度的依據。",
+  "recommendation": "適合網站上線前後比較效能、找出優化方向，以及追蹤真實訪客體驗；不適合用一次分數決定網站品質。",
   "url": "https://pagespeed.web.dev/",
   "license": "Google-hosted service governed by Google Terms; Lighthouse open-source code has its own license",
   "commercialUse": {
@@ -110,7 +110,7 @@
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀與證據對應，不建立重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -134,6 +134,155 @@
     "verification": {
       "status": "not-tested",
       "evidence": "Official PSI methodology and API v5 introduction; no live URL performance tests."
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "官方 PSI 方法與 v5 API 文件對應人類任務；前後比較是獨立設計案例，並未執行網站測試。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "field-metrics",
+      "detail": "CrUX 真實訪客資料為近 28 天及第 75 百分位；注意 URL 與 Origin 範圍及缺資料。",
+      "locator": "https://developers.google.com/speed/docs/insights/v5/about",
+      "evidenceFields": [
+        "features.0",
+        "features.2",
+        "limitations.0"
+      ],
+      "limitations": "需足夠樣本，目前未測任何網站。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "lab-diagnosis",
+      "detail": "Lighthouse 模擬載入，以稽核結果找效能問題；不能將 Lab 分數視為現場 CWV 結論。",
+      "locator": "https://developers.google.com/speed/docs/insights/v5/about",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1",
+        "limitations.1"
+      ],
+      "limitations": "測試環境會變動，根因須查證。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "repeat-and-compare",
+      "detail": "PSI API v5 可取得效能資料；固定 URL、裝置策略及版本、多次比較是自訂驗收流程。",
+      "locator": "https://developers.google.com/speed/docs/insights/v5/get-started",
+      "evidenceFields": [
+        "requirements.0",
+        "requirements.2",
+        "limitations.2"
+      ],
+      "limitations": "未呼叫 API；整合前核對回傳欄位、額度及範圍。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "find-bottleneck",
+        "title": "找出網站變慢的原因",
+        "detail": "查看載入報告，找出圖片或資源阻塞等可能的改善方向。",
+        "evidenceRefs": [
+          "lab-diagnosis"
+        ]
+      },
+      {
+        "id": "real-user-experience",
+        "title": "了解訪客使用體驗",
+        "detail": "有足夠樣本時查看實際訪客載入、互動與版面穩定性。",
+        "evidenceRefs": [
+          "field-metrics"
+        ]
+      },
+      {
+        "id": "compare-versions",
+        "title": "驗證改版有沒有改善",
+        "detail": "記錄改版前後同一頁面的結果，而不是只看一次分數。",
+        "evidenceRefs": [
+          "lab-diagnosis",
+          "repeat-and-compare"
+        ]
+      }
+    ],
+    "example": {
+      "id": "web-performance-review",
+      "title": "驗收作品集首頁改版",
+      "input": "同一公開首頁網址，改版前後各保存版本及測試條件。",
+      "process": "測手機／桌面 → 找診斷項目 → 修改 → 同條件多次比較 → 觀察現場資料",
+      "output": "改版前後效能紀錄、改善項目與待觀察指標（未取得實際分數）。",
+      "destination": "前端開發待辦與發布驗收紀錄。",
+      "note": "自訂驗收流程，未測任何網址；現場資料可能不足且不會立即反映改版。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "find-bottleneck",
+        "real-user-experience",
+        "compare-versions"
+      ],
+      "steps": [
+        {
+          "id": "baseline",
+          "title": "保存真實資料及模擬測試基準",
+          "evidenceRefs": [
+            "field-metrics",
+            "lab-diagnosis"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "title": "依診斷選擇改善方向",
+          "evidenceRefs": [
+            "lab-diagnosis"
+          ]
+        },
+        {
+          "id": "implement",
+          "title": "實際修改網站",
+          "evidenceRefs": [],
+          "externalDependency": "前端修改、測試及發布需由專案完成。"
+        },
+        {
+          "id": "retest",
+          "title": "重測及保存比較紀錄",
+          "evidenceRefs": [
+            "repeat-and-compare"
+          ]
+        }
+      ]
+    },
+    "comparison": {
+      "title": "兩種資料應該怎麼看？",
+      "headers": [
+        "真實使用者資料（Field data）",
+        "模擬測試（Lab data）"
+      ],
+      "rows": [
+        [
+          "反映近 28 天真實體驗，需足夠樣本",
+          "當下模擬載入，適合診斷及快速比較"
+        ],
+        [
+          "改版後須持續觀察",
+          "受環境影響，應重複測試"
+        ]
+      ],
+      "note": "兩者不可互相替代；Lighthouse 分數不等於現場 CWV 通過。"
+    },
+    "start": [
+      "輸入公開頁面網址，分別查看手機及桌面結果。",
+      "先看是否有真實使用者資料，再看模擬診斷及改善建議。",
+      "保留結果與版本，實際修改後在相近條件重測。"
+    ],
+    "limits": [
+      "沒有 CrUX 資料不等於頁面通過或失敗；新站與低流量站常無足夠樣本。",
+      "Lab 分數受硬體、網路與測試環境影響；不要以一次分數決定發布。",
+      "PSI 的無障礙與 SEO 自動稽核不等於完整人工驗收；本次未實測任何網站。"
+    ]
   }
 }
