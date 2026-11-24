@@ -33,14 +33,32 @@ try{
  });
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const origin='http://127.0.0.1:'+server.address().port;
- const profile=path.join(tmp,'chrome-profile');
- chrome=spawn(chromeBin,['--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--disable-extensions','--no-first-run','--remote-allow-origins=*','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{stdio:['ignore','ignore','pipe']});
- let stderr='';
- chrome.stderr.on('data',d=>{stderr+=String(d).slice(0,250)});
- const portPath=path.join(profile,'DevToolsActivePort');
- for(let i=0;i<110&&!fs.existsSync(portPath);i++){if(chrome.exitCode!==null)break;await pause(100)}
- assert.ok(fs.existsSync(portPath),'Chrome did not start: '+stderr.slice(-500));
- const port=fs.readFileSync(portPath,'utf8').split('\n')[0];
+ let port=0,stderr='';
+ for(let attempt=1;attempt<=3;attempt++){
+  const profile=path.join(tmp,'chrome-attempt-'+attempt);
+  const portPath=path.join(profile,'DevToolsActivePort');
+  stderr='';
+  chrome=spawn(chromeBin,[
+   attempt===3?'--headless':'--headless=new',
+   '--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
+   '--disable-background-networking','--disable-extensions','--no-first-run',
+   '--remote-allow-origins=*','--remote-debugging-port=0',
+   '--user-data-dir='+profile,'about:blank'
+  ],{stdio:['ignore','ignore','pipe']});
+  chrome.stderr.on('data',d=>{stderr+=String(d).slice(0,250)});
+  for(let i=0;i<95&&!fs.existsSync(portPath);i++){
+   if(chrome.exitCode!==null)break;
+   await pause(150);
+  }
+  if(fs.existsSync(portPath)){
+   port=Number(fs.readFileSync(portPath,'utf8').split('\n')[0]);
+   if(port>0)break;
+  }
+  console.warn('Chrome attempt '+attempt+' failed: '+stderr.slice(-350));
+  chrome.kill('SIGKILL');
+  await pause(350);
+ }
+ assert.ok(port>0,'Chrome did not start after three attempts: '+stderr.slice(-600));
  const page=await fetch('http://127.0.0.1:'+port+'/json/new?'+encodeURIComponent(origin+'/playground.html'),{method:'PUT'}).then(r=>r.json());
  ws=new WebSocket(page.webSocketDebuggerUrl);
  await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true})});
