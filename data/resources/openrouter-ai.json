@@ -7,13 +7,13 @@
   "category": "02 Agent Orchestration",
   "resourceType": "Commercial hosted multi-provider LLM API gateway / model marketplace & routing service",
   "purpose": "以單一 OpenAI-compatible API 及 API Key 存取多家供應商的語言與多模態模型，依模型 ID、供應商與設定執行請求路由、模型／Provider 備援、串流、工具呼叫、結構化輸出及用量／成本管理；支援 Bring Your Own Key (BYOK) 與可選資料政策式路由（含 Zero Data Retention 限制）。",
-  "recommendation": "適合已開發 AI App、Agent 或多模型工作流程，想用單一整合端點快速切換模型並設定成本／路由政策的開發者。先用非敏感測試資料和受限制額度的 API Key 驗證，固定預期的模型與必要供應商、配置預算／rate limit 及隱私路由規則，再導入工作環境。OpenRouter 是中介 API 服務，不是免安裝即可讓 Claude/Codex 原生訂閱免費互通的工具；不應與自架模型 Router 或純開源代理套件混淆。",
+  "recommendation": "需要同時比較多個模型、統一 API 或管理供應商備援時採用；若產品只依賴單一固定模型、具有嚴格資料落地要求或需供應商專屬能力，先評估直接串接。",
   "url": "https://openrouter.ai/",
   "repo": "",
   "notes": "2026-10-24 查核官方開發者入口、Pricing、Support、Privacy Policy、Zero Data Retention 及 Provider 清單：統一端點 https://openrouter.ai/api/v1，可支援不同模型 Provider 與路由／fallback；提供 OpenAI-compatible API，亦有官方 SDK、Agent SDK、MCP Server 和 Cookbook。官方 pricing 有免費模型／免費 API 額度、按使用量計費及可選 BYOK；模型費率、免費額度、加值手續費和 BYOK 費率依最新方案與實際模型變動，不能以單一價格概括所有模型。官方 Support 表示 API 基本 metadata 會記錄，預設不保存 prompts/completions；但可選 prompt logging，而請求內容會送到實際承接的模型供應商。ZDR 可限制符合要求的供應商不保留 inference prompt/response，但不代表資料完全不出站、不經過 OpenRouter，也不涵蓋自己的 Logs、Tools、Plugins 或持久檔案儲存。模型供應商在 retention、訓練及所在地上有所不同，對敏感資料應明確確認 Provider 與 Policy 並閱讀服務條款。雖然官方有 OpenRouterTeam/openrouter-examples 等公開範例 Repo，這不代表 OpenRouter 託管 API 服務本身是完整開源專案；故 Repo 欄位保持空白。需保存 API Key 並管理額度與洩露／濫用風險；如啟用自動路由或 fallback，請求可能改由不同 Provider 處理，應以 policy 過濾與回傳模型資訊核實。僅完成資料收錄，不曾登入、建立或測試 API Key，亦未呼叫付費模型。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-24",
   "tags": [
     "openrouter",
     "llm-api-gateway",
@@ -63,13 +63,14 @@
     "privacyUrl": "https://openrouter.ai/privacy",
     "referenceUrls": [
       "https://openrouter.ai/support",
-      "https://openrouter.ai/blog/insights/zero-data-retention/"
+      "https://openrouter.ai/blog/insights/zero-data-retention/",
+      "https://openrouter.ai/docs/guides/routing/provider-selection"
     ],
     "type": "Official OpenRouter developer platform, pricing, support, and privacy documentation",
     "summary": "Reviewed published capabilities, routing, plans and privacy boundaries on 2026-10-24; claims not independently performance-tested.",
     "readmeUrl": "https://openrouter.ai/developers",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewedAt": "2026-11-24",
+    "reviewScope": "Official provider routing and ZDR documentation; no API calls or policy audit."
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -91,13 +92,19 @@
     "taxonomyVersion": "1.0"
   },
   "features": [
-    "提供不同模型供應商的 OpenAI 相容 API、路由與計費入口"
+    "模型與供應商是兩層選擇：model 決定模型，provider 決定可提供該模型的端點。供應商備援不能保證跨模型行為一致。",
+    "供應商策略：order 指定偏好順序；only 限定允許名單；allow_fallbacks 控制備援；require_parameters 避免將不支援指定參數的端點納入。",
+    "資料政策：data_collection 設為 deny 限制可儲存資料的供應商；zdr 限制符合零資料保留條件的端點。仍需檢視服務本身的資料處理政策。"
   ],
   "requirements": [
-    "依官方 Developer Platform 文件先建立 API Key 並確認 model ID 與路由設定"
+    "操作：建立專案專用 Key，以伺服器端呼叫 OpenAI 相容 API；先用無敏感內容的小樣本測試 model ID、tool calling、結構化輸出，再逐步接正式資料。",
+    "驗收：固定一組代表性測試題，比較模型與實際供應商、延遲、費用、輸出 Schema 通過率及錯誤回應；刻意模擬供應商不可用，確認是否符合備援規則。",
+    "例：內部履歷摘要若要求固定供應商及 ZDR，應先建立允許清單與政策，再測無符合端點時能否明確拒絕，而非偷偷放寬限制。"
   ],
   "limitations": [
-    "不同模型及供應商費率、上下文、資料政策可能不同，不能將路由當成實測相容"
+    "共用 Gateway 本身可能故障，供應商備援不能替代獨立災難復原。",
+    "模型能力、價格、端點資料政策會變動；不得把單次成功當成各端點相容性證明。",
+    "未呼叫 API、未評估企業條款、未測資料保留或實際帳單。"
   ],
   "intakeReview": {
     "policyVersion": "1.0",
@@ -106,7 +113,7 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -121,9 +128,9 @@
     },
     "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -136,7 +143,7 @@
     "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "Official provider routing and ZDR documentation; no API calls or policy audit."
     }
   }
 }
