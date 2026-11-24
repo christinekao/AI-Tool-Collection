@@ -483,6 +483,40 @@ try{
  assert.ok(await evaluate('!!document.querySelector(".external-links a[href*=sraodev]")'),'Upstream source repository link must be visible');
  console.log('PASS: All Collections retains all six data types, both saved sources and independent deep links');
 
+ // Phase 3: four distinct resource detail pages, actual rendered DOM at target widths.
+ const phase3=[
+  ['agent-reach','.repo-guide','核心判斷規則'],
+  ['arrow-2','.detail-panel','輸出驗收'],
+  ['addyosmani-agent-skills','.detail-panel','選擇方法'],
+  ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）']
+ ];
+ for(const [id,selector,phrase] of phase3){
+  await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
+  await waitFor('(()=>{const node=document.querySelector('+JSON.stringify(selector)+');return location.hash==='+JSON.stringify('#/resources/'+id)+'&&node?.textContent.includes('+JSON.stringify(phrase)+')})()','Phase 3 '+id);
+  for(const width of [375,430,768,1440]){
+   await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+   await pause(140);
+   const dims=await evaluate('({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth})');
+   assert.ok(dims.scroll<=dims.width+3,'Phase 3 horizontal overflow '+id+' '+width+': '+JSON.stringify(dims));
+   if(width===375||width===1440){
+    const capture=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+    fs.writeFileSync(path.join(screenshotDir,'phase3-'+id+'-'+width+'.png'),Buffer.from(capture.data,'base64'));
+   }
+  }
+  if(id==='agent-reach'){
+   await evaluate('document.querySelector(\'.repo-toc a[href="#repo-architecture"]\').click();true');
+   await pause(400);
+   assert.equal(await evaluate('location.hash'),'#/resources/agent-reach','Repository section navigation must not discard resource route');
+   assert.ok(await evaluate('!!document.querySelector(".repo-guide #repo-architecture")'));
+  }
+  if(id==='ai-code-acceptance-review-testing-rollout-guide'){
+   assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),4);
+   assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),4);
+  }
+ }
+ console.log('PASS: Phase 3 four rendered Resource pages at 375/430/768/1440px; repository section navigation; four learning exercises');
+
+
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
  await send('Page.navigate',{url:origin+'/ask.html'});
  await waitFor('document.querySelector("#ask-meta")?.textContent.includes("已載入")','Knowledge answer page loaded');
