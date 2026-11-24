@@ -4,7 +4,7 @@
 
 ## 一份 Canonical，兩種閱讀目的
 
-- Human Layer：purpose 用一句白話回答用途；readerGuide 為選用欄位，依資源需要提供 useCases、example、comparison、start、limits。主要介面先顯示用途、實際案例（輸入→處理→輸出→用途）、採用理由及入門方式。避免用專有名詞開場，不以重新描述 README 充當案例。例子須標示自訂／實測；沒有實測不得暗示已完成。
+- Human Layer：purpose 用一句白話回答用途；readerGuide 對新建／實質改寫 Resource 為必填欄位，依資源需要提供 useCases、example、comparison、start、limits。主要介面先顯示用途、實際案例（輸入→處理→輸出→用途）、採用理由及入門方式。避免用專有名詞開場，不以重新描述 README 充當案例。例子須標示自訂／實測；沒有實測不得暗示已完成。
 - Agent Layer：保留既有 repoGuide、implementationKnowledge、source、intakeReview、版本、架構、檔案、依賴、契約、擴充、重建、權限、失敗模式與證據。Agent 按需讀 canonical JSON，不要求人類閱讀全部技術欄位。不得為簡化畫面而刪除知識，也不新增無證據的 Graph Edge。
 - Learning 教材保留給人閱讀的教學內容及練習；與實作專用技術資料區分。Collection 以找、比較、挑選為主；Service 以使用情境、輸入輸出、採用與限制為主，非強制套版。
 - 此處 Agent Layer 是資料與呈現分層，**不是保密隔離**。目前是 GitHub Pages 靜態網站，Canonical 與 Catalog 資料仍公開；只是不渲染技術指南。若未來需限制存取或保存機密，另建具權限的資料服務，不得將機密存入公開 Repo。
@@ -39,4 +39,17 @@ node scripts/resource-layer-links.mjs pydantic-pydantic-ai --capability typed-ou
 
 前者回傳人類用途、相關案例、需用能力、固定版本來源 URL、外部依賴、驗證狀態及尚未查核的實作缺口。後者反向回傳所有對應的前台用途及案例步驟。Agent 必須先重新確認版本、權限、依賴及實際測試，再實作正式流程；設計示例不等於已經執行。
 
-此版 resolver 先支援 Repo Guide 能力契約；Service、Collection、Learning 的映射可沿用穩定 ID 與引用原則，但應依實際證據設計對應單元，不能為了統一硬造程式碼符號。
+## 所有 Resource 的強制收錄契約
+
+[Unified Intake Policy](UNIFIED_INTAKE_POLICY.md) 是唯一的收錄政策。所有新建或實質改寫 Resource 必須保存 intakeReview.layerReview，且不能省略 mappingVersion。原有未改寫資料不回溯強制。已完成映射的能力不能靜默刪除。
+
+- mappingVersion=1：固定版本程式碼能力，使用 capabilityRefs；適用已完成來源深度查核的 Repo / SDK。layerReview.status=mapped。
+- mappingVersion=2：文件或操作證據，使用 evidenceRefs 指向同一 Resource 的 agentEvidence 局部 ID；適用 Service、Collection、Learning、Dataset 等，或尚未取得足夠程式碼的 Repo。layerReview.status=evidence-linked 或 deferred。
+- deferred 必須有具體 gap、nextAction，仍要保留已知用途與證據；來源完全無法取得則放 Pending Sources。它不是深度完成。
+- agentEvidence 每筆保存 id、detail、locator（來源段落／操作位置）、evidenceFields（已存在的 Canonical 欄位）、limitations、evidenceStatus、runtimeStatus；不得為非程式資源虛構檔案或符號。readerGuide.useCases[].evidenceRefs 與 example.steps[].evidenceRefs 皆可追溯至局部 ID。
+- 前台保留 useCases、start、limits、可用的案例；Learning Guide 章節繼續顯示。技術證據留在 Canonical，反向索引不另存。
+- runtime-tested / verified 宣告須有各自證據且 intakeReview.verification.status=tested，具 testRun；不代表同一資源的其他功能也已實測。
+
+非程式資源可使用同一個 resolver：`--case <useCaseId>` 正向查詢證據，`--capability <evidenceId>` 反向取得使用情境。這些均為局部參考，不直接形成正式知識圖譜的 Capability 或 Edge。
+
+CI 能驗證欄位、引用、狀態和防止跳過檢查；五秒理解、實際語意及來源可信度仍由獨立審查確認。
