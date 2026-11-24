@@ -81,7 +81,12 @@ test('rank known title above broad loosely matching resources',()=>{
  assert.equal(found[0].record.id,'tip31812-ai-usage-bar');
 });
 
-test('specific unsaved framework is a background reference, not a verified tutorial',()=>{
+test('newly saved smolagents is discoverable without claiming runtime verification',()=>{
+ const saved=catalog.resources.find(x=>x.id==='huggingface-smolagents');
+ assert.ok(saved,'The newly collected framework must be in the canonical catalog');
+ assert.equal(saved.intakeReview.verification.status,'not-tested');
+ const matches=searchKnowledge('smolagents',all);
+ assert.ok(matches.some(x=>x.record.id==='huggingface-smolagents'));
  const r=createAnswer('我想學習 smolagents framework',catalog,problems);
- assert.ok(r.empty||r.gap?.includes('smolagents'),'Missing named framework cannot be falsely treated as fully documented');
+ assert.ok(r.sources.some(x=>x.id==='huggingface-smolagents'),'Answer must cite the saved source, not an invented tutorial');
 });

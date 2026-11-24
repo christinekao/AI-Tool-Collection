@@ -77,6 +77,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Rebuild derived data from canonical records before validation
+        run: node scripts/build-v2.mjs
       - name: Validate Domain, Format and Capability taxonomy
         run: node --test scripts/test-taxonomy-v1.mjs
       - name: Validate normalized Tags and historical evidence boundaries

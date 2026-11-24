@@ -62,5 +62,6 @@ test('generated public catalog includes complete structured guide without removi
  assert.equal(found.learningGuide.version,2);
  assert.equal(found.learningGuide.modules.flatMap(m=>m.essentials||[]).length,30);
  assert.equal(found.features.length,resource.features.length,'The original source feature list must remain available');
- assert.equal(catalog.resources.length,270,'No unrelated Resource should be removed');
+ const canonicalResourceCount=fs.readdirSync('data/resources').filter(name=>name.endsWith('.json')).length;
+ assert.equal(catalog.resources.length,canonicalResourceCount,'Public catalog must preserve every canonical Resource');
 });
