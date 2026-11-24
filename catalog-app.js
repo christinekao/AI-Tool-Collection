@@ -251,19 +251,33 @@ function promptGuideHtml(x){
  '</div>';
 }
 
+function resourceReaderGuideHtml(x){
+ const g=x.readerGuide;if(!g)return '';
+ const e=g.example||{},c=g.comparison||{};
+ const cases=list(g.useCases).map(v=>'<article class="reader-case"><h4>'+esc(v.title)+'</h4><p>'+esc(v.detail)+'</p></article>').join('');
+ const example=e.title?'<section class="detail-section"><h3>實際應用：'+esc(e.title)+'</h3><p class="reader-note">'+esc(e.note)+'</p><ol class="reader-flow"><li><span>INPUT</span><p>'+esc(e.input)+'</p></li><li><span>PROCESS</span><p>'+esc(e.process)+'</p></li><li><span>OUTPUT</span><pre><code>'+esc(typeof e.output==='string'?e.output:JSON.stringify(e.output,null,2))+'</code></pre></li><li><span>DESTINATION</span><p>'+esc(e.destination)+'</p></li></ol></section>':'';
+ const compare=list(c.rows).length?'<section class="detail-section"><h3>'+esc(c.title)+'</h3><div class="reader-table-wrap"><table class="reader-compare"><thead><tr>'+list(c.headers).map(v=>'<th scope="col">'+esc(v)+'</th>').join('')+'</tr></thead><tbody>'+c.rows.map(r=>'<tr>'+list(r).map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><p class="reader-note">'+esc(c.note)+'</p></section>':'';
+ return '<div class="resource-reader-guide">'+section('它能幫你做什麼？','<div class="reader-cases">'+cases+'</div>')+example+compare+section('適合什麼情境？',para(x.recommendation))+section('如何開始使用？','<ol class="reader-start">'+list(g.start).map(v=>'<li>'+esc(v)+'</li>').join('')+'</ol>')+section('限制與注意事項',bullets(g.limits))+'</div>';
+}
+
 function detail(x){
  const s=summary(x);
  const hasLearningGuide=x.entityType==='resource'&&Boolean(x.learningGuide?.modules?.length);
  const hasRepoGuide=x.entityType==='resource'&&Boolean(x.repoGuide?.features?.length);
+ const hasReaderGuide=x.entityType==='resource'&&Boolean(x.readerGuide?.useCases?.length);
  const hasSkillGuide=x.entityType==='skill'&&Boolean(x.skillGuide?.process?.length);
  const hasPromptGuide=x.entityType==='prompt'&&Boolean(x.promptGuide?.adaptedPrompt);
  // Guide selection follows the canonical guide data; standard resources keep their existing order.
  let body='';
- if(!hasLearningGuide&&!hasRepoGuide&&!hasSkillGuide&&!hasPromptGuide){
+ if(!hasReaderGuide&&!hasLearningGuide&&!hasRepoGuide&&!hasSkillGuide&&!hasPromptGuide){
   body+=section('這是什麼？',para(s.what));
  }
  if(x.entityType==='resource'){
-  if(hasRepoGuide){
+  if(hasReaderGuide){
+   body+=resourceReaderGuideHtml(x);
+   if(list(x.conceptRefs).length)body+=section('相關概念',refsHtml(x.conceptRefs));
+   if(list(x.skillRefs||x.relatedSkillRefs).length)body+=section('相關 Skills',refsHtml(x.skillRefs||x.relatedSkillRefs));
+  }else if(hasRepoGuide){
    body+=repoGuideHtml(x);
    body+=section('相關概念',refsHtml(x.conceptRefs));
   }else{
@@ -327,7 +341,7 @@ function detail(x){
  }
  const urls=[{u:x.url||x.githubUrl,label:'開啟原始收藏'},{u:x.homepage,label:'專案網站／官方 Repo'},{u:x.source?.upstream,label:'上游原始專案'},{u:x.source?.url,label:'查看原始來源'}].filter(a=>url(a.u));
  const unique=[...new Map(urls.map(a=>[a.u,a])).values()];
- return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><span class="category-label">'+esc(domainLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(hasLearningGuide||hasRepoGuide||hasSkillGuide||hasPromptGuide?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,4)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
+ return '<div class="detail"><div class="detail-back"><a href="'+esc(state.returnHash)+'">← 返回探索結果</a></div><article class="detail-panel"><div class="detail-header"><span class="type-label">'+esc(kindLabel(x))+'</span><span class="category-label">'+esc(domainLabel(x))+'</span><h2>'+esc(x.title)+'</h2>'+(!hasReaderGuide&&(hasLearningGuide||hasRepoGuide||hasSkillGuide||hasPromptGuide)?'':'<p>'+esc(short(s.what,320))+'</p>')+'<div class="tag-row">'+tags(x.tags,4)+'</div>'+(unique.length?'<div class="external-links">'+unique.map(a=>link(a.u,a.label)).join('')+'</div>':'')+'</div>'+body+'</article></div>';
 }
 // Equal-count decision tables also share row baselines; dissimilar tables keep natural row heights.
 let lessonRowAlignFrame=0;
