@@ -78,7 +78,7 @@ function pReviewUnassigned(workflowId){
  const options=WorkflowReview.unassignedOptions(row);
  if(!options.length)return '';
  return '<section class="pg-review-unassigned" aria-label="尚未對應階段的原有工具"><h4>尚未找到明確階段的原有工具</h4><p>以下 Resource 雖然已記錄在 Combination，但現有 Workflow 階段文字不足以判斷應放在哪一步。</p><ul class="pg-review-option-list">'+options.map(opt=>
-  '<li class="pg-review-option"><a href="'+pSourceLink('resource',opt.resourceId)+'">'+pEsc(PG.index.get('resource:'+opt.resourceId)?.title||opt.resourceId)+'</a><small>待確認 Stage</small></li>').join('')+'</ul></section>';
+  '<li class="pg-review-option"><a href="'+pSourceLink('resource',opt.resourceId)+'">'+pEsc(PG.index.get('resource:'+opt.resourceId)?.title||opt.resourceId)+'</a><small>Resource · '+pEsc(opt.resourceId)+' · 待確認 Stage</small></li>').join('')+'</ul></section>';
 }
 function pReviewOriginalStages(workflowId){
  const row=PG.reviewCases.get(workflowId),wf=PG.catalog.workflows.find(w=>w.id===workflowId);
