@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import vm from 'node:vm';
 
 const ID='aiposthub-awesome-opensource-ai-cheat-sheets-guide';
 const resource=JSON.parse(fs.readFileSync('data/resources/'+ID+'.json','utf8'));
@@ -64,4 +65,37 @@ test('generated public catalog includes complete structured guide without removi
  assert.equal(found.features.length,resource.features.length,'The original source feature list must remain available');
  const canonicalResourceCount=fs.readdirSync('data/resources').filter(name=>name.endsWith('.json')).length;
  assert.equal(catalog.resources.length,canonicalResourceCount,'Public catalog must preserve every canonical Resource');
+});
+
+test('Phase 3: both new structured guides render from canonical data and prior guides remain intact',()=>{
+ const js=fs.readFileSync('catalog-app.js','utf8');
+ const context=vm.createContext({URL});
+ const code=js.replace(/\ninit\(\);\s*$/,'\n');
+ assert.notEqual(code,js,'Remove only startup invocation for pure rendering tests');
+ vm.runInContext(code,context,{filename:'catalog-app.js'});
+ const read=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ const html=id=>{const d=read(id);const built=catalog.resources.find(r=>r.id===id);assert.ok(built);assert.deepEqual(built.repoGuide,d.repoGuide);assert.deepEqual(built.learningGuide,d.learningGuide);return context.detail(built);};
+ const repo=html('agent-reach');
+ assert.match(repo,/class="repo-guide"/);
+ assert.match(repo,/class="repo-lead repo-lead-no-shots"/);
+ assert.doesNotMatch(repo,/class="repo-shots"/);
+ assert.match(repo,/核心判斷規則/);
+ assert.match(repo,/schema_version/);
+ assert.match(repo,/未驗證/);
+ const lesson=html('ai-code-acceptance-review-testing-rollout-guide');
+ assert.match(lesson,/主題重點筆記（4 章）/);
+ assert.equal((lesson.match(/class="learn-module learn-module-inline"/g)||[]).length,4);
+ assert.doesNotMatch(lesson,/十個主題的重點筆記|學完能掌握什麼？/);
+ assert.ok(lesson.indexOf('使用條件')<lesson.indexOf('class="learning-guide"'));
+ assert.match(lesson,/自我驗收/);
+ assert.match(html(ID),/十個主題的重點筆記/);
+ assert.match(html('tip31812-ai-usage-bar'),/class="repo-shots"/);
+ assert.match(html('arrow-2'),/輸出驗收/);
+ assert.match(html('addyosmani-agent-skills'),/選擇方法/);
+ for(const id of ['agent-reach','ai-code-acceptance-review-testing-rollout-guide','arrow-2','addyosmani-agent-skills']){
+  const d=read(id);
+  assert.equal(d.intakeReview.verification.status,'not-tested');
+  assert.equal(d.intakeReview.capabilityReview.decision,'none');
+  assert.ok(d.source.reviewScope);
+ }
 });
