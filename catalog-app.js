@@ -440,6 +440,13 @@ function wire(){
  $('#reset').addEventListener('click',reset);
  $('#active-filters').addEventListener('click',e=>{const b=e.target.closest('[data-clear]');if(!b)return;const k=b.dataset.clear;if(k==='topic'){state.topic='all';navTo('#/explore')}else if(k==='type'){state.type='all';render()}else{state.query='';$('#q').value='';render()}});
  $('#app').addEventListener('click',e=>{
+  const repoJump=e.target.closest('.repo-toc a[href^="#"], .repo-workflow a[href^="#cap-"]');
+  if(repoJump){
+   e.preventDefault();
+   const target=document.getElementById(repoJump.getAttribute('href').slice(1));
+   if(target&&target.closest('.repo-guide'))target.scrollIntoView({block:'start',behavior:'smooth'});
+   return;
+  }
   const skillJump=e.target.closest('[data-skill-jump]');
   if(skillJump){
    const target=skillJump.closest('.skill-guide')?.querySelector('#'+skillJump.dataset.skillJump);
