@@ -139,7 +139,7 @@ test('Batch 03 regression: Intake rejects abbreviated tag and capability explana
 test('New and substantively changed Resources cannot skip human/agent review',()=>{
  const x=sample();delete x.intakeReview.layerReview;
  assert.ok(reviewErrors(x,'new',taxonomy).some(e=>e.includes('layerReview: required status')));
- const legacy=structuredClone(x),edit=structuredClone(x);edit.purpose+=' 補充內容。';edit.intakeReview.dedupeReview.decision='update';
+ const legacy=structuredClone(x);delete legacy.readerGuide;delete legacy.agentEvidence;const edit=structuredClone(legacy);edit.purpose+=' 補充內容。';edit.intakeReview.dedupeReview.decision='update';
  assert.ok(reviewErrors(edit,'update',taxonomy,legacy).some(e=>e.includes('layerReview: required status')));
  const tagsOnly=structuredClone(legacy);tagsOnly.tags=['python'];tagsOnly.intakeReview.dedupeReview.decision='update';
  assert.deepEqual(reviewErrors(tagsOnly,'update',taxonomy,legacy),[]);
