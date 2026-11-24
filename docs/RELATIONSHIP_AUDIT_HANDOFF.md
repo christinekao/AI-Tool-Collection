@@ -1,3 +1,13 @@
+## Phase 3 Audit 06 進行中（2026-11-24）
+
+- Baseline main `dc6702deab02a3a42b041f79393a1a8c2587bc05`；Branch `relation-audit-phase06-20261124`。
+- 完整審查 17 個同 ID Combo／Workflow Pair，提出 58 個**只限原始 Resource ID** 的 Workflow Stage 選項候選。
+- 三個動線：Workflow Options First 5、Composition Interface Review 9、Safety Boundary First 3。所有紀錄維持 `retain-original-pending-evidence`。
+- JSON：[Audit06 Review](RELATIONSHIP_AUDIT06_OPTIONS_REVIEW_20261124.json)；逐筆報告：[Audit06 Report](RELATIONSHIP_AUDIT_PHASE06_20261124.md)；10 個測試與原始 Source Integrity Gate。
+- 尚未取得本批 CI／Deploy 收據，不宣稱完成；無 Canonical／Graph／Tags／Typed Refs／UI 變更。
+
+---
+
 # Knowledge Relations｜Phase 3 Audit 05 Handoff（2026-11-23）
 
 **狀態：PASS WITH GAPS。已完成合成簽章與 Request Binding 的 23／23 測試；GitHub PR／main CI、程式合併後 Pages 部署均 PASS。正式身分驗證、金鑰服務與分散式 Replay 安全仍 NOT_TESTED。**
