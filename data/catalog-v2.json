@@ -5301,13 +5301,13 @@
       "category": "06 Skills",
       "resourceType": "Skill Collection",
       "purpose": "Anthropic 公開的 Agent Skills 規格、範例與文件類技能，示範 SKILL.md 如何封裝任務指示、輔助檔案與逐步載入。",
-      "recommendation": "適合研究 Skill 結構、建立自有任務技能或選用文件處理範例；要區分整個 Repo 和單獨的 frontend-design 等 Skill。",
+      "recommendation": "需要建立自己的可重複工作方式時，先從 template 與 skill-creator 找結構和測試方法；需要執行具體任務時，才選一個對應技能，不必安裝整套集合。",
       "url": "https://github.com/anthropics/skills",
       "repo": "anthropics/skills",
-      "notes": "",
+      "notes": "版本化索引：https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/README.md 。本次查核範圍見 source.reviewScope。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-24",
       "tags": [
         "skills",
         "agent-design",
@@ -5324,8 +5324,9 @@
         "type": "Official GitHub repository",
         "summary": "Historical V1 resource collection restored as a distinct repository-level Resource; official repository identity verified 2026-11-12.",
         "readmeUrl": "https://github.com/anthropics/skills/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README or source SKILL.md only; no code execution, install, dependency, license or integration audit"
+        "reviewedAt": "2026-11-24",
+        "reviewScope": "Official README index plus pinned template/SKILL.md, webapp-testing/SKILL.md, skill-creator/SKILL.md; no execution or per-skill license audit.",
+        "upstreamCommit": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba"
       },
       "legacyMetadata": {
         "sources": [
@@ -5355,17 +5356,20 @@
         "taxonomyVersion": "1.0"
       },
       "features": [
-        "提供 Skill 規格與多份範例目錄。",
-        "README 說明 Claude Code、Claude.ai 與 API 的不同使用入口。",
-        "包含最小 SKILL.md 範例與技能設計指引。"
+        "結構入門｜template/SKILL.md 示範最小 YAML frontmatter：name 與 description；正文交代任務規則。description 應同時描述能力與觸發情境。",
+        "建立及改善技能｜skills/skill-creator/SKILL.md 將需求、草稿、測試提示、定量／定性評估與迭代串起來；可比較有／無 Skill 的表現，而非只檢查文字是否漂亮。",
+        "實際驗收網頁｜skills/webapp-testing/SKILL.md 採 Playwright，先讓頁面完成渲染，再取得 DOM 或畫面、辨認選擇器與執行操作；適合驗證真正的互動。",
+        "文件產出與設計｜官方 skills/ 索引還包含 docx、pdf、pptx、xlsx 等文件技能及設計範例；本輪僅核對索引，並未審查各自的實作。"
       ],
       "requirements": [
-        "先確認目標 Host 的技能／插件支援方式。",
-        "逐一審查下載的技能指令、腳本與外部依賴再使用。"
+        "選讀：依任務列出輸入、預期產物、觸發條件與不應觸發的情況，再從 pinned 目錄挑選對應 SKILL.md。",
+        "使用：確認目標 Host 的安裝規則與工具權限，先在單一專案試用；檢查腳本、外部依賴及授權。",
+        "驗收示例：建立 Resource 教材整理 Skill，準備 Repo、服務、教材及來源不足四種輸入；比較結果是否選對版型、保留來源且沒有虛構已測狀態。"
       ],
       "limitations": [
-        "Repo 包含多個技能，不能將整個 Repo 視為一個可執行 Skill。",
-        "支援方式、適用權限及輸出品質會因 Host、模型與技能內容而異。"
+        "官方集合為示範與教育用途；同名 Host 內建能力可能與 Repo 不同。",
+        "README 宣告多項技能為 Apache 2.0；不同子目錄可能另有 LICENSE，本輪未逐一確認。",
+        "未安裝技能、執行腳本或核對跨 Host 相容性。"
       ],
       "intakeReview": {
         "policyVersion": "1.0",
@@ -5374,7 +5378,7 @@
           "source.url",
           "url"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -5389,9 +5393,9 @@
         },
         "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -5404,7 +5408,7 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "Official README index plus pinned template/SKILL.md, webapp-testing/SKILL.md, skill-creator/SKILL.md; no execution or per-skill license audit."
         }
       }
     },
@@ -14596,7 +14600,7 @@
       "category": "Website Performance & Quality Auditing",
       "resourceType": "Google web performance audit and report service",
       "purpose": "評估網站手機與桌面體驗，整合 Lighthouse 實驗室診斷和 CrUX 真實使用者資料，提供效能、SEO、無障礙及最佳實務建議。",
-      "recommendation": "適合部署前與優化後進行 Web Performance 驗證；要區分單次 Lighthouse Lab 分數與過去 28 天的 CrUX Field Data，不能把測試分數當成所有使用者的真實體驗。",
+      "recommendation": "用 PSI 先定位公開網站的效能瓶頸，並追蹤改善後的使用者體驗；若是登入後頁面、內部系統或完整操作流程，另用本機 Lighthouse、DevTools 或瀏覽器測試。",
       "url": "https://pagespeed.web.dev/",
       "license": "Google-hosted service governed by Google Terms; Lighthouse open-source code has its own license",
       "commercialUse": {
@@ -14623,10 +14627,9 @@
         "privacy": "PageSpeed 分析需將使用者輸入的 URL 提供給 Google；公開網站的 CrUX 真實使用者資訊為聚合資料。"
       },
       "features": [
-        "手機／桌面 Lighthouse 測試",
-        "Core Web Vitals（LCP/INP/CLS）",
-        "CrUX 28 天真實使用者資料（若資料量足夠）",
-        "效能、無障礙、SEO 和最佳實務診斷"
+        "Field data：CrUX 過去 28 天真實使用者資料，主要看第 75 百分位；網址樣本不足時可能顯示整個 Origin，兩者不可混用。",
+        "Lab data：Lighthouse 模擬載入，用診斷找出影響載入及呈現的因素；分數不是 Core Web Vitals 的現場通過證明。",
+        "三項主要使用者體驗指標：LCP（最大內容呈現）良好門檻 2.5 秒；INP（互動反應）200 毫秒；CLS（版面位移）0.1。"
       ],
       "tags": [
         "pagespeed-insights",
@@ -14646,16 +14649,20 @@
           "https://developers.google.com/speed/docs/insights/v5/about",
           "https://policies.google.com/terms"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-24",
         "type": "Official Google PageSpeed Insights and developer documentation",
         "readmeUrl": "https://developers.google.com/speed/docs/insights/v5/about",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewScope": "Official PSI methodology and API v5 introduction; no live URL performance tests.",
+        "referenceUrls": [
+          "https://developers.google.com/speed/docs/insights/v5/about",
+          "https://developers.google.com/speed/docs/insights/v5/get-started"
+        ]
       },
       "schemaVersion": 2,
       "entityType": "resource",
       "status": "active",
       "addedAt": "2026-11-05",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-24",
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
       "classification": {
@@ -14675,10 +14682,14 @@
         "taxonomyVersion": "1.0"
       },
       "requirements": [
-        "輸入網址後分別檢視行動與桌面結果，依官方文件解讀欄位"
+        "操作：輸入同一頁面網址，分別記錄 mobile／desktop、檢測時間、頁面或 Origin、Field／Lab 指標及 Lighthouse 稽核項目。",
+        "改善決策：LCP 慢先查主要內容、圖片與資源載入；INP 差查長任務及事件處理；CLS 高查未保留尺寸的圖片、字型或動態內容。這些是排查方向，不是自動診斷結論。",
+        "驗收：同一測試條件做多次 Lab 前後比較，保存版本及結果；後續再觀察現場資料趨勢。若要自動化，可用官方 v5 API，保留每次測試的 JSON。"
       ],
       "limitations": [
-        "CrUX 資料並非每個網址都有；實驗室數據受測試環境影響"
+        "沒有 CrUX 資料不等於頁面通過或失敗；新站與低流量站常無足夠樣本。",
+        "Lab 分數受硬體、網路與測試環境影響；不要以一次分數決定發布。",
+        "PSI 的無障礙與 SEO 自動稽核不等於完整人工驗收；本次未實測任何網站。"
       ],
       "intakeReview": {
         "policyVersion": "1.0",
@@ -14687,7 +14698,7 @@
           "source.url",
           "url"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -14702,9 +14713,9 @@
         },
         "classificationReason": "原有 Domain software 保持不變，只補強來源與未敘明的使用方式或風險。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -14717,7 +14728,7 @@
         "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "Official PSI methodology and API v5 introduction; no live URL performance tests."
         }
       }
     },
@@ -17910,7 +17921,7 @@
       "category": "AI Agent / Framework & Learning",
       "resourceType": "CodeAgent 與 Agent 工具框架",
       "purpose": "使用簡潔的 Agent 介面探索工具使用、程式碼型行動與多 Agent 協作。",
-      "recommendation": "適合研究 Agent 規劃與工具調用；需要執行程式碼時，必須先建立隔離及權限限制。",
+      "recommendation": "需要在受限環境研究模型如何用程式碼組合工具時，可評估 CodeAgent；若需要固定 Schema、清楚的操作白名單或可預測的副作用，優先評估 ToolCallingAgent 或一般 Workflow。",
       "url": "https://github.com/huggingface/smolagents",
       "repo": "huggingface/smolagents",
       "notes": "",
@@ -17936,20 +17947,25 @@
         "taxonomyVersion": "1.0"
       },
       "features": [
-        "提供 CodeAgent 的實作路徑，讓 Agent 以程式碼操作工具。",
-        "可以用範例了解工具與模型如何協調完成工作。"
+        "前者把動作寫成程式碼，後者使用具名工具及參數；兩者共同使用 MultiStepAgent 迴圈。",
+        "CodeAgent 預設 local；executor_type 另宣告 blaxel、e2b、modal、docker。選擇環境不等於安全已驗收。",
+        "_run_stream 追蹤 step_number，依 final answer 或 max_steps 控制迴圈。",
+        "LocalPythonExecutor 產出 CodeOutput，包含 output、logs、is_final_answer，供下一步或完成判斷使用。"
       ],
       "requirements": [
-        "依上游文件準備 Python、模型提供者與受限的執行環境。"
+        "Python 隔離環境；依選定模型及執行器準備依賴。",
+        "先採無外部連線的測試環境與純函式工具，避免接觸真實資料及憑證。"
       ],
       "limitations": [
-        "執行模型產生的程式碼有副作用及安全風險；預設範例不能取代沙箱、審核和測試。"
+        "local 執行器不等於完整安全沙箱；即使限制 import，外部工具仍可有副作用。",
+        "未實測遠端執行器、模型、工具整合或隔離強度。"
       ],
       "source": {
         "url": "https://github.com/huggingface/smolagents",
         "type": "Official GitHub repository metadata and README",
         "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewScope": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited.",
+        "upstreamCommit": "5107d3aec21d26ed808aabd95d93a63d4244226f"
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -17960,13 +17976,13 @@
         ],
         "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -17975,8 +17991,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "完成限定範圍的核心來源指南，明確保留完整框架重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -17989,8 +18005,220 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited."
         }
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以輕量多步迴圈比較模型的具名工具呼叫與程式碼式工具協作。此指南聚焦兩種 Agent 和本機執行介面。",
+        "status": [
+          {
+            "label": "核心原始碼",
+            "value": "已查閱固定 Commit"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約可作設計參考，完整框架尚待查核"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0"
+          },
+          {
+            "label": "重點",
+            "value": "CodeAgent · ToolCallingAgent"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "CodeAgent 與 ToolCallingAgent",
+            "detail": "前者把動作寫成程式碼，後者使用具名工具及參數；兩者共同使用 MultiStepAgent 迴圈。",
+            "source": "src/smolagents/agents.py"
+          },
+          {
+            "title": "控制執行環境",
+            "detail": "CodeAgent 預設 local；executor_type 另宣告 blaxel、e2b、modal、docker。選擇環境不等於安全已驗收。",
+            "source": "src/smolagents/agents.py"
+          },
+          {
+            "title": "逐步停止",
+            "detail": "_run_stream 追蹤 step_number，依 final answer 或 max_steps 控制迴圈。",
+            "source": "src/smolagents/agents.py"
+          },
+          {
+            "title": "執行回傳",
+            "detail": "LocalPythonExecutor 產出 CodeOutput，包含 output、logs、is_final_answer，供下一步或完成判斷使用。",
+            "source": "src/smolagents/local_python_executor.py"
+          }
+        ],
+        "architecture": {
+          "summary": "任務 → 模型動作 → 執行與觀察 → 停止或下一步",
+          "nodes": [
+            {
+              "title": "定義任務",
+              "detail": "MultiStepAgent 接收 task、tools、model 及 max_steps。",
+              "files": [
+                "src/smolagents/agents.py"
+              ]
+            },
+            {
+              "title": "模型決定下一步",
+              "detail": "ToolCallingAgent 選具名工具，CodeAgent 產生待執行程式碼。",
+              "files": [
+                "src/smolagents/agents.py"
+              ]
+            },
+            {
+              "title": "執行及觀察",
+              "detail": "LocalPythonExecutor 接收程式碼，回傳 CodeOutput 與執行紀錄；工具的副作用仍須由系統限制。",
+              "files": [
+                "src/smolagents/local_python_executor.py"
+              ]
+            },
+            {
+              "title": "終止或繼續",
+              "detail": "_run_stream 依 final answer、step_number 及 max_steps 控制流程。",
+              "files": [
+                "src/smolagents/agents.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "執行策略",
+            "rule": "executor_type 預設 local；additional_authorized_imports 不應放寬為任意匯入。",
+            "source": "src/smolagents/agents.py"
+          },
+          {
+            "name": "迴圈終止",
+            "rule": "max_steps 限制步數；最終答案須依業務標準驗證。",
+            "source": "src/smolagents/agents.py"
+          },
+          {
+            "name": "輸出及狀態",
+            "rule": "CodeOutput 含 output、logs 與 is_final_answer；執行紀錄可能包含敏感資訊，須管理。",
+            "source": "src/smolagents/local_python_executor.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "先看原始碼",
+            "description": "從固定 Commit 的核心檔案理解介面；不需安裝即可研究。",
+            "commands": [],
+            "files": [
+              "src/smolagents/agents.py",
+              "src/smolagents/local_python_executor.py"
+            ],
+            "approval": false
+          },
+          {
+            "title": "建立隔離測試",
+            "description": "官方 README 提供 pip install smolagents 的入口；先固定版本並審查依賴，只在隔離測試環境使用無副作用工具。",
+            "commands": [],
+            "files": [
+              "README.md"
+            ],
+            "approval": true,
+            "approvalNote": "安裝第三方套件、連線及使用憑證需事先核准；本次未執行。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "新增一個純函式工具",
+            "detail": "使用固定輸入及輸出，對比 ToolCallingAgent 和 CodeAgent 的同一任務結果；限制可用工具。",
+            "file": "src/smolagents/agents.py"
+          },
+          {
+            "title": "補失敗路徑",
+            "detail": "測無效工具參數、程式錯誤、步數上限及禁止的操作。",
+            "file": "src/smolagents/agents.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "agent-loop",
+            "name": "多步工具協作",
+            "problem": "模型需要觀察工具結果再決定下一步",
+            "input": "任務、模型、工具清單與步數限制",
+            "output": "最終結果、步驟與執行狀態",
+            "source": "src/smolagents/agents.py",
+            "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+          }
+        ],
+        "workflow": {
+          "title": "假資料的分析任務（設計示例）",
+          "problem": "比較兩種 Agent 對同一分析工作的表現",
+          "steps": [
+            {
+              "capability": "agent-loop",
+              "action": "對同一個假資料計算任務限制工具與步數，比對輸出及執行紀錄。"
+            }
+          ],
+          "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+        },
+        "rebuild": {
+          "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
+          "stages": [
+            {
+              "title": "01 定義契約",
+              "detail": "建立工具、模型動作、觀察結果與停止條件。",
+              "deliverable": "輸入輸出規格"
+            },
+            {
+              "title": "02 建立最小測試",
+              "detail": "使用固定回應的模擬模型測兩步迴圈與停止。",
+              "deliverable": "可重現 Mock 測試"
+            },
+            {
+              "title": "03 驗證真實環境",
+              "detail": "核對依賴、模型服務、權限、費用、失敗及資料處理，再決定能否接正式流程。",
+              "deliverable": "實際驗收與風險紀錄"
+            }
+          ],
+          "gaps": [
+            "遠端 executor、工具註冊與外部服務隔離尚未逐檔審查。",
+            "Runtime、Security、Integration 及第三方依賴授權未測。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "模型產生程式碼",
+            "severity": "高",
+            "issue": "程式碼執行可能存取不應接觸的資料或造成副作用。",
+            "control": "隔離網路、檔案、憑證與工具；不依賴模型自行遵守安全規則。"
+          },
+          {
+            "title": "成本及迴圈",
+            "severity": "高",
+            "issue": "多步請求可能增加成本或延遲。",
+            "control": "設上限、測錯誤、保留紀錄並明訂停止條件。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本核心原始碼與 LICENSE",
+            "state": "已查閱",
+            "evidence": "Pinned agents.py and local_python_executor.py plus LICENSE; focused CodeAgent and ToolCallingAgent guide; remote executor implementations not audited."
+          },
+          {
+            "item": "安裝／Runtime／Integration",
+            "state": "未驗證",
+            "evidence": "本次無第三方執行"
+          }
+        ]
       }
     },
     {
@@ -24603,7 +24831,7 @@
       "category": "AI Agent / Framework & Learning",
       "resourceType": "Agent 系統性入門課程",
       "purpose": "從 Agent 核心概念出發，依課程學習工具使用、記憶、檢索增強生成與多代理應用的設計與實作。",
-      "recommendation": "適合想先建立 Agent 全貌，再挑選一個小型範例練習的讀者；優先由繁體中文目錄選一章實作。",
+      "recommendation": "先用 Agent 基礎、Tool Use 與可信任設計三章建立最小可控 Agent，再依需求選讀原課程的 RAG、Planning、Multi-Agent、Context、Memory 與部署安全；不要先從複雜多 Agent 範例開始。",
       "url": "https://github.com/microsoft/ai-agents-for-beginners",
       "repo": "microsoft/ai-agents-for-beginners",
       "notes": "",
@@ -24629,21 +24857,25 @@
         "taxonomyVersion": "1.0"
       },
       "features": [
-        "提供按主題安排的 Agent 課程與實作範例。",
-        "提供臺灣繁體中文翻譯入口，便於依課程循序學習。"
+        "課程索引目前涵蓋基礎、設計模式、工具、RAG、可信任 Agent、規劃、協作、協定、Context、Memory、部署與安全等主題。",
+        "本頁先深入第 01、04、06 章；原課程其餘章節從原始目錄選讀。",
+        "課程目前主要使用 Microsoft Agent Framework 與 Microsoft Foundry Agent Service V2；以該版課程 Setup 為準。"
       ],
       "requirements": [
-        "閱讀課程先核對每章使用的語言、模型服務與環境設定。"
+        "概念學習不需先開 Azure；執行正式範例才依 Course Setup 核對 Python、Azure 帳號、模型部署與費用。",
+        "先用本機假資料及只讀工具練習，需外部服務時再取得核准與配置最小權限。"
       ],
       "limitations": [
-        "不同章節可能使用不同 SDK、API 金鑰或外部服務；翻譯與主線更新不一定同步。"
+        "只完成三個選讀章節的教學整理，不宣稱整門課程已逐章查核。",
+        "原始 Notebook、程式執行及整合未測；翻譯可能落後英文主線。"
       ],
       "source": {
         "url": "https://github.com/microsoft/ai-agents-for-beginners",
         "type": "Official GitHub repository metadata and README",
         "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests",
-        "originalSavedUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-TW/README.md"
+        "reviewScope": "Pinned course index and lessons 01, 04, 06 only; partial guided study, not whole-course review.",
+        "originalSavedUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-TW/README.md",
+        "upstreamCommit": "3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e"
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -24654,13 +24886,13 @@
         ],
         "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -24670,7 +24902,7 @@
         "readingSpec": {
           "id": "learning",
           "status": "deferred",
-          "reason": "尚未逐章閱讀、完成教學範例及自我驗收，暫不標為深入教材已完成。"
+          "reason": "已完成第 01、04、06 章選讀教材，整門課程的其他章節仍待深入查核。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -24683,8 +24915,89 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "Pinned course index and lessons 01, 04, 06 only; partial guided study, not whole-course review."
         }
+      },
+      "learningGuide": {
+        "version": 2,
+        "headline": "三個基礎章節選讀：從 Agent 的用途到工具與安全邊界",
+        "takeaway": "先判斷是否需要動態行動，再建立工具契約及獨立權限檢查。",
+        "audience": "初次建立 Agent 或想從固定自動化轉向受控 Agent 的開發者。",
+        "outcomes": [],
+        "readingPath": [],
+        "modules": [
+          {
+            "id": "agent-intro",
+            "group": "先學",
+            "title": "何時需要 Agent？",
+            "question": "何時固定流程已足夠，何時才需要 Agent？",
+            "learn": "先定義任務的環境、可讀取的狀態與允許的動作，才能判斷系統是否需要行動能力。",
+            "essentials": [
+              "先定義任務的環境、可讀取的狀態與允許的動作，才能判斷系統是否需要行動能力。",
+              "固定規則可完成時，不需要模型決定下一步；遇到資訊缺口及多種合法操作，才考慮動態決策。",
+              "明訂完成條件與停止條件，防止模型反覆執行沒有進展的工作。"
+            ],
+            "example": "示例：查詢某筆申請狀態只需固定 API；若要從多個已授權來源判斷缺少的資訊，再考慮讓 Agent 選擇下一個查詢。",
+            "apply": "選一個固定自動化流程，標出環境、讀取工具、可執行動作與完成條件。",
+            "output": "一張包含固定流程替代方案的系統設計表。",
+            "sourceUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/01-intro-to-ai-agents/README.md"
+          },
+          {
+            "id": "tool-contract",
+            "group": "先學",
+            "title": "Tool Use 的執行鏈",
+            "question": "模型提出工具呼叫後，誰真正執行？",
+            "learn": "工具定義讓模型知道名稱、用途及參數；模型回傳呼叫建議，不等於已執行。",
+            "essentials": [
+              "工具定義讓模型知道名稱、用途及參數；模型回傳呼叫建議，不等於已執行。",
+              "應用程式驗證參數、身份及權限，再執行工具並將結果與呼叫識別資訊送回模型。",
+              "將逾時、無資料與拒絕存取轉成可區別的結果；不可讓模型憑空補出查詢資料。"
+            ],
+            "example": "示例：只讀的 get_ticket_status 接受 ticket_id，回傳狀態或 access_denied；Agent 不應因查不到就自行建立新工單。",
+            "apply": "設計工具 JSON Schema，寫出正常、無效 ID、越權與逾時四種預期回傳。",
+            "output": "一份工具 I/O 契約及四個失敗處理案例。",
+            "sourceUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/04-tool-use/README.md"
+          },
+          {
+            "id": "trust-boundary",
+            "group": "先學",
+            "title": "可信任 Agent",
+            "question": "如何防止 Agent 做出未授權操作？",
+            "learn": "在系統指令寫明職責與不應執行的行為，但不能把指令本身當成安全控制。",
+            "essentials": [
+              "在系統指令寫明職責與不應執行的行為，但不能把指令本身當成安全控制。",
+              "於工具／資料層實作最小權限與使用者驗證；寫入、傳送、刪除等副作用須依風險核准。",
+              "用代表性正常與越權案例驗證，記錄哪些拒絕應由程式強制執行，而非只相信模型回覆。"
+            ],
+            "example": "示例：員工支援 Agent 只能查本人申請狀態；對他人資料的查詢由後端拒絕，即使提示文字要求略過規則。",
+            "apply": "畫出使用者、模型、工具與資料四層邊界，寫出一個越權案例與預期拒絕結果。",
+            "output": "權限矩陣及可重現的安全驗收案例。",
+            "sourceUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/06-building-trustworthy-agents/README.md"
+          }
+        ],
+        "practice": {
+          "title": "整體練習｜設計只讀工單 Agent（自訂情境）",
+          "scenario": "員工希望查詢自己的工單；不得任意讀取他人資料、修改工單或無限重試。",
+          "tasks": [
+            {
+              "action": "定義最小架構",
+              "deliverable": "固定查詢與 Agent 的選型理由",
+              "sourceId": "agent-intro"
+            },
+            {
+              "action": "設計工具契約",
+              "deliverable": "輸入輸出及錯誤案例",
+              "sourceId": "tool-contract"
+            },
+            {
+              "action": "設計權限驗收",
+              "deliverable": "越權拒絕與停止條件",
+              "sourceId": "trust-boundary"
+            }
+          ],
+          "check": "每個可行動步驟都有可檢查的權限與結果；未測試不得標記通過。"
+        },
+        "caveat": "本頁為三章選讀教材；其餘原課程尚未深入整理。案例與練習是自訂設計，未實測。"
       }
     },
     {
@@ -26372,10 +26685,10 @@
       "category": "AI Agent / Framework & Learning",
       "resourceType": "AI Agent 實作 Notebook 合集",
       "purpose": "蒐集多種 Agent 技巧的教學與實作範例，協助比較單一 Agent、工具使用及多代理設計方法。",
-      "recommendation": "先按欲解決的問題挑 Notebook；不需照目錄一次執行全部範例。",
+      "recommendation": "把此集合當成 Agent 設計模式實驗庫。先挑與目前問題對應的 Notebook，建立固定案例及基準，再比較模式是否值得增加複雜度。",
       "url": "https://github.com/NirDiamant/GenAI_Agents",
       "repo": "NirDiamant/GenAI_Agents",
-      "notes": "",
+      "notes": "版本化索引：https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md 。本次查核範圍見 source.reviewScope。",
       "status": "active",
       "addedAt": "2026-11-24",
       "updatedAt": "2026-11-24",
@@ -26398,20 +26711,25 @@
         "taxonomyVersion": "1.0"
       },
       "features": [
-        "依 Agent 技巧與用途提供可閱讀的範例和 Notebook。",
-        "可用範例比較不同協作、工具呼叫與工作流程設計。"
+        "先理解迴圈｜README 連到 agent_while_loop_from_scratch.ipynb，可用來研究模型選擇動作、觀察結果、再決定下一步的基本結構。",
+        "需要路由時｜one_step_decision_router.ipynb 是索引中的單步決策路由範例；先問固定分類是否足夠，再考慮多步 Agent。",
+        "需要進階模式時｜README 列有 Plan Then Execute、Reflection、Thinking Budgets、Skills From Scratch 等教學，適合針對規劃、重試、成本或技能重用進一步選讀。"
       ],
       "requirements": [
-        "執行特定 Notebook 前先確認 Python 依賴、模型供應商及必要憑證。"
+        "實驗順序：先讀 Notebook 的前置依賴及模型設定；用乾淨環境、假資料和可控預算執行，禁止直接套用任意工具或憑證。",
+        "比較方式：同一任務分別使用單次模型、固定流程、Agent 迴圈；記錄正確率、呼叫次數、成本、失敗模式與是否有多餘步驟。",
+        "交付：保存 Notebook 路徑、Commit、模型版本、測試輸入、觀察結果與適用邊界，成功案例不能取代反例。"
       ],
       "limitations": [
-        "不同 Notebook 的版本、成本及安全假設可能不同，不可視為生產可用模板。"
+        "本輪讀取 README 索引，未逐份核對 Notebook 內容、執行結果或各範例的授權。",
+        "不同範例的 SDK 與 API 可能不同；不能直接拼接為可用的生產流程。"
       ],
       "source": {
         "url": "https://github.com/NirDiamant/GenAI_Agents",
         "type": "Official GitHub repository metadata and README",
         "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewScope": "Pinned README collection index; named notebooks referenced by index only; no notebook execution.",
+        "upstreamCommit": "1024ee0d4ca47b2fe36eadd669c57ad2353242bb"
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -26422,13 +26740,13 @@
         ],
         "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -26438,7 +26756,7 @@
         "readingSpec": {
           "id": "standard",
           "status": "applied",
-          "reason": "已提供基本用途、功能、採用條件及限制；不宣稱完整專屬深度指南。"
+          "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -26451,7 +26769,7 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "Pinned README collection index; named notebooks referenced by index only; no notebook execution."
         }
       }
     },
@@ -28740,13 +29058,13 @@
       "category": "02 Agent Orchestration",
       "resourceType": "Commercial hosted multi-provider LLM API gateway / model marketplace & routing service",
       "purpose": "以單一 OpenAI-compatible API 及 API Key 存取多家供應商的語言與多模態模型，依模型 ID、供應商與設定執行請求路由、模型／Provider 備援、串流、工具呼叫、結構化輸出及用量／成本管理；支援 Bring Your Own Key (BYOK) 與可選資料政策式路由（含 Zero Data Retention 限制）。",
-      "recommendation": "適合已開發 AI App、Agent 或多模型工作流程，想用單一整合端點快速切換模型並設定成本／路由政策的開發者。先用非敏感測試資料和受限制額度的 API Key 驗證，固定預期的模型與必要供應商、配置預算／rate limit 及隱私路由規則，再導入工作環境。OpenRouter 是中介 API 服務，不是免安裝即可讓 Claude/Codex 原生訂閱免費互通的工具；不應與自架模型 Router 或純開源代理套件混淆。",
+      "recommendation": "需要同時比較多個模型、統一 API 或管理供應商備援時採用；若產品只依賴單一固定模型、具有嚴格資料落地要求或需供應商專屬能力，先評估直接串接。",
       "url": "https://openrouter.ai/",
       "repo": "",
       "notes": "2026-10-24 查核官方開發者入口、Pricing、Support、Privacy Policy、Zero Data Retention 及 Provider 清單：統一端點 https://openrouter.ai/api/v1，可支援不同模型 Provider 與路由／fallback；提供 OpenAI-compatible API，亦有官方 SDK、Agent SDK、MCP Server 和 Cookbook。官方 pricing 有免費模型／免費 API 額度、按使用量計費及可選 BYOK；模型費率、免費額度、加值手續費和 BYOK 費率依最新方案與實際模型變動，不能以單一價格概括所有模型。官方 Support 表示 API 基本 metadata 會記錄，預設不保存 prompts/completions；但可選 prompt logging，而請求內容會送到實際承接的模型供應商。ZDR 可限制符合要求的供應商不保留 inference prompt/response，但不代表資料完全不出站、不經過 OpenRouter，也不涵蓋自己的 Logs、Tools、Plugins 或持久檔案儲存。模型供應商在 retention、訓練及所在地上有所不同，對敏感資料應明確確認 Provider 與 Policy 並閱讀服務條款。雖然官方有 OpenRouterTeam/openrouter-examples 等公開範例 Repo，這不代表 OpenRouter 託管 API 服務本身是完整開源專案；故 Repo 欄位保持空白。需保存 API Key 並管理額度與洩露／濫用風險；如啟用自動路由或 fallback，請求可能改由不同 Provider 處理，應以 policy 過濾與回傳模型資訊核實。僅完成資料收錄，不曾登入、建立或測試 API Key，亦未呼叫付費模型。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-24",
       "tags": [
         "openrouter",
         "llm-api-gateway",
@@ -28796,13 +29114,14 @@
         "privacyUrl": "https://openrouter.ai/privacy",
         "referenceUrls": [
           "https://openrouter.ai/support",
-          "https://openrouter.ai/blog/insights/zero-data-retention/"
+          "https://openrouter.ai/blog/insights/zero-data-retention/",
+          "https://openrouter.ai/docs/guides/routing/provider-selection"
         ],
         "type": "Official OpenRouter developer platform, pricing, support, and privacy documentation",
         "summary": "Reviewed published capabilities, routing, plans and privacy boundaries on 2026-10-24; claims not independently performance-tested.",
         "readmeUrl": "https://openrouter.ai/developers",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewedAt": "2026-11-24",
+        "reviewScope": "Official provider routing and ZDR documentation; no API calls or policy audit."
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -28824,13 +29143,19 @@
         "taxonomyVersion": "1.0"
       },
       "features": [
-        "提供不同模型供應商的 OpenAI 相容 API、路由與計費入口"
+        "模型與供應商是兩層選擇：model 決定模型，provider 決定可提供該模型的端點。供應商備援不能保證跨模型行為一致。",
+        "供應商策略：order 指定偏好順序；only 限定允許名單；allow_fallbacks 控制備援；require_parameters 避免將不支援指定參數的端點納入。",
+        "資料政策：data_collection 設為 deny 限制可儲存資料的供應商；zdr 限制符合零資料保留條件的端點。仍需檢視服務本身的資料處理政策。"
       ],
       "requirements": [
-        "依官方 Developer Platform 文件先建立 API Key 並確認 model ID 與路由設定"
+        "操作：建立專案專用 Key，以伺服器端呼叫 OpenAI 相容 API；先用無敏感內容的小樣本測試 model ID、tool calling、結構化輸出，再逐步接正式資料。",
+        "驗收：固定一組代表性測試題，比較模型與實際供應商、延遲、費用、輸出 Schema 通過率及錯誤回應；刻意模擬供應商不可用，確認是否符合備援規則。",
+        "例：內部履歷摘要若要求固定供應商及 ZDR，應先建立允許清單與政策，再測無符合端點時能否明確拒絕，而非偷偷放寬限制。"
       ],
       "limitations": [
-        "不同模型及供應商費率、上下文、資料政策可能不同，不能將路由當成實測相容"
+        "共用 Gateway 本身可能故障，供應商備援不能替代獨立災難復原。",
+        "模型能力、價格、端點資料政策會變動；不得把單次成功當成各端點相容性證明。",
+        "未呼叫 API、未評估企業條款、未測資料保留或實際帳單。"
       ],
       "intakeReview": {
         "policyVersion": "1.0",
@@ -28839,7 +29164,7 @@
           "source.url",
           "url"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -28854,9 +29179,9 @@
         },
         "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "依實際資源用途採標準選型／策展導覽；已補上操作與驗收，非已測整合。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -28869,7 +29194,7 @@
         "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "Official provider routing and ZDR documentation; no API calls or policy audit."
         }
       }
     },
@@ -30630,7 +30955,7 @@
       "category": "AI Agent / Framework & Learning",
       "resourceType": "型別化 Python Agent 框架",
       "purpose": "以 Python 型別、結構化輸出和驗證機制建立可測試的 AI Agent 應用。",
-      "recommendation": "適合 Python 後端與需要可明確檢查輸入、輸出及依賴的 Agent 專案。",
+      "recommendation": "需要將模型結果接入 Python 商業邏輯、資料模型與可重現測試時，優先評估 Pydantic AI。若只需固定 ETL 規則或單次摘要，不必先建複雜 Harness。",
       "url": "https://github.com/pydantic/pydantic-ai",
       "repo": "pydantic/pydantic-ai",
       "notes": "",
@@ -30656,20 +30981,25 @@
         "taxonomyVersion": "1.0"
       },
       "features": [
-        "以型別化資料模型定義 Agent 輸入與輸出。",
-        "支援工具及模型提供者的整合模式，便於撰寫測試。"
+        "Agent 的 output_type 定義最終輸出契約；可用 Pydantic Model 限制欄位與型別。",
+        "Agent.tool 注入 RunContext，tool_plain 不需 context；工具簽章是參數契約的基礎。",
+        "ToolOutput、NativeOutput、PromptedOutput 代表不同的結構化輸出途徑；模型支援需另驗證。",
+        "UsageLimits 可限制請求、工具呼叫及 Token；TestModel 可在無真實模型的情境測介面。"
       ],
       "requirements": [
-        "需有 Python 開發環境，並依選定模型配置授權和依賴。"
+        "Python 隔離環境；依官方文件選擇模型依賴和認證。",
+        "先採 TestModel 與假資料測試 Schema 與工具，再接經核准的模型。"
       ],
       "limitations": [
-        "型別驗證不等於語意正確；模型費用、資料隱私及測試仍需自行處理。"
+        "型別驗證不代表內容正確、未越權或符合業務規則。",
+        "本輪僅查核心檔案，未測模型、Harness、持久化、API 或正式部署。"
       ],
       "source": {
         "url": "https://github.com/pydantic/pydantic-ai",
         "type": "Official GitHub repository metadata and README",
         "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewScope": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited.",
+        "upstreamCommit": "48152fb97f25ea53792c4285eec058371f0e2c89"
       },
       "intakeReview": {
         "policyVersion": "1.0",
@@ -30680,13 +31010,13 @@
         ],
         "sourceCheckedAt": "2026-11-24",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -30695,8 +31025,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "完成限定範圍的核心來源指南，明確保留完整框架重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -30709,8 +31039,221 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited."
         }
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以 Python 型別和工具契約約束 Agent 的輸入輸出，將模型回傳轉成可供應用程式使用的資料。此指南聚焦核心 Agent 與驗證，不涵蓋完整 Harness。",
+        "status": [
+          {
+            "label": "核心原始碼",
+            "value": "已查閱固定 Commit"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約可作設計參考，完整框架尚待查核"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT"
+          },
+          {
+            "label": "重點",
+            "value": "Typed Output · Tool Contract"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "型別化輸出",
+            "detail": "Agent 的 output_type 定義最終輸出契約；可用 Pydantic Model 限制欄位與型別。",
+            "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+          },
+          {
+            "title": "函式工具",
+            "detail": "Agent.tool 注入 RunContext，tool_plain 不需 context；工具簽章是參數契約的基礎。",
+            "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+          },
+          {
+            "title": "輸出模式",
+            "detail": "ToolOutput、NativeOutput、PromptedOutput 代表不同的結構化輸出途徑；模型支援需另驗證。",
+            "source": "pydantic_ai_slim/pydantic_ai/output.py"
+          },
+          {
+            "title": "限制與測試",
+            "detail": "UsageLimits 可限制請求、工具呼叫及 Token；TestModel 可在無真實模型的情境測介面。",
+            "source": "pydantic_ai_slim/pydantic_ai/usage.py"
+          }
+        ],
+        "architecture": {
+          "summary": "Agent 定義 → 模型與工具 → 輸出契約 → 觀察及測試",
+          "nodes": [
+            {
+              "title": "定義 Agent",
+              "detail": "配置模型、指令、工具及 output_type；將業務需求寫入型別與程式。",
+              "files": [
+                "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+              ]
+            },
+            {
+              "title": "請求模型與工具",
+              "detail": "模型可能產生工具呼叫；Agent 依註冊工具及參數處理，RunContext 提供依賴。",
+              "files": [
+                "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+              ]
+            },
+            {
+              "title": "驗證輸出",
+              "detail": "依 OutputSpec 選擇輸出 Schema；失敗應留在錯誤／重試路徑而非當成有效資料。",
+              "files": [
+                "pydantic_ai_slim/pydantic_ai/output.py"
+              ]
+            },
+            {
+              "title": "限制與測試",
+              "detail": "使用 UsageLimits 設門檻，並用 TestModel 檢查契約；真實模型品質需另做 Evals。",
+              "files": [
+                "pydantic_ai_slim/pydantic_ai/usage.py",
+                "pydantic_ai_slim/pydantic_ai/models/test.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "結構化不等於正確",
+            "rule": "Schema 只能驗證形式與明訂規則；業務語意、來源與權限另行驗證。",
+            "source": "pydantic_ai_slim/pydantic_ai/output.py"
+          },
+          {
+            "name": "限制資源",
+            "rule": "UsageLimits 對請求及工具呼叫設界線；Token 限制需留意回傳後才知道的用量。",
+            "source": "pydantic_ai_slim/pydantic_ai/usage.py"
+          },
+          {
+            "name": "模擬與實際分開",
+            "rule": "TestModel 用於可控測試，不代表真實供應商行為。",
+            "source": "pydantic_ai_slim/pydantic_ai/models/test.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "先看原始碼",
+            "description": "從固定 Commit 的核心檔案理解介面；不需安裝即可研究。",
+            "commands": [],
+            "files": [
+              "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+              "pydantic_ai_slim/pydantic_ai/output.py"
+            ],
+            "approval": false
+          },
+          {
+            "title": "建立隔離測試",
+            "description": "官方 README 安裝入口為 uv add pydantic-ai；先固定可用版本、檢查依賴，再用 TestModel 及無副作用工具測試。",
+            "commands": [],
+            "files": [
+              "README.md"
+            ],
+            "approval": true,
+            "approvalNote": "安裝第三方套件、連線及使用憑證需事先核准；本次未執行。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "新增資料契約與只讀工具",
+            "detail": "建立明確的 Pydantic Model 與具名工具；先驗證資料欄位及錯誤，不讓模型直接決定寫入。",
+            "file": "pydantic_ai_slim/pydantic_ai/agent/__init__.py"
+          },
+          {
+            "title": "補失敗路徑",
+            "detail": "測不合法輸出、工具失敗、超出呼叫限制與模型拒答。",
+            "file": "pydantic_ai_slim/pydantic_ai/usage.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "typed-output",
+            "name": "結構化結果",
+            "problem": "自由文字難以直接交給程式使用",
+            "input": "任務、輸出型別及經授權工具",
+            "output": "符合契約的結果或可辨識失敗",
+            "source": "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+            "gate": "僅為來源支持的知識單元；需測試權限、錯誤與實際結果。"
+          }
+        ],
+        "workflow": {
+          "title": "履歷摘要欄位擷取（設計示例）",
+          "problem": "從非結構化文字產生可供程式核對的欄位",
+          "steps": [
+            {
+              "capability": "typed-output",
+              "action": "用假履歷與輸出 Schema 驗證欄位；保留來源並禁止虛構經歷。"
+            }
+          ],
+          "gate": "自訂示例，未執行；不代表任何實際整合或可部署成果。"
+        },
+        "rebuild": {
+          "verdict": "可依現有核心來源設計小型 Mock MVP，不能宣稱已重建完整框架。",
+          "stages": [
+            {
+              "title": "01 定義契約",
+              "detail": "建立資料型別、工具參數及錯誤契約。",
+              "deliverable": "輸入輸出規格"
+            },
+            {
+              "title": "02 建立最小測試",
+              "detail": "先用模擬模型測成功、錯誤及資源限制。",
+              "deliverable": "可重現 Mock 測試"
+            },
+            {
+              "title": "03 驗證真實環境",
+              "detail": "核對依賴、模型服務、權限、費用、失敗及資料處理，再決定能否接正式流程。",
+              "deliverable": "實際驗收與風險紀錄"
+            }
+          ],
+          "gaps": [
+            "完整模型 adapter、tool dispatch、Harness 與持久化尚未逐檔審查。",
+            "Runtime、Security、Integration 及第三方依賴授權未測。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "語意與權限",
+            "severity": "高",
+            "issue": "符合 Schema 的結果仍可能錯誤或越權。",
+            "control": "業務驗證、最小權限、來源核對及人審獨立於模型輸出。"
+          },
+          {
+            "title": "成本及迴圈",
+            "severity": "高",
+            "issue": "多步請求可能增加成本或延遲。",
+            "control": "設上限、測錯誤、保留紀錄並明訂停止條件。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本核心原始碼與 LICENSE",
+            "state": "已查閱",
+            "evidence": "Pinned Agent, output, usage, TestModel, LICENSE; focused source guide for typed tool/output and limits; other provider/harness features not audited."
+          },
+          {
+            "item": "安裝／Runtime／Integration",
+            "state": "未驗證",
+            "evidence": "本次無第三方執行"
+          }
+        ]
       }
     },
     {
