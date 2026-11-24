@@ -301,6 +301,15 @@ try{
  assert.equal(deployedReview.unverified,true);
  console.log('PASS: Deployed Audit07 Workflow Preview shows 17 review-only cases and 4 source-bound Enterprise RAG options');
 
+ const audit08=await evaluate('({auditLink:document.querySelector("#pg-review-summary .pg-source-link")?.href,selectedWorkflow:PG.workflowId,search:location.search})');
+ assert.ok(audit08.auditLink.endsWith('#stack')&&audit08.selectedWorkflow==='stack','Deployed audit case deep link incorrect: '+JSON.stringify(audit08));
+ await send('Page.navigate',{url:origin+'/playground.html?problem=verify-ai-generated-code&workflow=stack'});
+ await waitFor('typeof PG!=="undefined"&&PG.workflowId==="stack"&&document.querySelector("#pg-review-summary")!==null','Deployed Task C explicit Workflow query precedence');
+ const resolved=await evaluate('({workflow:PG.workflowId,problem:PG.problemId,urlProblem:new URL(location.href).searchParams.get("problem")})');
+ assert.deepEqual(resolved,{workflow:'stack',problem:null,urlProblem:null});
+ console.log('PASS: Deployed Audit08 direct case evidence and conflicting Problem+Workflow URL repair');
+
+
  console.log('PASS: Three independently curated recipes are readable and editable');
 
  // Problem-first navigation and free drafts with real Resource / Skill records.

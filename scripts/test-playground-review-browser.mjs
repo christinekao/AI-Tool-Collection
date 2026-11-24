@@ -122,6 +122,46 @@ try{
  await visit('playground.html?workflow=ai-vector-asset-code-stack');
  const escaped=await evaluate('PG.reviewCases.get("ai-vector-asset-code-stack").gap="<img src=x onerror=alert(1)>";pRender();({escaped:document.querySelector("#pg-review-summary").textContent.includes("<img src=x onerror=alert(1)>"),htmlInjected:!!document.querySelector("#pg-review-summary img")})');
  assert.equal(escaped.escaped,true);assert.equal(escaped.htmlInjected,false);
+
+ // Audit 08 task-based automated walkthroughs — NOT human usability interviews.
+ // Task A: From discovery card to source evidence + copyable URL + back/forward.
+ await visit('playground.html');
+ await wait('document.querySelector("#pg-editor .pg-review-discover [data-flow-id=stack]")!==null','Task A discover');
+ await evaluate('document.querySelector("#pg-editor .pg-review-discover [data-flow-id=stack]").click();true');
+ await wait('location.search.includes("workflow=stack") && PG.workflowId==="stack" && document.querySelector("#pg-review-summary")!==null','Task A selected URL');
+ const taskA=await evaluate('({link:document.querySelector("#pg-review-summary .pg-source-link")?.href,choices:document.querySelectorAll("#pg-reviewed-stages .pg-review-option").length,stageMap:document.querySelectorAll("#pg-reviewed-stages .pg-review-source-stage").length})');
+ assert.ok(taskA.link.endsWith('#stack'),'Task A should deep-link to the exact audit case '+JSON.stringify(taskA));
+ assert.equal(taskA.choices,4);
+ assert.ok(taskA.stageMap>=4);
+ await evaluate('history.back();true');
+ await wait('!location.search.includes("workflow=")&&PG.mode==="home"','Task A browser Back');
+ await evaluate('history.forward();true');
+ await wait('location.search.includes("workflow=stack")&&PG.workflowId==="stack"&&document.querySelector("#pg-review-summary")!==null','Task A browser Forward');
+ console.log('PASS: Task A source review, exact audit case, shareable URL, Back/Forward');
+ // Task B: Find Vector asset workflow, identify Stage/Tool, recover from empty filters.
+ await visit('playground.html');
+ await wait('document.querySelector("#pg-editor .pg-review-discover")!==null','Task B home');
+ await evaluate('const input=document.querySelector("#pg-search");input.value="Vector";input.dispatchEvent(new Event("input",{bubbles:true}));true');
+ await wait('document.querySelector("#pg-flows [data-flow-id=ai-vector-asset-code-stack]")!==null','Task B filtered search');
+ await evaluate('document.querySelector("#pg-flows [data-flow-id=ai-vector-asset-code-stack]").click();true');
+ await wait('location.search.includes("workflow=ai-vector-asset-code-stack")&&document.querySelectorAll("#pg-editor .pg-review-option").length===4','Task B source options');
+ const caseLink=await evaluate('document.querySelector("#pg-review-summary .pg-source-link")?.href');
+ assert.ok(caseLink.endsWith('#ai-vector-asset-code-stack'));
+ await evaluate('document.querySelector("#pg-review-only").click();const input=document.querySelector("#pg-search");input.value="impossible-no-results-999";input.dispatchEvent(new Event("input",{bubbles:true}));true');
+ await wait('document.querySelector("#pg-flows [data-clear-filters]")!==null','Task B no results recovery');
+ await evaluate('document.querySelector("#pg-flows [data-clear-filters]").click();true');
+ const taskB=await evaluate('({count:document.querySelectorAll("#pg-flows [data-flow-id]").length,emptyInput:document.querySelector("#pg-search").value,reviewChecked:document.querySelector("#pg-review-only").checked,clearHidden:document.querySelector("#pg-clear-filters").hidden,deepLink:location.search.includes("workflow=ai-vector-asset-code-stack")})');
+ assert.deepEqual(taskB,{count:36,emptyInput:'',reviewChecked:false,clearHidden:true,deepLink:true});
+ console.log('PASS: Task B Vector-stage evidence, search, zero-results recovery and retained workflow link');
+ // Task C: Do not invent tools; explicit Workflow wins over a conflicting Problem URL.
+ await visit('playground.html?workflow=goal-build-evidence-learning-loop');
+ await wait('PG.workflowId==="goal-build-evidence-learning-loop"&&document.querySelector("#pg-review-summary")?.textContent.includes("0 個原有 Resource")','Task C zero member');
+ assert.equal(await evaluate('document.querySelectorAll("#pg-editor .pg-review-option").length'),0);
+ await visit('playground.html?problem=verify-ai-generated-code&workflow=stack');
+ await wait('PG.workflowId==="stack"&&document.querySelector("#pg-review-summary")!==null','Task C conflicting route');
+ const taskC=await evaluate('({workflow:PG.workflowId,problem:PG.problemId,urlProblem:new URL(location.href).searchParams.get("problem"),urlWorkflow:new URL(location.href).searchParams.get("workflow")})');
+ assert.deepEqual(taskC,{workflow:'stack',problem:null,urlProblem:null,urlWorkflow:'stack'});
+ console.log('PASS: Task C no fabricated tools, explicit Workflow deep link precedence and conflict cleanup');
  // Responsive actual DOM: source details + 375/430/768/1440px
  await visit('playground.html?workflow=stack');
  for(const width of [375,430,768,1440]){

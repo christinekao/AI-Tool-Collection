@@ -12,6 +12,7 @@ on:
       - 'playground-style.css'
       - 'workflow-review.js'
       - 'scripts/test-playground-review-browser.mjs'
+      - 'scripts/wait-playground-release.mjs'
       - 'data/knowledge-graph-v1.json'
       - 'data/catalog-v2.json'
       - '.github/workflows/live-pages-smoke.yml'
@@ -40,6 +41,9 @@ jobs:
         run: node scripts/test-live-pages.mjs
       - name: Check Audit 07 review-only UI in local Chromium (PR and main checkout)
         run: node scripts/test-playground-review-browser.mjs
+      - name: Wait for the current Pages release before deployed Chromium
+        if: github.event_name != 'pull_request'
+        run: node scripts/wait-playground-release.mjs
       - name: Check actual deployed site in Chromium (not local preview)
         if: github.event_name != 'pull_request'
         env:
