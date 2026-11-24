@@ -115,7 +115,15 @@ test('Phase 3 batch 02: catalog, guide routes and review boundaries',()=>{
   assert.equal(d.intakeReview.capabilityReview.decision,'none',id);
   const html=context.detail(built);
   if(d.repoGuide){
-   assert.match(html,/class="repo-guide"/);
+   if(d.readerGuide){
+    assert.match(html,/class="resource-reader-guide"/);
+    assert.doesNotMatch(html,/class="repo-guide"/);
+    assert.deepEqual(built.readerGuide,d.readerGuide);
+    assert.match(html,/實際應用：AI 履歷分析/);
+    assert.match(html,/為什麼不直接呼叫 LLM API/);
+    assert.match(html,/years_of_experience/);
+    assert.doesNotMatch(html,/重建前仍缺少的證據|核心判斷規則|pydantic_ai_slim\/pydantic_ai/);
+   }else assert.match(html,/class="repo-guide"/);
    assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
    assert.ok(d.repoGuide.architecture.nodes.every(n=>n.files?.length));
    assert.ok(d.repoGuide.rebuild.gaps.length);
