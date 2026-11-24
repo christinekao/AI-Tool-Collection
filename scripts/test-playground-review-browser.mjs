@@ -67,7 +67,7 @@ try{
   for(let i=0;i<110;i++){const v=await evaluate(expr);if(v)return v;await pause(110)}
   throw Error('Timed out '+label);
  };
- const visit=async path=>{await send('Page.navigate',{url:origin+'/'+path});await wait('PG.reviewState==="ready"&&document.querySelector("#pg-editor")!==null','review '+path)};
+ const visit=async path=>{await send('Page.navigate',{url:origin+'/'+path});await wait('typeof PG!=="undefined"&&PG.reviewState==="ready"&&document.querySelector("#pg-editor")!==null','review '+path)};
  // Discoverability and filter
  await wait('document.querySelector("#pg-editor .pg-review-discover")!==null','homepage discovery');
  const ready=await evaluate('({reviewed:PG.reviewCases.size,filterDisabled:document.querySelector("#pg-review-only").disabled,count:document.querySelectorAll("#pg-flows [data-flow-id]").length})');
