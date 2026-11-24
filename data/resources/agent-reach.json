@@ -13,7 +13,7 @@
   "notes": "Official upstream identified. It positions itself as a capability layer that routes to preferred/fallback platform backends.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-24",
   "tags": [
     "web-access",
     "social-media",
@@ -72,9 +72,10 @@
   "source": {
     "url": "https://github.com/Panniantong/Agent-Reach",
     "readmeUrl": "https://github.com/Panniantong/Agent-Reach/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-24",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "Pinned pyproject.toml, CLI entry, runtime/cli.py, runtime/dispatch.py (routing and errors), runtime/result.py (envelope), channels/base.py, docs/install.md, LICENSE; no execution.",
+    "upstreamCommit": "a8ab1e9a2475957d759eac2dbedfe91b0a1e1021"
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -83,7 +84,7 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -99,8 +100,8 @@
     "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "已建立核心原始碼指南，版本化契約與重建 Gap 明確；不代表完整 adapter 審查或實測。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -113,7 +114,277 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "已讀取固定 Commit 核心原始碼及 LICENSE，未安裝、Build、Runtime、Security 或 Integration 測試。"
     }
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以統一 CLI 將跨平台讀取動作和平台後端分開，讓 Agent 依來源取得資料與錯誤狀態，而不必解析各工具的終端文字。",
+    "status": [
+      {
+        "label": "版本化來源",
+        "value": "已讀取核心介面與派送邏輯（1.6.1）"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝、未登入、未測試"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約可作設計參考，平台實作仍待審查"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python 3.10+ · CLI · JSON"
+      },
+      {
+        "label": "版本",
+        "value": "1.6.1（核對的原始碼）"
+      },
+      {
+        "label": "授權",
+        "value": "MIT（Repo；外部工具另計）"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "能力發現",
+        "detail": "channels 列出平台、動作、參數及後端，Agent 可以先確認功能才呼叫。",
+        "source": "agent_reach/runtime/cli.py"
+      },
+      {
+        "title": "網址辨識",
+        "detail": "read 依網址挑選可處理的平台，沒有專屬 reader 才使用 web channel。",
+        "source": "agent_reach/runtime/cli.py"
+      },
+      {
+        "title": "統一回傳",
+        "detail": "回傳單一 JSON，包含成功狀態、來源、資料及錯誤；一般動作成功 exit 0，失敗 exit 1。",
+        "source": "agent_reach/runtime/result.py"
+      },
+      {
+        "title": "健康狀態與實際檢查",
+        "detail": "doctor 檢查本機狀態；check 執行網路測試。前者不代表後者成功。",
+        "source": "agent_reach/runtime/cli.py"
+      }
+    ],
+    "architecture": {
+      "summary": "輸入解析 → 平台 Action → 後端派送 → JSON 結果。",
+      "readerSummary": "Agent 先交付一個查詢或網址；程式選擇通道，檢查參數並執行允許的後端，最後回傳資料或可辨識的錯誤。",
+      "nodes": [
+        {
+          "title": "CLI 入口",
+          "detail": "pyproject.toml 登記 agent_reach.cli:main；轉交 runtime.cli。",
+          "files": [
+            "pyproject.toml",
+            "agent_reach/cli.py"
+          ],
+          "readerTitle": "接收查詢",
+          "readerText": "從命令列接收網址、平台與查詢參數。"
+        },
+        {
+          "title": "Action 與 Channel",
+          "detail": "Channel 宣告 actions、params、backends 與 session 需求；read 使用 can_handle 匹配。",
+          "files": [
+            "agent_reach/channels/base.py",
+            "agent_reach/runtime/cli.py"
+          ],
+          "readerTitle": "找到適當通道",
+          "readerText": "判斷網址歸屬及支援動作，再檢查輸入格式。"
+        },
+        {
+          "title": "Dispatcher",
+          "detail": "validate_action 驗證；run_action 管理 timeout、public route、依序後端及終止型錯誤。",
+          "files": [
+            "agent_reach/runtime/dispatch.py"
+          ],
+          "readerTitle": "依規則讀取",
+          "readerText": "在符合設定與權限時選擇後端；遇到限流、平台封鎖或登入需求應停止，而非持續重試。"
+        },
+        {
+          "title": "JSON 契約",
+          "detail": "schema_version、ok、channel、action、backend、items、meta、error；正規化 item 含 title/url/author/published_at/text/raw。",
+          "files": [
+            "agent_reach/runtime/result.py"
+          ],
+          "readerTitle": "取得結果及證據",
+          "readerText": "讀取結果、來源後端與錯誤原因；缺失的資料不能視為已成功讀取。"
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "先驗證參數",
+        "rule": "validate_action 在 setup 或登入前拒絕無效 action、參數及 timeout。",
+        "source": "agent_reach/runtime/dispatch.py"
+      },
+      {
+        "name": "停止與備援",
+        "rule": "FINAL_CODES 包含 RATE_LIMITED、PLATFORM_BLOCKED、NEED_LOGIN、BAD_INPUT、NOT_FOUND、BUSY；不得視為可無限重試的失敗。",
+        "source": "agent_reach/runtime/result.py"
+      },
+      {
+        "name": "資料格式",
+        "rule": "make_item 將缺值設為 null，raw 保留來源內容；下游應將 raw 視為不可信資料。",
+        "source": "agent_reach/runtime/result.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "先讀來源（不安裝）",
+        "description": "核對版本、安裝與登入風險；特別注意同名 PyPI 套件不是官方專案。",
+        "commands": [],
+        "files": [
+          "docs/install.md",
+          "pyproject.toml"
+        ],
+        "approval": false
+      },
+      {
+        "title": "安裝與初始化（需核准）",
+        "description": "官方安裝文件採 uv 與 GitHub release；setup 會安裝預設通道及 Skill。先審查指定版本下載物、依賴與寫入路徑，不直接執行未審查的 latest 安裝。",
+        "commands": [],
+        "files": [
+          "docs/install.md"
+        ],
+        "approval": true,
+        "approvalNote": "安裝、瀏覽器及登入設定皆可能修改環境；本指南未代為執行。"
+      },
+      {
+        "title": "已授權環境的健康檢查",
+        "description": "先看版本與通道清單，再用 doctor 檢查本機狀態。只有核准的網路測試才執行 check。",
+        "commands": [
+          "agent-reach version",
+          "agent-reach channels",
+          "agent-reach doctor"
+        ],
+        "files": [
+          "agent_reach/runtime/cli.py"
+        ],
+        "approval": false,
+        "commandGroups": [
+          {
+            "label": "已安裝環境的本機查詢",
+            "commands": [
+              "agent-reach version",
+              "agent-reach channels",
+              "agent-reach doctor"
+            ]
+          }
+        ]
+      }
+    ],
+    "extension": [
+      {
+        "title": "定義一個平台 Action",
+        "detail": "從 Channel、Action 與 Param 宣告設計新的公開來源讀取介面；不要將登入或寫入混在讀取契約中。",
+        "file": "agent_reach/channels/base.py"
+      },
+      {
+        "title": "測試派送與失敗",
+        "detail": "以模擬後端測參數不合法、逾時、可備援錯誤與必須停止的錯誤；再核對新平台註冊機制。",
+        "file": "agent_reach/runtime/dispatch.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "channel-discovery",
+        "name": "通道能力發現",
+        "problem": "Agent 不知道某平台支援的操作",
+        "input": "本機已安裝的 Channel 定義",
+        "output": "channels 清單與參數",
+        "source": "agent_reach/runtime/cli.py",
+        "gate": "確認版本和安裝狀態，未實測"
+      },
+      {
+        "id": "normalized-read",
+        "name": "統一讀取結果",
+        "problem": "不同來源的資料格式與錯誤不同",
+        "input": "合法網址或 Channel Action 參數",
+        "output": "JSON envelope 與 items/error",
+        "source": "agent_reach/runtime/result.py",
+        "gate": "僅讀取已授權的內容，必須保留來源與錯誤，未實測"
+      }
+    ],
+    "workflow": {
+      "title": "公開資料調查（設計示例）",
+      "problem": "讓研究 Agent 先辨識可用來源，再蒐集並保留出處。",
+      "steps": [
+        {
+          "capability": "channel-discovery",
+          "action": "確認通道及可用動作"
+        },
+        {
+          "capability": "normalized-read",
+          "action": "在合法公開來源讀取，保留 URL、文字及失敗狀態"
+        }
+      ],
+      "gate": "示例僅為設計；不得繞過平台限制或將第三方內容當作指令。未執行整合。"
+    },
+    "rebuild": {
+      "verdict": "已掌握核心路由與資料契約，可先重建不含登入的 Mock MVP；尚未逐個核對各平台工具及完整註冊、管理流程。",
+      "stages": [
+        {
+          "title": "01 定義介面",
+          "detail": "定義兩個公開資料來源的 Action、參數、JSON 結果及錯誤。",
+          "deliverable": "契約及模擬回傳"
+        },
+        {
+          "title": "02 模擬派送",
+          "detail": "實作優先順序、錯誤終止與逾時，測試備援與空資料。",
+          "deliverable": "Mock 測試及結果"
+        },
+        {
+          "title": "03 接入來源",
+          "detail": "核對一個官方公開 API 或允許的資料來源，明確限制權限及速率。",
+          "deliverable": "經授權的來源契約及實際測試"
+        }
+      ],
+      "gaps": [
+        "各平台 adapter、session reuse、manage、browser 完整實作尚未逐檔審查。",
+        "Build、Runtime、第三方依賴授權、平台政策及 Integration 未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "帳號與 Session",
+        "severity": "高",
+        "issue": "部分通道涉及現有瀏覽器登入狀態。",
+        "control": "預設不複製、不登入；只在使用者授權的環境使用最小權限，勿記錄或傳送憑證。"
+      },
+      {
+        "title": "平台限制",
+        "severity": "高",
+        "issue": "公開資料不等於允許任意擷取。",
+        "control": "遵守條款、速率限制與平台停止訊號；不切換帳號或後端規避限制。"
+      },
+      {
+        "title": "來源內容與安裝",
+        "severity": "高",
+        "issue": "外部文字及安裝依賴可能有不可信指令或副作用。",
+        "control": "將內容當作資料，審查下載物、版本與依賴；核准後才安裝。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "核心來源與 MIT",
+        "state": "已查閱",
+        "evidence": "固定 Commit 的核心 CLI、dispatch、result、base、install、LICENSE"
+      },
+      {
+        "item": "安裝／Runtime",
+        "state": "未驗證",
+        "evidence": "未執行任何第三方指令"
+      },
+      {
+        "item": "各平台／整合",
+        "state": "未驗證",
+        "evidence": "需逐個 adapter 及授權環境測試"
+      }
+    ]
   }
 }
