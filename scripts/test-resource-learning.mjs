@@ -77,13 +77,11 @@ test('Phase 3: both new structured guides render from canonical data and prior g
  const read=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
  const html=id=>{const d=read(id);const built=catalog.resources.find(r=>r.id===id);assert.ok(built);assert.deepEqual(built.repoGuide,d.repoGuide);assert.deepEqual(built.learningGuide,d.learningGuide);return context.detail(built);};
  const repo=html('agent-reach');
- assert.match(repo,/class="repo-guide"/);
- assert.match(repo,/class="repo-lead repo-lead-no-shots"/);
- assert.doesNotMatch(repo,/class="repo-shots"/);
- assert.match(repo,/核心判斷規則/);
+ assert.match(repo,/class="resource-reader-guide"/);
+ assert.doesNotMatch(repo,/class="repo-guide"|class="repo-shots"|核心判斷規則/);
  assert.match(read('agent-reach').repoGuide.architecture.nodes.map(n=>n.detail).join(' '),/schema_version/);
- assert.match(repo,/取得結果及證據/);
- assert.match(repo,/未驗證/);
+ assert.match(repo,/整理三篇研究文章/);
+ assert.match(repo,/未連線或執行/);
  const lesson=html('ai-code-acceptance-review-testing-rollout-guide');
  assert.match(lesson,/主題重點筆記（4 章）/);
  assert.equal((lesson.match(/class="learn-module learn-module-inline"/g)||[]).length,4);
@@ -92,7 +90,7 @@ test('Phase 3: both new structured guides render from canonical data and prior g
  assert.match(lesson,/自我驗收/);
  assert.match(html(ID),/十個主題的重點筆記/);
  assert.match(html('tip31812-ai-usage-bar'),/class="repo-shots"/);
- assert.match(html('arrow-2'),/輸出驗收/);
+ assert.match(html('arrow-2'),/製作一組網站圖示/);
  assert.match(html('addyosmani-agent-skills'),/選擇方法/);
  for(const id of ['agent-reach','ai-code-acceptance-review-testing-rollout-guide','arrow-2','addyosmani-agent-skills']){
   const d=read(id);
@@ -120,9 +118,8 @@ test('Phase 3 batch 02: catalog, guide routes and review boundaries',()=>{
     assert.match(html,/class="resource-reader-guide"/);
     assert.doesNotMatch(html,/class="repo-guide"/);
     assert.deepEqual(built.readerGuide,d.readerGuide);
-    assert.match(html,/實際應用：AI 履歷分析/);
-    assert.match(html,/為什麼不直接呼叫 LLM API/);
-    assert.match(html,/years_of_experience/);
+    assert.match(html,id==='pydantic-pydantic-ai'?/實際應用：AI 履歷分析/:/庫存查詢與缺貨分析/);
+    if(id==='pydantic-pydantic-ai'){assert.match(html,/為什麼不直接呼叫 LLM API/);assert.match(html,/years_of_experience/);}
     assert.doesNotMatch(html,/重建前仍缺少的證據|核心判斷規則|pydantic_ai_slim\/pydantic_ai/);
    }else assert.match(html,/class="repo-guide"/);
    assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
@@ -179,4 +176,31 @@ test('Human and agent layers resolve both directions and reject unsupported mapp
  assert.match(html,/data-use-case-id="document-extraction"/);
  assert.match(html,/data-example-id="resume-extraction"/);
  assert.doesNotMatch(html,/pydantic_ai_slim\/pydantic_ai|class="repo-guide"/);
+});
+
+test('Dual-layer batch 01: four source-grounded reader guides preserve bidirectional evidence',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,caseId,unitId,title] of [
+  ['agent-reach','web-research','normalized-read','整理三篇研究文章'],
+  ['huggingface-smolagents','multi-tool-task','named-tool-calling','庫存查詢與缺貨分析'],
+  ['arrow-2','create-icon','generate-svg','製作一組網站圖示'],
+  ['google-pagespeed-insights','find-bottleneck','lab-diagnosis','驗收作品集首頁改版']
+ ]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','agentEvidence','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId}),backward=resolveResourceLayerLinks(d,{capabilityId:unitId});
+  assert.equal(forward.useCases[0].id,caseId,id);
+  assert.equal(forward.example.verificationStatus,'design-only',id);
+  const units=forward.capabilities||forward.evidence,reverse=backward.capabilities||backward.evidence;
+  assert.ok(units.some(x=>x.id===unitId&&x.runtimeStatus==='not-tested'),id);
+  assert.ok(reverse[0].useCaseIds.includes(caseId),id);
+  assert.ok(reverse[0].exampleStepIds.length,id);
+  assert.ok(forward.example.steps.some(x=>x.externalDependency),id);
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|核心判斷規則|agent_reach\/runtime|src\/smolagents\//,id);
+ }
 });
