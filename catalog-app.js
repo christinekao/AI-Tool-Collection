@@ -275,6 +275,7 @@ function detail(x){
  if(x.entityType==='resource'){
   if(hasReaderGuide){
    body+=resourceReaderGuideHtml(x);
+   if(hasLearningGuide)body+=learningGuideHtml(x.learningGuide,true);
    if(list(x.conceptRefs).length)body+=section('相關概念',refsHtml(x.conceptRefs));
    if(list(x.skillRefs||x.relatedSkillRefs).length)body+=section('相關 Skills',refsHtml(x.skillRefs||x.relatedSkillRefs));
   }else if(hasRepoGuide){
