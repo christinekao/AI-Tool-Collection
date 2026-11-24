@@ -24,12 +24,12 @@
 
 ## Test and Release Gates
 
-- [ ] `node --test scripts/test-workflow-review.cjs`：13 項 Source Integrity／Failure Path／No-Promotion Test。
-- [ ] `node scripts/test-playground-review-browser.mjs`：用真實本機 Chromium 端對端測首頁篩選、兩種 Workflow 模式、零候選、未映射工具、注入字串 HTML escaping、375／430／768／1440 響應式。
-- [ ] PR V2 CI + Local Browser Smoke CI 實際 PASS。
-- [ ] PR Diff 不含 `data/`／Derived Catalog／Graph。
-- [ ] Main V2 CI + Live Pages + GitHub Pages Deployment 實際 PASS。
-- [ ] 真實新 UI 的 deployed Chromium Test（若未執行須標示 NOT_TESTED），以及 Handoff 實際回執。
+- [x] `node --test scripts/test-workflow-review.cjs`：13 項 Source Integrity／Failure Path／No-Promotion Test。
+- [x] `node scripts/test-playground-review-browser.mjs`：用真實本機 Chromium 端對端測首頁篩選、兩種 Workflow 模式、零候選、未映射工具、注入字串 HTML escaping、375／430／768／1440 響應式。
+- [x] PR V2 CI + Local Browser Smoke CI 實際 PASS。
+- [x] PR Diff 不含 `data/`／Derived Catalog／Graph。
+- [x] Main V2 CI + Live Pages + GitHub Pages Deployment 實際 PASS。
+- [x] 真實新 UI 的 deployed Chromium Test 與 Handoff 實際回執均確認。
 
 `Browser local smoke` 只代表 **從 GitHub checkout 的網站資產**執行，不能當成正式 Pages 已發布；Pages Deployment / deployed Chromium 必須各自驗證。
 
@@ -39,3 +39,29 @@
 - 如果上游修改了 Canonical，這份 Audit06 Review JSON 可能變舊，Preview 應停用並要求重新審核，不應自動修正或提升正式 Graph Edge。
 - 尚未授權刪除／合併／更名任何 17 個 Combination，或將這 58 筆候選移入 Canonical。
 - 下一個使用者可驗收問題是「從 Problem 到 Workflow，是否能在一頁清楚讀懂各階段可選工具與證據缺口」，可用少量真實案例評估，而不是繼續堆疊合成安全模擬。
+
+## Audit 07 正式驗收回執（2026-11-24）
+
+**PASS WITH GAPS**：已在正式 Pages 透過 Chromium 驗證新版 UI；第三方工具互通與商用授權仍未實測。
+
+| 項目 | 驗證結果 |
+|---|---|
+| [PR #58](https://github.com/christinekao/AI-Tool-Collection/pull/58) | Squash Merge，Head `6b323959cfd524681b42ac5028e56aa17277b6c0`，Merge `25ba958ac08ede340d35fc18f86fada9abc1166a` |
+| [PR V2 CI #45314496570](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314496570) | **PASS**；新模型測試 **13／13** |
+| [PR Local Browser #45314496517](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314496517) | **PASS**；17 篩選、Recipe/Recorded、未映射、惡意顯示字串 escaping、375/430/768/1440 響應式 |
+| [PR P1 Graph #45314496527](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314496527) | **PASS** |
+| [main V2 CI #45314661281](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314661281) | **PASS** |
+| [main P1 Graph #45314661298](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314661298) | **PASS** |
+| [main Pages Deploy #45314660599](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314660599) | **PASS**，02:45:55 UTC |
+| [main deployed Chromium #45314661451 Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314661451) | **PASS**，真實正式站有 17 筆 Review 與 `stack` 4 個原始 Resource 候選 |
+| Canonical／Graph／Tags／Typed Refs | **0 改動，原始 68／36／17 保留** |
+| 真實 Tool/API Runtime／授權／License／重用 | **NOT_TESTED** |
+
+### 實際修復與重測記錄
+
+- 初次 PR Browser Smoke 因頁面切換時過早存取 JS 狀態而失敗，改以明確檢查初始化。
+- 第二次發現 Unmapped Resource 沒有顯示原始 ID，補上 `Resource ID + 待確認 Stage`。
+- 一次 CI Chromium 啟動受執行環境影響，增補 3 次隔離 Profile Retry。
+- 最終 PR 本地 Chromium **PASS**；main 的 deployed Chromium 在 Pages 完成後重新執行 **PASS**。
+
+最後 Docs-only Commit 重新部署時，最終 Deploy 證據在 [PR #58 留言](https://github.com/christinekao/AI-Tool-Collection/pull/58) 留存，不為了追記每個時間再次改寫文件。

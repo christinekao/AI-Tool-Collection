@@ -1,13 +1,37 @@
-## Phase 3 Audit 07｜Workflow Implementation Options Preview 進行中（2026-11-24）
+# Knowledge Relations｜Phase 3 Audit 07 Handoff（2026-11-24）
 
-- Baseline main `17106449c434cdb066bfc235f65f18305aa5051d`。
-- Playground 顯示 Audit06 的 17 個 Review Case／58 個 Resource Stage Candidates，兩種模式：Recorded Workflow 按 Stage 提示，Recipe 則分開列原始 Stage 候選，絕不改變 Recipe 的 Tool Choice。
-- 新增 Review-only filter／來源與證據缺口／原始 Resource 連結／未映射或零正式成員提示；資料載入或來源對不上時 fail-closed，不妨礙原始 Workflow。
-- Source Boundary：審查 JSON 是候選，不是正式 Tool Compatibility；`data/` Canonical／Graph／Typed Refs／Tags／Catalog 不改動。
-- [Audit 07 Report](WORKFLOW_REVIEW_UI_PHASE07_20261124.md)；13 項 review model tests + local Chromium preview；CI、Main、Pages、Live Smoke 實際回執待補。
-- 正式合併或刪除 Combination 沒有授權。
+**最終驗收：PASS WITH GAPS。** Workflow Playground 已發布唯讀 Implementation Options Review：17／17 個同 ID Pair、58 個正式 Resource Stage 候選；13 項 Source Integrity 測試與 PR／main／本機、正式站 Chromium 全部通過。**工具實際互通、跨 Workflow 重用、授權與商用條件未驗證**。
+
+## 正式 PR、CI、網站與資料完整性收據
+
+- [PR #58](https://github.com/christinekao/AI-Tool-Collection/pull/58) Squash Merge 完成。Baseline main `17106449c434cdb066bfc235f65f18305aa5051d`，Final Head `6b323959cfd524681b42ac5028e56aa17277b6c0`，Merge `25ba958ac08ede340d35fc18f86fada9abc1166a`。
+- [PR V2 Data Validate #45314496570](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314496570)：**PASS**，新增 `scripts/test-workflow-review.cjs` **13/13**，及既有全庫 V2／Concept／Workflow／Graph／Audit Regression。
+- [PR Live Pages Smoke #45314496517](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314496517)：**PASS**，本地 checkout Chromium 實際檢查 17 筆 Review 篩選、Recipe／Recorded 呈現、零成員與未映射工具、可連結 Resource、HTML escaping、375／430／768／1440px 響應式。
+- [PR P1 Graph Unit Tests #45314496527](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314496527)：**PASS**，既有 Graph／瀏覽器迴歸不退步。
+- [main V2 Data Validate #45314661281](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314661281)：**PASS**；[main P1 Graph Unit Tests #45314661298](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314661298)：**PASS**。
+- [main Pages Deploy #45314660599](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314660599)：**PASS**，完成 2026-11-24 **02:45:55 UTC**。
+- [main Live Pages Smoke #45314661451 — Attempt 2](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45314661451)：**PASS**（完成 02:47:21 UTC）。真正在 `https://christinekao.github.io/AI-Tool-Collection/` 執行 Chromium，驗證 Review JSON／實際 `stack` 頁面共 17 筆可審候選與 4 個 Source-matched Resource，同時保留 3 個原有 Curated Recipe 的互動功能。
+- main Live Pages Smoke 的 Attempt 1 **FAIL**：先於 Pages 新版本部署完成，Chromium 讀到尚未更新的頁面；部署 02:45:55 UTC 完成後對同一 Run 重新執行 Attempt 2，PASS。不可把第一次結果隱藏或當作正式功能失敗；本輪的**最終網站版本確實通過實測**。
+- PR 修改 **11 個非 Canonical 檔**：`workflow-review.js`、`playground-app.js`、`playground.html`、`playground-style.css`、兩個新測試腳本、現有 Live Chromium Smoke、V2/Live CI、此報告與 Handoff。**沒有** `data/`、Schema、生成 Catalog、Knowledge Graph、Tags、IDs、Canonical Typed Refs 改動；原有 **68 Concepts／36 Workflows／17 Combinations** 保留。
+- 最後 Docs-only main Commit 會重新觸發 Pages；其最終部署 PASS 收據只放 [PR #58 最後留言](https://github.com/christinekao/AI-Tool-Collection/pull/58) 防止文件追記形成部署循環。
+
+## 已完成的可用介面
+
+- 正式網站：[Workflow Playground](https://christinekao.github.io/AI-Tool-Collection/playground.html)；[企業知識問答案例](https://christinekao.github.io/AI-Tool-Collection/playground.html?workflow=stack)；[向量素材案例](https://christinekao.github.io/AI-Tool-Collection/playground.html?workflow=ai-vector-asset-code-stack)。
+- 提供 **審查候選限定篩選**、已核實 Resource ID／原始 Stage 的對應（**只為文字來源對照，非 API 互通實測**）、缺口與下一步證據、工具詳情連結。
+- Recipe 頁保留原本可編輯的依賴檢查，另以可展開原始 Workflow Stage 顯示 Audit06 候選；`Review` 不覆寫原 Recipe。
+- Zero-member／Unmapped 路徑不補虛構來源；Review JSON 遺失、與 Catalog 不一致或資料升格旗標錯誤則 **Preview Fail Closed**，原始 Workflow 照常可讀。
+- 工具候選沒有自動加入 Draft／執行、發信、SQL、API 呼叫或資料外送。
+
+## 已知缺口及下一個實際驗收
+
+**NOT_TESTED**：第三方 API／模型／Tool Adapter 真正相容、來源存取授權、資料政策、跨 Workflow 複用、License、實際成本與效益。Review JSON 仍是 Audit06 人工判讀提案；正式 Canonical 沒有新增跨工具兼容或 Concept Edge。
+
+建議下輪找 2–3 個真正會使用的 Workflow，進行**使用者 5 秒理解度與 Stage→Resource→證據的任務測試**，再依明確的新需求改善 UI；不要只因表面重複就刪除 Combination。任何搬移／合併／更名需另行獨立來源驗證與明確授權。
 
 ---
+
+## 歷史 Audit 06／05／04／03／02／01 Handoff（完整保留）
 
 # Knowledge Relations｜Phase 3 Audit 06 Handoff（2026-11-24）
 
