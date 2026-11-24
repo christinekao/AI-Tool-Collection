@@ -80,7 +80,8 @@ test('Phase 3: both new structured guides render from canonical data and prior g
  assert.match(repo,/class="repo-lead repo-lead-no-shots"/);
  assert.doesNotMatch(repo,/class="repo-shots"/);
  assert.match(repo,/核心判斷規則/);
- assert.match(repo,/schema_version/);
+ assert.match(read('agent-reach').repoGuide.architecture.nodes.map(n=>n.detail).join(' '),/schema_version/);
+ assert.match(repo,/取得結果及證據/);
  assert.match(repo,/未驗證/);
  const lesson=html('ai-code-acceptance-review-testing-rollout-guide');
  assert.match(lesson,/主題重點筆記（4 章）/);
