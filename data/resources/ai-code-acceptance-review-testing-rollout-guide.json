@@ -11,7 +11,7 @@
   "url": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/",
   "status": "active",
   "addedAt": "2026-10-13",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-24",
   "tags": [
     "ai-coding",
     "acceptance",
@@ -71,8 +71,8 @@
   ],
   "source": {
     "url": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
+    "reviewedAt": "2026-11-24",
+    "reviewScope": "Original article sections on requirements, review, tests, user operation, branch protection, staged rollout and rollback; independently authored exercises.",
     "type": "Original article"
   },
   "intakeReview": {
@@ -82,7 +82,7 @@
       "url",
       "source.url"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-24",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -98,8 +98,8 @@
     "classificationReason": "維持現有 Primary Domain、Category、Tags 與 Typed References；僅補上來源形式與使用資訊。",
     "readingSpec": {
       "id": "learning",
-      "status": "deferred",
-      "reason": "僅核對來源與實用資訊，尚未建立可驗收的完整學習教材。"
+      "status": "applied",
+      "reason": "四個主題皆有核心問題、方法、示例、練習及可驗收產物；發布與實際練習尚未執行。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +112,110 @@
     "riskNotes": "此為教學文章與案例，不是能自動部署或保證程式正確的驗收工具。；自動測試、人工審查與部署驗收各有盲點，需依專案風險補安全與資料測試。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+      "evidence": "已閱讀文章正文；教材示例及練習未執行。"
     }
+  },
+  "learningGuide": {
+    "version": 2,
+    "headline": "從需求到發布：讓 AI 的交付可被獨立驗收",
+    "takeaway": "各種證據回答不同問題，不能互相取代。",
+    "audience": "AI Coding 使用者、工程師與交付審查者。",
+    "outcomes": [],
+    "readingPath": [],
+    "modules": [
+      {
+        "id": "acceptance-contract",
+        "group": "實作驗收",
+        "title": "01 定義驗收條件",
+        "question": "怎麼避免 AI 修好了錯的問題？",
+        "learn": "把需求改寫成可觀察的輸入、操作與預期結果；先確認重要業務規則。",
+        "essentials": [
+          "把需求改寫成可觀察的輸入、操作與預期結果；先確認重要業務規則。",
+          "列出正常、無效及邊界輸入；資料、權限等重大決定不能由 Agent 猜測。",
+          "同時明訂不應變更的行為，讓驗收能發現越界修改。"
+        ],
+        "example": "示例：履歷管理表單截止日可否提交，需先由產品負責人決定；原先填寫的公司與職位不得因日期驗證失敗而消失。",
+        "apply": "寫出四個 Given/When/Then 案例：正常、缺值、截止邊界、保留欄位。",
+        "output": "一張含預期結果與未決規則的驗收表。",
+        "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+      },
+      {
+        "id": "review-and-tests",
+        "group": "實作驗收",
+        "title": "02 審查與測試",
+        "question": "如何證明測試真的抓得到原問題？",
+        "learn": "先比對 PR 差異與需求，沿著輸入、轉換、儲存追蹤必要修改。",
+        "essentials": [
+          "先比對 PR 差異與需求，沿著輸入、轉換、儲存追蹤必要修改。",
+          "先讓代表原缺陷的測試在舊版失敗，再在修正版通過；測試預期由需求決定。",
+          "擴大測試範圍的依據是受影響的資料、權限與相鄰流程，而非程式碼由誰產生。"
+        ],
+        "example": "示例：搜尋頁的日期篩選修正，測試應檢查實際回傳記錄，而不只是篩選函式存在。",
+        "apply": "挑出一個缺陷，寫下舊版預期失敗與新版預期成功的結果，檢查 Diff 是否修改了無關模組。",
+        "output": "可重現的前後測試及範圍審查紀錄。",
+        "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+      },
+      {
+        "id": "user-evidence",
+        "group": "實作驗收",
+        "title": "03 操作與資料驗證",
+        "question": "畫面成功後，如何確認資料真的正確？",
+        "learn": "用接近實際的環境完成完整操作，不僅測試單一函式。",
+        "essentials": [
+          "用接近實際的環境完成完整操作，不僅測試單一函式。",
+          "提交後重新讀取資料，比對保存的實際值，避免 UI 成功提示掩蓋後端問題。",
+          "記錄版本、環境、操作與證據；在窄螢幕檢查提示、焦點及主要按鈕。"
+        ],
+        "example": "示例：新增職缺後重新整理，確認職缺名稱與日期保持一致；手機畫面也能完成提交。",
+        "apply": "規劃桌面與手機的新增、失敗、重新讀取三條路徑。",
+        "output": "具有版本與環境標記的操作驗收紀錄。",
+        "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+      },
+      {
+        "id": "release-gate",
+        "group": "實作驗收",
+        "title": "04 發布與回復",
+        "question": "什麼時候可以擴大發布？",
+        "learn": "合併前使用 PR 審查及必要的 CI 檢查；確認是否存在可繞過的規則。",
+        "essentials": [
+          "合併前使用 PR 審查及必要的 CI 檢查；確認是否存在可繞過的規則。",
+          "依風險選擇發布範圍，先定義觀察指標與停止條件；已確認資料遺失應阻止擴大。",
+          "備妥可回復版本、資料相容性及負責人；本機小工具可以使用更輕量的備份與復原措施。"
+        ],
+        "example": "示例：先對測試群組發布新版表單，觀察提交異常；若有資料遺失立即暫停並按既定回復程序處理。",
+        "apply": "寫一張 Release Gate：證據、監控、停止條件、回復方式、責任人。",
+        "output": "明確的 Go/No-Go 決策及回復計畫。",
+        "sourceUrl": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/"
+      }
+    ],
+    "practice": {
+      "title": "整體練習｜驗收 AI 修正的職缺管理表單（自訂示例）",
+      "scenario": "日期欄位驗證失效，修改只允許影響表單及必要測試。",
+      "tasks": [
+        {
+          "action": "確認業務規則與範圍",
+          "deliverable": "四個驗收案例及不應改動的功能",
+          "sourceId": "acceptance-contract"
+        },
+        {
+          "action": "檢查差異及前後測試",
+          "deliverable": "舊版失敗、新版通過及 PR 差異紀錄",
+          "sourceId": "review-and-tests"
+        },
+        {
+          "action": "實際操作與重新讀回",
+          "deliverable": "桌面、手機、實際保存值及版本證據",
+          "sourceId": "user-evidence"
+        },
+        {
+          "action": "作出發布決定",
+          "deliverable": "未驗證事項、停止條件及回復計畫",
+          "sourceId": "release-gate"
+        }
+      ],
+      "check": "每一項結果皆對應一個需求及可重現證據；未執行項目不得填通過。"
+    },
+    "caveat": "依原作者文章整理的方法論；職缺管理例子與練習是自訂教學情境，非實際測試或部署。",
+    "inlineSummary": "需求 → Diff → 測試 → 操作與讀回 → Release Gate"
   }
 }
