@@ -33,9 +33,34 @@
 
 ## Acceptance Gates
 
-- [ ] 本機 Chromium 3 任務、URL History／Reset／Report Anchor、Responsive、XSS 邊界 PASS
-- [ ] 原有 Source／Recipe／Workflow／Graph Tests PASS
-- [ ] PR/main CI、真正 GitHub Pages 發布及 deployed Chromium PASS
-- [ ] PR Diff 檢查不含 Canonical；Rolling Handoff 取得實際證據
+- [x] 本機 Chromium 3 任務、URL History／Reset／Report Anchor、Responsive、XSS 邊界 PASS
+- [x] 原有 Source／Recipe／Workflow／Graph Tests PASS
+- [x] PR/main CI、真正 GitHub Pages 發布及 deployed Chromium PASS
+- [x] PR Diff 檢查不含 Canonical；Rolling Handoff 取得實際證據
 
 請參閱 [Audit 07 已上線介面與保留資料原則](WORKFLOW_REVIEW_UI_PHASE07_20261124.md)。
+
+## Audit 08 最終驗證收據（2026-11-24）
+
+**PASS WITH GAPS**。以下為自動化功能測試與正式站部署證據；真人可用性、第三方介面與正式授權沒有實測。
+
+| 項目 | 證據與狀態 |
+|---|---|
+| [PR #59](https://github.com/christinekao/AI-Tool-Collection/pull/59) | **MERGED**，最終 Head `b484a103bfa996099cc767044349300dd2a4df29`，Merge `66ed6744ce9af583afd1a35af20d7691582b21fa` |
+| [PR V2 CI #45342587951](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342587951) | **PASS** |
+| [PR P1 Graph #45342587967](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342587967) | **PASS** |
+| [PR Local Chromium #45342587952](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342587952) | **PASS**，A／B／C 三個任務全部通過；375/430/768/1440 響應式與 XSS regression PASS |
+| [main V2 #45342849542](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342849542) | **PASS** |
+| [main P1 Graph #45342849363](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342849363) | **PASS** |
+| [main Pages Deploy #45342848555](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342848555) | **PASS**，2026-11-24 06:46:17 UTC |
+| [main Live Chromium #45342849345](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342849345) | **PASS**，實際正式站新版資產、資料來源錨點與衝突 URL 修復 |
+| Source Canonical／Graph／Typed Refs | **完全保留，無改動** |
+| 真實使用者 5 秒理解度、第三方工具授權及相容性 | **NOT_TESTED** |
+
+### Test Failure → Fix → Retest
+
+首次 PR Live Smoke #45342328886 **FAIL**，原因是 Selenium/CDP 型的自動化片段在同一 JavaScript 世界重複宣告 `const input`。修正為 IIFE 局部作用域後，最終 PR 的同一流程及所有舊測試 **PASS**。不是實際頁面在 Runtime 會拋出同類錯誤，故分開紀錄測試腳本缺陷與產品缺陷。
+
+正式站部署跑法新加入 `scripts/wait-playground-release.mjs`，先確認該次新版靜態資產已發布，再啟動 Live Chromium。此機制是部署時序校驗，不等於第三方服務可用性。
+
+本報告最後 Docs-only Commit 再觸發 Pages 的最終回執，見 [PR #59 留言](https://github.com/christinekao/AI-Tool-Collection/pull/59)，避免為寫入 CI 時間戳記產生無限部署循環。

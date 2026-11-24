@@ -1,12 +1,40 @@
-## Phase 3 Audit 08｜Workflow Usability Walkthrough 進行中（2026-11-24）
+# Knowledge Relations｜Phase 3 Audit 08 Handoff（2026-11-24）
 
-- Baseline main `7049717491e300bb7af7bc9a9086c67a8ff7bed6`。
-- 對 3 條具體使用任務做瀏覽器端操作驗證，不將自動化測試冒充使用者研究或「5 秒測試」。
-- 從已上線程式碼確認：點選 Workflow 不更新分享網址、帶有 Problem+Workflow 的深連結忽略指定 Workflow、零搜尋結果難以重設、Audit06 證據連結無法直接定位案例。
-- 修復 URL 更新／Browser Back Forward／衝突網址處理、清除篩選與 17 筆個案深連結；保留原始 Workflow、17 組 Combination、58 個候選、Recipe／自由草稿。
-- 驗收及限制：[Audit08 Task Walkthrough](WORKFLOW_USABILITY_PHASE08_20261124.md)，等待 PR/main CI 與實際部署結果。所有原始 Canonical／Graph／Typed References 不變。
+**最終狀態：PASS WITH GAPS。** 已完成三條自動化 Workflow 任務路徑與正式站 Chromium QA，修正真實可重現的網址、導覽、篩選復原和來源定位問題；所有 `data/` Canonical、Graph、Tags、Typed References、IDs、原始 17 個 Combination／36 Workflow／68 Concept 保留。**沒有進行真人 5 秒理解度研究或第三方工具整合測試**。
+
+## Audit08 實際 PR／CI／部署驗收
+
+- [PR #59](https://github.com/christinekao/AI-Tool-Collection/pull/59) 已 Squash Merge。Base Main `7049717491e300bb7af7bc9a9086c67a8ff7bed6`；Final PR Head `b484a103bfa996099cc767044349300dd2a4df29`；Merge Commit `66ed6744ce9af583afd1a35af20d7691582b21fa`。
+- [PR V2 Data Validate #45342587951](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342587951)：**PASS**，原有 Canonical、Workflow、Concept、Graph、Audit Regression 不退步。
+- [PR P1 Graph Unit Tests #45342587967](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342587967)：**PASS**。
+- [PR Live Pages Smoke #45342587952](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342587952)：**PASS**，三條操作路徑（A/B/C）、Review-only、Recipe 隔離、375／430／768／1440px、XSS Escape／No JS Exception，均以**本地 Checkout 實際 Chromium** 執行。
+- [main V2 CI #45342849542](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342849542)：**PASS**；[main P1 Graph CI #45342849363](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342849363)：**PASS**。
+- [main Pages Deploy #45342848555](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342848555)：**PASS**，完成 **2026-11-24 06:46:17 UTC**。
+- [main Live Pages Smoke #45342849345](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342849345)：**PASS**，完成 **06:46:28 UTC**。先確認 Pages 發布 `playground-app.js?v=20261124-audit08`（第二次檢查即通過），再由**真正的正式網站** Chromium 驗證 Audit08 個案錨點與衝突網址處理。
+- 初次 PR Local Chromium Run [#45342328886](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45342328886) **FAIL**：自動化 Smoke 在不同 Chromium evaluate 片段重複宣告頂層 `const input`；已改成隔離作用域的函式，最終 PR/正式站測試 PASS。這是**測試程式錯誤**，不應隱藏也不可把第一輪稱 PASS。
+- 原始 17 個 Combo 全保留，Audit06 58 個候選仍維持 `interoperabilityVerified:false`；沒有正式 Graph Promotion、Combination 移除、實際 Adapter/API 呼叫、外送或任何權限變更。PR 共 **10 個非 Canonical 檔案**。
+- 最後的 Docs-only Main Commit 會再次執行 Pages Deploy；其最終部署回執只記錄在 [PR #59 留言](https://github.com/christinekao/AI-Tool-Collection/pull/59)，避免因更新文件再觸發部署循環。
+
+## 具體修正與三個驗證任務
+
+| 使用任務 | 端到端自動驗證結果 |
+|---|---|
+| A：企業知識問答 `stack` | 首頁卡片 → 4 個 Resource 候選 → Audit06 `#stack` 來源 → 網址更新 → Browser Back/Forward，**PASS** |
+| B：SVG 轉程式碼 `ai-vector-asset-code-stack` | 搜尋 → 4 個 Stage Options → 空結果顯示 Reset → 重設後回復 36 個 Flow，保留目前 Workflow 連結，**PASS** |
+| C：零工具學習 `goal-build-evidence-learning-loop` | 不自動生造 Resource；帶衝突 Problem/Workflow 的分享網址優先顯示指定 Workflow 並移除不相符的 Problem，**PASS** |
+
+Report：[Audit08 具體問題與驗收](WORKFLOW_USABILITY_PHASE08_20261124.md)。可直接開啟：[Workflow Playground](https://christinekao.github.io/AI-Tool-Collection/playground.html)、[Stack](https://christinekao.github.io/AI-Tool-Collection/playground.html?workflow=stack)、[Vector](https://christinekao.github.io/AI-Tool-Collection/playground.html?workflow=ai-vector-asset-code-stack)、[Zero Member](https://christinekao.github.io/AI-Tool-Collection/playground.html?workflow=goal-build-evidence-learning-loop)。
+
+## 尚未驗證與後續實際工作
+
+- Browser CI 能證明特定畫面與動作成功，**不能證明真人 5 秒內能理解，也不能證明可用性或使用者滿意度**；真實觀察／盲測 **NOT_TESTED**。
+- 第三方 API、Provider 授權／資料外送、商業授權、實際工具 I/O、跨 Workflow 重用、執行品質與真實成本全部 **NOT_TESTED**。
+- 下一步應請使用者依 3 條任務親自操作：先不看引導，能否找到工具、說明選用理由、找出尚待驗證條件；依失敗點優先調整內容與導覽。**不要以自動化測試當作人類訪談結果**。
+- 若未來要把候選變正式 Workflow Member、刪除 Combo 或改變 Graph，需獨立證據、遷移方案、來源權限與使用者核准。
 
 ---
+
+## 歷史 Audit07／06／05／04／03／02／01 Handoff（完整保留）
 
 # Knowledge Relations｜Phase 3 Audit 07 Handoff（2026-11-24）
 
