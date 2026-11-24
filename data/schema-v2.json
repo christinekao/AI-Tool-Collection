@@ -84,5 +84,29 @@
     "newIntakeReviewField": "intakeReview.tagReview",
     "unmappedKeywordsPreserved": true,
     "noImplicitDomainCapabilityEvidenceOrGraphLinks": true
+  },
+  "resourceLayerIntake": {
+    "policy": "docs/UNIFIED_INTAKE_POLICY.md",
+    "scope": "new or substantively changed Resource; untouched legacy exempt",
+    "reviewField": "intakeReview.layerReview",
+    "requiredReviewFields": [
+      "status",
+      "reason"
+    ],
+    "statuses": [
+      "mapped",
+      "evidence-linked",
+      "deferred"
+    ],
+    "mappingVersions": {
+      "1": "readerGuide.useCases[].capabilityRefs -> repoGuide.capabilities[].id",
+      "2": "readerGuide.useCases[].evidenceRefs -> agentEvidence[].id"
+    },
+    "deferredRequiredFields": [
+      "gap",
+      "nextAction"
+    ],
+    "validator": "scripts/resource-layer-links.mjs",
+    "localRefsAreGraphEntities": false
   }
 }
