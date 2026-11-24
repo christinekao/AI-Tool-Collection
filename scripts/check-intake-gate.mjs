@@ -10,6 +10,7 @@ import {fileURLToPath} from 'node:url';
 import {resolve, dirname} from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {normalizeTags,normalizeTagKey,vocabularyIndex} from './tag-taxonomy-core.mjs';
+import {validateResourceIntakeLayers} from './resource-layer-links.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const types={resources:'resource',skills:'skill',concepts:'concept',prompts:'prompt',combinations:'combination',workflows:'workflow'};
@@ -105,6 +106,9 @@ export function reviewErrors(x,mode='new',taxonomy=null,previous=null){
  flag(['not-tested','tested'].includes(r.verification?.status),'verification.status invalid');
  flag(nonempty(r.verification?.evidence),'verification evidence/limitation required');
  if(r.verification?.status==='tested')flag(Boolean(r.verification?.testRun?.executedAt&&r.verification?.testRun?.scenario&&r.verification?.testRun?.result),'tested requires actual testRun evidence');
+ const layerContentChange=!previous||isContentChange({...previous,intakeReview:undefined},{...x,intakeReview:undefined});
+ const layerAlreadyReviewed=Boolean(previous?.intakeReview?.layerReview||r.layerReview||previous?.readerGuide?.mappingVersion||x.readerGuide?.mappingVersion);
+ if(type==='resource'&&(mode==='new'||layerContentChange||layerAlreadyReviewed))problems.push(...validateResourceIntakeLayers(x,previous));
  return problems;
 }
 /** Do not revalidate a previously reviewed record solely for a classification-only edit. */

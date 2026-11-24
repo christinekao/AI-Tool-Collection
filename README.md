@@ -229,6 +229,8 @@ data/
 
 不論使用 ChatGPT、Claude、Codex 或其他 Agent，新增／實質修改 Canonical 記錄都必須先遵守 [Unified Intake Policy](docs/UNIFIED_INTAKE_POLICY.md) 與根目錄 [AGENTS.md](AGENTS.md)。同一套來源查核、去重、Domain／Format／Capability、Concept 審查及 CI Release Gate；Resource／Skill／Prompt 依適用的專門閱讀規格，**不是每筆硬套四套**。新增或實質改寫資料須保存 `intakeReview`，GitHub Actions [Unified Intake Gate](.github/workflows/unified-intake-gate.yml) 會執行檢查。無來源時使用 Pending Sources，不虛構資料。
 
+所有新建或實質改寫 Resource 必須通過 [雙層知識收錄 Gate](docs/UNIFIED_INTAKE_POLICY.md#resource-雙層知識收錄-gate2026-11-24)：人類用途、Agent 技術／來源證據、雙向對應、明確的 mapped / evidence-linked / deferred 狀態。詳細欄位與 Agent 查詢見 [Human / Agent 規格](docs/RESOURCE_HUMAN_AGENT_LAYER_SPEC_20261124.md)。未改寫的歷史紀錄不回溯強制；不得略過新資料的對應審查。
+
 ## 4. 每次收錄的標準作業程序（SOP）
 
 1. **Read current state** — 重新讀取 `main` 的 Catalog/原始資料與最新 Actions；不要沿用前次回答的筆數。
