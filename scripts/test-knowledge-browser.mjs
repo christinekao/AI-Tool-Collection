@@ -485,17 +485,17 @@ try{
 
  // Phase 3: four distinct resource detail pages, actual rendered DOM at target widths.
  const phase3=[
-  ['agent-reach','.repo-guide','核心判斷規則'],
-  ['arrow-2','.detail-panel','輸出驗收'],
+  ['agent-reach','.resource-reader-guide','整理三篇研究文章'],
+  ['arrow-2','.resource-reader-guide','製作一組網站圖示'],
   ['addyosmani-agent-skills','.detail-panel','選擇方法'],
   ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）'],
   ['pydantic-pydantic-ai','.resource-reader-guide','實際應用：AI 履歷分析'],
-  ['huggingface-smolagents','.repo-guide','CodeAgent 與 ToolCallingAgent'],
+  ['huggingface-smolagents','.resource-reader-guide','庫存查詢與缺貨分析'],
   ['microsoft-ai-agents-for-beginners','.learning-guide','主題重點筆記（3 章）'],
   ['nirdiamant-genai-agents','.detail-panel','比較方式'],
   ['anthropics-skills','.detail-panel','建立及改善技能'],
   ['openrouter-ai','.detail-panel','供應商策略'],
-  ['google-pagespeed-insights','.detail-panel','Field data']
+  ['google-pagespeed-insights','.resource-reader-guide','驗收作品集首頁改版']
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -510,11 +510,11 @@ try{
     fs.writeFileSync(path.join(screenshotDir,'phase3-'+id+'-'+width+'.png'),Buffer.from(capture.data,'base64'));
    }
   }
-  if(id==='agent-reach'){
-   await evaluate('document.querySelector(\'.repo-toc a[href="#repo-architecture"]\').click();true');
-   await pause(400);
-   assert.equal(await evaluate('location.hash'),'#/resources/agent-reach','Repository section navigation must not discard resource route');
-   assert.ok(await evaluate('!!document.querySelector(".repo-guide #repo-architecture")'));
+  if(['agent-reach','huggingface-smolagents','arrow-2','google-pagespeed-insights','pydantic-pydantic-ai'].includes(id)){
+   assert.equal(await evaluate('document.querySelectorAll(".repo-guide").length'),0);
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=3'));
+   assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
+   assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
   if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners'].includes(id)){
    const expected=id==='microsoft-ai-agents-for-beginners'?3:4;
@@ -522,7 +522,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 eleven Resource pages at 375/430/768/1440px; repository section navigation and learning exercises');
+ console.log('PASS: Phase 3 eleven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
