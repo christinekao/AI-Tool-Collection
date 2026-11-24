@@ -16,3 +16,27 @@ Pydantic AI：新增 readerGuide，改寫 purpose/recommendation，原 repoGuide
 驗收：5 秒內能說出用途；具體例子能辨識輸入／輸出／下一個系統；能說出何時採用或不採用；未實測明示；Agent 仍可讀完整原 repoGuide；手機與桌面呈現及回歸測試通過。
 
 本規格補充既有 Phase 3 深度計畫：技術審查繼續進行，但不是前台閱讀長度的衡量指標。
+
+## 雙向對應契約（使用者確認）
+
+同一筆 Canonical Resource 維護局部穩定 ID，前台用途與底層技術可多對多，禁止依顯示名稱、陣列順序或檔名猜對應。
+
+- `readerGuide.mappingVersion=1`：啟用對應驗證；`useCases[].id`、`example.id`、`example.steps[].id` 為資源內穩定識別。
+- `readerGuide.useCases[].capabilityRefs` 與 `example.steps[].capabilityRefs` 指向同一筆 Resource 的 `repoGuide.capabilities[].id`（不建立正式 Graph Entity）。`example.useCaseRefs` 對應前台使用情境。
+- 底層能力保存 `sourceFiles`、`symbols`、`input`、`output`、`gate`、`evidenceStatus`、`runtimeStatus`，共用 source.upstreamCommit。反向索引由同一組 References 即時推導，不另存一份容易不同步的資料。
+- 無對應能力的案例步驟必須提供 `externalDependency`，例如 PDF 文字解析或企業 API 寫入，不可把第三方整合當成框架內建功能。僅 Agent 使用的能力可明示 `visibility: "agent-only"`。
+- 技術資料及狀態保持 Agent 可讀，前台只渲染人類情境與案例，並透過 DOM 的 data-use-case-id、data-example-id 維持穩定對應。
+- Build Gate 阻擋 dangling refs、重複 ID、無用途且未標記 agent-only 的能力、缺失來源錨點及無證據的 Runtime 宣告。
+
+Pydantic AI 試作：4 個前台用途、5 個底層能力、1 個履歷示例與 4 個案例步驟（包含兩個外部整合依賴）。原 repoGuide 技術內容保留；擴充其 capabilities 及 workflow 的 readerExampleRef，不改 Tags、Classification 或 Graph Edge。
+
+### Agent 按需查詢
+
+```bash
+node scripts/resource-layer-links.mjs pydantic-pydantic-ai --case document-extraction
+node scripts/resource-layer-links.mjs pydantic-pydantic-ai --capability typed-output
+```
+
+前者回傳人類用途、相關案例、需用能力、固定版本來源 URL、外部依賴、驗證狀態及尚未查核的實作缺口。後者反向回傳所有對應的前台用途及案例步驟。Agent 必須先重新確認版本、權限、依賴及實際測試，再實作正式流程；設計示例不等於已經執行。
+
+此版 resolver 先支援 Repo Guide 能力契約；Service、Collection、Learning 的映射可沿用穩定 ID 與引用原則，但應依實際證據設計對應單元，不能為了統一硬造程式碼符號。
