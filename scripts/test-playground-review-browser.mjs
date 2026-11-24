@@ -141,13 +141,13 @@ try{
  // Task B: Find Vector asset workflow, identify Stage/Tool, recover from empty filters.
  await visit('playground.html');
  await wait('document.querySelector("#pg-editor .pg-review-discover")!==null','Task B home');
- await evaluate('const input=document.querySelector("#pg-search");input.value="Vector";input.dispatchEvent(new Event("input",{bubbles:true}));true');
+ await evaluate('(()=>{const input=document.querySelector("#pg-search");input.value="Vector";input.dispatchEvent(new Event("input",{bubbles:true}));return true})()');
  await wait('document.querySelector("#pg-flows [data-flow-id=ai-vector-asset-code-stack]")!==null','Task B filtered search');
  await evaluate('document.querySelector("#pg-flows [data-flow-id=ai-vector-asset-code-stack]").click();true');
  await wait('location.search.includes("workflow=ai-vector-asset-code-stack")&&document.querySelectorAll("#pg-editor .pg-review-option").length===4','Task B source options');
  const caseLink=await evaluate('document.querySelector("#pg-review-summary .pg-source-link")?.href');
  assert.ok(caseLink.endsWith('#ai-vector-asset-code-stack'));
- await evaluate('document.querySelector("#pg-review-only").click();const input=document.querySelector("#pg-search");input.value="impossible-no-results-999";input.dispatchEvent(new Event("input",{bubbles:true}));true');
+ await evaluate('(()=>{document.querySelector("#pg-review-only").click();const input=document.querySelector("#pg-search");input.value="impossible-no-results-999";input.dispatchEvent(new Event("input",{bubbles:true}));return true})()');
  await wait('document.querySelector("#pg-flows [data-clear-filters]")!==null','Task B no results recovery');
  await evaluate('document.querySelector("#pg-flows [data-clear-filters]").click();true');
  const taskB=await evaluate('({count:document.querySelectorAll("#pg-flows [data-flow-id]").length,emptyInput:document.querySelector("#pg-search").value,reviewChecked:document.querySelector("#pg-review-only").checked,clearHidden:document.querySelector("#pg-clear-filters").hidden,deepLink:location.search.includes("workflow=ai-vector-asset-code-stack")})');
