@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 07（2026-11-25）
+
+- 基線 main `e2dc7ac51072f0dd8ca01330a0d15c2e03416cb4`；PR #71 四項 CI 通過已合併 `76d728e5006659d66b87a7bd83ecff7997fc7329`，Catalog Sync 確認。41/286 筆已合併審查（38 完成對應、3 deferred）。
+- [Batch 07 逐筆報告](RESOURCE_DUAL_LAYER_BATCH07_20261125.md)：higgsfield-ai、inspora、chatcut、motionsites-ai、vercel-skills-sh、meigen-ai、openai-codex-security、ibkr-portfolioanalyst。8 筆 evidence-linked 候選，24 個用途與 24 個局部文件證據；所有案例 design-only。
+- MotionSites AI 同名網站身分與再散布限制、MeiGen 公開媒體 URL 與點數核准、Skills.sh 遙測、Codex Security 研究預覽及計費、IBKR 報表格式均已記錄；未執行服務。
+- Wellmade 逾時、Land-book 403、Designed to Scale 僅 JavaScript 外殼，保留原資料不計入本批。三筆既有 deferred 仍待補。
+- 合併前 41/286；本批通過並合併後 49/286（46 完成對應、3 deferred），237 未改寫。下一批按 manifest 核對 Agent runtime、CLI 與工具整合的限定範圍原始碼。排程停用、直接執行。重新確認 PR、CI、Catalog Sync 及 Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 06（2026-11-25）
 
 - 基線 main `41c0aa02c87665bb034731b2d6da150b9819f184`；PR #70 四項 CI 通過並合併，Catalog Sync 確認；31/286 筆已合併審查（28 完成對應、3 deferred）。
