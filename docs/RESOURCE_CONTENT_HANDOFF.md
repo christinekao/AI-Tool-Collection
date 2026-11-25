@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 08（2026-11-25）
+
+- 基線 main `2858a1b5814b4c09eca5f4aaa768c9e03a5a6ffb`；PR #72 四項 CI 通過，合併 `22388bcad52ef1f39f09244d87775da7e418be89`，Catalog Sync 確認。49/286 筆已合併（46 完成對應、3 deferred）。
+- [Batch 08 逐筆報告](RESOURCE_DUAL_LAYER_BATCH08_20261125.md)：llm、ollama-ollama、playwright、n8n-io-n8n 為 mapped 候選；orca、hindsight 為 deferred 候選。共 6 筆、18 個用途／18 個能力或文件證據；未實測。
+- 合併前 49/286；本批通過合併後 55/286（50 完成對應、5 deferred），231 未改寫。Orca、Hindsight 的候選核心路徑回傳 404，已保留文件證據與具體後續查核項目。
+- 先前三筆 deferred 與 Wellmade、Land-book、Designed to Scale 來源缺口仍待補。下一批優先 Codex、OpenUI 及其他來源可確認的 Agent/CLI Resource。
+- 排程停用，直接執行。依實際 PR、CI、main、Catalog Sync 與 Pages 狀態更新統計。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 07（2026-11-25）
 
 - 基線 main `e2dc7ac51072f0dd8ca01330a0d15c2e03416cb4`；PR #71 四項 CI 通過已合併 `76d728e5006659d66b87a7bd83ecff7997fc7329`，Catalog Sync 確認。41/286 筆已合併審查（38 完成對應、3 deferred）。
