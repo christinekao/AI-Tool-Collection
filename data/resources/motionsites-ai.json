@@ -6,14 +6,14 @@
   "canonicalName": "MotionSites AI",
   "category": "08 UI & Design Engineering",
   "resourceType": "AI Website Prompts",
-  "purpose": "AI website prompts and templates for building landing pages and web sections.",
-  "recommendation": "適合快速尋找 AI website prompt 與 landing page 設計起點。",
+  "purpose": "從網站設計 Prompt 與模板目錄尋找首頁、Dashboard 和作品集的設計方向，再轉成自己的可實作需求。",
+  "recommendation": "適合還在比較頁面風格與生成描述的人；不要直接將生成畫面當作完成網站，也不要把付費 Prompt 收藏庫重新散布。",
   "url": "https://motionsites.ai/",
   "repo": "",
   "notes": "Official source confirmed at motionsites.ai.",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ai-website",
     "prompts",
@@ -71,25 +71,30 @@
   ],
   "source": {
     "url": "https://motionsites.ai/",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-    "type": "Official design prompts gallery website"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+    "type": "Official design prompts gallery website",
+    "referenceUrls": [
+      "https://motionsites.ai/",
+      "https://motionsites.ai/terms"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+      "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -112,7 +117,147 @@
     "riskNotes": "設計 Prompt 或展示畫面不是已建置的可維護網站原始碼。；複製生成結果後仍需做無障礙、響應式、效能、素材授權和瀏覽器驗收。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+      "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "AI website prompts and templates for building landing pages and web sections.",
+      "reviewedAt": "2026-11-21",
+      "source": "https://motionsites.ai/"
+    },
+    "sourceReview": {
+      "identity": "2026-11-22 Terms of Use 指出 motionsites.ai 為唯一官方域名，與其他同名域名無關；允許用內容建立自身專案，但不得散布原 Prompt／source code 或重新發布資料庫、爬取及繞過存取。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "prompt-directory",
+      "detail": "官方首頁以 Hero、Landing Page、Portfolio、Dashboard 等主題提供網站生成描述的選擇入口。",
+      "locator": "https://motionsites.ai/",
+      "evidenceFields": [
+        "features.0",
+        "features.1"
+      ],
+      "limitations": "未逐筆讀取付費內容，未執行生成工具。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "generation-workflow",
+      "detail": "2026-11-22 條款說明 Prompt 與模板可用於自己的專案，第三方工具行為及輸出不由該平台保證。",
+      "locator": "https://motionsites.ai/terms",
+      "evidenceFields": [
+        "features.2",
+        "requirements.0",
+        "limitations.0"
+      ],
+      "limitations": "需另將描述轉成元件、資料與操作規格；不是已建置網站。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "license-boundary",
+      "detail": "官方條款允許在自有專案改作及發布成果，但禁止散布原始 Prompt／程式庫、批量擷取及轉售原內容；聲明與其他同名網站無關。",
+      "locator": "https://motionsites.ai/terms",
+      "evidenceFields": [
+        "requirements.1",
+        "limitations.1",
+        "implementationKnowledge.sourceReview.identity"
+      ],
+      "limitations": "不能將本網站條款套用到 motionsites.org；未購買內容或確認個別外部素材權利。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "hero-prompt",
+        "title": "找首頁 Hero 的生成方向",
+        "detail": "按目標產品及資訊層級選描述參考，重寫為自己的內容及版面規格。",
+        "evidenceRefs": [
+          "prompt-directory",
+          "generation-workflow"
+        ]
+      },
+      {
+        "id": "dashboard-prompt",
+        "title": "規劃儀表板介面",
+        "detail": "從 Dashboard 分類取設計靈感，明訂資料欄位、狀態及操作。",
+        "evidenceRefs": [
+          "prompt-directory"
+        ]
+      },
+      {
+        "id": "rights",
+        "title": "確認參考內容如何合法使用",
+        "detail": "區分自有網站成果與原始 Prompt 的再散布限制，保留授權來源。",
+        "evidenceRefs": [
+          "license-boundary"
+        ]
+      }
+    ],
+    "example": {
+      "id": "application-dashboard-spec",
+      "title": "規劃投遞管理 Dashboard",
+      "input": "自有合成職缺資料、狀態看板需求與目標裝置。",
+      "process": "選參考分類 → 重寫需求 → 核對授權 → 另行實作與驗收",
+      "output": "自有頁面規格、元件與資料契約、來源及授權紀錄。",
+      "destination": "自己的應用程式開發，不把原始 Prompt 庫放進公開知識庫。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "hero-prompt",
+        "dashboard-prompt",
+        "rights"
+      ],
+      "steps": [
+        {
+          "id": "select",
+          "title": "人工選擇設計參考",
+          "evidenceRefs": [
+            "prompt-directory"
+          ]
+        },
+        {
+          "id": "adapt",
+          "title": "改寫為自有需求",
+          "evidenceRefs": [
+            "generation-workflow"
+          ]
+        },
+        {
+          "id": "rights",
+          "title": "確認採用與再散布界線",
+          "evidenceRefs": [
+            "license-boundary"
+          ]
+        },
+        {
+          "id": "implement",
+          "title": "建立並測試網站",
+          "evidenceRefs": [],
+          "externalDependency": "真正的應用程式、資料、登入、效能及無障礙需另行實作與驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先列出要改善的頁面、使用者操作與資料需求。",
+      "只瀏覽合法可存取的參考，確認對應方案與 2026-11-22 條款。",
+      "用自己的文字重寫設計需求，另驗收手機版、功能及素材權利。"
+    ],
+    "limits": [
+      "設計 Prompt 或展示畫面不是已建置的可維護網站原始碼。",
+      "複製生成結果後仍需做無障礙、響應式、效能、素材授權和瀏覽器驗收。",
+      "motionsites.ai 與 motionsites.org 為分開記錄；前者明示與其他同名網域無關。",
+      "未購買、下載、複製原始 Prompt 或執行第三方生成。"
+    ]
   }
 }

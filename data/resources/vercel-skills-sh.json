@@ -6,14 +6,14 @@
   "canonicalName": "skills.sh",
   "category": "06 Skills",
   "resourceType": "Public online directory and CLI installation ecosystem for Agent Skills",
-  "purpose": "提供跨 Claude Code、Codex 等 Agent 的 Skill 搜尋、榜單、來源檢視與 Skill 安裝入口；官方榜單可找到 Matt Pocock 的 grill-me、grill-with-docs、tdd、handoff、triage。",
-  "recommendation": "作為工具選型參考；正式使用前檢查權限、資料流向、費用與輸出品質，使用非敏感測試專案驗證。",
+  "purpose": "搜尋可重用的 AI Agent 技能及其原始來源，評估後再透過技能管理工具安裝到指定 Agent。",
+  "recommendation": "適合需要固定開發、審查或資料整理方法的人；不能只因榜單熱門就將第三方指令安裝到正式工作區。",
   "url": "https://skills.sh/",
   "repo": "",
   "notes": "2026-10-24 官方 skills.sh 收錄並排行 Matt Pocock 指定五項 Skills；排行榜量化指標與排名會隨時間更新。CLI `npx skills add owner/repo` 可安裝第三方技能，但本次僅收錄，不執行指令。排行榜人氣並非授權、供應鏈風險、資料權限或實際品質認證；安裝需按上游 repo 查核。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "skills.sh",
     "skill-directory",
@@ -43,8 +43,12 @@
     "type": "Official online directory",
     "summary": "Official rankings and installation guidance verified 2026-10-24; no installation.",
     "documentationUrl": "https://www.skills.sh/docs",
-    "reviewedAt": "2026-11-20",
-    "reviewScope": "Official product documentation review; no new runtime/security testing"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+    "referenceUrls": [
+      "https://www.skills.sh/docs",
+      "https://www.skills.sh/docs/cli"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -82,16 +86,17 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "以既有 ID 與正式產品來源確認為同一筆內容，僅修訂原紀錄。"
+      "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -114,7 +119,148 @@
     "riskNotes": "榜單不是官方安全稽核或品質認證；Skill 作者、版本與相依可隨時變更。；skill CLI 安裝可能修改使用者本機 Agent 目錄與設定，需先確認工作區、覆寫與回復機制。；未使用私人 API Key、第三方安裝或付費操作。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批檢視正式產品或文件頁，沒有執行 SaaS、API、第三方程式或完整安全測試。"
+      "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供跨 Claude Code、Codex 等 Agent 的 Skill 搜尋、榜單、來源檢視與 Skill 安裝入口；官方榜單可找到 Matt Pocock 的 grill-me、grill-with-docs、tdd、handoff、triage。",
+      "reviewedAt": "2026-11-20",
+      "source": "https://skills.sh/"
+    },
+    "sourceReview": {
+      "telemetry": "官方 CLI Reference 2026-11-25 查閱：預設有安裝遙測，文件列出 DISABLE_TELEMETRY=1 退出；未實測。官方不保證所有技能的品質與安全。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "discover",
+      "detail": "官方目錄提供搜尋、主題、排行及安全審查入口，排行依安裝遙測資料，不代表所有技能通過安全審查。",
+      "locator": "https://www.skills.sh/docs",
+      "evidenceFields": [
+        "features.0",
+        "limitations.0"
+      ],
+      "limitations": "榜單與審查不能取代自己核對版本、內容和權限。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "install",
+      "detail": "CLI 文件說明 npx skills add owner/repo 可下載技能並配置到 Agent；亦提供 pack 安裝方法。",
+      "locator": "https://www.skills.sh/docs/cli",
+      "evidenceFields": [
+        "features.1",
+        "features.2",
+        "requirements.0",
+        "limitations.1"
+      ],
+      "limitations": "未執行安裝；先確認將修改的目錄、目標 Agent、覆寫及回復方法。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "telemetry-review",
+      "detail": "CLI 文件表示預設收集安裝遙測，提供 DISABLE_TELEMETRY=1 退出設定；官方不保證每筆技能安全。",
+      "locator": "https://www.skills.sh/docs/cli",
+      "evidenceFields": [
+        "requirements.1",
+        "limitations.0",
+        "implementationKnowledge.sourceReview.telemetry"
+      ],
+      "limitations": "未稽核 CLI 實際資料傳送或第三方技能內容；安裝前仍須核對原始碼。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "find-skill",
+        "title": "找可重用的程式審查技能",
+        "detail": "從任務主題與原始 Repo 篩選，先比較適用條件與交付要求。",
+        "evidenceRefs": [
+          "discover"
+        ]
+      },
+      {
+        "id": "review-skill",
+        "title": "判斷第三方技能能否安全使用",
+        "detail": "閱讀 SKILL.md、連結、腳本及權限，確認沒有要求不必要的外部傳送。",
+        "evidenceRefs": [
+          "discover",
+          "telemetry-review"
+        ]
+      },
+      {
+        "id": "install-scope",
+        "title": "規劃指定 Agent 的安裝及回復",
+        "detail": "在獨立測試工作區確認安裝位置、版本、覆寫及遙測選項。",
+        "evidenceRefs": [
+          "install",
+          "telemetry-review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "code-review-skill-selection",
+      "title": "選擇程式審查 Skill",
+      "input": "一個合成專案、程式審查需求及兩個候選技能的來源連結。",
+      "process": "尋找候選 → 讀原始指令及腳本 → 設定安裝範圍與遙測 → 設計驗收",
+      "output": "技能候選比較、權限審查及測試規格（未安裝）。",
+      "destination": "自有 Agent 的技能評估紀錄及待核准安裝清單。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "find-skill",
+        "review-skill",
+        "install-scope"
+      ],
+      "steps": [
+        {
+          "id": "search",
+          "title": "找相關技能及來源",
+          "evidenceRefs": [
+            "discover"
+          ]
+        },
+        {
+          "id": "audit",
+          "title": "查核指令、依賴及遙測",
+          "evidenceRefs": [
+            "telemetry-review"
+          ]
+        },
+        {
+          "id": "plan",
+          "title": "確認安裝範圍與回復",
+          "evidenceRefs": [
+            "install"
+          ]
+        },
+        {
+          "id": "validate",
+          "title": "另行驗收技能行為",
+          "evidenceRefs": [],
+          "externalDependency": "需使用者核准安裝、隔離工作區及合成測試資料，不能自動執行陌生腳本。"
+        }
+      ]
+    },
+    "start": [
+      "先定義要改善的重複任務與驗收產物。",
+      "從目錄找到候選後，讀固定版本 SKILL.md、腳本及依賴，核對審查狀態。",
+      "確定安裝範圍、遙測、回復方式及授權後才進入隔離測試。"
+    ],
+    "limits": [
+      "榜單不是官方安全稽核或品質認證；Skill 作者、版本與相依可隨時變更。",
+      "skill CLI 安裝可能修改使用者本機 Agent 目錄與設定，需先確認工作區、覆寫與回復機制。",
+      "未安裝 CLI 或任何 Skill；遙測與安全審查以官方文件描述為準，未稽核實際程式。"
+    ]
   }
 }

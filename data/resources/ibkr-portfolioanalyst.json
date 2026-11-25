@@ -6,14 +6,14 @@
   "canonicalName": "IBKR PortfolioAnalyst",
   "category": "05 Data & Ingestion",
   "resourceType": "Interactive Brokers web-based reporting dashboard and export service",
-  "purpose": "透過 PortfolioAnalyst、Activity Statements 與自訂報表查看投資組合績效、金融工具分組、持倉變化、交易、費用、風險與 Benchmarks；CSV/PDF 匯出可提供給 AI 作週度績效分析。",
-  "recommendation": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。",
+  "purpose": "整理已授權的投資帳戶績效、持倉、交易與費用報表，區分整體資產分析和交易明細。",
+  "recommendation": "適合建立個人資產回顧及報表分析流程；先固定期間、幣別與計算口徑，不將歷史績效當成投資建議。",
   "url": "https://www.interactivebrokers.com/en/whyib/reporting.php",
   "repo": "",
   "notes": "官方 IBKR 文件確認有 Sharpe、Sortino、Alpha、Beta、Max Drawdown 等 Risk Measures 及 Performance by Financial Instrument 分類。**注意**：截圖原作者自述現有 Connector/Plugin 沒拿到所需 PortfolioAnalyst financial instrument 明細，後來改用下載報表，不能假定 AI Plugin/API 就有同樣欄位。報表含敏感投資與個資，交給 LLM 前須去識別；分清 TWR/MWR、現金流與基準總報酬，不可憑空補資料。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ibkr",
     "portfolioanalyst",
@@ -49,8 +49,12 @@
     "type": "Official documentation and user-provided Threads screenshots",
     "summary": "2026-10-24 confirmed source; no installation, credentials, running code or user data access.",
     "docsUrl": "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+    "referenceUrls": [
+      "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
+      "https://www.interactivebrokers.com/en/whyib/reporting.php"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -99,16 +103,17 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+      "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -131,7 +136,148 @@
     "riskNotes": "報表日期、匯率、基準及計算口徑會影響績效結果，不能直接混用不同定義。；匯出報表不代表平台提供投資建議，也不能推定未來交易表現。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+      "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "透過 PortfolioAnalyst、Activity Statements 與自訂報表查看投資組合績效、金融工具分組、持倉變化、交易、費用、風險與 Benchmarks；CSV/PDF 匯出可提供給 AI 作週度績效分析。",
+      "reviewedAt": "2026-11-21",
+      "source": "https://www.interactivebrokers.com/en/whyib/reporting.php"
+    },
+    "sourceReview": {
+      "export": "官方 Reporting 區分 Statement 可下載 PDF、Flex Query 為文字或 XML；報表套件總體亦列 CSV 等格式，但不得推定所有類型支援相同格式。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "portfolio-dashboard",
+      "detail": "官方 PortfolioAnalyst Dashboard 文件描述可選帳戶、期間及統計元件；Holdings 與 Change in NAV 提供不同績效視角。",
+      "locator": "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未登入或檢視帳戶；帳戶範圍、匯率、期間與績效定義需確認。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "statement",
+      "detail": "官方 Reporting 說明 Activity Reports 可按日期區間產生；Statement 可下載 PDF，整體報表套件另有多種匯出格式。",
+      "locator": "https://www.interactivebrokers.com/en/whyib/reporting.php",
+      "evidenceFields": [
+        "features.1",
+        "features.2"
+      ],
+      "limitations": "報表種類的支援格式不同，不能推定每種報表都能用 CSV。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "flex-query",
+      "detail": "官方 Reporting 說明 Flex Query 可自訂交易或帳戶活動報表模板，支援文字或 XML 匯出。",
+      "locator": "https://www.interactivebrokers.com/en/whyib/reporting.php",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1",
+        "limitations.0",
+        "implementationKnowledge.sourceReview.export"
+      ],
+      "limitations": "未執行 Query 或取得資料；須移除敏感欄位、固定幣別及資料定義。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "portfolio-summary",
+        "title": "回顧整體資產與績效",
+        "detail": "用指定期間及帳戶範圍查看資產變化、持倉及比較基準。",
+        "evidenceRefs": [
+          "portfolio-dashboard"
+        ]
+      },
+      {
+        "id": "transaction-review",
+        "title": "整理交易及費用明細",
+        "detail": "用報表日期區間及可取得欄位核對交易、費用與現金流。",
+        "evidenceRefs": [
+          "statement",
+          "flex-query"
+        ]
+      },
+      {
+        "id": "reporting-pipeline",
+        "title": "建立可重現的外部報表流程",
+        "detail": "固定報表模板與欄位，以合成資料驗證期間、幣別及計算口徑。",
+        "evidenceRefs": [
+          "flex-query",
+          "statement"
+        ]
+      }
+    ],
+    "example": {
+      "id": "monthly-portfolio-report",
+      "title": "設計每月資產與交易回顧",
+      "input": "一份合成持倉及交易明細、指定期間與基準幣別。",
+      "process": "定義績效口徑 → 選報表類型 → 規劃匿名化 → 設計對帳",
+      "output": "資產回顧報表規格、欄位及現金流對帳清單（未取得實際帳戶資料）。",
+      "destination": "個人報表分析；不提供交易建議或執行交易。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "portfolio-summary",
+        "transaction-review",
+        "reporting-pipeline"
+      ],
+      "steps": [
+        {
+          "id": "scope",
+          "title": "定義帳戶範圍及期間",
+          "evidenceRefs": [
+            "portfolio-dashboard"
+          ]
+        },
+        {
+          "id": "report",
+          "title": "選擇活動報表與輸出",
+          "evidenceRefs": [
+            "statement"
+          ]
+        },
+        {
+          "id": "fields",
+          "title": "設計 Flex Query 欄位",
+          "evidenceRefs": [
+            "flex-query"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "匿名化並核對計算口徑",
+          "evidenceRefs": [],
+          "externalDependency": "需本人授權取得報表；去識別、匯率、現金流與績效公式須獨立驗證。"
+        }
+      ]
+    },
+    "start": [
+      "先列出要分析的期間、幣別與帳戶範圍。",
+      "區分 PortfolioAnalyst、Statement 與 Flex Query 的用途和各自輸出。",
+      "用合成或自行匿名化的資料驗證現金流、持倉及績效口徑。"
+    ],
+    "limits": [
+      "報表日期、匯率、基準及計算口徑會影響績效結果，不能直接混用不同定義。",
+      "匯出報表不代表平台提供投資建議，也不能推定未來交易表現。",
+      "未登入 IBKR、連接任何帳戶、取得交易報表或驗證個人績效。",
+      "此資源整理報表功能，不預測未來投資表現。"
+    ]
   }
 }

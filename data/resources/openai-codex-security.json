@@ -4,8 +4,8 @@
   "canonicalName": "Codex Security",
   "category": "Developer Security & Code Review",
   "resourceType": "Proprietary AI application-security agent and scanning service",
-  "purpose": "檢查 GitHub 或本機程式碼庫中的潛在漏洞，結合專案特定 Threat Model、攻擊路徑分析、隔離驗證與供人員審核的修補建議。",
-  "recommendation": "適合開發者在程式碼審查、PR、版本更新及安全整備流程中作額外檢查；不得取代傳統測試、套件掃描和人工安全審查。",
+  "purpose": "針對已授權的程式庫建立威脅模型，找出可能的安全漏洞、驗證問題並提出供人工審查的修補建議。",
+  "recommendation": "適合需要將安全審查納入開發流程的團隊；先由低風險測試 Repo 開始，不應把 AI 掃描結果當成完整資安認證。",
   "url": "https://chatgpt.com/codex/security",
   "license": "Proprietary OpenAI service; usage governed by applicable OpenAI terms and plan/product entitlements",
   "commercialUse": {
@@ -62,16 +62,19 @@
       "https://learn.chatgpt.com/docs/security",
       "https://openai.com/business/plugins/codex-security/"
     ],
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-25",
     "type": "Official product / documentation",
     "readmeUrl": "https://help.openai.com/en/articles/20001107-codex-security",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+    "referenceUrls": [
+      "https://help.openai.com/en/articles/20001107-codex-security"
+    ]
   },
   "schemaVersion": 2,
   "entityType": "resource",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
   "classification": {
@@ -105,16 +108,17 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+      "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -137,7 +141,151 @@
     "riskNotes": "掃描可能有誤判或漏報，結果不可取代人工安全審核、依賴掃描與滲透測試。；不同 Cloud／Plugin／CLI 模式的權限與價格不一定相同；Cloud 有啟用計費條件且不能推定免費或永久可用。；沒有使用憑證或執行任何第三方服務。",
     "verification": {
       "status": "not-tested",
-      "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+      "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "檢查 GitHub 或本機程式碼庫中的潛在漏洞，結合專案特定 Threat Model、攻擊路徑分析、隔離驗證與供人員審核的修補建議。",
+      "reviewedAt": "2026-11-20",
+      "source": "https://chatgpt.com/codex/security"
+    },
+    "sourceReview": {
+      "access": "2026-11-25 Help Center 查閱：研究預覽列 Enterprise/Edu/Business/Pro；Cloud 使用 Token 計費；Enterprise/Edu 由管理者設定 Codex Cloud 與 Codex Security 權限。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "threat-model",
+      "detail": "官方說明威脅模型包含入口、信任邊界、敏感資料及重要程式路徑，可檢視及修改。",
+      "locator": "https://help.openai.com/en/articles/20001107-codex-security",
+      "evidenceFields": [
+        "features.0",
+        "features.5"
+      ],
+      "limitations": "模型必須反映真實部署與資料權限，未對任何 Repo 建立模型。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "scan-validation",
+      "detail": "可進行全 Repo 或 Commit 掃描，對疑似漏洞嘗試在隔離環境重現，再提出修補供人審查。",
+      "locator": "https://help.openai.com/en/articles/20001107-codex-security",
+      "evidenceFields": [
+        "features.1",
+        "features.2",
+        "features.3",
+        "features.6"
+      ],
+      "limitations": "可能有誤判漏報；提出修補不是自動修改程式，更不是完成安全驗收。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "access-billing",
+      "detail": "官方目前列研究預覽 Enterprise、Edu、Business、Pro；Cloud 使用 Token 計費，Enterprise/Edu 可由管理者設定相關權限。",
+      "locator": "https://help.openai.com/en/articles/20001107-codex-security",
+      "evidenceFields": [
+        "requirements.0",
+        "requirements.1",
+        "limitations.1",
+        "implementationKnowledge.sourceReview.access"
+      ],
+      "limitations": "未確認使用者方案、Repo 授權、費用、插件或執行權限。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "baseline-review",
+        "title": "建立專案安全審查基準",
+        "detail": "先記錄入口、權限、敏感資料與攻擊面，再評估全 Repo 掃描。",
+        "evidenceRefs": [
+          "threat-model",
+          "scan-validation"
+        ]
+      },
+      {
+        "id": "commit-review",
+        "title": "檢查程式變更是否引入風險",
+        "detail": "以指定 Commit 範圍檢視疑似問題與驗證證據。",
+        "evidenceRefs": [
+          "scan-validation",
+          "threat-model"
+        ]
+      },
+      {
+        "id": "remediation",
+        "title": "把修補建議納入 PR 審查",
+        "detail": "確認存取與費用後，將有證據的建議交給開發者驗收，而非自動套用。",
+        "evidenceRefs": [
+          "scan-validation",
+          "access-billing"
+        ]
+      }
+    ],
+    "example": {
+      "id": "authorized-repo-security-review",
+      "title": "規劃合成表單專案安全審查",
+      "input": "低風險測試 Repo、合成資料、登入與讀寫權限需求。",
+      "process": "確認授權 → 定義威脅模型 → 規劃掃描與驗證 → 人工審查修補",
+      "output": "威脅模型規格、預期安全測試及修補審查清單（未掃描）。",
+      "destination": "專案 PR 與獨立安全驗收流程。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "baseline-review",
+        "commit-review",
+        "remediation"
+      ],
+      "steps": [
+        {
+          "id": "authorize",
+          "title": "核對方案、Repo 授權與計費",
+          "evidenceRefs": [
+            "access-billing"
+          ]
+        },
+        {
+          "id": "model",
+          "title": "定義威脅模型",
+          "evidenceRefs": [
+            "threat-model"
+          ]
+        },
+        {
+          "id": "scan",
+          "title": "規劃指定範圍掃描與驗證",
+          "evidenceRefs": [
+            "scan-validation"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "獨立檢查修補及回歸",
+          "evidenceRefs": [],
+          "externalDependency": "需另行授權掃描、執行測試與修補；不自動變更程式或權限。"
+        }
+      ]
+    },
+    "start": [
+      "先選擇已授權的低風險測試 Repo，核對研究預覽資格及費用。",
+      "明訂應用部署、信任邊界、敏感資料與掃描範圍。",
+      "取得核准後才執行，逐筆檢查證據、修補差異及回歸測試。"
+    ],
+    "limits": [
+      "掃描可能有誤判或漏報，結果不可取代人工安全審核、依賴掃描與滲透測試。",
+      "不同 Cloud／Plugin／CLI 模式的權限與價格不一定相同；Cloud 有啟用計費條件且不能推定免費或永久可用。",
+      "未開啟任何 Codex Security 掃描、插件、計費或權限設定。",
+      "Cloud 研究預覽資格及費用依官方文件而非使用者實際帳號。"
+    ]
   }
 }

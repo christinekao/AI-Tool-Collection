@@ -6,14 +6,14 @@
   "canonicalName": "ChatCut",
   "category": "11 Media / Video",
   "resourceType": "Conversational AI Video Editor / Agent-native NLE",
-  "purpose": "把自然語言指令轉成真正可編輯的多軌 timeline 操作：可做初剪、刪除停頓與 filler words、文字稿剪輯、字幕、B-roll、AI 影片／圖片／音樂／旁白與 motion graphics。所有變更落在正常 clips、tracks 與 captions 上，而不是只輸出不可修改的模板影片。",
-  "recommendation": "適合先用 Agent 快速完成粗剪、文字稿整理、字幕與素材生成，再把 timeline 以 FCP7 XMEML XML 交給 DaVinci Resolve 做調色、音訊、效果與最終 mastering；ChatCut 也提供 DaVinci Resolve 專用 XML export preset。",
+  "purpose": "用文字指令及可編輯的多軌時間軸剪輯影片、修改口述內容及字幕，再依平台選擇輸出方式。",
+  "recommendation": "適合已有旁白、訪談或產品示範素材，需要先完成可修改的剪輯草稿；交付前仍要校對時間軸及實際影片。",
   "url": "https://chatcut.io/",
   "repo": "",
   "notes": "Official ChatCut docs confirmed. ChatCut provides web, desktop and Agent Plugin surfaces over the same editable multi-track project. XML export uses FCP7 XMEML and explicitly offers a DaVinci Resolve preset; some elements such as captions, GIFs, certain graphics/effects/transitions may not transfer and need to be rebuilt in the destination NLE. Motion graphics can also be exported as ProRes 4444 with alpha for use in DaVinci Resolve and other NLEs.",
   "status": "active",
   "addedAt": "2026-09-28",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ai-video-editor",
     "agentic-editing",
@@ -85,25 +85,30 @@
   "source": {
     "url": "https://chatcut.io/",
     "documentationUrl": "https://chatcut.io/docs/editor-overview",
-    "reviewedAt": "2026-11-20",
-    "reviewScope": "Original official article/product documentation only; no new runtime or security testing",
-    "type": "Official product or original article"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+    "type": "Official product or original article",
+    "referenceUrls": [
+      "https://chatcut.io/docs/editor-overview",
+      "https://chatcut.io/docs/chatcut-products"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "原有 Canonical ID 與官網及文章來源已比對，只更新既有 Resource。"
+      "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -126,7 +131,154 @@
     "riskNotes": "Desktop 與 Web 的渲染／輸出能力不同，XML 匯入 DaVinci Resolve 需驗證效果與時間軸。；AI Agent 編輯、生成及雲端輸出可能耗用點數並傳輸私人素材；操作前審查資料權限。；沒有登入、安裝或進行付費操作。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方來源文件已查閱；沒有對第三方程式或 SaaS 執行功能、Build、安全或整合測試。"
+      "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把自然語言指令轉成真正可編輯的多軌 timeline 操作：可做初剪、刪除停頓與 filler words、文字稿剪輯、字幕、B-roll、AI 影片／圖片／音樂／旁白與 motion graphics。所有變更落在正常 clips、tracks 與 captions 上，而不是只輸出不可修改的模板影片。",
+      "reviewedAt": "2026-11-20",
+      "source": "https://chatcut.io/"
+    },
+    "sourceReview": {
+      "export": "官方產品文件：Desktop 對支援輸出可本地渲染，最高 4K 仍受方案限制；登入、同步及 hosted generation 使用網路。Web、Desktop 與 Plugin 的輸出／素材環境分開查核。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "timeline-edit",
+      "detail": "官方 Editor 文件描述以 AI 面板的文字及選取引用定位片段；Timeline 支援移動、裁切及音軌控制。",
+      "locator": "https://chatcut.io/docs/editor-overview",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未操作編輯器；須逐段確認被修改的媒體及剪輯位置。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "transcript-version",
+      "detail": "官方文件描述 Transcript 文字編輯與影片剪輯連動，以及版本歷史可儲存或恢復快照。",
+      "locator": "https://chatcut.io/docs/editor-overview",
+      "evidenceFields": [
+        "features.1",
+        "requirements.0"
+      ],
+      "limitations": "刪除字詞可能改變原意，需校對原始音訊、字幕及版本。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "export-boundary",
+      "detail": "官方產品文件區分 Desktop 本地輸出、Web 與 Agent Plugin；Desktop 仍會連線登入、同步與託管生成。",
+      "locator": "https://chatcut.io/docs/chatcut-products",
+      "evidenceFields": [
+        "features.2",
+        "limitations.0",
+        "limitations.1",
+        "implementationKnowledge.sourceReview.export"
+      ],
+      "limitations": "本地輸出不表示全離線；方案、XML／CapCut 及媒體相容性尚未測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "talking-head",
+        "title": "整理口述影片的冗長段落",
+        "detail": "透過文字稿找到停頓及重複內容，再核對每個剪輯是否保留原意。",
+        "evidenceRefs": [
+          "timeline-edit",
+          "transcript-version"
+        ]
+      },
+      {
+        "id": "reedit",
+        "title": "以時間軸修改字幕與片段",
+        "detail": "以明確片段及時間點請 AI 調整，保存版本以便回復。",
+        "evidenceRefs": [
+          "timeline-edit",
+          "transcript-version"
+        ]
+      },
+      {
+        "id": "delivery",
+        "title": "規劃影片或可編輯專案交付",
+        "detail": "依素材所在位置、輸出尺寸與剪輯軟體需求選 Desktop 或 Web。",
+        "evidenceRefs": [
+          "export-boundary"
+        ]
+      }
+    ],
+    "example": {
+      "id": "demo-video-edit",
+      "title": "剪輯產品操作示範影片",
+      "input": "一段自有螢幕錄影、旁白及預期三個教學段落。",
+      "process": "保存原始版本 → 定位片段 → 編輯文字稿及時間軸 → 校對 → 選擇輸出",
+      "output": "可編輯剪輯專案、字幕與預期交付檢查表（未生成影片）。",
+      "destination": "產品教學影片；正式發布及音訊／字幕驗收需另做。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "talking-head",
+        "reedit",
+        "delivery"
+      ],
+      "steps": [
+        {
+          "id": "snapshot",
+          "title": "保存初始剪輯版本",
+          "evidenceRefs": [
+            "transcript-version"
+          ]
+        },
+        {
+          "id": "edit",
+          "title": "定位片段與裁切",
+          "evidenceRefs": [
+            "timeline-edit"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "核對文字稿、旁白與版本",
+          "evidenceRefs": [
+            "transcript-version"
+          ]
+        },
+        {
+          "id": "export",
+          "title": "確認交付模式",
+          "evidenceRefs": [
+            "export-boundary"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "驗收最終影片",
+          "evidenceRefs": [],
+          "externalDependency": "實際渲染、字幕同步、畫面及音訊、授權和輸出尺寸需另行確認。"
+        }
+      ]
+    },
+    "start": [
+      "先準備小段自有影片、備份原素材與目標剪輯規格。",
+      "使用明確片段、時間與文字稿指示修改，保留可回復版本。",
+      "先比較 Web 與 Desktop 輸出及費用，再檢查最終媒體。"
+    ],
+    "limits": [
+      "Desktop 與 Web 的渲染／輸出能力不同，XML 匯入 DaVinci Resolve 需驗證效果與時間軸。",
+      "AI Agent 編輯、生成及雲端輸出可能耗用點數並傳輸私人素材；操作前審查資料權限。",
+      "未安裝、上傳素材、使用生成點數或實際輸出；本地渲染並不等於服務完全離線。"
+    ]
   }
 }
