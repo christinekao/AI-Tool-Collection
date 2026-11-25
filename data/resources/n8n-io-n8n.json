@@ -2,14 +2,14 @@
   "schemaVersion": 2,
   "entityType": "resource",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "id": "n8n-io-n8n",
   "title": "n8n — Visual Workflow Automation & AI Agent Platform",
   "canonicalName": "n8n-io/n8n",
   "category": "02 Agent Orchestration",
   "resourceType": "Fair-code, self-hostable workflow automation and AI agent orchestration platform",
-  "purpose": "用可視化流程與自訂程式串接 Webhook、排程、API、資料服務和 AI Agent，提供雲端或自行託管的自動化平台。",
-  "recommendation": "適合跨服務的業務自動化與 AI Workflow；自架前須理解憑證儲存、執行權限、持續維運與 n8n 授權。",
+  "purpose": "把資料讀取、轉換、條件判斷、通知及 AI 呼叫接成可重複執行的自動化工作流程。",
+  "recommendation": "適合跨系統整合及多步驟自動化；單一簡單腳本可先用較輕的方案，商用部署前核對 Sustainable Use License 與企業授權。",
   "url": "https://github.com/n8n-io/n8n",
   "repo": "n8n-io/n8n",
   "status": "active",
@@ -89,25 +89,35 @@
   "source": {
     "url": "https://github.com/n8n-io/n8n",
     "readmeUrl": "https://github.com/n8n-io/n8n/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶",
+    "upstreamCommit": "ba34719a31a9117002efb3db579f9aaf45bab4f5",
+    "referenceUrls": [
+      "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/README.md",
+      "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/LICENSE.md",
+      "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/LICENSE_EE.md",
+      "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/packages/core/src/execution-engine/workflow-execute.ts",
+      "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/packages/workflow/src/workflow.ts"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -116,8 +126,8 @@
     "classificationReason": "沿用既有 Primary Domain automation；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "mapped",
@@ -130,7 +140,356 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "用可視化流程與自訂程式串接 Webhook、排程、API、資料服務和 AI Agent，提供雲端或自行託管的自動化平台。",
+      "source": "https://github.com/n8n-io/n8n",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "data-pipeline",
+        "title": "串接定期資料整理",
+        "detail": "設計觸發後讀取、轉換及驗證資料的流程。",
+        "capabilityRefs": [
+          "workflow-start",
+          "node-execution"
+        ]
+      },
+      {
+        "id": "approval-workflow",
+        "title": "建立有核准步驟的自動化",
+        "detail": "規劃只讀查詢及需人工核准的寫入，明確驗收狀態。",
+        "capabilityRefs": [
+          "workflow-start",
+          "execution-state"
+        ]
+      },
+      {
+        "id": "failure-handling",
+        "title": "追蹤失敗與安全重送",
+        "detail": "區分節點錯誤、流程狀態與實際寫入，避免重複通知或寫入。",
+        "capabilityRefs": [
+          "node-execution",
+          "execution-state"
+        ]
+      }
+    ],
+    "example": {
+      "id": "daily-report-flow",
+      "title": "規劃每日報表整理流程",
+      "input": "合成 CSV、固定資料欄位、預期輸出與模擬通知。",
+      "process": "選起點 → 轉換及驗證 → 辨識錯誤 → 核對狀態與重送界線",
+      "output": "資料轉換、錯誤分流及去重驗收規格（未執行）。",
+      "destination": "自有資料處理或報表自動化；真正資料連線與通知另行核准。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "data-pipeline",
+        "approval-workflow",
+        "failure-handling"
+      ],
+      "steps": [
+        {
+          "id": "start",
+          "title": "定義起點與執行範圍",
+          "capabilityRefs": [
+            "workflow-start"
+          ]
+        },
+        {
+          "id": "nodes",
+          "title": "設計節點與錯誤處理",
+          "capabilityRefs": [
+            "node-execution"
+          ]
+        },
+        {
+          "id": "state",
+          "title": "檢查流程狀態及取消情境",
+          "capabilityRefs": [
+            "execution-state"
+          ]
+        },
+        {
+          "id": "delivery",
+          "title": "驗收實際輸出及去重",
+          "capabilityRefs": [],
+          "externalDependency": "CSV 來源、通知、排程、憑證、冪等及持久化須由專案獨立實作及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先畫出一條只讀且使用合成資料的簡單流程。",
+      "確認部署用途與授權，閱讀節點執行及錯誤契約。",
+      "取得核准後才連線外部系統，先驗證失敗、重送與資料寫入。"
+    ],
+    "limits": [
+      "n8n 採 fair-code／Sustainable Use License 與企業授權條款，不應簡化成無限制開源。",
+      "長期執行需處理 Secrets、Webhook 安全、故障通知與資料重送。",
+      "固定版本 LICENSE.md 指明非 master 分支內容未授權，.ee. 檔名或 .ee 目錄另依 EE 授權；部署與改作須依實際版本及用途確認。",
+      "未部署、安裝或執行節點，未審查完整憑證、Webhook、佇列及外部服務權限。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把資料讀取、轉換、條件判斷、通知及 AI 呼叫接成可重複執行的自動化工作流程。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "TypeScript / Workflow engine"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Sustainable Use License 與 Enterprise License（依目錄及用途）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "ba34719a31a9117002efb3db579f9aaf45bab4f5"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "選擇流程起點",
+        "detail": "自動化需要指定觸發或局部執行；輸入：Workflow、startNode、destinationNode、pinData；輸出：開始執行或無起點 UserError",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts"
+      },
+      {
+        "title": "處理節點輸入輸出與失敗",
+        "detail": "流程要串接多個步驟並區分錯誤；輸入：workflow、executionData、runIndex、mode、abortSignal；輸出：IRunNodeResponse 或 EngineRequest；部分錯誤可形成 error item",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts"
+      },
+      {
+        "title": "管理流程執行與取消",
+        "detail": "長時間流程須追蹤狀態與停止；輸入：Workflow、runExecutionData、hooks；輸出：PCancelable<IRun> 與執行狀態",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "選起點 → 轉換及驗證 → 辨識錯誤 → 核對狀態與重送界線",
+      "nodes": [
+        {
+          "title": "選擇流程起點",
+          "detail": "Workflow、startNode、destinationNode、pinData → 開始執行或無起點 UserError",
+          "files": [
+            "packages/core/src/execution-engine/workflow-execute.ts",
+            "packages/workflow/src/workflow.ts"
+          ]
+        },
+        {
+          "title": "處理節點輸入輸出與失敗",
+          "detail": "workflow、executionData、runIndex、mode、abortSignal → IRunNodeResponse 或 EngineRequest；部分錯誤可形成 error item",
+          "files": [
+            "packages/core/src/execution-engine/workflow-execute.ts"
+          ]
+        },
+        {
+          "title": "管理流程執行與取消",
+          "detail": "Workflow、runExecutionData、hooks → PCancelable<IRun> 與執行狀態",
+          "files": [
+            "packages/core/src/execution-engine/workflow-execute.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "啟動",
+        "rule": "WorkflowExecute.run 選 startNode 或 workflow.getStartNode，沒有起點時拋 UserError。",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts"
+      },
+      {
+        "name": "錯誤",
+        "rule": "runNode 的 resumeError 依 continuesOnError 可返回帶 error 的 item；不得當正常輸出。",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts"
+      },
+      {
+        "name": "取消",
+        "rule": "processRunExecutionData 建立 PCancelable，設定 cancellation hooks 並檢查 workflow 問題。",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE.md",
+          "LICENSE_EE.md",
+          "packages/core/src/execution-engine/workflow-execute.ts",
+          "packages/workflow/src/workflow.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先畫出一條只讀且使用合成資料的簡單流程。 確認部署用途與授權，閱讀節點執行及錯誤契約。 取得核准後才連線外部系統，先驗證失敗、重送與資料寫入。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有資料處理或報表自動化；真正資料連線與通知另行核准。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "packages/core/src/execution-engine/workflow-execute.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "workflow-start",
+        "name": "選擇流程起點",
+        "problem": "自動化需要指定觸發或局部執行",
+        "input": "Workflow、startNode、destinationNode、pinData",
+        "output": "開始執行或無起點 UserError",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts",
+        "sourceFiles": [
+          "packages/core/src/execution-engine/workflow-execute.ts",
+          "packages/workflow/src/workflow.ts"
+        ],
+        "symbols": [
+          "Workflow",
+          "Workflow.getStartNode",
+          "WorkflowExecute.run"
+        ],
+        "gate": "區分完整及局部執行；測 disabled node、trigger 與目的節點。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "node-execution",
+        "name": "處理節點輸入輸出與失敗",
+        "problem": "流程要串接多個步驟並區分錯誤",
+        "input": "workflow、executionData、runIndex、mode、abortSignal",
+        "output": "IRunNodeResponse 或 EngineRequest；部分錯誤可形成 error item",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts",
+        "sourceFiles": [
+          "packages/core/src/execution-engine/workflow-execute.ts"
+        ],
+        "symbols": [
+          "WorkflowExecute.runNode",
+          "continuesOnError"
+        ],
+        "gate": "continue on error 不等於成功；必須檢查 error item、外部副作用、重送與去重。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "execution-state",
+        "name": "管理流程執行與取消",
+        "problem": "長時間流程須追蹤狀態與停止",
+        "input": "Workflow、runExecutionData、hooks",
+        "output": "PCancelable<IRun> 與執行狀態",
+        "source": "packages/core/src/execution-engine/workflow-execute.ts",
+        "sourceFiles": [
+          "packages/core/src/execution-engine/workflow-execute.ts"
+        ],
+        "symbols": [
+          "WorkflowExecute.processRunExecutionData",
+          "setupCancellation",
+          "checkForWorkflowIssues"
+        ],
+        "gate": "取消未必撤銷第三方已完成的寫入；需另設補償、權限及測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃每日報表整理流程（設計示例）",
+      "problem": "合成 CSV、固定資料欄位、預期輸出與模擬通知。",
+      "steps": [
+        {
+          "capability": "workflow-start",
+          "action": "定義起點與執行範圍"
+        },
+        {
+          "capability": "node-execution",
+          "action": "設計節點與錯誤處理"
+        },
+        {
+          "capability": "execution-state",
+          "action": "檢查流程狀態及取消情境"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "daily-report-flow"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成 CSV、固定資料欄位、預期輸出與模擬通知。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選起點 → 轉換及驗證 → 辨識錯誤 → 核對狀態與重送界線",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有資料處理或報表自動化；真正資料連線與通知另行核准。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "固定版本 LICENSE.md 指明非 master 分支內容未授權，.ee. 檔名或 .ee 目錄另依 EE 授權；部署與改作須依實際版本及用途確認。",
+        "未部署、安裝或執行節點，未審查完整憑證、Webhook、佇列及外部服務權限。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "固定版本 LICENSE.md 指明非 master 分支內容未授權，.ee. 檔名或 .ee 目錄另依 EE 授權；部署與改作須依實際版本及用途確認。 未部署、安裝或執行節點，未審查完整憑證、Webhook、佇列及外部服務權限。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
