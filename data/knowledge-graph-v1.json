@@ -3181,7 +3181,7 @@
       "type": "resource",
       "id": "anthropics-sandbox-runtime",
       "title": "Anthropic Sandbox Runtime (srt) — OS-Level Filesystem & Network Isolation for Agents",
-      "summary": "提供獨立於完整 Container 的 Agent 執行權限邊界：以 macOS sandbox-exec/Seatbelt、Linux bubblewrap 和 Windows（Alpha）受限帳戶與 WFP 防火牆機制，限制 CLI 命令、Agent / MCP Server 等子程序所能讀寫的檔案路徑、連線的網域／埠與本機 Socket；可作 CLI `srt` 或 TypeScript library 使用，支援違規紀錄。",
+      "summary": "讓 AI Agent 或 MCP Server 在受限制的環境執行命令，明確規定它能讀寫哪些資料夾、可以連到哪些網站。",
       "tags": [
         "anthropic",
         "sandbox-runtime",
@@ -3200,8 +3200,8 @@
         "least-privilege",
         "apache-2.0"
       ],
-      "searchText": "Anthropic Sandbox Runtime (srt) — OS-Level Filesystem & Network Isolation for Agents Anthropic Sandbox Runtime 07 Security & Governance Apache-2.0 OS process sandbox / Node.js CLI & library / HTTP+SOCKS network mediation 提供獨立於完整 Container 的 Agent 執行權限邊界：以 macOS sandbox-exec/Seatbelt、Linux bubblewrap 和 Windows（Alpha）受限帳戶與 WFP 防火牆機制，限制 CLI 命令、Agent / MCP Server 等子程序所能讀寫的檔案路徑、連線的網域／埠與本機 Socket；可作 CLI `srt` 或 TypeScript library 使用，支援違規紀錄。 適合研究讓高權限 Coding Agent 或 MCP Server 在工作目錄內安全執行的 Architecture／Harness：分離工具可見的環境、檔案讀寫／憑證存取政策、域名允許清單與失敗回報。採最小權限配置並在實際目標 OS 測試，再交給 Agent 操作第三方程式；研究預覽版本及 Windows Alpha 都不能視為成熟且絕對安全的隔離。 anthropic sandbox-runtime srt os-sandbox linux macos windows-alpha bubblewrap sandbox-exec wfp network-proxy filesystem-permissions mcp agent-security least-privilege apache-2.0",
-      "updatedAt": "2026-11-19",
+      "searchText": "Anthropic Sandbox Runtime (srt) — OS-Level Filesystem & Network Isolation for Agents Anthropic Sandbox Runtime 07 Security & Governance Apache-2.0 OS process sandbox / Node.js CLI & library / HTTP+SOCKS network mediation 讓 AI Agent 或 MCP Server 在受限制的環境執行命令，明確規定它能讀寫哪些資料夾、可以連到哪些網站。 適合需要限制本機工具及子程序權限的 Agent Harness；不要把沙箱當成完整安全保證。先用合成資料在實際作業系統驗證讀、寫、網路及拒絕案例，再考慮正式整合。 anthropic sandbox-runtime srt os-sandbox linux macos windows-alpha bubblewrap sandbox-exec wfp network-proxy filesystem-permissions mcp agent-security least-privilege apache-2.0",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/anthropics/sandbox-runtime"
     },
     {
@@ -4792,7 +4792,7 @@
       "type": "resource",
       "id": "github-agentic-workflows",
       "title": "GitHub Agentic Workflows",
-      "summary": "用 Markdown + YAML frontmatter 定義需要推理的 repository automation，再由 gh-aw CLI 驗證並編譯成標準 GitHub Actions workflow。適合 issue triage、PR review、CI failure investigation、文件維護、dependency analysis 與 repository reporting；deterministic build/test/lint/deploy 仍保留在一般 GitHub Actions。",
+      "summary": "把需要 AI 判斷的 GitHub 工作，例如整理 Issue、分析 CI 失敗或草擬 PR 審查，寫成可隨事件觸發的 GitHub Actions 流程。",
       "tags": [
         "agentic-workflows",
         "github-actions",
@@ -4805,8 +4805,8 @@
         "claude-code",
         "copilot"
       ],
-      "searchText": "GitHub Agentic Workflows GitHub Agentic Workflows 02 Agent Orchestration Agentic CI/CD Workflow Compiler / GitHub Actions Runtime 用 Markdown + YAML frontmatter 定義需要推理的 repository automation，再由 gh-aw CLI 驗證並編譯成標準 GitHub Actions workflow。適合 issue triage、PR review、CI failure investigation、文件維護、dependency analysis 與 repository reporting；deterministic build/test/lint/deploy 仍保留在一般 GitHub Actions。 適合想把 Agent 正式納入 GitHub repository workflow，而不是用長時間本機 session 手動跑任務的情境；尤其適合需要事件觸發、可重現 workflow artifact、模型可替換，以及把 Agent 寫入動作限制在受控權限邊界內的專案。 agentic-workflows github-actions ci-cd workflow-compiler safe-outputs sandbox multi-engine codex claude-code copilot",
-      "updatedAt": "2026-11-19",
+      "searchText": "GitHub Agentic Workflows GitHub Agentic Workflows 02 Agent Orchestration Agentic CI/CD Workflow Compiler / GitHub Actions Runtime 把需要 AI 判斷的 GitHub 工作，例如整理 Issue、分析 CI 失敗或草擬 PR 審查，寫成可隨事件觸發的 GitHub Actions 流程。 適合希望將人工反覆分析的 Repository 任務自動化的團隊；一般編譯、測試、部署仍應由確定性 CI 執行。初期先採唯讀分析，經審查再開放必要的寫入。 agentic-workflows github-actions ci-cd workflow-compiler safe-outputs sandbox multi-engine codex claude-code copilot",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/github/gh-aw"
     },
     {
@@ -7897,7 +7897,7 @@
       "type": "resource",
       "id": "rtk",
       "title": "RTK",
-      "summary": "在 Coding Agent 讀取 Shell 輸出前壓縮大量測試、Diff 和日誌資訊，並提供 Token 節省統計及選配的處理 Pipeline。",
+      "summary": "在 AI 寫程式時，把冗長的測試、Git 差異與終端日誌縮成較短的輸出，讓 Agent 不必把所有原始文字都讀進對話。",
       "tags": [
         "token-efficiency",
         "cli",
@@ -7905,8 +7905,8 @@
         "context-management",
         "coding-agent"
       ],
-      "searchText": "RTK RTK 01 Agent Runtime & Harness CLI Output Filter / Token Efficiency 在 Coding Agent 讀取 Shell 輸出前壓縮大量測試、Diff 和日誌資訊，並提供 Token 節省統計及選配的處理 Pipeline。 適合因終端輸出過長而耗用大量 Context 的 Coding Agent；需要保留完整錯誤時要能回到原始輸出。 token-efficiency cli shell-output context-management coding-agent",
-      "updatedAt": "2026-11-19",
+      "searchText": "RTK RTK 01 Agent Runtime & Harness CLI Output Filter / Token Efficiency 在 AI 寫程式時，把冗長的測試、Git 差異與終端日誌縮成較短的輸出，讓 Agent 不必把所有原始文字都讀進對話。 適合反覆跑測試、搜尋及查看 Git 狀態的 Coding Agent；若需要逐行查錯、稽核完整日誌或精確計費，應保留原始輸出及供應商使用量資料，不以壓縮統計替代。 token-efficiency cli shell-output context-management coding-agent",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/rtk-ai/rtk"
     },
     {
