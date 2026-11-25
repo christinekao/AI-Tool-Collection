@@ -254,10 +254,12 @@ function promptGuideHtml(x){
 function resourceReaderGuideHtml(x){
  const g=x.readerGuide;if(!g)return '';
  const e=g.example||{},c=g.comparison||{};
+ const repoName=text(x.repo),revision=text(x.source?.upstreamCommit);
+ const shots=/^[\w.-]+\/[\w.-]+$/.test(repoName)&&/^[a-f0-9]{40}$/.test(revision)?list(x.repoGuide?.screenshots).filter(p=>typeof p.path==='string'&&/^[\w./-]+$/.test(p.path)&&!p.path.split('/').includes('..')&&!p.path.startsWith('/')).map(p=>'<figure class="repo-shot"><img loading="lazy" decoding="async" src="'+esc('https://raw.githubusercontent.com/'+repoName+'/'+revision+'/'+p.path)+'" alt="'+esc(p.label)+'"><figcaption>'+esc(p.label)+'</figcaption></figure>').join(''):'';
  const cases=list(g.useCases).map(v=>'<article class="reader-case"'+(v.id?' data-use-case-id="'+esc(v.id)+'"':'')+'><h4>'+esc(v.title)+'</h4><p>'+esc(v.detail)+'</p></article>').join('');
  const example=e.title?'<section class="detail-section"'+(e.id?' data-example-id="'+esc(e.id)+'"':'')+'><h3>實際應用：'+esc(e.title)+'</h3><p class="reader-note">'+esc(e.note)+'</p><ol class="reader-flow"><li><span>INPUT</span><p>'+esc(e.input)+'</p></li><li><span>PROCESS</span><p>'+esc(e.process)+'</p></li><li><span>OUTPUT</span><pre><code>'+esc(typeof e.output==='string'?e.output:JSON.stringify(e.output,null,2))+'</code></pre></li><li><span>DESTINATION</span><p>'+esc(e.destination)+'</p></li></ol></section>':'';
  const compare=list(c.rows).length?'<section class="detail-section"><h3>'+esc(c.title)+'</h3><div class="reader-table-wrap"><table class="reader-compare"><thead><tr>'+list(c.headers).map(v=>'<th scope="col">'+esc(v)+'</th>').join('')+'</tr></thead><tbody>'+c.rows.map(r=>'<tr>'+list(r).map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><p class="reader-note">'+esc(c.note)+'</p></section>':'';
- return '<div class="resource-reader-guide">'+section('它能幫你做什麼？','<div class="reader-cases">'+cases+'</div>')+example+compare+section('適合什麼情境？',para(x.recommendation))+section('如何開始使用？','<ol class="reader-start">'+list(g.start).map(v=>'<li>'+esc(v)+'</li>').join('')+'</ol>')+section('限制與注意事項',bullets(g.limits))+'</div>';
+ return '<div class="resource-reader-guide">'+section('它能幫你做什麼？','<div class="reader-cases">'+cases+'</div>')+(shots?section('原始專案畫面','<div class="repo-shots">'+shots+'</div><p class="reader-note">來源為固定版本上游截圖，不代表本站實際安裝或驗證。</p>'):'')+example+compare+section('適合什麼情境？',para(x.recommendation))+section('如何開始使用？','<ol class="reader-start">'+list(g.start).map(v=>'<li>'+esc(v)+'</li>').join('')+'</ol>')+section('限制與注意事項',bullets(g.limits))+'</div>';
 }
 
 function detail(x){
