@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 13（2026-11-25）
+
+- 基線 main `1d139b33c5c1e5d67f006e1aa32fb7627cdb26dd`；PR #77 四項 CI 通過並合併 `202ba4295456bf23f433b18749bddfd0ecb6d921`，Catalog Sync 確認。70/286 已合併（64 完成對應、6 deferred）。
+- [Batch 13 逐筆報告](RESOURCE_DUAL_LAYER_BATCH13_20261125.md)：shadcn-ui、motion-dev、magicuidesign-magicui 三筆 mapped 候選，9 個用途、9 個局部能力及 3 個 design-only 案例。
+- shadcn/ui dry-run 前方的初始化分支、Motion reduced-motion 註解／實作差異、Magic UI 動畫時間單位及暫停限制均已記錄。第三方未實測。
+- 合併前 70/286；本批通過合併後 73/286（67 完成對應、6 deferred），213 尚未改寫。既有來源缺口保留；Kokonut UI 尚未查核。
+- 下一批優先 Kokonut UI、Anime.js 及其他來源明確的前端／設計資源。排程停用，直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 12（2026-11-25）
 
 - 基線 main `2ede368d48b856502bae27d8e8e1bb2153633266`；PR #76 四項 CI 通過並合併 `59fba076573da201669140a5d7cc784156713b78`，Catalog Sync 確認。66/286 已合併（60 完成對應、6 deferred）。
