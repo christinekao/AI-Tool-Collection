@@ -10254,14 +10254,14 @@
       "canonicalName": "ChatCut",
       "category": "11 Media / Video",
       "resourceType": "Conversational AI Video Editor / Agent-native NLE",
-      "purpose": "把自然語言指令轉成真正可編輯的多軌 timeline 操作：可做初剪、刪除停頓與 filler words、文字稿剪輯、字幕、B-roll、AI 影片／圖片／音樂／旁白與 motion graphics。所有變更落在正常 clips、tracks 與 captions 上，而不是只輸出不可修改的模板影片。",
-      "recommendation": "適合先用 Agent 快速完成粗剪、文字稿整理、字幕與素材生成，再把 timeline 以 FCP7 XMEML XML 交給 DaVinci Resolve 做調色、音訊、效果與最終 mastering；ChatCut 也提供 DaVinci Resolve 專用 XML export preset。",
+      "purpose": "用文字指令及可編輯的多軌時間軸剪輯影片、修改口述內容及字幕，再依平台選擇輸出方式。",
+      "recommendation": "適合已有旁白、訪談或產品示範素材，需要先完成可修改的剪輯草稿；交付前仍要校對時間軸及實際影片。",
       "url": "https://chatcut.io/",
       "repo": "",
       "notes": "Official ChatCut docs confirmed. ChatCut provides web, desktop and Agent Plugin surfaces over the same editable multi-track project. XML export uses FCP7 XMEML and explicitly offers a DaVinci Resolve preset; some elements such as captions, GIFs, certain graphics/effects/transitions may not transfer and need to be rebuilt in the destination NLE. Motion graphics can also be exported as ProRes 4444 with alpha for use in DaVinci Resolve and other NLEs.",
       "status": "active",
       "addedAt": "2026-09-28",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "ai-video-editor",
         "agentic-editing",
@@ -10333,25 +10333,30 @@
       "source": {
         "url": "https://chatcut.io/",
         "documentationUrl": "https://chatcut.io/docs/editor-overview",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Original official article/product documentation only; no new runtime or security testing",
-        "type": "Official product or original article"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "type": "Official product or original article",
+        "referenceUrls": [
+          "https://chatcut.io/docs/editor-overview",
+          "https://chatcut.io/docs/chatcut-products"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "原有 Canonical ID 與官網及文章來源已比對，只更新既有 Resource。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -10374,8 +10379,155 @@
         "riskNotes": "Desktop 與 Web 的渲染／輸出能力不同，XML 匯入 DaVinci Resolve 需驗證效果與時間軸。；AI Agent 編輯、生成及雲端輸出可能耗用點數並傳輸私人素材；操作前審查資料權限。；沒有登入、安裝或進行付費操作。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方來源文件已查閱；沒有對第三方程式或 SaaS 執行功能、Build、安全或整合測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "把自然語言指令轉成真正可編輯的多軌 timeline 操作：可做初剪、刪除停頓與 filler words、文字稿剪輯、字幕、B-roll、AI 影片／圖片／音樂／旁白與 motion graphics。所有變更落在正常 clips、tracks 與 captions 上，而不是只輸出不可修改的模板影片。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://chatcut.io/"
+        },
+        "sourceReview": {
+          "export": "官方產品文件：Desktop 對支援輸出可本地渲染，最高 4K 仍受方案限制；登入、同步及 hosted generation 使用網路。Web、Desktop 與 Plugin 的輸出／素材環境分開查核。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "timeline-edit",
+          "detail": "官方 Editor 文件描述以 AI 面板的文字及選取引用定位片段；Timeline 支援移動、裁切及音軌控制。",
+          "locator": "https://chatcut.io/docs/editor-overview",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未操作編輯器；須逐段確認被修改的媒體及剪輯位置。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "transcript-version",
+          "detail": "官方文件描述 Transcript 文字編輯與影片剪輯連動，以及版本歷史可儲存或恢復快照。",
+          "locator": "https://chatcut.io/docs/editor-overview",
+          "evidenceFields": [
+            "features.1",
+            "requirements.0"
+          ],
+          "limitations": "刪除字詞可能改變原意，需校對原始音訊、字幕及版本。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "export-boundary",
+          "detail": "官方產品文件區分 Desktop 本地輸出、Web 與 Agent Plugin；Desktop 仍會連線登入、同步與託管生成。",
+          "locator": "https://chatcut.io/docs/chatcut-products",
+          "evidenceFields": [
+            "features.2",
+            "limitations.0",
+            "limitations.1",
+            "implementationKnowledge.sourceReview.export"
+          ],
+          "limitations": "本地輸出不表示全離線；方案、XML／CapCut 及媒體相容性尚未測試。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "talking-head",
+            "title": "整理口述影片的冗長段落",
+            "detail": "透過文字稿找到停頓及重複內容，再核對每個剪輯是否保留原意。",
+            "evidenceRefs": [
+              "timeline-edit",
+              "transcript-version"
+            ]
+          },
+          {
+            "id": "reedit",
+            "title": "以時間軸修改字幕與片段",
+            "detail": "以明確片段及時間點請 AI 調整，保存版本以便回復。",
+            "evidenceRefs": [
+              "timeline-edit",
+              "transcript-version"
+            ]
+          },
+          {
+            "id": "delivery",
+            "title": "規劃影片或可編輯專案交付",
+            "detail": "依素材所在位置、輸出尺寸與剪輯軟體需求選 Desktop 或 Web。",
+            "evidenceRefs": [
+              "export-boundary"
+            ]
+          }
+        ],
+        "example": {
+          "id": "demo-video-edit",
+          "title": "剪輯產品操作示範影片",
+          "input": "一段自有螢幕錄影、旁白及預期三個教學段落。",
+          "process": "保存原始版本 → 定位片段 → 編輯文字稿及時間軸 → 校對 → 選擇輸出",
+          "output": "可編輯剪輯專案、字幕與預期交付檢查表（未生成影片）。",
+          "destination": "產品教學影片；正式發布及音訊／字幕驗收需另做。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "talking-head",
+            "reedit",
+            "delivery"
+          ],
+          "steps": [
+            {
+              "id": "snapshot",
+              "title": "保存初始剪輯版本",
+              "evidenceRefs": [
+                "transcript-version"
+              ]
+            },
+            {
+              "id": "edit",
+              "title": "定位片段與裁切",
+              "evidenceRefs": [
+                "timeline-edit"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "核對文字稿、旁白與版本",
+              "evidenceRefs": [
+                "transcript-version"
+              ]
+            },
+            {
+              "id": "export",
+              "title": "確認交付模式",
+              "evidenceRefs": [
+                "export-boundary"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "驗收最終影片",
+              "evidenceRefs": [],
+              "externalDependency": "實際渲染、字幕同步、畫面及音訊、授權和輸出尺寸需另行確認。"
+            }
+          ]
+        },
+        "start": [
+          "先準備小段自有影片、備份原素材與目標剪輯規格。",
+          "使用明確片段、時間與文字稿指示修改，保留可回復版本。",
+          "先比較 Web 與 Desktop 輸出及費用，再檢查最終媒體。"
+        ],
+        "limits": [
+          "Desktop 與 Web 的渲染／輸出能力不同，XML 匯入 DaVinci Resolve 需驗證效果與時間軸。",
+          "AI Agent 編輯、生成及雲端輸出可能耗用點數並傳輸私人素材；操作前審查資料權限。",
+          "未安裝、上傳素材、使用生成點數或實際輸出；本地渲染並不等於服務完全離線。"
+        ]
       }
     },
     {
@@ -20530,14 +20682,14 @@
       "canonicalName": "Higgsfield AI",
       "category": "11 Media / Video",
       "resourceType": "Hosted AI creative suite / image-to-video, cinematic generation and editing",
-      "purpose": "提供圖片與影片生成、參考內容動態重製、攝影機運動、影像局部調整及創作者範例，適合做視覺靈感與影片風格參考。",
-      "recommendation": "收錄為可查閱的視覺創意／生成平台，與 Google Flow 是可選工具而非同一個模型；實際上傳、生成及商用前應確認本人具參考素材權利、最新服務條款、使用額度、內容保留與 AI 訓練授權。",
+      "purpose": "從文字及合法參考素材生成圖片或影片，嘗試不同鏡位、視覺風格及產品宣傳畫面。",
+      "recommendation": "適合先探索短片分鏡與視覺方向；如果需要精確呈現真實商品或人物，先核對素材權利並保留人工剪輯及校對。",
       "url": "https://higgsfield.ai/",
       "repo": "",
       "notes": "2026-10-27 官方網站確認 AI Video、AI Image、Edit、Cinema Studio、Genjutsu／依參考內容改造的功能；官方 Creator Hub 的 2026-08-02 商用與生成內容 FAQ 指出使用者保留生成內容所有權且可商業使用，惟官方服務可能對上傳及輸出內容取得訓練／改善模型授權；第三方人物、聲音、Logo 必須取得相應權利。即使條款允許商用，也不代表產出必然獨特、不侵權或適合廣告。未登入、未實測，也未確認各模型的可用方案。",
       "status": "active",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "higgsfield",
         "ai-video",
@@ -20570,8 +20722,12 @@
         "licensingUrl": "https://higgsfield.ai/creator-hub/help-center/account/who-owns-my-generations-and-can-i-use-them-commercially",
         "type": "Official website, product feature pages and creator help center",
         "summary": "Official site and first-party commercial rights guidance checked 2026-10-27. No account or execution.",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "referenceUrls": [
+          "https://higgsfield.ai/",
+          "https://higgsfield.ai/creator-hub/help-center/account/who-owns-my-generations-and-can-i-use-them-commercially"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -20611,16 +20767,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -20643,8 +20800,146 @@
         "riskNotes": "各模型、Studio 與 API 的功能、價格和可用性可能經常調整。；視覺一致性、角色重現、商用權利與產出品質須逐案測試，不能以展示影片作實測證據。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供圖片與影片生成、參考內容動態重製、攝影機運動、影像局部調整及創作者範例，適合做視覺靈感與影片風格參考。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://higgsfield.ai/"
+        },
+        "sourceReview": {
+          "rights": "官方 2026-08-02 說明：平台不主張輸入／輸出所有權且不限制輸出商用，但服務及模型訓練授權仍須留意；說明稱刪除後停止未來訓練，不代表已訓練模型可逆。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "visual-generation",
+          "detail": "官方首頁列出圖片、影片、音訊及多種 Studio 入口；依所需輸出選模式，不假定各模型支援相同輸入。",
+          "locator": "https://higgsfield.ai/",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未執行生成、確認額度或模型可用性。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "camera-direction",
+          "detail": "官方 Editing Room 產品資訊描述影片角度、光線及攝影機調整用途，Cinema Studio 提供影片創作入口。",
+          "locator": "https://higgsfield.ai/",
+          "evidenceFields": [
+            "features.1",
+            "limitations.1"
+          ],
+          "limitations": "不保證角色、商品或畫面可精確重現；未驗證實際剪輯。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "content-rights",
+          "detail": "官方 2026-08-02 說明引用 Terms §4.4，平台不限制輸出商用，但保有服務及模型訓練用途的授權；第三方權利另查。",
+          "locator": "https://higgsfield.ai/creator-hub/help-center/account/who-owns-my-generations-and-can-i-use-them-commercially",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.1",
+            "implementationKnowledge.sourceReview.rights"
+          ],
+          "limitations": "僅查閱官方權利說明，不構成個別素材或完整商用授權審查。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "storyboard",
+            "title": "探索產品短片的分鏡",
+            "detail": "用自己的商品草圖及文字需求規劃三個鏡頭，先比較不同視覺方向。",
+            "evidenceRefs": [
+              "visual-generation",
+              "camera-direction"
+            ]
+          },
+          {
+            "id": "shot-variants",
+            "title": "比較攝影機角度與光線",
+            "detail": "在已授權的參考畫面上評估鏡位與照明方向，逐一檢查商品外觀是否失真。",
+            "evidenceRefs": [
+              "camera-direction"
+            ]
+          },
+          {
+            "id": "commercial-review",
+            "title": "確認素材可否用於公開宣傳",
+            "detail": "核對輸入、輸出、平台資料使用與第三方權利，再決定是否發布。",
+            "evidenceRefs": [
+              "content-rights"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-shot-study",
+          "title": "規劃三鏡頭商品宣傳短片",
+          "input": "一份自有產品草圖、三段分鏡描述與預期畫面規格。",
+          "process": "選擇生成模式 → 比較鏡位 → 檢查商品一致性 → 核對權利",
+          "output": "三個候選鏡頭的生成及驗收規格（未產生影片）。",
+          "destination": "產品宣傳的分鏡討論與後續剪輯流程。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "storyboard",
+            "shot-variants",
+            "commercial-review"
+          ],
+          "steps": [
+            {
+              "id": "select",
+              "title": "確認圖片或影片模式",
+              "evidenceRefs": [
+                "visual-generation"
+              ]
+            },
+            {
+              "id": "direction",
+              "title": "設計鏡位與照明",
+              "evidenceRefs": [
+                "camera-direction"
+              ]
+            },
+            {
+              "id": "rights",
+              "title": "核對素材及輸出權利",
+              "evidenceRefs": [
+                "content-rights"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "校對及剪輯",
+              "evidenceRefs": [],
+              "externalDependency": "實際生成、商品真實性、剪輯、素材授權與發布需另行驗證。"
+            }
+          ]
+        },
+        "start": [
+          "先定義短片的三個鏡頭、預期內容與畫面比例。",
+          "選擇官方目前可用的模式，確認方案、費用與上傳權限。",
+          "使用自有非敏感測試素材，逐鏡驗收構圖、一致性及商用條件。"
+        ],
+        "limits": [
+          "各模型、Studio 與 API 的功能、價格和可用性可能經常調整。",
+          "視覺一致性、角色重現、商用權利與產出品質須逐案測試，不能以展示影片作實測證據。",
+          "官方權利說明不保證第三方素材權利；未實測任何生成或模型。"
+        ]
       }
     },
     {
@@ -21748,14 +22043,14 @@
       "canonicalName": "IBKR PortfolioAnalyst",
       "category": "05 Data & Ingestion",
       "resourceType": "Interactive Brokers web-based reporting dashboard and export service",
-      "purpose": "透過 PortfolioAnalyst、Activity Statements 與自訂報表查看投資組合績效、金融工具分組、持倉變化、交易、費用、風險與 Benchmarks；CSV/PDF 匯出可提供給 AI 作週度績效分析。",
-      "recommendation": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。",
+      "purpose": "整理已授權的投資帳戶績效、持倉、交易與費用報表，區分整體資產分析和交易明細。",
+      "recommendation": "適合建立個人資產回顧及報表分析流程；先固定期間、幣別與計算口徑，不將歷史績效當成投資建議。",
       "url": "https://www.interactivebrokers.com/en/whyib/reporting.php",
       "repo": "",
       "notes": "官方 IBKR 文件確認有 Sharpe、Sortino、Alpha、Beta、Max Drawdown 等 Risk Measures 及 Performance by Financial Instrument 分類。**注意**：截圖原作者自述現有 Connector/Plugin 沒拿到所需 PortfolioAnalyst financial instrument 明細，後來改用下載報表，不能假定 AI Plugin/API 就有同樣欄位。報表含敏感投資與個資，交給 LLM 前須去識別；分清 TWR/MWR、現金流與基準總報酬，不可憑空補資料。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "ibkr",
         "portfolioanalyst",
@@ -21791,8 +22086,12 @@
         "type": "Official documentation and user-provided Threads screenshots",
         "summary": "2026-10-24 confirmed source; no installation, credentials, running code or user data access.",
         "docsUrl": "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "referenceUrls": [
+          "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
+          "https://www.interactivebrokers.com/en/whyib/reporting.php"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -21841,16 +22140,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -21873,8 +22173,149 @@
         "riskNotes": "報表日期、匯率、基準及計算口徑會影響績效結果，不能直接混用不同定義。；匯出報表不代表平台提供投資建議，也不能推定未來交易表現。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "透過 PortfolioAnalyst、Activity Statements 與自訂報表查看投資組合績效、金融工具分組、持倉變化、交易、費用、風險與 Benchmarks；CSV/PDF 匯出可提供給 AI 作週度績效分析。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://www.interactivebrokers.com/en/whyib/reporting.php"
+        },
+        "sourceReview": {
+          "export": "官方 Reporting 區分 Statement 可下載 PDF、Flex Query 為文字或 XML；報表套件總體亦列 CSV 等格式，但不得推定所有類型支援相同格式。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "portfolio-dashboard",
+          "detail": "官方 PortfolioAnalyst Dashboard 文件描述可選帳戶、期間及統計元件；Holdings 與 Change in NAV 提供不同績效視角。",
+          "locator": "https://www.ibkrguides.com/orgportal/performanceandstatements/pa_viewingaccountperformance.htm",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未登入或檢視帳戶；帳戶範圍、匯率、期間與績效定義需確認。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "statement",
+          "detail": "官方 Reporting 說明 Activity Reports 可按日期區間產生；Statement 可下載 PDF，整體報表套件另有多種匯出格式。",
+          "locator": "https://www.interactivebrokers.com/en/whyib/reporting.php",
+          "evidenceFields": [
+            "features.1",
+            "features.2"
+          ],
+          "limitations": "報表種類的支援格式不同，不能推定每種報表都能用 CSV。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "flex-query",
+          "detail": "官方 Reporting 說明 Flex Query 可自訂交易或帳戶活動報表模板，支援文字或 XML 匯出。",
+          "locator": "https://www.interactivebrokers.com/en/whyib/reporting.php",
+          "evidenceFields": [
+            "features.1",
+            "requirements.1",
+            "limitations.0",
+            "implementationKnowledge.sourceReview.export"
+          ],
+          "limitations": "未執行 Query 或取得資料；須移除敏感欄位、固定幣別及資料定義。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "portfolio-summary",
+            "title": "回顧整體資產與績效",
+            "detail": "用指定期間及帳戶範圍查看資產變化、持倉及比較基準。",
+            "evidenceRefs": [
+              "portfolio-dashboard"
+            ]
+          },
+          {
+            "id": "transaction-review",
+            "title": "整理交易及費用明細",
+            "detail": "用報表日期區間及可取得欄位核對交易、費用與現金流。",
+            "evidenceRefs": [
+              "statement",
+              "flex-query"
+            ]
+          },
+          {
+            "id": "reporting-pipeline",
+            "title": "建立可重現的外部報表流程",
+            "detail": "固定報表模板與欄位，以合成資料驗證期間、幣別及計算口徑。",
+            "evidenceRefs": [
+              "flex-query",
+              "statement"
+            ]
+          }
+        ],
+        "example": {
+          "id": "monthly-portfolio-report",
+          "title": "設計每月資產與交易回顧",
+          "input": "一份合成持倉及交易明細、指定期間與基準幣別。",
+          "process": "定義績效口徑 → 選報表類型 → 規劃匿名化 → 設計對帳",
+          "output": "資產回顧報表規格、欄位及現金流對帳清單（未取得實際帳戶資料）。",
+          "destination": "個人報表分析；不提供交易建議或執行交易。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "portfolio-summary",
+            "transaction-review",
+            "reporting-pipeline"
+          ],
+          "steps": [
+            {
+              "id": "scope",
+              "title": "定義帳戶範圍及期間",
+              "evidenceRefs": [
+                "portfolio-dashboard"
+              ]
+            },
+            {
+              "id": "report",
+              "title": "選擇活動報表與輸出",
+              "evidenceRefs": [
+                "statement"
+              ]
+            },
+            {
+              "id": "fields",
+              "title": "設計 Flex Query 欄位",
+              "evidenceRefs": [
+                "flex-query"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "匿名化並核對計算口徑",
+              "evidenceRefs": [],
+              "externalDependency": "需本人授權取得報表；去識別、匯率、現金流與績效公式須獨立驗證。"
+            }
+          ]
+        },
+        "start": [
+          "先列出要分析的期間、幣別與帳戶範圍。",
+          "區分 PortfolioAnalyst、Statement 與 Flex Query 的用途和各自輸出。",
+          "用合成或自行匿名化的資料驗證現金流、持倉及績效口徑。"
+        ],
+        "limits": [
+          "報表日期、匯率、基準及計算口徑會影響績效結果，不能直接混用不同定義。",
+          "匯出報表不代表平台提供投資建議，也不能推定未來交易表現。",
+          "未登入 IBKR、連接任何帳戶、取得交易報表或驗證個人績效。",
+          "此資源整理報表功能，不預測未來投資表現。"
+        ]
       }
     },
     {
@@ -22462,14 +22903,14 @@
       "canonicalName": "Inspora",
       "category": "08 UI & Design Engineering",
       "resourceType": "Visual Design Inspiration Gallery",
-      "purpose": "蒐集 Web、Branding、Product、Motion、Illustration、3D、Print 等近期視覺作品，作為 visual direction 與 moodboard 的參考來源。",
-      "recommendation": "適合在開始實作前先決定視覺方向、版面氣質與品牌感。",
+      "purpose": "依網站、品牌、產品、插畫與動效等主題瀏覽設計參考，整理自己的視覺方向。",
+      "recommendation": "適合在開始設計前比較跨媒介的風格與構圖；若需要能直接使用的元件或模板，應另找有明確授權的來源。",
       "url": "https://www.inspora.design/",
       "repo": "",
       "notes": "Official site confirmed. Screenshot usage: Visual Direction reference source.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "reference",
         "visual-direction",
@@ -22528,25 +22969,29 @@
       ],
       "source": {
         "url": "https://www.inspora.design/",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-        "type": "Official design gallery website"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "type": "Official design gallery website",
+        "referenceUrls": [
+          "https://www.inspora.design/"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -22569,8 +23014,142 @@
         "riskNotes": "作品是靈感及參考，不表示可直接複製原始碼、設計稿或商用素材。；動態網站展示與截圖不保證具有完整功能、無障礙或可重用的設計系統。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "蒐集 Web、Branding、Product、Motion、Illustration、3D、Print 等近期視覺作品，作為 visual direction 與 moodboard 的參考來源。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://www.inspora.design/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "category",
+          "detail": "首頁提供 Web、Branding、Product、Motion、Illustration、3D、Print 等分類。",
+          "locator": "https://www.inspora.design/",
+          "evidenceFields": [
+            "features.0"
+          ],
+          "limitations": "本次只確認目錄分類，未逐件檢查載入中的作品。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "curation",
+          "detail": "首頁提供 Latest 與 Featured 切換，供比較不同策展集合。",
+          "locator": "https://www.inspora.design/",
+          "evidenceFields": [
+            "features.1"
+          ],
+          "limitations": "策展順序不等於品質、熱門程度或商業成效。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "collection",
+          "detail": "官方首頁提供登入收藏與管理創作者個人頁面的入口。",
+          "locator": "https://www.inspora.design/",
+          "evidenceFields": [
+            "features.2",
+            "requirements.1",
+            "limitations.0"
+          ],
+          "limitations": "未登入或測試收藏；保留原作者及連結，不重製他人素材。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "brand-study",
+            "title": "比較品牌與網站的視覺方向",
+            "detail": "從不同設計領域觀察配色、標題及構圖，再整理共同特徵。",
+            "evidenceRefs": [
+              "category",
+              "curation"
+            ]
+          },
+          {
+            "id": "motion-study",
+            "title": "找產品互動及動態視覺參考",
+            "detail": "篩選 Motion 或 Product，先記錄可觀察的動作和資訊目的。",
+            "evidenceRefs": [
+              "category"
+            ]
+          },
+          {
+            "id": "reference-library",
+            "title": "整理可回查的設計靈感",
+            "detail": "依主題保存連結，區分設計參考與已取得授權的素材。",
+            "evidenceRefs": [
+              "collection",
+              "curation"
+            ]
+          }
+        ],
+        "example": {
+          "id": "brand-style-reference",
+          "title": "建立產品品牌風格參考表",
+          "input": "自有產品定位及三類公開設計方向。",
+          "process": "選分類 → 比較策展案例 → 記錄原始來源 → 萃取設計原則",
+          "output": "品牌風格候選、參考連結及需另外查核的素材權利清單。",
+          "destination": "自有產品視覺規格，不直接複製參考作品。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "brand-study",
+            "motion-study",
+            "reference-library"
+          ],
+          "steps": [
+            {
+              "id": "category",
+              "title": "選擇研究分類",
+              "evidenceRefs": [
+                "category"
+              ]
+            },
+            {
+              "id": "compare",
+              "title": "比較 Latest 與 Featured",
+              "evidenceRefs": [
+                "curation"
+              ]
+            },
+            {
+              "id": "record",
+              "title": "保存可回查來源",
+              "evidenceRefs": [
+                "collection"
+              ]
+            },
+            {
+              "id": "design",
+              "title": "制定原創設計規格",
+              "evidenceRefs": [],
+              "externalDependency": "實際視覺比較、作品載入、素材權利與自有設計驗收須另行完成。"
+            }
+          ]
+        },
+        "start": [
+          "先明訂要研究品牌、版面、字體或動效哪一項。",
+          "人工瀏覽少量相關案例，記錄作者、原始連結及觀察。",
+          "用自己的文字整理設計原則，確定個別素材權利後才使用。"
+        ],
+        "limits": [
+          "作品是靈感及參考，不表示可直接複製原始碼、設計稿或商用素材。",
+          "動態網站展示與截圖不保證具有完整功能、無障礙或可重用的設計系統。",
+          "本次只確認公開頁面分類與收藏入口，作品列表未完整載入，未測會員功能。"
+        ]
       }
     },
     {
@@ -29136,14 +29715,14 @@
       "canonicalName": "MeiGen",
       "category": "11 Media / Video",
       "resourceType": "AI prompt inspiration gallery and hosted image/video generator",
-      "purpose": "提供公開 AI 作品與提示詞參考、Image-to-Prompt、角色再利用及圖片／影片生成；其官網另記載 ChatGPT／Codex 連接器與按額度計費。",
-      "recommendation": "可作為分鏡、廣告、商品圖片及短片視覺靈感的查詢來源；使用公開分享的 Prompt 不等於取得範例圖像的複製／商用權。付費生成、上傳參考素材、使用連接器或人物肖像前先審查方案、權限及資料處理。",
+      "purpose": "瀏覽圖片及影片生成描述，研究海報、商品圖與分鏡的 Prompt，再選擇適當模式製作自己的素材。",
+      "recommendation": "適合尋找視覺生成描述及比較創作方式；涉及企業機密、人物、私人圖片或付費整合時，須先核對上傳、公開網址與費用。",
       "url": "https://www.meigen.ai/",
       "repo": "",
       "notes": "2026-10-27 已核對官方首頁及 2026-10-12 起生效的 Terms of Service：MeiGen 提供 Prompt Gallery、圖片／影片生成及 Credit，官方條款指出合規生成內容商用權屬使用者；同時賦予平台及相關服務供應商為運作所需的內容處理許可，公開提交 Gallery 的素材另有較廣授權。Terms 指出連接 ChatGPT／Codex 插件需用戶明確授權及購買的 Credits；準備的上傳媒體可有公開 URL 與保留期限，敏感內容應審慎。不得擅自抓取 Gallery 或規避限制。未安裝插件、付費、生成或上傳。",
       "status": "active",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "meigen",
         "ai-prompts",
@@ -29177,8 +29756,12 @@
         "licenseUrl": "https://www.meigen.ai/terms",
         "type": "Official website and October 2026 terms",
         "summary": "First-party capabilities, rights and account/connector conditions reviewed on 2026-10-27.",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "referenceUrls": [
+          "https://www.meigen.ai/",
+          "https://www.meigen.ai/terms"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -29216,16 +29799,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -29248,8 +29832,149 @@
         "riskNotes": "展示中的 Prompt 與作品效果不能保證在其他模型或版本重現。；網站功能與 API／MCP 入口不代表已完成安全審查、實測整合或具有無限制商業授權。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供公開 AI 作品與提示詞參考、Image-to-Prompt、角色再利用及圖片／影片生成；其官網另記載 ChatGPT／Codex 連接器與按額度計費。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://www.meigen.ai/"
+        },
+        "sourceReview": {
+          "cost": "2026-10-12 條款：Plugin 以既有已購買點數生成，不使用每日免費點數；價格或來源尺寸變更須重新接受。逾時先恢復原請求，不能假定任務取消。",
+          "privacy": "OAuth 準備素材公開 URL、最近上傳後七天進入清理，已接受生成的參考圖片可另存；原站端點非公開 API，禁止未授權批次收集。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "prompt-gallery",
+          "detail": "首頁公開目錄包含廣告、品牌、影片、插畫、海報、分鏡等分類與 Prompt、參考圖片輸入。",
+          "locator": "https://www.meigen.ai/",
+          "evidenceFields": [
+            "features.0",
+            "features.1"
+          ],
+          "limitations": "本次只確認公開介面，未逐筆瀏覽載入中的作品或生成素材。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "plugin-consent",
+          "detail": "2026-10-12 條款說明 Plugin 使用既有已購買點數，不適用每日免費點數；改價或變更來源尺寸需重新接受。",
+          "locator": "https://www.meigen.ai/terms",
+          "evidenceFields": [
+            "features.2",
+            "requirements.0",
+            "implementationKnowledge.sourceReview.cost"
+          ],
+          "limitations": "未連接 Plugin 或產生費用；逾時或取消連線不等於已取消既有任務。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "media-privacy",
+          "detail": "條款說明經 OAuth 準備的媒體使用公開 URL，最近上傳七天後進入清理，接受生成的參考圖可能另存；網站內部端點非公開資料 API。",
+          "locator": "https://www.meigen.ai/terms",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.1",
+            "implementationKnowledge.sourceReview.privacy"
+          ],
+          "limitations": "不可上傳私有或未授權素材；未驗證實際儲存、清理或第三方處理。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "visual-prompt",
+            "title": "研究商品圖與海報的描述方式",
+            "detail": "按用途觀察可見的生成描述及構圖，改寫成自有素材需求。",
+            "evidenceRefs": [
+              "prompt-gallery"
+            ]
+          },
+          {
+            "id": "paid-generation",
+            "title": "評估 Plugin 生成的費用與核准",
+            "detail": "先確認模型、點數、參考輸入與價格變更，再決定是否執行。",
+            "evidenceRefs": [
+              "plugin-consent"
+            ]
+          },
+          {
+            "id": "safe-assets",
+            "title": "確認參考圖片的外部處理界線",
+            "detail": "分開審查圖片授權、公開 URL、保存期限及是否允許外部傳送。",
+            "evidenceRefs": [
+              "media-privacy",
+              "plugin-consent"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-poster-evaluation",
+          "title": "設計商品海報的生成測試",
+          "input": "自有商品文字描述、無敏感資料的參考草圖與尺寸需求。",
+          "process": "選 Prompt 方向 → 核對素材處理 → 確認生成費用 → 設計品質驗收",
+          "output": "自有 Prompt 草案、成本與權限驗收清單（未生成海報）。",
+          "destination": "自有品牌素材評估；實際上傳及生成須另核准。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "visual-prompt",
+            "paid-generation",
+            "safe-assets"
+          ],
+          "steps": [
+            {
+              "id": "inspiration",
+              "title": "人工研究生成描述",
+              "evidenceRefs": [
+                "prompt-gallery"
+              ]
+            },
+            {
+              "id": "privacy",
+              "title": "核對參考素材的權利與處理方式",
+              "evidenceRefs": [
+                "media-privacy"
+              ]
+            },
+            {
+              "id": "cost",
+              "title": "確認點數及生成核准",
+              "evidenceRefs": [
+                "plugin-consent"
+              ]
+            },
+            {
+              "id": "generate",
+              "title": "另行執行與驗收",
+              "evidenceRefs": [],
+              "externalDependency": "生成、付費、上傳及實際海報品質與商用權利需獨立核准。"
+            }
+          ]
+        },
+        "start": [
+          "先定義輸出用途、比例及不含個資的測試素材。",
+          "人工瀏覽公開分類，避免批量蒐集或直接重製他人內容。",
+          "核對 2026-10-12 條款的點數、上傳、公開 URL 與任務恢復限制再決定是否生成。"
+        ],
+        "limits": [
+          "展示中的 Prompt 與作品效果不能保證在其他模型或版本重現。",
+          "網站功能與 API／MCP 入口不代表已完成安全審查、實測整合或具有無限制商業授權。",
+          "未登入、購買點數、連接 MCP／Plugin、上傳或生成。",
+          "條款限制自動蒐集，連接應用的素材 URL 與清理條件不等於私密儲存。"
+        ]
       }
     },
     {
@@ -31309,14 +32034,14 @@
       "canonicalName": "MotionSites AI",
       "category": "08 UI & Design Engineering",
       "resourceType": "AI Website Prompts",
-      "purpose": "AI website prompts and templates for building landing pages and web sections.",
-      "recommendation": "適合快速尋找 AI website prompt 與 landing page 設計起點。",
+      "purpose": "從網站設計 Prompt 與模板目錄尋找首頁、Dashboard 和作品集的設計方向，再轉成自己的可實作需求。",
+      "recommendation": "適合還在比較頁面風格與生成描述的人；不要直接將生成畫面當作完成網站，也不要把付費 Prompt 收藏庫重新散布。",
       "url": "https://motionsites.ai/",
       "repo": "",
       "notes": "Official source confirmed at motionsites.ai.",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "ai-website",
         "prompts",
@@ -31374,25 +32099,30 @@
       ],
       "source": {
         "url": "https://motionsites.ai/",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-        "type": "Official design prompts gallery website"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "type": "Official design prompts gallery website",
+        "referenceUrls": [
+          "https://motionsites.ai/",
+          "https://motionsites.ai/terms"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -31415,8 +32145,148 @@
         "riskNotes": "設計 Prompt 或展示畫面不是已建置的可維護網站原始碼。；複製生成結果後仍需做無障礙、響應式、效能、素材授權和瀏覽器驗收。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "AI website prompts and templates for building landing pages and web sections.",
+          "reviewedAt": "2026-11-21",
+          "source": "https://motionsites.ai/"
+        },
+        "sourceReview": {
+          "identity": "2026-11-22 Terms of Use 指出 motionsites.ai 為唯一官方域名，與其他同名域名無關；允許用內容建立自身專案，但不得散布原 Prompt／source code 或重新發布資料庫、爬取及繞過存取。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "prompt-directory",
+          "detail": "官方首頁以 Hero、Landing Page、Portfolio、Dashboard 等主題提供網站生成描述的選擇入口。",
+          "locator": "https://motionsites.ai/",
+          "evidenceFields": [
+            "features.0",
+            "features.1"
+          ],
+          "limitations": "未逐筆讀取付費內容，未執行生成工具。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "generation-workflow",
+          "detail": "2026-11-22 條款說明 Prompt 與模板可用於自己的專案，第三方工具行為及輸出不由該平台保證。",
+          "locator": "https://motionsites.ai/terms",
+          "evidenceFields": [
+            "features.2",
+            "requirements.0",
+            "limitations.0"
+          ],
+          "limitations": "需另將描述轉成元件、資料與操作規格；不是已建置網站。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "license-boundary",
+          "detail": "官方條款允許在自有專案改作及發布成果，但禁止散布原始 Prompt／程式庫、批量擷取及轉售原內容；聲明與其他同名網站無關。",
+          "locator": "https://motionsites.ai/terms",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.1",
+            "implementationKnowledge.sourceReview.identity"
+          ],
+          "limitations": "不能將本網站條款套用到 motionsites.org；未購買內容或確認個別外部素材權利。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "hero-prompt",
+            "title": "找首頁 Hero 的生成方向",
+            "detail": "按目標產品及資訊層級選描述參考，重寫為自己的內容及版面規格。",
+            "evidenceRefs": [
+              "prompt-directory",
+              "generation-workflow"
+            ]
+          },
+          {
+            "id": "dashboard-prompt",
+            "title": "規劃儀表板介面",
+            "detail": "從 Dashboard 分類取設計靈感，明訂資料欄位、狀態及操作。",
+            "evidenceRefs": [
+              "prompt-directory"
+            ]
+          },
+          {
+            "id": "rights",
+            "title": "確認參考內容如何合法使用",
+            "detail": "區分自有網站成果與原始 Prompt 的再散布限制，保留授權來源。",
+            "evidenceRefs": [
+              "license-boundary"
+            ]
+          }
+        ],
+        "example": {
+          "id": "application-dashboard-spec",
+          "title": "規劃投遞管理 Dashboard",
+          "input": "自有合成職缺資料、狀態看板需求與目標裝置。",
+          "process": "選參考分類 → 重寫需求 → 核對授權 → 另行實作與驗收",
+          "output": "自有頁面規格、元件與資料契約、來源及授權紀錄。",
+          "destination": "自己的應用程式開發，不把原始 Prompt 庫放進公開知識庫。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "hero-prompt",
+            "dashboard-prompt",
+            "rights"
+          ],
+          "steps": [
+            {
+              "id": "select",
+              "title": "人工選擇設計參考",
+              "evidenceRefs": [
+                "prompt-directory"
+              ]
+            },
+            {
+              "id": "adapt",
+              "title": "改寫為自有需求",
+              "evidenceRefs": [
+                "generation-workflow"
+              ]
+            },
+            {
+              "id": "rights",
+              "title": "確認採用與再散布界線",
+              "evidenceRefs": [
+                "license-boundary"
+              ]
+            },
+            {
+              "id": "implement",
+              "title": "建立並測試網站",
+              "evidenceRefs": [],
+              "externalDependency": "真正的應用程式、資料、登入、效能及無障礙需另行實作與驗收。"
+            }
+          ]
+        },
+        "start": [
+          "先列出要改善的頁面、使用者操作與資料需求。",
+          "只瀏覽合法可存取的參考，確認對應方案與 2026-11-22 條款。",
+          "用自己的文字重寫設計需求，另驗收手機版、功能及素材權利。"
+        ],
+        "limits": [
+          "設計 Prompt 或展示畫面不是已建置的可維護網站原始碼。",
+          "複製生成結果後仍需做無障礙、響應式、效能、素材授權和瀏覽器驗收。",
+          "motionsites.ai 與 motionsites.org 為分開記錄；前者明示與其他同名網域無關。",
+          "未購買、下載、複製原始 Prompt 或執行第三方生成。"
+        ]
       }
     },
     {
@@ -33834,8 +34704,8 @@
       "canonicalName": "Codex Security",
       "category": "Developer Security & Code Review",
       "resourceType": "Proprietary AI application-security agent and scanning service",
-      "purpose": "檢查 GitHub 或本機程式碼庫中的潛在漏洞，結合專案特定 Threat Model、攻擊路徑分析、隔離驗證與供人員審核的修補建議。",
-      "recommendation": "適合開發者在程式碼審查、PR、版本更新及安全整備流程中作額外檢查；不得取代傳統測試、套件掃描和人工安全審查。",
+      "purpose": "針對已授權的程式庫建立威脅模型，找出可能的安全漏洞、驗證問題並提出供人工審查的修補建議。",
+      "recommendation": "適合需要將安全審查納入開發流程的團隊；先由低風險測試 Repo 開始，不應把 AI 掃描結果當成完整資安認證。",
       "url": "https://chatgpt.com/codex/security",
       "license": "Proprietary OpenAI service; usage governed by applicable OpenAI terms and plan/product entitlements",
       "commercialUse": {
@@ -33892,16 +34762,19 @@
           "https://learn.chatgpt.com/docs/security",
           "https://openai.com/business/plugins/codex-security/"
         ],
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-25",
         "type": "Official product / documentation",
         "readmeUrl": "https://help.openai.com/en/articles/20001107-codex-security",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "referenceUrls": [
+          "https://help.openai.com/en/articles/20001107-codex-security"
+        ]
       },
       "schemaVersion": 2,
       "entityType": "resource",
       "status": "active",
       "addedAt": "2026-11-05",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
       "classification": {
@@ -33935,16 +34808,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -33967,8 +34841,152 @@
         "riskNotes": "掃描可能有誤判或漏報，結果不可取代人工安全審核、依賴掃描與滲透測試。；不同 Cloud／Plugin／CLI 模式的權限與價格不一定相同；Cloud 有啟用計費條件且不能推定免費或永久可用。；沒有使用憑證或執行任何第三方服務。",
         "verification": {
           "status": "not-tested",
-          "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "檢查 GitHub 或本機程式碼庫中的潛在漏洞，結合專案特定 Threat Model、攻擊路徑分析、隔離驗證與供人員審核的修補建議。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://chatgpt.com/codex/security"
+        },
+        "sourceReview": {
+          "access": "2026-11-25 Help Center 查閱：研究預覽列 Enterprise/Edu/Business/Pro；Cloud 使用 Token 計費；Enterprise/Edu 由管理者設定 Codex Cloud 與 Codex Security 權限。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "threat-model",
+          "detail": "官方說明威脅模型包含入口、信任邊界、敏感資料及重要程式路徑，可檢視及修改。",
+          "locator": "https://help.openai.com/en/articles/20001107-codex-security",
+          "evidenceFields": [
+            "features.0",
+            "features.5"
+          ],
+          "limitations": "模型必須反映真實部署與資料權限，未對任何 Repo 建立模型。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "scan-validation",
+          "detail": "可進行全 Repo 或 Commit 掃描，對疑似漏洞嘗試在隔離環境重現，再提出修補供人審查。",
+          "locator": "https://help.openai.com/en/articles/20001107-codex-security",
+          "evidenceFields": [
+            "features.1",
+            "features.2",
+            "features.3",
+            "features.6"
+          ],
+          "limitations": "可能有誤判漏報；提出修補不是自動修改程式，更不是完成安全驗收。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "access-billing",
+          "detail": "官方目前列研究預覽 Enterprise、Edu、Business、Pro；Cloud 使用 Token 計費，Enterprise/Edu 可由管理者設定相關權限。",
+          "locator": "https://help.openai.com/en/articles/20001107-codex-security",
+          "evidenceFields": [
+            "requirements.0",
+            "requirements.1",
+            "limitations.1",
+            "implementationKnowledge.sourceReview.access"
+          ],
+          "limitations": "未確認使用者方案、Repo 授權、費用、插件或執行權限。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "baseline-review",
+            "title": "建立專案安全審查基準",
+            "detail": "先記錄入口、權限、敏感資料與攻擊面，再評估全 Repo 掃描。",
+            "evidenceRefs": [
+              "threat-model",
+              "scan-validation"
+            ]
+          },
+          {
+            "id": "commit-review",
+            "title": "檢查程式變更是否引入風險",
+            "detail": "以指定 Commit 範圍檢視疑似問題與驗證證據。",
+            "evidenceRefs": [
+              "scan-validation",
+              "threat-model"
+            ]
+          },
+          {
+            "id": "remediation",
+            "title": "把修補建議納入 PR 審查",
+            "detail": "確認存取與費用後，將有證據的建議交給開發者驗收，而非自動套用。",
+            "evidenceRefs": [
+              "scan-validation",
+              "access-billing"
+            ]
+          }
+        ],
+        "example": {
+          "id": "authorized-repo-security-review",
+          "title": "規劃合成表單專案安全審查",
+          "input": "低風險測試 Repo、合成資料、登入與讀寫權限需求。",
+          "process": "確認授權 → 定義威脅模型 → 規劃掃描與驗證 → 人工審查修補",
+          "output": "威脅模型規格、預期安全測試及修補審查清單（未掃描）。",
+          "destination": "專案 PR 與獨立安全驗收流程。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "baseline-review",
+            "commit-review",
+            "remediation"
+          ],
+          "steps": [
+            {
+              "id": "authorize",
+              "title": "核對方案、Repo 授權與計費",
+              "evidenceRefs": [
+                "access-billing"
+              ]
+            },
+            {
+              "id": "model",
+              "title": "定義威脅模型",
+              "evidenceRefs": [
+                "threat-model"
+              ]
+            },
+            {
+              "id": "scan",
+              "title": "規劃指定範圍掃描與驗證",
+              "evidenceRefs": [
+                "scan-validation"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "獨立檢查修補及回歸",
+              "evidenceRefs": [],
+              "externalDependency": "需另行授權掃描、執行測試與修補；不自動變更程式或權限。"
+            }
+          ]
+        },
+        "start": [
+          "先選擇已授權的低風險測試 Repo，核對研究預覽資格及費用。",
+          "明訂應用部署、信任邊界、敏感資料與掃描範圍。",
+          "取得核准後才執行，逐筆檢查證據、修補差異及回歸測試。"
+        ],
+        "limits": [
+          "掃描可能有誤判或漏報，結果不可取代人工安全審核、依賴掃描與滲透測試。",
+          "不同 Cloud／Plugin／CLI 模式的權限與價格不一定相同；Cloud 有啟用計費條件且不能推定免費或永久可用。",
+          "未開啟任何 Codex Security 掃描、插件、計費或權限設定。",
+          "Cloud 研究預覽資格及費用依官方文件而非使用者實際帳號。"
+        ]
       }
     },
     {
@@ -46295,14 +47313,14 @@
       "canonicalName": "skills.sh",
       "category": "06 Skills",
       "resourceType": "Public online directory and CLI installation ecosystem for Agent Skills",
-      "purpose": "提供跨 Claude Code、Codex 等 Agent 的 Skill 搜尋、榜單、來源檢視與 Skill 安裝入口；官方榜單可找到 Matt Pocock 的 grill-me、grill-with-docs、tdd、handoff、triage。",
-      "recommendation": "作為工具選型參考；正式使用前檢查權限、資料流向、費用與輸出品質，使用非敏感測試專案驗證。",
+      "purpose": "搜尋可重用的 AI Agent 技能及其原始來源，評估後再透過技能管理工具安裝到指定 Agent。",
+      "recommendation": "適合需要固定開發、審查或資料整理方法的人；不能只因榜單熱門就將第三方指令安裝到正式工作區。",
       "url": "https://skills.sh/",
       "repo": "",
       "notes": "2026-10-24 官方 skills.sh 收錄並排行 Matt Pocock 指定五項 Skills；排行榜量化指標與排名會隨時間更新。CLI `npx skills add owner/repo` 可安裝第三方技能，但本次僅收錄，不執行指令。排行榜人氣並非授權、供應鏈風險、資料權限或實際品質認證；安裝需按上游 repo 查核。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "skills.sh",
         "skill-directory",
@@ -46332,8 +47350,12 @@
         "type": "Official online directory",
         "summary": "Official rankings and installation guidance verified 2026-10-24; no installation.",
         "documentationUrl": "https://www.skills.sh/docs",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Official product documentation review; no new runtime/security testing"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。",
+        "referenceUrls": [
+          "https://www.skills.sh/docs",
+          "https://www.skills.sh/docs/cli"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -46371,16 +47393,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "以既有 ID 與正式產品來源確認為同一筆內容，僅修訂原紀錄。"
+          "reason": "沿用既有 Canonical ID 與官方來源，補足人類用途、設計案例及局部文件證據。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -46403,8 +47426,149 @@
         "riskNotes": "榜單不是官方安全稽核或品質認證；Skill 作者、版本與相依可隨時變更。；skill CLI 安裝可能修改使用者本機 Agent 目錄與設定，需先確認工作區、覆寫與回復機制。；未使用私人 API Key、第三方安裝或付費操作。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批檢視正式產品或文件頁，沒有執行 SaaS、API、第三方程式或完整安全測試。"
+          "evidence": "本輪查核官方公開文件或產品目錄；未登入、安裝、生成、上傳、使用付費服務或驗證完整授權及整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "已確認所列公開文件證據及用途的對應，未實測實際服務或完整整合。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供跨 Claude Code、Codex 等 Agent 的 Skill 搜尋、榜單、來源檢視與 Skill 安裝入口；官方榜單可找到 Matt Pocock 的 grill-me、grill-with-docs、tdd、handoff、triage。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://skills.sh/"
+        },
+        "sourceReview": {
+          "telemetry": "官方 CLI Reference 2026-11-25 查閱：預設有安裝遙測，文件列出 DISABLE_TELEMETRY=1 退出；未實測。官方不保證所有技能的品質與安全。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "discover",
+          "detail": "官方目錄提供搜尋、主題、排行及安全審查入口，排行依安裝遙測資料，不代表所有技能通過安全審查。",
+          "locator": "https://www.skills.sh/docs",
+          "evidenceFields": [
+            "features.0",
+            "limitations.0"
+          ],
+          "limitations": "榜單與審查不能取代自己核對版本、內容和權限。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "install",
+          "detail": "CLI 文件說明 npx skills add owner/repo 可下載技能並配置到 Agent；亦提供 pack 安裝方法。",
+          "locator": "https://www.skills.sh/docs/cli",
+          "evidenceFields": [
+            "features.1",
+            "features.2",
+            "requirements.0",
+            "limitations.1"
+          ],
+          "limitations": "未執行安裝；先確認將修改的目錄、目標 Agent、覆寫及回復方法。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "telemetry-review",
+          "detail": "CLI 文件表示預設收集安裝遙測，提供 DISABLE_TELEMETRY=1 退出設定；官方不保證每筆技能安全。",
+          "locator": "https://www.skills.sh/docs/cli",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.0",
+            "implementationKnowledge.sourceReview.telemetry"
+          ],
+          "limitations": "未稽核 CLI 實際資料傳送或第三方技能內容；安裝前仍須核對原始碼。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "find-skill",
+            "title": "找可重用的程式審查技能",
+            "detail": "從任務主題與原始 Repo 篩選，先比較適用條件與交付要求。",
+            "evidenceRefs": [
+              "discover"
+            ]
+          },
+          {
+            "id": "review-skill",
+            "title": "判斷第三方技能能否安全使用",
+            "detail": "閱讀 SKILL.md、連結、腳本及權限，確認沒有要求不必要的外部傳送。",
+            "evidenceRefs": [
+              "discover",
+              "telemetry-review"
+            ]
+          },
+          {
+            "id": "install-scope",
+            "title": "規劃指定 Agent 的安裝及回復",
+            "detail": "在獨立測試工作區確認安裝位置、版本、覆寫及遙測選項。",
+            "evidenceRefs": [
+              "install",
+              "telemetry-review"
+            ]
+          }
+        ],
+        "example": {
+          "id": "code-review-skill-selection",
+          "title": "選擇程式審查 Skill",
+          "input": "一個合成專案、程式審查需求及兩個候選技能的來源連結。",
+          "process": "尋找候選 → 讀原始指令及腳本 → 設定安裝範圍與遙測 → 設計驗收",
+          "output": "技能候選比較、權限審查及測試規格（未安裝）。",
+          "destination": "自有 Agent 的技能評估紀錄及待核准安裝清單。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "find-skill",
+            "review-skill",
+            "install-scope"
+          ],
+          "steps": [
+            {
+              "id": "search",
+              "title": "找相關技能及來源",
+              "evidenceRefs": [
+                "discover"
+              ]
+            },
+            {
+              "id": "audit",
+              "title": "查核指令、依賴及遙測",
+              "evidenceRefs": [
+                "telemetry-review"
+              ]
+            },
+            {
+              "id": "plan",
+              "title": "確認安裝範圍與回復",
+              "evidenceRefs": [
+                "install"
+              ]
+            },
+            {
+              "id": "validate",
+              "title": "另行驗收技能行為",
+              "evidenceRefs": [],
+              "externalDependency": "需使用者核准安裝、隔離工作區及合成測試資料，不能自動執行陌生腳本。"
+            }
+          ]
+        },
+        "start": [
+          "先定義要改善的重複任務與驗收產物。",
+          "從目錄找到候選後，讀固定版本 SKILL.md、腳本及依賴，核對審查狀態。",
+          "確定安裝範圍、遙測、回復方式及授權後才進入隔離測試。"
+        ],
+        "limits": [
+          "榜單不是官方安全稽核或品質認證；Skill 作者、版本與相依可隨時變更。",
+          "skill CLI 安裝可能修改使用者本機 Agent 目錄與設定，需先確認工作區、覆寫與回復機制。",
+          "未安裝 CLI 或任何 Skill；遙測與安全審查以官方文件描述為準，未稽核實際程式。"
+        ]
       }
     },
     {
