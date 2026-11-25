@@ -6,14 +6,14 @@
   "canonicalName": "NVIDIA/SkillSpector",
   "category": "06 Skills",
   "resourceType": "Security Scanner",
-  "purpose": "NVIDIA SkillSpector 是 Agent Skills 安全掃描器，可在安裝前檢查惡意指令、Prompt Injection、資料外洩與供應鏈相關風險。",
-  "recommendation": "適合將第三方 Skills 安裝前掃描納入 AI 工程 Release Gate；掃描結果需與人工程式審查搭配使用。",
+  "purpose": "在安裝 AI Agent Skill 前先掃描來源檔案，辨識可疑指令、資料外洩與工具權限風險，並指出哪些範圍沒有成功檢查。",
+  "recommendation": "適合第三方技能的准入檢查；不能以掃描分數或零 findings 代替人工審查與執行隔離。",
   "url": "https://github.com/NVIDIA/SkillSpector",
   "repo": "NVIDIA/SkillSpector",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "skill-security",
     "scanner",
@@ -79,17 +79,28 @@
     "url": "https://github.com/NVIDIA/SkillSpector",
     "readmeUrl": "https://github.com/NVIDIA/SkillSpector/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、src/skillspector/input_handler.py、src/skillspector/inspection_ledger.py、src/skillspector/llm_analyzer_base.py 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "0205488a8257869cac3054397ddd5a5d29180aab",
+    "referenceUrls": [
+      "https://github.com/NVIDIA/SkillSpector/blob/0205488a8257869cac3054397ddd5a5d29180aab/README.md",
+      "https://github.com/NVIDIA/SkillSpector/blob/0205488a8257869cac3054397ddd5a5d29180aab/LICENSE",
+      "https://github.com/NVIDIA/SkillSpector/blob/0205488a8257869cac3054397ddd5a5d29180aab/src/skillspector/input_handler.py",
+      "https://github.com/NVIDIA/SkillSpector/blob/0205488a8257869cac3054397ddd5a5d29180aab/src/skillspector/inspection_ledger.py",
+      "https://github.com/NVIDIA/SkillSpector/blob/0205488a8257869cac3054397ddd5a5d29180aab/src/skillspector/llm_analyzer_base.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "repo"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -105,8 +116,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain security，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、src/skillspector/input_handler.py、src/skillspector/inspection_ledger.py、src/skillspector/llm_analyzer_base.py 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -116,10 +127,364 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept 引用，沒有因字串相似而擴充關聯。"
     },
-    "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
+    "riskNotes": "掃描無法保證 Skill 絕對安全，動態執行與未知攻擊仍需其他防護。；可選的 LLM 分析可能涉及外部服務與資料出站，啟用前須確認。；100 MiB／10000 ZIP members 是此版本輸入上限；主機及解壓限制不是完整執行沙箱，需以隔離環境驗證。；拒絕、截斷、缺少憑證或規則等必須留在 ledger；掃描工作狀態不等於漏洞不存在。；LLM 可能外送內容且費用受 provider 影響；分片和結構化輸出仍可能漏判，未核准不啟用。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "固定版本 README.md、LICENSE、src/skillspector/input_handler.py、src/skillspector/inspection_ledger.py、src/skillspector/llm_analyzer_base.py 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、src/skillspector/input_handler.py、src/skillspector/inspection_ledger.py、src/skillspector/llm_analyzer_base.py 局部查核；未執行第三方程式或測試。；局部能力與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "NVIDIA SkillSpector 是 Agent Skills 安全掃描器，可在安裝前檢查惡意指令、Prompt Injection、資料外洩與供應鏈相關風險。",
+      "source": "https://github.com/NVIDIA/SkillSpector",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合將第三方 Skills 安裝前掃描納入 AI 工程 Release Gate；掃描結果需與人工程式審查搭配使用。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-input",
+        "title": "限制不可信技能來源的讀取",
+        "detail": "不可信 ZIP 或遠端來源可能耗盡資源。有界輸入或拒絕錯誤。",
+        "capabilityRefs": [
+          "input"
+        ]
+      },
+      {
+        "id": "use-ledger",
+        "title": "分開掃描成功與檢查缺口",
+        "detail": "沒有 findings 可能只是未掃描。completed、partial、skipped、failed 等狀態。",
+        "capabilityRefs": [
+          "ledger"
+        ]
+      },
+      {
+        "id": "use-llm",
+        "title": "選擇是否加入語意風險檢查",
+        "detail": "純靜態規則可能漏掉文字型誘導。模型 findings 或未完成原因。",
+        "capabilityRefs": [
+          "llm"
+        ]
+      }
+    ],
+    "example": {
+      "id": "nvidia-skillspector-example",
+      "title": "規劃第三方 Skill 安裝前的安全審查",
+      "input": "合成正常與可疑 Skill、固定來源、掃描政策及預期報告。",
+      "process": "限制不可信技能來源的讀取 → 分開掃描成功與檢查缺口 → 選擇是否加入語意風險檢查 → 獨立驗收實際成果",
+      "output": "輸入驗收、掃描覆蓋帳本及待覆核的風險（規劃產物）。",
+      "destination": "自有 Agent 技能收錄與安裝准入之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-input",
+        "use-ledger",
+        "use-llm"
+      ],
+      "steps": [
+        {
+          "id": "input",
+          "title": "限制不可信技能來源的讀取",
+          "capabilityRefs": [
+            "input"
+          ]
+        },
+        {
+          "id": "ledger",
+          "title": "分開掃描成功與檢查缺口",
+          "capabilityRefs": [
+            "ledger"
+          ]
+        },
+        {
+          "id": "llm",
+          "title": "選擇是否加入語意風險檢查",
+          "capabilityRefs": [
+            "llm"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成測試環境、資料、權限與實際成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成正常與可疑 Skill、固定來源、掃描政策及預期報告。",
+      "依需求核對固定版本來源與操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+    ],
+    "limits": [
+      "掃描無法保證 Skill 絕對安全，動態執行與未知攻擊仍需其他防護。",
+      "可選的 LLM 分析可能涉及外部服務與資料出站，啟用前須確認。",
+      "100 MiB／10000 ZIP members 是此版本輸入上限；主機及解壓限制不是完整執行沙箱，需以隔離環境驗證。",
+      "拒絕、截斷、缺少憑證或規則等必須留在 ledger；掃描工作狀態不等於漏洞不存在。",
+      "LLM 可能外送內容且費用受 provider 影響；分片和結構化輸出仍可能漏判，未核准不啟用。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在安裝 AI Agent Skill 前先掃描來源檔案，辨識可疑指令、資料外洩與工具權限風險，並指出哪些範圍沒有成功檢查。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0"
+      },
+      {
+        "label": "版本",
+        "value": "0205488a8257869cac3054397ddd5a5d29180aab"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "限制不可信技能來源的讀取",
+        "detail": "不可信 ZIP 或遠端來源可能耗盡資源。 輸入：核准的來源網址、檔案或目錄；輸出：有界輸入或拒絕錯誤",
+        "source": "src/skillspector/input_handler.py"
+      },
+      {
+        "title": "分開掃描成功與檢查缺口",
+        "detail": "沒有 findings 可能只是未掃描。 輸入：各 analyzer 的工作項目與原因；輸出：completed、partial、skipped、failed 等狀態",
+        "source": "src/skillspector/inspection_ledger.py"
+      },
+      {
+        "title": "選擇是否加入語意風險檢查",
+        "detail": "純靜態規則可能漏掉文字型誘導。 輸入：檔案片段、模型設定與輸入預算；輸出：模型 findings 或未完成原因",
+        "source": "src/skillspector/llm_analyzer_base.py"
+      }
+    ],
+    "architecture": {
+      "summary": "限制不可信技能來源的讀取 → 分開掃描成功與檢查缺口 → 選擇是否加入語意風險檢查 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "限制不可信技能來源的讀取",
+          "detail": "核准的來源網址、檔案或目錄 → 有界輸入或拒絕錯誤",
+          "files": [
+            "src/skillspector/input_handler.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "分開掃描成功與檢查缺口",
+          "detail": "各 analyzer 的工作項目與原因 → completed、partial、skipped、failed 等狀態",
+          "files": [
+            "src/skillspector/inspection_ledger.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "選擇是否加入語意風險檢查",
+          "detail": "檔案片段、模型設定與輸入預算 → 模型 findings 或未完成原因",
+          "files": [
+            "src/skillspector/llm_analyzer_base.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "限制不可信技能來源的讀取",
+        "rule": "100 MiB／10000 ZIP members 是此版本輸入上限；主機及解壓限制不是完整執行沙箱，需以隔離環境驗證。",
+        "source": "src/skillspector/input_handler.py"
+      },
+      {
+        "name": "分開掃描成功與檢查缺口",
+        "rule": "拒絕、截斷、缺少憑證或規則等必須留在 ledger；掃描工作狀態不等於漏洞不存在。",
+        "source": "src/skillspector/inspection_ledger.py"
+      },
+      {
+        "name": "選擇是否加入語意風險檢查",
+        "rule": "LLM 可能外送內容且費用受 provider 影響；分片和結構化輸出仍可能漏判，未核准不啟用。",
+        "source": "src/skillspector/llm_analyzer_base.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、src/skillspector/input_handler.py、src/skillspector/inspection_ledger.py、src/skillspector/llm_analyzer_base.py 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/skillspector/input_handler.py",
+          "src/skillspector/inspection_ledger.py",
+          "src/skillspector/llm_analyzer_base.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成正常與可疑 Skill、固定來源、掃描政策及預期報告。 依需求核對固定版本來源與操作限制。 先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。",
+        "files": [
+          "src/skillspector/input_handler.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 Agent 技能收錄與安裝准入另行驗收實際成果及限制。",
+        "file": "src/skillspector/input_handler.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "input",
+        "name": "限制不可信技能來源的讀取",
+        "problem": "不可信 ZIP 或遠端來源可能耗盡資源。",
+        "input": "核准的來源網址、檔案或目錄",
+        "output": "有界輸入或拒絕錯誤",
+        "source": "src/skillspector/input_handler.py",
+        "sourceFiles": [
+          "src/skillspector/input_handler.py",
+          "README.md"
+        ],
+        "symbols": [
+          "InputHandler.resolve",
+          "INGEST_MAX_BYTES",
+          "INGEST_MAX_ZIP_MEMBERS"
+        ],
+        "gate": "100 MiB／10000 ZIP members 是此版本輸入上限；主機及解壓限制不是完整執行沙箱，需以隔離環境驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "ledger",
+        "name": "分開掃描成功與檢查缺口",
+        "problem": "沒有 findings 可能只是未掃描。",
+        "input": "各 analyzer 的工作項目與原因",
+        "output": "completed、partial、skipped、failed 等狀態",
+        "source": "src/skillspector/inspection_ledger.py",
+        "sourceFiles": [
+          "src/skillspector/inspection_ledger.py",
+          "README.md"
+        ],
+        "symbols": [
+          "LedgerOutcome",
+          "LedgerReason",
+          "MAX_FINDING_OUTPUT_RECORDS"
+        ],
+        "gate": "拒絕、截斷、缺少憑證或規則等必須留在 ledger；掃描工作狀態不等於漏洞不存在。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "llm",
+        "name": "選擇是否加入語意風險檢查",
+        "problem": "純靜態規則可能漏掉文字型誘導。",
+        "input": "檔案片段、模型設定與輸入預算",
+        "output": "模型 findings 或未完成原因",
+        "source": "src/skillspector/llm_analyzer_base.py",
+        "sourceFiles": [
+          "src/skillspector/llm_analyzer_base.py",
+          "README.md"
+        ],
+        "symbols": [
+          "LLMAnalyzerBase",
+          "DEFAULT_MAX_LLM_CONCURRENCY",
+          "STRUCTURED_RESPONSE_MAX_RETRIES"
+        ],
+        "gate": "LLM 可能外送內容且費用受 provider 影響；分片和結構化輸出仍可能漏判，未核准不啟用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃第三方 Skill 安裝前的安全審查（設計示例）",
+      "problem": "合成正常與可疑 Skill、固定來源、掃描政策及預期報告",
+      "steps": [
+        {
+          "capability": "input",
+          "action": "限制不可信技能來源的讀取"
+        },
+        {
+          "capability": "ledger",
+          "action": "分開掃描成功與檢查缺口"
+        },
+        {
+          "capability": "llm",
+          "action": "選擇是否加入語意風險檢查"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "nvidia-skillspector-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成正常與可疑 Skill、固定來源、掃描政策及預期報告",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "限制不可信技能來源的讀取 → 分開掃描成功與檢查缺口 → 選擇是否加入語意風險檢查 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 Agent 技能收錄與安裝准入之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "掃描無法保證 Skill 絕對安全，動態執行與未知攻擊仍需其他防護。",
+        "可選的 LLM 分析可能涉及外部服務與資料出站，啟用前須確認。",
+        "100 MiB／10000 ZIP members 是此版本輸入上限；主機及解壓限制不是完整執行沙箱，需以隔離環境驗證。",
+        "拒絕、截斷、缺少憑證或規則等必須留在 ledger；掃描工作狀態不等於漏洞不存在。",
+        "LLM 可能外送內容且費用受 provider 影響；分片和結構化輸出仍可能漏判，未核准不啟用。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "掃描無法保證 Skill 絕對安全，動態執行與未知攻擊仍需其他防護。 可選的 LLM 分析可能涉及外部服務與資料出站，啟用前須確認。 100 MiB／10000 ZIP members 是此版本輸入上限；主機及解壓限制不是完整執行沙箱，需以隔離環境驗證。 拒絕、截斷、缺少憑證或規則等必須留在 ledger；掃描工作狀態不等於漏洞不存在。 LLM 可能外送內容且費用受 provider 影響；分片和結構化輸出仍可能漏判，未核准不啟用。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、src/skillspector/input_handler.py、src/skillspector/inspection_ledger.py、src/skillspector/llm_analyzer_base.py 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
