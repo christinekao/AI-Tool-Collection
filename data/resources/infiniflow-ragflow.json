@@ -6,13 +6,13 @@
   "canonicalName": "infiniflow/ragflow",
   "category": "RAG / Knowledge Infrastructure",
   "resourceType": "Open-source RAG and agentic retrieval platform",
-  "purpose": "以文件解析、切塊和索引建立具引用的檢索問答與 Agent 資料基礎，支援多來源文件和可配置知識檢索。",
-  "recommendation": "適合有複雜文件與來源引用需求的 RAG 系統；部署前須估算硬體、索引服務、模型、資料權限與維護成本。",
+  "purpose": "把公司文件整理成可搜尋的知識庫，讓 AI 回答問題時先找相關內容，並提供可供人工回查的來源。",
+  "recommendation": "適合文件很多、格式複雜且需要引用及檢索驗收的知識問答；若只有少量筆記或不需管理索引，可先用簡單的文件搜尋。",
   "url": "https://github.com/infiniflow/ragflow",
   "repo": "infiniflow/ragflow",
   "status": "active",
   "addedAt": "2026-10-12",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "rag",
     "agentic-retrieval",
@@ -74,25 +74,33 @@
   "source": {
     "url": "https://github.com/infiniflow/ragflow",
     "readmeUrl": "https://github.com/infiniflow/ragflow/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README、Go Docker 部署文件與 Apache-2.0 LICENSE；舊 rag/app/naive.py、deepdoc/parser/pdf_parser.py、rag/nlp/search.py 在此版本未找到，未推斷新 Go 核心位置",
+    "upstreamCommit": "37b63fc3979365ea70f267f290c2f12d93fdbf50",
+    "referenceUrls": [
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md",
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/docker/README.md",
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
-    "sourceStatus": "source-checked",
+    "sourceStatus": "partial",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "比對既有 Canonical ID、Repo 與固定上游版本；更新用途、文件證據及原始碼查核缺口，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -102,7 +110,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "reason": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -115,7 +123,168 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README、Go Docker 部署文件與 Apache-2.0 LICENSE；舊 rag/app/naive.py、deepdoc/parser/pdf_parser.py、rag/nlp/search.py 在此版本未找到，未推斷新 Go 核心位置；未安裝或執行。"
+    },
+    "sourceGap": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。",
+    "layerReview": {
+      "status": "deferred",
+      "reason": "已確認固定版本的文件及授權範圍，已知用途與文件證據可雙向對應；原始碼完整契約仍待查。",
+      "gap": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。",
+      "nextAction": "從此固定版本 Go 專案結構定位文件 ingestion、檢索、引用、API 及授權檢查；取得實際原始碼、輸入輸出和安全邊界後再升級 mapped。"
+    }
+  },
+  "implementationKnowledge": {
+    "sourceReview": {
+      "ingestion": "README 說明文件解析、模板切塊、知識索引及人工介入。",
+      "retrieval": "README 說明 Agentic Retrieval 與可追溯引用；尚未核對 Go 內部檢索及引用生成契約。",
+      "deployment": "docker/README.md 明示 Go deployment、Linux x86-64；macOS 暫不支援；預設依賴 Elasticsearch、MySQL、MinIO、Kvrocks、NATS、ClickHouse，可依配置選引擎。管理密碼應更換，服務不應無限制公開。",
+      "license": "Repo LICENSE Apache 2.0；模型、依賴及外部服務條款另查。",
+      "gap": "舊 Python 核心路徑在固定版本回傳 404；新的 Go ingestion、retrieval、citation、資料隔離及 API 契約尚未查核。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "document-ingestion",
+      "detail": "固定 README 描述多種文件輸入、複雜文件解析、模板化切塊及人工介入。",
+      "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md；Key Features / Template-based chunking",
+      "evidenceFields": [
+        "features.0",
+        "implementationKnowledge.sourceReview.ingestion"
+      ],
+      "limitations": "未追查實際 Go parser、切塊及索引 I/O。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "retrieval-citations",
+      "detail": "README 描述多步檢索及可回查引用，引用仍需核對支持的原文。",
+      "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md；Agentic Retrieval / Grounded citations",
+      "evidenceFields": [
+        "features.1",
+        "limitations.0",
+        "implementationKnowledge.sourceReview.retrieval"
+      ],
+      "limitations": "未核對新版本召回、排序、權限或引用演算法。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "deployment-conditions",
+      "detail": "Go 部署依賴及平台限制依固定版本 docker/README.md；Linux x86-64，macOS 暫不支援。",
+      "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/docker/README.md",
+      "evidenceFields": [
+        "features.2",
+        "requirements.0",
+        "requirements.1",
+        "implementationKnowledge.sourceReview.deployment"
+      ],
+      "limitations": "未實際部署或驗證版本、網路、備份與服務權限。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "company-knowledge",
+        "title": "建立公司文件問答",
+        "detail": "把已授權的規章與操作文件整理為知識庫，依員工問題找相關內容及引用。",
+        "evidenceRefs": [
+          "document-ingestion",
+          "retrieval-citations"
+        ]
+      },
+      {
+        "id": "document-quality",
+        "title": "檢查文件解析及搜尋品質",
+        "detail": "查看文件如何切分，找出掃描件、表格或關鍵段落是否遺失，再改善檢索。",
+        "evidenceRefs": [
+          "document-ingestion"
+        ]
+      },
+      {
+        "id": "self-host-evaluation",
+        "title": "評估能否自行部署知識問答",
+        "detail": "先了解目前版本的主機、索引、儲存與資料隔離需求，再決定是否導入。",
+        "evidenceRefs": [
+          "deployment-conditions"
+        ]
+      }
+    ],
+    "example": {
+      "id": "policy-search-pilot",
+      "title": "建立公司規章問答測試",
+      "input": "五份不含機密的合成公司規章及十個人工標註正確來源的問題。",
+      "process": "確認部署條件 → 檢查文件解析與切塊 → 設計檢索問答 → 人工核對每個引用",
+      "output": "問答、引用段落、無答案情境與錯誤紀錄（預期產物）。",
+      "destination": "知識庫導入評估及權限與品質驗收，不直接接正式文件。",
+      "note": "設計示例，未部署 RAGFlow、未執行模型或搜尋；目前只確認文件層證據。",
+      "useCaseRefs": [
+        "company-knowledge",
+        "document-quality",
+        "self-host-evaluation"
+      ],
+      "steps": [
+        {
+          "id": "preflight",
+          "title": "核對主機、資料服務與權限",
+          "evidenceRefs": [
+            "deployment-conditions"
+          ]
+        },
+        {
+          "id": "index",
+          "title": "準備測試文件並檢查切塊",
+          "evidenceRefs": [
+            "document-ingestion"
+          ]
+        },
+        {
+          "id": "retrieve",
+          "title": "以問題評估檢索與引用",
+          "evidenceRefs": [
+            "retrieval-citations"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "逐筆驗證答案、原文及權限",
+          "evidenceRefs": [],
+          "externalDependency": "標註測試答案、拒答與使用者資料隔離須由應用團隊另外設計及驗證。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先讀固定版本 README 與 Go Docker 部署指南，確認 Linux 主機及依賴需求。",
+      "準備小量合成文件及人工標註問題，不先使用正式內部資料。",
+      "核對解析、切塊、引用、拒答及權限後，再判斷是否投入部署。"
+    ],
+    "limits": [
+      "引用來源只能改善可追溯性，不代表答案絕對正確。",
+      "資料解析、Embedding、索引與模型可能涉及大量運算與儲存成本。",
+      "目前固定版本部署文件明示 Go 實作及 macOS 暫不支援；舊 Python 路徑不可沿用。",
+      "自架不代表所有服務或模型免費，也不代表權限及資料隔離已驗證。"
+    ],
+    "comparison": {
+      "title": "何時值得建立 RAG 平台？",
+      "headers": [
+        "簡單文件搜尋",
+        "RAGFlow"
+      ],
+      "rows": [
+        [
+          "適合已知關鍵字及少量資料",
+          "適合多格式文件、解析切塊與引用問答"
+        ],
+        [
+          "部署及維護較簡單",
+          "需管理索引、模型、儲存、資料權限及驗收"
+        ]
+      ],
+      "note": "是否提升答案品質，須用相同測試集驗證。"
     }
   }
 }
