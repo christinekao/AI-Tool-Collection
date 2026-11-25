@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 11（2026-11-25）
+
+- 基線 main `a3b1294eaf6b93466eb1886cd0192e42885577a8`；PR #75 四項 CI 通過並合併 `9249e041d7b75490d9ca91810686be3dec3d1d86`，Catalog Sync 確認。63/286 已合併（57 完成對應、6 deferred）。
+- [Batch 11 逐筆報告](RESOURCE_DUAL_LAYER_BATCH11_20261125.md)：opendatalab-mineru、openclaw-openclaw、r0x0r-pywebview 三筆 mapped 候選；9 個用途、9 個能力、3 個 design-only 案例。
+- 記錄 MinerU 授權及 SDK／HTTP API 版本差異、OpenClaw Gateway 信任邊界、pywebview Bridge 與原生視窗契約；保留既有資料與關係，第三方未實測。
+- 合併前 63/286；驗收合併後 66/286（60 完成對應、6 deferred），220 尚未改寫。既有六筆 deferred 與三筆來源阻塞保留。
+- 下一批依 manifest 優先其他可查核的前端元件及開發資源；排程停用，直接執行。重新確認 PR、CI、main、Catalog Sync/Pages。日常操作不必逐筆使用者核准。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 10（2026-11-25）
 
 - 基線 main `6b89ce4a89ce56e3817a1ee1656ee25291c63b3f`；PR #74 四項 CI 通過並合併，60/286 筆已合併（54 完成對應、6 deferred）。Catalog Sync 與 Pages 需另行核對。
