@@ -6,8 +6,8 @@
   "canonicalName": "OpenClaw",
   "category": "AI Agent Platforms & Automation",
   "resourceType": "Self-hosted AI assistant, multi-channel agent gateway and extensible automation runtime",
-  "purpose": "在使用者自有設備上運行個人 AI Agent，透過 Gateway 統一管理模型、訊息通道、工作階段、工具、Skills、Plugins 與裝置動作，支援跨平台工作流程和可授權的實際操作。",
-  "recommendation": "適合研究個人 AI Agent 工作站、訊息通道整合、自動化作業、工具權限管控、Plugin/Skill 架構、Gateway 信任邊界和 Agent Harness 的實際設計；若接入企業或私人帳號，需優先進行隔離部署、憑證治理和安全審核。",
+  "purpose": "在自己的設備上運行 AI 助理，透過聊天平台或控制介面接收任務，集中管理 Agent、工具及工作階段。",
+  "recommendation": "適合可信任操作者的個人助理或隔離測試環境；不適合直接將不同信任程度的使用者放進同一 Gateway，涉及私人資料或外部操作要先核對權限。",
   "url": "https://github.com/openclaw/openclaw",
   "repo": "openclaw/openclaw",
   "homepage": "https://openclaw.ai",
@@ -65,7 +65,7 @@
   "collectionDecision": "新增 1 Resource。主 repo 內雖有大量 Skills／Plugins，但不是同一項獨立 Skill；不為此網址批量建立 SKILL records。",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "openclaw",
     "self-hosted-agent",
@@ -98,11 +98,19 @@
       "https://docs.openclaw.ai/gateway/sandboxing",
       "https://openclaw.ai/security"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README, MIT license, SECURITY.md, notices, GitHub metadata, and official security documentation",
     "summary": "Source-only research. No installation or execution. No independent audit. GitHub URL tracking parameter removed.",
     "readmeUrl": "https://github.com/openclaw/openclaw/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。",
+    "upstreamCommit": "185313e988b954491cf05978bcc8e8bbc0dc9754",
+    "referenceUrls": [
+      "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/README.md",
+      "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/LICENSE",
+      "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/SECURITY.md",
+      "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/src/gateway/server-methods/agent-run-handler.ts",
+      "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/src/gateway/server-methods/agent.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -134,16 +142,18 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -152,8 +162,8 @@
     "classificationReason": "保留 Primary Domain ai-agent、Category 與原始 Tags；只補來源和使用限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -166,7 +176,357 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在使用者自有設備上運行個人 AI Agent，透過 Gateway 統一管理模型、訊息通道、工作階段、工具、Skills、Plugins 與裝置動作，支援跨平台工作流程和可授權的實際操作。",
+      "source": "https://github.com/openclaw/openclaw",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "personal-assistant",
+        "title": "建立個人訊息助理",
+        "detail": "先在隔離環境規劃只讀任務與單一可信任入口。",
+        "capabilityRefs": [
+          "turn-admission",
+          "trust-boundary"
+        ]
+      },
+      {
+        "id": "task-monitor",
+        "title": "追蹤助理任務是否完成",
+        "detail": "區分請求接受、執行中及可讀取結果，避免僅憑成功訊息判斷。",
+        "capabilityRefs": [
+          "turn-admission",
+          "run-observation"
+        ]
+      },
+      {
+        "id": "permission-review",
+        "title": "評估助理可操作的資源",
+        "detail": "分開核對主機、模型供應商、通道與工具權限，不以 session 名稱當安全隔離。",
+        "capabilityRefs": [
+          "trust-boundary",
+          "run-observation"
+        ]
+      }
+    ],
+    "example": {
+      "id": "trusted-assistant-review",
+      "title": "規劃只讀個人研究助理",
+      "input": "一個隔離測試環境、合成資料及單一可信任操作者。",
+      "process": "定義權限 → 設計任務入口 → 觀察結果 → 核對工具與資料邊界",
+      "output": "助理任務、停止／失敗及權限驗收規格（未安裝）。",
+      "destination": "自有 Agent 架構評估，不直接接真實聊天帳號。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "personal-assistant",
+        "task-monitor",
+        "permission-review"
+      ],
+      "steps": [
+        {
+          "id": "scope",
+          "title": "界定可信任操作者及權限",
+          "capabilityRefs": [
+            "trust-boundary"
+          ]
+        },
+        {
+          "id": "submit",
+          "title": "設計任務入口與拒絕情境",
+          "capabilityRefs": [
+            "turn-admission"
+          ]
+        },
+        {
+          "id": "observe",
+          "title": "查核結果讀取及錯誤",
+          "capabilityRefs": [
+            "run-observation"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "獨立驗證工具與外部副作用",
+          "capabilityRefs": [],
+          "externalDependency": "實際部署、模型、聊天帳號、sandbox 與工具權限須另行核准。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先讀固定版本 SECURITY.md，設計單一可信任操作者及隔離測試環境。",
+      "明訂不允許的工具、主機資料及外部連線，不先安裝陌生 Skills。",
+      "核准後才測任務提交、失敗、停止、權限及實際資料路徑。"
+    ],
+    "limits": [
+      "連接 Shell、外部服務和 Skills 可能造成資料外送及副作用",
+      "官方安全政策不將 session ownership/visibility 視為安全邊界；不應以同一 Gateway 隔離敵對使用者。",
+      "未部署、安裝 Skills、連接通道或執行工具；完整沙盒、授權、程序、資料出站與停止行為未查。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在自己的設備上運行 AI 助理，透過聊天平台或控制介面接收任務，集中管理 Agent、工具及工作階段。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "TypeScript / Gateway / Agent Turn"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（Repo；第三方元件另查）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "185313e988b954491cf05978bcc8e8bbc0dc9754"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "接收及檢查 Agent 任務",
+        "detail": "不同入口的請求需要驗證及前置處理；輸入：agent request params、client、context、authority/commit guards；輸出：preflight 後呼叫 startTurn 或錯誤",
+        "source": "src/gateway/server-methods/agent-run-handler.ts"
+      },
+      {
+        "title": "等待並查核任務結果",
+        "detail": "需區分 Agent 接受與實際完成；輸入：agent.wait params、client、run session observation；輸出：觀察結果或 invalid request",
+        "source": "src/gateway/server-methods/agent.ts"
+      },
+      {
+        "title": "規劃執行與信任邊界",
+        "detail": "助理可操作主機工具及外部服務；輸入：可信任操作者、Gateway、通道與 sandbox 設定；輸出：安全配置與需另驗證的權限界線",
+        "source": "SECURITY.md"
+      }
+    ],
+    "architecture": {
+      "summary": "定義權限 → 設計任務入口 → 觀察結果 → 核對工具與資料邊界",
+      "nodes": [
+        {
+          "title": "接收及檢查 Agent 任務",
+          "detail": "agent request params、client、context、authority/commit guards → preflight 後呼叫 startTurn 或錯誤",
+          "files": [
+            "src/gateway/server-methods/agent-run-handler.ts"
+          ]
+        },
+        {
+          "title": "等待並查核任務結果",
+          "detail": "agent.wait params、client、run session observation → 觀察結果或 invalid request",
+          "files": [
+            "src/gateway/server-methods/agent.ts"
+          ]
+        },
+        {
+          "title": "規劃執行與信任邊界",
+          "detail": "可信任操作者、Gateway、通道與 sandbox 設定 → 安全配置與需另驗證的權限界線",
+          "files": [
+            "SECURITY.md",
+            "README.md",
+            "src/gateway/server-methods/agent-run-handler.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "提交",
+        "rule": "agentRunHandler 檢查參數、取得 principal 並執行 preflight，再呼叫 startTurn；authority 變更例外回錯誤。",
+        "source": "src/gateway/server-methods/agent-run-handler.ts"
+      },
+      {
+        "name": "觀察",
+        "rule": "agentWaitHandler 驗證參數，透過 canReadRun 檢查觀察結果及 session 條件。",
+        "source": "src/gateway/server-methods/agent.ts"
+      },
+      {
+        "name": "信任模型",
+        "rule": "SECURITY.md 定義可信任操作者模式，session ownership 不是安全界線。",
+        "source": "SECURITY.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "SECURITY.md",
+          "src/gateway/server-methods/agent-run-handler.ts",
+          "src/gateway/server-methods/agent.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先讀固定版本 SECURITY.md，設計單一可信任操作者及隔離測試環境。 明訂不允許的工具、主機資料及外部連線，不先安裝陌生 Skills。 核准後才測任務提交、失敗、停止、權限及實際資料路徑。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有 Agent 架構評估，不直接接真實聊天帳號。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "src/gateway/server-methods/agent-run-handler.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "turn-admission",
+        "name": "接收及檢查 Agent 任務",
+        "problem": "不同入口的請求需要驗證及前置處理",
+        "input": "agent request params、client、context、authority/commit guards",
+        "output": "preflight 後呼叫 startTurn 或錯誤",
+        "source": "src/gateway/server-methods/agent-run-handler.ts",
+        "sourceFiles": [
+          "src/gateway/server-methods/agent-run-handler.ts"
+        ],
+        "symbols": [
+          "agentRunHandler",
+          "prepareAgentRequestPreflight",
+          "captureAgentTurnPrincipal"
+        ],
+        "gate": "只核對呼叫入口，未證明所有工具或執行路徑均受限制；接受任務不等於完成。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "run-observation",
+        "name": "等待並查核任務結果",
+        "problem": "需區分 Agent 接受與實際完成",
+        "input": "agent.wait params、client、run session observation",
+        "output": "觀察結果或 invalid request",
+        "source": "src/gateway/server-methods/agent.ts",
+        "sourceFiles": [
+          "src/gateway/server-methods/agent.ts"
+        ],
+        "symbols": [
+          "agentWaitHandler",
+          "agentHandlers",
+          "prepareProjectedSessionSharing"
+        ],
+        "gate": "讀取檢查依角色與 session 狀態；不推定完整租戶隔離，未查相關 service 內部。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "trust-boundary",
+        "name": "規劃執行與信任邊界",
+        "problem": "助理可操作主機工具及外部服務",
+        "input": "可信任操作者、Gateway、通道與 sandbox 設定",
+        "output": "安全配置與需另驗證的權限界線",
+        "source": "SECURITY.md",
+        "sourceFiles": [
+          "SECURITY.md",
+          "README.md",
+          "src/gateway/server-methods/agent-run-handler.ts"
+        ],
+        "symbols": [
+          "agentRunHandler",
+          "captureGatewayClientUploadCommitGuard"
+        ],
+        "gate": "SECURITY.md 明示不設計為敵對多租戶；README 說明主 session 預設主機工具執行，需另配 sandbox。文件政策不是已實測的安全保證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃只讀個人研究助理（設計示例）",
+      "problem": "一個隔離測試環境、合成資料及單一可信任操作者。",
+      "steps": [
+        {
+          "capability": "trust-boundary",
+          "action": "界定可信任操作者及權限"
+        },
+        {
+          "capability": "turn-admission",
+          "action": "設計任務入口與拒絕情境"
+        },
+        {
+          "capability": "run-observation",
+          "action": "查核結果讀取及錯誤"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "trusted-assistant-review"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "一個隔離測試環境、合成資料及單一可信任操作者。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義權限 → 設計任務入口 → 觀察結果 → 核對工具與資料邊界",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有 Agent 架構評估，不直接接真實聊天帳號。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "官方安全政策不將 session ownership/visibility 視為安全邊界；不應以同一 Gateway 隔離敵對使用者。",
+        "未部署、安裝 Skills、連接通道或執行工具；完整沙盒、授權、程序、資料出站與停止行為未查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "授權、資料及執行邊界",
+        "severity": "高",
+        "issue": "官方安全政策不將 session ownership/visibility 視為安全邊界；不應以同一 Gateway 隔離敵對使用者。 未部署、安裝 Skills、連接通道或執行工具；完整沙盒、授權、程序、資料出站與停止行為未查。",
+        "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
