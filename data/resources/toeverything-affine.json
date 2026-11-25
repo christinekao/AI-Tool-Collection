@@ -6,14 +6,14 @@
   "canonicalName": "AFFiNE",
   "category": "Knowledge Management",
   "resourceType": "Local-first 文件與白板工作區",
-  "purpose": "整合文件、白板與知識組織工作流程，提供注重隱私的本地優先筆記與協作介面。",
-  "recommendation": "適合研究 Personal Knowledge OS 的文件編輯、畫布及資料組織設計；先確認同步與自架邊界。",
+  "purpose": "把筆記文件、視覺白板及資料表放進同一個工作區，讓研究、規劃與知識整理可以在文字和畫布之間切換。",
+  "recommendation": "適合需要同時整理文件、關聯圖及工作計畫的人；若已有成熟文件系統或只需要純文字筆記，先比較搬移與維護成本。",
   "url": "https://github.com/toeverything/AFFiNE",
   "repo": "toeverything/AFFiNE",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "data",
@@ -45,25 +45,33 @@
   "source": {
     "url": "https://github.com/toeverything/AFFiNE",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、根目錄 LICENSE 與 packages/backend/server/LICENSE；只確認產品功能、依賴專案與授權分區，未查閱編輯器、同步、儲存及權限核心實作",
+    "upstreamCommit": "81da59d63d535d72ba677a097d9a0cc9a5871ade",
+    "referenceUrls": [
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md",
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/LICENSE",
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
-    "sourceStatus": "source-checked",
+    "sourceStatus": "partial",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "比對既有 Canonical ID、Repo 與固定上游版本；更新用途、文件證據及原始碼查核缺口，不建立重複實體。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -73,7 +81,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "reason": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +94,165 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README、根目錄 LICENSE 與 packages/backend/server/LICENSE；只確認產品功能、依賴專案與授權分區，未查閱編輯器、同步、儲存及權限核心實作；未安裝或執行。"
+    },
+    "sourceGap": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。",
+    "layerReview": {
+      "status": "deferred",
+      "reason": "已確認固定版本的文件及授權範圍，已知用途與文件證據可雙向對應；原始碼完整契約仍待查。",
+      "gap": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。",
+      "nextAction": "定位固定版本的工作區編輯器、local storage、sync、權限與匯出實作，檢視實際模組授權及可用功能，取得明確 I/O 後再建立 mapped 指南。"
+    }
+  },
+  "implementationKnowledge": {
+    "sourceReview": {
+      "blocks": "README 描述文件與 edgeless 畫布共用文字、便利貼、連結頁、資料表等 blocks；BlockSuite 為相關編輯器專案。",
+      "sync": "README 宣稱 local-first 及即時同步協作，列 y-octo、OctoBase 等相關專案；實際 client/server 資料流程與衝突處理未查核。",
+      "license": "根 LICENSE 明示 packages/backend、packages/common/native 目錄（若存在）適用 packages/backend/server/LICENSE。後者為 EE License，正式使用條件涉及有效 EE 訂閱或其他適用協議；其餘內容原則依 MIT，第三方元件另計。README 的 CE 自架宣稱不能覆蓋實際目錄授權。",
+      "deployment": "README 指向自架文件；尚未核對實際版本的備份、匯出、工作區隔離、資料保留或可商用範圍。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "documents-canvas",
+      "detail": "文件、畫布與資料表共用區塊，README 描述文件、視覺組織及知識管理用途。",
+      "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md；Features / A true canvas",
+      "evidenceFields": [
+        "features.0",
+        "implementationKnowledge.sourceReview.blocks"
+      ],
+      "limitations": "未追查 BlockSuite 整合、區塊 schema 或匯入匯出。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "local-collaboration",
+      "detail": "README 宣稱 local-first、即時同步及協作，列相關 CRDT 與資料專案。",
+      "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md；Local-first & Real-time collaborative / Related Projects",
+      "evidenceFields": [
+        "features.1",
+        "implementationKnowledge.sourceReview.sync"
+      ],
+      "limitations": "未驗證離線、同步衝突、工作區隔離或資料存放位置。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "hosting-license",
+      "detail": "根 LICENSE 對特定目錄另指向 EE License，須核對實際使用版本及協議。",
+      "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/LICENSE；https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/LICENSE",
+      "evidenceFields": [
+        "requirements.0",
+        "limitations.0",
+        "implementationKnowledge.sourceReview.license",
+        "implementationKnowledge.sourceReview.deployment"
+      ],
+      "limitations": "不能將所有程式碼、功能或自架服務一律視為 MIT 或免費。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "visual-research",
+        "title": "用白板整理研究及知識",
+        "detail": "把筆記、連結、便利貼及資料表放在同一工作區，整理研究脈絡與關聯。",
+        "evidenceRefs": [
+          "documents-canvas"
+        ]
+      },
+      {
+        "id": "document-workspace",
+        "title": "在文件與畫布之間切換",
+        "detail": "把專案說明留在文件，另用畫布整理規劃及工作項目，確認兩種呈現方式是否合適。",
+        "evidenceRefs": [
+          "documents-canvas"
+        ]
+      },
+      {
+        "id": "workspace-evaluation",
+        "title": "評估離線與協作需求",
+        "detail": "依實際資料同步、帳號、授權與工作區隔離需求評估是否採用。",
+        "evidenceRefs": [
+          "local-collaboration",
+          "hosting-license"
+        ]
+      }
+    ],
+    "example": {
+      "id": "personal-research-workspace",
+      "title": "整理個人 AI 工具研究工作區",
+      "input": "五篇公開研究筆記、三個主題及已確認可保存的來源連結。",
+      "process": "建立測試文件與畫布 → 整理主題和關聯 → 檢查本地使用與同步 → 核對匯出及授權",
+      "output": "可瀏覽的研究文件、主題畫布與資料保留驗收清單（預期產物）。",
+      "destination": "個人知識管理評估；工作機密不得與個人資料混放。",
+      "note": "設計示例，尚未安裝、測試離線／同步、匯出或實際工作區隔離。",
+      "useCaseRefs": [
+        "visual-research",
+        "document-workspace",
+        "workspace-evaluation"
+      ],
+      "steps": [
+        {
+          "id": "organize",
+          "title": "以文件與畫布組織公開資料",
+          "evidenceRefs": [
+            "documents-canvas"
+          ]
+        },
+        {
+          "id": "sync",
+          "title": "核對離線及同步需求",
+          "evidenceRefs": [
+            "local-collaboration"
+          ]
+        },
+        {
+          "id": "license",
+          "title": "確認版本與授權分區",
+          "evidenceRefs": [
+            "hosting-license"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "測匯出、還原及工作區隔離",
+          "evidenceRefs": [],
+          "externalDependency": "資料遷移、備份、還原、權限及個人／工作隔離須另行實測。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備公開或合成資料建立小型工作區需求。",
+      "閱讀固定版本的 README、LICENSE 及實際方案條款，不將全部自架程式視為同一授權。",
+      "若獲准測試，再核對離線、同步、匯出、復原與工作區權限。"
+    ],
+    "limits": [
+      "本地優先不代表所有功能完全離線或免費；AI、同步、協作和商用條款應依方案確認。",
+      "根 LICENSE 有目錄分區，不能把全部 Repo 視為 MIT；使用或改作 EE 目錄前需核對適用協議。",
+      "未驗證真正離線範圍、同步衝突、資料匯出及備份還原。"
+    ],
+    "comparison": {
+      "title": "是否需要文件與白板整合？",
+      "headers": [
+        "純筆記系統",
+        "AFFiNE"
+      ],
+      "rows": [
+        [
+          "適合文件閱讀及簡單記錄",
+          "適合同時需要文字、畫布及資料表的工作區"
+        ],
+        [
+          "搬移及工具依賴可能較少",
+          "同步、授權、匯出與資料隔離需要評估"
+        ]
+      ],
+      "note": "選型取決於實際閱讀、資料保存及協作需求。"
     }
   }
 }

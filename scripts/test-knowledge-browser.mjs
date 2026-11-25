@@ -501,7 +501,14 @@ try{
   ['artlist','.resource-reader-guide','為產品介紹影片準備配樂'],
   ['davinci-resolve','.resource-reader-guide','剪輯一支產品介紹影片'],
   ['google-flow','.resource-reader-guide','製作三鏡頭概念短片'],
-  ['ffmpeg','.resource-reader-guide','批次輸出已完成的短影片']
+  ['ffmpeg','.resource-reader-guide','批次輸出已完成的短影片'],
+  ["systran-faster-whisper",".resource-reader-guide","為產品介紹影片建立字幕草稿"],
+  ["manimcommunity-manim",".resource-reader-guide","製作一段幾何變化解說影片"],
+  ["mrdoob-three-js",".resource-reader-guide","製作網頁 3D 產品預覽"],
+  ["comfy-org-comfyui",".resource-reader-guide","批次生成產品概念圖"],
+  ["lottiefiles-dotlottie-web",".resource-reader-guide","為表單儲存加入完成動畫"],
+  ["infiniflow-ragflow",".resource-reader-guide","建立公司規章問答測試"],
+  ["toeverything-affine",".resource-reader-guide","整理個人 AI 工具研究工作區"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -528,7 +535,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 seventeen Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 twenty-four Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
