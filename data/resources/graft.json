@@ -6,14 +6,14 @@
   "canonicalName": "Graft",
   "category": "03 Code Intelligence",
   "resourceType": "Context Governor / Structural Code Reader",
-  "purpose": "在 Coding Agent 讀取專案前提供結構化且較小的程式碼視圖，依 AST 給出安全讀取、符號與變更脈絡，減少將大型檔案直接塞入 Context。",
-  "recommendation": "適合中大型專案的 Coding Agent 閱讀治理；使用 init 前先檢查會建立的設定檔與 Hooks。",
+  "purpose": "讓 Coding Agent 先讀取程式碼的結構與必要片段，而非每次把整個大型檔案塞進 Context，並留下讀取決策與用量紀錄。",
+  "recommendation": "適合大型 Repo 的 Agent 閱讀策略、Context 預算及程式探索；先在測試專案確認政策、解析器及工具攔截範圍。不要把單一 MCP 讀取政策當成全系統檔案安全沙箱。",
   "url": "https://github.com/flyingrobots/graft",
   "repo": "flyingrobots/graft",
   "notes": "Official repository confirmed. Screenshot source described it as helping with code context and structure mapping; official positioning is a context governor for coding agents.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "code-context",
     "structural-read",
@@ -76,18 +76,30 @@
   "source": {
     "url": "https://github.com/flyingrobots/graft",
     "readmeUrl": "https://github.com/flyingrobots/graft/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README、LICENSE、safe-read.ts、receipt.ts、workspace-authorizations.ts、read-governor.ts；局部程式與工作區路由契約。",
+    "upstreamCommit": "31681a19c10afcead60d44af0db3587874df630b",
+    "referenceUrls": [
+      "https://github.com/flyingrobots/graft/blob/31681a19c10afcead60d44af0db3587874df630b/README.md",
+      "https://github.com/flyingrobots/graft/blob/31681a19c10afcead60d44af0db3587874df630b/LICENSE",
+      "https://github.com/flyingrobots/graft/blob/31681a19c10afcead60d44af0db3587874df630b/src/operations/safe-read.ts",
+      "https://github.com/flyingrobots/graft/blob/31681a19c10afcead60d44af0db3587874df630b/src/mcp/receipt.ts",
+      "https://github.com/flyingrobots/graft/blob/31681a19c10afcead60d44af0db3587874df630b/src/mcp/tools/workspace-authorizations.ts",
+      "https://github.com/flyingrobots/graft/blob/31681a19c10afcead60d44af0db3587874df630b/src/hooks/read-governor.ts"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -103,8 +115,8 @@
     "classificationReason": "沿用既有 Primary Domain software；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、safe-read.ts、receipt.ts、workspace-authorizations.ts、read-governor.ts；局部程式與工作區路由契約。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -114,10 +126,365 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
     },
-    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "riskNotes": "不支援的語言可能缺少結構摘要；需有針對性地核對原始片段。；位元組節省是估算，不等於模型計費或整體任務品質。；Graft 讀取政策不是 OS 級安全沙箱；Hook、MCP、Daemon 的涵蓋範圍須分開查核。；未實測解析器、政策逃逸、工作區隔離或 Context 節省。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README、LICENSE、safe-read.ts、receipt.ts、workspace-authorizations.ts、read-governor.ts；局部程式與工作區路由契約。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、safe-read.ts、receipt.ts、workspace-authorizations.ts、read-governor.ts；局部程式與工作區路由契約。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在 Coding Agent 讀取專案前提供結構化且較小的程式碼視圖，依 AST 給出安全讀取、符號與變更脈絡，減少將大型檔案直接塞入 Context。",
+      "source": "https://github.com/flyingrobots/graft",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合中大型專案的 Coding Agent 閱讀治理；使用 init 前先檢查會建立的設定檔與 Hooks。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-read",
+        "title": "依檔案大小與政策選擇讀取方式",
+        "detail": "大型檔案完整載入可能消耗 Context 並掩蓋相關程式。 content、outline、refused 或 error 及原因。",
+        "capabilityRefs": [
+          "read"
+        ]
+      },
+      {
+        "id": "use-receipt",
+        "title": "保留讀取決策與估算用量",
+        "detail": "Agent 需要知道哪些資料未讀取及為何拒絕。 帶有 projection、reason 與用量資訊的 Receipt。",
+        "capabilityRefs": [
+          "receipt"
+        ]
+      },
+      {
+        "id": "use-workspace",
+        "title": "限制工作區並確認讀取入口",
+        "detail": "多個 Agent 在不同 Repo 讀取資料時可能混用工作區。 工作區授權資訊與受政策約束的讀取入口。",
+        "capabilityRefs": [
+          "workspace"
+        ]
+      }
+    ],
+    "example": {
+      "id": "graft-example",
+      "title": "規劃大型專案的結構化讀取與 Context 控制",
+      "input": "自有測試 Repo、小型與大型程式檔、合成敏感檔及明確讀取政策。",
+      "process": "依檔案大小與政策選擇讀取方式 → 保留讀取決策與估算用量 → 限制工作區並確認讀取入口 → 獨立驗收實際成果",
+      "output": "受控完整讀取、結構摘要、拒絕原因與 Context 用量紀錄。",
+      "destination": "用於自有 Coding Agent 的程式探索、Context 管理及讀取驗收。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-read",
+        "use-receipt",
+        "use-workspace"
+      ],
+      "steps": [
+        {
+          "id": "read",
+          "title": "依檔案大小與政策選擇讀取方式",
+          "capabilityRefs": [
+            "read"
+          ]
+        },
+        {
+          "id": "receipt",
+          "title": "保留讀取決策與估算用量",
+          "capabilityRefs": [
+            "receipt"
+          ]
+        },
+        {
+          "id": "workspace",
+          "title": "限制工作區並確認讀取入口",
+          "capabilityRefs": [
+            "workspace"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試 Repo、小型與大型程式檔、合成敏感檔及明確讀取政策。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "語法結構摘要不是完整程式語意，重要修改仍須檢視原碼與測試。",
+      "支援語言、Parser 與背景 Daemon 的行為要依版本核對。",
+      "不支援的語言可能缺少結構摘要；需有針對性地核對原始片段。",
+      "位元組節省是估算，不等於模型計費或整體任務品質。",
+      "Graft 讀取政策不是 OS 級安全沙箱；Hook、MCP、Daemon 的涵蓋範圍須分開查核。",
+      "未實測解析器、政策逃逸、工作區隔離或 Context 節省。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 Coding Agent 先讀取程式碼的結構與必要片段，而非每次把整個大型檔案塞進 Context，並留下讀取決策與用量紀錄。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0（上游 LICENSE）"
+      },
+      {
+        "label": "版本",
+        "value": "31681a19c10afcead60d44af0db3587874df630b"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依檔案大小與政策選擇讀取方式",
+        "detail": "大型檔案完整載入可能消耗 Context 並掩蓋相關程式。；輸入：已觀察的檔案資料、政策、剩餘預算與解析器；輸出：content、outline、refused 或 error 及原因",
+        "source": "src/operations/safe-read.ts"
+      },
+      {
+        "title": "保留讀取決策與估算用量",
+        "detail": "Agent 需要知道哪些資料未讀取及為何拒絕。；輸入：工具結果、政策決策、預算及累積統計；輸出：帶有 projection、reason 與用量資訊的 Receipt",
+        "source": "src/mcp/receipt.ts"
+      },
+      {
+        "title": "限制工作區並確認讀取入口",
+        "detail": "多個 Agent 在不同 Repo 讀取資料時可能混用工作區。；輸入：工作區識別、明確 cwd、授權與 Hook 設定；輸出：工作區授權資訊與受政策約束的讀取入口",
+        "source": "src/mcp/tools/workspace-authorizations.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "依檔案大小與政策選擇讀取方式 → 保留讀取決策與估算用量 → 限制工作區並確認讀取入口 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "依檔案大小與政策選擇讀取方式",
+          "detail": "已觀察的檔案資料、政策、剩餘預算與解析器 → content、outline、refused 或 error 及原因",
+          "files": [
+            "src/operations/safe-read.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保留讀取決策與估算用量",
+          "detail": "工具結果、政策決策、預算及累積統計 → 帶有 projection、reason 與用量資訊的 Receipt",
+          "files": [
+            "src/mcp/receipt.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "限制工作區並確認讀取入口",
+          "detail": "工作區識別、明確 cwd、授權與 Hook 設定 → 工作區授權資訊與受政策約束的讀取入口",
+          "files": [
+            "src/mcp/tools/workspace-authorizations.ts",
+            "src/hooks/read-governor.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "依檔案大小與政策選擇讀取方式",
+        "rule": "政策基於已觀察的資料；不支援解析器時可能回空 outline，不能視為檔案沒有符號，需另查適當片段。",
+        "source": "src/operations/safe-read.ts"
+      },
+      {
+        "name": "保留讀取決策與估算用量",
+        "rule": "estimatedBytesAvoided 不是實際模型 Token 或成本；拒絕與摘要仍須保留必要證據，不能用來宣稱程式完整查核。",
+        "source": "src/mcp/receipt.ts"
+      },
+      {
+        "name": "限制工作區並確認讀取入口",
+        "rule": "Daemon 共享 Session 時須明確確認 worktree 與 actor；政策僅涵蓋實際經過 Graft 的入口，不能推定其他工具也被限制。",
+        "source": "src/mcp/tools/workspace-authorizations.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、safe-read.ts、receipt.ts、workspace-authorizations.ts、read-governor.ts；局部程式與工作區路由契約。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/operations/safe-read.ts",
+          "src/mcp/receipt.ts",
+          "src/mcp/tools/workspace-authorizations.ts",
+          "src/hooks/read-governor.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Repo、小型與大型程式檔、合成敏感檔及明確讀取政策。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "src/operations/safe-read.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有 Coding Agent 的程式探索、Context 管理及讀取驗收。 另驗證實際行為及限制。",
+        "file": "src/operations/safe-read.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "read",
+        "name": "依檔案大小與政策選擇讀取方式",
+        "problem": "大型檔案完整載入可能消耗 Context 並掩蓋相關程式。",
+        "input": "已觀察的檔案資料、政策、剩餘預算與解析器",
+        "output": "content、outline、refused 或 error 及原因",
+        "source": "src/operations/safe-read.ts",
+        "sourceFiles": [
+          "src/operations/safe-read.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "safeRead",
+          "SafeReadOptions",
+          "SafeReadResult"
+        ],
+        "gate": "政策基於已觀察的資料；不支援解析器時可能回空 outline，不能視為檔案沒有符號，需另查適當片段。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "receipt",
+        "name": "保留讀取決策與估算用量",
+        "problem": "Agent 需要知道哪些資料未讀取及為何拒絕。",
+        "input": "工具結果、政策決策、預算及累積統計",
+        "output": "帶有 projection、reason 與用量資訊的 Receipt",
+        "source": "src/mcp/receipt.ts",
+        "sourceFiles": [
+          "src/mcp/receipt.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "McpToolReceipt",
+          "buildReceiptResult",
+          "ReceiptBudget"
+        ],
+        "gate": "estimatedBytesAvoided 不是實際模型 Token 或成本；拒絕與摘要仍須保留必要證據，不能用來宣稱程式完整查核。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "workspace",
+        "name": "限制工作區並確認讀取入口",
+        "problem": "多個 Agent 在不同 Repo 讀取資料時可能混用工作區。",
+        "input": "工作區識別、明確 cwd、授權與 Hook 設定",
+        "output": "工作區授權資訊與受政策約束的讀取入口",
+        "source": "src/mcp/tools/workspace-authorizations.ts",
+        "sourceFiles": [
+          "src/mcp/tools/workspace-authorizations.ts",
+          "src/hooks/read-governor.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "workspaceAuthorizationsTool",
+          "HookReadInspection",
+          "inspectHookRead"
+        ],
+        "gate": "Daemon 共享 Session 時須明確確認 worktree 與 actor；政策僅涵蓋實際經過 Graft 的入口，不能推定其他工具也被限制。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃大型專案的結構化讀取與 Context 控制（設計示例）",
+      "problem": "自有測試 Repo、小型與大型程式檔、合成敏感檔及明確讀取政策。",
+      "steps": [
+        {
+          "capability": "read",
+          "action": "依檔案大小與政策選擇讀取方式"
+        },
+        {
+          "capability": "receipt",
+          "action": "保留讀取決策與估算用量"
+        },
+        {
+          "capability": "workspace",
+          "action": "限制工作區並確認讀取入口"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "graft-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Repo、小型與大型程式檔、合成敏感檔及明確讀取政策。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "依檔案大小與政策選擇讀取方式 → 保留讀取決策與估算用量 → 限制工作區並確認讀取入口 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有 Coding Agent 的程式探索、Context 管理及讀取驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "不支援的語言可能缺少結構摘要；需有針對性地核對原始片段。",
+        "位元組節省是估算，不等於模型計費或整體任務品質。",
+        "Graft 讀取政策不是 OS 級安全沙箱；Hook、MCP、Daemon 的涵蓋範圍須分開查核。",
+        "未實測解析器、政策逃逸、工作區隔離或 Context 節省。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "不支援的語言可能缺少結構摘要；需有針對性地核對原始片段。 位元組節省是估算，不等於模型計費或整體任務品質。 Graft 讀取政策不是 OS 級安全沙箱；Hook、MCP、Daemon 的涵蓋範圍須分開查核。 未實測解析器、政策逃逸、工作區隔離或 Context 節省。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、safe-read.ts、receipt.ts、workspace-authorizations.ts、read-governor.ts；局部程式與工作區路由契約。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

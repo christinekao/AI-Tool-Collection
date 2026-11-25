@@ -599,7 +599,10 @@ try{
   ["humanlayer",".resource-reader-guide","規劃跨 Session 的履歷系統功能開發與審查"],
   ["zed-industries-zed",".resource-reader-guide","規劃編輯器內的 AI 程式修改與權限審查"],
   ["herdrdev-herdr",".resource-reader-guide","規劃多主機 Coding Agent 終端與交接監控"],
-  ["microsoft-tokeneconomizer",".resource-reader-guide","規劃重複開發任務的成本與品質對照實驗"]
+  ["microsoft-tokeneconomizer",".resource-reader-guide","規劃重複開發任務的成本與品質對照實驗"],
+  ["paperclip",".resource-reader-guide","規劃 AI Cowork 團隊的任務派發與預算治理"],
+  ["graft",".resource-reader-guide","規劃大型專案的結構化讀取與 Context 控制"],
+  ["strelov1-freehire-mcp",".resource-reader-guide","規劃 JD 搜尋、證據式履歷與求職進度管理"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
