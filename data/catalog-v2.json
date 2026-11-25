@@ -13693,7 +13693,7 @@
       "title": "Claude Codex Harness Sync",
       "status": "active",
       "addedAt": "2026-10-10",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "claude-code",
         "codex",
@@ -13706,8 +13706,8 @@
       "url": "https://github.com/agentcrew-academy/claude-codex-harness-sync",
       "category": "Agent Engineering / Harness Migration",
       "resourceType": "Codex skill for audited Claude Code-to-Codex harness migration",
-      "purpose": "盤點 Claude Code 與 Codex 的規則、Skill、設定和漂移差異；先審查，再轉譯低風險設定，不整包搬移。",
-      "recommendation": "適合定期比對跨 Agent 環境設定；高風險設定須由使用者確認，Secret 一律由使用者自行處理。",
+      "purpose": "比較 Claude Code 與 Codex 的規則、Skill、設定及差異，先產出遷移或維護報告，再由使用者確認哪些內容可安全移到 Codex。",
+      "recommendation": "適合跨 Claude Code 與 Codex 維護一致的開發規則；不是整包複製設定的工具，也不應遷移密鑰或帳號授權。",
       "skillRefs": [
         {
           "type": "skill",
@@ -13769,25 +13769,37 @@
       "source": {
         "url": "https://github.com/agentcrew-academy/claude-codex-harness-sync",
         "readmeUrl": "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "固定版本 README、LICENSE、SKILL.md 及 inventory.py、classify_drift.py、validate_codex.py 的入口與局部實作；未核對現行兩平台所有設定語意，未執行本機掃描。",
+        "referenceUrls": [
+          "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/1652082d36017d89729d17d517d1012556739fb2/README.md",
+          "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/1652082d36017d89729d17d517d1012556739fb2/LICENSE",
+          "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/1652082d36017d89729d17d517d1012556739fb2/claude-codex-harness-sync/SKILL.md",
+          "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/1652082d36017d89729d17d517d1012556739fb2/claude-codex-harness-sync/scripts/inventory.py",
+          "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/1652082d36017d89729d17d517d1012556739fb2/claude-codex-harness-sync/scripts/classify_drift.py",
+          "https://github.com/agentcrew-academy/claude-codex-harness-sync/blob/1652082d36017d89729d17d517d1012556739fb2/claude-codex-harness-sync/scripts/validate_codex.py"
+        ],
+        "upstreamCommit": "1652082d36017d89729d17d517d1012556739fb2"
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "核對既有 ID 與原始來源，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -13796,8 +13808,8 @@
         "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE、SKILL.md 及 inventory.py、classify_drift.py、validate_codex.py 的入口與局部實作；未核對現行兩平台所有設定語意，未執行本機掃描。；提供局部來源契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -13807,11 +13819,366 @@
           "decision": "reused",
           "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
         },
-        "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+        "riskNotes": "Claude 與 Codex 設定語意不全等價，無法保證全自動同步。；API Key、OAuth Token、Cookie 等憑證不得由模型或腳本跨環境搬移。；預設 dry-run；不得直接修改 Claude 端資料。；classify 以 Skill 名稱及部分路徑做差異分類，不代表內容等價或安全。；Hooks、MCP、memory、imports 需人工判斷；密鑰及帳號授權不得複製。；語法檢查與敏感字串掃描不能證明執行語意正確或沒有憑證；實際環境尚未測試。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "固定版本 README、LICENSE、SKILL.md 及 inventory.py、classify_drift.py、validate_codex.py 的入口與局部實作；未核對現行兩平台所有設定語意，未執行本機掃描。；未實測。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、SKILL.md 及 inventory.py、classify_drift.py、validate_codex.py 的入口與局部實作；未核對現行兩平台所有設定語意，未執行本機掃描。；前台用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "盤點 Claude Code 與 Codex 的規則、Skill、設定和漂移差異；先審查，再轉譯低風險設定，不整包搬移。",
+          "source": "https://github.com/agentcrew-academy/claude-codex-harness-sync",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合定期比對跨 Agent 環境設定；高風險設定須由使用者確認，Secret 一律由使用者自行處理。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-inventory",
+            "title": "先盤點兩個 Agent 的設定",
+            "detail": "要同步規則前必須知道目前有哪些設定及專案。 已辨識的設定路徑及盤點報告。",
+            "capabilityRefs": [
+              "inventory"
+            ]
+          },
+          {
+            "id": "use-classify",
+            "title": "分類可同步與需人工處理的差異",
+            "detail": "兩平台的設定結構及執行語意不完全相同。 缺漏、人工轉譯、保留與不可複製清單。",
+            "capabilityRefs": [
+              "classify"
+            ]
+          },
+          {
+            "id": "use-validate",
+            "title": "驗證 Codex 端遷移結果",
+            "detail": "設定檔格式正確仍可能造成不預期行為。 語法、重名與敏感值候選檢查結果。",
+            "capabilityRefs": [
+              "validate"
+            ]
+          }
+        ],
+        "example": {
+          "id": "claude-codex-harness-sync-example",
+          "title": "規劃 Claude Code 與 Codex 的共用開發規則維護",
+          "input": "自有合成專案設定目錄、允許掃描的範圍與兩平台規則清單。",
+          "process": "先盤點兩個 Agent 的設定 → 分類可同步與需人工處理的差異 → 驗證 Codex 端遷移結果 → 獨立驗收",
+          "output": "設定盤點、差異與風險分類、經核准的 Codex 遷移及驗收規格。",
+          "destination": "自有跨 Agent 協作專案的設定治理與持續維護流程。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-inventory",
+            "use-classify",
+            "use-validate"
+          ],
+          "steps": [
+            {
+              "id": "inventory",
+              "title": "先盤點兩個 Agent 的設定",
+              "capabilityRefs": [
+                "inventory"
+              ]
+            },
+            {
+              "id": "classify",
+              "title": "分類可同步與需人工處理的差異",
+              "capabilityRefs": [
+                "classify"
+              ]
+            },
+            {
+              "id": "validate",
+              "title": "驗證 Codex 端遷移結果",
+              "capabilityRefs": [
+                "validate"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自有合成專案設定目錄、允許掃描的範圍與兩平台規則清單。",
+          "依需求選擇上述用途，閱讀固定版本來源及限制。",
+          "確認環境及權限，再另行實作與核對成果。"
+        ],
+        "limits": [
+          "Claude 與 Codex 設定語意不全等價，無法保證全自動同步。",
+          "API Key、OAuth Token、Cookie 等憑證不得由模型或腳本跨環境搬移。",
+          "預設 dry-run；不得直接修改 Claude 端資料。",
+          "classify 以 Skill 名稱及部分路徑做差異分類，不代表內容等價或安全。",
+          "Hooks、MCP、memory、imports 需人工判斷；密鑰及帳號授權不得複製。",
+          "語法檢查與敏感字串掃描不能證明執行語意正確或沒有憑證；實際環境尚未測試。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "比較 Claude Code 與 Codex 的規則、Skill、設定及差異，先產出遷移或維護報告，再由使用者確認哪些內容可安全移到 Codex。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（根目錄 LICENSE）"
+          },
+          {
+            "label": "版本",
+            "value": "1652082d36017d89729d17d517d1012556739fb2"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "先盤點兩個 Agent 的設定",
+            "detail": "要同步規則前必須知道目前有哪些設定及專案。；輸入：允許掃描的目錄及 setup／maintain 模式；輸出：已辨識的設定路徑及盤點報告",
+            "source": "claude-codex-harness-sync/scripts/inventory.py"
+          },
+          {
+            "title": "分類可同步與需人工處理的差異",
+            "detail": "兩平台的設定結構及執行語意不完全相同。；輸入：盤點 JSON、兩平台現有規則；輸出：缺漏、人工轉譯、保留與不可複製清單",
+            "source": "claude-codex-harness-sync/scripts/classify_drift.py"
+          },
+          {
+            "title": "驗證 Codex 端遷移結果",
+            "detail": "設定檔格式正確仍可能造成不預期行為。；輸入：經使用者核准的 Codex 設定變更；輸出：語法、重名與敏感值候選檢查結果",
+            "source": "claude-codex-harness-sync/scripts/validate_codex.py"
+          }
+        ],
+        "architecture": {
+          "summary": "先盤點兩個 Agent 的設定 → 分類可同步與需人工處理的差異 → 驗證 Codex 端遷移結果 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "先盤點兩個 Agent 的設定",
+              "detail": "允許掃描的目錄及 setup／maintain 模式 → 已辨識的設定路徑及盤點報告",
+              "files": [
+                "README.md",
+                "claude-codex-harness-sync/scripts/inventory.py"
+              ]
+            },
+            {
+              "title": "分類可同步與需人工處理的差異",
+              "detail": "盤點 JSON、兩平台現有規則 → 缺漏、人工轉譯、保留與不可複製清單",
+              "files": [
+                "claude-codex-harness-sync/SKILL.md",
+                "claude-codex-harness-sync/scripts/classify_drift.py"
+              ]
+            },
+            {
+              "title": "驗證 Codex 端遷移結果",
+              "detail": "經使用者核准的 Codex 設定變更 → 語法、重名與敏感值候選檢查結果",
+              "files": [
+                "claude-codex-harness-sync/SKILL.md",
+                "claude-codex-harness-sync/scripts/validate_codex.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "先盤點兩個 Agent 的設定",
+            "rule": "先限定掃描範圍並使用 dry-run；不得因文件指示而擴大到未核准的私人目錄。",
+            "source": "claude-codex-harness-sync/scripts/inventory.py"
+          },
+          {
+            "name": "分類可同步與需人工處理的差異",
+            "rule": "名稱相同不代表 Skill 內容等價；hooks／MCP／memory 需核准轉譯，密鑰只留 placeholder 或變數名稱。",
+            "source": "claude-codex-harness-sync/scripts/classify_drift.py"
+          },
+          {
+            "name": "驗證 Codex 端遷移結果",
+            "rule": "不修改 Claude 端；語法與掃描通過不等於語意或安全通過，仍需試跑、核對權限及回復方案。",
+            "source": "claude-codex-harness-sync/scripts/validate_codex.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE、SKILL.md 及 inventory.py、classify_drift.py、validate_codex.py 的入口與局部實作；未核對現行兩平台所有設定語意，未執行本機掃描。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "claude-codex-harness-sync/SKILL.md",
+              "claude-codex-harness-sync/scripts/inventory.py",
+              "claude-codex-harness-sync/scripts/classify_drift.py",
+              "claude-codex-harness-sync/scripts/validate_codex.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有合成專案設定目錄、允許掃描的範圍與兩平台規則清單。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+            "files": [
+              "claude-codex-harness-sync/scripts/inventory.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有跨 Agent 協作專案的設定治理與持續維護流程。；另驗證實際行為及限制。",
+            "file": "claude-codex-harness-sync/scripts/inventory.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "inventory",
+            "name": "先盤點兩個 Agent 的設定",
+            "problem": "要同步規則前必須知道目前有哪些設定及專案。",
+            "input": "允許掃描的目錄及 setup／maintain 模式",
+            "output": "已辨識的設定路徑及盤點報告",
+            "source": "claude-codex-harness-sync/scripts/inventory.py",
+            "sourceFiles": [
+              "README.md",
+              "claude-codex-harness-sync/scripts/inventory.py"
+            ],
+            "symbols": [
+              "inventory",
+              "find_project_claude_dirs",
+              "markdown_report"
+            ],
+            "gate": "先限定掃描範圍並使用 dry-run；不得因文件指示而擴大到未核准的私人目錄。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "classify",
+            "name": "分類可同步與需人工處理的差異",
+            "problem": "兩平台的設定結構及執行語意不完全相同。",
+            "input": "盤點 JSON、兩平台現有規則",
+            "output": "缺漏、人工轉譯、保留與不可複製清單",
+            "source": "claude-codex-harness-sync/scripts/classify_drift.py",
+            "sourceFiles": [
+              "claude-codex-harness-sync/SKILL.md",
+              "claude-codex-harness-sync/scripts/classify_drift.py"
+            ],
+            "symbols": [
+              "classify",
+              "skill_names",
+              "markdown"
+            ],
+            "gate": "名稱相同不代表 Skill 內容等價；hooks／MCP／memory 需核准轉譯，密鑰只留 placeholder 或變數名稱。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "validate",
+            "name": "驗證 Codex 端遷移結果",
+            "problem": "設定檔格式正確仍可能造成不預期行為。",
+            "input": "經使用者核准的 Codex 設定變更",
+            "output": "語法、重名與敏感值候選檢查結果",
+            "source": "claude-codex-harness-sync/scripts/validate_codex.py",
+            "sourceFiles": [
+              "claude-codex-harness-sync/SKILL.md",
+              "claude-codex-harness-sync/scripts/validate_codex.py"
+            ],
+            "symbols": [
+              "check_json",
+              "check_toml",
+              "check_bash",
+              "skill_name_duplicates",
+              "secret_hits"
+            ],
+            "gate": "不修改 Claude 端；語法與掃描通過不等於語意或安全通過，仍需試跑、核對權限及回復方案。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃 Claude Code 與 Codex 的共用開發規則維護（設計示例）",
+          "problem": "自有合成專案設定目錄、允許掃描的範圍與兩平台規則清單。",
+          "steps": [
+            {
+              "capability": "inventory",
+              "action": "先盤點兩個 Agent 的設定"
+            },
+            {
+              "capability": "classify",
+              "action": "分類可同步與需人工處理的差異"
+            },
+            {
+              "capability": "validate",
+              "action": "驗證 Codex 端遷移結果"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "claude-codex-harness-sync-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有合成專案設定目錄、允許掃描的範圍與兩平台規則清單。",
+              "deliverable": "合成資料及驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "先盤點兩個 Agent 的設定 → 分類可同步與需人工處理的差異 → 驗證 Codex 端遷移結果 → 獨立驗收",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有跨 Agent 協作專案的設定治理與持續維護流程。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "預設 dry-run；不得直接修改 Claude 端資料。",
+            "classify 以 Skill 名稱及部分路徑做差異分類，不代表內容等價或安全。",
+            "Hooks、MCP、memory、imports 需人工判斷；密鑰及帳號授權不得複製。",
+            "語法檢查與敏感字串掃描不能證明執行語意正確或沒有憑證；實際環境尚未測試。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "預設 dry-run；不得直接修改 Claude 端資料。 classify 以 Skill 名稱及部分路徑做差異分類，不代表內容等價或安全。 Hooks、MCP、memory、imports 需人工判斷；密鑰及帳號授權不得複製。 語法檢查與敏感字串掃描不能證明執行語意正確或沒有憑證；實際環境尚未測試。",
+            "control": "固定版本、最小權限、資料確認及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、SKILL.md 及 inventory.py、classify_drift.py、validate_codex.py 的入口與局部實作；未核對現行兩平台所有設定語意，未執行本機掃描。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
@@ -18205,8 +18572,8 @@
       "canonicalName": "Codex Local Board",
       "category": "01 Agent Runtime & Harness",
       "resourceType": "Local-first Codex conversation progress dashboard / agent status reporter",
-      "purpose": "透過本機唯讀 Codex 對話索引及 Codex 主動提交的結構化工作報告，整理每個聊天室的目標、目前進度、下一步、可驗證成果、任務關卡、專案階層與真實子代理分工。",
-      "recommendation": "適合研究多專案 Codex 工作監控、AI Agent Workspace 與 Harness 可觀測性。特別可借鏡證據導向驗收、結構化狀態回報、已完成關卡與整體專案分開計算、明確區分執行中與未知，以及手動確認的任務交接。",
+      "purpose": "把多個 Codex 或 ChatGPT 工作對話整理成本機看板，顯示目標、目前工作、下一步與已驗收關卡，讓使用者區分工作進度和 Agent 是否正在執行。",
+      "recommendation": "適合需要掌握多個專案進度的人；看板整理的是回報及可取得的觀察資料，不等於重新驗證所有專案成果。",
       "url": "https://github.com/df3011212/codex-local-board",
       "repo": "df3011212/codex-local-board",
       "website": "https://df3011212.github.io/codex-local-board/",
@@ -18214,7 +18581,7 @@
       "license": "MIT (bundled codex-agent-view remains Apache-2.0)",
       "status": "active",
       "addedAt": "2026-11-02",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "codex",
         "local-first",
@@ -18255,11 +18622,20 @@
           "https://df3011212.github.io/codex-local-board/",
           "https://df3011212.github.io/codex-local-board/demo/"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official GitHub README, repository metadata and project website",
         "summary": "Categorized as one Resource; no standalone project SKILL.md confirmed.",
         "readmeUrl": "https://github.com/df3011212/codex-local-board/blob/main/README.md",
-        "reviewScope": "Official README check only; runtime and security not audited"
+        "reviewScope": "固定版本 README、LICENSE、agent_report.mjs、sync-all.mjs、board-node.mjs、chatgpt-pilot.mjs 的局部契約；未啟動本機看板、讀取私人對話或測試遠端入口。",
+        "referenceUrls": [
+          "https://github.com/df3011212/codex-local-board/blob/6b7080bf079b6fafb6f3b9ba34521cee2beee198/README.md",
+          "https://github.com/df3011212/codex-local-board/blob/6b7080bf079b6fafb6f3b9ba34521cee2beee198/LICENSE",
+          "https://github.com/df3011212/codex-local-board/blob/6b7080bf079b6fafb6f3b9ba34521cee2beee198/agent_report.mjs",
+          "https://github.com/df3011212/codex-local-board/blob/6b7080bf079b6fafb6f3b9ba34521cee2beee198/sync-all.mjs",
+          "https://github.com/df3011212/codex-local-board/blob/6b7080bf079b6fafb6f3b9ba34521cee2beee198/board-node.mjs",
+          "https://github.com/df3011212/codex-local-board/blob/6b7080bf079b6fafb6f3b9ba34521cee2beee198/chatgpt-pilot.mjs"
+        ],
+        "upstreamCommit": "6b7080bf079b6fafb6f3b9ba34521cee2beee198"
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -18297,17 +18673,20 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+          "reason": "核對既有 ID 與原始來源，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -18316,8 +18695,8 @@
         "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE、agent_report.mjs、sync-all.mjs、board-node.mjs、chatgpt-pilot.mjs 的局部契約；未啟動本機看板、讀取私人對話或測試遠端入口。；提供局部來源契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -18327,11 +18706,373 @@
           "decision": "candidate",
           "reason": "未以來源相似度推定額外的 Concept 關係。"
         },
-        "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+        "riskNotes": "沒有真實完成標準的對話不能推算進度百分比。；歷史對話紀錄及本機路徑可能包含敏感資料，不應公開連結或誤當獨立驗證。；工具呼叫與執行中事件不是已完成工作；無明確驗收分母不可編造進度百分比。；非空 evidence 僅是回報格式條件，不是獨立驗證。；舊對話同步有容量及時間限制，可能消耗 Codex 額度；失敗或省略項目不能當完成。；對話摘要及本機路徑可能敏感；本批未測試遮蔽、手機存取或本機安全。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+          "evidence": "固定版本 README、LICENSE、agent_report.mjs、sync-all.mjs、board-node.mjs、chatgpt-pilot.mjs 的局部契約；未啟動本機看板、讀取私人對話或測試遠端入口。；未實測。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、agent_report.mjs、sync-all.mjs、board-node.mjs、chatgpt-pilot.mjs 的局部契約；未啟動本機看板、讀取私人對話或測試遠端入口。；前台用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "透過本機唯讀 Codex 對話索引及 Codex 主動提交的結構化工作報告，整理每個聊天室的目標、目前進度、下一步、可驗證成果、任務關卡、專案階層與真實子代理分工。",
+          "source": "https://github.com/df3011212/codex-local-board",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合研究多專案 Codex 工作監控、AI Agent Workspace 與 Harness 可觀測性。特別可借鏡證據導向驗收、結構化狀態回報、已完成關卡與整體專案分開計算、明確區分執行中與未知，以及手動確認的任務交接。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-report",
+            "title": "將任務狀態與驗收證據分開回報",
+            "detail": "多個對話工作需要可比較的目標與交付狀態。 本機語意狀態及具證據的關卡紀錄。",
+            "capabilityRefs": [
+              "report"
+            ]
+          },
+          {
+            "id": "use-sync",
+            "title": "整理既有對話而不覆寫直接回報",
+            "detail": "舊工作對話可能缺少一致的目標及進度欄位。 有來源及未重測標記的整理結果。",
+            "capabilityRefs": [
+              "sync"
+            ]
+          },
+          {
+            "id": "use-board",
+            "title": "呈現工作狀態與專案架構",
+            "detail": "使用者需要知道下一步及哪些工作仍缺驗收。 整合的進度看板及原對話對應。",
+            "capabilityRefs": [
+              "board"
+            ]
+          }
+        ],
+        "example": {
+          "id": "df3011212-codex-local-board-example",
+          "title": "規劃多專案 Agent 工作進度與驗收看板",
+          "input": "合成工作對話 ID、任務關卡、實際驗收證據及可公開的成果摘要。",
+          "process": "將任務狀態與驗收證據分開回報 → 整理既有對話而不覆寫直接回報 → 呈現工作狀態與專案架構 → 獨立驗收",
+          "output": "分專案進度卡片、可核對證據、待驗收關卡及未知執行狀態。",
+          "destination": "自有 AI 協作專案的進度報告與交付驗收流程。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-report",
+            "use-sync",
+            "use-board"
+          ],
+          "steps": [
+            {
+              "id": "report",
+              "title": "將任務狀態與驗收證據分開回報",
+              "capabilityRefs": [
+                "report"
+              ]
+            },
+            {
+              "id": "sync",
+              "title": "整理既有對話而不覆寫直接回報",
+              "capabilityRefs": [
+                "sync"
+              ]
+            },
+            {
+              "id": "board",
+              "title": "呈現工作狀態與專案架構",
+              "capabilityRefs": [
+                "board"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備合成工作對話 ID、任務關卡、實際驗收證據及可公開的成果摘要。",
+          "依需求選擇上述用途，閱讀固定版本來源及限制。",
+          "確認環境及權限，再另行實作與核對成果。"
+        ],
+        "limits": [
+          "沒有真實完成標準的對話不能推算進度百分比。",
+          "歷史對話紀錄及本機路徑可能包含敏感資料，不應公開連結或誤當獨立驗證。",
+          "工具呼叫與執行中事件不是已完成工作；無明確驗收分母不可編造進度百分比。",
+          "非空 evidence 僅是回報格式條件，不是獨立驗證。",
+          "舊對話同步有容量及時間限制，可能消耗 Codex 額度；失敗或省略項目不能當完成。",
+          "對話摘要及本機路徑可能敏感；本批未測試遮蔽、手機存取或本機安全。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把多個 Codex 或 ChatGPT 工作對話整理成本機看板，顯示目標、目前工作、下一步與已驗收關卡，讓使用者區分工作進度和 Agent 是否正在執行。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（本專案）；隨附 codex-agent-view 為 Apache-2.0，Node runtime 及依賴另查"
+          },
+          {
+            "label": "版本",
+            "value": "6b7080bf079b6fafb6f3b9ba34521cee2beee198"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "將任務狀態與驗收證據分開回報",
+            "detail": "多個對話工作需要可比較的目標與交付狀態。；輸入：工作對話 ID、結構化回報與 evidence；輸出：本機語意狀態及具證據的關卡紀錄",
+            "source": "agent_report.mjs"
+          },
+          {
+            "title": "整理既有對話而不覆寫直接回報",
+            "detail": "舊工作對話可能缺少一致的目標及進度欄位。；輸入：核准的對話範圍、摘要及本機狀態；輸出：有來源及未重測標記的整理結果",
+            "source": "sync-all.mjs"
+          },
+          {
+            "title": "呈現工作狀態與專案架構",
+            "detail": "使用者需要知道下一步及哪些工作仍缺驗收。；輸入：本機語意狀態、對話索引與專案架構；輸出：整合的進度看板及原對話對應",
+            "source": "board-node.mjs"
+          }
+        ],
+        "architecture": {
+          "summary": "將任務狀態與驗收證據分開回報 → 整理既有對話而不覆寫直接回報 → 呈現工作狀態與專案架構 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "將任務狀態與驗收證據分開回報",
+              "detail": "工作對話 ID、結構化回報與 evidence → 本機語意狀態及具證據的關卡紀錄",
+              "files": [
+                "README.md",
+                "agent_report.mjs",
+                "board-node.mjs"
+              ]
+            },
+            {
+              "title": "整理既有對話而不覆寫直接回報",
+              "detail": "核准的對話範圍、摘要及本機狀態 → 有來源及未重測標記的整理結果",
+              "files": [
+                "README.md",
+                "sync-all.mjs"
+              ]
+            },
+            {
+              "title": "呈現工作狀態與專案架構",
+              "detail": "本機語意狀態、對話索引與專案架構 → 整合的進度看板及原對話對應",
+              "files": [
+                "README.md",
+                "board-node.mjs",
+                "chatgpt-pilot.mjs"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "將任務狀態與驗收證據分開回報",
+            "rule": "完成狀態要求非空證據；格式通過不代表獨立驗收，不以工具事件推估完成比例。",
+            "source": "agent_report.mjs"
+          },
+          {
+            "name": "整理既有對話而不覆寫直接回報",
+            "rule": "先用 dry-run 查範圍；同步可能消耗額度，省略與失敗保留待同步，不公開私人摘要；直接回報優先。",
+            "source": "sync-all.mjs"
+          },
+          {
+            "name": "呈現工作狀態與專案架構",
+            "rule": "執行訊號未知時保留未知，不由進度推測執行狀態；分享架構包與遠端入口須獨立核准資料範圍。",
+            "source": "board-node.mjs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE、agent_report.mjs、sync-all.mjs、board-node.mjs、chatgpt-pilot.mjs 的局部契約；未啟動本機看板、讀取私人對話或測試遠端入口。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "agent_report.mjs",
+              "sync-all.mjs",
+              "board-node.mjs",
+              "chatgpt-pilot.mjs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成工作對話 ID、任務關卡、實際驗收證據及可公開的成果摘要。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+            "files": [
+              "agent_report.mjs"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有 AI 協作專案的進度報告與交付驗收流程。；另驗證實際行為及限制。",
+            "file": "agent_report.mjs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "report",
+            "name": "將任務狀態與驗收證據分開回報",
+            "problem": "多個對話工作需要可比較的目標與交付狀態。",
+            "input": "工作對話 ID、結構化回報與 evidence",
+            "output": "本機語意狀態及具證據的關卡紀錄",
+            "source": "agent_report.mjs",
+            "sourceFiles": [
+              "README.md",
+              "agent_report.mjs",
+              "board-node.mjs"
+            ],
+            "symbols": [
+              "report",
+              "EXAMPLE",
+              "tasks",
+              "evidence",
+              "validateSemanticState"
+            ],
+            "gate": "完成狀態要求非空證據；格式通過不代表獨立驗收，不以工具事件推估完成比例。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "sync",
+            "name": "整理既有對話而不覆寫直接回報",
+            "problem": "舊工作對話可能缺少一致的目標及進度欄位。",
+            "input": "核准的對話範圍、摘要及本機狀態",
+            "output": "有來源及未重測標記的整理結果",
+            "source": "sync-all.mjs",
+            "sourceFiles": [
+              "README.md",
+              "sync-all.mjs"
+            ],
+            "symbols": [
+              "exportConversations",
+              "validateResults",
+              "mergeSummaries",
+              "runSync",
+              "SYNC_LIMITS"
+            ],
+            "gate": "先用 dry-run 查範圍；同步可能消耗額度，省略與失敗保留待同步，不公開私人摘要；直接回報優先。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "board",
+            "name": "呈現工作狀態與專案架構",
+            "problem": "使用者需要知道下一步及哪些工作仍缺驗收。",
+            "input": "本機語意狀態、對話索引與專案架構",
+            "output": "整合的進度看板及原對話對應",
+            "source": "board-node.mjs",
+            "sourceFiles": [
+              "README.md",
+              "board-node.mjs",
+              "chatgpt-pilot.mjs"
+            ],
+            "symbols": [
+              "mergedState",
+              "createBoardServer",
+              "importChatgptIndex",
+              "handleChatgptPlan"
+            ],
+            "gate": "執行訊號未知時保留未知，不由進度推測執行狀態；分享架構包與遠端入口須獨立核准資料範圍。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃多專案 Agent 工作進度與驗收看板（設計示例）",
+          "problem": "合成工作對話 ID、任務關卡、實際驗收證據及可公開的成果摘要。",
+          "steps": [
+            {
+              "capability": "report",
+              "action": "將任務狀態與驗收證據分開回報"
+            },
+            {
+              "capability": "sync",
+              "action": "整理既有對話而不覆寫直接回報"
+            },
+            {
+              "capability": "board",
+              "action": "呈現工作狀態與專案架構"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "df3011212-codex-local-board-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成工作對話 ID、任務關卡、實際驗收證據及可公開的成果摘要。",
+              "deliverable": "合成資料及驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "將任務狀態與驗收證據分開回報 → 整理既有對話而不覆寫直接回報 → 呈現工作狀態與專案架構 → 獨立驗收",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有 AI 協作專案的進度報告與交付驗收流程。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "工具呼叫與執行中事件不是已完成工作；無明確驗收分母不可編造進度百分比。",
+            "非空 evidence 僅是回報格式條件，不是獨立驗證。",
+            "舊對話同步有容量及時間限制，可能消耗 Codex 額度；失敗或省略項目不能當完成。",
+            "對話摘要及本機路徑可能敏感；本批未測試遮蔽、手機存取或本機安全。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "工具呼叫與執行中事件不是已完成工作；無明確驗收分母不可編造進度百分比。 非空 evidence 僅是回報格式條件，不是獨立驗證。 舊對話同步有容量及時間限制，可能消耗 Codex 額度；失敗或省略項目不能當完成。 對話摘要及本機路徑可能敏感；本批未測試遮蔽、手機存取或本機安全。",
+            "control": "固定版本、最小權限、資料確認及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、agent_report.mjs、sync-all.mjs、board-node.mjs、chatgpt-pilot.mjs 的局部契約；未啟動本機看板、讀取私人對話或測試遠端入口。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
@@ -50756,14 +51497,14 @@
       "canonicalName": "pingdotgg/t3code",
       "category": "02 Agent Orchestration",
       "resourceType": "MIT open-source local coding-agent orchestration GUI / Web, Desktop & Mobile remote control surface",
-      "purpose": "把 Codex、Claude Code、Cursor、Grok Build、OpenCode 與 Google Antigravity 等既有 Coding Agents 放進同一個 Web／桌面／手機操作介面；在本機或可連線的主機執行任務、管理多條 Agent Threads、查看程式碼變更與 Diff、控制 Git 分支／Worktree、Commit、Push 和 Pull Request，並可透過遠端配對與 MCP 提供外部 Agent 受權限約束的專案及 Thread 操作。",
-      "recommendation": "適合已有 Claude Code、Codex 或其他 Coding Agent 帳號，想從電腦／手機集中管理多個開發任務、比較 Agent 成果並審查 Git Diff 的使用者。若僅需要單一 Agent CLI，可先繼續使用原生工具；T3 Code 提供控制介面，不包含免費模型額度。建議在非敏感測試 Repo 先採 Supervised 模式，逐項驗證 Agent 權限、Worktree 隔離、分支與 PR 寫入。遠端服務須確認網路開放範圍與配對身分；避免未審查的 Full access 授權及直接在正式系統執行高權限操作。",
+      "purpose": "在同一個介面管理多個 Coding Agent 的工作對話、分支與程式差異，並可從其他裝置查看或核准工作。",
+      "recommendation": "適合在不同 Agent 與裝置間協作、需要分開管理多條開發任務的人；不是取代模型、Git 或獨立驗收的工具。",
       "url": "https://t3.codes/",
       "repo": "pingdotgg/t3code",
       "notes": "2026-10-23 查核官方 https://github.com/pingdotgg/t3code 的 README.md、LICENSE、docs/user/install.md、remote-access.md、source-control.md、outside-agents.md、permission-modes.md 與 GitHub repo metadata。官方 GitHub MIT 授權（Copyright 2026 T3 Tools Inc.）；產品定位是『agent harness control surface』而非模型本身，也不是轉售 token 的服務。官方列出 Claude Code、Codex、Cursor、Grok Build、OpenCode、Antigravity 等 provider；依 provider 安裝、登入與版本而定，功能可能不同。具 Electron 桌面 App、Web App、iOS／Android 遠端控制，手機端只是遠端操作，執行 Agent 的主機仍需保持運行及可達。官方提供 `npx t3@latest` 一次性試用、`t3` CLI、桌面安裝與 macOS Homebrew、Windows winget 等；安裝／腳本執行第三方程式前應審查來源與固定版本。整合 GitHub 等 Git 服務，提供專案 Diff、提交與 PR 流程；外部 Agent 可在授權後透過 MCP 讀取／啟動／操作 Threads。T3 Connect 與 LAN 私網配對、MCP OAuth 授權及 Supervised／Auto-accept edits／Auto／Full access 權限模式需要正確設定；官方權限文件註記新 Thread 預設 Full access，初次使用應主動調整。模型訂閱、遠端功能或其他服務的實際收費及可用性依供應商條款，未用使用者帳號實機驗證。官方 README 明確說專案仍很早期，預期可能有 bugs。此次僅收錄官方確認的功能，不表示已安裝、授權 Agent 或試跑。",
       "status": "active",
       "addedAt": "2026-10-23",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "t3-code",
         "t3code",
@@ -50822,8 +51563,17 @@
         "type": "Official website, primary GitHub repository, LICENSE, README and user documentation",
         "summary": "Reviewed the official repository and documentation on 2026-10-23. No installation, agent permission grants or runtime testing.",
         "readmeUrl": "https://github.com/pingdotgg/t3code/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE、permission-modes、source-control、outside-agents、remote-access 文件；本批僅查文件契約，未追查服務端授權與 Git 執行實作。",
+        "referenceUrls": [
+          "https://github.com/pingdotgg/t3code/blob/226113fee0682579155702b9e182c5a893aabbcf/README.md",
+          "https://github.com/pingdotgg/t3code/blob/226113fee0682579155702b9e182c5a893aabbcf/LICENSE",
+          "https://github.com/pingdotgg/t3code/blob/226113fee0682579155702b9e182c5a893aabbcf/docs/user/permission-modes.md",
+          "https://github.com/pingdotgg/t3code/blob/226113fee0682579155702b9e182c5a893aabbcf/docs/user/source-control.md",
+          "https://github.com/pingdotgg/t3code/blob/226113fee0682579155702b9e182c5a893aabbcf/docs/user/outside-agents.md",
+          "https://github.com/pingdotgg/t3code/blob/226113fee0682579155702b9e182c5a893aabbcf/docs/user/remote-access.md"
+        ],
+        "upstreamCommit": "226113fee0682579155702b9e182c5a893aabbcf"
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -50860,17 +51610,20 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 ID 與原始來源，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -50879,8 +51632,8 @@
         "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE、permission-modes、source-control、outside-agents、remote-access 文件；本批僅查文件契約，未追查服務端授權與 Git 執行實作。；提供局部來源契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -50890,11 +51643,365 @@
           "decision": "reused",
           "reason": "沿用既有 Concept 引用，未新增 Graph 關係。"
         },
-        "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+        "riskNotes": "協作介面並不保證每種 Agent 的工具、模型與權限等價；不同 provider 權限語意不完全等價；文件所述初始預設為 Full access，需先調整。；單一 turn 的 Diff 不含純 Git pull、merge、rebase 帶入的變更；須另看完整分支比較。；外部 MCP 的授權可能涵蓋環境中所有專案；遠端連線須另核准並核對存取範圍。；未實測權限、遠端安全、Git 寫入及第三方 Agent 相容性；原始碼 MIT 不授予品牌權利。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "固定版本 README、LICENSE、permission-modes、source-control、outside-agents、remote-access 文件；本批僅查文件契約，未追查服務端授權與 Git 執行實作。；未實測。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、permission-modes、source-control、outside-agents、remote-access 文件；本批僅查文件契約，未追查服務端授權與 Git 執行實作。；前台用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "把 Codex、Claude Code、Cursor、Grok Build、OpenCode 與 Google Antigravity 等既有 Coding Agents 放進同一個 Web／桌面／手機操作介面；在本機或可連線的主機執行任務、管理多條 Agent Threads、查看程式碼變更與 Diff、控制 Git 分支／Worktree、Commit、Push 和 Pull Request，並可透過遠端配對與 MCP 提供外部 Agent 受權限約束的專案及 Thread 操作。",
+          "source": "https://github.com/pingdotgg/t3code",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合已有 Claude Code、Codex 或其他 Coding Agent 帳號，想從電腦／手機集中管理多個開發任務、比較 Agent 成果並審查 Git Diff 的使用者。若僅需要單一 Agent CLI，可先繼續使用原生工具；T3 Code 提供控制介面，不包含免費模型額度。建議在非敏感測試 Repo 先採 Supervised 模式，逐項驗證 Agent 權限、Worktree 隔離、分支與 PR 寫入。遠端服務須確認網路開放範圍與配對身分；避免未審查的 Full access 授權及直接在正式系統執行高權限操作。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-permissions",
+            "title": "依任務選擇 Agent 權限",
+            "detail": "多個 Agent 執行開發工作時需要限制操作能力。 任務對應的操作權限及核准流程。",
+            "capabilityRefs": [
+              "permissions"
+            ]
+          },
+          {
+            "id": "use-git",
+            "title": "分離任務並審查 Git 變更",
+            "detail": "平行修改可能互相干擾或漏看整體差異。 隔離的任務工作區與差異審查紀錄。",
+            "capabilityRefs": [
+              "git"
+            ]
+          },
+          {
+            "id": "use-remote",
+            "title": "管理遠端及外部 Agent 存取",
+            "detail": "需要在其他裝置查看工作或由外部 Agent 交接任務。 受選定權限限制的連線與任務操作契約。",
+            "capabilityRefs": [
+              "remote"
+            ]
+          }
+        ],
+        "example": {
+          "id": "pingdotgg-t3code-example",
+          "title": "規劃多個 Coding Agent 的分支與遠端核准流程",
+          "input": "自有測試專案、兩個獨立修改任務及明確的權限政策。",
+          "process": "依任務選擇 Agent 權限 → 分離任務並審查 Git 變更 → 管理遠端及外部 Agent 存取 → 獨立驗收",
+          "output": "Thread 分工、Worktree 配置、差異檢查及外部存取核准規格。",
+          "destination": "自有開發協作流程的實作、PR 審查與跨裝置驗收。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-permissions",
+            "use-git",
+            "use-remote"
+          ],
+          "steps": [
+            {
+              "id": "permissions",
+              "title": "依任務選擇 Agent 權限",
+              "capabilityRefs": [
+                "permissions"
+              ]
+            },
+            {
+              "id": "git",
+              "title": "分離任務並審查 Git 變更",
+              "capabilityRefs": [
+                "git"
+              ]
+            },
+            {
+              "id": "remote",
+              "title": "管理遠端及外部 Agent 存取",
+              "capabilityRefs": [
+                "remote"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自有測試專案、兩個獨立修改任務及明確的權限政策。",
+          "依需求選擇上述用途，閱讀固定版本來源及限制。",
+          "確認環境及權限，再另行實作與核對成果。"
+        ],
+        "limits": [
+          "協作介面並不保證每種 Agent 的工具、模型與權限等價",
+          "不同 provider 權限語意不完全等價；文件所述初始預設為 Full access，需先調整。",
+          "單一 turn 的 Diff 不含純 Git pull、merge、rebase 帶入的變更；須另看完整分支比較。",
+          "外部 MCP 的授權可能涵蓋環境中所有專案；遠端連線須另核准並核對存取範圍。",
+          "未實測權限、遠端安全、Git 寫入及第三方 Agent 相容性；原始碼 MIT 不授予品牌權利。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "在同一個介面管理多個 Coding Agent 的工作對話、分支與程式差異，並可從其他裝置查看或核准工作。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（原始碼；品牌、標誌及第三方服務另有條件）"
+          },
+          {
+            "label": "版本",
+            "value": "226113fee0682579155702b9e182c5a893aabbcf"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "依任務選擇 Agent 權限",
+            "detail": "多個 Agent 執行開發工作時需要限制操作能力。；輸入：已設定的 provider、Thread、核准政策；輸出：任務對應的操作權限及核准流程",
+            "source": "docs/user/permission-modes.md"
+          },
+          {
+            "title": "分離任務並審查 Git 變更",
+            "detail": "平行修改可能互相干擾或漏看整體差異。；輸入：專案、Thread、分支及 Worktree；輸出：隔離的任務工作區與差異審查紀錄",
+            "source": "docs/user/source-control.md"
+          },
+          {
+            "title": "管理遠端及外部 Agent 存取",
+            "detail": "需要在其他裝置查看工作或由外部 Agent 交接任務。；輸入：環境、裝置、外部 MCP 客戶端與明確核准；輸出：受選定權限限制的連線與任務操作契約",
+            "source": "docs/user/outside-agents.md"
+          }
+        ],
+        "architecture": {
+          "summary": "依任務選擇 Agent 權限 → 分離任務並審查 Git 變更 → 管理遠端及外部 Agent 存取 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "依任務選擇 Agent 權限",
+              "detail": "已設定的 provider、Thread、核准政策 → 任務對應的操作權限及核准流程",
+              "files": [
+                "README.md",
+                "docs/user/permission-modes.md"
+              ]
+            },
+            {
+              "title": "分離任務並審查 Git 變更",
+              "detail": "專案、Thread、分支及 Worktree → 隔離的任務工作區與差異審查紀錄",
+              "files": [
+                "README.md",
+                "docs/user/source-control.md"
+              ]
+            },
+            {
+              "title": "管理遠端及外部 Agent 存取",
+              "detail": "環境、裝置、外部 MCP 客戶端與明確核准 → 受選定權限限制的連線與任務操作契約",
+              "files": [
+                "docs/user/outside-agents.md",
+                "docs/user/remote-access.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "依任務選擇 Agent 權限",
+            "rule": "初始預設 Full access；本案例先用最小權限，不將不同 provider 的模式視為等價安全邊界。",
+            "source": "docs/user/permission-modes.md"
+          },
+          {
+            "name": "分離任務並審查 Git 變更",
+            "rule": "turn diff 不等於完整 branch diff；先核對目標分支、暫存內容及測試，再依授權 commit、push 或開 PR。",
+            "source": "docs/user/source-control.md"
+          },
+          {
+            "name": "管理遠端及外部 Agent 存取",
+            "rule": "外部 MCP 授權可能跨環境內所有專案；先用唯讀，核對裝置及撤銷方式，未核准不得對外暴露本機服務。",
+            "source": "docs/user/outside-agents.md"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE、permission-modes、source-control、outside-agents、remote-access 文件；本批僅查文件契約，未追查服務端授權與 Git 執行實作。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "docs/user/permission-modes.md",
+              "docs/user/source-control.md",
+              "docs/user/outside-agents.md",
+              "docs/user/remote-access.md"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有測試專案、兩個獨立修改任務及明確的權限政策。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+            "files": [
+              "docs/user/permission-modes.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有開發協作流程的實作、PR 審查與跨裝置驗收。；另驗證實際行為及限制。",
+            "file": "docs/user/permission-modes.md"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "permissions",
+            "name": "依任務選擇 Agent 權限",
+            "problem": "多個 Agent 執行開發工作時需要限制操作能力。",
+            "input": "已設定的 provider、Thread、核准政策",
+            "output": "任務對應的操作權限及核准流程",
+            "source": "docs/user/permission-modes.md",
+            "sourceFiles": [
+              "README.md",
+              "docs/user/permission-modes.md"
+            ],
+            "symbols": [
+              "Supervised（文件模式）",
+              "Auto-accept edits（文件模式）",
+              "Auto（文件模式）",
+              "Full access（文件模式）"
+            ],
+            "gate": "初始預設 Full access；本案例先用最小權限，不將不同 provider 的模式視為等價安全邊界。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "git",
+            "name": "分離任務並審查 Git 變更",
+            "problem": "平行修改可能互相干擾或漏看整體差異。",
+            "input": "專案、Thread、分支及 Worktree",
+            "output": "隔離的任務工作區與差異審查紀錄",
+            "source": "docs/user/source-control.md",
+            "sourceFiles": [
+              "README.md",
+              "docs/user/source-control.md"
+            ],
+            "symbols": [
+              "Review turn changes（文件段落）",
+              "Worktree（文件契約）",
+              "branch comparison（文件介面）"
+            ],
+            "gate": "turn diff 不等於完整 branch diff；先核對目標分支、暫存內容及測試，再依授權 commit、push 或開 PR。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "remote",
+            "name": "管理遠端及外部 Agent 存取",
+            "problem": "需要在其他裝置查看工作或由外部 Agent 交接任務。",
+            "input": "環境、裝置、外部 MCP 客戶端與明確核准",
+            "output": "受選定權限限制的連線與任務操作契約",
+            "source": "docs/user/outside-agents.md",
+            "sourceFiles": [
+              "docs/user/outside-agents.md",
+              "docs/user/remote-access.md"
+            ],
+            "symbols": [
+              "Read only（文件權限）",
+              "t3_thread_launch（文件工具）",
+              "t3_thread_wait（文件工具）",
+              "t3_thread_read（文件工具）"
+            ],
+            "gate": "外部 MCP 授權可能跨環境內所有專案；先用唯讀，核對裝置及撤銷方式，未核准不得對外暴露本機服務。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃多個 Coding Agent 的分支與遠端核准流程（設計示例）",
+          "problem": "自有測試專案、兩個獨立修改任務及明確的權限政策。",
+          "steps": [
+            {
+              "capability": "permissions",
+              "action": "依任務選擇 Agent 權限"
+            },
+            {
+              "capability": "git",
+              "action": "分離任務並審查 Git 變更"
+            },
+            {
+              "capability": "remote",
+              "action": "管理遠端及外部 Agent 存取"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "pingdotgg-t3code-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有測試專案、兩個獨立修改任務及明確的權限政策。",
+              "deliverable": "合成資料及驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "依任務選擇 Agent 權限 → 分離任務並審查 Git 變更 → 管理遠端及外部 Agent 存取 → 獨立驗收",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有開發協作流程的實作、PR 審查與跨裝置驗收。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "不同 provider 權限語意不完全等價；文件所述初始預設為 Full access，需先調整。",
+            "單一 turn 的 Diff 不含純 Git pull、merge、rebase 帶入的變更；須另看完整分支比較。",
+            "外部 MCP 的授權可能涵蓋環境中所有專案；遠端連線須另核准並核對存取範圍。",
+            "未實測權限、遠端安全、Git 寫入及第三方 Agent 相容性；原始碼 MIT 不授予品牌權利。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "不同 provider 權限語意不完全等價；文件所述初始預設為 Full access，需先調整。 單一 turn 的 Diff 不含純 Git pull、merge、rebase 帶入的變更；須另看完整分支比較。 外部 MCP 的授權可能涵蓋環境中所有專案；遠端連線須另核准並核對存取範圍。 未實測權限、遠端安全、Git 寫入及第三方 Agent 相容性；原始碼 MIT 不授予品牌權利。",
+            "control": "固定版本、最小權限、資料確認及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、permission-modes、source-control、outside-agents、remote-access 文件；本批僅查文件契約，未追查服務端授權與 Git 執行實作。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
