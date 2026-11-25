@@ -6,14 +6,14 @@
   "canonicalName": "anthropics/skills",
   "category": "06 Skills",
   "resourceType": "Skill Collection",
-  "purpose": "Anthropic 公開的 Agent Skills 規格、範例與文件類技能，示範 SKILL.md 如何封裝任務指示、輔助檔案與逐步載入。",
-  "recommendation": "需要建立自己的可重複工作方式時，先從 template 與 skill-creator 找結構和測試方法；需要執行具體任務時，才選一個對應技能，不必安裝整套集合。",
+  "purpose": "學習如何把重複工作封裝成 AI Agent 能選用的 Skill，並參考現成的文件、網頁測試與技能開發範例。",
+  "recommendation": "適合想把固定工作方式變成可重用技能的人；先建立一個任務的觸發、規則與驗收方式，不必安裝整個集合。",
   "url": "https://github.com/anthropics/skills",
   "repo": "anthropics/skills",
   "notes": "版本化索引：https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/README.md 。本次查核範圍見 source.reviewScope。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [
     "skills",
     "agent-design",
@@ -91,7 +91,7 @@
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -115,6 +115,138 @@
     "verification": {
       "status": "not-tested",
       "evidence": "Official README index plus pinned template/SKILL.md, webapp-testing/SKILL.md, skill-creator/SKILL.md; no execution or per-skill license audit."
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "以已查閱的 template、skill-creator、webapp-testing 與索引建立技能學習及驗收用途對應，保留未讀技能的範圍限制。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "skill-structure",
+      "detail": "template 提供 SKILL.md 最小結構及 name、description。",
+      "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/template/SKILL.md",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "目標 Host 的實際觸發方式需確認。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "skill-iteration",
+      "detail": "skill-creator 支援需求、草稿、測試提示與比較迭代。",
+      "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/skill-creator/SKILL.md",
+      "evidenceFields": [
+        "features.1",
+        "requirements.2"
+      ],
+      "limitations": "測試設計與結果需另執行，不能僅依描述宣稱品質。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "webapp-validation",
+      "detail": "webapp-testing 文件以 Playwright 查核渲染後的畫面與 DOM。",
+      "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/webapp-testing/SKILL.md",
+      "evidenceFields": [
+        "features.2",
+        "requirements.1"
+      ],
+      "limitations": "瀏覽器與目標資料權限需核准，未執行腳本。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "document-index",
+      "detail": "README 索引含文件及設計相關技能入口。",
+      "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/README.md",
+      "evidenceFields": [
+        "features.3",
+        "limitations.1"
+      ],
+      "limitations": "各技能內容、依賴與授權未逐一查核。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "capture-routine",
+        "title": "把重複工作寫成 Skill",
+        "detail": "將工作適用時機、操作方法與限制寫成可重用的技能，而不必每次重新說明。",
+        "evidenceRefs": [
+          "skill-structure",
+          "skill-iteration"
+        ]
+      },
+      {
+        "id": "test-skill",
+        "title": "驗證 Skill 是否有幫助",
+        "detail": "使用相同的測試題比較有技能與無技能的結果，修正錯誤觸發及輸出問題。",
+        "evidenceRefs": [
+          "skill-iteration"
+        ]
+      },
+      {
+        "id": "find-task-skill",
+        "title": "尋找文件與網頁驗收範例",
+        "detail": "依實際任務選讀文件處理或網頁測試技能，再核對工具與授權。",
+        "evidenceRefs": [
+          "document-index",
+          "webapp-validation"
+        ]
+      }
+    ],
+    "example": {
+      "id": "resource-skill",
+      "title": "建立 Resource 整理 Skill",
+      "input": "已有整理規則，準備 Repo、服務、教材及來源不足四種測試輸入。",
+      "process": "定義技能觸發與規則 → 建立測試題 → 比較有無 Skill → 修正輸出",
+      "output": "SKILL.md、四種測試題、預期成果及差異記錄（未實測）。",
+      "destination": "專案的技能目錄及後續品質驗收流程。",
+      "note": "自訂設計示例，尚未建立或執行該技能；Host 與權限須另核對。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "capture-routine",
+        "test-skill"
+      ],
+      "steps": [
+        {
+          "id": "define",
+          "title": "撰寫結構與觸發條件",
+          "evidenceRefs": [
+            "skill-structure"
+          ]
+        },
+        {
+          "id": "prepare",
+          "title": "建立代表性測試資料",
+          "evidenceRefs": [],
+          "externalDependency": "測試輸入與預期答案依實際專案規則自行建立。"
+        },
+        {
+          "id": "evaluate",
+          "title": "比較結果及修正技能",
+          "evidenceRefs": [
+            "skill-iteration"
+          ]
+        }
+      ]
+    },
+    "start": [
+      "先選一項確實會重複執行的任務，列出輸入及預期產物。",
+      "讀取 template 與 skill-creator 的固定版本文件，確認目標 Host 支援方式。",
+      "準備正常與不應觸發的案例，核對工具權限後再測試。"
+    ],
+    "limits": [
+      "官方集合為示範與教育用途；同名 Host 內建能力可能與 Repo 不同。",
+      "README 宣告多項技能為 Apache 2.0；不同子目錄可能另有 LICENSE，本輪未逐一確認。",
+      "未安裝技能、執行腳本或核對跨 Host 相容性。"
+    ]
   }
 }
