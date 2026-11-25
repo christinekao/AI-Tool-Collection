@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 10（2026-11-25）
+
+- 基線 main `6b89ce4a89ce56e3817a1ee1656ee25291c63b3f`；PR #74 四項 CI 通過並合併，60/286 筆已合併（54 完成對應、6 deferred）。Catalog Sync 與 Pages 需另行核對。
+- [Batch 10 逐筆報告](RESOURCE_DUAL_LAYER_BATCH10_20261125.md)：langgenius-dify、open-webui-open-webui、unclecode-crawl4ai，3 筆 mapped 候選、9 個用途、9 個能力、3 個 design-only 案例。原分類、Tags、資料及知識關係保留。
+- Dify 多租戶及前端授權、Open WebUI 品牌修改的 50 人例外、Crawl4AI 引用及擷取邊界已記錄；第三方未實測。
+- 合併前 60/286；本批驗收並合併後 63/286（57 完成對應、6 deferred），223 未改寫。既有來源缺口保留。
+- 無需逐筆使用者核准；僅閱讀方向、缺失來源或重大不可逆、權限及成本決策提出。下一批優先 MinerU、OpenClaw 等未改寫 Resource。排程停用，直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 09（2026-11-25）
 
 - 基線 main `be4dfae6633245715e4d506c5aae9b28d0080134`；PR #73 四項 CI 成功，合併 `402e0dda7e37c8822e257b3fa4ce04829bc65476`，Catalog Sync 確認。55/286 已合併（50 完成對應、5 deferred）。
