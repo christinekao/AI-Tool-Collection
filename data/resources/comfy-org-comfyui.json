@@ -6,14 +6,14 @@
   "canonicalName": "ComfyUI",
   "category": "Media / Video",
   "resourceType": "節點式生成模型工作流介面",
-  "purpose": "以節點圖編排影像生成模型、前處理與後處理步驟，方便調整和重複使用生成流程。",
-  "recommendation": "適合需要精細控制影像生成流程及本機推論的使用者。",
+  "purpose": "把 AI 圖片、影片等生成過程拆成可連接的步驟，保存模型、參數及處理順序，方便重複使用與自動化。",
+  "recommendation": "適合需要控制生成步驟、重複產出素材或串接自動化流程的人；若只需要一次性生成圖片，簡單的圖像生成介面更省設定。",
   "url": "https://github.com/comfyanonymous/ComfyUI",
   "repo": "Comfy-Org/ComfyUI",
   "notes": "使用者原始連結為 comfyanonymous/ComfyUI；GitHub 目前導向 Comfy-Org/ComfyUI，保留原始連結。",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "content",
@@ -45,25 +45,34 @@
   "source": {
     "url": "https://github.com/comfyanonymous/ComfyUI",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部",
+    "upstreamCommit": "0d0e105153c02261519a6a552c52ec1cd5d9855e",
+    "referenceUrls": [
+      "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/README.md",
+      "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/server.py",
+      "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/execution.py",
+      "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +81,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +95,399 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部；未執行第三方程式。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部；具體用途與來源能力以局部 ID 雙向連結。"
     }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "repeat-visual",
+        "title": "保存可重複生成的圖片流程",
+        "detail": "將選定模型、生成設定及處理步驟保存在工作流，方便後續調整與比較。",
+        "capabilityRefs": [
+          "node-contract",
+          "validate-queue"
+        ]
+      },
+      {
+        "id": "batch-production",
+        "title": "將生成流程接到自動化",
+        "detail": "在核准的本地環境送出已驗證的工作流，取得任務識別碼後追蹤結果。",
+        "capabilityRefs": [
+          "node-contract",
+          "validate-queue",
+          "track-result"
+        ]
+      },
+      {
+        "id": "diagnose-generation",
+        "title": "辨識生成失敗與參數問題",
+        "detail": "先檢查節點與輸入是否可用，再區分排程、執行錯誤及實際輸出。",
+        "capabilityRefs": [
+          "node-contract",
+          "validate-queue",
+          "track-result"
+        ]
+      }
+    ],
+    "example": {
+      "id": "product-image-variations",
+      "title": "批次生成產品概念圖",
+      "input": "已授權的產品參考素材、三種文字描述及已核准模型與參數。",
+      "process": "確認節點契約 → 建立可執行 graph → 提交並保留 prompt_id → 查詢結果與錯誤 → 人工驗收",
+      "output": "三組候選概念圖及對應的工作流、參數、job 識別碼與驗收紀錄（預期產物）。",
+      "destination": "交給設計評估或後製流程；不得直接當作實際產品照片。",
+      "note": "自訂設計示例，未執行 ComfyUI、下載模型或使用付費 API。",
+      "useCaseRefs": [
+        "repeat-visual",
+        "batch-production",
+        "diagnose-generation"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "確認已安裝的節點契約",
+          "capabilityRefs": [
+            "node-contract"
+          ]
+        },
+        {
+          "id": "graph",
+          "title": "準備 API graph 與授權素材",
+          "capabilityRefs": [],
+          "externalDependency": "模型、參考素材、硬體及具體節點配置需經獨立查核。"
+        },
+        {
+          "id": "queue",
+          "title": "送出並驗證生成任務",
+          "capabilityRefs": [
+            "validate-queue"
+          ]
+        },
+        {
+          "id": "track",
+          "title": "查核實際輸出與失敗",
+          "capabilityRefs": [
+            "track-result"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "檢視圖像、權利及用途",
+          "capabilityRefs": [],
+          "externalDependency": "圖像品質、事實正確性與商用權限須人工確認。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "comparison": {
+      "title": "何時需要節點工作流？",
+      "headers": [
+        "直接輸入文字生成",
+        "ComfyUI"
+      ],
+      "rows": [
+        [
+          "適合單次圖像及少量調整",
+          "適合需保存多步設定與重複產出"
+        ],
+        [
+          "設定與硬體負擔通常較低",
+          "需管理模型、節點、執行環境與驗收"
+        ]
+      ],
+      "note": "使用節點不保證品質，也不代表所有生成步驟都離線或免費。"
+    },
+    "start": [
+      "先閱讀固定版本 README 及 API 契約，選擇單一有權模型與最小工作流。",
+      "於核准隔離環境確認節點輸入、模型、硬體及是否需外部服務；不直接安裝未知自訂節點。",
+      "先提交無敏感資料的小型 graph，再核對 prompt_id、執行狀態、實際輸出與參數紀錄。"
+    ],
+    "limits": [
+      "模型、Checkpoint、自訂節點和輸出素材各有授權；不應將程式授權等同輸出商用權。",
+      "此範圍未查閱完整模型推論、所有節點及自訂節點安全。",
+      "核心離線選項與外部／付費節點須分開確認，不以宣傳宣告代替網路及費用驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "伺服器接受可執行 prompt graph，驗證節點與參數後排入 PromptQueue，執行結果及錯誤透過 job history 等介面追蹤。",
+    "status": [
+      {
+        "label": "核心來源",
+        "value": "已查閱固定 Commit 的限定範圍"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "只完成核心設計契約，不代表完整專案重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / node graph / HTTP API"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "GPLv3（Repo LICENSE；模型與節點另計）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "0d0e105153c02261519a6a552c52ec1cd5d9855e"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "查詢節點輸入輸出",
+        "detail": "需確認選定模型及節點支援的參數；輸入：已安裝節點集合或 node_class；輸出：/object_info JSON 節點資料",
+        "source": "server.py"
+      },
+      {
+        "title": "驗證並排入工作流",
+        "detail": "希望將可重複的生成流程交給本地服務執行；輸入：POST /prompt 的 prompt graph、選用 prompt_id 及附加參數；輸出：有效時 prompt_id、number、node_errors；無效時 HTTP 400 與錯誤",
+        "source": "server.py"
+      },
+      {
+        "title": "追蹤執行狀態與輸出",
+        "detail": "生成任務非同步，須識別未完成或錯誤；輸入：prompt_id 或 queue 查詢；輸出：歷史及排程資訊；execution_error 事件／狀態",
+        "source": "server.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立節點工作流 → 取得節點契約 → 驗證 prompt → 排入 queue → 執行及查詢歷史",
+      "nodes": [
+        {
+          "title": "節點資訊",
+          "detail": "server 的 get_object_info 由 NODE_CLASS_MAPPINGS 取得 node_info，支援按 node_class 查詢。",
+          "files": [
+            "server.py"
+          ]
+        },
+        {
+          "title": "驗證與排程",
+          "detail": "post_prompt 讀取 JSON；產生或驗證 prompt_id，呼叫 validate_prompt，成功後 PromptQueue.put；失敗回 400。",
+          "files": [
+            "server.py",
+            "execution.py"
+          ]
+        },
+        {
+          "title": "執行",
+          "detail": "PromptExecutor.execute／execute_async 管理 graph 執行；錯誤經 handle_execution_error。",
+          "files": [
+            "execution.py"
+          ]
+        },
+        {
+          "title": "結果追蹤",
+          "detail": "/history/{prompt_id} 使用 PromptQueue.get_history，/queue 回傳執行中與待處理。",
+          "files": [
+            "server.py",
+            "execution.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "提交契約",
+        "rule": "/prompt 接受 prompt 欄位；此版本可提供 canonical UUID 格式 prompt_id，省略由伺服器生成。",
+        "source": "server.py"
+      },
+      {
+        "name": "接收不是完成",
+        "rule": "有效 graph 只在 validate_prompt 成功後排程，回傳 prompt_id/number/node_errors；不代表已輸出。",
+        "source": "server.py"
+      },
+      {
+        "name": "失敗可區別",
+        "rule": "無效 graph 及缺 prompt 回 400；執行期錯誤由 PromptExecutor 處理，不以歷史空值猜測成功。",
+        "source": "execution.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "固定版本來源閱讀",
+        "description": "按核心檔案與契約核對實作，不必先安裝。",
+        "files": [
+          "README.md",
+          "server.py",
+          "execution.py",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "隔離環境的最小驗證",
+        "description": "先閱讀固定版本 README 及 API 契約，選擇單一有權模型與最小工作流。 於核准隔離環境確認節點輸入、模型、硬體及是否需外部服務；不直接安裝未知自訂節點。 先提交無敏感資料的小型 graph，再核對 prompt_id、執行狀態、實際輸出與參數紀錄。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "批次媒體生成控制器",
+        "detail": "在外部控制器保存 prompt_id、輸入版本與輸出位置，建立逾時與重試界線，驗證結果後才交付。",
+        "file": "server.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "node-contract",
+        "name": "查詢節點輸入輸出",
+        "problem": "需確認選定模型及節點支援的參數",
+        "input": "已安裝節點集合或 node_class",
+        "output": "/object_info JSON 節點資料",
+        "source": "server.py",
+        "sourceFiles": [
+          "server.py"
+        ],
+        "symbols": [
+          "node_info",
+          "get_object_info",
+          "get_object_info_node"
+        ],
+        "gate": "僅查核已安裝節點，不能假設第三方節點可信或可用；不可任意安裝。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "validate-queue",
+        "name": "驗證並排入工作流",
+        "problem": "希望將可重複的生成流程交給本地服務執行",
+        "input": "POST /prompt 的 prompt graph、選用 prompt_id 及附加參數",
+        "output": "有效時 prompt_id、number、node_errors；無效時 HTTP 400 與錯誤",
+        "source": "server.py",
+        "sourceFiles": [
+          "server.py",
+          "execution.py"
+        ],
+        "symbols": [
+          "post_prompt",
+          "validate_prompt",
+          "PromptQueue.put"
+        ],
+        "gate": "收到 prompt_id 只代表接受排程；不要把 UI 工作流 JSON 當作已確認可執行的 API graph；禁止未授權付費節點。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "track-result",
+        "name": "追蹤執行狀態與輸出",
+        "problem": "生成任務非同步，須識別未完成或錯誤",
+        "input": "prompt_id 或 queue 查詢",
+        "output": "歷史及排程資訊；execution_error 事件／狀態",
+        "source": "server.py",
+        "sourceFiles": [
+          "server.py",
+          "execution.py"
+        ],
+        "symbols": [
+          "get_history_prompt_id",
+          "get_queue",
+          "PromptQueue.get_history",
+          "PromptExecutor.handle_execution_error"
+        ],
+        "gate": "核對完成狀態、實際媒體、錯誤及來源權利；沒有歷史資料不等於生成完成。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "批次生成產品概念圖（設計示例）",
+      "problem": "已授權的產品參考素材、三種文字描述及已核准模型與參數。",
+      "steps": [
+        {
+          "capability": "node-contract",
+          "action": "確認已安裝的節點契約",
+          "capabilityRefs": [
+            "node-contract"
+          ]
+        },
+        {
+          "capability": "validate-queue",
+          "action": "送出並驗證生成任務",
+          "capabilityRefs": [
+            "validate-queue"
+          ]
+        },
+        {
+          "capability": "track-result",
+          "action": "查核實際輸出與失敗",
+          "capabilityRefs": [
+            "track-result"
+          ]
+        }
+      ],
+      "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+      "readerExampleRef": "product-image-variations"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+      "stages": [
+        {
+          "title": "Graph 契約",
+          "detail": "核對 API graph 與節點輸入，設計有效與無效測試。",
+          "deliverable": "最小 graph 及預期錯誤"
+        },
+        {
+          "title": "佇列與追蹤",
+          "detail": "在核准環境提交並查詢 job，驗證排程與完成的差異。",
+          "deliverable": "job 狀態與輸出紀錄"
+        },
+        {
+          "title": "安全及產物",
+          "detail": "查模型和節點授權、費用及資源，逐張檢視。",
+          "deliverable": "來源、權利與品質驗收表"
+        }
+      ],
+      "gaps": [
+        "自訂節點、所有模型、完整 graph/cache 實作、網路隔離及 UI graph 轉換尚未逐檔查核。",
+        "未測 GPU、模型與生成輸出；未作完整資安審查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "第三方節點",
+        "severity": "高",
+        "issue": "自訂節點可執行程式與存取資料。",
+        "control": "審查來源及依賴、限制檔案／網路／金鑰，不自動安裝。"
+      },
+      {
+        "title": "成本及授權",
+        "severity": "高",
+        "issue": "模型、素材、生成端點可能有費用與限制。",
+        "control": "固定允許清單；核對模型、素材、節點、輸出各自的授權。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部"
+      },
+      {
+        "item": "Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝、執行、下載模型或連線正式資料。"
+      }
+    ]
   }
 }
