@@ -28256,14 +28256,14 @@
       "canonicalName": "Herdr",
       "category": "02 Agent Orchestration",
       "resourceType": "Open-source Rust terminal multiplexer with multi-agent coordination",
-      "purpose": "讓 Claude Code、Codex、Cursor、OpenCode 等 Agent 共享工作區與分割 Pane；追蹤 working/blocked/idle，透過 CLI/Socket API 統一管理終端、遠端 SSH、多機器與 session 協調。",
-      "recommendation": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。",
+      "purpose": "把多個 Coding Agent 的終端集中在同一介面，查看誰正在工作、等待輸入或閒置，並在中斷連線後接回原本的工作。",
+      "recommendation": "適合經常同時使用多個 CLI Agent 或跨 SSH 主機工作的開發者；它管理終端而非取代模型。需要正式任務驗收、權限隔離或持久化資料時仍須另設控制。",
       "url": "https://herdr.dev/",
       "repo": "herdrdev/herdr",
       "notes": "Apache-2.0。GitHub `herdrdev/herdr` 官方 README 確認 detach 後背景 Server 可維持工作；主機／Server 重啟後可恢復 Layout 和有整合支援的 Agent session，但原本 Process 不會因此存活。某些整合安裝會修改 Claude/Codex 的設定及 Hooks，應先對照現有 Harness。Terminal/Socket API 可下命令，不是純唯讀監控。官方提供安裝腳本；未執行。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "herdr",
         "agent-orchestration",
@@ -28300,8 +28300,17 @@
         "repoUrl": "https://github.com/herdrdev/herdr",
         "docsUrl": "https://herdr.dev/docs/integrations/",
         "readmeUrl": "https://github.com/herdrdev/herdr/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。",
+        "upstreamCommit": "e8d7d9705a7a2c89cef4dd42079379f05685af87",
+        "referenceUrls": [
+          "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/README.md",
+          "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/LICENSE",
+          "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/agent_resume.rs",
+          "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/api/schema/agents.rs",
+          "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/app/api/agents.rs",
+          "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/remote/attach.rs"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -28335,10 +28344,13 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -28354,8 +28366,8 @@
         "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。；提供局部來源契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -28365,11 +28377,365 @@
           "decision": "reused",
           "reason": "沿用既有 Concept 引用，未新增 Graph 關係。"
         },
-        "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+        "riskNotes": "Agent Session 權限與雲端模型費用需依各 Host 個別檢查；背景 Server 存活與主機重啟後的恢復是不同機制。；Agent 狀態不證明實際成果已通過測試。；SSH、Socket API 及外部 CLI 各有權限和相依條件。；未實測狀態判斷、主機重啟、SSH 或插件。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。；未實測。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。；前台用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "讓 Claude Code、Codex、Cursor、OpenCode 等 Agent 共享工作區與分割 Pane；追蹤 working/blocked/idle，透過 CLI/Socket API 統一管理終端、遠端 SSH、多機器與 session 協調。",
+          "source": "https://herdr.dev/",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-resume",
+            "title": "中斷連線後接回工作",
+            "detail": "切換裝置或 SSH 中斷時不希望丟掉工作。 可重連的終端或支援的 Agent 恢復計畫。",
+            "capabilityRefs": [
+              "resume"
+            ]
+          },
+          {
+            "id": "use-status",
+            "title": "查看 Agent 狀態並交接",
+            "detail": "多 Agent 同時執行時需要知道哪個等待輸入。 Agent 清單、狀態及提示交接操作。",
+            "capabilityRefs": [
+              "status"
+            ]
+          },
+          {
+            "id": "use-remote",
+            "title": "集中管理跨主機終端",
+            "detail": "不同主機的 CLI 工作需要獨立重連。 可管理的遠端連線及終端入口。",
+            "capabilityRefs": [
+              "remote"
+            ]
+          }
+        ],
+        "example": {
+          "id": "herdrdev-herdr-example",
+          "title": "規劃多主機 Coding Agent 終端與交接監控",
+          "input": "自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+          "process": "中斷連線後接回工作 → 查看 Agent 狀態並交接 → 集中管理跨主機終端 → 獨立驗收實際成果",
+          "output": "終端配置、Agent 狀態、重連與恢復行為的驗收紀錄。",
+          "destination": "用於 AI Cowork 工作台的操作協調、待人工處理提醒與中斷恢復。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-resume",
+            "use-status",
+            "use-remote"
+          ],
+          "steps": [
+            {
+              "id": "resume",
+              "title": "中斷連線後接回工作",
+              "capabilityRefs": [
+                "resume"
+              ]
+            },
+            {
+              "id": "status",
+              "title": "查看 Agent 狀態並交接",
+              "capabilityRefs": [
+                "status"
+              ]
+            },
+            {
+              "id": "remote",
+              "title": "集中管理跨主機終端",
+              "capabilityRefs": [
+                "remote"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+          "依需求選擇用途，查閱固定版本及限制。",
+          "確認權限及環境，另行執行正向與負向測試。"
+        ],
+        "limits": [
+          "Agent Session 權限與雲端模型費用需依各 Host 個別檢查",
+          "背景 Server 存活與主機重啟後的恢復是不同機制。",
+          "Agent 狀態不證明實際成果已通過測試。",
+          "SSH、Socket API 及外部 CLI 各有權限和相依條件。",
+          "未實測狀態判斷、主機重啟、SSH 或插件。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把多個 Coding Agent 的終端集中在同一介面，查看誰正在工作、等待輸入或閒置，並在中斷連線後接回原本的工作。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "Apache-2.0（上游 LICENSE）"
+          },
+          {
+            "label": "版本",
+            "value": "e8d7d9705a7a2c89cef4dd42079379f05685af87"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "中斷連線後接回工作",
+            "detail": "切換裝置或 SSH 中斷時不希望丟掉工作。；輸入：背景 server、Session 識別及已保存的工作配置；輸出：可重連的終端或支援的 Agent 恢復計畫",
+            "source": "src/agent_resume.rs"
+          },
+          {
+            "title": "查看 Agent 狀態並交接",
+            "detail": "多 Agent 同時執行時需要知道哪個等待輸入。；輸入：Agent 識別、狀態資料及經授權的提示；輸出：Agent 清單、狀態及提示交接操作",
+            "source": "src/api/schema/agents.rs"
+          },
+          {
+            "title": "集中管理跨主機終端",
+            "detail": "不同主機的 CLI 工作需要獨立重連。；輸入：已核准的 SSH 主機、遠端執行環境與 Session；輸出：可管理的遠端連線及終端入口",
+            "source": "src/remote/attach.rs"
+          }
+        ],
+        "architecture": {
+          "summary": "中斷連線後接回工作 → 查看 Agent 狀態並交接 → 集中管理跨主機終端 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "中斷連線後接回工作",
+              "detail": "背景 server、Session 識別及已保存的工作配置 → 可重連的終端或支援的 Agent 恢復計畫",
+              "files": [
+                "src/agent_resume.rs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "查看 Agent 狀態並交接",
+              "detail": "Agent 識別、狀態資料及經授權的提示 → Agent 清單、狀態及提示交接操作",
+              "files": [
+                "src/api/schema/agents.rs",
+                "src/app/api/agents.rs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "集中管理跨主機終端",
+              "detail": "已核准的 SSH 主機、遠端執行環境與 Session → 可管理的遠端連線及終端入口",
+              "files": [
+                "src/remote/attach.rs",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "中斷連線後接回工作",
+            "rule": "Client detach 不停止背景終端；server 或主機重啟後原程序不會存活，只能依支援情況恢復 Session 與配置。",
+            "source": "src/agent_resume.rs"
+          },
+          {
+            "name": "查看 Agent 狀態並交接",
+            "rule": "working、blocked、idle 不是驗收結果；不可將狀態當成完成證據，交接前核對權限與目標。",
+            "source": "src/api/schema/agents.rs"
+          },
+          {
+            "name": "集中管理跨主機終端",
+            "rule": "先核對遠端主機身分、憑證、Socket 存取與版本；終端多工並非安全沙箱，未核准不得暴露服務。",
+            "source": "src/remote/attach.rs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "src/agent_resume.rs",
+              "src/api/schema/agents.rs",
+              "src/app/api/agents.rs",
+              "src/remote/attach.rs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+            "files": [
+              "src/agent_resume.rs"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "用於 AI Cowork 工作台的操作協調、待人工處理提醒與中斷恢復。 另驗證實際行為及限制。",
+            "file": "src/agent_resume.rs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "resume",
+            "name": "中斷連線後接回工作",
+            "problem": "切換裝置或 SSH 中斷時不希望丟掉工作。",
+            "input": "背景 server、Session 識別及已保存的工作配置",
+            "output": "可重連的終端或支援的 Agent 恢復計畫",
+            "source": "src/agent_resume.rs",
+            "sourceFiles": [
+              "src/agent_resume.rs",
+              "README.md"
+            ],
+            "symbols": [
+              "AgentSessionRef",
+              "AgentResumePlan",
+              "plan"
+            ],
+            "gate": "Client detach 不停止背景終端；server 或主機重啟後原程序不會存活，只能依支援情況恢復 Session 與配置。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "status",
+            "name": "查看 Agent 狀態並交接",
+            "problem": "多 Agent 同時執行時需要知道哪個等待輸入。",
+            "input": "Agent 識別、狀態資料及經授權的提示",
+            "output": "Agent 清單、狀態及提示交接操作",
+            "source": "src/api/schema/agents.rs",
+            "sourceFiles": [
+              "src/api/schema/agents.rs",
+              "src/app/api/agents.rs",
+              "README.md"
+            ],
+            "symbols": [
+              "AgentInfo",
+              "AgentSessionInfo",
+              "validate_agent_prompt"
+            ],
+            "gate": "working、blocked、idle 不是驗收結果；不可將狀態當成完成證據，交接前核對權限與目標。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "remote",
+            "name": "集中管理跨主機終端",
+            "problem": "不同主機的 CLI 工作需要獨立重連。",
+            "input": "已核准的 SSH 主機、遠端執行環境與 Session",
+            "output": "可管理的遠端連線及終端入口",
+            "source": "src/remote/attach.rs",
+            "sourceFiles": [
+              "src/remote/attach.rs",
+              "README.md"
+            ],
+            "symbols": [
+              "RemoteHerdr",
+              "RemoteExecutable",
+              "BRIDGE_SOCKET_PERMISSION_MODE"
+            ],
+            "gate": "先核對遠端主機身分、憑證、Socket 存取與版本；終端多工並非安全沙箱，未核准不得暴露服務。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃多主機 Coding Agent 終端與交接監控（設計示例）",
+          "problem": "自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+          "steps": [
+            {
+              "capability": "resume",
+              "action": "中斷連線後接回工作"
+            },
+            {
+              "capability": "status",
+              "action": "查看 Agent 狀態並交接"
+            },
+            {
+              "capability": "remote",
+              "action": "集中管理跨主機終端"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "herdrdev-herdr-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+              "deliverable": "合成資料及驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "中斷連線後接回工作 → 查看 Agent 狀態並交接 → 集中管理跨主機終端 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "用於 AI Cowork 工作台的操作協調、待人工處理提醒與中斷恢復。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "背景 Server 存活與主機重啟後的恢復是不同機制。",
+            "Agent 狀態不證明實際成果已通過測試。",
+            "SSH、Socket API 及外部 CLI 各有權限和相依條件。",
+            "未實測狀態判斷、主機重啟、SSH 或插件。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "背景 Server 存活與主機重啟後的恢復是不同機制。 Agent 狀態不證明實際成果已通過測試。 SSH、Socket API 及外部 CLI 各有權限和相依條件。 未實測狀態判斷、主機重啟、SSH 或插件。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
@@ -43143,13 +43509,13 @@
       "canonicalName": "microsoft/TokenEconomizer",
       "category": "01 Agent Runtime & Harness",
       "resourceType": "Open-source Coding Agent plugin / repository-specific learned cost optimization and failure-loop guard",
-      "purpose": "不修改模型或 Coding Agent 核心，而是在多次開發 Session 之間學習 Repository-specific 經驗，透過 Micro-skills 保存可驗證的環境知識、Tool Pruning 移除長期未使用的工具定義，以及 Failure-loop Intervention 偵測重複失敗並提醒改變策略，降低不必要的 Token 與模型呼叫成本。",
-      "recommendation": "適合重複在同一個 Repo 使用 Claude Code、Codex、GitHub Copilot CLI 或 Pi 的 Coding Agent 開發；可先以唯讀評估、個別功能開關與 toolprune=propose 觀察實際工具裁剪提案，對照啟用前後的成本、工具可用性及任務成功率。微技能由舊 Session 學來，可能過時或帶有不可信輸出；需審查證據與權限。若既有 Harness 已用 Claude-Mem、Skills、Hooks、MCP 或其他 Tool 過濾器，先檢查注入、Hook、設定檔與工具停用是否衝突，再決定是否採用。",
+      "purpose": "讓 Coding Agent 從同一專案的歷次工作學習，減少重複摸索環境、載入不常用工具及反覆嘗試失敗方法造成的成本。",
+      "recommendation": "適合在同一 Repo 長期反覆使用 Agent 且有可比較的用量與任務品質紀錄；若只執行一次或工具使用變化很大，先建立基線再評估。不得把研究報告的節省比例當成自己的成本保證。",
       "url": "https://github.com/microsoft/TokenEconomizer",
       "repo": "microsoft/TokenEconomizer",
       "status": "active",
       "addedAt": "2026-10-31",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "microsoft-research",
         "uc-berkeley",
@@ -43274,10 +43640,19 @@
           "https://github.com/microsoft/TokenEconomizer/blob/main/SECURITY.md"
         ],
         "type": "Official first-party repository, code/package metadata, documentation, security statement, and reported benchmark results",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "summary": "Read-only source research: benchmark metrics documented as upstream claims, not independently tested; original code not installed or run.",
         "readmeUrl": "https://github.com/microsoft/TokenEconomizer/blob/main/README.md",
-        "reviewScope": "Official upstream document only; no runtime or security validation"
+        "reviewScope": "固定版本 README、LICENSE、ARCHITECTURE、envfacts.py、toolprune/stage.py、loopguard/turn.py；局部程式及研究報告契約，未重跑實驗。",
+        "upstreamCommit": "fa5604a3673fb3fa8c9932b942dd210e7afb18f3",
+        "referenceUrls": [
+          "https://github.com/microsoft/TokenEconomizer/blob/fa5604a3673fb3fa8c9932b942dd210e7afb18f3/README.md",
+          "https://github.com/microsoft/TokenEconomizer/blob/fa5604a3673fb3fa8c9932b942dd210e7afb18f3/LICENSE",
+          "https://github.com/microsoft/TokenEconomizer/blob/fa5604a3673fb3fa8c9932b942dd210e7afb18f3/tokeneconomizer/microskills/envfacts.py",
+          "https://github.com/microsoft/TokenEconomizer/blob/fa5604a3673fb3fa8c9932b942dd210e7afb18f3/tokeneconomizer/toolprune/stage.py",
+          "https://github.com/microsoft/TokenEconomizer/blob/fa5604a3673fb3fa8c9932b942dd210e7afb18f3/docs/ARCHITECTURE.md",
+          "https://github.com/microsoft/TokenEconomizer/blob/fa5604a3673fb3fa8c9932b942dd210e7afb18f3/tokeneconomizer/loopguard/turn.py"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -43317,10 +43692,13 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -43336,8 +43714,8 @@
         "classificationReason": "保留既有 Primary Domain ai-agent，本輪只補足來源支援的使用方法與限制。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE、ARCHITECTURE、envfacts.py、toolprune/stage.py、loopguard/turn.py；局部程式及研究報告契約，未重跑實驗。；提供局部來源契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -43347,11 +43725,368 @@
           "decision": "reused",
           "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
         },
-        "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+        "riskNotes": "README 的節省比例是作者實驗，不能當成所有環境的保證；經驗記憶和停滯判斷會誤判，應保留完整 Log；作者報告特定 SWE-Bench 實驗平均成本降低 18.4–30.9%，不是普遍保證；一組模型的 Pass@1 下降。；歷史 Session 可能含敏感資訊，雖然學習資料保存在本機，judge 與知識提議仍可能透過 Agent 呼叫模型。；工具裁剪依 Host 而異；須測試缺少工具時能否恢復。；Loop guard 提醒不等於強制停止；未重跑研究實驗或驗證插件。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+          "evidence": "固定版本 README、LICENSE、ARCHITECTURE、envfacts.py、toolprune/stage.py、loopguard/turn.py；局部程式及研究報告契約，未重跑實驗。；未實測。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、ARCHITECTURE、envfacts.py、toolprune/stage.py、loopguard/turn.py；局部程式及研究報告契約，未重跑實驗。；前台用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "不修改模型或 Coding Agent 核心，而是在多次開發 Session 之間學習 Repository-specific 經驗，透過 Micro-skills 保存可驗證的環境知識、Tool Pruning 移除長期未使用的工具定義，以及 Failure-loop Intervention 偵測重複失敗並提醒改變策略，降低不必要的 Token 與模型呼叫成本。",
+          "source": "https://github.com/microsoft/TokenEconomizer",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合重複在同一個 Repo 使用 Claude Code、Codex、GitHub Copilot CLI 或 Pi 的 Coding Agent 開發；可先以唯讀評估、個別功能開關與 toolprune=propose 觀察實際工具裁剪提案，對照啟用前後的成本、工具可用性及任務成功率。微技能由舊 Session 學來，可能過時或帶有不可信輸出；需審查證據與權限。若既有 Harness 已用 Claude-Mem、Skills、Hooks、MCP 或其他 Tool 過濾器，先檢查注入、Hook、設定檔與工具停用是否衝突，再決定是否採用。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-facts",
+            "title": "記住已確認的專案環境知識",
+            "detail": "Agent 在每次 Session 重複探索相同的建置或測試方法。 符合注入條件的專案 Micro-skills。",
+            "capabilityRefs": [
+              "facts"
+            ]
+          },
+          {
+            "id": "use-prune",
+            "title": "移除長期未使用的工具定義",
+            "detail": "工具定義每次請求可能消耗不必要的 Context。 依 Host 契約產生的工具或能力裁剪設定。",
+            "capabilityRefs": [
+              "prune"
+            ]
+          },
+          {
+            "id": "use-loop",
+            "title": "辨識重複失敗並提醒改變策略",
+            "detail": "Agent 可能多次重跑失敗命令而消耗時間與成本。 迴圈判斷、策略提醒或通知人工停止。",
+            "capabilityRefs": [
+              "loop"
+            ]
+          }
+        ],
+        "example": {
+          "id": "microsoft-tokeneconomizer-example",
+          "title": "規劃重複開發任務的成本與品質對照實驗",
+          "input": "自有測試 Repo、匿名化歷史 Session、固定任務與相同模型的成本及品質基準。",
+          "process": "記住已確認的專案環境知識 → 移除長期未使用的工具定義 → 辨識重複失敗並提醒改變策略 → 獨立驗收實際成果",
+          "output": "可查證的環境知識、工具保留／移除紀錄、迴圈提醒及成本品質比較。",
+          "destination": "用於自有 Agent Harness 的 Context 管理、成本優化與回歸決策。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-facts",
+            "use-prune",
+            "use-loop"
+          ],
+          "steps": [
+            {
+              "id": "facts",
+              "title": "記住已確認的專案環境知識",
+              "capabilityRefs": [
+                "facts"
+              ]
+            },
+            {
+              "id": "prune",
+              "title": "移除長期未使用的工具定義",
+              "capabilityRefs": [
+                "prune"
+              ]
+            },
+            {
+              "id": "loop",
+              "title": "辨識重複失敗並提醒改變策略",
+              "capabilityRefs": [
+                "loop"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自有測試 Repo、匿名化歷史 Session、固定任務與相同模型的成本及品質基準。",
+          "依需求選擇用途，查閱固定版本及限制。",
+          "確認權限及環境，另行執行正向與負向測試。"
+        ],
+        "limits": [
+          "README 的節省比例是作者實驗，不能當成所有環境的保證",
+          "經驗記憶和停滯判斷會誤判，應保留完整 Log",
+          "作者報告特定 SWE-Bench 實驗平均成本降低 18.4–30.9%，不是普遍保證；一組模型的 Pass@1 下降。",
+          "歷史 Session 可能含敏感資訊，雖然學習資料保存在本機，judge 與知識提議仍可能透過 Agent 呼叫模型。",
+          "工具裁剪依 Host 而異；須測試缺少工具時能否恢復。",
+          "Loop guard 提醒不等於強制停止；未重跑研究實驗或驗證插件。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "讓 Coding Agent 從同一專案的歷次工作學習，減少重複摸索環境、載入不常用工具及反覆嘗試失敗方法造成的成本。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（上游 LICENSE）"
+          },
+          {
+            "label": "版本",
+            "value": "fa5604a3673fb3fa8c9932b942dd210e7afb18f3"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "記住已確認的專案環境知識",
+            "detail": "Agent 在每次 Session 重複探索相同的建置或測試方法。；輸入：歷次 Session 觀察、重複確認與矛盾證據；輸出：符合注入條件的專案 Micro-skills",
+            "source": "tokeneconomizer/microskills/envfacts.py"
+          },
+          {
+            "title": "移除長期未使用的工具定義",
+            "detail": "工具定義每次請求可能消耗不必要的 Context。；輸入：工具使用紀錄、Agent 類型及裁剪設定；輸出：依 Host 契約產生的工具或能力裁剪設定",
+            "source": "tokeneconomizer/toolprune/stage.py"
+          },
+          {
+            "title": "辨識重複失敗並提醒改變策略",
+            "detail": "Agent 可能多次重跑失敗命令而消耗時間與成本。；輸入：本回合工具紀錄、失敗訊號、judge 及提醒預算；輸出：迴圈判斷、策略提醒或通知人工停止",
+            "source": "tokeneconomizer/loopguard/turn.py"
+          }
+        ],
+        "architecture": {
+          "summary": "記住已確認的專案環境知識 → 移除長期未使用的工具定義 → 辨識重複失敗並提醒改變策略 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "記住已確認的專案環境知識",
+              "detail": "歷次 Session 觀察、重複確認與矛盾證據 → 符合注入條件的專案 Micro-skills",
+              "files": [
+                "tokeneconomizer/microskills/envfacts.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "移除長期未使用的工具定義",
+              "detail": "工具使用紀錄、Agent 類型及裁剪設定 → 依 Host 契約產生的工具或能力裁剪設定",
+              "files": [
+                "tokeneconomizer/toolprune/stage.py",
+                "docs/ARCHITECTURE.md",
+                "README.md"
+              ]
+            },
+            {
+              "title": "辨識重複失敗並提醒改變策略",
+              "detail": "本回合工具紀錄、失敗訊號、judge 及提醒預算 → 迴圈判斷、策略提醒或通知人工停止",
+              "files": [
+                "tokeneconomizer/loopguard/turn.py",
+                "docs/ARCHITECTURE.md",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "記住已確認的專案環境知識",
+            "rule": "README 說明經三個 Session 確認後才注入，矛盾後應更新或移除；先核對知識是否過期，不保存敏感內容。",
+            "source": "tokeneconomizer/microskills/envfacts.py"
+          },
+          {
+            "name": "移除長期未使用的工具定義",
+            "rule": "Claude Code／Copilot 與 Codex 的裁剪方式不同；未使用不代表永遠不需要，須保留恢復機制並驗證任務品質。",
+            "source": "tokeneconomizer/toolprune/stage.py"
+          },
+          {
+            "name": "辨識重複失敗並提醒改變策略",
+            "rule": "Loop guard 不會自行停止回合；判斷模型可能出錯且有成本，須以品質、全部模型費用及實際結果比較。",
+            "source": "tokeneconomizer/loopguard/turn.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE、ARCHITECTURE、envfacts.py、toolprune/stage.py、loopguard/turn.py；局部程式及研究報告契約，未重跑實驗。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "tokeneconomizer/microskills/envfacts.py",
+              "tokeneconomizer/toolprune/stage.py",
+              "docs/ARCHITECTURE.md",
+              "tokeneconomizer/loopguard/turn.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有測試 Repo、匿名化歷史 Session、固定任務與相同模型的成本及品質基準。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+            "files": [
+              "tokeneconomizer/microskills/envfacts.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "用於自有 Agent Harness 的 Context 管理、成本優化與回歸決策。 另驗證實際行為及限制。",
+            "file": "tokeneconomizer/microskills/envfacts.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "facts",
+            "name": "記住已確認的專案環境知識",
+            "problem": "Agent 在每次 Session 重複探索相同的建置或測試方法。",
+            "input": "歷次 Session 觀察、重複確認與矛盾證據",
+            "output": "符合注入條件的專案 Micro-skills",
+            "source": "tokeneconomizer/microskills/envfacts.py",
+            "sourceFiles": [
+              "tokeneconomizer/microskills/envfacts.py",
+              "README.md"
+            ],
+            "symbols": [
+              "EnvFact",
+              "EnvFactsDistiller",
+              "injectable_claims"
+            ],
+            "gate": "README 說明經三個 Session 確認後才注入，矛盾後應更新或移除；先核對知識是否過期，不保存敏感內容。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "prune",
+            "name": "移除長期未使用的工具定義",
+            "problem": "工具定義每次請求可能消耗不必要的 Context。",
+            "input": "工具使用紀錄、Agent 類型及裁剪設定",
+            "output": "依 Host 契約產生的工具或能力裁剪設定",
+            "source": "tokeneconomizer/toolprune/stage.py",
+            "sourceFiles": [
+              "tokeneconomizer/toolprune/stage.py",
+              "docs/ARCHITECTURE.md",
+              "README.md"
+            ],
+            "symbols": [
+              "ToolingStage",
+              "build_tools",
+              "after_task"
+            ],
+            "gate": "Claude Code／Copilot 與 Codex 的裁剪方式不同；未使用不代表永遠不需要，須保留恢復機制並驗證任務品質。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "loop",
+            "name": "辨識重複失敗並提醒改變策略",
+            "problem": "Agent 可能多次重跑失敗命令而消耗時間與成本。",
+            "input": "本回合工具紀錄、失敗訊號、judge 及提醒預算",
+            "output": "迴圈判斷、策略提醒或通知人工停止",
+            "source": "tokeneconomizer/loopguard/turn.py",
+            "sourceFiles": [
+              "tokeneconomizer/loopguard/turn.py",
+              "docs/ARCHITECTURE.md",
+              "README.md"
+            ],
+            "symbols": [
+              "TurnGuard",
+              "fold",
+              "nudge_body"
+            ],
+            "gate": "Loop guard 不會自行停止回合；判斷模型可能出錯且有成本，須以品質、全部模型費用及實際結果比較。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃重複開發任務的成本與品質對照實驗（設計示例）",
+          "problem": "自有測試 Repo、匿名化歷史 Session、固定任務與相同模型的成本及品質基準。",
+          "steps": [
+            {
+              "capability": "facts",
+              "action": "記住已確認的專案環境知識"
+            },
+            {
+              "capability": "prune",
+              "action": "移除長期未使用的工具定義"
+            },
+            {
+              "capability": "loop",
+              "action": "辨識重複失敗並提醒改變策略"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "microsoft-tokeneconomizer-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有測試 Repo、匿名化歷史 Session、固定任務與相同模型的成本及品質基準。",
+              "deliverable": "合成資料及驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "記住已確認的專案環境知識 → 移除長期未使用的工具定義 → 辨識重複失敗並提醒改變策略 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "用於自有 Agent Harness 的 Context 管理、成本優化與回歸決策。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "作者報告特定 SWE-Bench 實驗平均成本降低 18.4–30.9%，不是普遍保證；一組模型的 Pass@1 下降。",
+            "歷史 Session 可能含敏感資訊，雖然學習資料保存在本機，judge 與知識提議仍可能透過 Agent 呼叫模型。",
+            "工具裁剪依 Host 而異；須測試缺少工具時能否恢復。",
+            "Loop guard 提醒不等於強制停止；未重跑研究實驗或驗證插件。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "作者報告特定 SWE-Bench 實驗平均成本降低 18.4–30.9%，不是普遍保證；一組模型的 Pass@1 下降。 歷史 Session 可能含敏感資訊，雖然學習資料保存在本機，judge 與知識提議仍可能透過 Agent 呼叫模型。 工具裁剪依 Host 而異；須測試缺少工具時能否恢復。 Loop guard 提醒不等於強制停止；未重跑研究實驗或驗證插件。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、ARCHITECTURE、envfacts.py、toolprune/stage.py、loopguard/turn.py；局部程式及研究報告契約，未重跑實驗。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
@@ -71046,8 +71781,8 @@
       "canonicalName": "Zed",
       "category": "Developer Tools & Code Editors",
       "resourceType": "Open-source GPU-accelerated code editor with real-time collaboration and AI agent integration",
-      "purpose": "提供以 Rust 建構、支援 GPU 加速的跨平台程式碼編輯體驗，重視低延遲、多人協作、語言伺服器、終端機、Git 與 AI Agent 開發工作流。",
-      "recommendation": "適合測試取代或搭配 VS Code 的快速編輯器，並研究原生 Zed Agent、ACP 外部 Agents（Claude/Codex/OpenCode）和終端機 Agent 整合。效能應在同機、相同專案與擴充條件下比較，而非直接假定任何場景更快。",
+      "purpose": "在程式碼編輯器中直接讓 AI 閱讀專案、修改程式及執行工具，並在多個獨立對話間切換與檢查變更。",
+      "recommendation": "適合想在同一編輯器完成程式閱讀、AI 修改與審查的開發者；先使用唯讀 Profile 並設定工具核准，再考慮外部 Agent。若只需終端協作，無須為此更換編輯器。",
       "url": "https://github.com/zed-industries/zed",
       "repo": "zed-industries/zed",
       "homepage": "https://zed.dev",
@@ -71105,7 +71840,7 @@
       "comparisonCaveat": "官方定位為高效能編輯器，但本次沒有在相同硬體、專案及擴充條件下對 Zed vs VS Code 執行效能 benchmark；不可把行銷敘述當成已證實通用性能排名。",
       "status": "active",
       "addedAt": "2026-11-07",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "zed",
         "code-editor",
@@ -71140,10 +71875,20 @@
           "https://zed.dev/docs/ai/privacy-and-security",
           "https://zed.dev/pricing"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official Zed GitHub README and licenses, installation, telemetry, AI and pricing documentation",
         "readmeUrl": "https://github.com/zed-industries/zed/blob/main/README.md",
-        "reviewScope": "README only; not installed/runtime tested"
+        "reviewScope": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。",
+        "upstreamCommit": "f38d614b4b58bb44cc19d08ef5dd3efba918f9a3",
+        "referenceUrls": [
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/README.md",
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/LICENSE-GPL",
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/LICENSE-APACHE",
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/docs/src/ai/agent-panel.md",
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/docs/src/ai/agent-profiles.md",
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/crates/agent/src/tool_permissions.rs",
+          "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/crates/agent/src/tools/edit_file_tool.rs"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -71177,10 +71922,13 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -71196,8 +71944,8 @@
         "classificationReason": "保留 Primary Domain software、Category 與原始 Tags；只補來源和使用限制。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。；提供局部來源契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -71207,11 +71955,364 @@
           "decision": "candidate",
           "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
         },
-        "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+        "riskNotes": "Repo 核心主要為 GPL-3.0-or-later，其他元件條款另確認；Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。；不同 Agent 功能及模型服務成本不同。；GPL 與 Apache 元件須逐件查核後才可重用或分發。；未實測編輯器、模型、工具核准或工作區。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+          "evidence": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。；未實測。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。；前台用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供以 Rust 建構、支援 GPU 加速的跨平台程式碼編輯體驗，重視低延遲、多人協作、語言伺服器、終端機、Git 與 AI Agent 開發工作流。",
+          "source": "https://github.com/zed-industries/zed",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合測試取代或搭配 VS Code 的快速編輯器，並研究原生 Zed Agent、ACP 外部 Agents（Claude/Codex/OpenCode）和終端機 Agent 整合。效能應在同機、相同專案與擴充條件下比較，而非直接假定任何場景更快。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-threads",
+            "title": "分開多個開發任務",
+            "detail": "不同功能的 AI 對話與修改需要分離。 獨立對話、歷史與工作區安排。",
+            "capabilityRefs": [
+              "threads"
+            ]
+          },
+          {
+            "id": "use-permissions",
+            "title": "分離工具可用性與操作核准",
+            "detail": "允許 Agent 看見某工具不等於允許它執行。 工具可用集合及 allow、deny、confirm 判斷。",
+            "capabilityRefs": [
+              "permissions"
+            ]
+          },
+          {
+            "id": "use-edit",
+            "title": "檢查 Agent 提出的程式修改",
+            "detail": "AI 修改檔案後仍須辨識變更與錯誤。 編輯工具輸出與可供審查的修改。",
+            "capabilityRefs": [
+              "edit"
+            ]
+          }
+        ],
+        "example": {
+          "id": "zed-industries-zed-example",
+          "title": "規劃編輯器內的 AI 程式修改與權限審查",
+          "input": "自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+          "process": "分開多個開發任務 → 分離工具可用性與操作核准 → 檢查 Agent 提出的程式修改 → 獨立驗收實際成果",
+          "output": "分離的 Agent Threads、工具權限設定、修改差異與回歸測試規格。",
+          "destination": "用於自有專案的程式閱讀、實作及人工驗收。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-threads",
+            "use-permissions",
+            "use-edit"
+          ],
+          "steps": [
+            {
+              "id": "threads",
+              "title": "分開多個開發任務",
+              "capabilityRefs": [
+                "threads"
+              ]
+            },
+            {
+              "id": "permissions",
+              "title": "分離工具可用性與操作核准",
+              "capabilityRefs": [
+                "permissions"
+              ]
+            },
+            {
+              "id": "edit",
+              "title": "檢查 Agent 提出的程式修改",
+              "capabilityRefs": [
+                "edit"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+          "依需求選擇用途，查閱固定版本及限制。",
+          "確認權限及環境，另行執行正向與負向測試。"
+        ],
+        "limits": [
+          "Repo 核心主要為 GPL-3.0-or-later，其他元件條款另確認",
+          "Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。",
+          "不同 Agent 功能及模型服務成本不同。",
+          "GPL 與 Apache 元件須逐件查核後才可重用或分發。",
+          "未實測編輯器、模型、工具核准或工作區。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "在程式碼編輯器中直接讓 AI 閱讀專案、修改程式及執行工具，並在多個獨立對話間切換與檢查變更。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "主要 GPL-3.0-or-later，標示的元件 Apache-2.0；逐件查核"
+          },
+          {
+            "label": "版本",
+            "value": "f38d614b4b58bb44cc19d08ef5dd3efba918f9a3"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "分開多個開發任務",
+            "detail": "不同功能的 AI 對話與修改需要分離。；輸入：專案、Agent 選擇、Thread 與 Git Worktree；輸出：獨立對話、歷史與工作區安排",
+            "source": "docs/src/ai/agent-panel.md"
+          },
+          {
+            "title": "分離工具可用性與操作核准",
+            "detail": "允許 Agent 看見某工具不等於允許它執行。；輸入：Agent Profile、工具設定與核准規則；輸出：工具可用集合及 allow、deny、confirm 判斷",
+            "source": "docs/src/ai/agent-profiles.md"
+          },
+          {
+            "title": "檢查 Agent 提出的程式修改",
+            "detail": "AI 修改檔案後仍須辨識變更與錯誤。；輸入：檔案位置、修改輸入及授權；輸出：編輯工具輸出與可供審查的修改",
+            "source": "crates/agent/src/tools/edit_file_tool.rs"
+          }
+        ],
+        "architecture": {
+          "summary": "分開多個開發任務 → 分離工具可用性與操作核准 → 檢查 Agent 提出的程式修改 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "分開多個開發任務",
+              "detail": "專案、Agent 選擇、Thread 與 Git Worktree → 獨立對話、歷史與工作區安排",
+              "files": [
+                "docs/src/ai/agent-panel.md",
+                "README.md"
+              ]
+            },
+            {
+              "title": "分離工具可用性與操作核准",
+              "detail": "Agent Profile、工具設定與核准規則 → 工具可用集合及 allow、deny、confirm 判斷",
+              "files": [
+                "docs/src/ai/agent-profiles.md",
+                "crates/agent/src/tool_permissions.rs"
+              ]
+            },
+            {
+              "title": "檢查 Agent 提出的程式修改",
+              "detail": "檔案位置、修改輸入及授權 → 編輯工具輸出與可供審查的修改",
+              "files": [
+                "crates/agent/src/tools/edit_file_tool.rs",
+                "docs/src/ai/agent-panel.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "分開多個開發任務",
+            "rule": "外部 Agent 的歷史、Token 顯示及即時插話功能因整合而異；Worktree 不等於安全隔離。",
+            "source": "docs/src/ai/agent-panel.md"
+          },
+          {
+            "name": "分離工具可用性與操作核准",
+            "rule": "Profile 決定工具是否可用，Tool Permissions 決定受控呼叫如何核准；外部 Agent 與終端 Thread 不一定受同一 Profile 約束。",
+            "source": "docs/src/ai/agent-profiles.md"
+          },
+          {
+            "name": "檢查 Agent 提出的程式修改",
+            "rule": "先核對修改範圍、完整 Diff 與測試結果；工具授權或串流編輯完成不代表功能通過。",
+            "source": "crates/agent/src/tools/edit_file_tool.rs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。",
+            "files": [
+              "README.md",
+              "LICENSE-GPL",
+              "LICENSE-APACHE",
+              "docs/src/ai/agent-panel.md",
+              "docs/src/ai/agent-profiles.md",
+              "crates/agent/src/tool_permissions.rs",
+              "crates/agent/src/tools/edit_file_tool.rs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+            "files": [
+              "docs/src/ai/agent-panel.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "用於自有專案的程式閱讀、實作及人工驗收。 另驗證實際行為及限制。",
+            "file": "docs/src/ai/agent-panel.md"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "threads",
+            "name": "分開多個開發任務",
+            "problem": "不同功能的 AI 對話與修改需要分離。",
+            "input": "專案、Agent 選擇、Thread 與 Git Worktree",
+            "output": "獨立對話、歷史與工作區安排",
+            "source": "docs/src/ai/agent-panel.md",
+            "sourceFiles": [
+              "docs/src/ai/agent-panel.md",
+              "README.md"
+            ],
+            "symbols": [
+              "NewThread（文件操作）",
+              "New From Summary（文件操作）",
+              "Worktree picker（文件介面）"
+            ],
+            "gate": "外部 Agent 的歷史、Token 顯示及即時插話功能因整合而異；Worktree 不等於安全隔離。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "permissions",
+            "name": "分離工具可用性與操作核准",
+            "problem": "允許 Agent 看見某工具不等於允許它執行。",
+            "input": "Agent Profile、工具設定與核准規則",
+            "output": "工具可用集合及 allow、deny、confirm 判斷",
+            "source": "docs/src/ai/agent-profiles.md",
+            "sourceFiles": [
+              "docs/src/ai/agent-profiles.md",
+              "crates/agent/src/tool_permissions.rs"
+            ],
+            "symbols": [
+              "ToolPermissionDecision",
+              "from_input",
+              "agent.profiles（文件設定）"
+            ],
+            "gate": "Profile 決定工具是否可用，Tool Permissions 決定受控呼叫如何核准；外部 Agent 與終端 Thread 不一定受同一 Profile 約束。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "edit",
+            "name": "檢查 Agent 提出的程式修改",
+            "problem": "AI 修改檔案後仍須辨識變更與錯誤。",
+            "input": "檔案位置、修改輸入及授權",
+            "output": "編輯工具輸出與可供審查的修改",
+            "source": "crates/agent/src/tools/edit_file_tool.rs",
+            "sourceFiles": [
+              "crates/agent/src/tools/edit_file_tool.rs",
+              "docs/src/ai/agent-panel.md"
+            ],
+            "symbols": [
+              "EditFileToolInput",
+              "EditFileTool",
+              "authorize"
+            ],
+            "gate": "先核對修改範圍、完整 Diff 與測試結果；工具授權或串流編輯完成不代表功能通過。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃編輯器內的 AI 程式修改與權限審查（設計示例）",
+          "problem": "自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+          "steps": [
+            {
+              "capability": "threads",
+              "action": "分開多個開發任務"
+            },
+            {
+              "capability": "permissions",
+              "action": "分離工具可用性與操作核准"
+            },
+            {
+              "capability": "edit",
+              "action": "檢查 Agent 提出的程式修改"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "zed-industries-zed-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+              "deliverable": "合成資料及驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "分開多個開發任務 → 分離工具可用性與操作核准 → 檢查 Agent 提出的程式修改 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "用於自有專案的程式閱讀、實作及人工驗收。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。",
+            "不同 Agent 功能及模型服務成本不同。",
+            "GPL 與 Apache 元件須逐件查核後才可重用或分發。",
+            "未實測編輯器、模型、工具核准或工作區。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。 不同 Agent 功能及模型服務成本不同。 GPL 與 Apache 元件須逐件查核後才可重用或分發。 未實測編輯器、模型、工具核准或工作區。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
