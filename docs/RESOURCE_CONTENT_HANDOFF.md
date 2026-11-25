@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 02（2026-11-25）
+
+- main 基線 `5307761173ebd05f6cc888d6355a149b6d0bd6e2`；PR #66 已合併且 Catalog Sync 確認，5/286 筆有雙層改善。
+- 本批 [逐筆報告](RESOURCE_DUAL_LAYER_BATCH02_20261125.md)：addyosmani-agent-skills、nirdiamant-genai-agents、anthropics-skills、openrouter-ai、ai-code-acceptance-review-testing-rollout-guide、microsoft-ai-agents-for-beginners，六筆已改寫候選，其中最後一筆 deferred（其餘課程仍待讀）。
+- 本批合併前仍為 5/286；合併後為 11/286 有雙層審查結果（10 筆 mapped/evidence-linked，1 筆 deferred）。尚未處理 275 筆，另追蹤 deferred 缺口。不得以 CI 或來源閱讀宣稱工具已實測。
+- 排程曾報告 GitHub 操作未取得可用結果，無實際新增；本批直接使用 GitHub 寫入。請核對本批 PR CI、main 與 Catalog/Pages，而非沿用舊快照。
+- 下一步：既有 AI Usage Bar 與 AI cheat sheets 深度指南；然後比對固定基準 manifest 與最新 canonical layerReview，逐筆處理未改善項目。避免重複 PR 或改寫已完成內容。
+
+---
+
 # Resource 最新交接｜雙層知識改善（2026-11-24）
 
 **本段為最新檢查點；以下 Phase 3 與 Phase 2 歷史原文保留，不可用舊數字覆蓋新進度。**
