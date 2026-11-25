@@ -515,3 +515,35 @@ test('Dual-layer batch 10: three workflow and model/data integration contracts',
  assert.match(load('open-webui-open-webui').readerGuide.limits.join(' '),/不是使用人數上限/);
  assert.match(load('unclecode-crawl4ai').repoGuide.capabilities.find(c=>c.id==='markdown-output').gate,/不是獨立事實驗證/);
 });
+
+test('Dual-layer batch 11: document, assistant and desktop interface contracts',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["opendatalab-mineru","規劃研究文件解析與搜尋"],["openclaw-openclaw","規劃只讀個人研究助理"],["r0x0r-pywebview","規劃本機 HTML 筆記閱讀器"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  assert.ok(d.repoGuide.rebuild.gaps.length);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('opendatalab-mineru').readerGuide.limits.join(' '),/2,000 萬美元/);
+ assert.match(load('openclaw-openclaw').readerGuide.limits.join(' '),/不是安全邊界|視為安全邊界/);
+ assert.match(load('r0x0r-pywebview').repoGuide.capabilities.find(c=>c.id==='python-bridge').gate,/最小能力/);
+});
