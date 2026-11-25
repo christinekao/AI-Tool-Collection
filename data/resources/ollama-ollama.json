@@ -2,14 +2,14 @@
   "schemaVersion": 2,
   "entityType": "resource",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "id": "ollama-ollama",
   "title": "Ollama — Local & Cloud AI Model Runtime",
   "canonicalName": "ollama/ollama",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "Local LLM inference runtime, CLI and REST API with optional cloud models",
-  "purpose": "透過 Windows、macOS、Linux 或 Docker 在自己的電腦執行開放權重 AI 模型，提供 CLI、REST API、Python／JavaScript SDK 與外部 Coding Agents 及 UI 的整合；部分模型亦可使用 Ollama 提供的 Cloud 選項。",
-  "recommendation": "適合想降低固定 API 使用費、在本機處理可受硬體容量支援的資料，或為自己的 AI App／Open WebUI 提供模型 API 的使用者。應先評估裝置 RAM／GPU 記憶體、模型品質與量化差異；本機執行並不等於模型權重授權自動允許所有商用用途，也不能把雲端模型當成完全離線。",
+  "purpose": "在自己的電腦或伺服器提供 AI 模型呼叫入口，讓聊天、摘要或其他應用透過 API 使用模型。",
+  "recommendation": "適合評估本機模型與資料控制；需要雲端模型時另查計費及資料政策，本機 API 不等於所有請求都在地端處理。",
   "url": "https://github.com/ollama/ollama",
   "repo": "ollama/ollama",
   "status": "active",
@@ -80,24 +80,33 @@
     "url": "https://github.com/ollama/ollama",
     "readmeUrl": "https://github.com/ollama/ollama/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略",
+    "upstreamCommit": "924cc286cc592f49c481fa84e15fa60dbc75989e",
+    "referenceUrls": [
+      "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/README.md",
+      "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/api/types.go",
+      "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/server/routes.go",
+      "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+      "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -106,8 +115,8 @@
     "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "status": "applied",
+      "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -120,7 +129,355 @@
     "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "透過 Windows、macOS、Linux 或 Docker 在自己的電腦執行開放權重 AI 模型，提供 CLI、REST API、Python／JavaScript SDK 與外部 Coding Agents 及 UI 的整合；部分模型亦可使用 Ollama 提供的 Cloud 選項。",
+      "source": "https://github.com/ollama/ollama",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "local-summary",
+        "title": "建立本機文件摘要測試",
+        "detail": "先選已核准本機模型，透過 API 送出合成文字並核對回應。",
+        "capabilityRefs": [
+          "chat-api",
+          "model-runner"
+        ]
+      },
+      {
+        "id": "hardware-check",
+        "title": "比較模型與硬體需求",
+        "detail": "確認模型能否載入，測相同輸入的延遲及資源使用。",
+        "capabilityRefs": [
+          "model-runner",
+          "model-pull"
+        ]
+      },
+      {
+        "id": "app-integration",
+        "title": "將模型接到自己的應用程式",
+        "detail": "依聊天輸入與串流回應契約建立介面，處理失敗與完成狀態。",
+        "capabilityRefs": [
+          "chat-api"
+        ]
+      }
+    ],
+    "example": {
+      "id": "local-note-summary",
+      "title": "設計本機研究筆記摘要服務",
+      "input": "五篇公開或合成筆記、已核准本機模型與輸出規格。",
+      "process": "核對模型及來源 → 確認執行器 → 送出聊天請求 → 檢查完成與格式",
+      "output": "摘要回應契約、錯誤及模型資源驗收清單（未推論）。",
+      "destination": "自有知識庫的摘要功能；儲存及權限另行實作。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "local-summary",
+        "hardware-check",
+        "app-integration"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "核對模型資產與權利",
+          "capabilityRefs": [
+            "model-pull"
+          ]
+        },
+        {
+          "id": "runner",
+          "title": "確認模型執行路徑",
+          "capabilityRefs": [
+            "model-runner"
+          ]
+        },
+        {
+          "id": "chat",
+          "title": "設計聊天與串流測試",
+          "capabilityRefs": [
+            "chat-api"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "核對品質與資料保留",
+          "capabilityRefs": [],
+          "externalDependency": "應用程式驗證、網路隔離、授權及資料保存須另行實測。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先核對硬體、已批准模型與其授權，不先下載大模型。",
+      "讀取 ChatRequest/ChatResponse 契約，使用合成資料設計成功與失敗情境。",
+      "在核准環境確認實際推論路徑、連線、延遲及輸出，再接應用。"
+    ],
+    "limits": [
+      "本機執行品質和速度由硬體與模型決定；Cloud 模型可能另有計費與資料政策。",
+      "本機服務不等同完整的企業認證、存取控制或多租戶隔離方案。",
+      "未安裝、下載模型或執行推論；未查核完整 GPU runner、遠端代理、認證及多租戶隔離。",
+      "本機模型與 Cloud 模型的資料政策、費用和執行位置必須區分。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在自己的電腦或伺服器提供 AI 模型呼叫入口，讓聊天、摘要或其他應用透過 API 使用模型。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Go / HTTP / 模型 runner"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（Repo；模型另計）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "924cc286cc592f49c481fa84e15fa60dbc75989e"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "聊天與串流回應",
+        "detail": "應用需送出對話及取得結果；輸入：model、messages、stream、format、tools、keep_alive；輸出：ChatResponse.message、done、done_reason 與可能的 remote 欄位",
+        "source": "api/types.go"
+      },
+      {
+        "title": "選擇已存在的模型與執行器",
+        "detail": "同一主機有多模型與資源限制；輸入：model name、runner、capabilities、options、keepAlive；輸出：已解析模型、runner、options 或錯誤",
+        "source": "server/routes.go"
+      },
+      {
+        "title": "取得指定模型",
+        "detail": "服務需準備模型資產；輸入：PullRequest model/name；輸出：下載處理或錯誤；某些 cloud 模型可為 stub",
+        "source": "server/routes.go"
+      }
+    ],
+    "architecture": {
+      "summary": "核對模型及來源 → 確認執行器 → 送出聊天請求 → 檢查完成與格式",
+      "nodes": [
+        {
+          "title": "聊天與串流回應",
+          "detail": "model、messages、stream、format、tools、keep_alive → ChatResponse.message、done、done_reason 與可能的 remote 欄位",
+          "files": [
+            "api/types.go",
+            "server/routes.go"
+          ]
+        },
+        {
+          "title": "選擇已存在的模型與執行器",
+          "detail": "model name、runner、capabilities、options、keepAlive → 已解析模型、runner、options 或錯誤",
+          "files": [
+            "server/routes.go"
+          ]
+        },
+        {
+          "title": "取得指定模型",
+          "detail": "PullRequest model/name → 下載處理或錯誤；某些 cloud 模型可為 stub",
+          "files": [
+            "server/routes.go"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "串流",
+        "rule": "ChatRequest.stream 預設 true；ChatResponse.done 表示完成，不能只收到首段就算完成。",
+        "source": "api/types.go"
+      },
+      {
+        "name": "模型解析",
+        "rule": "scheduleRunner 先解析已存在模型，之後交給 scheduleRunnerForModel。",
+        "source": "server/routes.go"
+      },
+      {
+        "name": "模型拉取",
+        "rule": "PullHandler 檢查 JSON 與模型名稱；固定版本包含 cloud stub 相容處理。",
+        "source": "server/routes.go"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "api/types.go",
+          "server/routes.go",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先核對硬體、已批准模型與其授權，不先下載大模型。 讀取 ChatRequest/ChatResponse 契約，使用合成資料設計成功與失敗情境。 在核准環境確認實際推論路徑、連線、延遲及輸出，再接應用。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫的摘要功能；儲存及權限另行實作。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "api/types.go"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "chat-api",
+        "name": "聊天與串流回應",
+        "problem": "應用需送出對話及取得結果",
+        "input": "model、messages、stream、format、tools、keep_alive",
+        "output": "ChatResponse.message、done、done_reason 與可能的 remote 欄位",
+        "source": "api/types.go",
+        "sourceFiles": [
+          "api/types.go",
+          "server/routes.go"
+        ],
+        "symbols": [
+          "ChatRequest",
+          "ChatResponse",
+          "Server.ChatHandler",
+          "Server.GenerateRoutes"
+        ],
+        "gate": "stream 預設 true；須處理錯誤與 done，工具及 JSON 格式須依模型驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "model-runner",
+        "name": "選擇已存在的模型與執行器",
+        "problem": "同一主機有多模型與資源限制",
+        "input": "model name、runner、capabilities、options、keepAlive",
+        "output": "已解析模型、runner、options 或錯誤",
+        "source": "server/routes.go",
+        "sourceFiles": [
+          "server/routes.go"
+        ],
+        "symbols": [
+          "Server.scheduleRunner",
+          "Server.scheduleRunnerForModel",
+          "Server.getExistingModelForRunner"
+        ],
+        "gate": "未檢查完整排程器及硬體；確認實際模型、記憶體、延遲與本機／遠端路徑。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "model-pull",
+        "name": "取得指定模型",
+        "problem": "服務需準備模型資產",
+        "input": "PullRequest model/name",
+        "output": "下載處理或錯誤；某些 cloud 模型可為 stub",
+        "source": "server/routes.go",
+        "sourceFiles": [
+          "server/routes.go"
+        ],
+        "symbols": [
+          "Server.PullHandler",
+          "parseNormalizePullModelRef"
+        ],
+        "gate": "下載模型需核准磁碟、網路、授權與成本；拉取模型名稱不代表推論必然本機。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "設計本機研究筆記摘要服務（設計示例）",
+      "problem": "五篇公開或合成筆記、已核准本機模型與輸出規格。",
+      "steps": [
+        {
+          "capability": "model-pull",
+          "action": "核對模型資產與權利"
+        },
+        {
+          "capability": "model-runner",
+          "action": "確認模型執行路徑"
+        },
+        {
+          "capability": "chat-api",
+          "action": "設計聊天與串流測試"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "local-note-summary"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "五篇公開或合成筆記、已核准本機模型與輸出規格。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "核對模型及來源 → 確認執行器 → 送出聊天請求 → 檢查完成與格式",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有知識庫的摘要功能；儲存及權限另行實作。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝、下載模型或執行推論；未查核完整 GPU runner、遠端代理、認證及多租戶隔離。",
+        "本機模型與 Cloud 模型的資料政策、費用和執行位置必須區分。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝、下載模型或執行推論；未查核完整 GPU runner、遠端代理、認證及多租戶隔離。 本機模型與 Cloud 模型的資料政策、費用和執行位置必須區分。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
