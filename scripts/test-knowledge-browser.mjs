@@ -451,7 +451,7 @@ try{
  }
  console.log('PASS: Expanded record detail aligns to the content edges and fits 375/430/768/1440px');
 
- assert.ok(await evaluate('document.querySelectorAll("#repo-compose .repo-capability").length>0 && document.querySelectorAll("#repo-rebuild .repo-rebuild-stage").length>0'),'Resource detail must show capability contracts and rebuild guidance');
+ assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length===3 && document.querySelectorAll(".repo-shot").length===2 && document.querySelectorAll(".repo-guide").length===0'),'Usage Bar reader shows use cases and official screenshots, with technical guide retained only in canonical');
  assert.equal(await evaluate('document.querySelector(".detail-back a")?.getAttribute("href")'),'#/browse/all','Return from resource detail should preserve All Collections context');
  await send('Page.navigate',{url:origin+'/index.html#/browse/all'});
  await waitFor('document.querySelector("#q")?.value===""','All Collections clears prior search');
@@ -461,8 +461,8 @@ try{
  await evaluate('document.querySelector("#app .card a.title-link").click();true');
  await waitFor('document.querySelector(".detail-panel h2")?.textContent.includes("AI 工程決策速查表")','Article detail opens');
  await waitFor('document.querySelectorAll(".learn-module").length===10','Ten study modules rendered from the saved original Resource');
- const studyContent=await evaluate('({heroHidden:!document.querySelector(".hero")||document.querySelector(".hero").hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module-inline").length,notes:document.querySelectorAll(".learn-essentials li").length,exercises:document.querySelectorAll(".learn-apply").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-reference a[href*=sraodev]").length,defaultExternalLinks:document.querySelectorAll(".learn-path a").length,accordionCount:document.querySelectorAll(".learn-module summary").length,legacyFeatures:document.querySelector(".detail-panel")?.textContent.includes("主要功能")})');
- assert.ok(studyContent.heroHidden&&studyContent.outcomes===0&&studyContent.modules===10&&studyContent.notes===30&&studyContent.exercises===10&&studyContent.readPath===0&&studyContent.practice>=4&&studyContent.sourceLinks===10&&studyContent.defaultExternalLinks===0&&studyContent.accordionCount===0&&studyContent.legacyFeatures,'Inline lesson must include all source-backed knowledge and keep provenance: '+JSON.stringify(studyContent));
+ const studyContent=await evaluate('({heroHidden:!document.querySelector(".hero")||document.querySelector(".hero").hidden,outcomes:document.querySelectorAll(".learn-outcome").length,modules:document.querySelectorAll(".learn-module-inline").length,notes:document.querySelectorAll(".learn-essentials li").length,exercises:document.querySelectorAll(".learn-apply").length,readPath:document.querySelectorAll(".learn-path li").length,practice:document.querySelectorAll(".learn-practice li").length,sourceLinks:document.querySelectorAll(".learn-reference a[href*=sraodev]").length,defaultExternalLinks:document.querySelectorAll(".learn-path a").length,accordionCount:document.querySelectorAll(".learn-module summary").length,readerCases:document.querySelectorAll("[data-use-case-id]").length})');
+ assert.ok(studyContent.heroHidden&&studyContent.outcomes===0&&studyContent.modules===10&&studyContent.notes===30&&studyContent.exercises===10&&studyContent.readPath===0&&studyContent.practice>=4&&studyContent.sourceLinks===10&&studyContent.defaultExternalLinks===0&&studyContent.accordionCount===0&&studyContent.readerCases===4,'Inline lesson must include all source-backed knowledge and keep provenance: '+JSON.stringify(studyContent));
  const decision=await evaluate('({heroCount:document.querySelectorAll(".learning-guide .learn-header").length,decisionRows:document.querySelector(".learn-decision")?.querySelectorAll("tbody tr").length,decisionChecks:document.querySelectorAll(".learn-principle-check").length,decisionText:document.querySelector(".learn-decision")?.textContent})');
  assert.ok(decision.heroCount===0&&decision.decisionRows===5&&decision.decisionChecks>=3&&decision.decisionText.includes("固定 Workflow")&&decision.decisionText.includes("Agent"),'No duplicate intro; reader should see an actual decision tree for Agent selection: '+JSON.stringify(decision));
   const readability=await evaluate('({rendered:document.querySelectorAll(".learn-module-inline .learn-essentials li").length,visible:!!document.querySelector(".learn-essentials li")?.getClientRects().length,firstLesson:document.querySelector(".learn-module-inline")?.textContent})');
@@ -495,7 +495,13 @@ try{
   ['nirdiamant-genai-agents','.resource-reader-guide','比較客服問題的分流方法'],
   ['anthropics-skills','.resource-reader-guide','建立 Resource 整理 Skill'],
   ['openrouter-ai','.resource-reader-guide','替摘要應用選擇模型'],
-  ['google-pagespeed-insights','.resource-reader-guide','驗收作品集首頁改版']
+  ['google-pagespeed-insights','.resource-reader-guide','驗收作品集首頁改版'],
+  ['google-fonts','.resource-reader-guide','為中英雙語作品集選字型'],
+  ['coolors','.resource-reader-guide','整理作品集的基本色彩系統'],
+  ['artlist','.resource-reader-guide','為產品介紹影片準備配樂'],
+  ['davinci-resolve','.resource-reader-guide','剪輯一支產品介紹影片'],
+  ['google-flow','.resource-reader-guide','製作三鏡頭概念短片'],
+  ['ffmpeg','.resource-reader-guide','批次輸出已完成的短影片']
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -522,7 +528,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 eleven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 seventeen Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

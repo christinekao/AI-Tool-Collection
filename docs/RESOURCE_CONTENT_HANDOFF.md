@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 03（2026-11-25）
+
+- main 基線 `74650def53973a433352362d88290ac60aa9c248`；PR #67 已合併且 Catalog Sync 確認，11/286 筆已有雙層審查（10 完成對應、1 deferred）。
+- [Batch 03 逐筆報告](RESOURCE_DUAL_LAYER_BATCH03_20261125.md)：tip31812-ai-usage-bar、aiposthub-awesome-opensource-ai-cheat-sheets-guide、google-fonts、coolors、artlist、davinci-resolve、google-flow、ffmpeg。八筆候選，25 個用途與 33 個對應單元。
+- 合併前仍為 11/286；本批合併後 19/286（18 mapped/evidence-linked，1 deferred）。未改寫 267 筆，另追蹤 Microsoft 課程缺口。所有示例與第三方執行均未實測。
+- 使用者已要求停止排程，排程已停用。採直接 GitHub 執行；依 main / PR / CI / Catalog Sync / Pages 真實狀態核對，不能把舊快照當即時狀態。
+- 下一批先核對知識管理、RAG 與影音動畫 Repo 原始碼、文件及版本（RAGFlow、AFFiNE、Manim、ComfyUI 等），再依 manifest 接續未改寫資料。保留已整理技術、原 ID、分類、Tags、Typed Refs、學習內容與來源，只有有證據的對應才建立。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 02（2026-11-25）
 
 - main 基線 `5307761173ebd05f6cc888d6355a149b6d0bd6e2`；PR #66 已合併且 Catalog Sync 確認，5/286 筆有雙層改善。

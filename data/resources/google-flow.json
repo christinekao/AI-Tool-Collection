@@ -6,14 +6,14 @@
   "canonicalName": "Google Flow",
   "category": "11 Media / Video",
   "resourceType": "Hosted AI image/video creative studio; Gemini Omni, Nano Banana, Veo",
-  "purpose": "Google 的圖片與影片創作介面，整合 Gemini Omni Flash、Nano Banana 與 Veo，支援文字生成影片、參考圖或已有影片編修、圖像轉影片、鏡頭／段落組合、Characters 與本人 Avatar（取決於型號、地區及方案）。",
-  "recommendation": "適合將 Claude 協助完成的故事腳本、圖像分鏡、人物／商品 Reference 轉成短片，再依需求使用 Flow 編輯、Scenebuilder 或其他授權後製工具。每個模型支援項目、影像比例、片段長度與使用點數不一定相同，需在操作介面確認。",
+  "purpose": "用文字或參考圖片製作短影片鏡頭，修改既有片段，再把多個鏡頭編排成一個場景。",
+  "recommendation": "適合故事分鏡、概念影片及 AI 生成素材；若需要精確逐格控制、完整長片後製或批次 API，自行評估其他工具與額外流程。",
   "url": "https://labs.google/fx/tools/flow",
   "repo": "",
   "notes": "2026-10-27 Google Flow 官網與官方支援文件確認 Gemini Omni Flash 支援依圖片／影片等輸入生成及修改影片，Nano Banana 為影像生成／編輯，Veo 支援 Image/Frames/Ingredients-to-Video 等方案。官方提供角色引用，Avatar 則需本人以行動裝置完成建立、可透過 @me 使用，於 EEA／英國／瑞士不支援；對真人肖像不得未經同意仿冒。影片直接上傳編修功能可能有檔案限制、片段長度與地區限制。Flow 有免費額度及多種 Google AI 方案，但可用模型、額度與功能可能變動。原筆記稱 Gemini Omni 不應被誤認為非官方模型名稱；Gemini Omni Flash 為 Google 官方提供的實際選項。未登入／生成、建立 Avatar、上傳資料或實測片段連續性。",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "google-flow",
     "gemini-omni",
@@ -62,8 +62,12 @@
     "type": "Official Google product site and Google Flow Help",
     "summary": "Current first-party Google Flow and Avatar support docs checked 2026-10-27; no models run.",
     "readmeUrl": "https://labs.google/fx/tools/flow",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream website/README; no third-party executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "Re-read Google Flow model/feature and clip editing/scenebuilder help on 2026-11-25; no generation, plan purchase, output or avatar tests.",
+    "referenceUrls": [
+      "https://support.google.com/flow/answer/16352836",
+      "https://support.google.com/flow/answer/16935718"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -103,14 +107,14 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
+      "reason": "核對既有 Canonical ID 與來源，補充雙層閱讀及證據，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -118,9 +122,9 @@
     },
     "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依資源實際用途採官方產品或操作文件的閱讀規格，不假設能取得產品內部程式碼。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -133,7 +137,138 @@
     "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "核對官方文件及既有來源記錄；未執行工具、生成、付費操作或實際驗收。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "依官方文件建立人類情境及底層來源對應；保留未執行及實際驗證缺口。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "generate-clip",
+      "detail": "模型及方案決定文字、起始／結束影格、參考素材轉影片的可用方式；生成前應確認解析度、時長與點數。",
+      "locator": "https://support.google.com/flow/answer/16352836",
+      "evidenceFields": [
+        "features.0",
+        "features.1",
+        "requirements.0",
+        "requirements.1"
+      ],
+      "limitations": "模型、方案、區域及可用額度會改變。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "revise-clip",
+      "detail": "以文字修改已有影片，保留歷史版本；延伸片段及參考圖等功能取決於模型與訂閱。",
+      "locator": "https://support.google.com/flow/answer/16935718",
+      "evidenceFields": [
+        "features.0",
+        "features.1",
+        "limitations.0"
+      ],
+      "limitations": "未驗證角色一致性、動作連續性及生成品質。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "assemble-scene",
+      "detail": "Scenebuilder 可排列、調整順序、裁切、預覽與下載場景。",
+      "locator": "https://support.google.com/flow/answer/16935718（Build your scene in Google Flow）",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1"
+      ],
+      "limitations": "不代表具有完整專業時間軸、音軌或字幕後製能力。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "create-shot",
+        "title": "將文字分鏡變成短影片",
+        "detail": "將故事拆成鏡頭，描述場景、動作及鏡頭需求，生成候選片段。",
+        "evidenceRefs": [
+          "generate-clip"
+        ]
+      },
+      {
+        "id": "refine-shot",
+        "title": "維持場景與角色方向",
+        "detail": "利用已獲授權參考素材修改鏡頭，保存可接受的版本並核對一致性。",
+        "evidenceRefs": [
+          "generate-clip",
+          "revise-clip"
+        ]
+      },
+      {
+        "id": "sequence-shots",
+        "title": "組合多個短鏡頭",
+        "detail": "排列片段、修剪頭尾，預覽整個場景並匯出供後製。",
+        "evidenceRefs": [
+          "assemble-scene",
+          "revise-clip"
+        ]
+      }
+    ],
+    "example": {
+      "id": "short-storyboard",
+      "title": "製作三鏡頭概念短片",
+      "input": "三段分鏡描述、已獲授權的風格參考圖與畫面比例需求。",
+      "process": "分鏡生成 → 選擇可用版本 → 修改不一致畫面 → 編排場景",
+      "output": "三個候選鏡頭及場景預覽（預期產物，未生成）。",
+      "destination": "交給後續剪輯、配音、字幕與發布驗收。",
+      "steps": [
+        {
+          "id": "generate",
+          "title": "產生分鏡",
+          "evidenceRefs": [
+            "generate-clip"
+          ]
+        },
+        {
+          "id": "revise",
+          "title": "調整候選片段",
+          "evidenceRefs": [
+            "revise-clip"
+          ]
+        },
+        {
+          "id": "sequence",
+          "title": "排列與修剪場景",
+          "evidenceRefs": [
+            "assemble-scene"
+          ]
+        },
+        {
+          "id": "finish",
+          "title": "完成後製與檢查",
+          "evidenceRefs": [],
+          "externalDependency": "旁白、繁體中文字幕、音樂授權、畫面連續性與正式發布需另行驗收。"
+        }
+      ],
+      "note": "獨立設計示例，未實際操作或取得輸出結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "create-shot",
+        "refine-shot",
+        "sequence-shots"
+      ]
+    },
+    "start": [
+      "先確認所在區域、模型、方案、可用功能及點數；不要直接產生大量片段。",
+      "將腳本拆成短鏡頭，使用合法參考素材及小量草稿比較。",
+      "保存可用版本並組合場景，再匯出進行完整後製與人工驗收。"
+    ],
+    "limits": [
+      "官方各功能和模型依 Google AI 方案、區域及每日 Credit 額度不同",
+      "生成與上傳的角色、素材、肖像需符合平台政策及使用權利",
+      "未生成任何影片或實測模型，不能保證畫面一致性、文字準確度或素材商用權。"
+    ]
   }
 }

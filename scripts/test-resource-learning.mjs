@@ -90,6 +90,8 @@ test('Phase 3: both new structured guides render from canonical data and prior g
  assert.match(lesson,/自我驗收/);
  assert.match(html(ID),/十個主題的重點筆記/);
  assert.match(html('tip31812-ai-usage-bar'),/class="repo-shots"/);
+ assert.match(html('tip31812-ai-usage-bar'),/class="resource-reader-guide"/);
+ assert.doesNotMatch(html('tip31812-ai-usage-bar'),/class="repo-guide"|class="repo-rebuild-stage"/);
  assert.match(html('arrow-2'),/製作一組網站圖示/);
  assert.match(html('addyosmani-agent-skills'),/驗收表單儲存功能/);
  for(const id of ['agent-reach','ai-code-acceptance-review-testing-rollout-guide','arrow-2','addyosmani-agent-skills']){
@@ -235,5 +237,45 @@ test('Dual-layer batch 02: six reader pages preserve evidence and human learning
   assert.equal((html.match(/class="learn-module learn-module-inline"/g)||[]).length,chapters,id);
   assert.doesNotMatch(html,/class="repo-guide"/,id);
   if(expected==='deferred'){assert.ok(d.intakeReview.layerReview.gap&&d.intakeReview.layerReview.nextAction);assert.equal(d.intakeReview.sourceStatus,'partial');}
+ }
+});
+
+test('Dual-layer batch 03: eight resource guides preserve source knowledge and practical reader views',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title,expected,chapters] of [
+  ['tip31812-ai-usage-bar','安排兩種 Coding Agent 的工作','mapped',0],
+  [ID,'設計公司內部文件問答','evidence-linked',10],
+  ['google-fonts','為中英雙語作品集選字型','evidence-linked',0],
+  ['coolors','整理作品集的基本色彩系統','evidence-linked',0],
+  ['artlist','為產品介紹影片準備配樂','evidence-linked',0],
+  ['davinci-resolve','剪輯一支產品介紹影片','evidence-linked',0],
+  ['google-flow','製作三鏡頭概念短片','evidence-linked',0],
+  ['ffmpeg','批次輸出已完成的短影片','evidence-linked',0]
+ ]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','agentEvidence','repoGuide','learningGuide','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,expected,id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  for(const uc of d.readerGuide.useCases){
+   const f=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs||uc.evidenceRefs){
+    assert.ok((f.capabilities||f.evidence).some(u=>u.id===ref&&u.runtimeStatus==='not-tested'),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.equal((html.match(/class="learn-module learn-module-inline"/g)||[]).length,chapters,id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  if(id==='tip31812-ai-usage-bar'){
+   assert.ok(d.repoGuide.rebuild&&d.repoGuide.screenshots.length===2);
+   assert.match(html,/class="repo-shots"/);
+   assert.equal((html.match(/class="repo-shot"/g)||[]).length,2);
+   assert.doesNotMatch(html,/Sources\/Models.swift|Sources\/Notifier.swift/);
+  }
  }
 });

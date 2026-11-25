@@ -6,14 +6,14 @@
   "canonicalName": "DaVinci Resolve",
   "category": "11 Media / Video",
   "resourceType": "Video Editing / Post-production",
-  "purpose": "Video editing、color grading、audio post-production、motion/VFX workflow。",
-  "recommendation": "適合需要完整剪輯、調色、音訊與 motion/VFX 後製流程時研究。",
+  "purpose": "在同一套影片後製軟體中完成剪輯、調色、特效、聲音處理與成片匯出。",
+  "recommendation": "適合需要精細控制畫面、時間軸、聲音及成片品質的人；若只做批次轉檔或自動化合成，先考慮命令列影音工具。",
   "url": "https://www.blackmagicdesign.com/products/davinciresolve",
   "repo": "",
   "notes": "Official product source confirmed through Blackmagic Design.",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "video-editing",
     "color-grading",
@@ -68,9 +68,12 @@
   "source": {
     "url": "https://www.blackmagicdesign.com/products/davinciresolve/",
     "readmeUrl": "https://www.blackmagicdesign.com/products/davinciresolve/",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official website",
-    "reviewScope": "Documentation only, no runtime/security audit"
+    "reviewScope": "Reviewed official Resolve product overview, page-based workflow, media/delivery and Free/Studio distinctions; no installation or render tests.",
+    "referenceUrls": [
+      "https://www.blackmagicdesign.com/products/davinciresolve/"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -79,14 +82,14 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
+      "reason": "核對既有 Canonical ID 與來源，補充雙層閱讀及證據，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -94,9 +97,9 @@
     },
     "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依資源實際用途採官方產品或操作文件的閱讀規格，不假設能取得產品內部程式碼。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -109,7 +112,134 @@
     "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "核對官方文件及既有來源記錄；未執行工具、生成、付費操作或實際驗收。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "依官方文件建立人類情境及底層來源對應；保留未執行及實際驗證缺口。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "edit-timeline",
+      "detail": "Media 整理素材，Cut／Edit 進行時間軸剪輯與組合。",
+      "locator": "https://www.blackmagicdesign.com/products/davinciresolve/（All In One Solution for Post Production / Media）",
+      "evidenceFields": [
+        "features.0",
+        "features.1"
+      ],
+      "limitations": "未驗證特定編碼、硬體或素材相容性。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "image-audio",
+      "detail": "Color 負責調色、Fusion 製作視覺特效，Fairlight 處理音訊後製。",
+      "locator": "https://www.blackmagicdesign.com/products/davinciresolve/（Color / Fusion / Fairlight）",
+      "evidenceFields": [
+        "features.0",
+        "limitations.0"
+      ],
+      "limitations": "部分功能屬 Studio，版本差異需確認。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "render-delivery",
+      "detail": "Deliver 提供輸出編碼及渲染佇列；官方提供 Free 與 Studio 版本。",
+      "locator": "https://www.blackmagicdesign.com/products/davinciresolve/（Media and Delivery / Studio）",
+      "evidenceFields": [
+        "features.1",
+        "requirements.0",
+        "requirements.1",
+        "limitations.1"
+      ],
+      "limitations": "需依版本、硬體與交付格式驗證實際渲染。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "edit-video",
+        "title": "把多段影片剪成完整故事",
+        "detail": "匯入畫面和旁白，調整鏡頭順序及時間軸，形成可播放的影片。",
+        "evidenceRefs": [
+          "edit-timeline"
+        ]
+      },
+      {
+        "id": "refine-media",
+        "title": "讓畫面色彩與聲音更一致",
+        "detail": "針對不同鏡頭調色，處理旁白、音樂與需要的視覺特效。",
+        "evidenceRefs": [
+          "image-audio"
+        ]
+      },
+      {
+        "id": "export-video",
+        "title": "依發布需求輸出影片",
+        "detail": "選擇適合平台的解析度、編碼與輸出設定，並檢查成片。",
+        "evidenceRefs": [
+          "render-delivery"
+        ]
+      }
+    ],
+    "example": {
+      "id": "product-demo-video",
+      "title": "剪輯一支產品介紹影片",
+      "input": "已獲授權的產品畫面、旁白、配樂與腳本。",
+      "process": "匯入素材 → 剪輯時間軸 → 調色與混音 → 匯出檢查",
+      "output": "剪輯專案與最終影片（尚未實際建立）。",
+      "destination": "作品集、產品網站或核准的發布平台。",
+      "steps": [
+        {
+          "id": "cut",
+          "title": "建立故事時間軸",
+          "evidenceRefs": [
+            "edit-timeline"
+          ]
+        },
+        {
+          "id": "polish",
+          "title": "調整畫面及聲音",
+          "evidenceRefs": [
+            "image-audio"
+          ]
+        },
+        {
+          "id": "export",
+          "title": "設定輸出",
+          "evidenceRefs": [
+            "render-delivery"
+          ]
+        },
+        {
+          "id": "quality",
+          "title": "實際播放及授權驗收",
+          "evidenceRefs": [],
+          "externalDependency": "需另行檢查成片、字幕、音量、素材權利及發布規格。"
+        }
+      ],
+      "note": "獨立設計示例，未實際操作或取得輸出結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "edit-video",
+        "refine-media",
+        "export-video"
+      ]
+    },
+    "start": [
+      "先確認 OS、GPU、記憶體、編碼需求及版本，再從官方選 Free 或 Studio。",
+      "用少量已授權素材練習匯入、剪輯、調色及聲音調整。",
+      "依目標平台設定輸出，完整播放成片並核對字幕、音畫同步與權利。"
+    ],
+    "limits": [
+      "許多 AI Neural Engine、進階 Resolve FX 和部分功能限 Studio 版本",
+      "大型素材及 GPU 運算可能需求較高硬體，不同格式支援需另核對"
+    ]
   }
 }

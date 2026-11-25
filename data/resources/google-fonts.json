@@ -4,8 +4,8 @@
   "canonicalName": "Google Fonts",
   "category": "Frontend Design & Typography",
   "resourceType": "Open-source font library and web font delivery service",
-  "purpose": "搜尋、預覽與使用多語系開源字型，提供網頁 CSS、下載及自架字型等方式，適合品牌、產品介面與商業網站排版。",
-  "recommendation": "適合建立網站字型系統、提升可讀性與視覺一致性；部署前確認個別字型授權、繁體中文覆蓋度和載入效能。",
+  "purpose": "挑選適合網站與產品介面的字型，預覽字體，再透過 CSS 或下載字型檔套用到自己的設計。",
+  "recommendation": "適合網站排版、品牌與多語系介面；若需要離線使用或避免第三方連線，先評估合法自架字型與系統字型。",
   "url": "https://fonts.google.com/",
   "license": "Font-specific licenses; commonly SIL Open Font License 1.1 (OFL), with some legacy Apache/Ubuntu licenses",
   "commercialUse": {
@@ -53,16 +53,19 @@
       "https://googlefonts.github.io/gf-guide/license-file.html",
       "https://fonts.google.com/knowledge"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official Google Fonts, FAQ and font licensing guidance",
     "readmeUrl": "https://developers.google.com/fonts/docs/getting_started",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "Re-read official Fonts API getting-started guide; existing font catalog and license references retained. FAQ extraction unavailable; no font loading or individual license audit.",
+    "referenceUrls": [
+      "https://developers.google.com/fonts/docs/getting_started"
+    ]
   },
   "schemaVersion": 2,
   "entityType": "resource",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
   "classification": {
@@ -95,14 +98,14 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，補充人類閱讀及底層證據對應，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -110,9 +113,9 @@
     },
     "classificationReason": "原有 Domain design 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依資源實際用途採官方產品／操作文件的閱讀規格；不假設有可取得的產品內部程式碼。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -125,7 +128,134 @@
     "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "核對官方文件及既有來源記錄；未執行工具、付費操作或實際輸出驗收。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "人類操作情境與已確認的官方文件及既有知識建立局部證據對應；保留實際操作與授權等未驗證範圍。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "select-font",
+      "detail": "以字型目錄及預覽挑選字體、語系與字重，再核對實際字集。",
+      "locator": "https://fonts.google.com/",
+      "evidenceFields": [
+        "features.0",
+        "features.2",
+        "limitations.0"
+      ],
+      "limitations": "沿用原目錄審查；未測各字型的繁體字集及字重。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "web-css",
+      "detail": "官方文件說明使用 stylesheet URL 引入字型，在 CSS font-family 設定字體及 fallback；可指定 family、style、weight 與載入行為。",
+      "locator": "https://developers.google.com/fonts/docs/getting_started",
+      "evidenceFields": [
+        "features.1",
+        "requirements.0"
+      ],
+      "limitations": "未測網路、載入效能或瀏覽器相容性。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "deployment-review",
+      "detail": "依字型授權、字集、外部請求與實際效能選擇 CDN 或自架；保存字型版本與授權。",
+      "locator": "https://googlefonts.github.io/gf-guide/license-file.html；既有授權指引",
+      "evidenceFields": [
+        "limitations.0",
+        "source.documentation"
+      ],
+      "limitations": "未逐個核對字型授權；自架需另行準備字型檔與 CSS。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "choose-type",
+        "title": "挑選網站字型",
+        "detail": "依標題、內文及繁體中文需求挑選字體與字重，先確認缺字情況。",
+        "evidenceRefs": [
+          "select-font"
+        ]
+      },
+      {
+        "id": "apply-website",
+        "title": "讓網站使用一致字型",
+        "detail": "使用 CSS 套用已選字型及備援字體，保持標題與內文的排版一致。",
+        "evidenceRefs": [
+          "select-font",
+          "web-css"
+        ]
+      },
+      {
+        "id": "control-loading",
+        "title": "選擇字型載入方式",
+        "detail": "依效能、離線及隱私需求決定外部載入或自架，保留必要授權。",
+        "evidenceRefs": [
+          "web-css",
+          "deployment-review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "bilingual-portfolio",
+      "title": "為中英雙語作品集選字型",
+      "input": "作品集標題、內文與一段包含繁體中文字的測試文字。",
+      "process": "挑選字型與字重 → 檢查文字是否完整 → 設定 CSS 及備援 → 驗證載入與閱讀",
+      "output": "字型選用紀錄、CSS 字體設定、授權與待驗證項目。",
+      "destination": "交給前端樣式與設計系統。",
+      "steps": [
+        {
+          "id": "select",
+          "title": "挑選字體及字重",
+          "evidenceRefs": [
+            "select-font"
+          ]
+        },
+        {
+          "id": "style",
+          "title": "設計字型載入設定",
+          "evidenceRefs": [
+            "web-css"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "核對字集與授權",
+          "evidenceRefs": [
+            "deployment-review"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "在網站驗證",
+          "evidenceRefs": [],
+          "externalDependency": "需另行修改網站及實測字型載入、缺字與排版。"
+        }
+      ],
+      "note": "獨立設計示例，未實際操作或取得輸出結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "choose-type",
+        "apply-website",
+        "control-loading"
+      ]
+    },
+    "start": [
+      "先用作品集的實際中英文字預覽字型，而非只看英文字體示例。",
+      "選定必要字重與載入方式，再依官方 CSS 文件整合。",
+      "在實際手機及桌面瀏覽器驗證字型、備援與載入表現。"
+    ],
+    "limits": [
+      "需確認各字型所支援字集與授權，外部 CDN 請求亦有隱私及效能考量"
+    ]
   }
 }

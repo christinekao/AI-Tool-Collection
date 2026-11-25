@@ -6,13 +6,13 @@
   "canonicalName": "tip31812/ai-usage-bar",
   "category": "AI Coding Tools / macOS Utilities",
   "resourceType": "GitHub Swift／SwiftUI macOS 選單列應用程式（可編譯、可擴充）",
-  "purpose": "在 macOS 選單列追蹤 Claude Code 與 Codex 的剩餘用量、額度重置時間、短期／週期視窗、長對話上下文與通知，並依剩餘額度提供工具使用建議。原始專案含 Provider 介面、SwiftUI 介面、Build Script、Hook 與測試工作流，可作為安裝、客製化或重新實作的程式參考。",
-  "recommendation": "適合希望統一觀察 CLI AI 工具額度與上下文消耗的 macOS 使用者。若要實作：先在獨立 Repo 審查原始碼與安全性，再決定安裝既有版、客製 Provider 或自建版本；任何登入憑證、Keychain 授權、系統設定變更或未經公證軟體安裝都要人工確認。",
+  "purpose": "在 Mac 選單列同時查看 Claude Code 與 Codex 剩多少使用額度、何時重置，以及是否應考慮改用另一個工具。",
+  "recommendation": "適合經常交替使用兩種 AI Coding 工具、需要追蹤用量的人；若不願讓第三方程式讀取本機登入資訊，應使用各服務官方查詢方式。",
   "url": "https://github.com/tip31812/ai-usage-bar",
   "repo": "tip31812/ai-usage-bar",
   "status": "active",
   "addedAt": "2026-11-18",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "macos",
     "swift",
@@ -75,7 +75,7 @@
   "source": {
     "url": "https://github.com/tip31812/ai-usage-bar",
     "upstreamCommit": "0c9b77736da008e56f06de056dc7e3fd84bbe194",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-25",
     "filesReviewed": [
       "README.md",
       "README.zh-TW.md",
@@ -88,10 +88,11 @@
       "Sources/CodexProvider.swift",
       "Sources/Store.swift",
       "Sources/Views.swift",
-      ".github/workflows/build.yml"
+      ".github/workflows/build.yml",
+      "Sources/Notifier.swift"
     ],
     "readmeUrl": "https://github.com/tip31812/ai-usage-bar/blob/main/README.md",
-    "reviewScope": "Documentation-level review; existing deeper source code review retained as previously described; no new third-party runtime/security testing",
+    "reviewScope": "Re-read pinned Models, Store, Views, Notifier and both Provider files; prior build and architecture review retained; no installation, credential access, runtime or security testing.",
     "type": "Official upstream README"
   },
   "implementationKnowledge": {
@@ -406,7 +407,21 @@
         "readerProblem": "每個 AI 工具提供的額度資料不一樣。",
         "readerInput": "已獲授權的登入狀態及用量資料",
         "readerOutput": "統一格式的用量與資料來源狀態",
-        "readerGate": "確認資料來源可合法使用，且不會誤用登入憑證。"
+        "readerGate": "確認資料來源可合法使用，且不會誤用登入憑證。",
+        "sourceFiles": [
+          "Sources/Models.swift",
+          "Sources/ClaudeProvider.swift",
+          "Sources/CodexProvider.swift",
+          "Sources/Store.swift"
+        ],
+        "symbols": [
+          "UsageSource",
+          "ClaudeFetcher.fetch",
+          "CodexFetcher.fetch",
+          "Store.fetchAll"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       },
       {
         "id": "quota-normalize",
@@ -420,7 +435,18 @@
         "readerProblem": "不同工具有不同的額度時段和重置時間。",
         "readerInput": "已使用比例、額度時段、重置時間",
         "readerOutput": "剩餘比例及目前最接近用完的時段",
-        "readerGate": "資料缺失或估算時，不能偽裝成即時數據。"
+        "readerGate": "資料缺失或估算時，不能偽裝成即時數據。",
+        "sourceFiles": [
+          "Sources/Models.swift",
+          "Sources/Store.swift"
+        ],
+        "symbols": [
+          "UsageWindow.remainingPercent",
+          "ProviderState.tightestRemaining",
+          "Provider.tightest"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       },
       {
         "id": "usage-routing",
@@ -434,7 +460,17 @@
         "readerProblem": "當某個工具額度快用完時，選擇替代工具。",
         "readerInput": "各工具的剩餘額度與重置時間",
         "readerOutput": "建議使用的工具及理由，不會自動切換",
-        "readerGate": "額度太低、資料太舊或無法查詢時，應有不同的判斷方式。"
+        "readerGate": "額度太低、資料太舊或無法查詢時，應有不同的判斷方式。",
+        "sourceFiles": [
+          "Sources/Views.swift"
+        ],
+        "symbols": [
+          "Advice",
+          "advise",
+          "shouldHurry"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       },
       {
         "id": "usage-alert",
@@ -448,7 +484,18 @@
         "readerProblem": "使用者不必一直打開看板，也能知道需要注意的狀態。",
         "readerInput": "用量、對話長度及登入狀態",
         "readerOutput": "必要時顯示通知，並避免重複提醒",
-        "readerGate": "取得通知權限，確保內容不洩漏敏感資訊。"
+        "readerGate": "取得通知權限，確保內容不洩漏敏感資訊。",
+        "sourceFiles": [
+          "Sources/Notifier.swift"
+        ],
+        "symbols": [
+          "Notifier.checkPrimary",
+          "Notifier.checkClaudeLogin",
+          "Notifier.checkLongCodex",
+          "Notifier.post"
+        ],
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
       }
     ],
     "workflow": {
@@ -472,7 +519,8 @@
           "action": "僅對符合條件的事件發通知，記錄去重狀態"
         }
       ],
-      "gate": "此流程是根據原始碼抽象出的組合設計，尚未整合其他服務，也未在實際帳號測試。擴展到其他 Repo 前需重新確認授權、輸入輸出契約、依賴及真實相容性。"
+      "gate": "此流程是根據原始碼抽象出的組合設計，尚未整合其他服務，也未在實際帳號測試。擴展到其他 Repo 前需重新確認授權、輸入輸出契約、依賴及真實相容性。",
+      "readerExampleRef": "coding-quota-check"
     },
     "rebuild": {
       "verdict": "架構與部分規則可依現有程式碼重新實作；目前不具備免原始碼、免測試即可重建完全相同行為的證據。",
@@ -607,14 +655,14 @@
       "url",
       "source.url"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "依 Canonical ID、名稱與官方來源比對，本批只補足既有紀錄內容，不新增實體。"
+      "reason": "比對既有 Canonical ID 與來源身分，補充雙層閱讀及來源對應，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -638,6 +686,106 @@
     "verification": {
       "status": "not-tested",
       "evidence": "本批只檢視官方文件／README；先前如有原始碼檢視另依原記錄；無本次安裝、Runtime、Integration、Security 實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "已重新查閱固定版本 Provider、Models、Store、Views、Notifier，四項技術能力與三種讀者需求對應；保留原技術及截圖，未使用真實帳號。"
     }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "monitor-quota",
+        "title": "不用切換視窗查額度",
+        "detail": "在選單列查看兩種工具的剩餘比例、重置時間及資料是否即時。",
+        "capabilityRefs": [
+          "quota-adapter",
+          "quota-normalize"
+        ]
+      },
+      {
+        "id": "choose-tool",
+        "title": "安排下一段開發工作",
+        "detail": "當主工具額度快耗盡時，查看另一工具可用額度及建議，再由自己決定是否切換。",
+        "capabilityRefs": [
+          "quota-normalize",
+          "usage-routing"
+        ]
+      },
+      {
+        "id": "receive-alert",
+        "title": "提醒額度或長對話問題",
+        "detail": "依條件收到本機通知；不必一直打開額度看板。",
+        "capabilityRefs": [
+          "usage-alert",
+          "quota-adapter"
+        ]
+      }
+    ],
+    "example": {
+      "id": "coding-quota-check",
+      "title": "安排兩種 Coding Agent 的工作",
+      "input": "假設主工具剩 10%、備用工具剩 60%，兩者為合成且非真實帳號資料。",
+      "process": "取得授權用量 → 統一剩餘比例與狀態 → 提出工具建議 → 視條件提醒",
+      "output": "預期畫面：主工具額度偏低，建議先用備用工具；不會自動切換或分派任務。",
+      "destination": "由使用者安排下一段開發工作，保留資料是否即時的標記。",
+      "note": "合成情境，非實際畫面或測試結果；未存取使用者憑證。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "monitor-quota",
+        "choose-tool",
+        "receive-alert"
+      ],
+      "steps": [
+        {
+          "id": "fetch",
+          "title": "取得授權用量",
+          "capabilityRefs": [
+            "quota-adapter"
+          ]
+        },
+        {
+          "id": "normalize",
+          "title": "整理剩餘額度及狀態",
+          "capabilityRefs": [
+            "quota-normalize"
+          ]
+        },
+        {
+          "id": "advise",
+          "title": "顯示使用建議",
+          "capabilityRefs": [
+            "usage-routing"
+          ]
+        },
+        {
+          "id": "alert",
+          "title": "依規則提醒",
+          "capabilityRefs": [
+            "usage-alert"
+          ]
+        },
+        {
+          "id": "decide",
+          "title": "由使用者決定下一個工具",
+          "capabilityRefs": [],
+          "externalDependency": "實際切換 Coding Agent、分配任務及交付驗收不屬於此看板功能。"
+        }
+      ]
+    },
+    "start": [
+      "先閱讀固定版本 README、授權及 Provider 原始碼，確認你接受本機登入資訊與對話紀錄存取風險。",
+      "若決定使用，先確認 macOS、Swift 與各 CLI 相容性；編譯或安裝須在核准環境進行。",
+      "從官方來源確認實際用量，核對看板的即時、估算與錯誤標記，再決定是否使用通知。"
+    ],
+    "limits": [
+      "這不是 Anthropic 或 OpenAI 官方額度工具，使用非公開端點，可能失效或受服務條款限制。",
+      "會接觸本機登入憑證及部分對話紀錄；未獨立審核完整網路行為及資安。",
+      "安裝、開機自啟與 Hooks 可能修改系統設定；需明確核准及復原方案。",
+      "使用建議不會自動切換 Agent；估算與缺值不能當成即時用量。",
+      "本次只核對原始碼，未在任何 Mac 安裝、連線或實際取得額度。"
+    ]
   }
 }

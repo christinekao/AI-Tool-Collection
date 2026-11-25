@@ -6,14 +6,14 @@
   "canonicalName": "Artlist",
   "category": "11 Media / Video",
   "resourceType": "Commercial creative asset catalog and hosted AI image/video/audio generation",
-  "purpose": "提供影片、音樂、音效、素材樣板、參考片與 AI 圖片／影片生成工具，供創作者尋找影像節奏、風格、配樂及商業製作素材。",
-  "recommendation": "作為圖片與影片製作的參考及合法授權素材來源。要分開檢查音樂／SFX／Stock Assets 的授權與 Artlist AI Output 的授權，並確認訂閱方案、可發布平台與是否為客戶專案。",
+  "purpose": "為影片尋找可授權使用的音樂、音效、影片素材及模板，也可評估其 AI 生成服務。",
+  "recommendation": "適合需要配樂、素材補充與商業影片授權管理的創作者；先確認自己的發布情境、客戶或團隊範圍與方案，再使用素材。",
   "url": "https://artlist.io/",
   "repo": "",
   "notes": "2026-10-27 官方 Artlist AI Video Generator、AI Toolkit FAQ 與 License Help 核對。Artlist AI 生成內容的授權與音樂、影片片段、模板等下載 Assets 不同。官方稱符合條款的 AI Output 可在訂閱結束後繼續商用；一般下載素材通常要求在有效訂閱期間建立並發布專案，屆滿後不得直接拿舊下載素材做新專案。Artlist AI Explore / Studio 部分素材也被視為 Assets 而非 AI Output，應依其特定授權。注意別把 Artlist 當成免費下載一切作品的權利來源。價格、生成額度及素材政策會變；未訂閱、下載、使用或生成。",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "artlist",
     "stock-media",
@@ -50,8 +50,11 @@
     "type": "Official product and license documentation",
     "summary": "Official sources checked 2026-10-27; no subscriptions or downloads.",
     "readmeUrl": "https://artlist.io/",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream website/README; no third-party executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "Re-read official license overview distinguishing catalog assets, self-generated AI outputs and subscription expiry. Earlier product descriptions retained; no purchase, downloads or legal audit.",
+    "referenceUrls": [
+      "https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -91,14 +94,14 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，補充人類閱讀及底層證據對應，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -106,9 +109,9 @@
     },
     "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依資源實際用途採官方產品／操作文件的閱讀規格；不假設有可取得的產品內部程式碼。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -121,7 +124,132 @@
     "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "核對官方文件及既有來源記錄；未執行工具、付費操作或實際輸出驗收。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "人類操作情境與已確認的官方文件及既有知識建立局部證據對應；保留實際操作與授權等未驗證範圍。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "catalog-assets",
+      "detail": "授權素材庫包含音樂、音效、影片及模板，可依方案整合到成品。",
+      "locator": "https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0",
+        "requirements.1"
+      ],
+      "limitations": "不能把素材授權理解為獨立轉售或再分發權。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "publication-rights",
+      "detail": "素材庫資產須依條款於有效訂閱期間完成並發布；期滿後既有合規成品與新專案的權利不同。",
+      "locator": "https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license",
+      "evidenceFields": [
+        "requirements.1",
+        "limitations.0",
+        "limitations.1"
+      ],
+      "limitations": "客戶、商業與發布範圍需按具體方案及條款核對。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "ai-rights",
+      "detail": "官方區分自己生成的 AI 輸出與從平台素材庫下載的 AI 素材；兩者授權與期滿條件不同。",
+      "locator": "https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license",
+      "evidenceFields": [
+        "features.1",
+        "limitations.1",
+        "source.documentationUrl"
+      ],
+      "limitations": "不可直接保證所有模型輸出都不侵害第三方權利。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "sound-design",
+        "title": "替影片找配樂與音效",
+        "detail": "從授權素材庫挑選適合節奏與情緒的音樂和效果，交給剪輯流程。",
+        "evidenceRefs": [
+          "catalog-assets"
+        ]
+      },
+      {
+        "id": "client-project",
+        "title": "管理商業或客戶影片素材",
+        "detail": "在下載、剪輯及發布前核對授權範圍、訂閱期間與發布權。",
+        "evidenceRefs": [
+          "catalog-assets",
+          "publication-rights"
+        ]
+      },
+      {
+        "id": "ai-assets",
+        "title": "區分 AI 生成與素材庫下載",
+        "detail": "確認素材是自己生成還是從平台下載，依對應條款保存使用證據。",
+        "evidenceRefs": [
+          "ai-rights",
+          "publication-rights"
+        ]
+      }
+    ],
+    "example": {
+      "id": "product-promo-assets",
+      "title": "為產品介紹影片準備配樂",
+      "input": "影片腳本、預計發布平台、客戶範圍及授權需求。",
+      "process": "挑選候選音樂及音效 → 核對方案權利與發布期限 → 整理授權證據 → 交給剪輯",
+      "output": "素材清單、來源、授權條件與發布前待確認事項。",
+      "destination": "交給剪輯者及專案授權管理紀錄。",
+      "steps": [
+        {
+          "id": "select",
+          "title": "挑選授權素材",
+          "evidenceRefs": [
+            "catalog-assets"
+          ]
+        },
+        {
+          "id": "rights",
+          "title": "核對發布與訂閱條件",
+          "evidenceRefs": [
+            "publication-rights",
+            "ai-rights"
+          ]
+        },
+        {
+          "id": "edit",
+          "title": "剪輯及正式發布",
+          "evidenceRefs": [],
+          "externalDependency": "需另行購買或取得適當授權，完成剪輯、發布及權利確認。"
+        }
+      ],
+      "note": "獨立設計示例，未實際操作或取得輸出結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "sound-design",
+        "client-project",
+        "ai-assets"
+      ]
+    },
+    "start": [
+      "先定義影片用途、發布平台、客戶及團隊使用範圍。",
+      "核對官方授權條款及適用訂閱方案，再選擇素材。",
+      "將素材來源、授權證明及發布紀錄納入專案資料。"
+    ],
+    "limits": [
+      "素材授權不代表可將原始素材獨立轉售、再分發或當資料庫提供",
+      "生成服務及訂閱 Credit、付費下載與帳戶期限可能有限制",
+      "本次只核對官方授權說明，不代表特定素材、商業情境或法律風險已確認。"
+    ]
   }
 }

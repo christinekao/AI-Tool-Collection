@@ -6,14 +6,14 @@
   "canonicalName": "Coolors",
   "category": "08 UI & Design Engineering",
   "resourceType": "Color Palette Tool",
-  "purpose": "建立、探索與調整 color palette，作為品牌色、UI theme、illustration palette 與 design token 的配色起點。",
-  "recommendation": "適合在實作前快速建立一套可交給 Agent 或 design system 使用的明確色票，而不是只寫『用漂亮的顏色』。",
+  "purpose": "快速產生或從圖片擷取一組配色，鎖住喜歡的顏色再調整其他色彩，並檢查文字與背景的對比。",
+  "recommendation": "適合需要網站、品牌或插畫配色起點的人；配色工具不是完整設計系統，仍須決定各色的角色與使用情境。",
   "url": "https://coolors.co/",
   "repo": "",
   "notes": "Official website supplied in the screenshot. Stored as a design reference/tool; no unverified repository inferred.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "color",
     "palette",
@@ -68,9 +68,15 @@
   "source": {
     "url": "https://coolors.co/",
     "readmeUrl": "https://coolors.co/",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official website",
-    "reviewScope": "Documentation only, no runtime/security audit"
+    "reviewScope": "Original coolors.co returned 403; verified official help center palette generation and photo extraction, Coolors app contrast checker and pricing documentation instead. No account or UI execution.",
+    "referenceUrls": [
+      "https://coolors-help.zendesk.com/hc/en-us/articles/360010581980-Generate-a-palette",
+      "https://coolors-help.zendesk.com/hc/en-us/articles/360010537260-Create-a-palette-from-a-photo",
+      "https://www.coolors.app/contrast-checker",
+      "https://www.coolors.app/pricing"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -79,14 +85,14 @@
       "source.url",
       "url"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，補充人類閱讀及底層證據對應，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -94,9 +100,9 @@
     },
     "classificationReason": "保留既有 Primary Domain design，本批僅補來源支援的功能、使用前提與限制。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "依資源實際用途採官方產品／操作文件的閱讀規格；不假設有可取得的產品內部程式碼。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -109,7 +115,133 @@
     "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "核對官方文件及既有來源記錄；未執行工具、付費操作或實際輸出驗收。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "人類操作情境與已確認的官方文件及既有知識建立局部證據對應；保留實際操作與授權等未驗證範圍。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "generate-palette",
+      "detail": "生成候選色盤，鎖定指定顏色後重新生成其餘顏色，亦可輸入自己的色碼。",
+      "locator": "https://coolors-help.zendesk.com/hc/en-us/articles/360010581980-Generate-a-palette",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未實測工具操作或方案可用範圍。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "image-palette",
+      "detail": "由有權使用的參考圖擷取顏色，手動調整候選色與順序，再匯出。",
+      "locator": "https://coolors-help.zendesk.com/hc/en-us/articles/360010537260-Create-a-palette-from-a-photo",
+      "evidenceFields": [
+        "features.0",
+        "features.1"
+      ],
+      "limitations": "圖片上傳權利與私密內容須另核對。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "check-contrast",
+      "detail": "以文字色及背景色計算對比，作為可讀性檢查；不能代表完整介面無障礙驗收。",
+      "locator": "https://www.coolors.app/contrast-checker",
+      "evidenceFields": [
+        "requirements.1",
+        "limitations.1"
+      ],
+      "limitations": "動態狀態、圖示與真實版面須另外驗證。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "brand-palette",
+        "title": "建立網站品牌色",
+        "detail": "先保留品牌主色，再探索與之搭配的背景色和輔助色。",
+        "evidenceRefs": [
+          "generate-palette"
+        ]
+      },
+      {
+        "id": "reference-style",
+        "title": "從參考圖片找配色",
+        "detail": "將有權使用的插畫或設計圖片轉為候選色碼，方便整理靈感。",
+        "evidenceRefs": [
+          "image-palette"
+        ]
+      },
+      {
+        "id": "readable-ui",
+        "title": "避免文字配色看不清楚",
+        "detail": "在選色後逐對檢查文字和背景對比，找出需要調整的組合。",
+        "evidenceRefs": [
+          "generate-palette",
+          "check-contrast"
+        ]
+      }
+    ],
+    "example": {
+      "id": "portfolio-color-system",
+      "title": "整理作品集的基本色彩系統",
+      "input": "一個既定品牌主色與一張可使用的設計參考圖。",
+      "process": "鎖定主色 → 生成候選配色 → 指定背景、文字與強調色 → 檢查對比",
+      "output": "一組帶有用途的 HEX 色碼及對比待驗收清單（尚未生成）。",
+      "destination": "交給 CSS design tokens 與介面設計。",
+      "steps": [
+        {
+          "id": "generate",
+          "title": "生成候選色盤",
+          "evidenceRefs": [
+            "generate-palette",
+            "image-palette"
+          ]
+        },
+        {
+          "id": "assign",
+          "title": "定義各色用途",
+          "evidenceRefs": [],
+          "externalDependency": "由設計者決定語意色彩角色與所有互動狀態。"
+        },
+        {
+          "id": "contrast",
+          "title": "檢查文字對比",
+          "evidenceRefs": [
+            "check-contrast"
+          ]
+        },
+        {
+          "id": "integrate",
+          "title": "套用網站並驗收",
+          "evidenceRefs": [],
+          "externalDependency": "需另外實作 CSS 並驗證實際元件與無障礙。"
+        }
+      ],
+      "note": "獨立設計示例，未實際操作或取得輸出結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "brand-palette",
+        "reference-style",
+        "readable-ui"
+      ]
+    },
+    "start": [
+      "先決定主要色彩及預期風格，再用色盤工具生成候選。",
+      "保留有用的色碼，明訂文字、背景、按鈕及警示色用途。",
+      "用對比工具與實際 UI 檢查後再確定最終配色。"
+    ],
+    "limits": [
+      "部分進階功能及使用額度可能依免費或付費方案不同",
+      "配色對比工具不會替整體介面自動保證 WCAG 合規或品牌一致性"
+    ]
   }
 }
