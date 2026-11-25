@@ -6,14 +6,14 @@
   "canonicalName": "Research to Diagram",
   "category": "09 Content & Artifact Generation",
   "resourceType": "Research-Driven Knowledge Visualization Skill",
-  "purpose": "從一個 topic / research question 出發，自動進行多輪研究、記錄來源、抽取與整理知識關係、選擇 diagram 結構，再用 Graphviz 產生可編輯 DOT 與向量 PDF；適合人物關係、技術架構、歷史事件與 concept map。",
-  "recommendation": "適合把『研究』與『關係視覺化』接成同一條可追溯流程，而不是先產生一篇摘要再人工重畫圖；尤其適合需要 reference links 與可修改 diagram source 的研究型產物。",
+  "purpose": "從一個尚未整理的研究問題出發，把查到的知識關係整理成可編輯的圖表原始碼與向量 PDF，適合建立技術概念總覽。",
+  "recommendation": "適合沒有現成結構化資料、需要從研究建立關係圖的人；已有乾淨資料時可直接製圖，不必重做研究。",
   "url": "https://github.com/wshuyi/research-to-diagram",
   "repo": "wshuyi/research-to-diagram",
   "notes": "Official repository confirmed. The documented workflow is planning → multi-round web research → knowledge extraction → structure / layout design → Graphviz DOT generation → vector PDF → source documentation. The project provides editable .dot output and reference links; speed/accuracy claims in its README are project-reported rather than independently validated here. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "research",
     "diagram",
@@ -90,25 +90,34 @@
   "source": {
     "url": "https://github.com/wshuyi/research-to-diagram",
     "readmeUrl": "https://github.com/wshuyi/research-to-diagram/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README、LICENSE、skills/research-to-diagram/SKILL.md 的文件工作流；未執行 WebSearch、Graphviz 或核對作者展示成果。",
+    "referenceUrls": [
+      "https://github.com/wshuyi/research-to-diagram/blob/c13ec59f3c894da607d7d5b17a18fccdba0bc389/README.md",
+      "https://github.com/wshuyi/research-to-diagram/blob/c13ec59f3c894da607d7d5b17a18fccdba0bc389/LICENSE",
+      "https://github.com/wshuyi/research-to-diagram/blob/c13ec59f3c894da607d7d5b17a18fccdba0bc389/skills/research-to-diagram/SKILL.md"
+    ],
+    "upstreamCommit": "c13ec59f3c894da607d7d5b17a18fccdba0bc389"
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "核對既有 ID 與原始來源，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -117,8 +126,8 @@
     "classificationReason": "沿用既有 Primary Domain design，僅改善功能、條件、限制，不更改分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、skills/research-to-diagram/SKILL.md 的文件工作流；未執行 WebSearch、Graphviz 或核對作者展示成果。；只提供局部契約或教材。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -128,10 +137,355 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "Web Search 結果可能偏誤或過時，圖示不能取代原始來源；自動排版可能遺漏關係或錯置階層，需人工核對；多輪搜尋不能保證來源正確或涵蓋完整，需逐條核對圖中關係。；來源清單在文件中可為選用輸出；本案例要求保留，並非工具強制功能。；README 與 SKILL.md 對預設儲存位置描述不同，實作時應明訂目的地。；未執行研究、Graphviz、字型或 PDF 生成測試；作者宣稱的速度未驗證。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README、LICENSE、skills/research-to-diagram/SKILL.md 的文件工作流；未執行 WebSearch、Graphviz 或核對作者展示成果。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、skills/research-to-diagram/SKILL.md 的文件工作流；未執行 WebSearch、Graphviz 或核對作者展示成果。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "從一個 topic / research question 出發，自動進行多輪研究、記錄來源、抽取與整理知識關係、選擇 diagram 結構，再用 Graphviz 產生可編輯 DOT 與向量 PDF；適合人物關係、技術架構、歷史事件與 concept map。",
+      "source": "https://github.com/wshuyi/research-to-diagram",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合把『研究』與『關係視覺化』接成同一條可追溯流程，而不是先產生一篇摘要再人工重畫圖；尤其適合需要 reference links 與可修改 diagram source 的研究型產物。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-research",
+        "title": "建立可查證的研究資料",
+        "detail": "還沒有足夠資料畫出技術關係。 實體、關係與來源連結的整理稿。",
+        "capabilityRefs": [
+          "research"
+        ]
+      },
+      {
+        "id": "use-structure",
+        "title": "選擇容易理解的圖表結構",
+        "detail": "複雜關係需要合適分組與方向。 節點、方向、分組與關係標記規格。",
+        "capabilityRefs": [
+          "structure"
+        ]
+      },
+      {
+        "id": "use-render",
+        "title": "準備可編輯圖檔及 PDF",
+        "detail": "讀者需要閱讀與後續修改圖解。 DOT 原始碼、向量 PDF 與來源清單規格。",
+        "capabilityRefs": [
+          "render"
+        ]
+      }
+    ],
+    "example": {
+      "id": "research-to-diagram-example",
+      "title": "規劃 AI Agent 元件關係的研究圖解",
+      "input": "公開技術研究問題、可查核的官方文件及自訂關係圖需求。",
+      "process": "建立可查證的研究資料 → 選擇容易理解的圖表結構 → 準備可編輯圖檔及 PDF → 獨立驗收",
+      "output": "來源清單、關係證據表、DOT 與 PDF 的預期交付規格。",
+      "destination": "自有 AI 教材的技術圖解與逐條關係審查流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-research",
+        "use-structure",
+        "use-render"
+      ],
+      "steps": [
+        {
+          "id": "research",
+          "title": "建立可查證的研究資料",
+          "capabilityRefs": [
+            "research"
+          ]
+        },
+        {
+          "id": "structure",
+          "title": "選擇容易理解的圖表結構",
+          "capabilityRefs": [
+            "structure"
+          ]
+        },
+        {
+          "id": "render",
+          "title": "準備可編輯圖檔及 PDF",
+          "capabilityRefs": [
+            "render"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備公開技術研究問題、可查核的官方文件及自訂關係圖需求。",
+      "依需求選擇上述用途，閱讀固定版本來源與授權。",
+      "確認環境及權限，再另行實作與核對成果。"
+    ],
+    "limits": [
+      "Web Search 結果可能偏誤或過時，圖示不能取代原始來源",
+      "自動排版可能遺漏關係或錯置階層，需人工核對",
+      "多輪搜尋不能保證來源正確或涵蓋完整，需逐條核對圖中關係。",
+      "來源清單在文件中可為選用輸出；本案例要求保留，並非工具強制功能。",
+      "README 與 SKILL.md 對預設儲存位置描述不同，實作時應明訂目的地。",
+      "未執行研究、Graphviz、字型或 PDF 生成測試；作者宣稱的速度未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "從一個尚未整理的研究問題出發，把查到的知識關係整理成可編輯的圖表原始碼與向量 PDF，適合建立技術概念總覽。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；研究資料、圖像與字型另查）"
+      },
+      {
+        "label": "版本",
+        "value": "c13ec59f3c894da607d7d5b17a18fccdba0bc389"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立可查證的研究資料",
+        "detail": "還沒有足夠資料畫出技術關係。；輸入：研究範圍、公開搜尋來源；輸出：實體、關係與來源連結的整理稿",
+        "source": "skills/research-to-diagram/SKILL.md"
+      },
+      {
+        "title": "選擇容易理解的圖表結構",
+        "detail": "複雜關係需要合適分組與方向。；輸入：經核對的關係資料、圖表用途；輸出：節點、方向、分組與關係標記規格",
+        "source": "skills/research-to-diagram/SKILL.md"
+      },
+      {
+        "title": "準備可編輯圖檔及 PDF",
+        "detail": "讀者需要閱讀與後續修改圖解。；輸入：DOT 內容、輸出目錄與適用字型；輸出：DOT 原始碼、向量 PDF 與來源清單規格",
+        "source": "skills/research-to-diagram/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "建立可查證的研究資料 → 選擇容易理解的圖表結構 → 準備可編輯圖檔及 PDF → 獨立驗收",
+      "nodes": [
+        {
+          "title": "建立可查證的研究資料",
+          "detail": "研究範圍、公開搜尋來源 → 實體、關係與來源連結的整理稿",
+          "files": [
+            "README.md",
+            "skills/research-to-diagram/SKILL.md"
+          ]
+        },
+        {
+          "title": "選擇容易理解的圖表結構",
+          "detail": "經核對的關係資料、圖表用途 → 節點、方向、分組與關係標記規格",
+          "files": [
+            "skills/research-to-diagram/SKILL.md"
+          ]
+        },
+        {
+          "title": "準備可編輯圖檔及 PDF",
+          "detail": "DOT 內容、輸出目錄與適用字型 → DOT 原始碼、向量 PDF 與來源清單規格",
+          "files": [
+            "README.md",
+            "skills/research-to-diagram/SKILL.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立可查證的研究資料",
+        "rule": "本案例要求每條重要關係對應來源及版本，來源清單不得省略；未執行搜尋。",
+        "source": "skills/research-to-diagram/SKILL.md"
+      },
+      {
+        "name": "選擇容易理解的圖表結構",
+        "rule": "不可將同時出現或名稱相似誤當依賴；保留不確定關係，不憑空補邊。",
+        "source": "skills/research-to-diagram/SKILL.md"
+      },
+      {
+        "name": "準備可編輯圖檔及 PDF",
+        "rule": "明訂輸出位置；原始碼可編輯不代表 PDF 內容已驗證，需核對中文、裁切及每條關係。",
+        "source": "skills/research-to-diagram/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、skills/research-to-diagram/SKILL.md 的文件工作流；未執行 WebSearch、Graphviz 或核對作者展示成果。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/research-to-diagram/SKILL.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備公開技術研究問題、可查核的官方文件及自訂關係圖需求。 依需求選擇上述用途，閱讀固定版本來源與授權。 確認環境及權限，再另行實作與核對成果。",
+        "files": [
+          "skills/research-to-diagram/SKILL.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 AI 教材的技術圖解與逐條關係審查流程。；另驗證實際行為及限制。",
+        "file": "skills/research-to-diagram/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "research",
+        "name": "建立可查證的研究資料",
+        "problem": "還沒有足夠資料畫出技術關係。",
+        "input": "研究範圍、公開搜尋來源",
+        "output": "實體、關係與來源連結的整理稿",
+        "source": "skills/research-to-diagram/SKILL.md",
+        "sourceFiles": [
+          "README.md",
+          "skills/research-to-diagram/SKILL.md"
+        ],
+        "symbols": [
+          "Workflow（深度研究段落）",
+          "WebSearch（文件所述工具）"
+        ],
+        "gate": "本案例要求每條重要關係對應來源及版本，來源清單不得省略；未執行搜尋。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "structure",
+        "name": "選擇容易理解的圖表結構",
+        "problem": "複雜關係需要合適分組與方向。",
+        "input": "經核對的關係資料、圖表用途",
+        "output": "節點、方向、分組與關係標記規格",
+        "source": "skills/research-to-diagram/SKILL.md",
+        "sourceFiles": [
+          "skills/research-to-diagram/SKILL.md"
+        ],
+        "symbols": [
+          "Workflow（結構設計與視覺化段落）",
+          "Graphviz DOT（文件格式）"
+        ],
+        "gate": "不可將同時出現或名稱相似誤當依賴；保留不確定關係，不憑空補邊。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "render",
+        "name": "準備可編輯圖檔及 PDF",
+        "problem": "讀者需要閱讀與後續修改圖解。",
+        "input": "DOT 內容、輸出目錄與適用字型",
+        "output": "DOT 原始碼、向量 PDF 與來源清單規格",
+        "source": "skills/research-to-diagram/SKILL.md",
+        "sourceFiles": [
+          "README.md",
+          "skills/research-to-diagram/SKILL.md"
+        ],
+        "symbols": [
+          "dot -Tpdf（文件命令）",
+          "Output Files（README 章節）"
+        ],
+        "gate": "明訂輸出位置；原始碼可編輯不代表 PDF 內容已驗證，需核對中文、裁切及每條關係。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 AI Agent 元件關係的研究圖解（設計示例）",
+      "problem": "公開技術研究問題、可查核的官方文件及自訂關係圖需求。",
+      "steps": [
+        {
+          "capability": "research",
+          "action": "建立可查證的研究資料"
+        },
+        {
+          "capability": "structure",
+          "action": "選擇容易理解的圖表結構"
+        },
+        {
+          "capability": "render",
+          "action": "準備可編輯圖檔及 PDF"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "research-to-diagram-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "公開技術研究問題、可查核的官方文件及自訂關係圖需求。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立可查證的研究資料 → 選擇容易理解的圖表結構 → 準備可編輯圖檔及 PDF → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 AI 教材的技術圖解與逐條關係審查流程。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "多輪搜尋不能保證來源正確或涵蓋完整，需逐條核對圖中關係。",
+        "來源清單在文件中可為選用輸出；本案例要求保留，並非工具強制功能。",
+        "README 與 SKILL.md 對預設儲存位置描述不同，實作時應明訂目的地。",
+        "未執行研究、Graphviz、字型或 PDF 生成測試；作者宣稱的速度未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "來源與授權邊界",
+        "severity": "高",
+        "issue": "多輪搜尋不能保證來源正確或涵蓋完整，需逐條核對圖中關係。 來源清單在文件中可為選用輸出；本案例要求保留，並非工具強制功能。 README 與 SKILL.md 對預設儲存位置描述不同，實作時應明訂目的地。 未執行研究、Graphviz、字型或 PDF 生成測試；作者宣稱的速度未驗證。",
+        "control": "固定版本、最小權限、授權確認及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、skills/research-to-diagram/SKILL.md 的文件工作流；未執行 WebSearch、Graphviz 或核對作者展示成果。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 21（2026-11-25）
+
+- main 基線 `dcae00e5ce8795651b6a6cddbd3bda91e9c0004b`；PR #85 修正後四項 CI 通過合併 `c4f0ef10384f4cd355ba1f2b294fb3cf80db700e`，Catalog Sync 通過、Pages 查核時進行中。96/286 已合併（90 完成對應、6 deferred）。
+- [Batch 21 逐筆報告](RESOURCE_DUAL_LAYER_BATCH21_20261125.md)：research-to-diagram、kubai087-kubai-icons、claude-svg-animation-logo-loading-chart-tutorial。2 mapped、1 evidence-linked 候選，9 個用途、6 個能力、3 個教材證據及 3 個 design-only 案例。
+- Research to Diagram 預設輸出路徑文件不一致；Kubai 只整理 MIT 套件契約，不重製受限 Skill／網站；SVG 動畫須保留資料語意與靜態替代。第三方未實測。
+- 合併前 96/286；驗收合併後 99/286（93 完成對應、6 deferred），187 尚未改寫。既有缺口保留。
+- 下一批優先 code-graph、reactive-resume 等未改寫資源。排程停用，直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 20（2026-11-25）
 
 - main 基線 `6b2fe7c171281a8baeef9205ad60092317072b89`；PR #84 四項 CI 通過合併，Catalog Sync／Pages 查核時進行中。93/286 已合併（87 完成對應、6 deferred）。
