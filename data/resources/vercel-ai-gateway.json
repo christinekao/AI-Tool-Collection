@@ -6,14 +6,14 @@
   "canonicalName": "Vercel AI Gateway",
   "category": "02 Agent Orchestration",
   "resourceType": "Hosted multi-provider AI API routing and billing platform",
-  "purpose": "在 Vercel 的單一 Gateway 使用不同供應商的模型、BYOK、Provider Routing/Fallback、API Key/OIDC、統一計費與使用統計；截圖中 Needle 的 Jev 呼叫即透過此 Gateway。",
-  "recommendation": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。",
+  "purpose": "透過同一個 API 入口呼叫不同 AI 模型，設定可使用的供應商、備援與身分驗證。",
+  "recommendation": "適合在 Vercel 或其他後端管理多模型及供應商備援；只有單一模型或嚴格資料合規需求時，先比較直接串接。",
   "url": "https://vercel.com/ai-gateway",
   "repo": "",
   "notes": "與 OpenRouter 類似的雲端託管 API Gateway，非開源 `vercel/ai` SDK 本身。官方文件說明 API Key 可由 Vercel Dashboard 建立，通常以 `AI_GATEWAY_API_KEY` 保存；不要存入 Repo 或前端。BYOK 失敗可能改走 Gateway 系統憑證並計費；應確認 ZDR、Provider allowlist、各模型提供者資料政策。截圖『取得 Jev 的 API Key』較精確是取得 Vercel AI Gateway API Key。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "vercel",
     "ai-gateway",
@@ -48,8 +48,12 @@
     "summary": "2026-10-24 confirmed source; no installation, credentials, running code or user data access.",
     "docsUrl": "https://vercel.com/docs/ai-gateway/authentication-and-byok",
     "readmeUrl": "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options",
-    "reviewedAt": "2026-11-20",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "referenceUrls": [
+      "https://vercel.com/docs/ai-gateway/authentication-and-byok",
+      "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -87,16 +91,17 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -119,7 +124,143 @@
     "riskNotes": "Gateway 轉接不代表所有模型的能力、回應格式、工具支援或資料政策等價。；Provider 或模型價格、配額、降級與 Zero Data Retention 條件可能因服務而不同，必須持續監控。；沒有使用憑證或執行任何第三方服務。",
     "verification": {
       "status": "not-tested",
-      "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在 Vercel 的單一 Gateway 使用不同供應商的模型、BYOK、Provider Routing/Fallback、API Key/OIDC、統一計費與使用統計；截圖中 Needle 的 Jev 呼叫即透過此 Gateway。",
+      "reviewedAt": "2026-11-20",
+      "source": "https://vercel.com/ai-gateway"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "auth",
+      "detail": "Gateway 請求需 Vercel API Key 或 OIDC；BYOK 是 Gateway 對模型供應商的憑證，不取代 Gateway 認證。",
+      "locator": "https://vercel.com/docs/ai-gateway/authentication-and-byok",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未配置金鑰；服務端保管，核對專案與團隊範圍。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "provider-routing",
+      "detail": "AI SDK 的 providerOptions.gateway 中 order 設偏好仍可備援其他供應商，only 為硬性限制。",
+      "locator": "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1"
+      ],
+      "limitations": "未呼叫模型；only 無符合供應商時應處理失敗，不保證備援。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "fallback",
+      "detail": "文件區分相同模型跨供應商與不同模型備援；不同模型輸出、價格及工具能力應逐項驗收。",
+      "locator": "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options",
+      "evidenceFields": [
+        "features.1",
+        "limitations.0",
+        "limitations.1"
+      ],
+      "limitations": "未測故障、延遲、費用、資料政策或格式相容性。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "multi-model",
+        "title": "用統一入口比較模型",
+        "detail": "以同一組合成題目比較結果及格式，保留實際供應商。",
+        "evidenceRefs": [
+          "auth",
+          "fallback"
+        ]
+      },
+      {
+        "id": "provider-policy",
+        "title": "限制可接受的供應商",
+        "detail": "分清偏好 order 與強制 only，避免資料送往未核准的端點。",
+        "evidenceRefs": [
+          "provider-routing"
+        ]
+      },
+      {
+        "id": "resilience",
+        "title": "設計模型呼叫失敗時的備援",
+        "detail": "分開測同模型供應商切換與不同模型備援，保留錯誤及品質結果。",
+        "evidenceRefs": [
+          "provider-routing",
+          "fallback"
+        ]
+      }
+    ],
+    "example": {
+      "id": "summary-gateway-evaluation",
+      "title": "驗證摘要服務的模型備援",
+      "input": "合成文章、預期 JSON 格式、核准模型與供應商清單。",
+      "process": "確認認證 → 設定供應商限制 → 設計備援測試 → 核對結果與成本",
+      "output": "模型路由、失敗情境及品質驗收規格（未呼叫模型）。",
+      "destination": "自有摘要服務的技術選型；正式資料與費用另核准。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "multi-model",
+        "provider-policy",
+        "resilience"
+      ],
+      "steps": [
+        {
+          "id": "auth",
+          "title": "選擇 Gateway 認證方式",
+          "evidenceRefs": [
+            "auth"
+          ]
+        },
+        {
+          "id": "route",
+          "title": "限定可用供應商",
+          "evidenceRefs": [
+            "provider-routing"
+          ]
+        },
+        {
+          "id": "fallback",
+          "title": "設計不同故障情境",
+          "evidenceRefs": [
+            "fallback"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "執行核准的品質及成本驗收",
+          "evidenceRefs": [],
+          "externalDependency": "需專案憑證、核准費用、合成測試集及資料政策審查。"
+        }
+      ]
+    },
+    "start": [
+      "先列出模型、可用供應商、資料政策與費用上限。",
+      "分清 Gateway 認證和 BYOK，核對 order/only 與備援規則。",
+      "在核准測試環境比較格式、實際供應商、費用和故障結果。"
+    ],
+    "limits": [
+      "Gateway 轉接不代表所有模型的能力、回應格式、工具支援或資料政策等價。",
+      "Provider 或模型價格、配額、降級與 Zero Data Retention 條件可能因服務而不同，必須持續監控。",
+      "未使用 API、OIDC 或 BYOK；沒有驗證供應商資料保留、價格與實際故障。"
+    ]
   }
 }
