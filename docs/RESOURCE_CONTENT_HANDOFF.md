@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 04（2026-11-25）
+
+- main 基線 `000993806c1d25061667e54ac1c7408b8fae90d0`；PR #68 已合併且 Catalog Sync 確認，19/286 筆已有雙層審查（18 完成對應、1 deferred）。PR #68 四項 CI 成功；合併 SHA `70cfcb94792330811105e05b4e43e81efe42492f`。
+- [Batch 04 逐筆報告](RESOURCE_DUAL_LAYER_BATCH04_20261125.md)：systran-faster-whisper、manimcommunity-manim、mrdoob-three-js、comfy-org-comfyui、lottiefiles-dotlottie-web、infiniflow-ragflow、toeverything-affine。七筆候選，21 個用途、22 個局部能力／證據。五筆 mapped，RAGFlow、AFFiNE deferred。
+- 本批合併前 19/286；合併後 26/286（23 完成對應、3 deferred），260 未改寫。Microsoft 課程、RAGFlow Go 核心、AFFiNE 實作及授權仍待補，不算完整對應。
+- 各筆固定版本來源、原欄位保留、雙向查詢、案例未實測及回歸驗收見本批報告；PR／CI／Catalog Sync／Pages 狀態須重新核對。排程已停用，直接執行。
+- 下一批：Blender、HyperFrames、Motion Design Skill 與近期 Agent Repo；依 manifest 逐筆處理其餘資料。保留原知識，不以文件索引冒充完整程式碼審查，不新增未驗證 Graph 關係。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 03（2026-11-25）
 
 - main 基線 `74650def53973a433352362d88290ac60aa9c248`；PR #67 已合併且 Catalog Sync 確認，11/286 筆已有雙層審查（10 完成對應、1 deferred）。
