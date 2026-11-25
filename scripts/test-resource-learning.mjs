@@ -483,3 +483,35 @@ test('Dual-layer batch 09: four scoped agent contracts and an explicit permissio
  assert.match(load('vercel-labs-skills-cli').repoGuide.capabilities.find(c=>c.id==='discovery').gate,/不代表指令可信/);
  assert.match(load('anomalyco-opencode').agentEvidence.find(c=>c.id==='build').limitations,/不構成沙箱/);
 });
+
+test('Dual-layer batch 10: three workflow and model/data integration contracts',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["langgenius-dify","規劃每週報表摘要流程"],["open-webui-open-webui","規劃本機模型聊天介面"],["unclecode-crawl4ai","規劃公開文件的知識庫匯入"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  assert.ok(d.repoGuide.rebuild.gaps.length);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('langgenius-dify').readerGuide.limits.join(' '),/多租戶/);
+ assert.match(load('open-webui-open-webui').readerGuide.limits.join(' '),/不是使用人數上限/);
+ assert.match(load('unclecode-crawl4ai').repoGuide.capabilities.find(c=>c.id==='markdown-output').gate,/不是獨立事實驗證/);
+});
