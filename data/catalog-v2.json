@@ -17437,14 +17437,14 @@
       "canonicalName": "Google Stitch",
       "category": "08 UI & Design Engineering",
       "resourceType": "AI Designer",
-      "purpose": "Google Labs 的 AI 設計畫布，從文字、語音、參考圖、既有設計或程式碼探索互動式網站與 App UI，支援設計系統及介面輸出。",
-      "recommendation": "適合用於快速提出多版 UI 方向與設計探索；先在 Stitch 確認設計目標及畫面，再輸出至設計／開發流程並人工驗證元件、互動、無障礙與實作細節。",
+      "purpose": "用文字或其他設計輸入快速建立網站與 App 介面草稿，迭代畫面並交給後續開發。",
+      "recommendation": "適合尚在確認產品介面、頁面結構及設計方向時；若需要正式功能、資料庫與權限，仍需獨立工程實作。",
       "url": "https://stitch.google.com/",
       "repo": "",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "ui-design",
         "ai-design",
@@ -17500,25 +17500,29 @@
       "source": {
         "url": "https://stitch.google.com/",
         "documentationUrl": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Original official article/product documentation only; no new runtime or security testing",
-        "type": "Official product or original article"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "type": "Official product or original article",
+        "referenceUrls": [
+          "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "原有 Canonical ID 與官網及文章來源已比對，只更新既有 Resource。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -17541,8 +17545,143 @@
         "riskNotes": "AI 生成的 UI 不等於可直接上線的完整前後端應用；資料整合與可用性仍需實作。；不同版本的 Code／Design 匯出可能有限制，需核對實際介面及輸出格式，避免推定所有畫面都可取得完整原始碼。；沒有登入、安裝或進行付費操作。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方來源文件已查閱；沒有對第三方程式或 SaaS 執行功能、Build、安全或整合測試。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Google Labs 的 AI 設計畫布，從文字、語音、參考圖、既有設計或程式碼探索互動式網站與 App UI，支援設計系統及介面輸出。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://stitch.google.com/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "design-input",
+          "detail": "Google 2026-05-19 公告說明可由文字、語音、既有程式碼及設計檔案開始設計。",
+          "locator": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+          "evidenceFields": [
+            "features.0",
+            "requirements.1"
+          ],
+          "limitations": "未登入測試；輸入格式、帳號及資料條件需確認。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "iteration",
+          "detail": "官方公告說明 Stitch Agent 在畫布上呈現進度，使用者可以在生成過程引導修改。",
+          "locator": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+          "evidenceFields": [
+            "features.0",
+            "features.1"
+          ],
+          "limitations": "未逐項驗證目前 UI、Design.md 或全部版本功能。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "handoff",
+          "detail": "同一公告描述 Google AI Studio 分享及 Antigravity 匯出，並提到 Netlify 發布路徑。",
+          "locator": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+          "evidenceFields": [
+            "features.2",
+            "limitations.0",
+            "limitations.1"
+          ],
+          "limitations": "未測匯出／發布、程式完整性、後端或資料安全。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "prototype",
+            "title": "快速探索產品頁面設計",
+            "detail": "描述使用者、核心任務及畫面尺寸，建立初步版面供討論。",
+            "evidenceRefs": [
+              "design-input",
+              "iteration"
+            ]
+          },
+          {
+            "id": "variant",
+            "title": "比較兩種介面安排",
+            "detail": "指定同樣的功能，迭代導覽、資訊層級及操作流程。",
+            "evidenceRefs": [
+              "iteration"
+            ]
+          },
+          {
+            "id": "handoff",
+            "title": "將介面草稿交給工程實作",
+            "detail": "確認可取得的設計或程式輸出，再整理真實資料與功能缺口。",
+            "evidenceRefs": [
+              "handoff"
+            ]
+          }
+        ],
+        "example": {
+          "id": "cv-dashboard-prototype",
+          "title": "規劃履歷投遞管理介面",
+          "input": "合成職缺、履歷版本及面試狀態，指定桌面與手機需求。",
+          "process": "描述核心任務 → 產生草稿 → 迭代資訊層級 → 檢查交接格式",
+          "output": "介面草稿、功能差距及工程待辦（預期產物）。",
+          "destination": "自有求職系統設計；資料庫、登入與權限另行實作。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "prototype",
+            "variant",
+            "handoff"
+          ],
+          "steps": [
+            {
+              "id": "prompt",
+              "title": "描述合成資料及頁面需求",
+              "evidenceRefs": [
+                "design-input"
+              ]
+            },
+            {
+              "id": "iterate",
+              "title": "比較設計並修正",
+              "evidenceRefs": [
+                "iteration"
+              ]
+            },
+            {
+              "id": "handoff",
+              "title": "核對交接方式",
+              "evidenceRefs": [
+                "handoff"
+              ]
+            },
+            {
+              "id": "implement",
+              "title": "實作與驗收真實功能",
+              "evidenceRefs": [],
+              "externalDependency": "後端、資料持久化、身分驗證、測試及發布需另核准及實作。"
+            }
+          ]
+        },
+        "start": [
+          "先用合成資料寫出一個頁面與三項使用者任務。",
+          "檢查目前可用帳號及輸入方式，再依明確行為迭代畫面。",
+          "核對實際匯出內容與可用性，將未實作功能整理成工程待辦。"
+        ],
+        "limits": [
+          "AI 生成的 UI 不等於可直接上線的完整前後端應用；資料整合與可用性仍需實作。",
+          "不同版本的 Code／Design 匯出可能有限制，需核對實際介面及輸出格式，避免推定所有畫面都可取得完整原始碼。",
+          "公告功能不等於已驗證目前帳戶可用；未登入、生成、匯出或發布。"
+        ]
       }
     },
     {
@@ -24950,14 +25089,14 @@
       "canonicalName": "landing.love",
       "category": "08 UI & Design Engineering",
       "resourceType": "Landing Page Motion Inspiration",
-      "purpose": "以完整頁面錄影保存 landing page 的 scroll、hover、loading、3D 與 motion 行為，讓動態設計參考不只停留在靜態截圖。",
-      "recommendation": "適合研究 landing page 的 motion rhythm、scroll sequence 與互動轉場。",
+      "purpose": "瀏覽網站設計案例的動態呈現，研究首頁在滾動、轉場與視覺互動時如何安排資訊。",
+      "recommendation": "適合需要規劃有動態節奏的網站首頁或作品集；若主要研究字體及靜態版面，可搭配靜態設計資料庫。",
       "url": "https://www.landing.love/",
       "repo": "",
       "notes": "Official site confirmed. Screenshot usage: Landing Page Motion reference source.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "reference",
         "landing-page",
@@ -25023,25 +25162,29 @@
       "source": {
         "url": "https://www.landing.love/",
         "readmeUrl": "https://www.landing.love/",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-25",
         "type": "Official product / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "referenceUrls": [
+          "https://www.landing.love/"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -25064,8 +25207,142 @@
         "riskNotes": "案例是設計參考而不是可重用原始碼；不可假定有素材或品牌設計授權。；第三方站點的錄影、互動、技術標籤與網頁現況可能不同，最終需親自驗收。；沒有使用憑證或執行任何第三方服務。",
         "verification": {
           "status": "not-tested",
-          "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "以完整頁面錄影保存 landing page 的 scroll、hover、loading、3D 與 motion 行為，讓動態設計參考不只停留在靜態截圖。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://www.landing.love/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "category",
+          "detail": "官方 Gallery 提供 Portfolio、SaaS、3D Website、Horizontal Scroll 等網站分類。",
+          "locator": "https://www.landing.love/",
+          "evidenceFields": [
+            "features.0",
+            "features.1"
+          ],
+          "limitations": "未逐一播放或檢查實際網站；分類可能更新。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "tech-filter",
+          "detail": "官方 Collection 包含 GSAP、WebGL、ThreeJS 等標籤，另有平台分類。",
+          "locator": "https://www.landing.love/",
+          "evidenceFields": [
+            "features.2"
+          ],
+          "limitations": "標籤不是完整技術堆疊或可重用程式碼證據。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "review",
+          "detail": "以 Gallery 案例與原站做比對，記錄觸發、動作、時長及替代畫面；屬策展方法。",
+          "locator": "https://www.landing.love/",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.1"
+          ],
+          "limitations": "實際互動、效能、響應式與權利須自行驗收。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "landing-research",
+            "title": "研究首頁如何呈現產品故事",
+            "detail": "依網站類型找案例，記錄首頁段落、內容出現順序與視覺重點。",
+            "evidenceRefs": [
+              "category",
+              "review"
+            ]
+          },
+          {
+            "id": "motion-reference",
+            "title": "比較動態設計方向",
+            "detail": "按 GSAP、3D 或其他標籤找參考，再回到原站核對。",
+            "evidenceRefs": [
+              "tech-filter",
+              "review"
+            ]
+          },
+          {
+            "id": "interaction-spec",
+            "title": "把動效靈感轉成開發規格",
+            "detail": "記錄觸發條件、動畫起訖、資訊目的及減少動態效果需求。",
+            "evidenceRefs": [
+              "review"
+            ]
+          }
+        ],
+        "example": {
+          "id": "portfolio-scroll-spec",
+          "title": "研究作品集首頁滾動動效",
+          "input": "三個公開作品集案例、自己的首頁資訊架構。",
+          "process": "挑選案例 → 研究段落與動作 → 核對原站 → 寫出自有動效規格",
+          "output": "首頁段落、動效觸發與驗收條件（預期產物）。",
+          "destination": "前端設計與實作待辦；不重製第三方素材。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "landing-research",
+            "motion-reference",
+            "interaction-spec"
+          ],
+          "steps": [
+            {
+              "id": "select",
+              "title": "按網站類型選參考",
+              "evidenceRefs": [
+                "category"
+              ]
+            },
+            {
+              "id": "filter",
+              "title": "比較動效或技術標籤",
+              "evidenceRefs": [
+                "tech-filter"
+              ]
+            },
+            {
+              "id": "observe",
+              "title": "記錄原站互動差異",
+              "evidenceRefs": [
+                "review"
+              ]
+            },
+            {
+              "id": "implement",
+              "title": "建立自己的頁面",
+              "evidenceRefs": [],
+              "externalDependency": "動畫實作、效能、無障礙與素材權利需獨立測試。"
+            }
+          ]
+        },
+        "start": [
+          "先寫下希望改善的首頁內容與互動問題。",
+          "人工篩選少量同類案例，記錄原始連結、動作與資訊目的。",
+          "實際開啟參考網站核對手機版及動效，整理為自有規格。"
+        ],
+        "limits": [
+          "案例是設計參考而不是可重用原始碼；不可假定有素材或品牌設計授權。",
+          "第三方站點的錄影、互動、技術標籤與網頁現況可能不同，最終需親自驗收。",
+          "本次只讀官方目錄，未實際測試案例互動或確認技術標籤正確性。"
+        ]
       }
     },
     {
@@ -28604,14 +28881,14 @@
       "canonicalName": "MaxiBestOf",
       "category": "08 UI & Design Engineering",
       "resourceType": "Web Design & Typography Inspiration Gallery",
-      "purpose": "整理網站設計、字體與 typography-driven 網頁案例，並提供依類型與字體探索的設計參考。",
-      "recommendation": "適合研究 Web + Typography，特別是字體選擇、hierarchy、版面節奏與網站整體氣質。",
+      "purpose": "從網站、頁面區塊與字體案例尋找設計靈感，適合比較首頁構圖、CTA 和文字排版。",
+      "recommendation": "適合先定下版面結構與字體方向再做設計；需動態互動參考時，改查專門動效案例。",
       "url": "https://maxibestof.one/",
       "repo": "",
       "notes": "Official site confirmed. Screenshot usage: Web + Typography reference source.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "reference",
         "web-design",
@@ -28669,25 +28946,29 @@
       ],
       "source": {
         "url": "https://maxibestof.one/",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-        "type": "Official curated gallery website"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "type": "Official curated gallery website",
+        "referenceUrls": [
+          "https://maxibestof.one/"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -28710,8 +28991,141 @@
         "riskNotes": "收藏作品與字體展示只提供參考，不代表可直接複製原站設計或取得字體使用權。；Gallery 的標籤與展示截圖不能證明網站具備完整響應式、效能及無障礙品質。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "整理網站設計、字體與 typography-driven 網頁案例，並提供依類型與字體探索的設計參考。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://maxibestof.one/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "website-gallery",
+          "detail": "官方網站目錄提供 Portfolio、SaaS、Editorial、Japanese 等類型篩選。",
+          "locator": "https://maxibestof.one/",
+          "evidenceFields": [
+            "features.0"
+          ],
+          "limitations": "分類與展示僅供參考，未逐一驗證網站。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "section-reference",
+          "detail": "Sections 目錄包含 Hero、Header、Call to Action、FAQ、Testimonial 等區塊。",
+          "locator": "https://maxibestof.one/",
+          "evidenceFields": [
+            "features.1"
+          ],
+          "limitations": "區塊展示不證明資訊架構、轉換率或可用性。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "font-reference",
+          "detail": "Fonts 目錄提供字體類別及配對參考；使用前向實際字體來源查授權。",
+          "locator": "https://maxibestof.one/",
+          "evidenceFields": [
+            "features.2",
+            "requirements.1"
+          ],
+          "limitations": "字體授權、中文支援及載入效能未驗證。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "hero-layout",
+            "title": "比較首頁 Hero 的內容與版面",
+            "detail": "集中觀察標題、說明、主要 CTA 及圖片的排列。",
+            "evidenceRefs": [
+              "section-reference"
+            ]
+          },
+          {
+            "id": "type-system",
+            "title": "選擇字體與排版方向",
+            "detail": "研究字體組合、標題層級及可讀性，不直接複製字體。",
+            "evidenceRefs": [
+              "font-reference"
+            ]
+          },
+          {
+            "id": "page-design",
+            "title": "整理同類型網站的視覺方向",
+            "detail": "按產業與頁面類型找參考，建立自己的版面需求。",
+            "evidenceRefs": [
+              "website-gallery",
+              "section-reference",
+              "font-reference"
+            ]
+          }
+        ],
+        "example": {
+          "id": "editorial-portfolio",
+          "title": "規劃編輯式作品集首頁",
+          "input": "作品集內容、三個公開版面參考、繁中英文文字需求。",
+          "process": "篩選網站 → 比較 Hero/CTA → 研究字體 → 建立版面規格",
+          "output": "頁面區塊、字體候選、來源與版面草案（預期產物）。",
+          "destination": "自有作品集設計；實際字體與資產授權另查。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "hero-layout",
+            "type-system",
+            "page-design"
+          ],
+          "steps": [
+            {
+              "id": "select",
+              "title": "找同類作品集",
+              "evidenceRefs": [
+                "website-gallery"
+              ]
+            },
+            {
+              "id": "sections",
+              "title": "研究 Hero 及行動按鈕",
+              "evidenceRefs": [
+                "section-reference"
+              ]
+            },
+            {
+              "id": "type",
+              "title": "整理字體方向",
+              "evidenceRefs": [
+                "font-reference"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "驗證自身版面",
+              "evidenceRefs": [],
+              "externalDependency": "繁中字形、字體授權、響應式與可讀性需另外驗收。"
+            }
+          ]
+        },
+        "start": [
+          "先列出要改善的頁面區塊與資訊層級。",
+          "使用 Sections 和 Fonts 找少量參考，記錄設計原因而非照抄。",
+          "針對自有文字測字體、手機排版與授權，再進入實作。"
+        ],
+        "limits": [
+          "收藏作品與字體展示只提供參考，不代表可直接複製原站設計或取得字體使用權。",
+          "Gallery 的標籤與展示截圖不能證明網站具備完整響應式、效能及無障礙品質。",
+          "未下載字體、複製案例或測試參考網站的實際效能。"
+        ]
       }
     },
     {
@@ -30637,14 +31051,14 @@
       "canonicalName": "Motion Sites",
       "category": "08 UI & Design Engineering",
       "resourceType": "Inspiration",
-      "purpose": "Motion / interaction reference",
-      "recommendation": "適合蒐集 motion 與 interaction 的設計參考。",
+      "purpose": "依網頁滾動、滑鼠移入、視差及 3D 等動效類型尋找案例，協助設計網站互動而非製作影片。",
+      "recommendation": "適合已有頁面構想、需要為特定互動尋找參考的人；若只是要做影片或靜態排版，改選其他資源。",
       "url": "https://motionsites.org/motion",
       "repo": "",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "motion",
         "interaction",
@@ -30700,24 +31114,28 @@
       ],
       "source": {
         "url": "https://motionsites.org/motion",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-        "type": "Official product or original article"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "type": "Official product or original article",
+        "referenceUrls": [
+          "https://motionsites.org/motion"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "title"
           ],
-          "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -30740,8 +31158,147 @@
         "riskNotes": "範例動效不代表有可重用程式碼或授權。；過度動畫可能犧牲可讀性及互動效能。；未執行第三方程式、讀取機密或傳送憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Motion / interaction reference",
+          "reviewedAt": "2026-11-21",
+          "source": "https://motionsites.org/motion"
+        },
+        "sourceReview": {
+          "scope": "官方 /motion 頁明示其主要用途是 scroll、hover、parallax 等網頁動效，而非 motion graphics 或影片模板。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "motion-category",
+          "detail": "官方 Motion 目錄依 scroll、hover、marquee、parallax、3D、shader、micro interaction 等分類。",
+          "locator": "https://motionsites.org/motion",
+          "evidenceFields": [
+            "features.0",
+            "features.1"
+          ],
+          "limitations": "目錄類型會更新；未執行個別範例。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "preview-boundary",
+          "detail": "官方說明此分類面向網頁動效，有可播放預覽，非影片模板目錄。",
+          "locator": "https://motionsites.org/motion",
+          "evidenceFields": [
+            "features.1",
+            "implementationKnowledge.sourceReview.scope"
+          ],
+          "limitations": "預覽不表示取得原始程式、素材權利或相同實作。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "motion-evaluation",
+          "detail": "依案例觀察觸發、資訊目的、初始／完成狀態與減少動態效果，屬自訂設計驗收。",
+          "locator": "https://motionsites.org/motion",
+          "evidenceFields": [
+            "features.2",
+            "requirements.1",
+            "limitations.1"
+          ],
+          "limitations": "需在目標裝置實測；不可將動效本身視為可用性改善。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "scroll-reveal",
+            "title": "研究內容隨滾動出現",
+            "detail": "找適合內容順序的滾動示例，避免遮蔽重要文字。",
+            "evidenceRefs": [
+              "motion-category",
+              "preview-boundary"
+            ]
+          },
+          {
+            "id": "hover-feedback",
+            "title": "為卡片或按鈕找互動參考",
+            "detail": "比較 hover 或微互動的視覺回饋及初始狀態。",
+            "evidenceRefs": [
+              "motion-category",
+              "motion-evaluation"
+            ]
+          },
+          {
+            "id": "motion-spec",
+            "title": "整理動效開發驗收條件",
+            "detail": "把參考轉為可執行規格，定義觸發、結束與替代狀態。",
+            "evidenceRefs": [
+              "motion-evaluation"
+            ]
+          }
+        ],
+        "example": {
+          "id": "resource-card-motion",
+          "title": "設計知識庫卡片的微互動",
+          "input": "三張內容卡片與明確的點擊、鍵盤焦點及 hover 狀態。",
+          "process": "找微互動案例 → 比較預覽 → 定義變化及觸發 → 驗收靜態替代",
+          "output": "自有卡片動效規格與驗收清單（預期產物）。",
+          "destination": "知識庫網站前端；不複製第三方素材或程式。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "scroll-reveal",
+            "hover-feedback",
+            "motion-spec"
+          ],
+          "steps": [
+            {
+              "id": "find",
+              "title": "找相關動效類型",
+              "evidenceRefs": [
+                "motion-category"
+              ]
+            },
+            {
+              "id": "observe",
+              "title": "核對預覽與實際用途",
+              "evidenceRefs": [
+                "preview-boundary"
+              ]
+            },
+            {
+              "id": "spec",
+              "title": "定義動效與驗收條件",
+              "evidenceRefs": [
+                "motion-evaluation"
+              ]
+            },
+            {
+              "id": "build",
+              "title": "實作及測試",
+              "evidenceRefs": [],
+              "externalDependency": "鍵盤、觸控、reduced motion、效能與資源權利需另行驗收。"
+            }
+          ]
+        },
+        "start": [
+          "先決定哪個網頁操作需要動態回饋。",
+          "人工瀏覽對應動效類別，記錄少量來源與行為。",
+          "將參考轉成自己的互動規格，實測觸控與減少動態效果。"
+        ],
+        "limits": [
+          "範例動效不代表有可重用程式碼或授權。",
+          "過度動畫可能犧牲可讀性及互動效能。",
+          "未播放或執行個別案例；此頁是網頁動效參考，不等於影片模板。"
+        ]
       }
     },
     {
@@ -35590,14 +36147,14 @@
       "canonicalName": "Pinterest",
       "category": "11 Media / Video",
       "resourceType": "Visual discovery and reference/moodboard platform (not itself an AI video generator)",
-      "purpose": "搜尋、收藏及整理影像／影片視覺風格與創作參考，幫助確立構圖、鏡位、色彩、物件、布景及分鏡方向。",
-      "recommendation": "只能視為靈感來源；對參考素材做風格抽象、重組與原創創作。若要直接複製、上傳、改編、公開或商用第三方作品，必須另外確認著作權人授權，Pinterest 上架不代表自由商用。",
+      "purpose": "收集有助於決定構圖、色彩、鏡位及視覺風格的參考圖片，按主題整理成靈感看板。",
+      "recommendation": "適合創作初期的視覺研究與溝通；不適合把來源不明的釘選圖片直接當成商用素材或 AI 訓練資料。",
       "url": "https://www.pinterest.com/",
       "repo": "",
       "notes": "2026-10-27 以 Pinterest 官方 Copyright Help 核對權利限制；Pinterest 首頁本輪受到 403 限制，但官方 Help 可讀。Pinterest 並非此工作流的 AI 生圖引擎，只作尋找風格與建立參考集。官方明確表示若使用平台上的特定圖片／影片，必要時需向版權擁有人索取許可，平台不提供權利人身分資訊。未登入、爬取、下載或使用任何 Pin。",
       "status": "active",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "pinterest",
         "moodboard",
@@ -35629,8 +36186,13 @@
         "documentationUrl": "https://help.pinterest.com/en/article/copyright",
         "type": "Official product or original article",
         "summary": "Visual-reference role verified at a descriptive level; source media rights are separate.",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "Documentation-level source review; no third-party runtime or security testing"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "referenceUrls": [
+          "https://help.pinterest.com/en/article/create-a-board",
+          "https://help.pinterest.com/en/article/save-pins-with-the-pinterest-browser-button",
+          "https://help.pinterest.com/en/article/copyright"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -35669,16 +36231,17 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "title"
           ],
-          "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -35701,8 +36264,145 @@
         "riskNotes": "釘選不等於取得圖片使用權。；搜尋結果可能包含再轉載或缺乏來源的素材。；未執行第三方程式、讀取機密或傳送憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "搜尋、收藏及整理影像／影片視覺風格與創作參考，幫助確立構圖、鏡位、色彩、物件、布景及分鏡方向。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://www.pinterest.com/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "board",
+          "detail": "官方說明 Board 是 Pins 的集合，可命名、設為秘密或邀請協作者。",
+          "locator": "https://help.pinterest.com/en/article/create-a-board",
+          "evidenceFields": [
+            "features.1",
+            "features.2"
+          ],
+          "limitations": "秘密看板不代表素材可上傳、轉載或具商用授權。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "save-reference",
+          "detail": "官方 Save Extension 說明可從網頁保存參考；保留原始頁面連結是本案策展驗收規則。",
+          "locator": "https://help.pinterest.com/en/article/save-pins-with-the-pinterest-browser-button",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未安裝 extension；只人工選擇合法可收藏來源。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "rights",
+          "detail": "官方著作權說明區分創作表達與概念；收藏不能取得重製或改作權。",
+          "locator": "https://help.pinterest.com/en/article/copyright",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.0",
+            "limitations.1"
+          ],
+          "limitations": "具體使用條款與素材原作者權利須另查。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "moodboard",
+            "title": "整理視覺風格看板",
+            "detail": "依配色、文字、材質與構圖分組靈感，提煉共通視覺特徵。",
+            "evidenceRefs": [
+              "board",
+              "save-reference"
+            ]
+          },
+          {
+            "id": "shot-reference",
+            "title": "規劃影片鏡位與布景",
+            "detail": "收藏可回查的鏡位及構圖參考，寫出自己的分鏡方向。",
+            "evidenceRefs": [
+              "board",
+              "save-reference"
+            ]
+          },
+          {
+            "id": "source-review",
+            "title": "查核參考素材的使用權",
+            "detail": "追溯原作者，分開記錄靈感與已取得授權的實際素材。",
+            "evidenceRefs": [
+              "rights",
+              "save-reference"
+            ]
+          }
+        ],
+        "example": {
+          "id": "portfolio-moodboard",
+          "title": "建立作品集視覺靈感看板",
+          "input": "三種風格方向及自行選擇的公開來源。",
+          "process": "分組收藏 → 記錄原始連結 → 萃取風格特徵 → 確認使用權",
+          "output": "風格摘要、來源連結及授權待查清單（預期產物）。",
+          "destination": "自有設計規格；不直接複製他人作品。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "moodboard",
+            "shot-reference",
+            "source-review"
+          ],
+          "steps": [
+            {
+              "id": "collect",
+              "title": "人工收藏參考與原始連結",
+              "evidenceRefs": [
+                "save-reference"
+              ]
+            },
+            {
+              "id": "group",
+              "title": "以看板組織視覺主題",
+              "evidenceRefs": [
+                "board"
+              ]
+            },
+            {
+              "id": "rights",
+              "title": "區分靈感與可用素材",
+              "evidenceRefs": [
+                "rights"
+              ]
+            },
+            {
+              "id": "design",
+              "title": "建立原創設計規格",
+              "evidenceRefs": [],
+              "externalDependency": "視覺分析、原創設計與個別素材授權需另行完成。"
+            }
+          ]
+        },
+        "start": [
+          "先決定要研究配色、構圖還是鏡位，避免無目的收藏。",
+          "建立主題看板，只人工保存具可回查來源的參考。",
+          "用自己的文字總結共通特徵，個別素材的使用權另外確認。"
+        ],
+        "limits": [
+          "釘選不等於取得圖片使用權。",
+          "搜尋結果可能包含再轉載或缺乏來源的素材。",
+          "未登入、安裝瀏覽器擴充或下載站內素材；不宣稱取得任何使用權。"
+        ]
       }
     },
     {
@@ -36828,14 +37528,14 @@
       "canonicalName": "PythonAnywhere",
       "category": "12 Developer Tools",
       "resourceType": "Hosted Python IDE, Bash console and Python web-app hosting service",
-      "purpose": "直接透過瀏覽器使用雲端 Python 開發環境、Bash Console、檔案編輯與 Web App Hosting，不必在本機安裝完整開發工具。可用於小型 Python 網頁應用的程式碼修改、部署、重新載入與逐輪檢查；也可搭配 ChatGPT／Claude 等 AI 產生的程式碼做人工整合。",
-      "recommendation": "適合 Python Flask/Django/WSGI 小型服務、教學與快速原型。當 Coding Agent 額度不足，改由 AI 提供可審查的明確差異碼，再在測試環境部署與驗證。不可直接把未審查的 AI 產出貼進正式 Bash Console：先保存版本、檢查指令、避免明碼金鑰、測試後才更新網站。大型、多 worker、複雜 DevOps 需求需比較其他部署方案及方案限制。",
+      "purpose": "在瀏覽器中編輯 Python 程式並部署小型 Flask 或 Django 網站，不必先在自己的電腦架設公開伺服器。",
+      "recommendation": "適合學習、展示或小型 Python 網頁原型；有特殊網路、運算、資料庫與安全需求的正式系統先評估方案限制。",
       "url": "https://www.pythonanywhere.com/",
       "repo": "",
       "notes": "2026-10-24 查核 PythonAnywhere 官方首頁、Pricing、Free Accounts Features 與官方 Help 的 Types of Consoles。官方提供瀏覽器 Python/Bash console、Web Apps、Python IDE；Developer 方案從 US$10/月開始，免費 Beginner 有 1 個 Web App（1 worker）、2 consoles、512 MiB 儲存、100 CPU seconds（日額度），新免費帳號的 Web App 為 1 個月到期需續期；免費網路出口受限制，MySQL 與排程等部分功能只對早期帳號保留。額度會變，應在建立帳戶時再次確認。這是第三方雲端主機，程式碼、檔案、應用資料會儲存在服務方伺服器；AI Chat 的輸入內容亦可能傳送至其各自供應商。Screenshot 原貼文描述在缺少 Codex 用量時，以 Chat 提供程式碼，在 PythonAnywhere Bash Console 貼上並 Reload 驗證；這是個別使用經驗，不能視為無測試便能安全交付的保證。本輪只收錄，不註冊或執行任何指令。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "pythonanywhere",
         "python-hosting",
@@ -36882,8 +37582,11 @@
         "type": "Official product / documentation",
         "summary": "2026-10-24 screenshots supplied by user describe Chat + PythonAnywhere manual coding workflow; no original post URL provided. Features and limits checked against primary official sources.",
         "readmeUrl": "https://www.pythonanywhere.com/",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "referenceUrls": [
+          "https://help.pythonanywhere.com/pages/Flask/"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -36923,16 +37626,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -36955,8 +37659,146 @@
         "riskNotes": "免費方案和付費方案資源、網路存取與網站限制不同；價格及供應條件會變。；即使不須自己管理系統底層，仍須自行維護程式碼、環境變數、資料庫、憑證與部署回滾。；沒有使用憑證或執行任何第三方服務。",
         "verification": {
           "status": "not-tested",
-          "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "直接透過瀏覽器使用雲端 Python 開發環境、Bash Console、檔案編輯與 Web App Hosting，不必在本機安裝完整開發工具。可用於小型 Python 網頁應用的程式碼修改、部署、重新載入與逐輪檢查；也可搭配 ChatGPT／Claude 等 AI 產生的程式碼做人工整合。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://www.pythonanywhere.com/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "environment",
+          "detail": "官方 Flask 指南區分直接建立 Web App 與匯入既有程式加 virtualenv；版本、依賴與路徑需對齊。",
+          "locator": "https://help.pythonanywhere.com/pages/Flask/",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未建立帳號或環境；方案限制及 Python 版本另核對。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "wsgi",
+          "detail": "既有 Flask 程式以 Web Tab 的 WSGI 檔案匯入 app as application；不可在匯入時執行 app.run()。",
+          "locator": "https://help.pythonanywhere.com/pages/Flask/",
+          "evidenceFields": [
+            "features.1",
+            "limitations.1"
+          ],
+          "limitations": "此為 WSGI Flask 文件，不推廣到所有 Django/ASGI 場景。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "deploy-verify",
+          "detail": "官方指南說明 WSGI 設定及錯誤風險；外部部署須檢查依賴、設定、實際 HTTP 與資料持久化。",
+          "locator": "https://help.pythonanywhere.com/pages/Flask/",
+          "evidenceFields": [
+            "requirements.1",
+            "limitations.0",
+            "limitations.1"
+          ],
+          "limitations": "驗收及回滾是自訂部署流程；未登入或發布網站。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "learn-python",
+            "title": "用瀏覽器練習小型 Python 網頁",
+            "detail": "建立簡單 Flask 路由和合成資料，理解程式與網頁輸出。",
+            "evidenceRefs": [
+              "environment",
+              "wsgi"
+            ]
+          },
+          {
+            "id": "deploy-prototype",
+            "title": "將本機 Flask 原型部署成網站",
+            "detail": "核對依賴、virtualenv、WSGI 入口及實際網頁讀取。",
+            "evidenceRefs": [
+              "environment",
+              "wsgi",
+              "deploy-verify"
+            ]
+          },
+          {
+            "id": "debug-deploy",
+            "title": "排查已部署網頁的啟動錯誤",
+            "detail": "檢查 WSGI 匯入路徑、app.run() 與設定，區分程式與平台限制。",
+            "evidenceRefs": [
+              "wsgi",
+              "deploy-verify"
+            ]
+          }
+        ],
+        "example": {
+          "id": "flask-note-demo",
+          "title": "部署簡單的公開筆記展示頁",
+          "input": "一個不含個資的 Flask 原型、固定 requirements 與合成筆記。",
+          "process": "準備環境 → 設定 WSGI → 檢查頁面 → 驗收錯誤及回滾",
+          "output": "部署設定與頁面讀取測試規格（未實際上線）。",
+          "destination": "自有原型展示；使用者登入與持久化另行驗證。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "learn-python",
+            "deploy-prototype",
+            "debug-deploy"
+          ],
+          "steps": [
+            {
+              "id": "env",
+              "title": "設定 Python 環境及依賴",
+              "evidenceRefs": [
+                "environment"
+              ]
+            },
+            {
+              "id": "wsgi",
+              "title": "配置 WSGI 入口",
+              "evidenceRefs": [
+                "wsgi"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "驗收實際頁面與錯誤",
+              "evidenceRefs": [
+                "deploy-verify"
+              ]
+            },
+            {
+              "id": "publish",
+              "title": "確認公開範圍及回滾",
+              "evidenceRefs": [],
+              "externalDependency": "帳號、公開發布、網路、憑證及資料安全需另行核准。"
+            }
+          ]
+        },
+        "start": [
+          "先準備小型 Flask 程式與合成資料，確認可用方案及 Python 版本。",
+          "依官方指南設定 virtualenv 與 WSGI，避免匯入時啟動本機伺服器。",
+          "發布前檢查實際 HTTP、依賴、錯誤紀錄及資料保存方式。"
+        ],
+        "limits": [
+          "免費方案和付費方案資源、網路存取與網站限制不同；價格及供應條件會變。",
+          "即使不須自己管理系統底層，仍須自行維護程式碼、環境變數、資料庫、憑證與部署回滾。",
+          "未註冊、部署、測試方案配額或網站；正式環境的安全與回滾須獨立驗收。"
+        ]
       }
     },
     {
@@ -37725,14 +38567,14 @@
       "canonicalName": "Recraft",
       "category": "08 UI & Design Engineering",
       "resourceType": "AI Graphics / Vector Design",
-      "purpose": "生成與編輯 AI 圖像與向量圖，可從文字生成 SVG，也能把 raster image vectorize 成 SVG，並直接編輯 anchor points、curve 與色彩。",
-      "recommendation": "適合 logo、icon、illustration、brand asset 與需要後續精修的向量素材。",
+      "purpose": "用文字生成插畫、圖片和向量圖，或把點陣圖轉成可編輯 SVG，方便製作品牌及網站素材。",
+      "recommendation": "適合需要可縮放及可修改的圖示、插畫與品牌草稿；精確商標、文字和正式商用素材仍須人工驗收。",
       "url": "https://www.recraft.ai/",
       "repo": "",
       "notes": "Official site confirmed. Vector editor and AI vector generator support editable SVG workflows.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "ai-graphics",
         "vector",
@@ -37792,25 +38634,31 @@
       ],
       "source": {
         "url": "https://www.recraft.ai/",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-        "type": "Official Recraft product website"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "type": "Official Recraft product website",
+        "referenceUrls": [
+          "https://www.recraft.ai/ai-models/recraft",
+          "https://www.recraft.ai/blog/vectorizer-pro",
+          "https://www.recraft.ai/api"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -37833,8 +38681,136 @@
         "riskNotes": "AI 產生的 SVG／插畫仍可能有不正確路徑、文字與版權疑慮，需人工編輯檢查。；產品方案與 API 可用性可能變更，網站範例不保證可重現相同設計成果。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "生成與編輯 AI 圖像與向量圖，可從文字生成 SVG，也能把 raster image vectorize 成 SVG，並直接編輯 anchor points、curve 與色彩。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://www.recraft.ai/"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "generate",
+          "detail": "官方 AI 模型頁說明向量模型可直接產生 SVG；先按輸出需求選向量或點陣模型。",
+          "locator": "https://www.recraft.ai/ai-models/recraft",
+          "evidenceFields": [
+            "features.0",
+            "features.1"
+          ],
+          "limitations": "未生成圖像；不同模型與方案的可用性須核對。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "vector-edit",
+          "detail": "Studio 的 Vectorize 與 Vector Editor 支援把點陣圖轉為向量路徑，再調整顏色與節點。",
+          "locator": "https://www.recraft.ai/blog/vectorizer-pro",
+          "evidenceFields": [
+            "features.1",
+            "limitations.0"
+          ],
+          "limitations": "轉換可能失真；驗證路徑、縮放、文字及輸入素材權利。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "api",
+          "detail": "官方 API 提供圖片與向量生成、編輯及自動化；API 權利與費用依開發者條款。",
+          "locator": "https://www.recraft.ai/api",
+          "evidenceFields": [
+            "features.2",
+            "requirements.0"
+          ],
+          "limitations": "未呼叫 API；先查模型、格式、費用及金鑰。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "icon-design",
+            "title": "從文字製作網站圖示",
+            "detail": "以形狀、色彩及用途描述產出 SVG 草稿，再人工修正。",
+            "evidenceRefs": [
+              "generate",
+              "vector-edit"
+            ]
+          },
+          {
+            "id": "asset-conversion",
+            "title": "將舊圖片轉成可縮放素材",
+            "detail": "將有使用權的點陣圖片向量化，檢查路徑與輪廓。",
+            "evidenceRefs": [
+              "vector-edit"
+            ]
+          },
+          {
+            "id": "asset-pipeline",
+            "title": "建立重複產製素材的流程",
+            "detail": "在核准環境評估 API，將固定規格與人工驗收接入資產流程。",
+            "evidenceRefs": [
+              "generate",
+              "api"
+            ]
+          }
+        ],
+        "example": {
+          "id": "website-icon-set",
+          "title": "製作網站分類圖示",
+          "input": "三個圖示需求、同一線條風格與品牌色。",
+          "process": "生成向量圖 → 調整路徑與色彩 → 檢查縮放及一致性",
+          "output": "三份 SVG 草稿及驗收紀錄（預期產物）。",
+          "destination": "網站設計系統；實際匯出、SVG 安全檢查及商用權利另驗收。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "icon-design",
+            "asset-conversion",
+            "asset-pipeline"
+          ],
+          "steps": [
+            {
+              "id": "generate",
+              "title": "生成向量草稿",
+              "evidenceRefs": [
+                "generate"
+              ]
+            },
+            {
+              "id": "edit",
+              "title": "檢查路徑及配色",
+              "evidenceRefs": [
+                "vector-edit"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "驗證網站資產",
+              "evidenceRefs": [],
+              "externalDependency": "由前端或設計團隊檢查 viewBox、安全、品牌規範及授權。"
+            }
+          ]
+        },
+        "start": [
+          "先選一個小型圖示需求，區分點陣與向量輸出。",
+          "核對生成條款與素材權利，再檢查路徑及不同尺寸的呈現。",
+          "需要批次產出時才查 API 文件、費用及伺服器金鑰配置。"
+        ],
+        "limits": [
+          "AI 產生的 SVG／插畫仍可能有不正確路徑、文字與版權疑慮，需人工編輯檢查。",
+          "產品方案與 API 可用性可能變更，網站範例不保證可重現相同設計成果。",
+          "未實際生成、編輯或呼叫 API；不能保證精確重現品牌設計。"
+        ]
       }
     },
     {
@@ -37845,14 +38821,14 @@
       "canonicalName": "remove.bg",
       "category": "09 Content & Artifact Generation",
       "resourceType": "Background Removal / API",
-      "purpose": "自動移除圖片背景，除了網頁工具也提供 HTTP API，可把背景去除整合進 app、automation 或 asset pipeline。",
-      "recommendation": "適合商品圖、人物 cutout、社群素材與需要透明背景的自動化影像前處理。",
+      "purpose": "自動移除照片中的背景，取得透明背景的商品或人物圖片；既有 API 整合須留意 2026 年 12 月的服務遷移。",
+      "recommendation": "適合少量商品圖去背或既有去背流程維護；新 API 串接先確認 Leonardo.Ai 遷移規格，避免依賴即將變更的舊服務。",
       "url": "https://www.remove.bg/",
       "repo": "",
       "notes": "Official API confirmed. Background removal can be integrated into software or automated workflows.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "background-removal",
         "image-processing",
@@ -37908,25 +38884,30 @@
       ],
       "source": {
         "url": "https://www.remove.bg/",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-        "type": "Official remove.bg website and API information"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "type": "Official remove.bg website and API information",
+        "referenceUrls": [
+          "https://www.remove.bg/api#easy-to-integrate",
+          "https://www.remove.bg/api"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -37949,8 +38930,145 @@
         "riskNotes": "頭髮、透明物品及複雜背景可能出現遮罩缺陷，需要人工修邊。；免費與付費解析度、流量及授權條款可能不同；有隱私要求的圖片不得未經核准上傳。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "自動移除圖片背景，除了網頁工具也提供 HTTP API，可把背景去除整合進 app、automation 或 asset pipeline。",
+          "reviewedAt": "2026-11-21",
+          "source": "https://www.remove.bg/"
+        },
+        "sourceReview": {
+          "migration": "2026-11-25 官方 API 頁明示 2026-12-01 起背景移除轉至 Leonardo.Ai；目前保留的舊端點只是文件快照。新端點、金鑰與相容性未核對。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "background-removal",
+          "detail": "官方文件接受原始圖片上傳或網址，回傳去背圖片或指定格式資料。",
+          "locator": "https://www.remove.bg/api#easy-to-integrate",
+          "evidenceFields": [
+            "features.0",
+            "features.2"
+          ],
+          "limitations": "複雜邊緣需修圖；原圖不可未獲准送出。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "legacy-api",
+          "detail": "2026-11-25 文件仍列 POST https://api.remove.bg/v1.0/removebg、X-Api-Key、image_file/image_url、size；成功時讀取圖片內容。",
+          "locator": "https://www.remove.bg/api",
+          "evidenceFields": [
+            "features.1",
+            "requirements.1"
+          ],
+          "limitations": "僅舊版文件契約；未執行，不能保證遷移後仍相容。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "migration",
+          "detail": "官方 API 頁公告 2026-12-01 起背景移除轉到 Leonardo.Ai；需重新核對端點、金鑰、回傳、額度及資料政策。",
+          "locator": "https://www.remove.bg/api",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.migration",
+            "limitations.1"
+          ],
+          "limitations": "未查核新端點、既有金鑰續用或停止日期；不可推定自動相容。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "product-cutout",
+            "title": "讓商品照片背景一致",
+            "detail": "用自有商品照片製作透明背景，再人工檢查邊緣及陰影。",
+            "evidenceRefs": [
+              "background-removal"
+            ]
+          },
+          {
+            "id": "legacy-automation",
+            "title": "盤點既有批次去背程式",
+            "detail": "找出舊 API 呼叫、輸入輸出及錯誤處理，準備遷移測試。",
+            "evidenceRefs": [
+              "legacy-api",
+              "migration"
+            ]
+          },
+          {
+            "id": "new-integration",
+            "title": "評估新去背服務的整合",
+            "detail": "依官方遷移公告重新確認服務與資料條件，不直接套用舊 API。",
+            "evidenceRefs": [
+              "migration"
+            ]
+          }
+        ],
+        "example": {
+          "id": "catalog-cutout-review",
+          "title": "整理電商商品去背流程",
+          "input": "五張自有商品照片，既有程式的 API 契約與輸出規格。",
+          "process": "盤點舊呼叫 → 確認遷移條件 → 設計測試 → 校對去背與輸出",
+          "output": "透明 PNG 的驗收規格、遷移待辦及失敗案例（未產圖）。",
+          "destination": "電商素材流程；新舊 API 測試需另行核准。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "product-cutout",
+            "legacy-automation",
+            "new-integration"
+          ],
+          "steps": [
+            {
+              "id": "inventory",
+              "title": "記錄舊端點與輸出契約",
+              "evidenceRefs": [
+                "legacy-api"
+              ]
+            },
+            {
+              "id": "migration",
+              "title": "核對官方服務變更",
+              "evidenceRefs": [
+                "migration"
+              ]
+            },
+            {
+              "id": "quality",
+              "title": "設計透明背景驗收",
+              "evidenceRefs": [
+                "background-removal"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "另行測試新 API",
+              "evidenceRefs": [],
+              "externalDependency": "取得新服務文件、核准金鑰及費用後，才可測試；本次未傳送圖片。"
+            }
+          ]
+        },
+        "start": [
+          "先區分單次網頁去背與既有 API 維護需求。",
+          "若要串接程式，先閱讀 2026-12-01 服務遷移公告，不直接採用舊端點。",
+          "用授權測試圖片驗證遮罩、解析度、錯誤處理、費用與資料政策。"
+        ],
+        "limits": [
+          "頭髮、透明物品及複雜背景可能出現遮罩缺陷，需要人工修邊。",
+          "免費與付費解析度、流量及授權條款可能不同；有隱私要求的圖片不得未經核准上傳。",
+          "遷移後的 API 契約未確認；新整合不得將舊版範例視為長期可用。"
+        ]
       }
     },
     {
@@ -38343,14 +39461,14 @@
       "canonicalName": "Rive",
       "category": "08 UI & Design Engineering",
       "resourceType": "Interactive Animation / Runtime",
-      "purpose": "設計 production-ready 的互動式向量動畫，透過 State Machine 把 animation 與互動邏輯帶進 Web、React、Flutter、iOS、Android、Unity 等 runtime。",
-      "recommendation": "適合需要可真正進入產品的 micro-interaction、animated illustration、interactive icon 與 state-driven animation。",
+      "purpose": "製作會根據使用者操作或資料狀態改變的向量動畫，並將互動動畫嵌入網站或 App。",
+      "recommendation": "適合有多個互動狀態的按鈕、角色、進度或產品介面；只播放固定動畫時，簡單 CSS 或 Lottie 可能更容易整合。",
       "url": "https://rive.app/",
       "repo": "",
       "notes": "Official site confirmed. Rive exports interactive content through its runtimes and also supports traditional rendered formats.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "animation",
         "interactive",
@@ -38417,25 +39535,30 @@
       "source": {
         "url": "https://rive.app/",
         "readmeUrl": "https://rive.app/",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-25",
         "type": "Official product / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "referenceUrls": [
+          "https://rive.app/blog/getting-started-with-data-binding",
+          "https://rive.app/game-ui"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -38458,8 +39581,146 @@
         "riskNotes": "設計工具與 Runtime 提供不同能力，不能假設所有平台的事件或渲染效果完全一致。；複雜狀態機、效能、無障礙替代及動畫減量偏好仍須在目標裝置上實測。；沒有使用憑證或執行任何第三方服務。",
         "verification": {
           "status": "not-tested",
-          "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "設計 production-ready 的互動式向量動畫，透過 State Machine 把 animation 與互動邏輯帶進 Web、React、Flutter、iOS、Android、Unity 等 runtime。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://rive.app/"
+        },
+        "sourceReview": {
+          "binding": "官方 Data Binding 教學使用 View Model、properties、enum 等連動 State Machine；Runtime API 必須依平台與版本另查。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "state-machine",
+          "detail": "Editor 可用 State Machine 連結動畫與狀態轉換，依事件或資料改變畫面。",
+          "locator": "https://rive.app/blog/getting-started-with-data-binding",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未測狀態機；業務成功或失敗應由應用程式確認。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "data-binding",
+          "detail": "官方教學以 View Model、properties、enum 與 State Machine 表達資料及邏輯。",
+          "locator": "https://rive.app/blog/getting-started-with-data-binding",
+          "evidenceFields": [
+            "features.0",
+            "implementationKnowledge.sourceReview.binding"
+          ],
+          "limitations": "實際 Runtime 資料綁定 API 依版本及平台查核。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "runtime",
+          "detail": "官方產品資料描述對應 Runtime 嵌入產品介面；選定平台後再核對 .riv 及資料契約。",
+          "locator": "https://rive.app/game-ui",
+          "evidenceFields": [
+            "features.1",
+            "requirements.1"
+          ],
+          "limitations": "此頁以遊戲場景為主，未逐一檢查所有平台 Runtime。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "feedback",
+            "title": "製作有狀態的操作回饋",
+            "detail": "讓載入、完成與失敗各有清楚的動畫狀態。",
+            "evidenceRefs": [
+              "state-machine",
+              "data-binding"
+            ]
+          },
+          {
+            "id": "live-metric",
+            "title": "讓視覺跟著資料改變",
+            "detail": "將進度或數值透過 View Model 對應動畫。",
+            "evidenceRefs": [
+              "data-binding",
+              "state-machine"
+            ]
+          },
+          {
+            "id": "embed",
+            "title": "將互動動畫嵌入產品",
+            "detail": "選擇目標平台 Runtime，核對版本與互動事件。",
+            "evidenceRefs": [
+              "runtime"
+            ]
+          }
+        ],
+        "example": {
+          "id": "save-status",
+          "title": "設計表單儲存狀態動畫",
+          "input": "idle、saving、success、error 四種真實業務狀態及一份授權動畫草稿。",
+          "process": "定義狀態 → 設計 View Model → 測資料對應 → 整合目標 Runtime",
+          "output": "可互動 .riv 資產與狀態驗收規格（預期產物）。",
+          "destination": "產品表單回饋元件；仍需文字提示與真實儲存證據。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "feedback",
+            "live-metric",
+            "embed"
+          ],
+          "steps": [
+            {
+              "id": "state",
+              "title": "定義狀態與轉換",
+              "evidenceRefs": [
+                "state-machine"
+              ]
+            },
+            {
+              "id": "bind",
+              "title": "設計資料綁定",
+              "evidenceRefs": [
+                "data-binding"
+              ]
+            },
+            {
+              "id": "embed",
+              "title": "選擇平台 Runtime",
+              "evidenceRefs": [
+                "runtime"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "驗證實際儲存及無障礙",
+              "evidenceRefs": [],
+              "externalDependency": "應用程式業務狀態、錯誤回饋及裝置實測需另行完成。"
+            }
+          ]
+        },
+        "start": [
+          "先畫出狀態轉換圖，不急著製作複雜動效。",
+          "閱讀官方 View Model 與 State Machine 教學，用合成資料設計狀態。",
+          "確認目標 Runtime、資產與方案，再測實際互動、效能及減少動態效果。"
+        ],
+        "limits": [
+          "設計工具與 Runtime 提供不同能力，不能假設所有平台的事件或渲染效果完全一致。",
+          "複雜狀態機、效能、無障礙替代及動畫減量偏好仍須在目標裝置上實測。",
+          "未製作 .riv 或驗證任何平台 Runtime；不把動畫當成業務成功證據。"
+        ]
       }
     },
     {
@@ -44624,14 +45885,14 @@
       "canonicalName": "Vercel AI Gateway",
       "category": "02 Agent Orchestration",
       "resourceType": "Hosted multi-provider AI API routing and billing platform",
-      "purpose": "在 Vercel 的單一 Gateway 使用不同供應商的模型、BYOK、Provider Routing/Fallback、API Key/OIDC、統一計費與使用統計；截圖中 Needle 的 Jev 呼叫即透過此 Gateway。",
-      "recommendation": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。",
+      "purpose": "透過同一個 API 入口呼叫不同 AI 模型，設定可使用的供應商、備援與身分驗證。",
+      "recommendation": "適合在 Vercel 或其他後端管理多模型及供應商備援；只有單一模型或嚴格資料合規需求時，先比較直接串接。",
       "url": "https://vercel.com/ai-gateway",
       "repo": "",
       "notes": "與 OpenRouter 類似的雲端託管 API Gateway，非開源 `vercel/ai` SDK 本身。官方文件說明 API Key 可由 Vercel Dashboard 建立，通常以 `AI_GATEWAY_API_KEY` 保存；不要存入 Repo 或前端。BYOK 失敗可能改走 Gateway 系統憑證並計費；應確認 ZDR、Provider allowlist、各模型提供者資料政策。截圖『取得 Jev 的 API Key』較精確是取得 Vercel AI Gateway API Key。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "vercel",
         "ai-gateway",
@@ -44666,8 +45927,12 @@
         "summary": "2026-10-24 confirmed source; no installation, credentials, running code or user data access.",
         "docsUrl": "https://vercel.com/docs/ai-gateway/authentication-and-byok",
         "readmeUrl": "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+        "referenceUrls": [
+          "https://vercel.com/docs/ai-gateway/authentication-and-byok",
+          "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -44705,16 +45970,17 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+          "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -44737,8 +46003,144 @@
         "riskNotes": "Gateway 轉接不代表所有模型的能力、回應格式、工具支援或資料政策等價。；Provider 或模型價格、配額、降級與 Zero Data Retention 條件可能因服務而不同，必須持續監控。；沒有使用憑證或執行任何第三方服務。",
         "verification": {
           "status": "not-tested",
-          "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+          "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "在 Vercel 的單一 Gateway 使用不同供應商的模型、BYOK、Provider Routing/Fallback、API Key/OIDC、統一計費與使用統計；截圖中 Needle 的 Jev 呼叫即透過此 Gateway。",
+          "reviewedAt": "2026-11-20",
+          "source": "https://vercel.com/ai-gateway"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "auth",
+          "detail": "Gateway 請求需 Vercel API Key 或 OIDC；BYOK 是 Gateway 對模型供應商的憑證，不取代 Gateway 認證。",
+          "locator": "https://vercel.com/docs/ai-gateway/authentication-and-byok",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "未配置金鑰；服務端保管，核對專案與團隊範圍。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "provider-routing",
+          "detail": "AI SDK 的 providerOptions.gateway 中 order 設偏好仍可備援其他供應商，only 為硬性限制。",
+          "locator": "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options",
+          "evidenceFields": [
+            "features.1",
+            "requirements.1"
+          ],
+          "limitations": "未呼叫模型；only 無符合供應商時應處理失敗，不保證備援。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "fallback",
+          "detail": "文件區分相同模型跨供應商與不同模型備援；不同模型輸出、價格及工具能力應逐項驗收。",
+          "locator": "https://vercel.com/docs/ai-gateway/models-and-providers/provider-options",
+          "evidenceFields": [
+            "features.1",
+            "limitations.0",
+            "limitations.1"
+          ],
+          "limitations": "未測故障、延遲、費用、資料政策或格式相容性。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "multi-model",
+            "title": "用統一入口比較模型",
+            "detail": "以同一組合成題目比較結果及格式，保留實際供應商。",
+            "evidenceRefs": [
+              "auth",
+              "fallback"
+            ]
+          },
+          {
+            "id": "provider-policy",
+            "title": "限制可接受的供應商",
+            "detail": "分清偏好 order 與強制 only，避免資料送往未核准的端點。",
+            "evidenceRefs": [
+              "provider-routing"
+            ]
+          },
+          {
+            "id": "resilience",
+            "title": "設計模型呼叫失敗時的備援",
+            "detail": "分開測同模型供應商切換與不同模型備援，保留錯誤及品質結果。",
+            "evidenceRefs": [
+              "provider-routing",
+              "fallback"
+            ]
+          }
+        ],
+        "example": {
+          "id": "summary-gateway-evaluation",
+          "title": "驗證摘要服務的模型備援",
+          "input": "合成文章、預期 JSON 格式、核准模型與供應商清單。",
+          "process": "確認認證 → 設定供應商限制 → 設計備援測試 → 核對結果與成本",
+          "output": "模型路由、失敗情境及品質驗收規格（未呼叫模型）。",
+          "destination": "自有摘要服務的技術選型；正式資料與費用另核准。",
+          "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "multi-model",
+            "provider-policy",
+            "resilience"
+          ],
+          "steps": [
+            {
+              "id": "auth",
+              "title": "選擇 Gateway 認證方式",
+              "evidenceRefs": [
+                "auth"
+              ]
+            },
+            {
+              "id": "route",
+              "title": "限定可用供應商",
+              "evidenceRefs": [
+                "provider-routing"
+              ]
+            },
+            {
+              "id": "fallback",
+              "title": "設計不同故障情境",
+              "evidenceRefs": [
+                "fallback"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "執行核准的品質及成本驗收",
+              "evidenceRefs": [],
+              "externalDependency": "需專案憑證、核准費用、合成測試集及資料政策審查。"
+            }
+          ]
+        },
+        "start": [
+          "先列出模型、可用供應商、資料政策與費用上限。",
+          "分清 Gateway 認證和 BYOK，核對 order/only 與備援規則。",
+          "在核准測試環境比較格式、實際供應商、費用和故障結果。"
+        ],
+        "limits": [
+          "Gateway 轉接不代表所有模型的能力、回應格式、工具支援或資料政策等價。",
+          "Provider 或模型價格、配額、降級與 Zero Data Retention 條件可能因服務而不同，必須持續監控。",
+          "未使用 API、OIDC 或 BYOK；沒有驗證供應商資料保留、價格與實際故障。"
+        ]
       }
     },
     {
