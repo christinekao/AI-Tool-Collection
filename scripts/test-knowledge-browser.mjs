@@ -552,7 +552,10 @@ try{
   ["ant-design-ant-design",".resource-reader-guide","規劃申請審核管理頁"],
   ["chakra-ui-chakra-ui",".resource-reader-guide","規劃投遞管理系統的設計規則"],
   ["saadeghi-daisyui",".resource-reader-guide","規劃知識庫主題與側邊導覽"],
-  ["lucide-icons",".resource-reader-guide","規劃知識庫導覽及工具列圖示"]
+  ["lucide-icons",".resource-reader-guide","規劃知識庫導覽及工具列圖示"],
+  ["shadcn-ui",".resource-reader-guide","規劃履歷管理系統的共用元件"],
+  ["motion-dev",".resource-reader-guide","規劃知識庫詳情面板動效"],
+  ["magicuidesign-magicui",".resource-reader-guide","規劃作品集成果數字與功能展示"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -579,7 +582,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 sixty-eight Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 seventy-one Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

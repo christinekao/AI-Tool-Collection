@@ -6,14 +6,14 @@
   "canonicalName": "magicuidesign/magicui",
   "category": "08 UI & Design Engineering",
   "resourceType": "Component Library",
-  "purpose": "Magic UI 是面向設計工程師的 UI 元件與動態視覺效果集合，提供可複製、可調整的介面片段。",
-  "recommendation": "適合在現有網站局部加入有辨識度的動態效果與視覺元件；應避免一次堆疊太多動畫影響閱讀。",
+  "purpose": "將現成的動態清單、數字變化及循環展示等 React 視覺元件加入網站，改善產品展示與作品集的呈現。",
+  "recommendation": "適合需要少量視覺亮點的產品展示頁；資料型介面先確保資訊可讀，再決定是否加入動效，避免將裝飾效果當成真實功能。",
   "url": "https://github.com/magicuidesign/magicui",
   "repo": "magicuidesign/magicui",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "react",
     "animation",
@@ -72,24 +72,34 @@
     "url": "https://github.com/magicuidesign/magicui",
     "readmeUrl": "https://github.com/magicuidesign/magicui/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。",
+    "upstreamCommit": "d13c6101da1165f7309c6281447c25f121ef0ca9",
+    "referenceUrls": [
+      "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/README.md",
+      "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/LICENSE.md",
+      "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/apps/www/registry/magicui/animated-list.tsx",
+      "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/apps/www/registry/magicui/number-ticker.tsx",
+      "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/apps/www/registry/magicui/marquee.tsx"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -98,8 +108,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +122,350 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Magic UI 是面向設計工程師的 UI 元件與動態視覺效果集合，提供可複製、可調整的介面片段。",
+      "source": "https://github.com/magicuidesign/magicui",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "feature-list",
+        "title": "逐項展示產品功能",
+        "detail": "讓已有的功能說明分段出現，重要內容需能直接閱讀。",
+        "capabilityRefs": [
+          "animated-list"
+        ]
+      },
+      {
+        "id": "metric-display",
+        "title": "為作品集數字加入動效",
+        "detail": "使用已核實的數字與格式做呈現，保留最終正確數值。",
+        "capabilityRefs": [
+          "number-ticker"
+        ]
+      },
+      {
+        "id": "logo-strip",
+        "title": "整理作品或品牌展示列",
+        "detail": "以合法素材安排循環展示，提供停止或靜態替代。",
+        "capabilityRefs": [
+          "marquee"
+        ]
+      }
+    ],
+    "example": {
+      "id": "portfolio-motion-preview",
+      "title": "規劃作品集成果數字與功能展示",
+      "input": "三個合成成果數字、已授權的功能文字與展示素材。",
+      "process": "選擇清單 → 定義數值與格式 → 規劃循環展示 → 檢查可讀性及停止",
+      "output": "少量視覺元件的預期畫面及驗收規格（未建置）。",
+      "destination": "自有作品集；不得把合成數字當真實成果。",
+      "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+      "useCaseRefs": [
+        "feature-list",
+        "metric-display",
+        "logo-strip"
+      ],
+      "steps": [
+        {
+          "id": "list",
+          "title": "規劃逐項展示",
+          "capabilityRefs": [
+            "animated-list"
+          ]
+        },
+        {
+          "id": "number",
+          "title": "定義正確數值與格式",
+          "capabilityRefs": [
+            "number-ticker"
+          ]
+        },
+        {
+          "id": "strip",
+          "title": "規劃展示列與暫停",
+          "capabilityRefs": [
+            "marquee"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "驗收實際資料、動效及可讀性",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准安裝、來源、CSS、效能、鍵盤及 reduced motion。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先選一個確有展示需求的元件。",
+      "閱讀固定版本原始碼與依賴，確認計時單位、格式及內容。",
+      "先在獨立頁面檢查手機、可讀性、動效減量及暫停，再決定是否採用。"
+    ],
+    "limits": [
+      "複製元件後仍由使用者負責維護相依套件與樣式相容性。",
+      "大量視覺效果可能影響載入效能與動態減量偏好。",
+      "未安裝、建置或渲染；完整 registry、其他元件、動畫 CSS 與依賴未查。",
+      "AnimatedList delay 為毫秒，NumberTicker delay 以秒換算；Marquee hover 暫停不等於完整無障礙。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "將現成的動態清單、數字變化及循環展示等 React 視覺元件加入網站，改善產品展示與作品集的呈現。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "React / Motion / Tailwind CSS"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT；外部及付費內容另查"
+      },
+      {
+        "label": "版本錨點",
+        "value": "d13c6101da1165f7309c6281447c25f121ef0ca9"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依序展示清單",
+        "detail": "已有固定內容需要逐項出現；輸入：children、delay（毫秒）、index；輸出：依 index slice 並 reverse 的 AnimatedListItem、spring 進出",
+        "source": "apps/www/registry/magicui/animated-list.tsx"
+      },
+      {
+        "title": "呈現數字變化",
+        "detail": "KPI 或產品數字需要視覺轉換；輸入：value、startValue、direction、delay（秒）、decimalPlaces；輸出：視窗進入後更新 motionValue，spring 改變 textContent",
+        "source": "apps/www/registry/magicui/number-ticker.tsx"
+      },
+      {
+        "title": "循環展示內容",
+        "detail": "作品或標誌需要連續排列；輸入：children、repeat、vertical、reverse、pauseOnHover；輸出：重複 DOM 子項與 animation class",
+        "source": "apps/www/registry/magicui/marquee.tsx"
+      }
+    ],
+    "architecture": {
+      "summary": "選擇清單 → 定義數值與格式 → 規劃循環展示 → 檢查可讀性及停止",
+      "nodes": [
+        {
+          "title": "依序展示清單",
+          "detail": "children、delay（毫秒）、index → 依 index slice 並 reverse 的 AnimatedListItem、spring 進出",
+          "files": [
+            "apps/www/registry/magicui/animated-list.tsx"
+          ]
+        },
+        {
+          "title": "呈現數字變化",
+          "detail": "value、startValue、direction、delay（秒）、decimalPlaces → 視窗進入後更新 motionValue，spring 改變 textContent",
+          "files": [
+            "apps/www/registry/magicui/number-ticker.tsx"
+          ]
+        },
+        {
+          "title": "循環展示內容",
+          "detail": "children、repeat、vertical、reverse、pauseOnHover → 重複 DOM 子項與 animation class",
+          "files": [
+            "apps/www/registry/magicui/marquee.tsx"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "清單",
+        "rule": "AnimatedList 依 index 顯示 children 子集並 reverse，effect cleanup 清除 timeout。",
+        "source": "apps/www/registry/magicui/animated-list.tsx"
+      },
+      {
+        "name": "數值",
+        "rule": "NumberTicker 在 in-view 後 delay * 1000 更新數值，spring change 更新 en-US 文字。",
+        "source": "apps/www/registry/magicui/number-ticker.tsx"
+      },
+      {
+        "name": "循環",
+        "rule": "Marquee 依 repeat 複製 children，pauseOnHover 預設 false。",
+        "source": "apps/www/registry/magicui/marquee.tsx"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE.md",
+          "apps/www/registry/magicui/animated-list.tsx",
+          "apps/www/registry/magicui/number-ticker.tsx",
+          "apps/www/registry/magicui/marquee.tsx"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先選一個確有展示需求的元件。 閱讀固定版本原始碼與依賴，確認計時單位、格式及內容。 先在獨立頁面檢查手機、可讀性、動效減量及暫停，再決定是否採用。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有作品集；不得把合成數字當真實成果。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "apps/www/registry/magicui/animated-list.tsx"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "animated-list",
+        "name": "依序展示清單",
+        "problem": "已有固定內容需要逐項出現",
+        "input": "children、delay（毫秒）、index",
+        "output": "依 index slice 並 reverse 的 AnimatedListItem、spring 進出",
+        "source": "apps/www/registry/magicui/animated-list.tsx",
+        "sourceFiles": [
+          "apps/www/registry/magicui/animated-list.tsx"
+        ],
+        "symbols": [
+          "AnimatedList",
+          "AnimatedListItem"
+        ],
+        "gate": "計時器依 children 長度推進並在 effect 清理；不代表即時通知資料源，需測新增、移除與 reduced motion。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "number-ticker",
+        "name": "呈現數字變化",
+        "problem": "KPI 或產品數字需要視覺轉換",
+        "input": "value、startValue、direction、delay（秒）、decimalPlaces",
+        "output": "視窗進入後更新 motionValue，spring 改變 textContent",
+        "source": "apps/www/registry/magicui/number-ticker.tsx",
+        "sourceFiles": [
+          "apps/www/registry/magicui/number-ticker.tsx"
+        ],
+        "symbols": [
+          "NumberTicker",
+          "useInView",
+          "useSpring"
+        ],
+        "gate": "格式固定 en-US；動畫數字不是實際 KPI 計算，應確保靜態正確值與減少動態替代。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "marquee",
+        "name": "循環展示內容",
+        "problem": "作品或標誌需要連續排列",
+        "input": "children、repeat、vertical、reverse、pauseOnHover",
+        "output": "重複 DOM 子項與 animation class",
+        "source": "apps/www/registry/magicui/marquee.tsx",
+        "sourceFiles": [
+          "apps/www/registry/magicui/marquee.tsx"
+        ],
+        "symbols": [
+          "Marquee",
+          "MarqueeProps"
+        ],
+        "gate": "預設 repeat=4，hover 暫停須開啟；未內建完整鍵盤暫停或偏好處理，不應重複可操作元素造成混亂。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃作品集成果數字與功能展示（設計示例）",
+      "problem": "三個合成成果數字、已授權的功能文字與展示素材。",
+      "steps": [
+        {
+          "capability": "animated-list",
+          "action": "規劃逐項展示"
+        },
+        {
+          "capability": "number-ticker",
+          "action": "定義正確數值與格式"
+        },
+        {
+          "capability": "marquee",
+          "action": "規劃展示列與暫停"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "portfolio-motion-preview"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "三個合成成果數字、已授權的功能文字與展示素材。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選擇清單 → 定義數值與格式 → 規劃循環展示 → 檢查可讀性及停止",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有作品集；不得把合成數字當真實成果。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝、建置或渲染；完整 registry、其他元件、動畫 CSS 與依賴未查。",
+        "AnimatedList delay 為毫秒，NumberTicker delay 以秒換算；Marquee hover 暫停不等於完整無障礙。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "未安裝、建置或渲染；完整 registry、其他元件、動畫 CSS 與依賴未查。 AnimatedList delay 為毫秒，NumberTicker delay 以秒換算；Marquee hover 暫停不等於完整無障礙。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、未建置或測試第三方元件。"
+      }
+    ]
   }
 }
