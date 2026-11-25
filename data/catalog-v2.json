@@ -4717,14 +4717,14 @@
       "canonicalName": "Anime.js",
       "category": "08 UI & Design Engineering",
       "resourceType": "Animation Runtime",
-      "purpose": "Anime.js 是 JavaScript 動畫引擎，可對 DOM、CSS、SVG 與 JavaScript 物件進行時間軸、交錯及屬性動畫控制。",
-      "recommendation": "適合需要自行編排細緻動畫的互動網站；若已使用其他動畫框架，應先比較相依與 API 相容性。",
+      "purpose": "控制網站上的文字、SVG、介面元素或數值變化，將多個動畫按照指定順序播放。",
+      "recommendation": "適合需要自訂網頁動畫時序或原生 JavaScript 動效的專案；簡單淡入或按鈕回饋先考慮 CSS。",
       "url": "https://github.com/juliangarnier/anime",
       "repo": "juliangarnier/anime",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "animation",
         "javascript",
@@ -4783,24 +4783,34 @@
         "url": "https://github.com/juliangarnier/anime",
         "readmeUrl": "https://github.com/juliangarnier/anime/blob/master/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。",
+        "upstreamCommit": "01b81be1df6843ccfe0a71c0699a746bf740dd77",
+        "referenceUrls": [
+          "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/README.md",
+          "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/LICENSE.md",
+          "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/animation/animation.js",
+          "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/timeline/timeline.js",
+          "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/scope/scope.js"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用 Canonical ID，補人類用途與限定範圍契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -4809,8 +4819,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍核心來源契約，保留完整工具及整合驗證缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -4823,8 +4833,357 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。；局部能力與前台用途雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Anime.js 是 JavaScript 動畫引擎，可對 DOM、CSS、SVG 與 JavaScript 物件進行時間軸、交錯及屬性動畫控制。",
+          "source": "https://github.com/juliangarnier/anime",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "reveal",
+            "title": "設計頁面內容逐段出現",
+            "detail": "用淡入與位移呈現標題、卡片及說明，保留靜態閱讀方式。",
+            "capabilityRefs": [
+              "animate-target"
+            ]
+          },
+          {
+            "id": "sequence",
+            "title": "設計產品操作示範動畫",
+            "detail": "用時間軸安排多個畫面元素，核對重疊與完成順序。",
+            "capabilityRefs": [
+              "timeline-sequence",
+              "animate-target"
+            ]
+          },
+          {
+            "id": "cleanup",
+            "title": "管理頁面切換及動態偏好",
+            "detail": "限制動畫範圍，設計還原與減少動態效果的測試。",
+            "capabilityRefs": [
+              "scope-revert"
+            ]
+          }
+        ],
+        "example": {
+          "id": "portfolio-sequence",
+          "title": "規劃作品集功能展示動畫",
+          "input": "自有三張功能卡片、文字與靜態替代需求。",
+          "process": "定義目標 → 設計時間軸 → 建立 Scope → 核對還原及閱讀",
+          "output": "動畫時序及靜態替代驗收規格（未建置）。",
+          "destination": "自有作品集前端；實際裝置與可及性另驗收。",
+          "note": "自訂設計示例；未安裝、執行或驗證第三方工具。",
+          "useCaseRefs": [
+            "reveal",
+            "sequence",
+            "cleanup"
+          ],
+          "steps": [
+            {
+              "id": "targets",
+              "title": "定義目標與初始狀態",
+              "capabilityRefs": [
+                "animate-target"
+              ]
+            },
+            {
+              "id": "sequence",
+              "title": "安排時間軸",
+              "capabilityRefs": [
+                "timeline-sequence"
+              ]
+            },
+            {
+              "id": "cleanup",
+              "title": "設計 Scope 還原",
+              "capabilityRefs": [
+                "scope-revert"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "獨立驗收手機、鍵盤及動態偏好",
+              "capabilityRefs": [],
+              "externalDependency": "需另行安裝與實際瀏覽器驗證，不以動畫完成代替功能成功。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先建立少量自有元素，確認 v4 匯入與動畫目標。",
+          "依時間軸安排動作並定義靜態替代。",
+          "核准後測 scope、卸載、偏好變化及低效能裝置。"
+        ],
+        "limits": [
+          "v3 與 v4 API 有差異，舊範例不可未經調整直接使用。",
+          "大量動畫仍需自行驗證效能、可及性與行動裝置體驗。",
+          "未安裝或渲染；完整渲染器、WAAPI、插值及所有瀏覽器未查。",
+          "Scope root 無法解析時可退回 document，不能視為權限邊界。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "控制網站上的文字、SVG、介面元素或數值變化，將多個動畫按照指定順序播放。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "JavaScript / ESM"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本錨點",
+            "value": "01b81be1df6843ccfe0a71c0699a746bf740dd77"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "控制單一或多個動畫目標",
+            "detail": "已有畫面需要位置、透明度或數值變化；輸入：targets、AnimationParams、keyframes；輸出：JSAnimation 或 editor hook 結果",
+            "source": "src/animation/animation.js"
+          },
+          {
+            "title": "安排多段動畫",
+            "detail": "不同元素需依時間出現；輸入：TimelineParams、targets、child parameters、position；輸出：Timeline 與依子項更新的 duration",
+            "source": "src/timeline/timeline.js"
+          },
+          {
+            "title": "管理動畫範圍與還原",
+            "detail": "頁面切換或偏好變更需清理；輸入：Scope root、defaults、mediaQueries、constructors；輸出：已註冊動畫及媒體查詢清理",
+            "source": "src/scope/scope.js"
+          }
+        ],
+        "architecture": {
+          "summary": "定義目標 → 設計時間軸 → 建立 Scope → 核對還原及閱讀",
+          "nodes": [
+            {
+              "title": "控制單一或多個動畫目標",
+              "detail": "targets、AnimationParams、keyframes → JSAnimation 或 editor hook 結果",
+              "files": [
+                "src/animation/animation.js"
+              ]
+            },
+            {
+              "title": "安排多段動畫",
+              "detail": "TimelineParams、targets、child parameters、position → Timeline 與依子項更新的 duration",
+              "files": [
+                "src/timeline/timeline.js"
+              ]
+            },
+            {
+              "title": "管理動畫範圍與還原",
+              "detail": "Scope root、defaults、mediaQueries、constructors → 已註冊動畫及媒體查詢清理",
+              "files": [
+                "src/scope/scope.js",
+                "src/animation/animation.js"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "動畫",
+            "rule": "animate 建立並初始化 JSAnimation，editor 模式走另一入口。",
+            "source": "src/animation/animation.js"
+          },
+          {
+            "name": "時間軸",
+            "rule": "Timeline.add 建立子動畫或 Timer；addTlChild 更新 iterationDuration 與總長。",
+            "source": "src/timeline/timeline.js"
+          },
+          {
+            "name": "還原",
+            "rule": "Scope.revert 逆序還原追蹤項目並移除媒體查詢監聽。",
+            "source": "src/scope/scope.js"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "依來源及核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "src/animation/animation.js",
+              "src/timeline/timeline.js",
+              "src/scope/scope.js"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先建立少量自有元素，確認 v4 匯入與動畫目標。 依時間軸安排動作並定義靜態替代。 核准後測 scope、卸載、偏好變化及低效能裝置。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有作品集前端；實際裝置與可及性另驗收。；固定輸入輸出，另驗證失敗及可及性。",
+            "file": "src/animation/animation.js"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "animate-target",
+            "name": "控制單一或多個動畫目標",
+            "problem": "已有畫面需要位置、透明度或數值變化",
+            "input": "targets、AnimationParams、keyframes",
+            "output": "JSAnimation 或 editor hook 結果",
+            "source": "src/animation/animation.js",
+            "sourceFiles": [
+              "src/animation/animation.js"
+            ],
+            "symbols": [
+              "animate",
+              "JSAnimation",
+              "generateKeyframes"
+            ],
+            "gate": "先確認 selector、初始值及動畫完成狀態；v3 與 v4 不可直接混用。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "timeline-sequence",
+            "name": "安排多段動畫",
+            "problem": "不同元素需依時間出現",
+            "input": "TimelineParams、targets、child parameters、position",
+            "output": "Timeline 與依子項更新的 duration",
+            "source": "src/timeline/timeline.js",
+            "sourceFiles": [
+              "src/timeline/timeline.js"
+            ],
+            "symbols": [
+              "createTimeline",
+              "Timeline.add",
+              "addTlChild"
+            ],
+            "gate": "確認重疊、延遲、總長及停止行為；動畫時間線不是業務事件。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "scope-revert",
+            "name": "管理動畫範圍與還原",
+            "problem": "頁面切換或偏好變更需清理",
+            "input": "Scope root、defaults、mediaQueries、constructors",
+            "output": "已註冊動畫及媒體查詢清理",
+            "source": "src/scope/scope.js",
+            "sourceFiles": [
+              "src/scope/scope.js",
+              "src/animation/animation.js"
+            ],
+            "symbols": [
+              "createScope",
+              "Scope.add",
+              "Scope.revert",
+              "JSAnimation.revert"
+            ],
+            "gate": "Scope.revert 清除已追蹤項目與媒體監聽；root 解析失敗可能退回 document，不當作安全隔離。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃作品集功能展示動畫（設計示例）",
+          "problem": "自有三張功能卡片、文字與靜態替代需求。",
+          "steps": [
+            {
+              "capability": "animate-target",
+              "action": "定義目標與初始狀態"
+            },
+            {
+              "capability": "timeline-sequence",
+              "action": "安排時間軸"
+            },
+            {
+              "capability": "scope-revert",
+              "action": "設計 Scope 還原"
+            }
+          ],
+          "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+          "readerExampleRef": "portfolio-sequence"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有三張功能卡片、文字與靜態替代需求。",
+              "deliverable": "合成測試資料及預期畫面"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義目標 → 設計時間軸 → 建立 Scope → 核對還原及閱讀",
+              "deliverable": "行為與畫面驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有作品集前端；實際裝置與可及性另驗收。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或渲染；完整渲染器、WAAPI、插值及所有瀏覽器未查。",
+            "Scope root 無法解析時可退回 document，不能視為權限邊界。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "介面與依賴邊界",
+            "severity": "高",
+            "issue": "未安裝或渲染；完整渲染器、WAAPI、插值及所有瀏覽器未查。 Scope root 無法解析時可退回 document，不能視為權限邊界。",
+            "control": "固定版本、確認授權、獨立驗收鍵盤、資料及實際互動。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Accessibility",
+            "state": "未驗證",
+            "evidence": "未安裝、建置或測試第三方工具。"
+          }
+        ]
       }
     },
     {
@@ -19557,14 +19916,14 @@
       "canonicalName": "GSAP Skills",
       "category": "06 Skills",
       "resourceType": "Official Cross-Harness Web Animation Skill Pack",
-      "purpose": "由 GSAP 官方維護的 Agent Skills，將 GSAP core API、timeline、ScrollTrigger、plugins、utils、React、performance 與 Vue/Svelte 等 framework integration 拆成 8 個可重用 Skill，讓 coding agents 能正確產生入場、轉場、scroll-linked animation、互動與 lifecycle cleanup。",
-      "recommendation": "適合 landing page、產品網站與互動式前端，尤其是需要 timeline sequencing、ScrollTrigger、Flip / MotionPath 等可程式化 motion，而不是只靠模型猜動畫 API 的情境。",
+      "purpose": "提供 Coding Agent 官方 GSAP 動畫指引，協助將網站的動畫、滾動效果及 React 動畫清理需求轉成可驗收的實作規格。",
+      "recommendation": "適合已決定使用 GSAP、希望 Agent 遵循官方動畫用法的專案；簡單 CSS 動效不需要整套技能，所有生成程式仍須實測。",
       "url": "https://github.com/greensock/gsap-skills",
       "repo": "greensock/gsap-skills",
       "notes": "Official GreenSock repository confirmed. The pack follows the Agent Skills format and documents support for multiple coding agents through skills CLI / agent-specific adapters. It contains eight skills covering core GSAP, timelines, ScrollTrigger, plugins, utilities, React, performance and other frameworks. MIT licensed.",
       "status": "active",
       "addedAt": "2026-09-30",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "gsap",
         "animation",
@@ -19637,24 +19996,36 @@
         "url": "https://github.com/greensock/gsap-skills",
         "readmeUrl": "https://github.com/greensock/gsap-skills/blob/main/README.md",
         "type": "Official README / repository",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Documentation only; no execution tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。",
+        "upstreamCommit": "aed9cfd3277740755f6bfc1155c7aa645403b760",
+        "referenceUrls": [
+          "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/README.md",
+          "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/LICENSE",
+          "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-core/SKILL.md",
+          "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-timeline/SKILL.md",
+          "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-scrolltrigger/SKILL.md",
+          "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-react/SKILL.md"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+          "reason": "沿用 Canonical ID，補人類用途與限定範圍契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -19663,8 +20034,8 @@
         "classificationReason": "維持既有 Primary Domain design；未修改任何分類或新增 Tag。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+          "status": "applied",
+          "reason": "已核對限定範圍核心來源契約，保留完整工具及整合驗證缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -19677,8 +20048,359 @@
         "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+          "evidence": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。；局部能力與前台用途雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "由 GSAP 官方維護的 Agent Skills，將 GSAP core API、timeline、ScrollTrigger、plugins、utils、React、performance 與 Vue/Svelte 等 framework integration 拆成 8 個可重用 Skill，讓 coding agents 能正確產生入場、轉場、scroll-linked animation、互動與 lifecycle cleanup。",
+          "source": "https://github.com/greensock/gsap-skills",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "sequence",
+            "title": "讓 Agent 規劃多段產品展示",
+            "detail": "提供畫面目標、時間位置與完成狀態，要求 Agent 依時間軸而非任意延遲。",
+            "capabilityRefs": [
+              "tween-timeline"
+            ]
+          },
+          {
+            "id": "scroll",
+            "title": "規劃首頁滾動動效",
+            "detail": "定義觸發位置及布局變化時的重新計算，保留靜態閱讀。",
+            "capabilityRefs": [
+              "scroll-trigger",
+              "tween-timeline"
+            ]
+          },
+          {
+            "id": "cleanup",
+            "title": "審查 React 動畫的生命週期",
+            "detail": "要求檢查 scope、卸載、事件回呼及減少動態效果。",
+            "capabilityRefs": [
+              "react-cleanup"
+            ]
+          }
+        ],
+        "example": {
+          "id": "gsap-scroll-spec",
+          "title": "規劃產品首頁滾動展示的 Agent 任務",
+          "input": "自有三段產品資訊、React 測試頁與手機及動態減量需求。",
+          "process": "選取核心及時間軸指引 → 設計滾動 → 規劃清理及替代 → 獨立驗收",
+          "output": "Agent 任務規格及動畫測試清單（未建置）。",
+          "destination": "自有網站開發與 PR 審查；不是已生成或測試的 GSAP 程式。",
+          "note": "自訂設計示例；未安裝、執行或驗證第三方工具。",
+          "useCaseRefs": [
+            "sequence",
+            "scroll",
+            "cleanup"
+          ],
+          "steps": [
+            {
+              "id": "sequence",
+              "title": "選擇核心與時間軸技能",
+              "capabilityRefs": [
+                "tween-timeline"
+              ]
+            },
+            {
+              "id": "scroll",
+              "title": "定義滾動觸發及更新",
+              "capabilityRefs": [
+                "scroll-trigger"
+              ]
+            },
+            {
+              "id": "cleanup",
+              "title": "要求 React 清理及動態減量",
+              "capabilityRefs": [
+                "react-cleanup"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "驗收實際瀏覽器行為",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准 Skill/GSAP 安裝及檢查套件授權、版本、手機、效能與可及性。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先確認專案是否確實需要 GSAP 並核對版本。",
+          "依任務閱讀四份相關 Skill 源文件，不需安裝全部技能。",
+          "將建議轉成可檢查的動畫與清理規格，再獨立測試。"
+        ],
+        "limits": [
+          "Skills 不能替代真實瀏覽器動畫測試與減少動態效果偏好。",
+          "複雜 ScrollTrigger／互動動畫仍需檢查行動裝置效能與可及性。",
+          "此 repo 的實作內容為 Skill 指引文件，非 GSAP 引擎；未查或執行底層套件。",
+          "MIT 僅確認 Skill Repo；GSAP 本身、插件及其他資產依個別授權核對。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "提供 Coding Agent 官方 GSAP 動畫指引，協助將網站的動畫、滾動效果及 React 動畫清理需求轉成可驗收的實作規格。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Agent Skills / GSAP 文件契約"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（技能 Repo；GSAP 套件及插件另查）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "aed9cfd3277740755f6bfc1155c7aa645403b760"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "選擇動畫及時間軸指引",
+            "detail": "多段動畫需要可預期的時序；輸入：動畫目標、起訖值、duration、stagger、position；輸出：依 Skill 文件設計的 tween 與 timeline",
+            "source": "skills/gsap-core/SKILL.md"
+          },
+          {
+            "title": "規劃滾動觸發及更新",
+            "detail": "頁面動效依滾動位置或布局變化；輸入：trigger、start/end、scrub、pin 與 layout；輸出：ScrollTrigger 設計及 refresh/cleanup 要求",
+            "source": "skills/gsap-scrolltrigger/SKILL.md"
+          },
+          {
+            "title": "規劃 React 動畫清理及動態偏好",
+            "detail": "元件重繪、卸載或偏好改變可能留下動畫；輸入：scope、dependencies、contextSafe、media query；輸出：useGSAP 或 context/revert 與減少動態的設計規格",
+            "source": "skills/gsap-react/SKILL.md"
+          }
+        ],
+        "architecture": {
+          "summary": "選取核心及時間軸指引 → 設計滾動 → 規劃清理及替代 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "選擇動畫及時間軸指引",
+              "detail": "動畫目標、起訖值、duration、stagger、position → 依 Skill 文件設計的 tween 與 timeline",
+              "files": [
+                "skills/gsap-core/SKILL.md",
+                "skills/gsap-timeline/SKILL.md"
+              ]
+            },
+            {
+              "title": "規劃滾動觸發及更新",
+              "detail": "trigger、start/end、scrub、pin 與 layout → ScrollTrigger 設計及 refresh/cleanup 要求",
+              "files": [
+                "skills/gsap-scrolltrigger/SKILL.md"
+              ]
+            },
+            {
+              "title": "規劃 React 動畫清理及動態偏好",
+              "detail": "scope、dependencies、contextSafe、media query → useGSAP 或 context/revert 與減少動態的設計規格",
+              "files": [
+                "skills/gsap-react/SKILL.md",
+                "skills/gsap-core/SKILL.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "時序",
+            "rule": "gsap-timeline Skill 建議 position parameter 而非連鎖 delay。",
+            "source": "skills/gsap-timeline/SKILL.md"
+          },
+          {
+            "name": "滾動",
+            "rule": "gsap-scrolltrigger Skill 要求布局變化後 refresh 並清理。",
+            "source": "skills/gsap-scrolltrigger/SKILL.md"
+          },
+          {
+            "name": "React",
+            "rule": "gsap-react Skill 建議 useGSAP、scope、contextSafe，或 context 搭配 revert。",
+            "source": "skills/gsap-react/SKILL.md"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "依來源及核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "skills/gsap-core/SKILL.md",
+              "skills/gsap-timeline/SKILL.md",
+              "skills/gsap-scrolltrigger/SKILL.md",
+              "skills/gsap-react/SKILL.md"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先確認專案是否確實需要 GSAP 並核對版本。 依任務閱讀四份相關 Skill 源文件，不需安裝全部技能。 將建議轉成可檢查的動畫與清理規格，再獨立測試。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有網站開發與 PR 審查；不是已生成或測試的 GSAP 程式。；固定輸入輸出，另驗證失敗及可及性。",
+            "file": "skills/gsap-core/SKILL.md"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "tween-timeline",
+            "name": "選擇動畫及時間軸指引",
+            "problem": "多段動畫需要可預期的時序",
+            "input": "動畫目標、起訖值、duration、stagger、position",
+            "output": "依 Skill 文件設計的 tween 與 timeline",
+            "source": "skills/gsap-core/SKILL.md",
+            "sourceFiles": [
+              "skills/gsap-core/SKILL.md",
+              "skills/gsap-timeline/SKILL.md"
+            ],
+            "symbols": [
+              "Core Tween Methods（文件章節）",
+              "Position Parameter（文件章節）",
+              "gsap.timeline()（文件 API）"
+            ],
+            "gate": "僅核對 Skill 文件；實際 GSAP 引擎與 API 版本未查。避免用大量 delay 模擬複雜時序。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "scroll-trigger",
+            "name": "規劃滾動觸發及更新",
+            "problem": "頁面動效依滾動位置或布局變化",
+            "input": "trigger、start/end、scrub、pin 與 layout",
+            "output": "ScrollTrigger 設計及 refresh/cleanup 要求",
+            "source": "skills/gsap-scrolltrigger/SKILL.md",
+            "sourceFiles": [
+              "skills/gsap-scrolltrigger/SKILL.md"
+            ],
+            "symbols": [
+              "Key config options（文件章節）",
+              "Refresh and Cleanup（文件章節）",
+              "ScrollTrigger.refresh()（文件 API）"
+            ],
+            "gate": "布局或字型改變需重新核對位置；pin、scrub 與手機效能未實測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "react-cleanup",
+            "name": "規劃 React 動畫清理及動態偏好",
+            "problem": "元件重繪、卸載或偏好改變可能留下動畫",
+            "input": "scope、dependencies、contextSafe、media query",
+            "output": "useGSAP 或 context/revert 與減少動態的設計規格",
+            "source": "skills/gsap-react/SKILL.md",
+            "sourceFiles": [
+              "skills/gsap-react/SKILL.md",
+              "skills/gsap-core/SKILL.md"
+            ],
+            "symbols": [
+              "Prefer the useGSAP() Hook（文件章節）",
+              "Context-Safe Callbacks（文件章節）",
+              "Accessibility and responsive (gsap.matchMedia())（文件章節）"
+            ],
+            "gate": "文件建議 useGSAP 或 ctx.revert，事件處理需另清理；不得當成已確認底層執行。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃產品首頁滾動展示的 Agent 任務（設計示例）",
+          "problem": "自有三段產品資訊、React 測試頁與手機及動態減量需求。",
+          "steps": [
+            {
+              "capability": "tween-timeline",
+              "action": "選擇核心與時間軸技能"
+            },
+            {
+              "capability": "scroll-trigger",
+              "action": "定義滾動觸發及更新"
+            },
+            {
+              "capability": "react-cleanup",
+              "action": "要求 React 清理及動態減量"
+            }
+          ],
+          "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+          "readerExampleRef": "gsap-scroll-spec"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有三段產品資訊、React 測試頁與手機及動態減量需求。",
+              "deliverable": "合成測試資料及預期畫面"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "選取核心及時間軸指引 → 設計滾動 → 規劃清理及替代 → 獨立驗收",
+              "deliverable": "行為與畫面驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有網站開發與 PR 審查；不是已生成或測試的 GSAP 程式。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "此 repo 的實作內容為 Skill 指引文件，非 GSAP 引擎；未查或執行底層套件。",
+            "MIT 僅確認 Skill Repo；GSAP 本身、插件及其他資產依個別授權核對。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "介面與依賴邊界",
+            "severity": "高",
+            "issue": "此 repo 的實作內容為 Skill 指引文件，非 GSAP 引擎；未查或執行底層套件。 MIT 僅確認 Skill Repo；GSAP 本身、插件及其他資產依個別授權核對。",
+            "control": "固定版本、確認授權、獨立驗收鍵盤、資料及實際互動。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Accessibility",
+            "state": "未驗證",
+            "evidence": "未安裝、建置或測試第三方工具。"
+          }
+        ]
       }
     },
     {
@@ -26470,14 +27192,14 @@
       "canonicalName": "Kokonut UI",
       "category": "08 UI & Design Engineering",
       "resourceType": "Component Library",
-      "purpose": "React interactive components",
-      "recommendation": "適合探索 React 互動元件與介面靈感。",
+      "purpose": "將 AI 助理的工具核准、執行紀錄及常用按鈕等 React 元件加入自己的產品，讓使用者看懂並控制互動。",
+      "recommendation": "適合已有 React 與 Tailwind 的 AI 產品原型；核准卡片只是介面，真正的授權與執行必須由服務端處理。",
       "url": "https://github.com/kokonut-labs/kokonutui",
-      "repo": "",
+      "repo": "kokonut-labs/kokonutui",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-25",
       "tags": [
         "react",
         "interactive-ui",
@@ -26532,24 +27254,35 @@
       ],
       "source": {
         "url": "https://github.com/kokonut-labs/kokonutui",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-        "type": "Upstream GitHub README"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。",
+        "type": "Upstream GitHub README",
+        "upstreamCommit": "7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce",
+        "referenceUrls": [
+          "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/README.md",
+          "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/LICENSE",
+          "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/components/kokonutui/ai-tool-approval.tsx",
+          "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/components/kokonutui/gradient-button.tsx",
+          "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/package.json"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
-          "source.url"
+          "source.url",
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "title"
           ],
-          "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+          "reason": "原 repo 空白，依既有官方 URL 與固定版本補齊同一 Repo 身分，未新增實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -26558,8 +27291,8 @@
         "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+          "status": "applied",
+          "reason": "已核對限定範圍核心來源契約，保留完整工具及整合驗證缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -26572,8 +27305,355 @@
         "riskNotes": "示範效果不能保證在所有裝置維持效能。；元件可能有 CSS 衝突、依賴與無障礙缺口。；未執行第三方程式、讀取機密或傳送憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+          "evidence": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。；局部能力與前台用途雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "React interactive components",
+          "source": "https://github.com/kokonut-labs/kokonutui",
+          "reviewedAt": "2026-11-21"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "approval",
+            "title": "設計 AI 工具操作核准卡片",
+            "detail": "顯示操作內容與待核准狀態，讓人選擇核准或拒絕。",
+            "capabilityRefs": [
+              "approval-ui"
+            ]
+          },
+          {
+            "id": "trace",
+            "title": "顯示 AI 助理任務進度",
+            "detail": "讓實際執行事件更新畫面，保留已決定與待處理項目。",
+            "capabilityRefs": [
+              "trace-focus",
+              "approval-ui"
+            ]
+          },
+          {
+            "id": "action",
+            "title": "建立有清楚回饋的操作按鈕",
+            "detail": "使用文字、圖示與焦點樣式表達操作，避免只靠動畫。",
+            "capabilityRefs": [
+              "button-design"
+            ]
+          }
+        ],
+        "example": {
+          "id": "agent-approval-panel",
+          "title": "規劃 AI 研究助理的操作核准介面",
+          "input": "合成工具請求、三個待核准狀態與唯讀測試資料。",
+          "process": "定義工具狀態 → 接核准回呼 → 顯示真實事件 → 驗收焦點與權限",
+          "output": "核准介面、事件與後端驗收規格（未建置）。",
+          "destination": "自有研究助理；服務端核准及工具執行另行實作。",
+          "note": "自訂設計示例；未安裝、執行或驗證第三方工具。",
+          "useCaseRefs": [
+            "approval",
+            "trace",
+            "action"
+          ],
+          "steps": [
+            {
+              "id": "approval",
+              "title": "設計核准與拒絕狀態",
+              "capabilityRefs": [
+                "approval-ui"
+              ]
+            },
+            {
+              "id": "trace",
+              "title": "規劃真實執行紀錄及焦點",
+              "capabilityRefs": [
+                "trace-focus"
+              ]
+            },
+            {
+              "id": "button",
+              "title": "選擇可辨識的操作按鈕",
+              "capabilityRefs": [
+                "button-design"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "核對服務端權限及實際結果",
+              "capabilityRefs": [],
+              "externalDependency": "需獨立驗證核准範圍、重放、拒絕、資料副作用及鍵盤；不得依 UI 直接授權。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先在合成資料下定義工具請求、操作範圍及後端狀態。",
+          "閱讀固定版本元件及 registry，確認依賴與付費內容界線。",
+          "另行核准安裝，使用 controlled calls 驗證核准、拒絕、焦點及真正結果。"
+        ],
+        "limits": [
+          "示範效果不能保證在所有裝置維持效能。",
+          "元件可能有 CSS 衝突、依賴與無障礙缺口。",
+          "未安裝或渲染；未驗證完整 registry、Pro、服務端權限及各裝置。",
+          "未傳 calls 時使用 demo；onRespond 是介面事件，不是實際工具執行。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "將 AI 助理的工具核准、執行紀錄及常用按鈕等 React 元件加入自己的產品，讓使用者看懂並控制互動。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "React / Tailwind / Motion / shadcn registry"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT；Pro 另查"
+          },
+          {
+            "label": "版本錨點",
+            "value": "7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "呈現工具核准請求",
+            "detail": "Agent 提出操作需取得人工決策；輸入：ToolCall[]、state、onRespond(id,approved,always)；輸出：核准／拒絕事件與待處理卡片",
+            "source": "components/kokonutui/ai-tool-approval.tsx"
+          },
+          {
+            "title": "顯示工具執行狀態",
+            "detail": "連續核准需保留上下文及焦點；輸入：calls、pending/decided、currentId；輸出：TraceLine、下一張核准卡片及焦點處理",
+            "source": "components/kokonutui/ai-tool-approval.tsx"
+          },
+          {
+            "title": "建立一致的操作按鈕",
+            "detail": "產品需要清楚文字及操作回饋；輸入：children、label、icon、variant 與 button props；輸出：帶裝飾層的 Button、focus-visible 及 motion-reduce 樣式",
+            "source": "components/kokonutui/gradient-button.tsx"
+          }
+        ],
+        "architecture": {
+          "summary": "定義工具狀態 → 接核准回呼 → 顯示真實事件 → 驗收焦點與權限",
+          "nodes": [
+            {
+              "title": "呈現工具核准請求",
+              "detail": "ToolCall[]、state、onRespond(id,approved,always) → 核准／拒絕事件與待處理卡片",
+              "files": [
+                "components/kokonutui/ai-tool-approval.tsx"
+              ]
+            },
+            {
+              "title": "顯示工具執行狀態",
+              "detail": "calls、pending/decided、currentId → TraceLine、下一張核准卡片及焦點處理",
+              "files": [
+                "components/kokonutui/ai-tool-approval.tsx"
+              ]
+            },
+            {
+              "title": "建立一致的操作按鈕",
+              "detail": "children、label、icon、variant 與 button props → 帶裝飾層的 Button、focus-visible 及 motion-reduce 樣式",
+              "files": [
+                "components/kokonutui/gradient-button.tsx"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "模式",
+            "rule": "AIToolApproval 使用 callsProp 或 demo.calls；僅缺 callsProp 時執行 demo.respond。",
+            "source": "components/kokonutui/ai-tool-approval.tsx"
+          },
+          {
+            "name": "回呼",
+            "rule": "respond 呼叫 onRespond；pending/decided 依 state 分組，current 取第一筆待核准。",
+            "source": "components/kokonutui/ai-tool-approval.tsx"
+          },
+          {
+            "name": "按鈕",
+            "rule": "GradientButton 使用 children ?? label，對按壓位移提供 motion-reduce 樣式。",
+            "source": "components/kokonutui/gradient-button.tsx"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "依來源及核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "components/kokonutui/ai-tool-approval.tsx",
+              "components/kokonutui/gradient-button.tsx",
+              "package.json"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先在合成資料下定義工具請求、操作範圍及後端狀態。 閱讀固定版本元件及 registry，確認依賴與付費內容界線。 另行核准安裝，使用 controlled calls 驗證核准、拒絕、焦點及真正結果。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有研究助理；服務端核准及工具執行另行實作。；固定輸入輸出，另驗證失敗及可及性。",
+            "file": "components/kokonutui/ai-tool-approval.tsx"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "approval-ui",
+            "name": "呈現工具核准請求",
+            "problem": "Agent 提出操作需取得人工決策",
+            "input": "ToolCall[]、state、onRespond(id,approved,always)",
+            "output": "核准／拒絕事件與待處理卡片",
+            "source": "components/kokonutui/ai-tool-approval.tsx",
+            "sourceFiles": [
+              "components/kokonutui/ai-tool-approval.tsx"
+            ],
+            "symbols": [
+              "ToolCall",
+              "ToolCallState",
+              "AIToolApproval",
+              "ApprovalCard"
+            ],
+            "gate": "未傳 calls 時走 demo 模擬；controlled 模式由呼叫端提供狀態。onRespond 不代表服務端已核准或執行。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "trace-focus",
+            "name": "顯示工具執行狀態",
+            "problem": "連續核准需保留上下文及焦點",
+            "input": "calls、pending/decided、currentId",
+            "output": "TraceLine、下一張核准卡片及焦點處理",
+            "source": "components/kokonutui/ai-tool-approval.tsx",
+            "sourceFiles": [
+              "components/kokonutui/ai-tool-approval.tsx"
+            ],
+            "symbols": [
+              "AIToolApproval",
+              "TraceLine",
+              "respond"
+            ],
+            "gate": "以真實執行結果更新 calls；不可將 demo 計時或 UI trace 當執行證據。測鍵盤及多筆待處理。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "button-design",
+            "name": "建立一致的操作按鈕",
+            "problem": "產品需要清楚文字及操作回饋",
+            "input": "children、label、icon、variant 與 button props",
+            "output": "帶裝飾層的 Button、focus-visible 及 motion-reduce 樣式",
+            "source": "components/kokonutui/gradient-button.tsx",
+            "sourceFiles": [
+              "components/kokonutui/gradient-button.tsx"
+            ],
+            "symbols": [
+              "GradientButton",
+              "GradientButtonProps",
+              "isPlainText"
+            ],
+            "gate": "children 優先於 label；外觀不代表完整無障礙。需測停用、可讀名稱及真實業務結果。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃 AI 研究助理的操作核准介面（設計示例）",
+          "problem": "合成工具請求、三個待核准狀態與唯讀測試資料。",
+          "steps": [
+            {
+              "capability": "approval-ui",
+              "action": "設計核准與拒絕狀態"
+            },
+            {
+              "capability": "trace-focus",
+              "action": "規劃真實執行紀錄及焦點"
+            },
+            {
+              "capability": "button-design",
+              "action": "選擇可辨識的操作按鈕"
+            }
+          ],
+          "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+          "readerExampleRef": "agent-approval-panel"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成工具請求、三個待核准狀態與唯讀測試資料。",
+              "deliverable": "合成測試資料及預期畫面"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義工具狀態 → 接核准回呼 → 顯示真實事件 → 驗收焦點與權限",
+              "deliverable": "行為與畫面驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有研究助理；服務端核准及工具執行另行實作。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或渲染；未驗證完整 registry、Pro、服務端權限及各裝置。",
+            "未傳 calls 時使用 demo；onRespond 是介面事件，不是實際工具執行。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "介面與依賴邊界",
+            "severity": "高",
+            "issue": "未安裝或渲染；未驗證完整 registry、Pro、服務端權限及各裝置。 未傳 calls 時使用 demo；onRespond 是介面事件，不是實際工具執行。",
+            "control": "固定版本、確認授權、獨立驗收鍵盤、資料及實際互動。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Accessibility",
+            "state": "未驗證",
+            "evidence": "未安裝、建置或測試第三方工具。"
+          }
+        ]
       }
     },
     {
