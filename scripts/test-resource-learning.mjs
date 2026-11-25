@@ -676,3 +676,35 @@ test('Dual-layer batch 15: community examples and web guidance validation bounda
  assert.match(load('uiverse-io-galaxy').repoGuide.capabilities.find(c=>c.id==='input-style').gate,/for\/id/);
  assert.match(load('googlechrome-modern-web-guidance').repoGuide.capabilities.find(c=>c.id==='legacy-review').gate,/20%/);
 });
+
+test('Dual-layer batch 16: design skills and Git simulator learning boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["elayadesign-ai-design-skills","規劃產品首頁與 Figma 設計規則"],["leonxlnx-taste-skill","規劃企業首頁的設計與驗收流程"],["impeccable","審查履歷管理系統的既有頁面"],["frontend-design","規劃具有明確主題的作品集首頁"],["pcottle-learn-git-branching","練習 Local Git 的分支與合併"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('elayadesign-ai-design-skills').repoGuide.capabilities.find(c=>c.id==='figma').gate,/未連接或修改 Figma/);
+ assert.match(load('leonxlnx-taste-skill').repoGuide.capabilities.find(c=>c.id==='waiver').gate,/PASS 不等於/);
+ assert.match(load('impeccable').repoGuide.capabilities.find(c=>c.id==='detector').gate,/未讀 Rust/);
+ assert.match(load('pcottle-learn-git-branching').repoGuide.capabilities.find(c=>c.id==='stage').gate,/changesModelEngaged/);
+});
