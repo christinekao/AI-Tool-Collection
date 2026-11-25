@@ -2,14 +2,14 @@
   "schemaVersion": 2,
   "entityType": "resource",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "id": "r0x0r-pywebview",
   "title": "pywebview — Native Desktop Window for Python Web UIs",
   "canonicalName": "r0x0r/pywebview",
   "category": "12 Developer Tools",
   "resourceType": "Lightweight cross-platform native WebView GUI wrapper for Python",
-  "purpose": "用 Python 透過系統原生 WebView 顯示 HTML／CSS／JavaScript 使用者介面，並提供視窗管理、JavaScript↔Python 雙向呼叫、原生 Dialog／Menu、內建 HTTP Server 等能力，把 Python 程式包成桌面操作視窗。",
-  "recommendation": "適合把內部 Python 自動化、SQLite 小型資料工具、報表介面或現有 Web UI 包成 Windows／macOS／Linux 桌面程式，而不想完整搬到 Electron 的情境；先以最小 PoC 測試平台原生 WebView／WebKit、JS↔Python bridge 權限、打包與安裝相依。不是 AI 模型、通用 Agent 或完整跨平台桌面 Runtime 隔離層。",
+  "purpose": "把 HTML、CSS、JavaScript 介面放進原生桌面視窗，並透過 Python 處理本機資料與應用邏輯。",
+  "recommendation": "適合已有 HTML 介面、需要 Python 桌面工具的人；若只需瀏覽器開啟網頁，不必另外封裝。接入本機資料前應限制 Bridge 能力。",
   "url": "https://github.com/r0x0r/pywebview",
   "repo": "r0x0r/pywebview",
   "status": "active",
@@ -74,25 +74,34 @@
   "source": {
     "url": "https://github.com/r0x0r/pywebview",
     "readmeUrl": "https://github.com/r0x0r/pywebview/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。",
+    "upstreamCommit": "696dfe67edc7fa597ff5c7758b14e6dc461e5c9e",
+    "referenceUrls": [
+      "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/README.md",
+      "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/LICENSE",
+      "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/webview/__init__.py",
+      "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/webview/window.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -101,8 +110,8 @@
     "classificationReason": "沿用既有 Primary Domain software，僅改善功能、條件、限制，不更改分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -115,7 +124,355 @@
     "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "用 Python 透過系統原生 WebView 顯示 HTML／CSS／JavaScript 使用者介面，並提供視窗管理、JavaScript↔Python 雙向呼叫、原生 Dialog／Menu、內建 HTTP Server 等能力，把 Python 程式包成桌面操作視窗。",
+      "source": "https://github.com/r0x0r/pywebview",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "desktop-reader",
+        "title": "將 HTML 筆記閱讀器變成桌面工具",
+        "detail": "保留網頁內容及原生視窗，使用 Python 提供必要本機資料。",
+        "capabilityRefs": [
+          "native-window",
+          "content-render"
+        ]
+      },
+      {
+        "id": "local-app",
+        "title": "設計有本機資料的操作介面",
+        "detail": "以清楚的輸入輸出契約提供必要的 Python 方法。",
+        "capabilityRefs": [
+          "python-bridge",
+          "native-window"
+        ]
+      },
+      {
+        "id": "cross-platform",
+        "title": "評估桌面介面相容性",
+        "detail": "測試各 OS 的視窗、畫面及 Bridge 行為，避免將單一平台成果視為全面可用。",
+        "capabilityRefs": [
+          "native-window",
+          "content-render",
+          "python-bridge"
+        ]
+      }
+    ],
+    "example": {
+      "id": "desktop-note-reader",
+      "title": "規劃本機 HTML 筆記閱讀器",
+      "input": "自有 HTML 頁面、合成筆記及唯讀資料方法。",
+      "process": "建立視窗 → 載入 HTML → 設計唯讀 Bridge → 核對來源及各平台",
+      "output": "桌面閱讀器介面與本機資料驗收規格（未執行）。",
+      "destination": "自有知識庫桌面原型；資料隔離、封裝及更新另驗收。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "desktop-reader",
+        "local-app",
+        "cross-platform"
+      ],
+      "steps": [
+        {
+          "id": "window",
+          "title": "定義視窗與 GUI 啟動",
+          "capabilityRefs": [
+            "native-window"
+          ]
+        },
+        {
+          "id": "load",
+          "title": "載入自有 HTML",
+          "capabilityRefs": [
+            "content-render"
+          ]
+        },
+        {
+          "id": "bridge",
+          "title": "規劃最小唯讀方法",
+          "capabilityRefs": [
+            "python-bridge"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "驗收跨平台及本機資料界線",
+          "capabilityRefs": [],
+          "externalDependency": "需核准安裝、OS runtime、封裝、來源驗證與資料權限測試。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先用自有 HTML 與合成資料定義最小桌面工具。",
+      "核對 OS runtime、主執行緒及 create_window/start 契約。",
+      "只提供必要 Bridge 方法，測非預期來源、錯誤及各平台畫面。"
+    ],
+    "limits": [
+      "WebView 的引擎能力和系統依賴因 OS 而異",
+      "JavaScript 與 Python Bridge 需限制非預期內容存取本機資源",
+      "未安裝或開啟桌面視窗；各 OS renderer、JS Bridge 安全、封裝與更新未完整查。",
+      "不把 private_mode 或來源檢查當成完整沙箱；遠端網頁不得取得非必要本機權限。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把 HTML、CSS、JavaScript 介面放進原生桌面視窗，並透過 Python 處理本機資料與應用邏輯。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / Native WebView / JS Bridge"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "BSD 3-Clause"
+      },
+      {
+        "label": "版本錨點",
+        "value": "696dfe67edc7fa597ff5c7758b14e6dc461e5c9e"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立桌面視窗",
+        "detail": "既有網頁需要原生視窗；輸入：title、url 或 html、js_api、尺寸；GUI 設定；輸出：Window 與 GUI loop",
+        "source": "webview/__init__.py"
+      },
+      {
+        "title": "載入及更新畫面",
+        "detail": "桌面工具要顯示 HTML 並更新狀態；輸入：HTML、base_uri、JavaScript script；輸出：載入內容或 evaluate_js 結果／錯誤",
+        "source": "webview/window.py"
+      },
+      {
+        "title": "暴露受限 Python 方法",
+        "detail": "前台需呼叫本機邏輯；輸入：明確可呼叫的 functions 或 js_api；輸出：JS API 方法及呼叫結果",
+        "source": "webview/__init__.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立視窗 → 載入 HTML → 設計唯讀 Bridge → 核對來源及各平台",
+      "nodes": [
+        {
+          "title": "建立桌面視窗",
+          "detail": "title、url 或 html、js_api、尺寸；GUI 設定 → Window 與 GUI loop",
+          "files": [
+            "webview/__init__.py"
+          ]
+        },
+        {
+          "title": "載入及更新畫面",
+          "detail": "HTML、base_uri、JavaScript script → 載入內容或 evaluate_js 結果／錯誤",
+          "files": [
+            "webview/window.py"
+          ]
+        },
+        {
+          "title": "暴露受限 Python 方法",
+          "detail": "明確可呼叫的 functions 或 js_api → JS API 方法及呼叫結果",
+          "files": [
+            "webview/__init__.py",
+            "webview/window.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "啟動",
+        "rule": "start 要求主執行緒且先建立 window。",
+        "source": "webview/__init__.py"
+      },
+      {
+        "name": "載入",
+        "rule": "load_html 清除既有 JS API 狀態並設定可允許的來源後呼叫 renderer。",
+        "source": "webview/window.py"
+      },
+      {
+        "name": "暴露方法",
+        "rule": "expose 檢查 callable 與 protected 函式，再更新 JS API；需另驗證實際來源及權限。",
+        "source": "webview/window.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "webview/__init__.py",
+          "webview/window.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先用自有 HTML 與合成資料定義最小桌面工具。 核對 OS runtime、主執行緒及 create_window/start 契約。 只提供必要 Bridge 方法，測非預期來源、錯誤及各平台畫面。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫桌面原型；資料隔離、封裝及更新另驗收。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "webview/__init__.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "native-window",
+        "name": "建立桌面視窗",
+        "problem": "既有網頁需要原生視窗",
+        "input": "title、url 或 html、js_api、尺寸；GUI 設定",
+        "output": "Window 與 GUI loop",
+        "source": "webview/__init__.py",
+        "sourceFiles": [
+          "webview/__init__.py"
+        ],
+        "symbols": [
+          "create_window",
+          "start"
+        ],
+        "gate": "先建立 window 再從主執行緒呼叫 start；各 OS 引擎與依賴需另驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "content-render",
+        "name": "載入及更新畫面",
+        "problem": "桌面工具要顯示 HTML 並更新狀態",
+        "input": "HTML、base_uri、JavaScript script",
+        "output": "載入內容或 evaluate_js 結果／錯誤",
+        "source": "webview/window.py",
+        "sourceFiles": [
+          "webview/window.py"
+        ],
+        "symbols": [
+          "Window.load_html",
+          "Window.evaluate_js"
+        ],
+        "gate": "禁止將未信任字串直接當程式執行；頁面來源與實際畫面另驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "python-bridge",
+        "name": "暴露受限 Python 方法",
+        "problem": "前台需呼叫本機邏輯",
+        "input": "明確可呼叫的 functions 或 js_api",
+        "output": "JS API 方法及呼叫結果",
+        "source": "webview/__init__.py",
+        "sourceFiles": [
+          "webview/__init__.py",
+          "webview/window.py"
+        ],
+        "symbols": [
+          "create_window",
+          "Window.expose",
+          "Window._allow_js_api_on"
+        ],
+        "gate": "expose 拒絕非 callable 或 protected functions，來源限制需查；只暴露最小能力，不將任意本機檔案或 Shell 開放給網頁。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃本機 HTML 筆記閱讀器（設計示例）",
+      "problem": "自有 HTML 頁面、合成筆記及唯讀資料方法。",
+      "steps": [
+        {
+          "capability": "native-window",
+          "action": "定義視窗與 GUI 啟動"
+        },
+        {
+          "capability": "content-render",
+          "action": "載入自有 HTML"
+        },
+        {
+          "capability": "python-bridge",
+          "action": "規劃最小唯讀方法"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "desktop-note-reader"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有 HTML 頁面、合成筆記及唯讀資料方法。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立視窗 → 載入 HTML → 設計唯讀 Bridge → 核對來源及各平台",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有知識庫桌面原型；資料隔離、封裝及更新另驗收。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或開啟桌面視窗；各 OS renderer、JS Bridge 安全、封裝與更新未完整查。",
+        "不把 private_mode 或來源檢查當成完整沙箱；遠端網頁不得取得非必要本機權限。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "授權、資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝或開啟桌面視窗；各 OS renderer、JS Bridge 安全、封裝與更新未完整查。 不把 private_mode 或來源檢查當成完整沙箱；遠端網頁不得取得非必要本機權限。",
+        "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
