@@ -6,14 +6,14 @@
   "canonicalName": "Stitch Skills",
   "category": "08 UI & Design Engineering",
   "resourceType": "Skills",
-  "purpose": "Generate-design、code-to-design workflow",
-  "recommendation": "適合研究 generate-design 與 code-to-design 的工作流程。",
+  "purpose": "用 Agent Skills 將產品需求整理成 Stitch 的介面生成或修改任務，讓不同畫面共享設計規則並保留可供前端參考的結果。",
+  "recommendation": "適合已決定使用 Stitch 且需要迭代多個 UI 畫面的專案；只想整理需求時可先寫設計規格，不必連接服務或上傳資料。",
   "url": "https://github.com/google-labs-code/stitch-skills",
-  "repo": "",
+  "repo": "google-labs-code/stitch-skills",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "skills",
     "design-to-code",
@@ -73,24 +73,34 @@
   ],
   "source": {
     "url": "https://github.com/google-labs-code/stitch-skills",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Upstream GitHub README"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README 的 plugin／skill 安裝範圍及 MCP 前置需求、generate-design 的 Prompt Enhancement、Generate from Text 與 Edit 分流、SECURITY.md；未查其他依賴技能、MCP 服務端或實際工具 schema。",
+    "type": "Upstream GitHub README",
+    "upstreamCommit": "75f4696f162000fb69fca6a31489b5b21d47a506",
+    "referenceUrls": [
+      "https://github.com/google-labs-code/stitch-skills/blob/75f4696f162000fb69fca6a31489b5b21d47a506/README.md",
+      "https://github.com/google-labs-code/stitch-skills/blob/75f4696f162000fb69fca6a31489b5b21d47a506/LICENSE",
+      "https://github.com/google-labs-code/stitch-skills/blob/75f4696f162000fb69fca6a31489b5b21d47a506/SECURITY.md",
+      "https://github.com/google-labs-code/stitch-skills/blob/75f4696f162000fb69fca6a31489b5b21d47a506/plugins/stitch-design/skills/generate-design/SKILL.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "依既有 GitHub URL 補齊空白 repo 身分，維持同一 Canonical ID。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -99,8 +109,8 @@
     "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "已核對限定範圍的技能源文件及局部契約，保留完整實作與執行驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -113,7 +123,353 @@
     "riskNotes": "存在 Skills 不代表相應服務已連線成功。；上游功能與工具授權可能改變，需實測和版本檢查。；未執行第三方程式、讀取機密或傳送憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "README 的 plugin／skill 安裝範圍及 MCP 前置需求、generate-design 的 Prompt Enhancement、Generate from Text 與 Edit 分流、SECURITY.md；未查其他依賴技能、MCP 服務端或實際工具 schema。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README 的 plugin／skill 安裝範圍及 MCP 前置需求、generate-design 的 Prompt Enhancement、Generate from Text 與 Edit 分流、SECURITY.md；未查其他依賴技能、MCP 服務端或實際工具 schema。；用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Generate-design、code-to-design workflow",
+      "source": "https://github.com/google-labs-code/stitch-skills",
+      "reviewedAt": "2026-11-21"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-project",
+        "title": "核對設計專案及共用規則",
+        "detail": "多張畫面先共用同一套品牌及版面規則，避免每次生成都重新決定樣式。",
+        "capabilityRefs": [
+          "project"
+        ]
+      },
+      {
+        "id": "use-prompt",
+        "title": "將需求轉為畫面生成規格",
+        "detail": "將頁面用途、內容及元件寫清楚，再區分新畫面與既有畫面的局部修改。",
+        "capabilityRefs": [
+          "prompt"
+        ]
+      },
+      {
+        "id": "use-review",
+        "title": "審查生成結果及交接素材",
+        "detail": "保留畫面及設計說明，確認前端真正能使用，不能只看生成成功。",
+        "capabilityRefs": [
+          "review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "stitch-career-screen",
+      "title": "規劃履歷投遞管理畫面的設計迭代",
+      "input": "合成職缺資料、投遞狀態、已確認的畫面目的及設計規則。",
+      "process": "核對專案與主題 → 描述版面與內容 → 規劃生成／修改 → 核對素材及真實功能",
+      "output": "畫面規格、修正清單及交接驗收條件（未生成畫面）。",
+      "destination": "自有履歷投遞管理產品的設計與前端交接流程。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實成果。",
+      "useCaseRefs": [
+        "use-project",
+        "use-prompt",
+        "use-review"
+      ],
+      "steps": [
+        {
+          "id": "project",
+          "title": "核對設計專案及共用規則",
+          "capabilityRefs": [
+            "project"
+          ]
+        },
+        {
+          "id": "prompt",
+          "title": "將需求轉為畫面生成規格",
+          "capabilityRefs": [
+            "prompt"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "審查生成結果及交接素材",
+          "capabilityRefs": [
+            "review"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、外部服務、素材權利、裝置及功能測試須另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義一張畫面的主要任務、資料欄位與目標裝置。",
+      "將版面內容與共用主題分開；先確認現有專案及設計規則，避免任意新建。",
+      "如需使用 Stitch，另核准 MCP、帳戶及素材權限，再驗收畫面、資料與可操作功能。"
+    ],
+    "limits": [
+      "存在 Skills 不代表相應服務已連線成功。",
+      "上游功能與工具授權可能改變，需實測和版本檢查。",
+      "未安裝 plugin 或 skill，未連接 Stitch MCP、上傳資料、建立專案或下載畫面。",
+      "只查閱指定技能源文件，未核對所有 inter-dependencies、服務端工具 schema 及計費。",
+      "SECURITY.md 明示此專案不是 Google 正式支援產品；服務條款與授權另查。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用 Agent Skills 將產品需求整理成 Stitch 的介面生成或修改任務，讓不同畫面共享設計規則並保留可供前端參考的結果。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "技能指引與局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache 2.0（技能 Repo；Stitch 服務另計）"
+      },
+      {
+        "label": "版本",
+        "value": "75f4696f162000fb69fca6a31489b5b21d47a506"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "核對設計專案及共用規則",
+        "detail": "多畫面設計需沿用同一套主題與專案。；輸入：已確認的 projectId、設計系統及目標裝置；輸出：文件描述的專案及設計系統選擇流程",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      },
+      {
+        "title": "將需求轉為畫面生成規格",
+        "detail": "模糊的畫面描述需要明確內容及結構。；輸入：平台、用途、頁面結構、設計系統 ID；輸出：文字生成或指定畫面修改的提示規格",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      },
+      {
+        "title": "審查生成結果及交接素材",
+        "detail": "生成畫面需要可追溯的素材與修正順序。；輸入：outputComponents、畫面 ID、HTML 與 screenshot URL；輸出：文件描述的回饋及 .stitch/designs 素材",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "核對專案與主題 → 描述版面與內容 → 規劃生成／修改 → 核對素材及真實功能",
+      "nodes": [
+        {
+          "title": "核對設計專案及共用規則",
+          "detail": "已確認的 projectId、設計系統及目標裝置 → 文件描述的專案及設計系統選擇流程",
+          "files": [
+            "plugins/stitch-design/skills/generate-design/SKILL.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "將需求轉為畫面生成規格",
+          "detail": "平台、用途、頁面結構、設計系統 ID → 文字生成或指定畫面修改的提示規格",
+          "files": [
+            "plugins/stitch-design/skills/generate-design/SKILL.md"
+          ]
+        },
+        {
+          "title": "審查生成結果及交接素材",
+          "detail": "outputComponents、畫面 ID、HTML 與 screenshot URL → 文件描述的回饋及 .stitch/designs 素材",
+          "files": [
+            "plugins/stitch-design/skills/generate-design/SKILL.md",
+            "SECURITY.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "核對設計專案及共用規則",
+        "rule": "新專案與 design system 建立會改動外部服務；需先核准。僅核對技能指引，未驗證 MCP 真實工具 schema。",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      },
+      {
+        "name": "將需求轉為畫面生成規格",
+        "rule": "新畫面生成提示不重複寫色碼／字型等 project-level tokens；精準 edit 可指定色碼。兩者不是同一契約。",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      },
+      {
+        "name": "審查生成結果及交接素材",
+        "rule": "下載及上傳涉及網路、資料與檔案寫入；需核准。SECURITY.md 明示不是 Google 正式支援產品，不能推定服務安全或生成畫面可直接上線。",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依實際技能源文件及資料契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "SECURITY.md",
+          "plugins/stitch-design/skills/generate-design/SKILL.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先定義一張畫面的主要任務、資料欄位與目標裝置。 將版面內容與共用主題分開；先確認現有專案及設計規則，避免任意新建。 如需使用 Stitch，另核准 MCP、帳戶及素材權限，再驗收畫面、資料與可操作功能。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、資料寫入、素材與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有履歷投遞管理產品的設計與前端交接流程。；另驗證實際行為及限制。",
+        "file": "plugins/stitch-design/skills/generate-design/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "project",
+        "name": "核對設計專案及共用規則",
+        "problem": "多畫面設計需沿用同一套主題與專案。",
+        "input": "已確認的 projectId、設計系統及目標裝置",
+        "output": "文件描述的專案及設計系統選擇流程",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md",
+        "sourceFiles": [
+          "plugins/stitch-design/skills/generate-design/SKILL.md",
+          "README.md"
+        ],
+        "symbols": [
+          "Prompt Enhancement Pipeline / Analyze Context（文件章節）",
+          "list_projects（文件工具）",
+          "list_design_systems（文件工具）"
+        ],
+        "gate": "新專案與 design system 建立會改動外部服務；需先核准。僅核對技能指引，未驗證 MCP 真實工具 schema。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "prompt",
+        "name": "將需求轉為畫面生成規格",
+        "problem": "模糊的畫面描述需要明確內容及結構。",
+        "input": "平台、用途、頁面結構、設計系統 ID",
+        "output": "文字生成或指定畫面修改的提示規格",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md",
+        "sourceFiles": [
+          "plugins/stitch-design/skills/generate-design/SKILL.md"
+        ],
+        "symbols": [
+          "Structure the Final Prompt（文件章節）",
+          "Generate from Text Flow（文件章節）",
+          "generate_screen_from_text（文件工具）"
+        ],
+        "gate": "新畫面生成提示不重複寫色碼／字型等 project-level tokens；精準 edit 可指定色碼。兩者不是同一契約。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "review",
+        "name": "審查生成結果及交接素材",
+        "problem": "生成畫面需要可追溯的素材與修正順序。",
+        "input": "outputComponents、畫面 ID、HTML 與 screenshot URL",
+        "output": "文件描述的回饋及 .stitch/designs 素材",
+        "source": "plugins/stitch-design/skills/generate-design/SKILL.md",
+        "sourceFiles": [
+          "plugins/stitch-design/skills/generate-design/SKILL.md",
+          "SECURITY.md"
+        ],
+        "symbols": [
+          "Present AI Feedback（文件章節）",
+          "Download Design Assets（文件章節）",
+          "Review and Refine（文件章節）"
+        ],
+        "gate": "下載及上傳涉及網路、資料與檔案寫入；需核准。SECURITY.md 明示不是 Google 正式支援產品，不能推定服務安全或生成畫面可直接上線。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃履歷投遞管理畫面的設計迭代（設計示例）",
+      "problem": "合成職缺資料、投遞狀態、已確認的畫面目的及設計規則。",
+      "steps": [
+        {
+          "capability": "project",
+          "action": "核對設計專案及共用規則"
+        },
+        {
+          "capability": "prompt",
+          "action": "將需求轉為畫面生成規格"
+        },
+        {
+          "capability": "review",
+          "action": "審查生成結果及交接素材"
+        }
+      ],
+      "gate": "未執行；實際環境與交付成果須獨立驗收。",
+      "readerExampleRef": "stitch-career-screen"
+    },
+    "rebuild": {
+      "verdict": "可依技能指引及局部契約設計驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成職缺資料、投遞狀態、已確認的畫面目的及設計規則。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "核對專案與主題 → 描述版面與內容 → 規劃生成／修改 → 核對素材及真實功能",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有履歷投遞管理產品的設計與前端交接流程。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝 plugin 或 skill，未連接 Stitch MCP、上傳資料、建立專案或下載畫面。",
+        "只查閱指定技能源文件，未核對所有 inter-dependencies、服務端工具 schema 及計費。",
+        "SECURITY.md 明示此專案不是 Google 正式支援產品；服務條款與授權另查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及授權邊界",
+        "severity": "高",
+        "issue": "未安裝 plugin 或 skill，未連接 Stitch MCP、上傳資料、建立專案或下載畫面。 只查閱指定技能源文件，未核對所有 inter-dependencies、服務端工具 schema 及計費。 SECURITY.md 明示此專案不是 Google 正式支援產品；服務條款與授權另查。",
+        "control": "固定版本、確認素材權利、最小權限與獨立驗收；不把文件宣稱當作實測。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README 的 plugin／skill 安裝範圍及 MCP 前置需求、generate-design 的 Prompt Enhancement、Generate from Text 與 Edit 分流、SECURITY.md；未查其他依賴技能、MCP 服務端或實際工具 schema。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
