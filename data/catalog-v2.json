@@ -26572,14 +26572,14 @@
       "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "id": "langgenius-dify",
       "title": "Dify — AI App, RAG & Agentic Workflow Platform",
       "canonicalName": "langgenius/dify",
       "category": "02 Agent Orchestration",
       "resourceType": "Self-hostable AI application, RAG and agentic workflow development platform",
-      "purpose": "透過視覺化畫布、知識庫、工具與模型接入建立 AI App、RAG、Agent 和多步 Workflow，可自架或選用代管服務。",
-      "recommendation": "適合團隊快速建立可管理的 AI 應用原型；自架前須核對 Docker 依賴、Secrets、Agent 沙盒與服務成本。",
+      "purpose": "把 AI 摘要、資料查詢及其他處理步驟接成視覺化流程，建立可重複使用的 AI 應用。",
+      "recommendation": "適合需要多步處理與模型整合的應用原型；單次模型呼叫可先用 SDK，多租戶商用及改品牌前須核對授權。",
       "url": "https://github.com/langgenius/dify",
       "repo": "langgenius/dify",
       "status": "active",
@@ -26658,25 +26658,33 @@
       "source": {
         "url": "https://github.com/langgenius/dify",
         "readmeUrl": "https://github.com/langgenius/dify/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。",
+        "upstreamCommit": "409387a1b8d6c9eab3ab788a282b894a67a7fe8e",
+        "referenceUrls": [
+          "https://github.com/langgenius/dify/blob/409387a1b8d6c9eab3ab788a282b894a67a7fe8e/README.md",
+          "https://github.com/langgenius/dify/blob/409387a1b8d6c9eab3ab788a282b894a67a7fe8e/LICENSE",
+          "https://github.com/langgenius/dify/blob/409387a1b8d6c9eab3ab788a282b894a67a7fe8e/api/core/workflow/workflow_entry.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -26685,8 +26693,8 @@
         "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "mapped",
@@ -26699,8 +26707,349 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "透過視覺化畫布、知識庫、工具與模型接入建立 AI App、RAG、Agent 和多步 Workflow，可自架或選用代管服務。",
+          "source": "https://github.com/langgenius/dify",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "build-flow",
+            "title": "建立 AI 報表摘要流程",
+            "detail": "把輸入、摘要及輸出整理為可重複驗收的步驟。",
+            "capabilityRefs": [
+              "graph-run",
+              "input-mapping"
+            ]
+          },
+          {
+            "id": "debug-node",
+            "title": "找出哪個流程步驟出錯",
+            "detail": "先以合成輸入隔離有問題的節點，再測整條流程。",
+            "capabilityRefs": [
+              "node-test",
+              "graph-run"
+            ]
+          },
+          {
+            "id": "data-contract",
+            "title": "確認節點間資料能正確傳遞",
+            "detail": "核對欄位及變數對應，避免錯誤資料流向後續步驟。",
+            "capabilityRefs": [
+              "input-mapping",
+              "node-test"
+            ]
+          }
+        ],
+        "example": {
+          "id": "report-summary-flow",
+          "title": "規劃每週報表摘要流程",
+          "input": "合成報表資料、預期摘要欄位與錯誤情境。",
+          "process": "定義變數 → 設計工作流程 → 隔離節點測試 → 核對最終輸出",
+          "output": "可驗收的流程與節點測試規格（未執行）。",
+          "destination": "自有報表應用；模型、資料來源及通知另行接入。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "build-flow",
+            "debug-node",
+            "data-contract"
+          ],
+          "steps": [
+            {
+              "id": "map",
+              "title": "規劃輸入及變數",
+              "capabilityRefs": [
+                "input-mapping"
+              ]
+            },
+            {
+              "id": "node",
+              "title": "設計節點測試",
+              "capabilityRefs": [
+                "node-test"
+              ]
+            },
+            {
+              "id": "run",
+              "title": "設計全流程事件驗收",
+              "capabilityRefs": [
+                "graph-run"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "獨立驗收摘要與資料",
+              "capabilityRefs": [],
+              "externalDependency": "模型、資料管線、權限、通知及實際部署需另核准並測試。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先定義合成資料與最終輸出，畫出最短流程。",
+          "閱讀固定版本執行入口與授權，特別是 workspace 多租戶限制。",
+          "在核准環境逐節點驗收，再查完整流程及實際輸出。"
+        ],
+        "limits": [
+          "部分 Agent 能執行工具或程式，沙盒與權限設定需獨立稽核。",
+          "模型費用、資料保留和使用條款依部署模式與連接的供應商而異。",
+          "LICENSE 對多租戶服務有額外限制（tenant 定義為 workspace）；未經書面授權不得營運多租戶環境。使用前端不得移除或修改標誌及著作權資訊，特定用途須商業授權。",
+          "未部署或執行；模型節點、Graph Engine、RAG、沙盒及權限未完整查核。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把 AI 摘要、資料查詢及其他處理步驟接成視覺化流程，建立可重複使用的 AI 應用。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / Workflow Graph"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Dify Open Source License（Apache 2.0 加額外條件）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "409387a1b8d6c9eab3ab788a282b894a67a7fe8e"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "執行工作流程",
+            "detail": "多步處理需要統一入口；輸入：graph_config、Graph、RuntimeState、call_depth；輸出：EngineEvent generator 或 GraphRunFailedEvent",
+            "source": "api/core/workflow/workflow_entry.py"
+          },
+          {
+            "title": "獨立測試單一節點",
+            "detail": "需找出特定步驟的問題；輸入：Workflow、node_id、user_id、user_inputs、VariablePool、execution_driver；輸出：Node 與 NodeEvent/ContainerAwaitRequest generator",
+            "source": "api/core/workflow/workflow_entry.py"
+          },
+          {
+            "title": "將輸入對應流程變數",
+            "detail": "不同節點需要一致資料契約；輸入：variable_mapping、user_inputs、VariablePool、tenant_id；輸出：更新 variable pool",
+            "source": "api/core/workflow/workflow_entry.py"
+          }
+        ],
+        "architecture": {
+          "summary": "定義變數 → 設計工作流程 → 隔離節點測試 → 核對最終輸出",
+          "nodes": [
+            {
+              "title": "執行工作流程",
+              "detail": "graph_config、Graph、RuntimeState、call_depth → EngineEvent generator 或 GraphRunFailedEvent",
+              "files": [
+                "api/core/workflow/workflow_entry.py"
+              ]
+            },
+            {
+              "title": "獨立測試單一節點",
+              "detail": "Workflow、node_id、user_id、user_inputs、VariablePool、execution_driver → Node 與 NodeEvent/ContainerAwaitRequest generator",
+              "files": [
+                "api/core/workflow/workflow_entry.py"
+              ]
+            },
+            {
+              "title": "將輸入對應流程變數",
+              "detail": "variable_mapping、user_inputs、VariablePool、tenant_id → 更新 variable pool",
+              "files": [
+                "api/core/workflow/workflow_entry.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "流程",
+            "rule": "WorkflowEntry.run 迭代 graph engine 事件；一般例外產生 GraphRunFailedEvent。",
+            "source": "api/core/workflow/workflow_entry.py"
+          },
+          {
+            "name": "節點",
+            "rule": "single_step_run 以指定 workflow、node_id、variable pool 建立節點及事件。",
+            "source": "api/core/workflow/workflow_entry.py"
+          },
+          {
+            "name": "變數",
+            "rule": "mapping_user_inputs_to_variable_pool 先套整體物件再套巢狀覆寫，原始碼警告語意未明。",
+            "source": "api/core/workflow/workflow_entry.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "api/core/workflow/workflow_entry.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先定義合成資料與最終輸出，畫出最短流程。 閱讀固定版本執行入口與授權，特別是 workspace 多租戶限制。 在核准環境逐節點驗收，再查完整流程及實際輸出。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有報表應用；模型、資料來源及通知另行接入。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "api/core/workflow/workflow_entry.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "graph-run",
+            "name": "執行工作流程",
+            "problem": "多步處理需要統一入口",
+            "input": "graph_config、Graph、RuntimeState、call_depth",
+            "output": "EngineEvent generator 或 GraphRunFailedEvent",
+            "source": "api/core/workflow/workflow_entry.py",
+            "sourceFiles": [
+              "api/core/workflow/workflow_entry.py"
+            ],
+            "symbols": [
+              "WorkflowEntry.__init__",
+              "WorkflowEntry.run"
+            ],
+            "gate": "檢查 call depth 及最終事件；收到事件不等於所有業務寫入成功。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "node-test",
+            "name": "獨立測試單一節點",
+            "problem": "需找出特定步驟的問題",
+            "input": "Workflow、node_id、user_id、user_inputs、VariablePool、execution_driver",
+            "output": "Node 與 NodeEvent/ContainerAwaitRequest generator",
+            "source": "api/core/workflow/workflow_entry.py",
+            "sourceFiles": [
+              "api/core/workflow/workflow_entry.py"
+            ],
+            "symbols": [
+              "WorkflowEntry.single_step_run"
+            ],
+            "gate": "單節點成功不代表整體流程成功；輸入、依賴及外部副作用另驗收。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "input-mapping",
+            "name": "將輸入對應流程變數",
+            "problem": "不同節點需要一致資料契約",
+            "input": "variable_mapping、user_inputs、VariablePool、tenant_id",
+            "output": "更新 variable pool",
+            "source": "api/core/workflow/workflow_entry.py",
+            "sourceFiles": [
+              "api/core/workflow/workflow_entry.py"
+            ],
+            "symbols": [
+              "WorkflowEntry.mapping_user_inputs_to_variable_pool"
+            ],
+            "gate": "來源明示方法語意尚未清楚定義；對應錯誤、巢狀覆寫、隔離及敏感資料須實測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃每週報表摘要流程（設計示例）",
+          "problem": "合成報表資料、預期摘要欄位與錯誤情境。",
+          "steps": [
+            {
+              "capability": "input-mapping",
+              "action": "規劃輸入及變數"
+            },
+            {
+              "capability": "node-test",
+              "action": "設計節點測試"
+            },
+            {
+              "capability": "graph-run",
+              "action": "設計全流程事件驗收"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "report-summary-flow"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成報表資料、預期摘要欄位與錯誤情境。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義變數 → 設計工作流程 → 隔離節點測試 → 核對最終輸出",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有報表應用；模型、資料來源及通知另行接入。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "LICENSE 對多租戶服務有額外限制（tenant 定義為 workspace）；未經書面授權不得營運多租戶環境。使用前端不得移除或修改標誌及著作權資訊，特定用途須商業授權。",
+            "未部署或執行；模型節點、Graph Engine、RAG、沙盒及權限未完整查核。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "授權、資料及執行邊界",
+            "severity": "高",
+            "issue": "LICENSE 對多租戶服務有額外限制（tenant 定義為 workspace）；未經書面授權不得營運多租戶環境。使用前端不得移除或修改標誌及著作權資訊，特定用途須商業授權。 未部署或執行；模型節點、Graph Engine、RAG、沙盒及權限未完整查核。",
+            "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -36290,14 +36639,14 @@
       "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "id": "open-webui-open-webui",
       "title": "Open WebUI — Self-Hosted Multi-Model AI Chat Workspace",
       "canonicalName": "open-webui/open-webui",
       "category": "10 Reference Applications",
       "resourceType": "Self-hostable multi-model chat and AI workspace frontend",
-      "purpose": "提供可自架的多模型 AI 對話工作區，支援本機推論與 OpenAI 相容 API，以及使用者、知識資料和擴充整合。",
-      "recommendation": "適合想自行管理 AI Chat 入口的團隊；要評估登入與群組權限、模型費用、知識庫資料保護及 Open WebUI 授權。",
+      "purpose": "用一個網頁介面操作本機或雲端 AI 模型，方便集中管理不同模型的連線及使用方式。",
+      "recommendation": "適合想自架模型操作介面的人；如果使用雲端供應商，不能視為完全離線，改品牌與部署規模須查授權。",
       "url": "https://github.com/open-webui/open-webui",
       "repo": "open-webui/open-webui",
       "status": "active",
@@ -36371,25 +36720,34 @@
       "source": {
         "url": "https://github.com/open-webui/open-webui",
         "readmeUrl": "https://github.com/open-webui/open-webui/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。",
+        "upstreamCommit": "0666e59d26a4d056e0bacee41742486badd71cf8",
+        "referenceUrls": [
+          "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/README.md",
+          "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/LICENSE",
+          "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/backend/open_webui/routers/ollama.py",
+          "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/backend/open_webui/routers/openai.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -36398,8 +36756,8 @@
         "classificationReason": "沿用既有 Primary Domain cloud；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -36412,8 +36770,356 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供可自架的多模型 AI 對話工作區，支援本機推論與 OpenAI 相容 API，以及使用者、知識資料和擴充整合。",
+          "source": "https://github.com/open-webui/open-webui",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "local-model-ui",
+            "title": "集中操作自己的本機模型",
+            "detail": "連接已核准的 Ollama，再檢查實際可用模型。",
+            "capabilityRefs": [
+              "ollama-connect",
+              "model-discovery"
+            ]
+          },
+          {
+            "id": "multi-provider",
+            "title": "比較不同模型供應商",
+            "detail": "分開設定合法本機與雲端端點，先確認金鑰與資料政策。",
+            "capabilityRefs": [
+              "provider-config",
+              "model-discovery"
+            ]
+          },
+          {
+            "id": "connection-review",
+            "title": "排查模型介面連線問題",
+            "detail": "區分端點連線、功能啟用、使用者權限與模型可用性。",
+            "capabilityRefs": [
+              "ollama-connect",
+              "provider-config",
+              "model-discovery"
+            ]
+          }
+        ],
+        "example": {
+          "id": "local-chat-evaluation",
+          "title": "規劃本機模型聊天介面",
+          "input": "已核准測試主機、合成對話與模型候選清單。",
+          "process": "確認端點 → 規劃供應商設定 → 檢查模型清單 → 驗收實際對話",
+          "output": "連線、模型清單與聊天驗收規格（未部署）。",
+          "destination": "自有模型操作介面；正式資料及使用者管理另行驗收。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "local-model-ui",
+            "multi-provider",
+            "connection-review"
+          ],
+          "steps": [
+            {
+              "id": "local",
+              "title": "核對本機服務",
+              "capabilityRefs": [
+                "ollama-connect"
+              ]
+            },
+            {
+              "id": "provider",
+              "title": "規劃供應商及金鑰配置",
+              "capabilityRefs": [
+                "provider-config"
+              ]
+            },
+            {
+              "id": "models",
+              "title": "設計模型清單與錯誤測試",
+              "capabilityRefs": [
+                "model-discovery"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "實測對話及資料隔離",
+              "capabilityRefs": [],
+              "externalDependency": "需另核准部署、模型推論、網路、憑證及使用者權限測試。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先列出核准的模型端點及預期使用者。",
+          "確認授權與自架資料目錄，區分本機與雲端路徑。",
+          "驗證管理者設定、普通使用者清單與真實推論，不直接使用正式資料。"
+        ],
+        "limits": [
+          "官方 Open WebUI License 有保留品牌標示等條件，使用前須核對全文。",
+          "介面可用不代表本機模型、知識檢索或多使用者安全設定已正確啟用。",
+          "固定版本 LICENSE 第 4 條限制更改品牌；例外包含任一滾動 30 日直接使用者不超過 50 人、事先書面許可或明確允許的企業授權。這不是使用人數上限。歷史檔案依 LICENSE_HISTORY 另查。",
+          "未部署或呼叫 API；完整聊天、RAG、憑證保存及使用者隔離未查。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "用一個網頁介面操作本機或雲端 AI 模型，方便集中管理不同模型的連線及使用方式。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / FastAPI / Provider routers"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Open WebUI License；歷史檔案另依原授權"
+          },
+          {
+            "label": "版本錨點",
+            "value": "0666e59d26a4d056e0bacee41742486badd71cf8"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "設定及確認 Ollama 連線",
+            "detail": "需接入已核准的模型服務；輸入：base URL、選用 key/config、管理者身分；輸出：連線驗證與設定保存",
+            "source": "backend/open_webui/routers/ollama.py"
+          },
+          {
+            "title": "設定 OpenAI 相容供應商",
+            "detail": "需管理不同模型 API；輸入：base URLs、keys、configs、enable 與管理者身分；輸出：Config.upsert 與模型快取清理",
+            "source": "backend/open_webui/routers/openai.py"
+          },
+          {
+            "title": "查看可用模型",
+            "detail": "使用者需要知道可選模型；輸入：已驗證使用者、選用 url_idx；輸出：模型清單或 401/503 等錯誤",
+            "source": "backend/open_webui/routers/ollama.py"
+          }
+        ],
+        "architecture": {
+          "summary": "確認端點 → 規劃供應商設定 → 檢查模型清單 → 驗收實際對話",
+          "nodes": [
+            {
+              "title": "設定及確認 Ollama 連線",
+              "detail": "base URL、選用 key/config、管理者身分 → 連線驗證與設定保存",
+              "files": [
+                "backend/open_webui/routers/ollama.py"
+              ]
+            },
+            {
+              "title": "設定 OpenAI 相容供應商",
+              "detail": "base URLs、keys、configs、enable 與管理者身分 → Config.upsert 與模型快取清理",
+              "files": [
+                "backend/open_webui/routers/openai.py"
+              ]
+            },
+            {
+              "title": "查看可用模型",
+              "detail": "已驗證使用者、選用 url_idx → 模型清單或 401/503 等錯誤",
+              "files": [
+                "backend/open_webui/routers/ollama.py",
+                "backend/open_webui/routers/openai.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "連線",
+            "rule": "Ollama verify_connection 由管理者呼叫 /api/version。",
+            "source": "backend/open_webui/routers/ollama.py"
+          },
+          {
+            "name": "設定",
+            "rule": "OpenAI update_config 由管理者更新設定，調整 keys 長度及清理快取。",
+            "source": "backend/open_webui/routers/openai.py"
+          },
+          {
+            "name": "模型清單",
+            "rule": "get_models 與 get_ollama_tags 限制指定 url_idx 的操作為 admin；停用 API 回 503。",
+            "source": "backend/open_webui/routers/openai.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "backend/open_webui/routers/ollama.py",
+              "backend/open_webui/routers/openai.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先列出核准的模型端點及預期使用者。 確認授權與自架資料目錄，區分本機與雲端路徑。 驗證管理者設定、普通使用者清單與真實推論，不直接使用正式資料。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有模型操作介面；正式資料及使用者管理另行驗收。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "backend/open_webui/routers/ollama.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "ollama-connect",
+            "name": "設定及確認 Ollama 連線",
+            "problem": "需接入已核准的模型服務",
+            "input": "base URL、選用 key/config、管理者身分",
+            "output": "連線驗證與設定保存",
+            "source": "backend/open_webui/routers/ollama.py",
+            "sourceFiles": [
+              "backend/open_webui/routers/ollama.py"
+            ],
+            "symbols": [
+              "verify_connection",
+              "update_config",
+              "get_ollama_connection"
+            ],
+            "gate": "verify_connection 查 /api/version；可連線不代表模型推論成功。僅核准的主機可配置。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "provider-config",
+            "name": "設定 OpenAI 相容供應商",
+            "problem": "需管理不同模型 API",
+            "input": "base URLs、keys、configs、enable 與管理者身分",
+            "output": "Config.upsert 與模型快取清理",
+            "source": "backend/open_webui/routers/openai.py",
+            "sourceFiles": [
+              "backend/open_webui/routers/openai.py"
+            ],
+            "symbols": [
+              "update_config",
+              "get_openai_connection"
+            ],
+            "gate": "設定需管理者；金鑰對齊 URL，保存方式與資料出站須另查。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "model-discovery",
+            "name": "查看可用模型",
+            "problem": "使用者需要知道可選模型",
+            "input": "已驗證使用者、選用 url_idx",
+            "output": "模型清單或 401/503 等錯誤",
+            "source": "backend/open_webui/routers/ollama.py",
+            "sourceFiles": [
+              "backend/open_webui/routers/ollama.py",
+              "backend/open_webui/routers/openai.py"
+            ],
+            "symbols": [
+              "get_ollama_tags",
+              "get_models"
+            ],
+            "gate": "兩個路由指定 url_idx 需 admin；清單可見不等於推論或完整模型權限已驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃本機模型聊天介面（設計示例）",
+          "problem": "已核准測試主機、合成對話與模型候選清單。",
+          "steps": [
+            {
+              "capability": "ollama-connect",
+              "action": "核對本機服務"
+            },
+            {
+              "capability": "provider-config",
+              "action": "規劃供應商及金鑰配置"
+            },
+            {
+              "capability": "model-discovery",
+              "action": "設計模型清單與錯誤測試"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "local-chat-evaluation"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "已核准測試主機、合成對話與模型候選清單。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "確認端點 → 規劃供應商設定 → 檢查模型清單 → 驗收實際對話",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有模型操作介面；正式資料及使用者管理另行驗收。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "固定版本 LICENSE 第 4 條限制更改品牌；例外包含任一滾動 30 日直接使用者不超過 50 人、事先書面許可或明確允許的企業授權。這不是使用人數上限。歷史檔案依 LICENSE_HISTORY 另查。",
+            "未部署或呼叫 API；完整聊天、RAG、憑證保存及使用者隔離未查。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "授權、資料及執行邊界",
+            "severity": "高",
+            "issue": "固定版本 LICENSE 第 4 條限制更改品牌；例外包含任一滾動 30 日直接使用者不超過 50 人、事先書面許可或明確允許的企業授權。這不是使用人數上限。歷史檔案依 LICENSE_HISTORY 另查。 未部署或呼叫 API；完整聊天、RAG、憑證保存及使用者隔離未查。",
+            "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -49596,14 +50302,14 @@
       "canonicalName": "unclecode/crawl4ai",
       "category": "05 Data & Ingestion",
       "resourceType": "Web Crawler",
-      "purpose": "Crawl4AI 提供網頁擷取與內容抽取，能將網頁整理為 Markdown 或結構化資料；另有託管 Cloud API 與可自行部署的開源爬蟲。",
-      "recommendation": "適合建立網站資料擷取、RAG 前處理或結構化擷取流程；應先決定自架爬蟲或使用 Cloud API。",
+      "purpose": "把合法可讀的網頁內容整理成 Markdown 與結構化資料，方便後續搜尋、摘要或建立知識庫。",
+      "recommendation": "適合需要定期整理公開文件或網頁資訊的資料流程；已有官方 API 時優先使用 API，遇到存取限制不得繞過。",
       "url": "https://github.com/unclecode/crawl4ai",
       "repo": "unclecode/crawl4ai",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "web-crawling",
         "markdown",
@@ -49663,24 +50369,34 @@
         "url": "https://github.com/unclecode/crawl4ai",
         "readmeUrl": "https://github.com/unclecode/crawl4ai/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。",
+        "upstreamCommit": "4e4bab5d44a7557eb403f137ec589833368a3e38",
+        "referenceUrls": [
+          "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/README.md",
+          "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/LICENSE",
+          "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/crawl4ai/async_webcrawler.py",
+          "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/crawl4ai/models.py",
+          "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/crawl4ai/async_configs.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -49689,8 +50405,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain data，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -49703,8 +50419,353 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Crawl4AI 提供網頁擷取與內容抽取，能將網頁整理為 Markdown 或結構化資料；另有託管 Cloud API 與可自行部署的開源爬蟲。",
+          "source": "https://github.com/unclecode/crawl4ai",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "document-ingest",
+            "title": "整理公開技術文件",
+            "detail": "將少量授權頁面轉為 Markdown，保留來源並人工比對。",
+            "capabilityRefs": [
+              "single-crawl",
+              "markdown-output"
+            ]
+          },
+          {
+            "id": "knowledge-refresh",
+            "title": "更新知識庫的公開參考資料",
+            "detail": "按既定清單與合理頻率處理，逐頁辨識失敗及內容變化。",
+            "capabilityRefs": [
+              "single-crawl",
+              "batch-lifecycle"
+            ]
+          },
+          {
+            "id": "extract-review",
+            "title": "驗收擷取後的文字與引用",
+            "detail": "檢查標題、表格、連結及原文，避免不完整內容直接進入 AI。",
+            "capabilityRefs": [
+              "markdown-output"
+            ]
+          }
+        ],
+        "example": {
+          "id": "public-doc-ingestion",
+          "title": "規劃公開文件的知識庫匯入",
+          "input": "三個合法可擷取的公開測試頁面、來源欄位與預期 Markdown。",
+          "process": "確認權利 → 擷取 → 檢查輸出與失敗 → 清理 → 審查後匯入",
+          "output": "Markdown、來源及錯誤的驗收規格（未擷取）。",
+          "destination": "自有知識庫匯入流程；索引、去重及儲存另行實作。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "document-ingest",
+            "knowledge-refresh",
+            "extract-review"
+          ],
+          "steps": [
+            {
+              "id": "crawl",
+              "title": "設計單頁擷取及錯誤測試",
+              "capabilityRefs": [
+                "single-crawl"
+              ]
+            },
+            {
+              "id": "markdown",
+              "title": "檢查文字及引用欄位",
+              "capabilityRefs": [
+                "markdown-output"
+              ]
+            },
+            {
+              "id": "batch",
+              "title": "限制並行並清理資源",
+              "capabilityRefs": [
+                "batch-lifecycle"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "核對原文與知識庫寫入",
+              "capabilityRefs": [],
+              "externalDependency": "網站條款、robots、頻率、資料保留及實際匯入需另行確認。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先選少量合法公開測試頁面，確認來源及存取條件。",
+          "核對固定版本 arun 與結果契約，設計成功、拒絕及失敗情境。",
+          "獨立檢查 Markdown 完整性、頻率限制與清理後才考慮匯入。"
+        ],
+        "limits": [
+          "雲端 API 的價格、免費額度與資料出站條件可能變動，不能假設永久免費。",
+          "動態網站、驗證碼、反爬機制與內容變更會影響實際擷取結果。",
+          "未安裝、擷取或呼叫 Cloud API；完整 robots 與瀏覽器安全實作未查。",
+          "本機、Docker 與 Cloud 的資料路徑、費用、權限及依賴應分開驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把合法可讀的網頁內容整理成 Markdown 與結構化資料，方便後續搜尋、摘要或建立知識庫。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / Async crawler / Markdown"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0（Repo；Cloud 另計）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "4e4bab5d44a7557eb403f137ec589833368a3e38"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "擷取單一來源",
+            "detail": "需將網頁轉為可處理內容；輸入：URL 或支援來源、CrawlerRunConfig；輸出：CrawlResultContainer，內含 CrawlResult",
+            "source": "crawl4ai/async_webcrawler.py"
+          },
+          {
+            "title": "取得與核對文字結果",
+            "detail": "後續 AI 需要結構化文字；輸入：CrawlResult 與 MarkdownGenerationResult；輸出：raw_markdown、markdown_with_citations、references_markdown、可選 fit_markdown",
+            "source": "crawl4ai/models.py"
+          },
+          {
+            "title": "管理多筆擷取與清理",
+            "detail": "多個文件需控制並行與資源；輸入：urls、config、dispatcher；輸出：RunManyReturn；close 交由 crawler_strategy 清理",
+            "source": "crawl4ai/async_webcrawler.py"
+          }
+        ],
+        "architecture": {
+          "summary": "確認權利 → 擷取 → 檢查輸出與失敗 → 清理 → 審查後匯入",
+          "nodes": [
+            {
+              "title": "擷取單一來源",
+              "detail": "URL 或支援來源、CrawlerRunConfig → CrawlResultContainer，內含 CrawlResult",
+              "files": [
+                "crawl4ai/async_webcrawler.py"
+              ]
+            },
+            {
+              "title": "取得與核對文字結果",
+              "detail": "CrawlResult 與 MarkdownGenerationResult → raw_markdown、markdown_with_citations、references_markdown、可選 fit_markdown",
+              "files": [
+                "crawl4ai/models.py"
+              ]
+            },
+            {
+              "title": "管理多筆擷取與清理",
+              "detail": "urls、config、dispatcher → RunManyReturn；close 交由 crawler_strategy 清理",
+              "files": [
+                "crawl4ai/async_webcrawler.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "輸入",
+            "rule": "arun 接收 url 與 CrawlerRunConfig，回傳 CrawlResultContainer。",
+            "source": "crawl4ai/async_webcrawler.py"
+          },
+          {
+            "name": "輸出",
+            "rule": "MarkdownGenerationResult 區分原始 Markdown、引用版及可選 fit_markdown。",
+            "source": "crawl4ai/models.py"
+          },
+          {
+            "name": "生命週期",
+            "rule": "arun_many 接收 URLs 與 dispatcher；close 呼叫 crawler_strategy.__aexit__。",
+            "source": "crawl4ai/async_webcrawler.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "crawl4ai/async_webcrawler.py",
+              "crawl4ai/models.py",
+              "crawl4ai/async_configs.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先選少量合法公開測試頁面，確認來源及存取條件。 核對固定版本 arun 與結果契約，設計成功、拒絕及失敗情境。 獨立檢查 Markdown 完整性、頻率限制與清理後才考慮匯入。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有知識庫匯入流程；索引、去重及儲存另行實作。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "crawl4ai/async_webcrawler.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "single-crawl",
+            "name": "擷取單一來源",
+            "problem": "需將網頁轉為可處理內容",
+            "input": "URL 或支援來源、CrawlerRunConfig",
+            "output": "CrawlResultContainer，內含 CrawlResult",
+            "source": "crawl4ai/async_webcrawler.py",
+            "sourceFiles": [
+              "crawl4ai/async_webcrawler.py"
+            ],
+            "symbols": [
+              "AsyncWebCrawler.arun",
+              "CrawlResultContainer"
+            ],
+            "gate": "確認合法來源與 success；不可假設任意網址都能擷取。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "markdown-output",
+            "name": "取得與核對文字結果",
+            "problem": "後續 AI 需要結構化文字",
+            "input": "CrawlResult 與 MarkdownGenerationResult",
+            "output": "raw_markdown、markdown_with_citations、references_markdown、可選 fit_markdown",
+            "source": "crawl4ai/models.py",
+            "sourceFiles": [
+              "crawl4ai/models.py"
+            ],
+            "symbols": [
+              "CrawlResult",
+              "MarkdownGenerationResult"
+            ],
+            "gate": "檢查來源、內容遺漏、表格與引用；引用提示不是獨立事實驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "batch-lifecycle",
+            "name": "管理多筆擷取與清理",
+            "problem": "多個文件需控制並行與資源",
+            "input": "urls、config、dispatcher",
+            "output": "RunManyReturn；close 交由 crawler_strategy 清理",
+            "source": "crawl4ai/async_webcrawler.py",
+            "sourceFiles": [
+              "crawl4ai/async_webcrawler.py"
+            ],
+            "symbols": [
+              "AsyncWebCrawler.arun_many",
+              "AsyncWebCrawler.close",
+              "AsyncWebCrawler.__aexit__"
+            ],
+            "gate": "限制來源與頻率、逐筆處理失敗並確認資源關閉；不假定關閉會清除已保存資料。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃公開文件的知識庫匯入（設計示例）",
+          "problem": "三個合法可擷取的公開測試頁面、來源欄位與預期 Markdown。",
+          "steps": [
+            {
+              "capability": "single-crawl",
+              "action": "設計單頁擷取及錯誤測試"
+            },
+            {
+              "capability": "markdown-output",
+              "action": "檢查文字及引用欄位"
+            },
+            {
+              "capability": "batch-lifecycle",
+              "action": "限制並行並清理資源"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "public-doc-ingestion"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "三個合法可擷取的公開測試頁面、來源欄位與預期 Markdown。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "確認權利 → 擷取 → 檢查輸出與失敗 → 清理 → 審查後匯入",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有知識庫匯入流程；索引、去重及儲存另行實作。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝、擷取或呼叫 Cloud API；完整 robots 與瀏覽器安全實作未查。",
+            "本機、Docker 與 Cloud 的資料路徑、費用、權限及依賴應分開驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "授權、資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝、擷取或呼叫 Cloud API；完整 robots 與瀏覽器安全實作未查。 本機、Docker 與 Cloud 的資料路徑、費用、權限及依賴應分開驗證。",
+            "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
