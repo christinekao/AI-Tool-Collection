@@ -741,3 +741,35 @@ test('Dual-layer batch 17: design handoff, diagram privacy and visual asset righ
  assert.match(load('cathrynlavery-diagram-design').repoGuide.capabilities.find(c=>c.id==='style').gate,/不能宣稱單檔必然完全離線/);
  assert.match(load('yanliudesign-mono-color-skill').repoGuide.capabilities.find(c=>c.id==='inspection').gate,/原始 examples 不受 MIT 授權/);
 });
+
+test('Dual-layer batch 18: publishing and design recommendation boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["gzh-design-skill","規劃技術教學長文的公眾號排版"],["baoyu-skill","規劃 AI 教材文章的封面與插圖發布"],["ui-ux-gold-standard","規劃資料分析 Dashboard 的共用設計規則"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('gzh-design-skill').repoGuide.capabilities.find(c=>c.id==='lint').gate,/WARNING 為零/);
+ assert.match(load('baoyu-skill').repoGuide.capabilities.find(c=>c.id==='publish').gate,/正式發布分開核准/);
+ assert.match(load('ui-ux-gold-standard').readerGuide.limits.join(' '),/未找到獨立 LICENSE/);
+});
