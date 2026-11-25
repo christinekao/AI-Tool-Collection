@@ -6,8 +6,8 @@
   "canonicalName": "skills CLI (npx skills)",
   "category": "06 Skills",
   "resourceType": "Open-source command-line manager for agent skills",
-  "purpose": "搜尋、安裝、列出、使用、更新、移除與建立跨 Coding Agent 的可重用 Skills；支援專案層級與全域安裝。",
-  "recommendation": "適合統一管理 Claude Code、Codex、Cursor、OpenCode 等 Agent 的 Skill 安裝與版本；可搭配已收藏的 skills.sh 目錄進行發現，但安裝前應逐項檢查來源、授權、指令、權限與供應鏈風險。",
+  "purpose": "用命令列尋找、讀取或安裝 Agent Skills，管理不同專案及不同 Coding Agent 的技能目錄。",
+  "recommendation": "適合已經找到可信技能、需要管理安裝範圍及來源版本的人；只想瀏覽靈感時先用目錄，不必安裝第三方程式。",
   "url": "https://github.com/vercel-labs/skills",
   "repo": "vercel-labs/skills",
   "website": "https://skills.sh/",
@@ -48,7 +48,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-04",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-skills",
     "skills-cli",
@@ -71,10 +71,18 @@
       "https://github.com/vercel-labs/skills/blob/main/LICENSE",
       "https://github.com/vercel-labs/skills/blob/main/ThirdPartyNoticeText.txt"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream GitHub repository, README, MIT license and package metadata",
     "readmeUrl": "https://github.com/vercel-labs/skills/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。",
+    "upstreamCommit": "57217cf86ba38148a57af9e90d14a4c049558330",
+    "referenceUrls": [
+      "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/README.md",
+      "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/LICENSE",
+      "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/src/cli.ts",
+      "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/src/skills.ts",
+      "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/src/installer.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -106,16 +114,18 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -124,8 +134,8 @@
     "classificationReason": "保留 Primary Domain ai-agent、Category 與原始 Tags；只補來源和使用限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -138,7 +148,354 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "搜尋、安裝、列出、使用、更新、移除與建立跨 Coding Agent 的可重用 Skills；支援專案層級與全域安裝。",
+      "source": "https://github.com/vercel-labs/skills",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "review-skill",
+        "title": "確認候選 Skill 的檔案與描述",
+        "detail": "先讀原始 SKILL.md、依賴與安全風險，不以安裝數決定可信度。",
+        "capabilityRefs": [
+          "discovery"
+        ]
+      },
+      {
+        "id": "project-install",
+        "title": "讓技能只作用於指定專案",
+        "detail": "明確選擇工作目錄與目標 Agent，避免改動其他專案。",
+        "capabilityRefs": [
+          "target",
+          "installation"
+        ]
+      },
+      {
+        "id": "install-audit",
+        "title": "核對安裝結果與回復方式",
+        "detail": "檢查實際路徑、連結方式、版本與錯誤，確認可回復後才採用。",
+        "capabilityRefs": [
+          "target",
+          "installation"
+        ]
+      }
+    ],
+    "example": {
+      "id": "scoped-review-skill",
+      "title": "規劃專案專用程式審查技能",
+      "input": "一個合成測試 Repo、已核准候選 SKILL.md 及指定 Agent。",
+      "process": "審查技能 → 核對目錄 → 設計安裝及回復 → 驗收實際範圍",
+      "output": "技能版本、目標目錄與安裝驗收規格（未安裝）。",
+      "destination": "自有開發流程；不自動改動全域設定。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "review-skill",
+        "project-install",
+        "install-audit"
+      ],
+      "steps": [
+        {
+          "id": "inspect",
+          "title": "檢查來源與技能格式",
+          "capabilityRefs": [
+            "discovery"
+          ]
+        },
+        {
+          "id": "target",
+          "title": "選擇專案及 Agent 範圍",
+          "capabilityRefs": [
+            "target"
+          ]
+        },
+        {
+          "id": "install",
+          "title": "設計安裝、錯誤與回復測試",
+          "capabilityRefs": [
+            "installation"
+          ]
+        },
+        {
+          "id": "audit",
+          "title": "獨立檢查權限及實際修改",
+          "capabilityRefs": [],
+          "externalDependency": "實際第三方依賴、安裝、遙測與回復需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先讀候選技能的固定版本 SKILL.md 與腳本，不先執行 npx。",
+      "核對 project/global、Agent 與安裝模式，記錄預期寫入的路徑。",
+      "另取得核准後才於隔離測試專案驗證，檢查修改與回復。"
+    ],
+    "limits": [
+      "不可信第三方 Skill 可能含提示注入及腳本風險",
+      "未安裝 CLI 或技能；未逐檔審查下載、鎖定、移除、遙測及所有 symlink 路徑。",
+      "技能內容可能包含提示注入或任意腳本，格式驗證不代表安全。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用命令列尋找、讀取或安裝 Agent Skills，管理不同專案及不同 Coding Agent 的技能目錄。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "TypeScript / Node.js CLI"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "57217cf86ba38148a57af9e90d14a4c049558330"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "辨識技能檔案",
+        "detail": "需要從來源找到可用 SKILL.md；輸入：basePath、subpath、SKILL.md 與 frontmatter；輸出：Skill[] 或 Skill/null；非法 subpath 錯誤",
+        "source": "src/skills.ts"
+      },
+      {
+        "title": "定位技能安裝範圍",
+        "detail": "避免將專案技能誤裝至全域；輸入：global、cwd、agentType、可選 subagent；輸出：canonical / agent skills 目錄",
+        "source": "src/installer.ts"
+      },
+      {
+        "title": "管理技能安裝",
+        "detail": "需將已核准的技能配置到 Agent；輸入：Skill、AgentType、InstallOptions 與 mode；輸出：InstallResult 成功、path、mode 或 error",
+        "source": "src/installer.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "審查技能 → 核對目錄 → 設計安裝及回復 → 驗收實際範圍",
+      "nodes": [
+        {
+          "title": "辨識技能檔案",
+          "detail": "basePath、subpath、SKILL.md 與 frontmatter → Skill[] 或 Skill/null；非法 subpath 錯誤",
+          "files": [
+            "src/skills.ts"
+          ]
+        },
+        {
+          "title": "定位技能安裝範圍",
+          "detail": "global、cwd、agentType、可選 subagent → canonical / agent skills 目錄",
+          "files": [
+            "src/installer.ts"
+          ]
+        },
+        {
+          "title": "管理技能安裝",
+          "detail": "Skill、AgentType、InstallOptions 與 mode → InstallResult 成功、path、mode 或 error",
+          "files": [
+            "src/installer.ts",
+            "src/cli.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "技能格式",
+        "rule": "parseSkillMd 對讀取、YAML 與必填 name/description 不符回傳 null。",
+        "source": "src/skills.ts"
+      },
+      {
+        "name": "探索邊界",
+        "rule": "discoverSkills 檢查 subpath 不可逃離 basePath。",
+        "source": "src/skills.ts"
+      },
+      {
+        "name": "安裝範圍",
+        "rule": "getCanonicalSkillsDir 依 global 選 homedir 或 cwd；installSkillForAgent 預設 symlink，檢查 global 支援並清理技能名稱。",
+        "source": "src/installer.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/cli.ts",
+          "src/skills.ts",
+          "src/installer.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先讀候選技能的固定版本 SKILL.md 與腳本，不先執行 npx。 核對 project/global、Agent 與安裝模式，記錄預期寫入的路徑。 另取得核准後才於隔離測試專案驗證，檢查修改與回復。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有開發流程；不自動改動全域設定。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "src/skills.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "discovery",
+        "name": "辨識技能檔案",
+        "problem": "需要從來源找到可用 SKILL.md",
+        "input": "basePath、subpath、SKILL.md 與 frontmatter",
+        "output": "Skill[] 或 Skill/null；非法 subpath 錯誤",
+        "source": "src/skills.ts",
+        "sourceFiles": [
+          "src/skills.ts"
+        ],
+        "symbols": [
+          "parseSkillMd",
+          "discoverSkills"
+        ],
+        "gate": "name/description 必須存在且為字串；通過格式不代表指令可信。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "target",
+        "name": "定位技能安裝範圍",
+        "problem": "避免將專案技能誤裝至全域",
+        "input": "global、cwd、agentType、可選 subagent",
+        "output": "canonical / agent skills 目錄",
+        "source": "src/installer.ts",
+        "sourceFiles": [
+          "src/installer.ts"
+        ],
+        "symbols": [
+          "getCanonicalSkillsDir",
+          "getAgentBaseDir",
+          "isPathSafe"
+        ],
+        "gate": "project/global 需明確指定；正規化路徑檢查不等於所有 symlink 或權限均安全。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "installation",
+        "name": "管理技能安裝",
+        "problem": "需將已核准的技能配置到 Agent",
+        "input": "Skill、AgentType、InstallOptions 與 mode",
+        "output": "InstallResult 成功、path、mode 或 error",
+        "source": "src/installer.ts",
+        "sourceFiles": [
+          "src/installer.ts",
+          "src/cli.ts"
+        ],
+        "symbols": [
+          "installSkillForAgent",
+          "InstallMode",
+          "main"
+        ],
+        "gate": "預設 symlink；不支援 global 的 Agent 會失敗。先核對實際寫入、覆寫、依賴、遙測與回復。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃專案專用程式審查技能（設計示例）",
+      "problem": "一個合成測試 Repo、已核准候選 SKILL.md 及指定 Agent。",
+      "steps": [
+        {
+          "capability": "discovery",
+          "action": "檢查來源與技能格式"
+        },
+        {
+          "capability": "target",
+          "action": "選擇專案及 Agent 範圍"
+        },
+        {
+          "capability": "installation",
+          "action": "設計安裝、錯誤與回復測試"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "scoped-review-skill"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "一個合成測試 Repo、已核准候選 SKILL.md 及指定 Agent。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "審查技能 → 核對目錄 → 設計安裝及回復 → 驗收實際範圍",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有開發流程；不自動改動全域設定。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝 CLI 或技能；未逐檔審查下載、鎖定、移除、遙測及所有 symlink 路徑。",
+        "技能內容可能包含提示注入或任意腳本，格式驗證不代表安全。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝 CLI 或技能；未逐檔審查下載、鎖定、移除、遙測及所有 symlink 路徑。 技能內容可能包含提示注入或任意腳本，格式驗證不代表安全。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
