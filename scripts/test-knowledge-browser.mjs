@@ -537,7 +537,12 @@ try{
   ["playwright",".resource-reader-guide","驗收申請表單儲存功能"],
   ["n8n-io-n8n",".resource-reader-guide","規劃每日報表整理流程"],
   ["orca",".resource-reader-guide","分開開發網頁與回歸測試"],
-  ["hindsight",".resource-reader-guide","設計跨任務研究記憶測試"]
+  ["hindsight",".resource-reader-guide","設計跨任務研究記憶測試"],
+  ["openai-codex",".resource-reader-guide","修正表單儲存錯誤"],
+  ["openui",".resource-reader-guide","呈現研究摘要與來源卡片"],
+  ["vercel-labs-skills-cli",".resource-reader-guide","規劃專案專用程式審查技能"],
+  ["browser-use-browser-use",".resource-reader-guide","整理公開文件的指定欄位"],
+  ["anomalyco-opencode",".resource-reader-guide","先分析再修正網頁顯示問題"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -564,7 +569,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 fifty-three Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 fifty-eight Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
