@@ -602,7 +602,28 @@ try{
   ["microsoft-tokeneconomizer",".resource-reader-guide","規劃重複開發任務的成本與品質對照實驗"],
   ["paperclip",".resource-reader-guide","規劃 AI Cowork 團隊的任務派發與預算治理"],
   ["graft",".resource-reader-guide","規劃大型專案的結構化讀取與 Context 控制"],
-  ["strelov1-freehire-mcp",".resource-reader-guide","規劃 JD 搜尋、證據式履歷與求職進度管理"]
+  ["strelov1-freehire-mcp",".resource-reader-guide","規劃 JD 搜尋、證據式履歷與求職進度管理"],
+  ["arumwu-agentrelay",".resource-reader-guide","規劃兩個 Coding Agent 的跨工作階段交接"],
+  ["charonyuu-whatsmyagentdoing",".resource-reader-guide","規劃多 Agent 等待人工處理的監控面板"],
+  ["kieiken-project-hub",".resource-reader-guide","規劃個人專案與 AI 任務的工作台"],
+  ["bi0h4z4rd88-pi-sidebar-tui",".resource-reader-guide","規劃 Pi 終端內的 Context 與任務資訊面板"],
+  ["gagansd-herdr-insights",".resource-reader-guide","規劃跨 Coding Agent 的本機用量分析"],
+  ["lakris2407-herdr-agent-quota",".resource-reader-guide","規劃跨供應商使用額度與支出的提醒面板"],
+  ["allanyiin-toolanything",".resource-reader-guide","規劃企業查詢工具的跨協議契約"],
+  ["allanyiin-documa",".resource-reader-guide","規劃長文件知識庫的逐步閱讀與引用"],
+  ["yusufkaraaslan-skill-seekers",".resource-reader-guide","規劃公開技術文件的知識包製作"],
+  ["mattpocock-skills",".resource-reader-guide","規劃從模糊需求到可驗證的功能修正"],
+  ["garrytan-gstack",".resource-reader-guide","規劃功能需求、程式審查與 QA 證據的交付流程"],
+  ["affaan-m-ecc",".resource-reader-guide","規劃 Agent 工作階段保存與交付驗收"],
+  ["anthropics-knowledge-work-plugins",".resource-reader-guide","規劃企業資料分析與審查的職能插件組合"],
+  ["anthropics-financial-services",".resource-reader-guide","規劃金融對帳差異的分層讀取與覆核"],
+  ["pramoddutta-botskills",".resource-reader-guide","規劃只在測試環境運作的 Bug 重現 Bot"],
+  ["aws-samples-sample-agent-cost-bench",".resource-reader-guide","規劃跨 Coding Agent 的成本與功能品質對照"],
+  ["gggodlin-cc-harness",".resource-reader-guide","規劃 Agent 修改工作規則時的授權與證據閘門"],
+  ["cloudflare-cloudflare-os",".resource-reader-guide","規劃企業知識工作區的讀取與外部寫入核准"],
+  ["michael-denyer-pstack-claude",".resource-reader-guide","規劃跨 Claude Code 與 Codex 的專案驗收技能"],
+  ["cursor-pstack-poteto",".resource-reader-guide","規劃複雜功能的架構選型與實際操作驗收"],
+  ["agency-agents",".resource-reader-guide","規劃資料管線與儀表板的跨角色交付審查"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -629,7 +650,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 one hundred Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
