@@ -561,7 +561,12 @@ try{
   ["gsap-skills",".resource-reader-guide","規劃產品首頁滾動展示的 Agent 任務"],
   ["uiverse-io-galaxy",".resource-reader-guide","規劃知識庫搜尋欄與卡片樣式"],
   ["motion-dev-animations-skill",".resource-reader-guide","規劃作品集卡片動效驗收"],
-  ["googlechrome-modern-web-guidance",".resource-reader-guide","規劃知識庫的原生響應式導覽"]
+  ["googlechrome-modern-web-guidance",".resource-reader-guide","規劃知識庫的原生響應式導覽"],
+  ["elayadesign-ai-design-skills",".resource-reader-guide","規劃產品首頁與 Figma 設計規則"],
+  ["leonxlnx-taste-skill",".resource-reader-guide","規劃企業首頁的設計與驗收流程"],
+  ["impeccable",".resource-reader-guide","審查履歷管理系統的既有頁面"],
+  ["frontend-design",".resource-reader-guide","規劃具有明確主題的作品集首頁"],
+  ["pcottle-learn-git-branching",".resource-reader-guide","練習 Local Git 的分支與合併"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -588,7 +593,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 seventy-seven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 eighty-two Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

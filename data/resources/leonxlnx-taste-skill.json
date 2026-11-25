@@ -6,13 +6,13 @@
   "canonicalName": "Leonxlnx/taste-skill",
   "category": "06 Skills",
   "resourceType": "Open-source multi-skill frontend art direction and browser-verified design workflow pack",
-  "purpose": "為 Claude Code、Codex、Cursor 等 AI Coding Agents 提供可安裝的前端設計 Skills；預設 design-taste-frontend v2 從參考網站研究提煉視覺構圖、字體、配色與圖片，依產品／品牌真實素材產生網站頁面，再以真實瀏覽器截圖、不同螢幕寬度與評分／修正流程驗收。套件亦提供 redesign-existing-projects、image-to-code、gpt-taste、high-end-visual-design、minimalist-ui、industrial-brutalist-ui、stitch-design-taste 與圖片生成等專用 Skills。",
-  "recommendation": "適合以 AI 建立或升級對外公開的作品集、產品介紹頁、行銷 Landing Page 與品牌網站，特別是希望避免制式 AI 排版的人。先使用預設 v2 或 redesign-existing-projects 並提供真實內容／品牌約束，讓 Agent 產出可執行的頁面、實際瀏覽器截圖及缺陷修復證據；Dashboard／內部 App Screen 請改用其 minimalist-ui、high-end-visual-design 或其他專門的 UI Skill。執行腳本須 Node.js 22+ 與 Chrome／Edge／Chromium，搜尋圖片需網路；需留意圖片授權與高 Token 成本。",
+  "purpose": "依企業類型規劃網站視覺、內容及版面，並將瀏覽器檢查納入 Agent 的交付流程。",
+  "recommendation": "適合希望 Agent 不只產出頁面而且提出可追溯驗收的人；不要把作者特定的審美檢查當作所有網站的硬性標準。",
   "url": "https://github.com/Leonxlnx/taste-skill",
   "repo": "Leonxlnx/taste-skill",
   "status": "active",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-skills",
     "frontend-design",
@@ -95,25 +95,35 @@
   "source": {
     "url": "https://github.com/Leonxlnx/taste-skill",
     "readmeUrl": "https://github.com/Leonxlnx/taste-skill/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "Documentation only; not runtime-tested"
+    "reviewScope": "README.md、LICENSE、skills/taste-skill/SKILL.md、skills/taste-skill/scripts/gate.mjs；限定範圍源文件與契約查核，未執行；本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。 固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。",
+    "upstreamCommit": "d1a2bb41d927083ac7118f60cfc9cdf711810ea0",
+    "referenceUrls": [
+      "https://github.com/Leonxlnx/taste-skill/blob/d1a2bb41d927083ac7118f60cfc9cdf711810ea0/README.md",
+      "https://github.com/Leonxlnx/taste-skill/blob/d1a2bb41d927083ac7118f60cfc9cdf711810ea0/LICENSE",
+      "https://github.com/Leonxlnx/taste-skill/blob/d1a2bb41d927083ac7118f60cfc9cdf711810ea0/skills/taste-skill/SKILL.md",
+      "https://github.com/Leonxlnx/taste-skill/blob/d1a2bb41d927083ac7118f60cfc9cdf711810ea0/skills/taste-skill/scripts/gate.mjs"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "保留原 Canonical ID，補限定範圍來源契約與用途。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -122,8 +132,8 @@
     "classificationReason": "保留既有 Primary Domain design，本輪只補足來源支援的使用方法與限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍源文件與程式契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -136,7 +146,346 @@
     "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "README.md、LICENSE、skills/taste-skill/SKILL.md、skills/taste-skill/scripts/gate.mjs；限定範圍源文件與契約查核，未執行；本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。 固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README.md、LICENSE、skills/taste-skill/SKILL.md、skills/taste-skill/scripts/gate.mjs；限定範圍源文件與契約查核，未執行；本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。 固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。；局部契約與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "為 Claude Code、Codex、Cursor 等 AI Coding Agents 提供可安裝的前端設計 Skills；預設 design-taste-frontend v2 從參考網站研究提煉視覺構圖、字體、配色與圖片，依產品／品牌真實素材產生網站頁面，再以真實瀏覽器截圖、不同螢幕寬度與評分／修正流程驗收。套件亦提供 redesign-existing-projects、image-to-code、gpt-taste、high-end-visual-design、minimalist-ui、industrial-brutalist-ui、stitch-design-taste 與圖片生成等專用 Skills。",
+      "source": "https://github.com/Leonxlnx/taste-skill",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-design-plan",
+        "title": "依產業選擇首頁設計",
+        "detail": "以實際產品、使用者及主要行動決定配色、版面及內容。",
+        "capabilityRefs": [
+          "design-plan"
+        ]
+      },
+      {
+        "id": "use-browser-gate",
+        "title": "規劃瀏覽器驗收",
+        "detail": "將不同畫面尺寸的排版、溢出、點擊範圍及文案檢查列為交付證據。",
+        "capabilityRefs": [
+          "browser-gate"
+        ]
+      },
+      {
+        "id": "use-waiver",
+        "title": "管理未通過的品質檢查",
+        "detail": "保留具體規則、對象及理由，不藉修改檢查器掩蓋問題。",
+        "capabilityRefs": [
+          "waiver"
+        ]
+      }
+    ],
+    "example": {
+      "id": "example-leonxlnx-taste-skill",
+      "title": "規劃企業首頁的設計與驗收流程",
+      "input": "一份已確認的企業 brief、自有品牌及授權素材、目標裝置。",
+      "process": "定義網站類型 → 規劃 tokens、版面與文案 → 設計 gate → 審查真實畫面",
+      "output": "首頁規格與驗收紀錄格式（未建置）。",
+      "destination": "自有網站的 Agent 開發與 PR 審查。",
+      "note": "自訂設計示例；未執行第三方工具或產生實際成果。",
+      "useCaseRefs": [
+        "use-design-plan",
+        "use-browser-gate",
+        "use-waiver"
+      ],
+      "steps": [
+        {
+          "id": "design-plan",
+          "title": "依產業選擇首頁設計",
+          "capabilityRefs": [
+            "design-plan"
+          ]
+        },
+        {
+          "id": "browser-gate",
+          "title": "規劃瀏覽器驗收",
+          "capabilityRefs": [
+            "browser-gate"
+          ]
+        },
+        {
+          "id": "waiver",
+          "title": "管理未通過的品質檢查",
+          "capabilityRefs": [
+            "waiver"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收真實結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置及功能測試須另行核准，依真實結果記錄。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義測試目標及輸入：一份已確認的企業 brief、自有品牌及授權素材、目標裝置。",
+      "核對固定版本來源：skills/taste-skill/SKILL.md、skills/taste-skill/scripts/gate.mjs。",
+      "先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。"
+    ],
+    "limits": [
+      "過時的 Skill 名稱可能指向已移動的其他 Repo",
+      "設計品質 Gate 不能取代響應式、可及性與人工檢查",
+      "本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。",
+      "固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "依企業類型規劃網站視覺、內容及版面，並將瀏覽器檢查納入 Agent 的交付流程。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "d1a2bb41d927083ac7118f60cfc9cdf711810ea0"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依產業選擇首頁設計",
+        "detail": "以實際產品、使用者及主要行動決定配色、版面及內容。；輸入：網站類型、品牌、主要行動；輸出：頁面分段與設計 tokens",
+        "source": "skills/taste-skill/SKILL.md"
+      },
+      {
+        "title": "規劃瀏覽器驗收",
+        "detail": "將不同畫面尺寸的排版、溢出、點擊範圍及文案檢查列為交付證據。；輸入：本機頁面、gate marker 與檢查設定；輸出：檢查報告或逾時／錯誤",
+        "source": "skills/taste-skill/scripts/gate.mjs"
+      },
+      {
+        "title": "管理未通過的品質檢查",
+        "detail": "保留具體規則、對象及理由，不藉修改檢查器掩蓋問題。；輸入：檢查結果、waivers.json；輸出：具理由的例外及 gate 狀態",
+        "source": "skills/taste-skill/scripts/gate.mjs"
+      }
+    ],
+    "architecture": {
+      "summary": "定義網站類型 → 規劃 tokens、版面與文案 → 設計 gate → 審查真實畫面",
+      "nodes": [
+        {
+          "title": "依產業選擇首頁設計",
+          "detail": "網站類型、品牌、主要行動 → 頁面分段與設計 tokens",
+          "files": [
+            "skills/taste-skill/SKILL.md"
+          ]
+        },
+        {
+          "title": "規劃瀏覽器驗收",
+          "detail": "本機頁面、gate marker 與檢查設定 → 檢查報告或逾時／錯誤",
+          "files": [
+            "skills/taste-skill/scripts/gate.mjs"
+          ]
+        },
+        {
+          "title": "管理未通過的品質檢查",
+          "detail": "檢查結果、waivers.json → 具理由的例外及 gate 狀態",
+          "files": [
+            "skills/taste-skill/scripts/gate.mjs"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "依產業選擇首頁設計",
+        "rule": "素材來源及事實須另外核對；不將作者偏好強制套在不同產品。",
+        "source": "skills/taste-skill/SKILL.md"
+      },
+      {
+        "name": "規劃瀏覽器驗收",
+        "rule": "原始碼呼叫子程序及瀏覽器；未執行、未安裝、未啟動 hook。設定與環境可能影響結果。",
+        "source": "skills/taste-skill/scripts/gate.mjs"
+      },
+      {
+        "name": "管理未通過的品質檢查",
+        "rule": "檔首描述每項 waiver 對應特定發現，超過五項會失敗；完整狀態分支與 hook 尚未稽核。PASS 不等於完整無障礙或功能驗收。",
+        "source": "skills/taste-skill/scripts/gate.mjs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/taste-skill/SKILL.md",
+          "skills/taste-skill/scripts/gate.mjs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先定義測試目標及輸入：一份已確認的企業 brief、自有品牌及授權素材、目標裝置。 核對固定版本來源：skills/taste-skill/SKILL.md、skills/taste-skill/scripts/gate.mjs。 先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料、費用與修改須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有網站的 Agent 開發與 PR 審查。；另驗證真實行為及失敗。",
+        "file": "skills/taste-skill/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "design-plan",
+        "name": "依產業選擇首頁設計",
+        "problem": "以實際產品、使用者及主要行動決定配色、版面及內容。",
+        "input": "網站類型、品牌、主要行動",
+        "output": "頁面分段與設計 tokens",
+        "source": "skills/taste-skill/SKILL.md",
+        "sourceFiles": [
+          "skills/taste-skill/SKILL.md"
+        ],
+        "symbols": [
+          "The kind of business decides everything",
+          "The page plan by kind",
+          "The run"
+        ],
+        "gate": "素材來源及事實須另外核對；不將作者偏好強制套在不同產品。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "browser-gate",
+        "name": "規劃瀏覽器驗收",
+        "problem": "將不同畫面尺寸的排版、溢出、點擊範圍及文案檢查列為交付證據。",
+        "input": "本機頁面、gate marker 與檢查設定",
+        "output": "檢查報告或逾時／錯誤",
+        "source": "skills/taste-skill/scripts/gate.mjs",
+        "sourceFiles": [
+          "skills/taste-skill/scripts/gate.mjs"
+        ],
+        "symbols": [
+          "browserChecks",
+          "copyChecks",
+          "staticChecks"
+        ],
+        "gate": "原始碼呼叫子程序及瀏覽器；未執行、未安裝、未啟動 hook。設定與環境可能影響結果。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "waiver",
+        "name": "管理未通過的品質檢查",
+        "problem": "保留具體規則、對象及理由，不藉修改檢查器掩蓋問題。",
+        "input": "檢查結果、waivers.json",
+        "output": "具理由的例外及 gate 狀態",
+        "source": "skills/taste-skill/scripts/gate.mjs",
+        "sourceFiles": [
+          "skills/taste-skill/scripts/gate.mjs"
+        ],
+        "symbols": [
+          "Waivers（檔首契約）",
+          "GATE: PASS / FAIL / OPEN / ERROR（檔首契約）"
+        ],
+        "gate": "檔首描述每項 waiver 對應特定發現，超過五項會失敗；完整狀態分支與 hook 尚未稽核。PASS 不等於完整無障礙或功能驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃企業首頁的設計與驗收流程（設計示例）",
+      "problem": "一份已確認的企業 brief、自有品牌及授權素材、目標裝置。",
+      "steps": [
+        {
+          "capability": "design-plan",
+          "action": "依產業選擇首頁設計"
+        },
+        {
+          "capability": "browser-gate",
+          "action": "規劃瀏覽器驗收"
+        },
+        {
+          "capability": "waiver",
+          "action": "管理未通過的品質檢查"
+        }
+      ],
+      "gate": "未執行；實際環境與成果需獨立驗收。",
+      "readerExampleRef": "example-leonxlnx-taste-skill"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "一份已確認的企業 brief、自有品牌及授權素材、目標裝置。",
+          "deliverable": "測試資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義網站類型 → 規劃 tokens、版面與文案 → 設計 gate → 審查真實畫面",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有網站的 Agent 開發與 PR 審查。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。",
+        "固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "來源與實際驗收界線",
+        "severity": "高",
+        "issue": "本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。 固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。",
+        "control": "固定版本、最小權限、獨立驗收功能、資料與使用體驗。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README.md、LICENSE、skills/taste-skill/SKILL.md、skills/taste-skill/scripts/gate.mjs；限定範圍源文件與契約查核，未執行；本次未執行 gate 或查完整子檢查器及 hook；腳本會啟動程序並寫入驗收狀態。 固定版本 Skill 名稱與安裝名稱不同，依 README 核對，不沿用已移出的舊技能。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行或修改第三方工具。"
+      }
+    ]
   }
 }

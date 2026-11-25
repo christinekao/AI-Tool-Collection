@@ -6,14 +6,14 @@
   "canonicalName": "pcottle/learnGitBranching",
   "category": "12 Developer Tools",
   "resourceType": "MIT open-source browser-based Git visualizer, interactive sandbox, tutorials and challenges",
-  "purpose": "以互動 Git Commit Tree 和沙盒模擬，逐步練習 branch、checkout/switch、merge、rebase、cherry-pick、HEAD、Remote 等 Git 概念；執行支援的 Git 命令後即時顯示分支和提交關係，亦提供 levels、undo、reset、自製挑戰與分享連結。",
-  "recommendation": "適合想弄懂 Git 分支、Rebase、Merge、遠端操作但不希望先冒險修改真實 Repository 的初學者與 Coding Agent 使用者；先在官方網站用 Sandbox 和 Levels 練習，再把理解套用到獨立測試 Repo。此網站的 Git 操作是教學模擬，非完整真實 Git Client，不能將模擬命令能力誤當所有 Git 旗標和 GitHub 授權功能。",
+  "purpose": "用互動式 Commit Tree 練習 Git 分支、合併、Rebase 與暫存區，先看懂歷史如何改變再操作真實 Repo。",
+  "recommendation": "適合學習版本控制或比較不同指令的結果；完成關卡之後仍需在自己的測試 Repo 實際演練，不把模擬指令直接當真實 Git。",
   "url": "https://pcottle.github.io/learnGitBranching/",
   "repo": "pcottle/learnGitBranching",
   "notes": "2026-10-24 透過 GitHub 官方 Repository Metadata 和 README.md 核對：Repo 授權欄位為 MIT，尚在維護（近期推送 2026-10-22），官方網站為 https://pcottle.github.io/learnGitBranching/；是純前端 JavaScript 模擬器，不要求使用者連自己的 GitHub 帳號才能練習。README 提供 Sandbox、levels、undo、reset、git fakeCreateRemote 和自製關卡、分享 URL，也描述使用 Yarn/Vite 測試的自行建置方式。頁面中的 `git fakeCreateRemote` 是 LearnGitBranching 模擬環境專屬命令，不是 Git 本體指令。未下載或在本環境操作實際網站；不代表所有教學翻譯或每個 Command 在所有版本都一致。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "learn-git-branching",
     "git",
@@ -51,8 +51,14 @@
     "type": "Original maintainer GitHub README and repository license metadata",
     "summary": "Primary-source feature and license check on 2026-10-24; no installation or live browser test.",
     "readmeUrl": "https://github.com/pcottle/learnGitBranching/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README.md、LICENSE.md、src/js/git/index.js；限定範圍源文件與契約查核，未執行；固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。 未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。",
+    "upstreamCommit": "f51af0e8e373fd9b0ffb7287656e6e01348f4c9e",
+    "referenceUrls": [
+      "https://github.com/pcottle/learnGitBranching/blob/f51af0e8e373fd9b0ffb7287656e6e01348f4c9e/README.md",
+      "https://github.com/pcottle/learnGitBranching/blob/f51af0e8e373fd9b0ffb7287656e6e01348f4c9e/LICENSE.md",
+      "https://github.com/pcottle/learnGitBranching/blob/f51af0e8e373fd9b0ffb7287656e6e01348f4c9e/src/js/git/index.js"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -91,16 +97,19 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "保留原 Canonical ID，補限定範圍來源契約與用途。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -109,8 +118,8 @@
     "classificationReason": "原有 Domain software 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "已核對限定範圍源文件與程式契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -123,7 +132,344 @@
     "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "README.md、LICENSE.md、src/js/git/index.js；限定範圍源文件與契約查核，未執行；固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。 未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README.md、LICENSE.md、src/js/git/index.js；限定範圍源文件與契約查核，未執行；固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。 未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。；局部契約與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "以互動 Git Commit Tree 和沙盒模擬，逐步練習 branch、checkout/switch、merge、rebase、cherry-pick、HEAD、Remote 等 Git 概念；執行支援的 Git 命令後即時顯示分支和提交關係，亦提供 levels、undo、reset、自製挑戰與分享連結。",
+      "source": "https://github.com/pcottle/learnGitBranching",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-branch",
+        "title": "理解分支與 HEAD 的關係",
+        "detail": "在沙盒建立分支與切換，觀察指標指向的 commit。",
+        "capabilityRefs": [
+          "branch"
+        ]
+      },
+      {
+        "id": "use-merge",
+        "title": "比較 Merge 和 Rebase",
+        "detail": "觀察 fast-forward 與分叉歷史的變化，理解選擇理由。",
+        "capabilityRefs": [
+          "merge"
+        ]
+      },
+      {
+        "id": "use-stage",
+        "title": "理解暫存區與提交",
+        "detail": "比較已修改及 staged 檔案狀態，再練習提交。",
+        "capabilityRefs": [
+          "stage"
+        ]
+      }
+    ],
+    "example": {
+      "id": "example-pcottle-learn-git-branching",
+      "title": "練習 Local Git 的分支與合併",
+      "input": "教學沙盒的初始 Commit Tree、兩個分支與合併目標。",
+      "process": "建立分支 → 模擬提交 → 比較 Merge/Rebase → 在測試 Repo 驗證",
+      "output": "分支圖、操作預期與真實 Git 驗收清單（未操作沙盒）。",
+      "destination": "Git 與 CI/CD 學習練習。",
+      "note": "自訂設計示例；未執行第三方工具或產生實際成果。",
+      "useCaseRefs": [
+        "use-branch",
+        "use-merge",
+        "use-stage"
+      ],
+      "steps": [
+        {
+          "id": "branch",
+          "title": "理解分支與 HEAD 的關係",
+          "capabilityRefs": [
+            "branch"
+          ]
+        },
+        {
+          "id": "merge",
+          "title": "比較 Merge 和 Rebase",
+          "capabilityRefs": [
+            "merge"
+          ]
+        },
+        {
+          "id": "stage",
+          "title": "理解暫存區與提交",
+          "capabilityRefs": [
+            "stage"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收真實結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置及功能測試須另行核准，依真實結果記錄。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義測試目標及輸入：教學沙盒的初始 Commit Tree、兩個分支與合併目標。",
+      "核對固定版本來源：src/js/git/index.js。",
+      "先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。"
+    ],
+    "limits": [
+      "互動沙盒是教學模擬，不包含真實協作 PR、權限與衝突處理全貌",
+      "固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。",
+      "未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用互動式 Commit Tree 練習 Git 分支、合併、Rebase 與暫存區，先看懂歷史如何改變再操作真實 Repo。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "f51af0e8e373fd9b0ffb7287656e6e01348f4c9e"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "理解分支與 HEAD 的關係",
+        "detail": "在沙盒建立分支與切換，觀察指標指向的 commit。；輸入：分支名、ref、模擬 commit graph；輸出：新 branch 或 HEAD 的指向",
+        "source": "src/js/git/index.js"
+      },
+      {
+        "title": "比較 Merge 和 Rebase",
+        "detail": "觀察 fast-forward 與分叉歷史的變化，理解選擇理由。；輸入：目標 ref、當前位置與選項；輸出：模擬歷史變更或已更新結果",
+        "source": "src/js/git/index.js"
+      },
+      {
+        "title": "理解暫存區與提交",
+        "detail": "比較已修改及 staged 檔案狀態，再練習提交。；輸入：關卡啟用的 workingChanges、paths；輸出：staged 狀態、模擬 commit 或無暫存錯誤",
+        "source": "src/js/git/index.js"
+      }
+    ],
+    "architecture": {
+      "summary": "建立分支 → 模擬提交 → 比較 Merge/Rebase → 在測試 Repo 驗證",
+      "nodes": [
+        {
+          "title": "理解分支與 HEAD 的關係",
+          "detail": "分支名、ref、模擬 commit graph → 新 branch 或 HEAD 的指向",
+          "files": [
+            "src/js/git/index.js"
+          ]
+        },
+        {
+          "title": "比較 Merge 和 Rebase",
+          "detail": "目標 ref、當前位置與選項 → 模擬歷史變更或已更新結果",
+          "files": [
+            "src/js/git/index.js"
+          ]
+        },
+        {
+          "title": "理解暫存區與提交",
+          "detail": "關卡啟用的 workingChanges、paths → staged 狀態、模擬 commit 或無暫存錯誤",
+          "files": [
+            "src/js/git/index.js"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "理解分支與 HEAD 的關係",
+        "rule": "模擬模型沒有實際檔案及 Git 權限；不把教學 undo/reset 當真實指令。",
+        "source": "src/js/git/index.js"
+      },
+      {
+        "name": "比較 Merge 和 Rebase",
+        "rule": "已核對入口及 fast-forward 分支，未查完整衝突、重播與真實 Git 實作。",
+        "source": "src/js/git/index.js"
+      },
+      {
+        "name": "理解暫存區與提交",
+        "rule": "changesModelEngaged 須由關卡啟用；其餘傳統關卡仍是純圖模型，非完整 working tree。",
+        "source": "src/js/git/index.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE.md",
+          "src/js/git/index.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先定義測試目標及輸入：教學沙盒的初始 Commit Tree、兩個分支與合併目標。 核對固定版本來源：src/js/git/index.js。 先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料、費用與修改須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "Git 與 CI/CD 學習練習。；另驗證真實行為及失敗。",
+        "file": "src/js/git/index.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "branch",
+        "name": "理解分支與 HEAD 的關係",
+        "problem": "在沙盒建立分支與切換，觀察指標指向的 commit。",
+        "input": "分支名、ref、模擬 commit graph",
+        "output": "新 branch 或 HEAD 的指向",
+        "source": "src/js/git/index.js",
+        "sourceFiles": [
+          "src/js/git/index.js"
+        ],
+        "symbols": [
+          "GitEngine.prototype.branch",
+          "GitEngine.prototype.checkout",
+          "GitEngine.prototype.loadTree"
+        ],
+        "gate": "模擬模型沒有實際檔案及 Git 權限；不把教學 undo/reset 當真實指令。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "merge",
+        "name": "比較 Merge 和 Rebase",
+        "problem": "觀察 fast-forward 與分叉歷史的變化，理解選擇理由。",
+        "input": "目標 ref、當前位置與選項",
+        "output": "模擬歷史變更或已更新結果",
+        "source": "src/js/git/index.js",
+        "sourceFiles": [
+          "src/js/git/index.js"
+        ],
+        "symbols": [
+          "GitEngine.prototype.merge",
+          "GitEngine.prototype.rebase"
+        ],
+        "gate": "已核對入口及 fast-forward 分支，未查完整衝突、重播與真實 Git 實作。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "stage",
+        "name": "理解暫存區與提交",
+        "problem": "比較已修改及 staged 檔案狀態，再練習提交。",
+        "input": "關卡啟用的 workingChanges、paths",
+        "output": "staged 狀態、模擬 commit 或無暫存錯誤",
+        "source": "src/js/git/index.js",
+        "sourceFiles": [
+          "src/js/git/index.js"
+        ],
+        "symbols": [
+          "GitEngine.prototype.addFiles",
+          "GitEngine.prototype.commit",
+          "GitEngine.prototype.getStatusMsg"
+        ],
+        "gate": "changesModelEngaged 須由關卡啟用；其餘傳統關卡仍是純圖模型，非完整 working tree。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "練習 Local Git 的分支與合併（設計示例）",
+      "problem": "教學沙盒的初始 Commit Tree、兩個分支與合併目標。",
+      "steps": [
+        {
+          "capability": "branch",
+          "action": "理解分支與 HEAD 的關係"
+        },
+        {
+          "capability": "merge",
+          "action": "比較 Merge 和 Rebase"
+        },
+        {
+          "capability": "stage",
+          "action": "理解暫存區與提交"
+        }
+      ],
+      "gate": "未執行；實際環境與成果需獨立驗收。",
+      "readerExampleRef": "example-pcottle-learn-git-branching"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "教學沙盒的初始 Commit Tree、兩個分支與合併目標。",
+          "deliverable": "測試資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立分支 → 模擬提交 → 比較 Merge/Rebase → 在測試 Repo 驗證",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "Git 與 CI/CD 學習練習。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。",
+        "未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "來源與實際驗收界線",
+        "severity": "高",
+        "issue": "固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。 未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。",
+        "control": "固定版本、最小權限、獨立驗收功能、資料與使用體驗。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README.md、LICENSE.md、src/js/git/index.js；限定範圍源文件與契約查核，未執行；固定版本具有選配 workingChanges 模擬，並非所有關卡都有暫存區。 未操作教學網站或執行真實 Git；PR、remote 權限、衝突及 CI/CD 需獨立練習。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行或修改第三方工具。"
+      }
+    ]
   }
 }
