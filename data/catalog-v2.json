@@ -4835,8 +4835,8 @@
       "canonicalName": "OpenCode",
       "category": "AI Coding Agents & Developer Tools",
       "resourceType": "Open-source coding agent for terminal, desktop, IDE and programmable agent workflows",
-      "purpose": "讓開發者使用可自行選擇的 LLM，在專案中進行程式碼探索、開發規劃、檔案修改、命令執行與除錯；以 Agents、Subagents、工具權限及擴充功能建構 AI 協作工作流程。",
-      "recommendation": "適合比較 Claude Code、Codex 與其他 Coding Agent 的架構，實作多代理工作分工、開發流程自動化、計畫與執行分離、權限審查和自訂 Agent。導入時先用測試專案及隔離執行環境。",
+      "purpose": "在終端機或編輯器使用 AI 協助理解、修改及檢查程式碼，依任務選擇分析或開發角色。",
+      "recommendation": "適合需要在程式工作區切換分析與修改任務的人；先在測試 Repo 核對角色、工具與真正的寫入限制，不將角色名稱當安全邊界。",
       "url": "https://github.com/anomalyco/opencode",
       "repo": "anomalyco/opencode",
       "homepage": "https://opencode.ai",
@@ -4885,7 +4885,7 @@
       "collectionDecision": "主專案為 Coding Agent 執行平台而非單一獨立 Agent SKILL.md；本次僅收錄 1 Resource，不執行安裝。",
       "status": "active",
       "addedAt": "2026-11-05",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "opencode",
         "coding-agent",
@@ -4915,10 +4915,15 @@
           "https://opencode.ai/v2/docs/permissions/",
           "https://opencode.ai/v2/docs/agents/"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
         "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-        "reviewScope": "README only; not installed/runtime tested"
+        "reviewScope": "固定版本 README 的 Agents 與 general subagent 介紹、LICENSE；未取得現行角色及權限核心程式碼。",
+        "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
+        "referenceUrls": [
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/LICENSE"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -4950,19 +4955,21 @@
       ],
       "intakeReview": {
         "policyVersion": "1.0",
-        "sourceStatus": "source-checked",
+        "sourceStatus": "partial",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+          "reason": "沿用既有 Canonical ID 與上游 Repo，補已知用途及固定版本文件，保留程式碼查核缺口。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -4972,7 +4979,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+          "reason": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -4985,8 +4992,145 @@
         "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+          "evidence": "固定版本 README 的 Agents 與 general subagent 介紹、LICENSE；未取得現行角色及權限核心程式碼。；未執行。"
+        },
+        "sourceGap": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。",
+        "layerReview": {
+          "status": "deferred",
+          "reason": "只建立已確認的 README 角色用途及來源對應，不宣稱權限實作已驗證。",
+          "gap": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。",
+          "nextAction": "從固定版本專案結構或官方索引定位角色與工具權限模組，核對設定、核准、命令與子代理的實作及測試，再升級 mapped。"
         }
+      },
+      "implementationKnowledge": {
+        "sourceReview": {
+          "plan": "README 描述 plan 為分析與探索用角色，執行 bash 前詢問核准；未查實際 permission 邏輯。",
+          "build": "README 描述 build 為預設開發角色，具有較完整的操作能力；不可直接套用正式工作區。",
+          "general": "README 描述 general subagent 用於複雜搜尋及多步任務；未核對權限繼承及生命週期。",
+          "license": "固定版本 LICENSE 為 MIT；依賴、模型及服務條款另查。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "plan",
+          "detail": "README 說明 plan 用於分析及程式探索，執行 bash 前詢問。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md；Agents / plan",
+          "evidenceFields": [
+            "features.2",
+            "implementationKnowledge.sourceReview.plan"
+          ],
+          "limitations": "未確認所有工具均為唯讀或命令核准的實際執行。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "build",
+          "detail": "README 描述 build 為預設開發角色。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md；Agents / build",
+          "evidenceFields": [
+            "features.2",
+            "implementationKnowledge.sourceReview.build"
+          ],
+          "limitations": "未核對實際寫入、命令與 MCP 權限；角色名稱不構成沙箱。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "general",
+          "detail": "README 描述 general subagent 適用複雜搜尋及多步工作。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md；Agents / general",
+          "evidenceFields": [
+            "features.2",
+            "implementationKnowledge.sourceReview.general"
+          ],
+          "limitations": "未驗證子代理的權限繼承、隔離或工作回收。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "explore-code",
+            "title": "先理解程式再決定修改",
+            "detail": "以分析角色找出問題、相關檔案及預期行為，保留待核准操作。",
+            "evidenceRefs": [
+              "plan"
+            ]
+          },
+          {
+            "id": "fix-feature",
+            "title": "按明確範圍修改功能",
+            "detail": "切換至開發角色前確認允許的檔案及命令，完成後另行驗收。",
+            "evidenceRefs": [
+              "build"
+            ]
+          },
+          {
+            "id": "delegate-research",
+            "title": "拆分複雜的程式研究",
+            "detail": "評估是否需要專用子代理處理搜尋，保留來源及交接結果。",
+            "evidenceRefs": [
+              "general"
+            ]
+          }
+        ],
+        "example": {
+          "id": "plan-build-review",
+          "title": "先分析再修正網頁顯示問題",
+          "input": "合成測試 Repo、可重現的網頁問題及允許修改範圍。",
+          "process": "分析問題 → 必要時拆分研究 → 核准修改 → 審查差異與測試",
+          "output": "問題分析、修改計畫及測試驗收規格（未執行）。",
+          "destination": "自有專案 PR 流程；實際程式與資料驗收另行實作。",
+          "note": "設計示例，未安裝或執行 OpenCode；目前僅文件證據。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "explore-code",
+            "fix-feature",
+            "delegate-research"
+          ],
+          "steps": [
+            {
+              "id": "plan",
+              "title": "規劃程式探索",
+              "evidenceRefs": [
+                "plan"
+              ]
+            },
+            {
+              "id": "research",
+              "title": "評估獨立研究任務",
+              "evidenceRefs": [
+                "general"
+              ]
+            },
+            {
+              "id": "build",
+              "title": "核准後規劃修改",
+              "evidenceRefs": [
+                "build"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "獨立驗收修改及權限",
+              "evidenceRefs": [],
+              "externalDependency": "實際工具限制、Git 差異、測試及資料副作用須獨立核對。"
+            }
+          ]
+        },
+        "start": [
+          "先確認固定版本與適用角色文件，在測試 Repo 定義讀寫範圍。",
+          "以合成需求比較 plan 與 build 的預期行為，確認角色切換前後的權限。",
+          "另取得實作證據後才考慮安裝，驗證核准、拒絕及測試結果。"
+        ],
+        "limits": [
+          "具備讀寫程式碼及執行指令能力，須備份和最小權限",
+          "目前僅查閱 README 與 MIT LICENSE；候選角色及權限核心路徑 404。",
+          "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。"
+        ]
       }
     },
     {
@@ -9591,14 +9735,14 @@
       "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "id": "browser-use-browser-use",
       "title": "Browser Use — Open-Source AI Browser Agent & Automation",
       "canonicalName": "browser-use/browser-use",
       "category": "12 Developer Tools",
       "resourceType": "Open-source browser automation agent Python/TypeScript library and optional hosted cloud API",
-      "purpose": "提供 Browser Use Cloud、CLI 與 Python Library 三條途徑，讓 Agent 透過瀏覽器執行網頁任務；目前 README 的 1.0 路徑使用持續性 Python REPL 和 Chrome CDP。",
-      "recommendation": "適合有網頁操作、表單及資料讀取需求的 Agent；需依 1.0 文件選擇 Cloud 或本機執行，並將外部網站視為不可信輸入。",
+      "purpose": "讓 AI 根據任務在真實瀏覽器中操作網頁、讀取內容或完成明確的網頁流程，並回傳任務結果。",
+      "recommendation": "適合難以用固定 selector 或簡單 API 處理的網頁工作；明確可重現的網站測試優先使用一般瀏覽器測試腳本。登入、付款、送出及私人資料須另行核准。",
       "url": "https://github.com/browser-use/browser-use",
       "repo": "browser-use/browser-use",
       "status": "active",
@@ -9668,25 +9812,33 @@
       "source": {
         "url": "https://github.com/browser-use/browser-use",
         "readmeUrl": "https://github.com/browser-use/browser-use/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "README 的 Cloud/CLI/Python 路徑與 REPL/CDP 描述；service.py 的 Agent.run/_run/_failed/close/run_sync。舊 browser/session.py 路徑 404，未查完整 browser-harness、REPL 沙盒、CDP 與權限。",
+        "upstreamCommit": "94784c1f7ecb6b0a5f565b7f9fba59e395b7e048",
+        "referenceUrls": [
+          "https://github.com/browser-use/browser-use/blob/94784c1f7ecb6b0a5f565b7f9fba59e395b7e048/README.md",
+          "https://github.com/browser-use/browser-use/blob/94784c1f7ecb6b0a5f565b7f9fba59e395b7e048/LICENSE",
+          "https://github.com/browser-use/browser-use/blob/94784c1f7ecb6b0a5f565b7f9fba59e395b7e048/browser_use/agent/service.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -9695,8 +9847,8 @@
         "classificationReason": "沿用既有 Primary Domain automation；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -9709,8 +9861,352 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "README 的 Cloud/CLI/Python 路徑與 REPL/CDP 描述；service.py 的 Agent.run/_run/_failed/close/run_sync。舊 browser/session.py 路徑 404，未查完整 browser-harness、REPL 沙盒、CDP 與權限。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README 的 Cloud/CLI/Python 路徑與 REPL/CDP 描述；service.py 的 Agent.run/_run/_failed/close/run_sync。舊 browser/session.py 路徑 404，未查完整 browser-harness、REPL 沙盒、CDP 與權限。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供 Browser Use Cloud、CLI 與 Python Library 三條途徑，讓 Agent 透過瀏覽器執行網頁任務；目前 README 的 1.0 路徑使用持續性 Python REPL 和 Chrome CDP。",
+          "source": "https://github.com/browser-use/browser-use",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "public-research",
+            "title": "研究公開網頁中的資訊",
+            "detail": "給定合法可讀的公開頁面及輸出欄位，限制瀏覽步數與範圍。",
+            "capabilityRefs": [
+              "run-boundary",
+              "preflight"
+            ]
+          },
+          {
+            "id": "workflow-prototype",
+            "title": "驗證複雜網頁流程的可行性",
+            "detail": "先在無登入測試頁評估 Agent 是否能辨識欄位及失敗原因。",
+            "capabilityRefs": [
+              "run-boundary",
+              "preflight"
+            ]
+          },
+          {
+            "id": "isolated-session",
+            "title": "管理多個獨立瀏覽器任務",
+            "detail": "不同任務使用各自的 Browser，明確清理或保留狀態。",
+            "capabilityRefs": [
+              "lifecycle"
+            ]
+          }
+        ],
+        "example": {
+          "id": "public-doc-reading",
+          "title": "整理公開文件的指定欄位",
+          "input": "兩個合法公開測試頁面、標題與日期欄位規格。",
+          "process": "核對來源與執行範圍 → 設計有限瀏覽任務 → 檢查錯誤 → 驗證結果並關閉",
+          "output": "帶來源的欄位結果及失敗驗收規格（未執行）。",
+          "destination": "自有公開資料研究流程；來源內容及事實需人工核對。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "public-research",
+            "workflow-prototype",
+            "isolated-session"
+          ],
+          "steps": [
+            {
+              "id": "preflight",
+              "title": "確認核准範圍與環境",
+              "capabilityRefs": [
+                "preflight"
+              ]
+            },
+            {
+              "id": "run",
+              "title": "設計有步數與逾時的任務",
+              "capabilityRefs": [
+                "run-boundary"
+              ]
+            },
+            {
+              "id": "close",
+              "title": "管理工作階段與關閉",
+              "capabilityRefs": [
+                "lifecycle"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "核對來源與輸出",
+              "capabilityRefs": [],
+              "externalDependency": "真實網頁、REPL 權限、資料擷取與核對流程須另行實作及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先選可合法閱讀的測試頁，限定只讀操作及輸出欄位。",
+          "核對模型、local/cloud、預算與瀏覽器範圍；不使用真實登入資料。",
+          "驗證步數、失敗及清理行為，人工核對原頁及輸出。"
+        ],
+        "limits": [
+          "網站驗證碼、登入、服務條款與版面變動可能導致任務失敗。",
+          "涉及登入狀態或私人頁面時，應避免授予過度權限並先設人工確認。",
+          "未安裝或啟動 Browser Use；舊 browser/session.py 路徑 404，底層 browser-harness、CDP、REPL 沙盒與 telemetry 未完整審查。",
+          "Agent.run 的限制不涵蓋所有啟動／下載與收尾時間；keep_alive 可能保留登入狀態。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "讓 AI 根據任務在真實瀏覽器中操作網頁、讀取內容或完成明確的網頁流程，並回傳任務結果。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / Agent / REPL / CDP"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本錨點",
+            "value": "94784c1f7ecb6b0a5f565b7f9fba59e395b7e048"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "設定任務與步數限制",
+            "detail": "AI 網頁任務需有限執行；輸入：task、max_steps、timeout 與 Agent/Browser 實例；輸出：AgentHistoryList 或驗證錯誤",
+            "source": "browser_use/agent/service.py"
+          },
+          {
+            "title": "區分啟動失敗與任務結果",
+            "detail": "避免未啟動或缺金鑰時假報完成；輸入：模型、搜尋、Browser 與工作區狀態；輸出：preflight 結果或 AgentHistoryList error",
+            "source": "browser_use/agent/service.py"
+          },
+          {
+            "title": "管理瀏覽器及 Agent 關閉",
+            "detail": "平行工作可能互相干擾；輸入：Agent、Browser.keep_alive、同步／非同步模式；輸出：停止 REPL，依 keep_alive 決定瀏覽器是否關閉",
+            "source": "browser_use/agent/service.py"
+          }
+        ],
+        "architecture": {
+          "summary": "核對來源與執行範圍 → 設計有限瀏覽任務 → 檢查錯誤 → 驗證結果並關閉",
+          "nodes": [
+            {
+              "title": "設定任務與步數限制",
+              "detail": "task、max_steps、timeout 與 Agent/Browser 實例 → AgentHistoryList 或驗證錯誤",
+              "files": [
+                "browser_use/agent/service.py"
+              ]
+            },
+            {
+              "title": "區分啟動失敗與任務結果",
+              "detail": "模型、搜尋、Browser 與工作區狀態 → preflight 結果或 AgentHistoryList error",
+              "files": [
+                "browser_use/agent/service.py"
+              ]
+            },
+            {
+              "title": "管理瀏覽器及 Agent 關閉",
+              "detail": "Agent、Browser.keep_alive、同步／非同步模式 → 停止 REPL，依 keep_alive 決定瀏覽器是否關閉",
+              "files": [
+                "browser_use/agent/service.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "並行限制",
+            "rule": "Agent.run 拒絕同一 Agent 重入及已被其他 Agent 使用的 Browser，finally 解除使用狀態。",
+            "source": "browser_use/agent/service.py"
+          },
+          {
+            "name": "失敗契約",
+            "rule": "_failed 對 preflight/browser 啟動錯誤回傳 status error、零步數的 AgentHistoryList。",
+            "source": "browser_use/agent/service.py"
+          },
+          {
+            "name": "關閉",
+            "rule": "close 在 keep_alive 時僅關閉 REPL；run_sync 不可於正在執行的 event loop 呼叫。",
+            "source": "browser_use/agent/service.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "browser_use/agent/service.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先選可合法閱讀的測試頁，限定只讀操作及輸出欄位。 核對模型、local/cloud、預算與瀏覽器範圍；不使用真實登入資料。 驗證步數、失敗及清理行為，人工核對原頁及輸出。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有公開資料研究流程；來源內容及事實需人工核對。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "browser_use/agent/service.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "run-boundary",
+            "name": "設定任務與步數限制",
+            "problem": "AI 網頁任務需有限執行",
+            "input": "task、max_steps、timeout 與 Agent/Browser 實例",
+            "output": "AgentHistoryList 或驗證錯誤",
+            "source": "browser_use/agent/service.py",
+            "sourceFiles": [
+              "browser_use/agent/service.py"
+            ],
+            "symbols": [
+              "Agent.run",
+              "Agent._run"
+            ],
+            "gate": "max_steps 為模型請求上限，最後一步為交付且可另有修正；timeout 不包含啟動及收尾。不可當作絕對成本或時間界線。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "preflight",
+            "name": "區分啟動失敗與任務結果",
+            "problem": "避免未啟動或缺金鑰時假報完成",
+            "input": "模型、搜尋、Browser 與工作區狀態",
+            "output": "preflight 結果或 AgentHistoryList error",
+            "source": "browser_use/agent/service.py",
+            "sourceFiles": [
+              "browser_use/agent/service.py"
+            ],
+            "symbols": [
+              "Agent._run",
+              "Agent._failed"
+            ],
+            "gate": "未核對完整 telemetry 或資料傳送；只在合法授權、核准費用與測試頁執行。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "lifecycle",
+            "name": "管理瀏覽器及 Agent 關閉",
+            "problem": "平行工作可能互相干擾",
+            "input": "Agent、Browser.keep_alive、同步／非同步模式",
+            "output": "停止 REPL，依 keep_alive 決定瀏覽器是否關閉",
+            "source": "browser_use/agent/service.py",
+            "sourceFiles": [
+              "browser_use/agent/service.py"
+            ],
+            "symbols": [
+              "Agent.run",
+              "Agent.close",
+              "Agent.close_sync",
+              "Agent.run_sync"
+            ],
+            "gate": "同一 Browser 不可同時供兩個 Agent run；keep_alive 保留瀏覽器，不等於清除資料或登入。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "整理公開文件的指定欄位（設計示例）",
+          "problem": "兩個合法公開測試頁面、標題與日期欄位規格。",
+          "steps": [
+            {
+              "capability": "preflight",
+              "action": "確認核准範圍與環境"
+            },
+            {
+              "capability": "run-boundary",
+              "action": "設計有步數與逾時的任務"
+            },
+            {
+              "capability": "lifecycle",
+              "action": "管理工作階段與關閉"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "public-doc-reading"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "兩個合法公開測試頁面、標題與日期欄位規格。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "核對來源與執行範圍 → 設計有限瀏覽任務 → 檢查錯誤 → 驗證結果並關閉",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有公開資料研究流程；來源內容及事實需人工核對。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或啟動 Browser Use；舊 browser/session.py 路徑 404，底層 browser-harness、CDP、REPL 沙盒與 telemetry 未完整審查。",
+            "Agent.run 的限制不涵蓋所有啟動／下載與收尾時間；keep_alive 可能保留登入狀態。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝或啟動 Browser Use；舊 browser/session.py 路徑 404，底層 browser-harness、CDP、REPL 沙盒與 telemetry 未完整審查。 Agent.run 的限制不涵蓋所有啟動／下載與收尾時間；keep_alive 可能保留登入狀態。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README 的 Cloud/CLI/Python 路徑與 REPL/CDP 描述；service.py 的 Agent.run/_run/_failed/close/run_sync。舊 browser/session.py 路徑 404，未查完整 browser-harness、REPL 沙盒、CDP 與權限。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -36219,14 +36715,14 @@
       "canonicalName": "openai/codex",
       "category": "01 Agent Runtime & Harness",
       "resourceType": "Runtime",
-      "purpose": "OpenAI Codex 的開源 Coding Agent 專案，提供終端機操作及編輯器整合入口，可在授權範圍內協助閱讀、修改及檢查程式碼。",
-      "recommendation": "適合希望在本機專案中透過 Coding Agent 處理開發任務的使用者；先確認登入方式、權限設定及程式碼資料外送邊界。",
+      "purpose": "讓 AI 在程式專案中協助閱讀、修改程式碼與執行測試，並透過版本差異及操作核准管理變更。",
+      "recommendation": "適合有明確需求與驗收條件的程式開發任務；未知指令、正式資料、不可逆修改及外部連線應先確認權限，不應把 Agent 回報當成驗收。",
       "url": "https://github.com/openai/codex",
       "repo": "openai/codex",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "agent-runtime",
         "tool-use",
@@ -36281,24 +36777,33 @@
         "url": "https://github.com/openai/codex",
         "readmeUrl": "https://github.com/openai/codex/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。",
+        "upstreamCommit": "ebd0765aafa255d63ebf690ebdffe0164dc14a0c",
+        "referenceUrls": [
+          "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/README.md",
+          "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/LICENSE",
+          "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/codex-rs/protocol/src/protocol.rs",
+          "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/codex-rs/core/src/exec.rs"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -36307,8 +36812,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain ai-agent，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -36321,8 +36826,355 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "OpenAI Codex 的開源 Coding Agent 專案，提供終端機操作及編輯器整合入口，可在授權範圍內協助閱讀、修改及檢查程式碼。",
+          "source": "https://github.com/openai/codex",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "bounded-change",
+            "title": "讓 Agent 修改一個指定功能",
+            "detail": "先定義預期行為、允許檔案及測試，限定 Agent 可執行的操作。",
+            "capabilityRefs": [
+              "approval",
+              "exec"
+            ]
+          },
+          {
+            "id": "test-evidence",
+            "title": "取得可審查的測試證據",
+            "detail": "確認命令、工作目錄、執行結果與實際程式差異，再進行人工驗收。",
+            "capabilityRefs": [
+              "exec",
+              "lifecycle"
+            ]
+          },
+          {
+            "id": "cancel-task",
+            "title": "停止不符合預期的工作",
+            "detail": "區分中止當前任務與清理背景終端，再查是否仍有外部副作用。",
+            "capabilityRefs": [
+              "lifecycle",
+              "approval"
+            ]
+          }
+        ],
+        "example": {
+          "id": "bounded-form-fix",
+          "title": "修正表單儲存錯誤",
+          "input": "測試 Repo、可重現的表單問題及限定修改範圍。",
+          "process": "定義驗收 → 核對核准 → 修改與測試 → 審查差異及執行狀態",
+          "output": "程式差異、測試及人工驗收規格（未執行）。",
+          "destination": "自有專案 PR 審查；資料庫讀回與部署另行驗證。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "bounded-change",
+            "test-evidence",
+            "cancel-task"
+          ],
+          "steps": [
+            {
+              "id": "scope",
+              "title": "設定操作範圍與核准",
+              "capabilityRefs": [
+                "approval"
+              ]
+            },
+            {
+              "id": "execute",
+              "title": "規劃修復及測試命令",
+              "capabilityRefs": [
+                "exec"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "核對執行及停止狀態",
+              "capabilityRefs": [
+                "lifecycle"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "獨立驗收功能及差異",
+              "capabilityRefs": [],
+              "externalDependency": "Git 工作區、測試資料、實際持久化及發布需另行準備及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先在測試 Repo 建立基準 commit、需求及允許修改的檔案。",
+          "核對適用 CLI 版本、工作目錄與核准／沙盒設定，不自行擴張權限。",
+          "完成後查 diff、測試輸出及實際行為；必要時確認背景工作已停止。"
+        ],
+        "limits": [
+          "Coding Agent 能操作工具不代表所有變更都正確，仍需程式測試與人工驗收。",
+          "實際模型、方案、CLI 與 IDE 功能依官方最新文件及帳號權限為準。",
+          "未安裝或執行 Codex；完整 Agent loop、沙盒後端、命令批准及網路隔離未查核。",
+          "CLI 原始碼授權不代表模型、帳戶及服務均免費或同一授權。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "讓 AI 在程式專案中協助閱讀、修改程式碼與執行測試，並透過版本差異及操作核准管理變更。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Rust / CLI / Agent protocol"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0"
+          },
+          {
+            "label": "版本錨點",
+            "value": "ebd0765aafa255d63ebf690ebdffe0164dc14a0c"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "控制操作核准",
+            "detail": "需分開允許範圍與核准方式；輸入：AskForApproval、GranularApprovalConfig；輸出：核准政策的設定契約",
+            "source": "codex-rs/protocol/src/protocol.rs"
+          },
+          {
+            "title": "執行有界線的命令",
+            "detail": "開發工作需執行測試或工具；輸入：ExecParams.command、cwd、env、expiration、sandbox_permissions 與 PermissionProfile；輸出：ExecToolCallOutput 或錯誤",
+            "source": "codex-rs/core/src/exec.rs"
+          },
+          {
+            "title": "追蹤命令與停止任務",
+            "detail": "需區分停止當前任務與停止背景工作；輸入：Op.Interrupt、CleanBackgroundTerminals 與執行事件；輸出：中止與執行結束事件的協議",
+            "source": "codex-rs/protocol/src/protocol.rs"
+          }
+        ],
+        "architecture": {
+          "summary": "定義驗收 → 核對核准 → 修改與測試 → 審查差異及執行狀態",
+          "nodes": [
+            {
+              "title": "控制操作核准",
+              "detail": "AskForApproval、GranularApprovalConfig → 核准政策的設定契約",
+              "files": [
+                "codex-rs/protocol/src/protocol.rs"
+              ]
+            },
+            {
+              "title": "執行有界線的命令",
+              "detail": "ExecParams.command、cwd、env、expiration、sandbox_permissions 與 PermissionProfile → ExecToolCallOutput 或錯誤",
+              "files": [
+                "codex-rs/core/src/exec.rs"
+              ]
+            },
+            {
+              "title": "追蹤命令與停止任務",
+              "detail": "Op.Interrupt、CleanBackgroundTerminals 與執行事件 → 中止與執行結束事件的協議",
+              "files": [
+                "codex-rs/protocol/src/protocol.rs"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "核准與權限",
+            "rule": "AskForApproval::Never 不會將失敗升級請求使用者批准；不可等同 unrestricted。",
+            "source": "codex-rs/protocol/src/protocol.rs"
+          },
+          {
+            "name": "命令契約",
+            "rule": "ExecParams 明列 command、cwd、env、expiration 及 sandbox_permissions，process_exec_tool_call 另接收 PermissionProfile。",
+            "source": "codex-rs/core/src/exec.rs"
+          },
+          {
+            "name": "停止範圍",
+            "rule": "Op::Interrupt 不終止背景終端，CleanBackgroundTerminals 為另一路操作。",
+            "source": "codex-rs/protocol/src/protocol.rs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "codex-rs/protocol/src/protocol.rs",
+              "codex-rs/core/src/exec.rs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先在測試 Repo 建立基準 commit、需求及允許修改的檔案。 核對適用 CLI 版本、工作目錄與核准／沙盒設定，不自行擴張權限。 完成後查 diff、測試輸出及實際行為；必要時確認背景工作已停止。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有專案 PR 審查；資料庫讀回與部署另行驗證。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "codex-rs/protocol/src/protocol.rs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "approval",
+            "name": "控制操作核准",
+            "problem": "需分開允許範圍與核准方式",
+            "input": "AskForApproval、GranularApprovalConfig",
+            "output": "核准政策的設定契約",
+            "source": "codex-rs/protocol/src/protocol.rs",
+            "sourceFiles": [
+              "codex-rs/protocol/src/protocol.rs"
+            ],
+            "symbols": [
+              "AskForApproval",
+              "GranularApprovalConfig"
+            ],
+            "gate": "Never 代表不向人提出核准，不是無限制權限；實際執行策略未核對完整。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "exec",
+            "name": "執行有界線的命令",
+            "problem": "開發工作需執行測試或工具",
+            "input": "ExecParams.command、cwd、env、expiration、sandbox_permissions 與 PermissionProfile",
+            "output": "ExecToolCallOutput 或錯誤",
+            "source": "codex-rs/core/src/exec.rs",
+            "sourceFiles": [
+              "codex-rs/core/src/exec.rs"
+            ],
+            "symbols": [
+              "ExecParams",
+              "ExecExpiration",
+              "process_exec_tool_call"
+            ],
+            "gate": "核對命令、工作目錄、網路及沙盒範圍；不得將輸出成功誤當功能驗收。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "lifecycle",
+            "name": "追蹤命令與停止任務",
+            "problem": "需區分停止當前任務與停止背景工作",
+            "input": "Op.Interrupt、CleanBackgroundTerminals 與執行事件",
+            "output": "中止與執行結束事件的協議",
+            "source": "codex-rs/protocol/src/protocol.rs",
+            "sourceFiles": [
+              "codex-rs/protocol/src/protocol.rs"
+            ],
+            "symbols": [
+              "Op::Interrupt",
+              "Op::CleanBackgroundTerminals",
+              "EventMsg",
+              "ExecCommandEndEvent"
+            ],
+            "gate": "Interrupt 不會終止背景終端；停止不等於復原已寫入資料。核對獨立背景程序與真實差異。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "修正表單儲存錯誤（設計示例）",
+          "problem": "測試 Repo、可重現的表單問題及限定修改範圍。",
+          "steps": [
+            {
+              "capability": "approval",
+              "action": "設定操作範圍與核准"
+            },
+            {
+              "capability": "exec",
+              "action": "規劃修復及測試命令"
+            },
+            {
+              "capability": "lifecycle",
+              "action": "核對執行及停止狀態"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "bounded-form-fix"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "測試 Repo、可重現的表單問題及限定修改範圍。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義驗收 → 核對核准 → 修改與測試 → 審查差異及執行狀態",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有專案 PR 審查；資料庫讀回與部署另行驗證。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或執行 Codex；完整 Agent loop、沙盒後端、命令批准及網路隔離未查核。",
+            "CLI 原始碼授權不代表模型、帳戶及服務均免費或同一授權。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝或執行 Codex；完整 Agent loop、沙盒後端、命令批准及網路隔離未查核。 CLI 原始碼授權不代表模型、帳戶及服務均免費或同一授權。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -37338,14 +38190,14 @@
       "canonicalName": "OpenUI",
       "category": "08 UI & Design Engineering",
       "resourceType": "Generative UI Framework / Open Standard",
-      "purpose": "以 OpenUI Lang 讓 LLM 依允許的元件集合串流產生結構化 UI，支援 React、Vue、Svelte、Angular 與現成聊天介面。",
-      "recommendation": "適合需要控制生成 UI 元件種類與串流呈現的產品；導入後仍需檢查資料格式、元件安全與可及性。",
+      "purpose": "讓 AI 回傳由指定元件組成的介面，例如卡片、表格或表單，並隨模型輸出逐步呈現，而不是只回傳一段文字。",
+      "recommendation": "適合需根據問題動態呈現結構化資訊的應用；固定頁面通常直接用一般前端元件即可，涉及寫入的操作仍要由應用程式驗證。",
       "url": "https://github.com/thesysdev/openui",
       "repo": "thesysdev/openui",
       "notes": "Official repository confirmed; project describes itself as the open standard for Generative UI.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "generative-ui",
         "streaming-ui",
@@ -37412,25 +38264,36 @@
       "source": {
         "url": "https://github.com/thesysdev/openui",
         "readmeUrl": "https://github.com/thesysdev/openui/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。",
+        "upstreamCommit": "2465d2bda7eb470cf5a29618d123d0940a8ca731",
+        "referenceUrls": [
+          "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/README.md",
+          "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/LICENSE",
+          "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/lang-core/src/library.ts",
+          "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/lang-core/src/parser/parser.ts",
+          "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/lang-core/src/parser/prompt.ts",
+          "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/react-lang/src/exports.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -37439,8 +38302,8 @@
         "classificationReason": "沿用既有 Primary Domain design；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -37453,8 +38316,364 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "以 OpenUI Lang 讓 LLM 依允許的元件集合串流產生結構化 UI，支援 React、Vue、Svelte、Angular 與現成聊天介面。",
+          "source": "https://github.com/thesysdev/openui",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "structured-answer",
+            "title": "把 AI 回答整理成卡片與表格",
+            "detail": "先定義可用元件及資料欄位，讓回答能依任務顯示資訊。",
+            "capabilityRefs": [
+              "library",
+              "prompt"
+            ]
+          },
+          {
+            "id": "progressive-view",
+            "title": "讓介面隨 AI 回答逐步出現",
+            "detail": "串流解析產生中的內容，區分暫時未完成及最終可驗收畫面。",
+            "capabilityRefs": [
+              "stream-parse",
+              "library"
+            ]
+          },
+          {
+            "id": "safe-ui",
+            "title": "限制生成介面的組成與操作",
+            "detail": "只提供已核准的元件及工具描述，外部操作另有權限驗證。",
+            "capabilityRefs": [
+              "library",
+              "prompt",
+              "stream-parse"
+            ]
+          }
+        ],
+        "example": {
+          "id": "dynamic-analysis-cards",
+          "title": "呈現研究摘要與來源卡片",
+          "input": "合成研究資料、允許的摘要卡片與來源列表元件。",
+          "process": "定義元件 → 產生模型指令 → 解析串流 → 驗收完整畫面",
+          "output": "生成式介面規格、串流與錯誤測試（未執行）。",
+          "destination": "自有研究工具前端；資料查詢、來源驗證及外部操作另行實作。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "structured-answer",
+            "progressive-view",
+            "safe-ui"
+          ],
+          "steps": [
+            {
+              "id": "define",
+              "title": "定義卡片與列表的資料契約",
+              "capabilityRefs": [
+                "library"
+              ]
+            },
+            {
+              "id": "prompt",
+              "title": "規劃模型生成指令",
+              "capabilityRefs": [
+                "prompt"
+              ]
+            },
+            {
+              "id": "parse",
+              "title": "驗證完整與不完整串流",
+              "capabilityRefs": [
+                "stream-parse"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "核對內容、無障礙及資料來源",
+              "capabilityRefs": [],
+              "externalDependency": "真實模型串流、前端 Renderer、外部 API 與權限需另行測試。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先選兩三個已有元件，定義清楚的欄位、root 與資料規則。",
+          "核對固定版本元件庫與 parser，使用手寫合成輸出設計正常、未知元件與不完整輸入測試。",
+          "再接核准的模型與前端，檢查錯誤、互動、可讀性及實際資料。"
+        ],
+        "limits": [
+          "結構化串流只限制渲染格式，不保證內容正確或外部工具安全。",
+          "跨 Framework 的元件支援及 Renderer 能力不同，需先核對相容版本。",
+          "未安裝或渲染實際 UI；React Renderer 僅核對匯出，未查完整 action、runtime 及 Vue/Svelte/Angular 行為。",
+          "結構驗證不能取代工具授權或資料正確性；parser 有 telemetry 呼叫，實際傳送未查核。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "讓 AI 回傳由指定元件組成的介面，例如卡片、表格或表單，並隨模型輸出逐步呈現，而不是只回傳一段文字。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / Zod v4 / OpenUI Lang"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本錨點",
+            "value": "2465d2bda7eb470cf5a29618d123d0940a8ca731"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "定義允許的介面元件",
+            "detail": "模型不應任意產生不受控的畫面結構；輸入：name、props 的 Zod schema、description、component；LibraryDefinition；輸出：DefinedComponent、Library 與 JSON Schema",
+            "source": "packages/lang-core/src/library.ts"
+          },
+          {
+            "title": "從元件規格描述生成語言",
+            "detail": "模型需知道可用元件及參數；輸入：Library 與 PromptOptions、ComponentPromptSpec；輸出：提示指令文字及規格",
+            "source": "packages/lang-core/src/library.ts"
+          },
+          {
+            "title": "解析逐段產生的介面",
+            "detail": "模型串流內容可能尚未完成；輸入：LibraryJSONSchema、rootName、文字或串流 chunk；輸出：ParseResult；StreamParser.push 更新解析結果",
+            "source": "packages/lang-core/src/parser/parser.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "定義元件 → 產生模型指令 → 解析串流 → 驗收完整畫面",
+          "nodes": [
+            {
+              "title": "定義允許的介面元件",
+              "detail": "name、props 的 Zod schema、description、component；LibraryDefinition → DefinedComponent、Library 與 JSON Schema",
+              "files": [
+                "packages/lang-core/src/library.ts"
+              ]
+            },
+            {
+              "title": "從元件規格描述生成語言",
+              "detail": "Library 與 PromptOptions、ComponentPromptSpec → 提示指令文字及規格",
+              "files": [
+                "packages/lang-core/src/library.ts",
+                "packages/lang-core/src/parser/prompt.ts"
+              ]
+            },
+            {
+              "title": "解析逐段產生的介面",
+              "detail": "LibraryJSONSchema、rootName、文字或串流 chunk → ParseResult；StreamParser.push 更新解析結果",
+              "files": [
+                "packages/lang-core/src/parser/parser.ts",
+                "packages/react-lang/src/exports.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "元件契約",
+            "rule": "defineComponent 要求 Zod v4 schema；createLibrary 對元件註冊並檢查 root 是否存在。",
+            "source": "packages/lang-core/src/library.ts"
+          },
+          {
+            "name": "解析",
+            "rule": "createParser 先 compileSchema；parse 預處理、autoClose、切分 statements，回傳 ParseResult。",
+            "source": "packages/lang-core/src/parser/parser.ts"
+          },
+          {
+            "name": "串流",
+            "rule": "createStreamingParser 由 schema 建立 StreamParser，push 接收 chunk 與可選 complete。",
+            "source": "packages/lang-core/src/parser/parser.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "packages/lang-core/src/library.ts",
+              "packages/lang-core/src/parser/parser.ts",
+              "packages/lang-core/src/parser/prompt.ts",
+              "packages/react-lang/src/exports.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先選兩三個已有元件，定義清楚的欄位、root 與資料規則。 核對固定版本元件庫與 parser，使用手寫合成輸出設計正常、未知元件與不完整輸入測試。 再接核准的模型與前端，檢查錯誤、互動、可讀性及實際資料。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有研究工具前端；資料查詢、來源驗證及外部操作另行實作。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "packages/lang-core/src/library.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "library",
+            "name": "定義允許的介面元件",
+            "problem": "模型不應任意產生不受控的畫面結構",
+            "input": "name、props 的 Zod schema、description、component；LibraryDefinition",
+            "output": "DefinedComponent、Library 與 JSON Schema",
+            "source": "packages/lang-core/src/library.ts",
+            "sourceFiles": [
+              "packages/lang-core/src/library.ts"
+            ],
+            "symbols": [
+              "defineComponent",
+              "createLibrary",
+              "Library.toJSONSchema"
+            ],
+            "gate": "檢查元件名稱與 root；schema 限制介面格式，不等於資料或業務權限已驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "prompt",
+            "name": "從元件規格描述生成語言",
+            "problem": "模型需知道可用元件及參數",
+            "input": "Library 與 PromptOptions、ComponentPromptSpec",
+            "output": "提示指令文字及規格",
+            "source": "packages/lang-core/src/library.ts",
+            "sourceFiles": [
+              "packages/lang-core/src/library.ts",
+              "packages/lang-core/src/parser/prompt.ts"
+            ],
+            "symbols": [
+              "Library.prompt",
+              "ComponentPromptSpec",
+              "ToolSpec"
+            ],
+            "gate": "指令不保證模型遵守；工具參數與實際執行權限另驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "stream-parse",
+            "name": "解析逐段產生的介面",
+            "problem": "模型串流內容可能尚未完成",
+            "input": "LibraryJSONSchema、rootName、文字或串流 chunk",
+            "output": "ParseResult；StreamParser.push 更新解析結果",
+            "source": "packages/lang-core/src/parser/parser.ts",
+            "sourceFiles": [
+              "packages/lang-core/src/parser/parser.ts",
+              "packages/react-lang/src/exports.ts"
+            ],
+            "symbols": [
+              "createParser",
+              "createStreamingParser",
+              "StreamParser.push",
+              "parse",
+              "Renderer"
+            ],
+            "gate": "Renderer 僅核對公開匯出；不完整畫面與解析錯誤需明確處理，不能把畫面渲染當成寫入成功。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "呈現研究摘要與來源卡片（設計示例）",
+          "problem": "合成研究資料、允許的摘要卡片與來源列表元件。",
+          "steps": [
+            {
+              "capability": "library",
+              "action": "定義卡片與列表的資料契約"
+            },
+            {
+              "capability": "prompt",
+              "action": "規劃模型生成指令"
+            },
+            {
+              "capability": "stream-parse",
+              "action": "驗證完整與不完整串流"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "dynamic-analysis-cards"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成研究資料、允許的摘要卡片與來源列表元件。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義元件 → 產生模型指令 → 解析串流 → 驗收完整畫面",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有研究工具前端；資料查詢、來源驗證及外部操作另行實作。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或渲染實際 UI；React Renderer 僅核對匯出，未查完整 action、runtime 及 Vue/Svelte/Angular 行為。",
+            "結構驗證不能取代工具授權或資料正確性；parser 有 telemetry 呼叫，實際傳送未查核。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝或渲染實際 UI；React Renderer 僅核對匯出，未查完整 action、runtime 及 Vue/Svelte/Angular 行為。 結構驗證不能取代工具授權或資料正確性；parser 有 telemetry 呼叫，實際傳送未查核。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -48907,8 +50126,8 @@
       "canonicalName": "skills CLI (npx skills)",
       "category": "06 Skills",
       "resourceType": "Open-source command-line manager for agent skills",
-      "purpose": "搜尋、安裝、列出、使用、更新、移除與建立跨 Coding Agent 的可重用 Skills；支援專案層級與全域安裝。",
-      "recommendation": "適合統一管理 Claude Code、Codex、Cursor、OpenCode 等 Agent 的 Skill 安裝與版本；可搭配已收藏的 skills.sh 目錄進行發現，但安裝前應逐項檢查來源、授權、指令、權限與供應鏈風險。",
+      "purpose": "用命令列尋找、讀取或安裝 Agent Skills，管理不同專案及不同 Coding Agent 的技能目錄。",
+      "recommendation": "適合已經找到可信技能、需要管理安裝範圍及來源版本的人；只想瀏覽靈感時先用目錄，不必安裝第三方程式。",
       "url": "https://github.com/vercel-labs/skills",
       "repo": "vercel-labs/skills",
       "website": "https://skills.sh/",
@@ -48949,7 +50168,7 @@
       ],
       "status": "active",
       "addedAt": "2026-11-04",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "agent-skills",
         "skills-cli",
@@ -48972,10 +50191,18 @@
           "https://github.com/vercel-labs/skills/blob/main/LICENSE",
           "https://github.com/vercel-labs/skills/blob/main/ThirdPartyNoticeText.txt"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream GitHub repository, README, MIT license and package metadata",
         "readmeUrl": "https://github.com/vercel-labs/skills/blob/main/README.md",
-        "reviewScope": "README only; not installed/runtime tested"
+        "reviewScope": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。",
+        "upstreamCommit": "57217cf86ba38148a57af9e90d14a4c049558330",
+        "referenceUrls": [
+          "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/README.md",
+          "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/LICENSE",
+          "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/src/cli.ts",
+          "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/src/skills.ts",
+          "https://github.com/vercel-labs/skills/blob/57217cf86ba38148a57af9e90d14a4c049558330/src/installer.ts"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -49007,16 +50234,18 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -49025,8 +50254,8 @@
         "classificationReason": "保留 Primary Domain ai-agent、Category 與原始 Tags；只補來源和使用限制。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -49039,8 +50268,355 @@
         "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+          "evidence": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "搜尋、安裝、列出、使用、更新、移除與建立跨 Coding Agent 的可重用 Skills；支援專案層級與全域安裝。",
+          "source": "https://github.com/vercel-labs/skills",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "review-skill",
+            "title": "確認候選 Skill 的檔案與描述",
+            "detail": "先讀原始 SKILL.md、依賴與安全風險，不以安裝數決定可信度。",
+            "capabilityRefs": [
+              "discovery"
+            ]
+          },
+          {
+            "id": "project-install",
+            "title": "讓技能只作用於指定專案",
+            "detail": "明確選擇工作目錄與目標 Agent，避免改動其他專案。",
+            "capabilityRefs": [
+              "target",
+              "installation"
+            ]
+          },
+          {
+            "id": "install-audit",
+            "title": "核對安裝結果與回復方式",
+            "detail": "檢查實際路徑、連結方式、版本與錯誤，確認可回復後才採用。",
+            "capabilityRefs": [
+              "target",
+              "installation"
+            ]
+          }
+        ],
+        "example": {
+          "id": "scoped-review-skill",
+          "title": "規劃專案專用程式審查技能",
+          "input": "一個合成測試 Repo、已核准候選 SKILL.md 及指定 Agent。",
+          "process": "審查技能 → 核對目錄 → 設計安裝及回復 → 驗收實際範圍",
+          "output": "技能版本、目標目錄與安裝驗收規格（未安裝）。",
+          "destination": "自有開發流程；不自動改動全域設定。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "review-skill",
+            "project-install",
+            "install-audit"
+          ],
+          "steps": [
+            {
+              "id": "inspect",
+              "title": "檢查來源與技能格式",
+              "capabilityRefs": [
+                "discovery"
+              ]
+            },
+            {
+              "id": "target",
+              "title": "選擇專案及 Agent 範圍",
+              "capabilityRefs": [
+                "target"
+              ]
+            },
+            {
+              "id": "install",
+              "title": "設計安裝、錯誤與回復測試",
+              "capabilityRefs": [
+                "installation"
+              ]
+            },
+            {
+              "id": "audit",
+              "title": "獨立檢查權限及實際修改",
+              "capabilityRefs": [],
+              "externalDependency": "實際第三方依賴、安裝、遙測與回復需另行核准及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先讀候選技能的固定版本 SKILL.md 與腳本，不先執行 npx。",
+          "核對 project/global、Agent 與安裝模式，記錄預期寫入的路徑。",
+          "另取得核准後才於隔離測試專案驗證，檢查修改與回復。"
+        ],
+        "limits": [
+          "不可信第三方 Skill 可能含提示注入及腳本風險",
+          "未安裝 CLI 或技能；未逐檔審查下載、鎖定、移除、遙測及所有 symlink 路徑。",
+          "技能內容可能包含提示注入或任意腳本，格式驗證不代表安全。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "用命令列尋找、讀取或安裝 Agent Skills，管理不同專案及不同 Coding Agent 的技能目錄。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / Node.js CLI"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本錨點",
+            "value": "57217cf86ba38148a57af9e90d14a4c049558330"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "辨識技能檔案",
+            "detail": "需要從來源找到可用 SKILL.md；輸入：basePath、subpath、SKILL.md 與 frontmatter；輸出：Skill[] 或 Skill/null；非法 subpath 錯誤",
+            "source": "src/skills.ts"
+          },
+          {
+            "title": "定位技能安裝範圍",
+            "detail": "避免將專案技能誤裝至全域；輸入：global、cwd、agentType、可選 subagent；輸出：canonical / agent skills 目錄",
+            "source": "src/installer.ts"
+          },
+          {
+            "title": "管理技能安裝",
+            "detail": "需將已核准的技能配置到 Agent；輸入：Skill、AgentType、InstallOptions 與 mode；輸出：InstallResult 成功、path、mode 或 error",
+            "source": "src/installer.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "審查技能 → 核對目錄 → 設計安裝及回復 → 驗收實際範圍",
+          "nodes": [
+            {
+              "title": "辨識技能檔案",
+              "detail": "basePath、subpath、SKILL.md 與 frontmatter → Skill[] 或 Skill/null；非法 subpath 錯誤",
+              "files": [
+                "src/skills.ts"
+              ]
+            },
+            {
+              "title": "定位技能安裝範圍",
+              "detail": "global、cwd、agentType、可選 subagent → canonical / agent skills 目錄",
+              "files": [
+                "src/installer.ts"
+              ]
+            },
+            {
+              "title": "管理技能安裝",
+              "detail": "Skill、AgentType、InstallOptions 與 mode → InstallResult 成功、path、mode 或 error",
+              "files": [
+                "src/installer.ts",
+                "src/cli.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "技能格式",
+            "rule": "parseSkillMd 對讀取、YAML 與必填 name/description 不符回傳 null。",
+            "source": "src/skills.ts"
+          },
+          {
+            "name": "探索邊界",
+            "rule": "discoverSkills 檢查 subpath 不可逃離 basePath。",
+            "source": "src/skills.ts"
+          },
+          {
+            "name": "安裝範圍",
+            "rule": "getCanonicalSkillsDir 依 global 選 homedir 或 cwd；installSkillForAgent 預設 symlink，檢查 global 支援並清理技能名稱。",
+            "source": "src/installer.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "src/cli.ts",
+              "src/skills.ts",
+              "src/installer.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先讀候選技能的固定版本 SKILL.md 與腳本，不先執行 npx。 核對 project/global、Agent 與安裝模式，記錄預期寫入的路徑。 另取得核准後才於隔離測試專案驗證，檢查修改與回復。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有開發流程；不自動改動全域設定。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "src/skills.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "discovery",
+            "name": "辨識技能檔案",
+            "problem": "需要從來源找到可用 SKILL.md",
+            "input": "basePath、subpath、SKILL.md 與 frontmatter",
+            "output": "Skill[] 或 Skill/null；非法 subpath 錯誤",
+            "source": "src/skills.ts",
+            "sourceFiles": [
+              "src/skills.ts"
+            ],
+            "symbols": [
+              "parseSkillMd",
+              "discoverSkills"
+            ],
+            "gate": "name/description 必須存在且為字串；通過格式不代表指令可信。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "target",
+            "name": "定位技能安裝範圍",
+            "problem": "避免將專案技能誤裝至全域",
+            "input": "global、cwd、agentType、可選 subagent",
+            "output": "canonical / agent skills 目錄",
+            "source": "src/installer.ts",
+            "sourceFiles": [
+              "src/installer.ts"
+            ],
+            "symbols": [
+              "getCanonicalSkillsDir",
+              "getAgentBaseDir",
+              "isPathSafe"
+            ],
+            "gate": "project/global 需明確指定；正規化路徑檢查不等於所有 symlink 或權限均安全。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "installation",
+            "name": "管理技能安裝",
+            "problem": "需將已核准的技能配置到 Agent",
+            "input": "Skill、AgentType、InstallOptions 與 mode",
+            "output": "InstallResult 成功、path、mode 或 error",
+            "source": "src/installer.ts",
+            "sourceFiles": [
+              "src/installer.ts",
+              "src/cli.ts"
+            ],
+            "symbols": [
+              "installSkillForAgent",
+              "InstallMode",
+              "main"
+            ],
+            "gate": "預設 symlink；不支援 global 的 Agent 會失敗。先核對實際寫入、覆寫、依賴、遙測與回復。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃專案專用程式審查技能（設計示例）",
+          "problem": "一個合成測試 Repo、已核准候選 SKILL.md 及指定 Agent。",
+          "steps": [
+            {
+              "capability": "discovery",
+              "action": "檢查來源與技能格式"
+            },
+            {
+              "capability": "target",
+              "action": "選擇專案及 Agent 範圍"
+            },
+            {
+              "capability": "installation",
+              "action": "設計安裝、錯誤與回復測試"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "scoped-review-skill"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "一個合成測試 Repo、已核准候選 SKILL.md 及指定 Agent。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "審查技能 → 核對目錄 → 設計安裝及回復 → 驗收實際範圍",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有開發流程；不自動改動全域設定。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝 CLI 或技能；未逐檔審查下載、鎖定、移除、遙測及所有 symlink 路徑。",
+            "技能內容可能包含提示注入或任意腳本，格式驗證不代表安全。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝 CLI 或技能；未逐檔審查下載、鎖定、移除、遙測及所有 symlink 路徑。 技能內容可能包含提示注入或任意腳本，格式驗證不代表安全。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、CLI 入口、parseSkillMd/discoverSkills、getCanonicalSkillsDir/getAgentBaseDir/installSkillForAgent、isPathSafe。未查完整下載、symlink 防護、鎖定、移除與遙測實作。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
