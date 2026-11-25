@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 16（2026-11-25）
+
+- main `e2ffe1ba7bed31074771ea31ba092c1474c3466d`；PR #80 四項 CI 通過並合併 `468b2807526ed604b5e3218c76ced519a88d7d49`，Catalog Sync 確認。79/286 已合併（73 完成對應、6 deferred）。
+- [Batch 16 逐筆報告](RESOURCE_DUAL_LAYER_BATCH16_20261125.md)：elayadesign-ai-design-skills、leonxlnx-taste-skill、impeccable、frontend-design、pcottle-learn-git-branching。5 筆 mapped 候選，15 個用途、15 個局部能力及 5 個未實測案例。
+- Figma 技能未連接 Figma；Taste gate 未實測；Impeccable 僅查技能及 audit 指引，未查 Rust detector；Learn Git Branching 暫存區模型須由關卡啟用。保留既有資料、分類及關係。
+- 合併前 79/286；驗收合併後 84/286（78 完成對應、6 deferred），202 尚未改寫。既有來源缺口保留。
+- 下一批優先其他 UI 設計技能與開發教材。排程停用、直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 15（2026-11-25）
 
 - main `1efe5513afb767866a396b041e77e8eb7b21d934`；PR #79 四項 CI 通過並合併 `60ce62bd0b82469a89dd9f9d7541acd5d208ab60`，Catalog Sync 確認。76/286 已合併（70 完成對應、6 deferred）。
