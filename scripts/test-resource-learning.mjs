@@ -279,3 +279,39 @@ test('Dual-layer batch 03: eight resource guides preserve source knowledge and p
   }
  }
 });
+
+test('Dual-layer batch 04: five source-mapped repositories and two documented deferred reviews',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title,expected] of [["systran-faster-whisper","為產品介紹影片建立字幕草稿","mapped"],["manimcommunity-manim","製作一段幾何變化解說影片","mapped"],["mrdoob-three-js","製作網頁 3D 產品預覽","mapped"],["comfy-org-comfyui","批次生成產品概念圖","mapped"],["lottiefiles-dotlottie-web","為表單儲存加入完成動畫","mapped"],["infiniflow-ragflow","建立公司規章問答測試","deferred"],["toeverything-affine","整理個人 AI 工具研究工作區","deferred"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,expected,id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs||uc.evidenceRefs){
+    const unit=(forward.capabilities||forward.evidence).find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    const backward=resolveResourceLayerLinks(d,{capabilityId:ref});
+    assert.ok(backward.useCases.some(c=>c.id===uc.id),id+' '+ref);
+    if(expected==='mapped'){assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)));assert.ok(unit.symbols?.length);}
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  if(expected==='deferred'){assert.equal(d.intakeReview.sourceStatus,'partial');assert.ok(d.intakeReview.layerReview.gap&&d.intakeReview.layerReview.nextAction);}
+  else{assert.ok(d.repoGuide.architecture.nodes.every(n=>n.files?.length));assert.ok(d.repoGuide.rebuild.gaps.length);}
+ }
+ const rag=JSON.parse(fs.readFileSync('data/resources/infiniflow-ragflow.json','utf8'));
+ assert.match(rag.intakeReview.layerReview.gap,/Python/);
+ assert.match(rag.implementationKnowledge.sourceReview.deployment,/Linux/);
+ const affine=JSON.parse(fs.readFileSync('data/resources/toeverything-affine.json','utf8'));
+ assert.match(affine.implementationKnowledge.sourceReview.license,/EE License/);
+ assert.ok(affine.readerGuide.limits.some(x=>x.includes('MIT')));
+});
