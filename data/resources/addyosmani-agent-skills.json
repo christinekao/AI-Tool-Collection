@@ -6,14 +6,14 @@
   "canonicalName": "addyosmani/agent-skills",
   "category": "06 Skills",
   "resourceType": "Skill Collection",
-  "purpose": "提供給 AI Coding Agent 的工程 Skills 與指令，按照需求規格、規劃、開發、測試、審查及發布的生命週期組織工作。",
-  "recommendation": "已有成熟專案時，先補目前最薄弱的品質關卡；新專案才從規格到發布建立完整流程。不要把所有 Skills 長期注入 context，也不要把安裝完成當作流程完成。",
+  "purpose": "讓 AI Coding Agent 按開發階段選用現成工作指引，從釐清需求到測試、審查及交付。",
+  "recommendation": "適合已經使用 Coding Agent 卻常遇到需求不清、修改越界或驗收不足的開發者；依目前缺少的環節挑一個技能，不必每次載入全套。",
   "url": "https://github.com/addyosmani/agent-skills",
   "repo": "addyosmani/agent-skills",
   "notes": "選讀來源：https://github.com/addyosmani/agent-skills/tree/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills 。跨工具可複用的原則：任務階段決定 Skill，專門風險決定附加 Skill，交付證據決定能否完成。這是挑選方法，不是新增正式 Workflow 或已測整合。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [
     "skills",
     "production",
@@ -90,7 +90,7 @@
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -114,6 +114,146 @@
     "verification": {
       "status": "not-tested",
       "evidence": "已讀取四個版本化 SKILL.md 及 MIT LICENSE；其他項目為 README 索引，所有安裝與實際執行均未驗證。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "依已查閱的四份固定版本技能及索引，建立需求、程式審查與實際操作三種用途的雙向對應。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "select-skill",
+      "detail": "依當前任務選擇技能，避免全部指令同時載入。",
+      "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/using-agent-skills/SKILL.md",
+      "evidenceFields": [
+        "features.4",
+        "requirements.0"
+      ],
+      "limitations": "Host 的載入方式與技能相容性需另核對。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "define-acceptance",
+      "detail": "將需求轉為可驗收規格；必要時先澄清任務。",
+      "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/spec-driven-development/SKILL.md",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "已讀規格技能；其他規劃與訪談技能僅索引查核。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "code-review",
+      "detail": "審查程式正確性、架構、安全、可讀性及效能。",
+      "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/code-review-and-quality/SKILL.md",
+      "evidenceFields": [
+        "features.2",
+        "limitations.2"
+      ],
+      "limitations": "不替代實際執行與獨立驗收。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "browser-check",
+      "detail": "使用瀏覽器工具查核真實互動、畫面及狀態。",
+      "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/browser-testing-with-devtools/SKILL.md",
+      "evidenceFields": [
+        "features.2",
+        "limitations.1"
+      ],
+      "limitations": "須有核准的瀏覽器環境，未執行技能。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "unclear-requirement",
+        "title": "讓模糊需求變成規格",
+        "detail": "先把要修改的功能、預期行為與完成條件寫清楚，再讓 Agent 開發。",
+        "evidenceRefs": [
+          "select-skill",
+          "define-acceptance"
+        ]
+      },
+      {
+        "id": "review-changes",
+        "title": "檢查 Agent 修改是否合理",
+        "detail": "針對程式差異檢查錯誤、風險與不必要的修改，避免只看成功訊息。",
+        "evidenceRefs": [
+          "code-review"
+        ]
+      },
+      {
+        "id": "verify-webapp",
+        "title": "驗證網站功能真的能用",
+        "detail": "實際操作網頁，確認表單、畫面與資料狀態是否符合需求。",
+        "evidenceRefs": [
+          "browser-check",
+          "code-review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "form-save-review",
+      "title": "驗收表單儲存功能",
+      "input": "一個待修正的表單，已知儲存後重新整理可能遺失資料。",
+      "process": "明訂驗收條件 → 另行修復 → 程式審查 → 瀏覽器提交與讀回",
+      "output": "驗收規格、程式審查結果及資料讀回證據（預期產物）。",
+      "destination": "交給專案 PR 審查，決定是否允許合併。",
+      "note": "設計示例，未安裝或執行任何技能，也未實測表單。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "unclear-requirement",
+        "review-changes",
+        "verify-webapp"
+      ],
+      "steps": [
+        {
+          "id": "spec",
+          "title": "定義儲存與讀回條件",
+          "evidenceRefs": [
+            "define-acceptance"
+          ]
+        },
+        {
+          "id": "repair",
+          "title": "修改程式及測試",
+          "evidenceRefs": [],
+          "externalDependency": "實際開發、測試資料與專案權限須另外準備。"
+        },
+        {
+          "id": "review",
+          "title": "審查程式差異",
+          "evidenceRefs": [
+            "code-review"
+          ]
+        },
+        {
+          "id": "browser",
+          "title": "確認實際互動",
+          "evidenceRefs": [
+            "browser-check"
+          ]
+        }
+      ]
+    },
+    "start": [
+      "先判斷目前最需要補強的是需求、程式審查還是瀏覽器驗收。",
+      "開啟對應的固定版本 SKILL.md，核對目標 Host、工具權限與專案規則。",
+      "先在單一小任務驗證有無技能時的交付物差異。"
+    ],
+    "limits": [
+      "只有 meta、spec、review、browser-testing 四份 SKILL.md 及 LICENSE 本輪逐檔查閱；其他名稱與用途來自官方 README 索引，未逐項執行驗證。",
+      "瀏覽器驗證需要可用的 Chrome DevTools MCP；不應為了測試任意使用已登入的個人瀏覽器。",
+      "Repo LICENSE 為 MIT；第三方工具、依賴及實際使用條款仍需個別核對。技能流程不等於測試通過或有權限部署。"
+    ]
   }
 }
