@@ -531,7 +531,13 @@ try{
   ["vercel-skills-sh",".resource-reader-guide","選擇程式審查 Skill"],
   ["meigen-ai",".resource-reader-guide","設計商品海報的生成測試"],
   ["openai-codex-security",".resource-reader-guide","規劃合成表單專案安全審查"],
-  ["ibkr-portfolioanalyst",".resource-reader-guide","設計每月資產與交易回顧"]
+  ["ibkr-portfolioanalyst",".resource-reader-guide","設計每月資產與交易回顧"],
+  ["llm",".resource-reader-guide","比較三個模型的摘要表現"],
+  ["ollama-ollama",".resource-reader-guide","設計本機研究筆記摘要服務"],
+  ["playwright",".resource-reader-guide","驗收申請表單儲存功能"],
+  ["n8n-io-n8n",".resource-reader-guide","規劃每日報表整理流程"],
+  ["orca",".resource-reader-guide","分開開發網頁與回歸測試"],
+  ["hindsight",".resource-reader-guide","設計跨任務研究記憶測試"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -558,7 +564,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 forty-seven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 fifty-three Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
