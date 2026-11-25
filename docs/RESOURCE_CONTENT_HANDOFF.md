@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 17（2026-11-25）
+
+- main `ed98df3348ede824af787283b89ff1b21b874ffa`；PR #81 初次 Intake Gate 失敗已修正，四項 CI 通過並合併 `eafd220ded07e943df7ec1ba39bd32c1ed9ad31e`，Catalog Sync 確認。84/286 已合併（78 完成對應、6 deferred）。
+- [Batch 17 逐筆報告](RESOURCE_DUAL_LAYER_BATCH17_20261125.md)：stitch-skills、cathrynlavery-diagram-design、yanliudesign-mono-color-skill，3 筆 mapped 候選、9 個用途、9 個局部能力及 3 個 design-only 案例。保留原資料與分類，Stitch repo 空白依原 URL 補齊。
+- Stitch 未核對服務端工具；Diagram Design 單檔 HTML 預設字型可能連網；Mono Color 原始示例作品不屬 MIT，第三方參考另查權利。未安裝或實測第三方工具。
+- 合併前 84/286；通過合併後 87/286（81 完成對應、6 deferred），199 尚未改寫。既有來源缺口保留。
+- 下一批優先 gzh-design-skill、baoyu-skill、ui-ux-gold-standard 等未改寫 Resource；排程停用，直接執行。重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 16（2026-11-25）
 
 - main `e2ffe1ba7bed31074771ea31ba092c1474c3466d`；PR #80 四項 CI 通過並合併 `468b2807526ed604b5e3218c76ced519a88d7d49`，Catalog Sync 確認。79/286 已合併（73 完成對應、6 deferred）。
