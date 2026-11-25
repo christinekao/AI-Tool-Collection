@@ -6,14 +6,14 @@
   "canonicalName": "Impeccable",
   "category": "06 Skills",
   "resourceType": "Cross-Harness Frontend Design Skill / UI Quality System",
-  "purpose": "把前端設計 guidance、產品脈絡、browser iteration 與 UI 品質檢查封裝成一個跨 coding-agent harness 的 Skill。提供 24 個設計命令、live browser iteration、61 個 deterministic detector rules，以及 PRODUCT.md / DESIGN.md 分層，讓 Agent 能先理解產品真實需求，再做 shape、critique、audit、polish、animate、layout、typeset 等設計工作。",
-  "recommendation": "適合 AI coding 產生的前端容易落入模板化視覺、層級混亂、a11y／responsive／edge cases 不完整，或你希望 Claude Code、Codex、Cursor、Gemini CLI、Hermes 等不同 harness 共用同一套設計 vocabulary 與驗收流程的專案。",
+  "purpose": "用設計審查 Skill 評估既有頁面，分開處理使用體驗、技術品質與視覺一致性。",
+  "recommendation": "適合已有可看的頁面、需要指出問題與修正優先順序的人；審美分數或靜態掃描不能取代真實操作驗收。",
   "url": "https://github.com/pbakaus/impeccable",
   "repo": "pbakaus/impeccable",
   "notes": "Official repository confirmed. Impeccable provides one reusable design skill, 24 commands, live browser iteration and 61 deterministic detector rules for AI-generated frontend design. /impeccable init records durable product truth in PRODUCT.md while visual direction/design-system information lives separately in DESIGN.md. Deterministic CLI/browser checks run without an LLM or API key; LLM critique is used for judgments that cannot be reduced to rules. It supports multiple coding-agent harnesses and provider-native hooks where available.",
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "frontend-design",
     "agent-skill",
@@ -89,25 +89,35 @@
   "source": {
     "url": "https://github.com/pbakaus/impeccable",
     "readmeUrl": "https://github.com/pbakaus/impeccable/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "Documentation only; not runtime-tested"
+    "reviewScope": "README.md、LICENSE、skill/SKILL.src.md、skill/reference/audit.md；限定範圍源文件與契約查核，未執行；README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。 未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。",
+    "upstreamCommit": "9e460a87ef338ee9d12c7beed8fedc597a5af5f7",
+    "referenceUrls": [
+      "https://github.com/pbakaus/impeccable/blob/9e460a87ef338ee9d12c7beed8fedc597a5af5f7/README.md",
+      "https://github.com/pbakaus/impeccable/blob/9e460a87ef338ee9d12c7beed8fedc597a5af5f7/LICENSE",
+      "https://github.com/pbakaus/impeccable/blob/9e460a87ef338ee9d12c7beed8fedc597a5af5f7/skill/SKILL.src.md",
+      "https://github.com/pbakaus/impeccable/blob/9e460a87ef338ee9d12c7beed8fedc597a5af5f7/skill/reference/audit.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "保留原 Canonical ID，補限定範圍來源契約與用途。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -116,8 +126,8 @@
     "classificationReason": "保留既有 Primary Domain design，本輪只補足來源支援的使用方法與限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍源文件與程式契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -130,7 +140,346 @@
     "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "README.md、LICENSE、skill/SKILL.src.md、skill/reference/audit.md；限定範圍源文件與契約查核，未執行；README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。 未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README.md、LICENSE、skill/SKILL.src.md、skill/reference/audit.md；限定範圍源文件與契約查核，未執行；README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。 未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。；局部契約與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把前端設計 guidance、產品脈絡、browser iteration 與 UI 品質檢查封裝成一個跨 coding-agent harness 的 Skill。提供 24 個設計命令、live browser iteration、61 個 deterministic detector rules，以及 PRODUCT.md / DESIGN.md 分層，讓 Agent 能先理解產品真實需求，再做 shape、critique、audit、polish、animate、layout、typeset 等設計工作。",
+      "source": "https://github.com/pbakaus/impeccable",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-context",
+        "title": "建立共用產品與設計背景",
+        "detail": "保留產品需求與既有視覺規則，避免局部修正造成改版。",
+        "capabilityRefs": [
+          "context"
+        ]
+      },
+      {
+        "id": "use-audit",
+        "title": "規劃可驗證的技術審查",
+        "detail": "針對可及性、效能、主題與響應式問題建立證據。",
+        "capabilityRefs": [
+          "audit"
+        ]
+      },
+      {
+        "id": "use-detector",
+        "title": "規劃確定性掃描結果審查",
+        "detail": "將規則發現與人工判斷分開，核對誤報及真正的問題。",
+        "capabilityRefs": [
+          "detector"
+        ]
+      }
+    ],
+    "example": {
+      "id": "example-impeccable",
+      "title": "審查履歷管理系統的既有頁面",
+      "input": "自有測試頁、已確認產品需求及可檢查的介面。",
+      "process": "讀產品背景 → 選 review 範圍 → 規劃技術 audit → 排序問題及獨立複驗",
+      "output": "問題、證據、優先順序及驗收清單（未掃描）。",
+      "destination": "自有產品的設計迭代與 PR 驗收。",
+      "note": "自訂設計示例；未執行第三方工具或產生實際成果。",
+      "useCaseRefs": [
+        "use-context",
+        "use-audit",
+        "use-detector"
+      ],
+      "steps": [
+        {
+          "id": "context",
+          "title": "建立共用產品與設計背景",
+          "capabilityRefs": [
+            "context"
+          ]
+        },
+        {
+          "id": "audit",
+          "title": "規劃可驗證的技術審查",
+          "capabilityRefs": [
+            "audit"
+          ]
+        },
+        {
+          "id": "detector",
+          "title": "規劃確定性掃描結果審查",
+          "capabilityRefs": [
+            "detector"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收真實結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置及功能測試須另行核准，依真實結果記錄。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義測試目標及輸入：自有測試頁、已確認產品需求及可檢查的介面。",
+      "核對固定版本來源：skill/SKILL.src.md、skill/reference/audit.md。",
+      "先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。"
+    ],
+    "limits": [
+      "美學規則無法替代產品需求與人工設計判斷",
+      "Hook 誤報應具可追溯的 Ignore 與測試方式",
+      "README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。",
+      "未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用設計審查 Skill 評估既有頁面，分開處理使用體驗、技術品質與視覺一致性。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache 2.0"
+      },
+      {
+        "label": "版本",
+        "value": "9e460a87ef338ee9d12c7beed8fedc597a5af5f7"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立共用產品與設計背景",
+        "detail": "保留產品需求與既有視覺規則，避免局部修正造成改版。；輸入：現有 PRODUCT.md、DESIGN.md 與頁面；輸出：依請求選擇的 playbook",
+        "source": "skill/SKILL.src.md"
+      },
+      {
+        "title": "規劃可驗證的技術審查",
+        "detail": "針對可及性、效能、主題與響應式問題建立證據。；輸入：HTML/CSS/JS、渲染頁面及裝置條件；輸出：各維度分數與問題報告",
+        "source": "skill/reference/audit.md"
+      },
+      {
+        "title": "規劃確定性掃描結果審查",
+        "detail": "將規則發現與人工判斷分開，核對誤報及真正的問題。；輸入：指定來源或已渲染頁面；輸出：文件描述的掃描及 SARIF/JSON 輸出",
+        "source": "README.md"
+      }
+    ],
+    "architecture": {
+      "summary": "讀產品背景 → 選 review 範圍 → 規劃技術 audit → 排序問題及獨立複驗",
+      "nodes": [
+        {
+          "title": "建立共用產品與設計背景",
+          "detail": "現有 PRODUCT.md、DESIGN.md 與頁面 → 依請求選擇的 playbook",
+          "files": [
+            "skill/SKILL.src.md"
+          ]
+        },
+        {
+          "title": "規劃可驗證的技術審查",
+          "detail": "HTML/CSS/JS、渲染頁面及裝置條件 → 各維度分數與問題報告",
+          "files": [
+            "skill/reference/audit.md"
+          ]
+        },
+        {
+          "title": "規劃確定性掃描結果審查",
+          "detail": "指定來源或已渲染頁面 → 文件描述的掃描及 SARIF/JSON 輸出",
+          "files": [
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立共用產品與設計背景",
+        "rule": "context launcher 可執行外部程式；本輪只閱讀，未執行 init、document 或 doctor。",
+        "source": "skill/SKILL.src.md"
+      },
+      {
+        "name": "規劃可驗證的技術審查",
+        "rule": "文件要求 audit 不自行修正；44px 是建議，WCAG AA 2.5.8 的 24 CSS px 與例外須分辨。",
+        "source": "skill/reference/audit.md"
+      },
+      {
+        "name": "規劃確定性掃描結果審查",
+        "rule": "只核對 README 與實際 audit 指引，未讀 Rust detector/CLI 核心，不宣稱掃描規則實作已驗證。",
+        "source": "README.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skill/SKILL.src.md",
+          "skill/reference/audit.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先定義測試目標及輸入：自有測試頁、已確認產品需求及可檢查的介面。 核對固定版本來源：skill/SKILL.src.md、skill/reference/audit.md。 先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料、費用與修改須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有產品的設計迭代與 PR 驗收。；另驗證真實行為及失敗。",
+        "file": "skill/SKILL.src.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "context",
+        "name": "建立共用產品與設計背景",
+        "problem": "保留產品需求與既有視覺規則，避免局部修正造成改版。",
+        "input": "現有 PRODUCT.md、DESIGN.md 與頁面",
+        "output": "依請求選擇的 playbook",
+        "source": "skill/SKILL.src.md",
+        "sourceFiles": [
+          "skill/SKILL.src.md"
+        ],
+        "symbols": [
+          "Setup",
+          "How to design",
+          "Commands"
+        ],
+        "gate": "context launcher 可執行外部程式；本輪只閱讀，未執行 init、document 或 doctor。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "audit",
+        "name": "規劃可驗證的技術審查",
+        "problem": "針對可及性、效能、主題與響應式問題建立證據。",
+        "input": "HTML/CSS/JS、渲染頁面及裝置條件",
+        "output": "各維度分數與問題報告",
+        "source": "skill/reference/audit.md",
+        "sourceFiles": [
+          "skill/reference/audit.md"
+        ],
+        "symbols": [
+          "Diagnostic Scan",
+          "Accessibility (A11y)",
+          "Responsive Design"
+        ],
+        "gate": "文件要求 audit 不自行修正；44px 是建議，WCAG AA 2.5.8 的 24 CSS px 與例外須分辨。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "detector",
+        "name": "規劃確定性掃描結果審查",
+        "problem": "將規則發現與人工判斷分開，核對誤報及真正的問題。",
+        "input": "指定來源或已渲染頁面",
+        "output": "文件描述的掃描及 SARIF/JSON 輸出",
+        "source": "README.md",
+        "sourceFiles": [
+          "README.md"
+        ],
+        "symbols": [
+          "A slop detector（README 說明）",
+          "detect --sarif（README CLI 示例）"
+        ],
+        "gate": "只核對 README 與實際 audit 指引，未讀 Rust detector/CLI 核心，不宣稱掃描規則實作已驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "審查履歷管理系統的既有頁面（設計示例）",
+      "problem": "自有測試頁、已確認產品需求及可檢查的介面。",
+      "steps": [
+        {
+          "capability": "context",
+          "action": "建立共用產品與設計背景"
+        },
+        {
+          "capability": "audit",
+          "action": "規劃可驗證的技術審查"
+        },
+        {
+          "capability": "detector",
+          "action": "規劃確定性掃描結果審查"
+        }
+      ],
+      "gate": "未執行；實際環境與成果需獨立驗收。",
+      "readerExampleRef": "example-impeccable"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試頁、已確認產品需求及可檢查的介面。",
+          "deliverable": "測試資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "讀產品背景 → 選 review 範圍 → 規劃技術 audit → 排序問題及獨立複驗",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有產品的設計迭代與 PR 驗收。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。",
+        "未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "來源與實際驗收界線",
+        "severity": "高",
+        "issue": "README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。 未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。",
+        "control": "固定版本、最小權限、獨立驗收功能、資料與使用體驗。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README.md、LICENSE、skill/SKILL.src.md、skill/reference/audit.md；限定範圍源文件與契約查核，未執行；README 宣稱的 62 條規則為固定版本描述；Rust detector、CLI 及 hook 實作未查。 未安裝、執行掃描、修改 PRODUCT.md／DESIGN.md 或啟用 hook。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行或修改第三方工具。"
+      }
+    ]
   }
 }
