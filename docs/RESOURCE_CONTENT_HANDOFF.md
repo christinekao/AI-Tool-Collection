@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 22（2026-11-25）
+
+- main 基線 `f83a7c243d76dcc028f06097168452c8116cd713`；PR #86 四項 CI 通過合併，Catalog Sync／Pages 尚待查核。99/286 已合併（93 完成對應、6 deferred）。
+- [Batch 22 逐筆報告](RESOURCE_DUAL_LAYER_BATCH22_20261125.md)：reactive-resume、codebase-index、code-graph。2 mapped、1 evidence-linked 候選，9 個用途、6 個能力、3 個概念證據及 3 個 design-only 案例。
+- Reactive Resume match score 會寫入、AI tailoring 須核准且可能外送履歷；Codebase Index 證據有效不等於功能通過；Code Graph 不是產品。第三方未實測。
+- 合併前 99/286；驗收合併後 102/286（96 完成對應、6 deferred），184 尚未改寫。既有缺口保留。
+- 下一批優先 codebase-memory-mcp、graphify-labs-graphify 等；Graphify 核對原 v3 來源。排程停用，直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 21（2026-11-25）
 
 - main 基線 `dcae00e5ce8795651b6a6cddbd3bda91e9c0004b`；PR #85 修正後四項 CI 通過合併 `c4f0ef10384f4cd355ba1f2b294fb3cf80db700e`，Catalog Sync 通過、Pages 查核時進行中。96/286 已合併（90 完成對應、6 deferred）。

@@ -6,14 +6,14 @@
   "canonicalName": "Reactive Resume",
   "category": "10 Reference Applications",
   "resourceType": "Open-source Resume Builder / Self-hosted App",
-  "purpose": "開源履歷與求職文件編輯器，提供模板、即時預覽、匯出和分享，也支援自架及可選的 AI 功能。",
-  "recommendation": "適合產製、比較及管理履歷版型；自架前檢查資料保護、身分驗證、部署相依及公開分享權限。",
+  "purpose": "在同一個求職管理工具中編輯履歷、為不同職缺保留文件版本、追蹤投遞與面試，並可透過 MCP 輔助整理求職流程。",
+  "recommendation": "適合要管理多份履歷與投遞進度的人，也可作為自建求職管理系統的功能參考；AI 生成內容仍須逐項確認。",
   "url": "https://github.com/reactive-resume/reactive-resume",
   "repo": "reactive-resume/reactive-resume",
   "notes": "Official repository confirmed. Current README notes the project moved to the reactive-resume organization. The app supports PDF/JSON/DOCX export, self-hosting, JSON Resume import and AI integrations.",
   "status": "active",
   "addedAt": "2026-09-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "resume-builder",
     "cv",
@@ -77,25 +77,35 @@
   "source": {
     "url": "https://github.com/reactive-resume/reactive-resume",
     "readmeUrl": "https://github.com/reactive-resume/reactive-resume/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README、LICENSE、MCP application guide、resume router 與 application schema；查核文件契約及路由、資料表，不宣稱完整服務端、權限或 AI 實作稽核。",
+    "referenceUrls": [
+      "https://github.com/reactive-resume/reactive-resume/blob/897bcf8e740a4ee918ac27d0dc17e1edd105446a/README.md",
+      "https://github.com/reactive-resume/reactive-resume/blob/897bcf8e740a4ee918ac27d0dc17e1edd105446a/LICENSE",
+      "https://github.com/reactive-resume/reactive-resume/blob/897bcf8e740a4ee918ac27d0dc17e1edd105446a/docs/guides/managing-applications-with-mcp.mdx",
+      "https://github.com/reactive-resume/reactive-resume/blob/897bcf8e740a4ee918ac27d0dc17e1edd105446a/packages/api/src/features/resume/router.ts",
+      "https://github.com/reactive-resume/reactive-resume/blob/897bcf8e740a4ee918ac27d0dc17e1edd105446a/packages/db/src/schema/applications.ts"
+    ],
+    "upstreamCommit": "897bcf8e740a4ee918ac27d0dc17e1edd105446a"
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "url"
+        "title"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對既有 ID 與來源身分，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -104,8 +114,8 @@
     "classificationReason": "沿用既有 Primary Domain career；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、MCP application guide、resume router 與 application schema；查核文件契約及路由、資料表，不宣稱完整服務端、權限或 AI 實作稽核。；只提供局部來源契約或概念。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -115,10 +125,367 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
     },
-    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "riskNotes": "公開履歷分享可能外洩聯絡資訊，應檢查連結與隱私設定。；自架需管理 PostgreSQL、Redis、物件儲存等依賴，AI 功能可能另計費。；MCP 文件所述部分讀似操作也會寫入，例如 match score 會覆蓋舊評分。；AI tailoring 需連接 provider，可能送出履歷與 JD；生成建議必須人工核准，分數不是錄取機率。；更新 contacts 或 tags 等清單可能整體替換；先讀回當前值再更新。；未安裝、登入或送出文件；未查服務端權限、分享安全、PDF 排版及 ATS 實際接受率。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README、LICENSE、MCP application guide、resume router 與 application schema；查核文件契約及路由、資料表，不宣稱完整服務端、權限或 AI 實作稽核。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、MCP application guide、resume router 與 application schema；查核文件契約及路由、資料表，不宣稱完整服務端、權限或 AI 實作稽核。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "開源履歷與求職文件編輯器，提供模板、即時預覽、匯出和分享，也支援自架及可選的 AI 功能。",
+      "source": "https://github.com/reactive-resume/reactive-resume",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合產製、比較及管理履歷版型；自架前檢查資料保護、身分驗證、部署相依及公開分享權限。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-version",
+        "title": "保留不同職缺的履歷版本",
+        "detail": "投遞之後需要知道當時寄出哪個版本。 履歷副本及可查閱的歷史版本契約。",
+        "capabilityRefs": [
+          "version"
+        ]
+      },
+      {
+        "id": "use-tailor",
+        "title": "根據職缺產生待審履歷建議",
+        "detail": "不同 JD 需要調整履歷內容而非直接覆寫母版。 私有履歷副本及待審修改建議。",
+        "capabilityRefs": [
+          "tailor"
+        ]
+      },
+      {
+        "id": "use-track",
+        "title": "追蹤投遞階段與面試紀錄",
+        "detail": "職缺、聯絡及已寄文件需能互相查找。 職缺紀錄、階段與文件連結契約。",
+        "capabilityRefs": [
+          "track"
+        ]
+      }
+    ],
+    "example": {
+      "id": "reactive-resume-example",
+      "title": "規劃職缺專屬履歷版本及面試追蹤",
+      "input": "自有合成履歷素材、假設職缺描述與投遞階段，不含真實個資。",
+      "process": "保留不同職缺的履歷版本 → 根據職缺產生待審履歷建議 → 追蹤投遞階段與面試紀錄 → 獨立驗收",
+      "output": "職缺與履歷版本連結、待審修改清單及面試追蹤規格。",
+      "destination": "自有履歷管理系統的 MVP 功能與資料模型驗收流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-version",
+        "use-tailor",
+        "use-track"
+      ],
+      "steps": [
+        {
+          "id": "version",
+          "title": "保留不同職缺的履歷版本",
+          "capabilityRefs": [
+            "version"
+          ]
+        },
+        {
+          "id": "tailor",
+          "title": "根據職缺產生待審履歷建議",
+          "capabilityRefs": [
+            "tailor"
+          ]
+        },
+        {
+          "id": "track",
+          "title": "追蹤投遞階段與面試紀錄",
+          "capabilityRefs": [
+            "track"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有合成履歷素材、假設職缺描述與投遞階段，不含真實個資。",
+      "依需求選擇上述用途，閱讀固定版本來源及限制。",
+      "確認環境及權限，再另行實作與核對成果。"
+    ],
+    "limits": [
+      "公開履歷分享可能外洩聯絡資訊，應檢查連結與隱私設定。",
+      "自架需管理 PostgreSQL、Redis、物件儲存等依賴，AI 功能可能另計費。",
+      "MCP 文件所述部分讀似操作也會寫入，例如 match score 會覆蓋舊評分。",
+      "AI tailoring 需連接 provider，可能送出履歷與 JD；生成建議必須人工核准，分數不是錄取機率。",
+      "更新 contacts 或 tags 等清單可能整體替換；先讀回當前值再更新。",
+      "未安裝、登入或送出文件；未查服務端權限、分享安全、PDF 排版及 ATS 實際接受率。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在同一個求職管理工具中編輯履歷、為不同職缺保留文件版本、追蹤投遞與面試，並可透過 MCP 輔助整理求職流程。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；第三方服務與個人文件另計）"
+      },
+      {
+        "label": "版本",
+        "value": "897bcf8e740a4ee918ac27d0dc17e1edd105446a"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "保留不同職缺的履歷版本",
+        "detail": "投遞之後需要知道當時寄出哪個版本。；輸入：履歷 ID、職缺需求、版本名稱；輸出：履歷副本及可查閱的歷史版本契約",
+        "source": "packages/api/src/features/resume/router.ts"
+      },
+      {
+        "title": "根據職缺產生待審履歷建議",
+        "detail": "不同 JD 需要調整履歷內容而非直接覆寫母版。；輸入：已連結履歷、JD 與經核准的 AI provider；輸出：私有履歷副本及待審修改建議",
+        "source": "docs/guides/managing-applications-with-mcp.mdx"
+      },
+      {
+        "title": "追蹤投遞階段與面試紀錄",
+        "detail": "職缺、聯絡及已寄文件需能互相查找。；輸入：職缺 ID、階段、履歷 ID、面試資訊；輸出：職缺紀錄、階段與文件連結契約",
+        "source": "packages/db/src/schema/applications.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "保留不同職缺的履歷版本 → 根據職缺產生待審履歷建議 → 追蹤投遞階段與面試紀錄 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "保留不同職缺的履歷版本",
+          "detail": "履歷 ID、職缺需求、版本名稱 → 履歷副本及可查閱的歷史版本契約",
+          "files": [
+            "README.md",
+            "packages/api/src/features/resume/router.ts",
+            "docs/guides/managing-applications-with-mcp.mdx"
+          ]
+        },
+        {
+          "title": "根據職缺產生待審履歷建議",
+          "detail": "已連結履歷、JD 與經核准的 AI provider → 私有履歷副本及待審修改建議",
+          "files": [
+            "docs/guides/managing-applications-with-mcp.mdx"
+          ]
+        },
+        {
+          "title": "追蹤投遞階段與面試紀錄",
+          "detail": "職缺 ID、階段、履歷 ID、面試資訊 → 職缺紀錄、階段與文件連結契約",
+          "files": [
+            "packages/db/src/schema/applications.ts",
+            "docs/guides/managing-applications-with-mcp.mdx"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "保留不同職缺的履歷版本",
+        "rule": "保留母版與已投遞版本；還原或刪除需另外核准，不把路由存在當作權限驗證。",
+        "source": "packages/api/src/features/resume/router.ts"
+      },
+      {
+        "name": "根據職缺產生待審履歷建議",
+        "rule": "只接受有真實素材支持的建議；外部傳輸及寫入需核准，match score 會寫入且不是錄取機率。",
+        "source": "docs/guides/managing-applications-with-mcp.mdx"
+      },
+      {
+        "name": "追蹤投遞階段與面試紀錄",
+        "rule": "先查既有職缺避免重複；更新清單可能整體替換，確認已寄版本與時間，不自行寄信或投遞。",
+        "source": "packages/db/src/schema/applications.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、MCP application guide、resume router 與 application schema；查核文件契約及路由、資料表，不宣稱完整服務端、權限或 AI 實作稽核。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "docs/guides/managing-applications-with-mcp.mdx",
+          "packages/api/src/features/resume/router.ts",
+          "packages/db/src/schema/applications.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有合成履歷素材、假設職缺描述與投遞階段，不含真實個資。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+        "files": [
+          "packages/api/src/features/resume/router.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有履歷管理系統的 MVP 功能與資料模型驗收流程。；另驗證實際行為及限制。",
+        "file": "packages/api/src/features/resume/router.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "version",
+        "name": "保留不同職缺的履歷版本",
+        "problem": "投遞之後需要知道當時寄出哪個版本。",
+        "input": "履歷 ID、職缺需求、版本名稱",
+        "output": "履歷副本及可查閱的歷史版本契約",
+        "source": "packages/api/src/features/resume/router.ts",
+        "sourceFiles": [
+          "README.md",
+          "packages/api/src/features/resume/router.ts",
+          "docs/guides/managing-applications-with-mcp.mdx"
+        ],
+        "symbols": [
+          "resumeRouter",
+          "listVersions",
+          "createVersion",
+          "restoreVersion",
+          "duplicate"
+        ],
+        "gate": "保留母版與已投遞版本；還原或刪除需另外核准，不把路由存在當作權限驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "tailor",
+        "name": "根據職缺產生待審履歷建議",
+        "problem": "不同 JD 需要調整履歷內容而非直接覆寫母版。",
+        "input": "已連結履歷、JD 與經核准的 AI provider",
+        "output": "私有履歷副本及待審修改建議",
+        "source": "docs/guides/managing-applications-with-mcp.mdx",
+        "sourceFiles": [
+          "docs/guides/managing-applications-with-mcp.mdx"
+        ],
+        "symbols": [
+          "tailor_resume_for_application（文件 MCP 工具）",
+          "apply_resume_patch（文件 MCP 工具）",
+          "reviewRequired（文件欄位）",
+          "proposalSafety（文件欄位）"
+        ],
+        "gate": "只接受有真實素材支持的建議；外部傳輸及寫入需核准，match score 會寫入且不是錄取機率。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "track",
+        "name": "追蹤投遞階段與面試紀錄",
+        "problem": "職缺、聯絡及已寄文件需能互相查找。",
+        "input": "職缺 ID、階段、履歷 ID、面試資訊",
+        "output": "職缺紀錄、階段與文件連結契約",
+        "source": "packages/db/src/schema/applications.ts",
+        "sourceFiles": [
+          "packages/db/src/schema/applications.ts",
+          "docs/guides/managing-applications-with-mcp.mdx"
+        ],
+        "symbols": [
+          "application",
+          "applicationLane",
+          "resumeId",
+          "userId",
+          "update_application（文件 MCP 工具）"
+        ],
+        "gate": "先查既有職缺避免重複；更新清單可能整體替換，確認已寄版本與時間，不自行寄信或投遞。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃職缺專屬履歷版本及面試追蹤（設計示例）",
+      "problem": "自有合成履歷素材、假設職缺描述與投遞階段，不含真實個資。",
+      "steps": [
+        {
+          "capability": "version",
+          "action": "保留不同職缺的履歷版本"
+        },
+        {
+          "capability": "tailor",
+          "action": "根據職缺產生待審履歷建議"
+        },
+        {
+          "capability": "track",
+          "action": "追蹤投遞階段與面試紀錄"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "reactive-resume-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有合成履歷素材、假設職缺描述與投遞階段，不含真實個資。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "保留不同職缺的履歷版本 → 根據職缺產生待審履歷建議 → 追蹤投遞階段與面試紀錄 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有履歷管理系統的 MVP 功能與資料模型驗收流程。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "MCP 文件所述部分讀似操作也會寫入，例如 match score 會覆蓋舊評分。",
+        "AI tailoring 需連接 provider，可能送出履歷與 JD；生成建議必須人工核准，分數不是錄取機率。",
+        "更新 contacts 或 tags 等清單可能整體替換；先讀回當前值再更新。",
+        "未安裝、登入或送出文件；未查服務端權限、分享安全、PDF 排版及 ATS 實際接受率。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與證據邊界",
+        "severity": "高",
+        "issue": "MCP 文件所述部分讀似操作也會寫入，例如 match score 會覆蓋舊評分。 AI tailoring 需連接 provider，可能送出履歷與 JD；生成建議必須人工核准，分數不是錄取機率。 更新 contacts 或 tags 等清單可能整體替換；先讀回當前值再更新。 未安裝、登入或送出文件；未查服務端權限、分享安全、PDF 排版及 ATS 實際接受率。",
+        "control": "固定版本、最小權限、資料確認及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、MCP application guide、resume router 與 application schema；查核文件契約及路由、資料表，不宣稱完整服務端、權限或 AI 實作稽核。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

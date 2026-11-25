@@ -6,14 +6,14 @@
   "canonicalName": "Code Graph",
   "category": "03 Code Intelligence",
   "resourceType": "架構概念",
-  "purpose": "Code Graph 將檔案、函式、類別、測試和服務表示成節點，將呼叫、匯入、繼承及相依性表示成關係；可支援 Codebase 理解、變更影響分析與 AI Agent 的結構化檢索。此筆是概念型 Resource，不代表可直接安裝的產品。",
-  "recommendation": "適合用來理解模組、依賴與呼叫關係的架構概念。",
+  "purpose": "理解程式碼如何互相連接：把檔案、函式、類別等表示成節點，把呼叫及依賴表示成關係，用來追蹤修改可能影響哪裡。",
+  "recommendation": "適合規劃 Coding Agent 的程式理解、影響分析及驗收方法；這是架構概念，不是可安裝的產品。",
   "url": "",
   "repo": "",
   "notes": "Batch 14 身分查核（2026-11-21）：此筆是 Code Graph 架構概念而非特定 Repository；以獨立技術說明核對結構定義，不與同名專案混淆。\n安全／使用範圍：此筆不是可安裝的 Repo；不要因同名直接與 neoand/codegraph 等產品合併。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "architecture",
     "dependency-graph",
@@ -70,24 +70,28 @@
   ],
   "source": {
     "url": "https://www.qodo.ai/glossary/what-is-a-code-graph/",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level review; no third-party runtime/security execution",
-    "type": "技術概念說明（Qodo Glossary）"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。",
+    "type": "技術概念說明（Qodo Glossary）",
+    "referenceUrls": [
+      "https://www.qodo.ai/glossary/what-is-a-code-graph/"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "比對既有 Canonical ID、名稱與來源候選；維持原 Resource 記錄，不新增或自動合併相似項目。"
+      "reason": "核對既有 ID 與來源身分，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -97,7 +101,7 @@
     "readingSpec": {
       "id": "standard",
       "status": "applied",
-      "reason": "依官方產品網站、概念文件或尚未確認的來源執行標準 Resource 說明。"
+      "reason": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。；只提供局部來源契約或概念。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -107,10 +111,142 @@
       "decision": "reused",
       "reason": "保留既有 Concept Typed References，不由描述或 Tags 推論新關聯。"
     },
-    "riskNotes": "靜態分析可能漏掉反射、動態綁定、程式執行期生成的呼叫關係。；結構關係本身不能證明業務意圖或執行正確，也不是特定工具的性能實測。；此筆不是可安裝的 Repo；不要因同名直接與 neoand/codegraph 等產品合併。；本次沒有執行第三方程式、登入服務或存取憑證。",
+    "riskNotes": "靜態分析可能漏掉反射、動態綁定、程式執行期生成的呼叫關係。；結構關係本身不能證明業務意圖或執行正確，也不是特定工具的性能實測。；不是特定 Repo 或工具，不提供可呼叫的 API。；靜態圖可能漏掉動態呼叫、反射與執行期配置。；圖的版本及覆蓋程度必須確認；沒有找到邊不等於沒有依賴。；結構不能證明業務意圖或測試成功；需核對來源及獨立測試。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅執行文件與來源識別查核；第三方 Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。；未實測。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Code Graph 將檔案、函式、類別、測試和服務表示成節點，將呼叫、匯入、繼承及相依性表示成關係；可支援 Codebase 理解、變更影響分析與 AI Agent 的結構化檢索。此筆是概念型 Resource，不代表可直接安裝的產品。",
+      "source": "https://www.qodo.ai/glossary/what-is-a-code-graph/",
+      "reviewedAt": "2026-11-21"
+    },
+    "priorRecommendationSnapshot": "適合用來理解模組、依賴與呼叫關係的架構概念。"
+  },
+  "agentEvidence": [
+    {
+      "id": "model",
+      "detail": "依問題決定節點及呼叫、匯入等關係型別，區分結構圖與文字搜尋。",
+      "locator": "https://www.qodo.ai/glossary/what-is-a-code-graph/；Code graph vs call graph vs dependency graph；How a code graph is built",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。；不代表工具能力或實際執行。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "impact",
+      "detail": "從變更位置沿關係找相關模組及測試，先列為候選範圍。",
+      "locator": "https://www.qodo.ai/glossary/what-is-a-code-graph/；What a code graph answers that search can’t；How AI coding agents and review tools use code graphs",
+      "evidenceFields": [
+        "features.1",
+        "features.2"
+      ],
+      "limitations": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。；不代表工具能力或實際執行。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "verify",
+      "detail": "核對索引版本、原始碼與動態依賴，另用測試確認實際行為。",
+      "locator": "https://www.qodo.ai/glossary/what-is-a-code-graph/；Keeping the graph current；Limits of code graphs",
+      "evidenceFields": [
+        "requirements.1",
+        "limitations.0",
+        "limitations.1"
+      ],
+      "limitations": "2026-11-25 Qodo Glossary 技術概念段落：圖型比較、建圖、查詢與限制；排除供應商產品宣傳、性能主張及未獨立核對的研究數值。；不代表工具能力或實際執行。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "model",
+        "title": "先定義需要的圖表範圍",
+        "detail": "依問題決定節點及呼叫、匯入等關係型別，區分結構圖與文字搜尋。",
+        "evidenceRefs": [
+          "model"
+        ]
+      },
+      {
+        "id": "impact",
+        "title": "找出修改可能影響的功能",
+        "detail": "從變更位置沿關係找相關模組及測試，先列為候選範圍。",
+        "evidenceRefs": [
+          "impact"
+        ]
+      },
+      {
+        "id": "verify",
+        "title": "驗證圖表證據及遺漏風險",
+        "detail": "核對索引版本、原始碼與動態依賴，另用測試確認實際行為。",
+        "evidenceRefs": [
+          "verify"
+        ]
+      }
+    ],
+    "example": {
+      "id": "code-graph-example",
+      "title": "規劃共用驗證函式的修改影響檢查",
+      "input": "假設的程式碼版本、共用表單驗證函式與相關測試。",
+      "process": "先定義需要的圖表範圍 → 找出修改可能影響的功能 → 驗證圖表證據及遺漏風險 → 獨立驗收",
+      "output": "節點與關係清單、候選影響範圍、未確認動態依賴及回歸測試表。",
+      "destination": "自有工程專案的修改範圍審查與測試選擇流程。",
+      "note": "自訂概念應用示例；未執行程式分析或產生真實驗收成果。",
+      "useCaseRefs": [
+        "model",
+        "impact",
+        "verify"
+      ],
+      "steps": [
+        {
+          "id": "model",
+          "title": "先定義需要的圖表範圍",
+          "evidenceRefs": [
+            "model"
+          ]
+        },
+        {
+          "id": "impact",
+          "title": "找出修改可能影響的功能",
+          "evidenceRefs": [
+            "impact"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "驗證圖表證據及遺漏風險",
+          "evidenceRefs": [
+            "verify"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先確認問題與程式碼版本，選擇需要的節點及關係。",
+      "找出候選依賴並標記圖中尚未確認的部分。",
+      "核對原始碼與實際測試，再判斷修改是否安全。"
+    ],
+    "limits": [
+      "靜態分析可能漏掉反射、動態綁定、程式執行期生成的呼叫關係。",
+      "結構關係本身不能證明業務意圖或執行正確，也不是特定工具的性能實測。",
+      "不是特定 Repo 或工具，不提供可呼叫的 API。",
+      "靜態圖可能漏掉動態呼叫、反射與執行期配置。",
+      "圖的版本及覆蓋程度必須確認；沒有找到邊不等於沒有依賴。",
+      "結構不能證明業務意圖或測試成功；需核對來源及獨立測試。"
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "codebase-index",
   "category": "03 Code Intelligence",
   "resourceType": "Index / Retrieval",
-  "purpose": "在本機為程式碼建立可查詢的符號與依賴索引，幫助 Coding Agent 以檔案行號證據搜尋實作、追蹤呼叫路徑與預估修改影響。",
-  "recommendation": "適合大型 Repository 的程式碼探索與改動風險盤點；先在範例或可公開專案建立索引，檢查來源行號、索引新鮮度與部分語言的覆蓋限制。",
+  "purpose": "讓 Coding Agent 在閱讀整個專案前，先找到相關程式位置、追蹤呼叫及依賴、估計修改會影響哪些檔案，再檢查證據有沒有過期。",
+  "recommendation": "適合中大型程式庫的除錯、修改規劃與 PR 審查；已知精確字串時直接搜尋可能更簡單。",
   "url": "https://github.com/denfry/codebase-index",
   "repo": "denfry/codebase-index",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "codebase-indexing",
     "retrieval",
@@ -69,25 +69,34 @@
   "source": {
     "url": "https://github.com/denfry/codebase-index",
     "readmeUrl": "https://github.com/denfry/codebase-index/blob/main/README.md",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README / documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "固定版本 README、LICENSE、MCP server.py 的搜尋、引用、影響與證據驗證函式，以及 SQLite schema；未查完整索引器、語言覆蓋與網路行為。",
+    "referenceUrls": [
+      "https://github.com/denfry/codebase-index/blob/03683cc14ba303002f3069f44f5931b43e001e95/README.md",
+      "https://github.com/denfry/codebase-index/blob/03683cc14ba303002f3069f44f5931b43e001e95/LICENSE",
+      "https://github.com/denfry/codebase-index/blob/03683cc14ba303002f3069f44f5931b43e001e95/src/codebase_index/mcp/server.py",
+      "https://github.com/denfry/codebase-index/blob/03683cc14ba303002f3069f44f5931b43e001e95/src/codebase_index/storage/schema.sql"
+    ],
+    "upstreamCommit": "03683cc14ba303002f3069f44f5931b43e001e95"
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "url"
+        "title"
       ],
-      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+      "reason": "核對既有 ID 與來源身分，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -96,8 +105,8 @@
     "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、MCP server.py 的搜尋、引用、影響與證據驗證函式，以及 SQLite schema；未查完整索引器、語言覆蓋與網路行為。；只提供局部來源契約或概念。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -107,10 +116,360 @@
       "decision": "reused",
       "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
     },
-    "riskNotes": "索引結果並非完整靜態分析保證；沒有結果可能表示解析覆蓋不足，不一定代表零依賴。；索引與掃描可能讀取本機程式碼；即使官方標示預設無網路，導入前仍需審查安裝包和排除敏感檔案。；未執行第三方程式、未取用憑證。",
+    "riskNotes": "索引結果並非完整靜態分析保證；沒有結果可能表示解析覆蓋不足，不一定代表零依賴。；索引與掃描可能讀取本機程式碼；即使官方標示預設無網路，導入前仍需審查安裝包和排除敏感檔案。；缺少索引會回傳 no-index 資料；索引可能過期或語言覆蓋不完整。；圖中 extracted、inferred、ambiguous 邊不能一律當真；靜態依賴不等於所有 runtime 行為。；verify_evidence 確認來源片段狀態，不證明程式行為正確。；README 的本機／無網路聲明未完整稽核；初始化或全域 hook 可能修改設定，須另行核准。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+      "evidence": "固定版本 README、LICENSE、MCP server.py 的搜尋、引用、影響與證據驗證函式，以及 SQLite schema；未查完整索引器、語言覆蓋與網路行為。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、MCP server.py 的搜尋、引用、影響與證據驗證函式，以及 SQLite schema；未查完整索引器、語言覆蓋與網路行為。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在本機為程式碼建立可查詢的符號與依賴索引，幫助 Coding Agent 以檔案行號證據搜尋實作、追蹤呼叫路徑與預估修改影響。",
+      "source": "https://github.com/denfry/codebase-index",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合大型 Repository 的程式碼探索與改動風險盤點；先在範例或可公開專案建立索引，檢查來源行號、索引新鮮度與部分語言的覆蓋限制。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-find",
+        "title": "先定位需要閱讀的程式碼",
+        "detail": "不知道實作位於哪個檔案，直接全量閱讀成本高。 排序後的路徑、行號與建議閱讀範圍。",
+        "capabilityRefs": [
+          "find"
+        ]
+      },
+      {
+        "id": "use-trace",
+        "title": "追蹤呼叫者與修改影響",
+        "detail": "修改共用欄位可能影響其他模組及測試。 引用位置、依賴路徑及候選受影響檔案。",
+        "capabilityRefs": [
+          "trace"
+        ]
+      },
+      {
+        "id": "use-verify",
+        "title": "在修改後確認引用證據仍有效",
+        "detail": "分支切換與編輯會使先前的行號證據失效。 valid、relocated 或其他證據狀態。",
+        "capabilityRefs": [
+          "verify"
+        ]
+      }
+    ],
+    "example": {
+      "id": "codebase-index-example",
+      "title": "規劃修改履歷表單前的程式影響分析",
+      "input": "自有測試 Repo、待修改的表單欄位、目前 Git 版本及明確問題。",
+      "process": "先定位需要閱讀的程式碼 → 追蹤呼叫者與修改影響 → 在修改後確認引用證據仍有效 → 獨立驗收",
+      "output": "相關檔案行號、呼叫關係、影響範圍與待執行的回歸測試清單。",
+      "destination": "自有軟體專案的修改規劃、PR 審查與獨立驗收流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-find",
+        "use-trace",
+        "use-verify"
+      ],
+      "steps": [
+        {
+          "id": "find",
+          "title": "先定位需要閱讀的程式碼",
+          "capabilityRefs": [
+            "find"
+          ]
+        },
+        {
+          "id": "trace",
+          "title": "追蹤呼叫者與修改影響",
+          "capabilityRefs": [
+            "trace"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "在修改後確認引用證據仍有效",
+          "capabilityRefs": [
+            "verify"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試 Repo、待修改的表單欄位、目前 Git 版本及明確問題。",
+      "依需求選擇上述用途，閱讀固定版本來源及限制。",
+      "確認環境及權限，再另行實作與核對成果。"
+    ],
+    "limits": [
+      "索引結果並非完整靜態分析保證；沒有結果可能表示解析覆蓋不足，不一定代表零依賴。",
+      "索引與掃描可能讀取本機程式碼；即使官方標示預設無網路，導入前仍需審查安裝包和排除敏感檔案。",
+      "缺少索引會回傳 no-index 資料；索引可能過期或語言覆蓋不完整。",
+      "圖中 extracted、inferred、ambiguous 邊不能一律當真；靜態依賴不等於所有 runtime 行為。",
+      "verify_evidence 確認來源片段狀態，不證明程式行為正確。",
+      "README 的本機／無網路聲明未完整稽核；初始化或全域 hook 可能修改設定，須另行核准。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 Coding Agent 在閱讀整個專案前，先找到相關程式位置、追蹤呼叫及依賴、估計修改會影響哪些檔案，再檢查證據有沒有過期。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；依賴及被索引程式權利另計）"
+      },
+      {
+        "label": "版本",
+        "value": "03683cc14ba303002f3069f44f5931b43e001e95"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "先定位需要閱讀的程式碼",
+        "detail": "不知道實作位於哪個檔案，直接全量閱讀成本高。；輸入：自然語言查詢、搜尋模式及限制；輸出：排序後的路徑、行號與建議閱讀範圍",
+        "source": "src/codebase_index/mcp/server.py"
+      },
+      {
+        "title": "追蹤呼叫者與修改影響",
+        "detail": "修改共用欄位可能影響其他模組及測試。；輸入：symbol、路徑或 Git base_ref、depth、direction；輸出：引用位置、依賴路徑及候選受影響檔案",
+        "source": "src/codebase_index/mcp/server.py"
+      },
+      {
+        "title": "在修改後確認引用證據仍有效",
+        "detail": "分支切換與編輯會使先前的行號證據失效。；輸入：path:start-end@hash 或 session 標籤；輸出：valid、relocated 或其他證據狀態",
+        "source": "src/codebase_index/mcp/server.py"
+      }
+    ],
+    "architecture": {
+      "summary": "先定位需要閱讀的程式碼 → 追蹤呼叫者與修改影響 → 在修改後確認引用證據仍有效 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "先定位需要閱讀的程式碼",
+          "detail": "自然語言查詢、搜尋模式及限制 → 排序後的路徑、行號與建議閱讀範圍",
+          "files": [
+            "README.md",
+            "src/codebase_index/mcp/server.py"
+          ]
+        },
+        {
+          "title": "追蹤呼叫者與修改影響",
+          "detail": "symbol、路徑或 Git base_ref、depth、direction → 引用位置、依賴路徑及候選受影響檔案",
+          "files": [
+            "src/codebase_index/mcp/server.py",
+            "src/codebase_index/storage/schema.sql"
+          ]
+        },
+        {
+          "title": "在修改後確認引用證據仍有效",
+          "detail": "path:start-end@hash 或 session 標籤 → valid、relocated 或其他證據狀態",
+          "files": [
+            "src/codebase_index/mcp/server.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "先定位需要閱讀的程式碼",
+        "rule": "先確認索引存在及新鮮度，再讀實際原始碼；不以排名代表答案正確。",
+        "source": "src/codebase_index/mcp/server.py"
+      },
+      {
+        "name": "追蹤呼叫者與修改影響",
+        "rule": "依 confidence 與覆蓋範圍核對每個關鍵邊；diff-impact 文件描述已追蹤變更，不推定涵蓋未追蹤檔案。",
+        "source": "src/codebase_index/mcp/server.py"
+      },
+      {
+        "name": "在修改後確認引用證據仍有效",
+        "rule": "不同 Agent context 不共用 session；證據仍有效不代表功能通過，另執行回歸測試。",
+        "source": "src/codebase_index/mcp/server.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、MCP server.py 的搜尋、引用、影響與證據驗證函式，以及 SQLite schema；未查完整索引器、語言覆蓋與網路行為。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/codebase_index/mcp/server.py",
+          "src/codebase_index/storage/schema.sql"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Repo、待修改的表單欄位、目前 Git 版本及明確問題。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+        "files": [
+          "src/codebase_index/mcp/server.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有軟體專案的修改規劃、PR 審查與獨立驗收流程。；另驗證實際行為及限制。",
+        "file": "src/codebase_index/mcp/server.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "find",
+        "name": "先定位需要閱讀的程式碼",
+        "problem": "不知道實作位於哪個檔案，直接全量閱讀成本高。",
+        "input": "自然語言查詢、搜尋模式及限制",
+        "output": "排序後的路徑、行號與建議閱讀範圍",
+        "source": "src/codebase_index/mcp/server.py",
+        "sourceFiles": [
+          "README.md",
+          "src/codebase_index/mcp/server.py"
+        ],
+        "symbols": [
+          "search_code",
+          "find_symbol",
+          "healthcheck"
+        ],
+        "gate": "先確認索引存在及新鮮度，再讀實際原始碼；不以排名代表答案正確。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "trace",
+        "name": "追蹤呼叫者與修改影響",
+        "problem": "修改共用欄位可能影響其他模組及測試。",
+        "input": "symbol、路徑或 Git base_ref、depth、direction",
+        "output": "引用位置、依賴路徑及候選受影響檔案",
+        "source": "src/codebase_index/mcp/server.py",
+        "sourceFiles": [
+          "src/codebase_index/mcp/server.py",
+          "src/codebase_index/storage/schema.sql"
+        ],
+        "symbols": [
+          "find_refs",
+          "impact_of",
+          "impact_of_diff",
+          "path_between",
+          "edges（SQLite table）"
+        ],
+        "gate": "依 confidence 與覆蓋範圍核對每個關鍵邊；diff-impact 文件描述已追蹤變更，不推定涵蓋未追蹤檔案。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "verify",
+        "name": "在修改後確認引用證據仍有效",
+        "problem": "分支切換與編輯會使先前的行號證據失效。",
+        "input": "path:start-end@hash 或 session 標籤",
+        "output": "valid、relocated 或其他證據狀態",
+        "source": "src/codebase_index/mcp/server.py",
+        "sourceFiles": [
+          "src/codebase_index/mcp/server.py"
+        ],
+        "symbols": [
+          "verify_evidence",
+          "all_valid（文件回傳欄位）"
+        ],
+        "gate": "不同 Agent context 不共用 session；證據仍有效不代表功能通過，另執行回歸測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃修改履歷表單前的程式影響分析（設計示例）",
+      "problem": "自有測試 Repo、待修改的表單欄位、目前 Git 版本及明確問題。",
+      "steps": [
+        {
+          "capability": "find",
+          "action": "先定位需要閱讀的程式碼"
+        },
+        {
+          "capability": "trace",
+          "action": "追蹤呼叫者與修改影響"
+        },
+        {
+          "capability": "verify",
+          "action": "在修改後確認引用證據仍有效"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "codebase-index-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Repo、待修改的表單欄位、目前 Git 版本及明確問題。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "先定位需要閱讀的程式碼 → 追蹤呼叫者與修改影響 → 在修改後確認引用證據仍有效 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有軟體專案的修改規劃、PR 審查與獨立驗收流程。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "缺少索引會回傳 no-index 資料；索引可能過期或語言覆蓋不完整。",
+        "圖中 extracted、inferred、ambiguous 邊不能一律當真；靜態依賴不等於所有 runtime 行為。",
+        "verify_evidence 確認來源片段狀態，不證明程式行為正確。",
+        "README 的本機／無網路聲明未完整稽核；初始化或全域 hook 可能修改設定，須另行核准。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與證據邊界",
+        "severity": "高",
+        "issue": "缺少索引會回傳 no-index 資料；索引可能過期或語言覆蓋不完整。 圖中 extracted、inferred、ambiguous 邊不能一律當真；靜態依賴不等於所有 runtime 行為。 verify_evidence 確認來源片段狀態，不證明程式行為正確。 README 的本機／無網路聲明未完整稽核；初始化或全域 hook 可能修改設定，須另行核准。",
+        "control": "固定版本、最小權限、資料確認及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、MCP server.py 的搜尋、引用、影響與證據驗證函式，以及 SQLite schema；未查完整索引器、語言覆蓋與網路行為。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
