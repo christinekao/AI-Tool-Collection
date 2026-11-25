@@ -6,14 +6,14 @@
   "canonicalName": "GSAP Skills",
   "category": "06 Skills",
   "resourceType": "Official Cross-Harness Web Animation Skill Pack",
-  "purpose": "由 GSAP 官方維護的 Agent Skills，將 GSAP core API、timeline、ScrollTrigger、plugins、utils、React、performance 與 Vue/Svelte 等 framework integration 拆成 8 個可重用 Skill，讓 coding agents 能正確產生入場、轉場、scroll-linked animation、互動與 lifecycle cleanup。",
-  "recommendation": "適合 landing page、產品網站與互動式前端，尤其是需要 timeline sequencing、ScrollTrigger、Flip / MotionPath 等可程式化 motion，而不是只靠模型猜動畫 API 的情境。",
+  "purpose": "提供 Coding Agent 官方 GSAP 動畫指引，協助將網站的動畫、滾動效果及 React 動畫清理需求轉成可驗收的實作規格。",
+  "recommendation": "適合已決定使用 GSAP、希望 Agent 遵循官方動畫用法的專案；簡單 CSS 動效不需要整套技能，所有生成程式仍須實測。",
   "url": "https://github.com/greensock/gsap-skills",
   "repo": "greensock/gsap-skills",
   "notes": "Official GreenSock repository confirmed. The pack follows the Agent Skills format and documents support for multiple coding agents through skills CLI / agent-specific adapters. It contains eight skills covering core GSAP, timelines, ScrollTrigger, plugins, utilities, React, performance and other frameworks. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "gsap",
     "animation",
@@ -86,24 +86,36 @@
     "url": "https://github.com/greensock/gsap-skills",
     "readmeUrl": "https://github.com/greensock/gsap-skills/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。",
+    "upstreamCommit": "aed9cfd3277740755f6bfc1155c7aa645403b760",
+    "referenceUrls": [
+      "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/README.md",
+      "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/LICENSE",
+      "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-core/SKILL.md",
+      "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-timeline/SKILL.md",
+      "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-scrolltrigger/SKILL.md",
+      "https://github.com/greensock/gsap-skills/blob/aed9cfd3277740755f6bfc1155c7aa645403b760/skills/gsap-react/SKILL.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+      "reason": "沿用 Canonical ID，補人類用途與限定範圍契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -112,8 +124,8 @@
     "classificationReason": "維持既有 Primary Domain design；未修改任何分類或新增 Tag。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心來源契約，保留完整工具及整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -126,7 +138,358 @@
     "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "由 GSAP 官方維護的 Agent Skills，將 GSAP core API、timeline、ScrollTrigger、plugins、utils、React、performance 與 Vue/Svelte 等 framework integration 拆成 8 個可重用 Skill，讓 coding agents 能正確產生入場、轉場、scroll-linked animation、互動與 lifecycle cleanup。",
+      "source": "https://github.com/greensock/gsap-skills",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "sequence",
+        "title": "讓 Agent 規劃多段產品展示",
+        "detail": "提供畫面目標、時間位置與完成狀態，要求 Agent 依時間軸而非任意延遲。",
+        "capabilityRefs": [
+          "tween-timeline"
+        ]
+      },
+      {
+        "id": "scroll",
+        "title": "規劃首頁滾動動效",
+        "detail": "定義觸發位置及布局變化時的重新計算，保留靜態閱讀。",
+        "capabilityRefs": [
+          "scroll-trigger",
+          "tween-timeline"
+        ]
+      },
+      {
+        "id": "cleanup",
+        "title": "審查 React 動畫的生命週期",
+        "detail": "要求檢查 scope、卸載、事件回呼及減少動態效果。",
+        "capabilityRefs": [
+          "react-cleanup"
+        ]
+      }
+    ],
+    "example": {
+      "id": "gsap-scroll-spec",
+      "title": "規劃產品首頁滾動展示的 Agent 任務",
+      "input": "自有三段產品資訊、React 測試頁與手機及動態減量需求。",
+      "process": "選取核心及時間軸指引 → 設計滾動 → 規劃清理及替代 → 獨立驗收",
+      "output": "Agent 任務規格及動畫測試清單（未建置）。",
+      "destination": "自有網站開發與 PR 審查；不是已生成或測試的 GSAP 程式。",
+      "note": "自訂設計示例；未安裝、執行或驗證第三方工具。",
+      "useCaseRefs": [
+        "sequence",
+        "scroll",
+        "cleanup"
+      ],
+      "steps": [
+        {
+          "id": "sequence",
+          "title": "選擇核心與時間軸技能",
+          "capabilityRefs": [
+            "tween-timeline"
+          ]
+        },
+        {
+          "id": "scroll",
+          "title": "定義滾動觸發及更新",
+          "capabilityRefs": [
+            "scroll-trigger"
+          ]
+        },
+        {
+          "id": "cleanup",
+          "title": "要求 React 清理及動態減量",
+          "capabilityRefs": [
+            "react-cleanup"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "驗收實際瀏覽器行為",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准 Skill/GSAP 安裝及檢查套件授權、版本、手機、效能與可及性。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先確認專案是否確實需要 GSAP 並核對版本。",
+      "依任務閱讀四份相關 Skill 源文件，不需安裝全部技能。",
+      "將建議轉成可檢查的動畫與清理規格，再獨立測試。"
+    ],
+    "limits": [
+      "Skills 不能替代真實瀏覽器動畫測試與減少動態效果偏好。",
+      "複雜 ScrollTrigger／互動動畫仍需檢查行動裝置效能與可及性。",
+      "此 repo 的實作內容為 Skill 指引文件，非 GSAP 引擎；未查或執行底層套件。",
+      "MIT 僅確認 Skill Repo；GSAP 本身、插件及其他資產依個別授權核對。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "提供 Coding Agent 官方 GSAP 動畫指引，協助將網站的動畫、滾動效果及 React 動畫清理需求轉成可驗收的實作規格。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Agent Skills / GSAP 文件契約"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（技能 Repo；GSAP 套件及插件另查）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "aed9cfd3277740755f6bfc1155c7aa645403b760"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "選擇動畫及時間軸指引",
+        "detail": "多段動畫需要可預期的時序；輸入：動畫目標、起訖值、duration、stagger、position；輸出：依 Skill 文件設計的 tween 與 timeline",
+        "source": "skills/gsap-core/SKILL.md"
+      },
+      {
+        "title": "規劃滾動觸發及更新",
+        "detail": "頁面動效依滾動位置或布局變化；輸入：trigger、start/end、scrub、pin 與 layout；輸出：ScrollTrigger 設計及 refresh/cleanup 要求",
+        "source": "skills/gsap-scrolltrigger/SKILL.md"
+      },
+      {
+        "title": "規劃 React 動畫清理及動態偏好",
+        "detail": "元件重繪、卸載或偏好改變可能留下動畫；輸入：scope、dependencies、contextSafe、media query；輸出：useGSAP 或 context/revert 與減少動態的設計規格",
+        "source": "skills/gsap-react/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "選取核心及時間軸指引 → 設計滾動 → 規劃清理及替代 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "選擇動畫及時間軸指引",
+          "detail": "動畫目標、起訖值、duration、stagger、position → 依 Skill 文件設計的 tween 與 timeline",
+          "files": [
+            "skills/gsap-core/SKILL.md",
+            "skills/gsap-timeline/SKILL.md"
+          ]
+        },
+        {
+          "title": "規劃滾動觸發及更新",
+          "detail": "trigger、start/end、scrub、pin 與 layout → ScrollTrigger 設計及 refresh/cleanup 要求",
+          "files": [
+            "skills/gsap-scrolltrigger/SKILL.md"
+          ]
+        },
+        {
+          "title": "規劃 React 動畫清理及動態偏好",
+          "detail": "scope、dependencies、contextSafe、media query → useGSAP 或 context/revert 與減少動態的設計規格",
+          "files": [
+            "skills/gsap-react/SKILL.md",
+            "skills/gsap-core/SKILL.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "時序",
+        "rule": "gsap-timeline Skill 建議 position parameter 而非連鎖 delay。",
+        "source": "skills/gsap-timeline/SKILL.md"
+      },
+      {
+        "name": "滾動",
+        "rule": "gsap-scrolltrigger Skill 要求布局變化後 refresh 並清理。",
+        "source": "skills/gsap-scrolltrigger/SKILL.md"
+      },
+      {
+        "name": "React",
+        "rule": "gsap-react Skill 建議 useGSAP、scope、contextSafe，或 context 搭配 revert。",
+        "source": "skills/gsap-react/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依來源及核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/gsap-core/SKILL.md",
+          "skills/gsap-timeline/SKILL.md",
+          "skills/gsap-scrolltrigger/SKILL.md",
+          "skills/gsap-react/SKILL.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先確認專案是否確實需要 GSAP 並核對版本。 依任務閱讀四份相關 Skill 源文件，不需安裝全部技能。 將建議轉成可檢查的動畫與清理規格，再獨立測試。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有網站開發與 PR 審查；不是已生成或測試的 GSAP 程式。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "skills/gsap-core/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "tween-timeline",
+        "name": "選擇動畫及時間軸指引",
+        "problem": "多段動畫需要可預期的時序",
+        "input": "動畫目標、起訖值、duration、stagger、position",
+        "output": "依 Skill 文件設計的 tween 與 timeline",
+        "source": "skills/gsap-core/SKILL.md",
+        "sourceFiles": [
+          "skills/gsap-core/SKILL.md",
+          "skills/gsap-timeline/SKILL.md"
+        ],
+        "symbols": [
+          "Core Tween Methods（文件章節）",
+          "Position Parameter（文件章節）",
+          "gsap.timeline()（文件 API）"
+        ],
+        "gate": "僅核對 Skill 文件；實際 GSAP 引擎與 API 版本未查。避免用大量 delay 模擬複雜時序。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "scroll-trigger",
+        "name": "規劃滾動觸發及更新",
+        "problem": "頁面動效依滾動位置或布局變化",
+        "input": "trigger、start/end、scrub、pin 與 layout",
+        "output": "ScrollTrigger 設計及 refresh/cleanup 要求",
+        "source": "skills/gsap-scrolltrigger/SKILL.md",
+        "sourceFiles": [
+          "skills/gsap-scrolltrigger/SKILL.md"
+        ],
+        "symbols": [
+          "Key config options（文件章節）",
+          "Refresh and Cleanup（文件章節）",
+          "ScrollTrigger.refresh()（文件 API）"
+        ],
+        "gate": "布局或字型改變需重新核對位置；pin、scrub 與手機效能未實測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "react-cleanup",
+        "name": "規劃 React 動畫清理及動態偏好",
+        "problem": "元件重繪、卸載或偏好改變可能留下動畫",
+        "input": "scope、dependencies、contextSafe、media query",
+        "output": "useGSAP 或 context/revert 與減少動態的設計規格",
+        "source": "skills/gsap-react/SKILL.md",
+        "sourceFiles": [
+          "skills/gsap-react/SKILL.md",
+          "skills/gsap-core/SKILL.md"
+        ],
+        "symbols": [
+          "Prefer the useGSAP() Hook（文件章節）",
+          "Context-Safe Callbacks（文件章節）",
+          "Accessibility and responsive (gsap.matchMedia())（文件章節）"
+        ],
+        "gate": "文件建議 useGSAP 或 ctx.revert，事件處理需另清理；不得當成已確認底層執行。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃產品首頁滾動展示的 Agent 任務（設計示例）",
+      "problem": "自有三段產品資訊、React 測試頁與手機及動態減量需求。",
+      "steps": [
+        {
+          "capability": "tween-timeline",
+          "action": "選擇核心與時間軸技能"
+        },
+        {
+          "capability": "scroll-trigger",
+          "action": "定義滾動觸發及更新"
+        },
+        {
+          "capability": "react-cleanup",
+          "action": "要求 React 清理及動態減量"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "gsap-scroll-spec"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有三段產品資訊、React 測試頁與手機及動態減量需求。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選取核心及時間軸指引 → 設計滾動 → 規劃清理及替代 → 獨立驗收",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有網站開發與 PR 審查；不是已生成或測試的 GSAP 程式。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "此 repo 的實作內容為 Skill 指引文件，非 GSAP 引擎；未查或執行底層套件。",
+        "MIT 僅確認 Skill Repo；GSAP 本身、插件及其他資產依個別授權核對。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "此 repo 的實作內容為 Skill 指引文件，非 GSAP 引擎；未查或執行底層套件。 MIT 僅確認 Skill Repo；GSAP 本身、插件及其他資產依個別授權核對。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、資料及實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、LICENSE、四份實際 Skill 源文件 gsap-core、gsap-timeline、gsap-scrolltrigger、gsap-react；審查技能指引而非 GSAP 動畫引擎，未執行技能、套件或範例。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、建置或測試第三方工具。"
+      }
+    ]
   }
 }
