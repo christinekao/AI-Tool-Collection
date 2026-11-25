@@ -86,12 +86,12 @@ test('Phase 3: both new structured guides render from canonical data and prior g
  assert.match(lesson,/主題重點筆記（4 章）/);
  assert.equal((lesson.match(/class="learn-module learn-module-inline"/g)||[]).length,4);
  assert.doesNotMatch(lesson,/十個主題的重點筆記|學完能掌握什麼？/);
- assert.ok(lesson.indexOf('使用條件')<lesson.indexOf('class="learning-guide"'));
+ assert.ok(lesson.indexOf('如何開始使用')<lesson.indexOf('class="learning-guide"'));
  assert.match(lesson,/自我驗收/);
  assert.match(html(ID),/十個主題的重點筆記/);
  assert.match(html('tip31812-ai-usage-bar'),/class="repo-shots"/);
  assert.match(html('arrow-2'),/製作一組網站圖示/);
- assert.match(html('addyosmani-agent-skills'),/選擇方法/);
+ assert.match(html('addyosmani-agent-skills'),/驗收表單儲存功能/);
  for(const id of ['agent-reach','ai-code-acceptance-review-testing-rollout-guide','arrow-2','addyosmani-agent-skills']){
   const d=read(id);
   assert.equal(d.intakeReview.verification.status,'not-tested');
@@ -202,5 +202,38 @@ test('Dual-layer batch 01: four source-grounded reader guides preserve bidirecti
   const html=context.detail(built);
   assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
   assert.doesNotMatch(html,/class="repo-guide"|核心判斷規則|agent_reach\/runtime|src\/smolagents\//,id);
+ }
+});
+
+test('Dual-layer batch 02: six reader pages preserve evidence and human learning material',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title,expected,chapters] of [
+  ['addyosmani-agent-skills','驗收表單儲存功能','evidence-linked',0],
+  ['nirdiamant-genai-agents','比較客服問題的分流方法','evidence-linked',0],
+  ['anthropics-skills','建立 Resource 整理 Skill','evidence-linked',0],
+  ['openrouter-ai','替摘要應用選擇模型','evidence-linked',0],
+  ['ai-code-acceptance-review-testing-rollout-guide','驗收 AI 修改的申請表單','evidence-linked',4],
+  ['microsoft-ai-agents-for-beginners','設計只讀客服案件查詢 Agent','deferred',3]
+ ]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','agentEvidence','learningGuide','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,expected,id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  for(const uc of d.readerGuide.useCases){
+   const f=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.evidenceRefs){
+    assert.ok(f.evidence.some(u=>u.id===ref&&u.runtimeStatus==='not-tested'),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.equal((html.match(/class="learn-module learn-module-inline"/g)||[]).length,chapters,id);
+  assert.doesNotMatch(html,/class="repo-guide"/,id);
+  if(expected==='deferred'){assert.ok(d.intakeReview.layerReview.gap&&d.intakeReview.layerReview.nextAction);assert.equal(d.intakeReview.sourceStatus,'partial');}
  }
 });
