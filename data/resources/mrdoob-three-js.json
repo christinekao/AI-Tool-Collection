@@ -6,14 +6,14 @@
   "canonicalName": "Three.js",
   "category": "UI / Design Engineering",
   "resourceType": "JavaScript 3D 圖形函式庫",
-  "purpose": "透過 JavaScript 建立網頁 3D 場景、相機、燈光、材質與動畫。",
-  "recommendation": "適合 3D 網頁視覺與互動展示；若只需簡單 2D 動畫，先評估較輕量方式。",
+  "purpose": "在網頁中呈現可旋轉、可操作或會動的 3D 物件，讓產品展示與技術解說不必只使用靜態圖片。",
+  "recommendation": "適合需要真實互動的 3D 網頁展示；若只要簡單按鈕動畫或播放既有影片，先採 CSS、Lottie 或影片元件，降低 GPU 負擔。",
   "url": "https://github.com/mrdoob/three.js",
   "repo": "mrdoob/three.js",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "design",
@@ -45,25 +45,35 @@
   "source": {
     "url": "https://github.com/mrdoob/three.js",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線",
+    "upstreamCommit": "084ec06444244980752a420f0e1af5cd8f112aa1",
+    "referenceUrls": [
+      "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/README.md",
+      "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/src/scenes/Scene.js",
+      "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/src/renderers/WebGLRenderer.js",
+      "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/src/animation/AnimationMixer.js",
+      "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +82,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +96,416 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線；未執行第三方程式。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線；具體用途與來源能力以局部 ID 雙向連結。"
     }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "product-view",
+        "title": "建立互動式 3D 產品展示",
+        "detail": "在網站放入立體產品，透過應用程式設計的控制方式改變觀看角度。",
+        "capabilityRefs": [
+          "scene-render",
+          "animation-loop"
+        ]
+      },
+      {
+        "id": "animate-model",
+        "title": "讓 3D 模型播放動作",
+        "detail": "若模型附有動畫片段，可控制更新時間並播放示意動作。",
+        "capabilityRefs": [
+          "clip-playback",
+          "scene-render",
+          "animation-loop"
+        ]
+      },
+      {
+        "id": "embedded-3d",
+        "title": "在網頁中安全掛載與移除 3D 畫面",
+        "detail": "管理渲染迴圈、畫面尺寸與頁面離開時的清理，避免長時間占用資源。",
+        "capabilityRefs": [
+          "scene-render",
+          "renderer-cleanup"
+        ]
+      }
+    ],
+    "example": {
+      "id": "product-3d-preview",
+      "title": "製作網頁 3D 產品預覽",
+      "input": "已授權的 3D 產品模型、展示尺寸及預期旋轉動作。",
+      "process": "建立 Scene 與 Camera → 加入模型 → 更新旋轉或動畫片段 → 渲染 → 離開頁面時清理",
+      "output": "可在網頁中呈現並更新的 3D 預覽畫面（預期產物）。",
+      "destination": "作品集或產品頁面；資產載入、互動介面及低階裝置替代內容須另行實作。",
+      "note": "自訂設計示例，未載入模型、渲染網頁或進行裝置效能測試。",
+      "useCaseRefs": [
+        "product-view",
+        "animate-model",
+        "embedded-3d"
+      ],
+      "steps": [
+        {
+          "id": "load",
+          "title": "準備與載入 3D 資產",
+          "capabilityRefs": [],
+          "externalDependency": "模型格式、載入器、授權及互動控制須另核對。"
+        },
+        {
+          "id": "scene",
+          "title": "建立場景、相機及渲染器",
+          "capabilityRefs": [
+            "scene-render"
+          ]
+        },
+        {
+          "id": "animate",
+          "title": "更新旋轉及可用動畫片段",
+          "capabilityRefs": [
+            "animation-loop",
+            "clip-playback"
+          ]
+        },
+        {
+          "id": "cleanup",
+          "title": "退出頁面時停止迴圈並清理",
+          "capabilityRefs": [
+            "renderer-cleanup"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "comparison": {
+      "title": "何時需要 3D 函式庫？",
+      "headers": [
+        "CSS／影片",
+        "Three.js"
+      ],
+      "rows": [
+        [
+          "適合平面動效與固定影片",
+          "適合真正的 3D 畫面與動態相機"
+        ],
+        [
+          "通常整合較簡單",
+          "需要模型、GPU、渲染及生命週期控制"
+        ]
+      ],
+      "note": "不必為了單純動態圖示使用完整 3D 渲染。"
+    },
+    "start": [
+      "先讀固定版本官方旋轉立方體範例，定義畫布、場景與相機。",
+      "在核准的開發環境驗證最小幾何物件，再逐步加入有授權的模型及動畫。",
+      "檢查不同裝置的幀率、尺寸、替代內容、頁面移除及資源清理。"
+    ],
+    "limits": [
+      "低階裝置、資源大小、動畫效能和無障礙替代內容需要額外設計。",
+      "此範圍未查閱模型 Loader、相機控制元件、WebGPU 或完整資產管理。",
+      "WebGL 不保證所有裝置均可使用；需要替代畫面及無障礙操作。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "Scene 容納物件，WebGLRenderer 以 Camera 渲染畫面及維護迴圈，AnimationMixer 更新已定義的動畫片段。",
+    "status": [
+      {
+        "label": "核心來源",
+        "value": "已查閱固定 Commit 的限定範圍"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "只完成核心設計契約，不代表完整專案重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "JavaScript / WebGL"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（Repo）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "084ec06444244980752a420f0e1af5cd8f112aa1"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "網頁 3D 渲染",
+        "detail": "需要將立體物件投影至網頁畫布；輸入：Scene 或 Object3D、Camera、renderer 設定；輸出：WebGL canvas 或指定 render target",
+        "source": "src/scenes/Scene.js"
+      },
+      {
+        "title": "持續更新畫面",
+        "detail": "需要在網頁中持續改變 3D 物件；輸入：每幀 callback、場景與相機；輸出：更新後的畫面；callback=null 可停止迴圈",
+        "source": "src/renderers/WebGLRenderer.js"
+      },
+      {
+        "title": "播放既有 3D 動畫片段",
+        "detail": "既有模型具有定義好的動畫需要按時間播放；輸入：AnimationClip、root object、deltaTime；輸出：AnimationAction 及更新的場景屬性",
+        "source": "src/animation/AnimationMixer.js"
+      },
+      {
+        "title": "結束渲染與釋放資源",
+        "detail": "網頁切換或銷毀元件時避免殘留渲染工作；輸入：WebGLRenderer 實例及其生命週期；輸出：停止動畫迴圈並釋放 renderer 內部資源與事件",
+        "source": "src/renderers/WebGLRenderer.js"
+      }
+    ],
+    "architecture": {
+      "summary": "Scene 與 Camera → 資料與物件 → 動畫更新 → WebGL render → 釋放資源",
+      "nodes": [
+        {
+          "title": "場景",
+          "detail": "Scene 繼承 Object3D，容納待渲染物件。",
+          "files": [
+            "src/scenes/Scene.js"
+          ]
+        },
+        {
+          "title": "逐幀更新",
+          "detail": "setAnimationLoop 控制 callback 與 animation.start／stop；AnimationMixer.update 以 deltaTime 與 timeScale 更新 action。",
+          "files": [
+            "src/renderers/WebGLRenderer.js",
+            "src/animation/AnimationMixer.js"
+          ]
+        },
+        {
+          "title": "渲染",
+          "detail": "render 檢查 camera 及 context lost，再更新場景矩陣並渲染至 canvas 或 render target。",
+          "files": [
+            "src/renderers/WebGLRenderer.js"
+          ]
+        },
+        {
+          "title": "清理",
+          "detail": "dispose 釋放 renderer 的事件、渲染快取、資源及動畫迴圈。",
+          "files": [
+            "src/renderers/WebGLRenderer.js"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "渲染前提",
+        "rule": "camera 必須為有效 Camera，失去 WebGL context 時 render 直接返回。",
+        "source": "src/renderers/WebGLRenderer.js"
+      },
+      {
+        "name": "動畫時間",
+        "rule": "AnimationMixer.update 將 deltaTime 乘 timeScale 並更新 active actions。",
+        "source": "src/animation/AnimationMixer.js"
+      },
+      {
+        "name": "生命週期",
+        "rule": "setAnimationLoop(null) 停止迴圈；dispose 清理 renderer 自身狀態。",
+        "source": "src/renderers/WebGLRenderer.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "固定版本來源閱讀",
+        "description": "按核心檔案與契約核對實作，不必先安裝。",
+        "files": [
+          "README.md",
+          "src/scenes/Scene.js",
+          "src/renderers/WebGLRenderer.js",
+          "src/animation/AnimationMixer.js",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "隔離環境的最小驗證",
+        "description": "先讀固定版本官方旋轉立方體範例，定義畫布、場景與相機。 在核准的開發環境驗證最小幾何物件，再逐步加入有授權的模型及動畫。 檢查不同裝置的幀率、尺寸、替代內容、頁面移除及資源清理。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "模型控制與替代畫面",
+        "detail": "另建立載入、相機控制、低效能及不可用情況的替代畫面，核對 Loader 與控制元件。",
+        "file": "src/renderers/WebGLRenderer.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "scene-render",
+        "name": "網頁 3D 渲染",
+        "problem": "需要將立體物件投影至網頁畫布",
+        "input": "Scene 或 Object3D、Camera、renderer 設定",
+        "output": "WebGL canvas 或指定 render target",
+        "source": "src/scenes/Scene.js",
+        "sourceFiles": [
+          "src/scenes/Scene.js",
+          "src/renderers/WebGLRenderer.js",
+          "README.md"
+        ],
+        "symbols": [
+          "Scene",
+          "WebGLRenderer.render",
+          "WebGLRenderer.setSize"
+        ],
+        "gate": "驗證 camera 與 GPU 支援；WebGL context lost 時 render 提早返回，須處理畫面失效。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "animation-loop",
+        "name": "持續更新畫面",
+        "problem": "需要在網頁中持續改變 3D 物件",
+        "input": "每幀 callback、場景與相機",
+        "output": "更新後的畫面；callback=null 可停止迴圈",
+        "source": "src/renderers/WebGLRenderer.js",
+        "sourceFiles": [
+          "src/renderers/WebGLRenderer.js",
+          "README.md"
+        ],
+        "symbols": [
+          "WebGLRenderer.setAnimationLoop",
+          "WebGLRenderer.render"
+        ],
+        "gate": "檢查動畫時間、幀率及停止條件；不可無限新增迴圈。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "clip-playback",
+        "name": "播放既有 3D 動畫片段",
+        "problem": "既有模型具有定義好的動畫需要按時間播放",
+        "input": "AnimationClip、root object、deltaTime",
+        "output": "AnimationAction 及更新的場景屬性",
+        "source": "src/animation/AnimationMixer.js",
+        "sourceFiles": [
+          "src/animation/AnimationMixer.js"
+        ],
+        "symbols": [
+          "AnimationMixer",
+          "AnimationMixer.clipAction",
+          "AnimationMixer.update"
+        ],
+        "gate": "驗證 clip 是否存在，時間單位及動畫狀態；模型載入與動畫製作須另行處理。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "renderer-cleanup",
+        "name": "結束渲染與釋放資源",
+        "problem": "網頁切換或銷毀元件時避免殘留渲染工作",
+        "input": "WebGLRenderer 實例及其生命週期",
+        "output": "停止動畫迴圈並釋放 renderer 內部資源與事件",
+        "source": "src/renderers/WebGLRenderer.js",
+        "sourceFiles": [
+          "src/renderers/WebGLRenderer.js"
+        ],
+        "symbols": [
+          "WebGLRenderer.dispose",
+          "WebGLRenderer.setAnimationLoop"
+        ],
+        "gate": "另核對使用者建立的 geometry、material、texture 的生命週期；dispose 不等於所有應用資產都已清除。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "製作網頁 3D 產品預覽（設計示例）",
+      "problem": "已授權的 3D 產品模型、展示尺寸及預期旋轉動作。",
+      "steps": [
+        {
+          "capability": "scene-render",
+          "action": "建立場景、相機及渲染器",
+          "capabilityRefs": [
+            "scene-render"
+          ]
+        },
+        {
+          "capability": "animation-loop",
+          "action": "更新旋轉及可用動畫片段",
+          "capabilityRefs": [
+            "animation-loop",
+            "clip-playback"
+          ]
+        },
+        {
+          "capability": "renderer-cleanup",
+          "action": "退出頁面時停止迴圈並清理",
+          "capabilityRefs": [
+            "renderer-cleanup"
+          ]
+        }
+      ],
+      "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+      "readerExampleRef": "product-3d-preview"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+      "stages": [
+        {
+          "title": "最小場景",
+          "detail": "定義 Scene、Camera 及測試物件。",
+          "deliverable": "畫布與尺寸契約"
+        },
+        {
+          "title": "動畫與切換",
+          "detail": "以固定時間序列比較旋轉及 clip 更新，測試停止。",
+          "deliverable": "動畫測試紀錄"
+        },
+        {
+          "title": "裝置及清理",
+          "detail": "測低階裝置、context lost 與元件反覆掛載。",
+          "deliverable": "效能及資源驗收"
+        }
+      ],
+      "gaps": [
+        "WebGPU、Loader、材質／貼圖生命週期、相機控制與完整 GPU 資源策略未逐檔審查。",
+        "未建置或測試實際模型、瀏覽器與裝置。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "裝置與資源",
+        "severity": "高",
+        "issue": "大量模型、貼圖、持續渲染會增加記憶體和 GPU 負擔。",
+        "control": "限制資產及畫布尺寸、監控幀率、切換時清理。"
+      },
+      {
+        "title": "素材與外部載入",
+        "severity": "高",
+        "issue": "模型或遠端素材可能涉及授權、跨來源與隱私。",
+        "control": "只用有權素材及核准來源，提供替代內容。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線"
+      },
+      {
+        "item": "Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝、執行、下載模型或連線正式資料。"
+      }
+    ]
   }
 }
