@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 20（2026-11-25）
+
+- main 基線 `6b2fe7c171281a8baeef9205ad60092317072b89`；PR #84 四項 CI 通過合併，Catalog Sync／Pages 查核時進行中。93/286 已合併（87 完成對應、6 deferred）。
+- [Batch 20 逐筆報告](RESOURCE_DUAL_LAYER_BATCH20_20261125.md)：react-frontend-backend-for-beginners、ryanhanwu-how-to-ask-questions-the-smart-way、dslab-lessons。3 筆 evidence-linked 候選、9 章教材、9 個用途與局部證據、3 個 design-only 案例。
+- React 直接網址無法讀取，改查作者固定版本 MDX 全文；提問的智慧不照搬歷史語氣；DSLab 僅查課程總覽，未查個別工作流。第三方未實測。
+- 合併前 93/286；四項 CI 通過合併後 96/286（90 完成對應、6 deferred），190 尚未改寫。既有缺口保留。
+- 下一批優先 SVG 動畫與其他未改寫的開發資源。排程停用，直接執行。重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 19（2026-11-25）
 
 - main 基線 `1e0784455033bbc9b11c96899c278e81bfce9185`；PR #83 四項 CI 通過合併 `259936a40063a05ca36bc8920e638900d7937b05`，Catalog Sync 通過；Pages 查核時進行中。90/286 已合併（84 完成對應、6 deferred）。
