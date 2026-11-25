@@ -6,12 +6,12 @@
   "canonicalName": "Anthropic Claude Code Engineering — How the Claude Code team does code review",
   "category": "Software Engineering / Quality Assurance",
   "resourceType": "First-party engineering case study / AI-assisted code review governance",
-  "purpose": "整理 Anthropic Claude Code 團隊在大量 Agent 生成 PR 情境下的多層品質管線：變更前自動驗證、fresh-context Agent Diff Review、每 PR AI／安全審查、Lint／Typecheck／跨平台 CI、依變更風險分級的人工核准、commit-bound approval、Merge Queue、Feature Flags 與快速回滾；並以 incidents/reverts 建立 reviewer eval set、以人工耗時與事故率評估流程效果。",
-  "recommendation": "適合設計 AI Coding Agent 的 PR 交付治理與驗收策略：先要求 Agent 提供可執行檢查與 Evidence，對每個 PR 做針對目的與整體 Codebase 的審查；Security Finding／CI 未結案不可合併。依功能與受影響路徑設 Risk Tier、信任作者條件與人工核准要求，不得用 AI 取代必需的人類核准。限制重複 Review 輪數、防止重複報錯，並把事故與回滾納入回歸評測。既有 workflow 可採 `ai-code-acceptance-review-testing-rollout-guide`，無須重複建立。",
+  "purpose": "學習如何驗收大量 AI 產生的程式變更：用可執行證據、獨立審查、風險分級核准及可回復發布，減少人工重複檢查而不降低品質。",
+  "recommendation": "適合設計 Coding Agent 的 PR 與發布流程；這是團隊經驗文章，不是保證適用所有專案的自動化產品。",
   "url": "https://claude.dev/blog/solving-code-review-at-anthropic/",
   "status": "active",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "anthropic",
     "claude-code",
@@ -91,25 +91,29 @@
   "source": {
     "url": "https://claude.dev/blog/solving-code-review-at-anthropic/",
     "readmeUrl": "https://claude.dev/blog/solving-code-review-at-anthropic/",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-25",
     "type": "Official author / product documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。",
+    "referenceUrls": [
+      "https://claude.dev/blog/solving-code-review-at-anthropic/"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對現有 ID 和原始來源，本批只更新既有資料，不新增新 Entity。"
+      "reason": "核對既有 ID 與原始來源，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -117,9 +121,9 @@
     },
     "classificationReason": "不修改原有 Primary Domain 或 Category，僅紀錄來源形式。",
     "readingSpec": {
-      "id": "standard",
+      "id": "learning",
       "status": "applied",
-      "reason": "依一般 Resource 規格核對官方文件及使用限制；非深度安裝驗證。"
+      "reason": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；提供局部來源契約或教材。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -129,10 +133,225 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，不依主題關鍵字新增 Graph Edge。"
     },
-    "riskNotes": "作者描述的是其團隊實務，不保證對其他組織的資源、流程或風險同樣適用。；LLM 審查有誤報、漏報與上下文不足風險；不能只依 AI Review 就自動合併。；未執行第三方程式、未存取帳號憑證。",
+    "riskNotes": "作者描述的是其團隊實務，不保證對其他組織的資源、流程或風險同樣適用。；LLM 審查有誤報、漏報與上下文不足風險；不能只依 AI Review 就自動合併。；文章描述特定團隊的經驗，非所有專案的通用核准政策。；人工核准不得由 Agent 冒充；核准應綁定明確版本。；審查及測試通過不代表無缺陷；仍須可回復發布及追蹤事故。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "來源頁／官方 README 已閱讀；Build／Runtime／Security／Integration 未實測。"
+      "evidence": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；未實測。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "整理 Anthropic Claude Code 團隊在大量 Agent 生成 PR 情境下的多層品質管線：變更前自動驗證、fresh-context Agent Diff Review、每 PR AI／安全審查、Lint／Typecheck／跨平台 CI、依變更風險分級的人工核准、commit-bound approval、Merge Queue、Feature Flags 與快速回滾；並以 incidents/reverts 建立 reviewer eval set、以人工耗時與事故率評估流程效果。",
+      "source": "https://claude.dev/blog/solving-code-review-at-anthropic/",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合設計 AI Coding Agent 的 PR 交付治理與驗收策略：先要求 Agent 提供可執行檢查與 Evidence，對每個 PR 做針對目的與整體 Codebase 的審查；Security Finding／CI 未結案不可合併。依功能與受影響路徑設 Risk Tier、信任作者條件與人工核准要求，不得用 AI 取代必需的人類核准。限制重複 Review 輪數、防止重複報錯，並把事故與回滾納入回歸評測。既有 workflow 可採 `ai-code-acceptance-review-testing-rollout-guide`，無須重複建立。"
+  },
+  "learningGuide": {
+    "version": 2,
+    "headline": "學習如何驗收大量 AI 產生的程式變更：用可執行證據、獨立審查、風險分級核准及可回復發布，減少人工重複檢查而不降低品質。",
+    "takeaway": "先建立可重現驗收，再要求獨立審查。 依影響程度決定檢查及責任人。 以可回復發布及事故回饋改善檢查。",
+    "audience": "適合設計 Coding Agent 的 PR 與發布流程；這是團隊經驗文章，不是保證適用所有專案的自動化產品。",
+    "outcomes": [],
+    "readingPath": [],
+    "modules": [
+      {
+        "id": "evidence",
+        "group": "核心練習",
+        "title": "01 先證明變更符合需求",
+        "question": "PR 送審之前要留下什麼證據？",
+        "learn": "先建立可重現驗收，再要求獨立審查。",
+        "essentials": [
+          "確認需求及預期行為，設計可執行驗收。",
+          "保留實際測試結果或畫面，讓另一個審查者核對。",
+          "重複錯誤改進規則或測試，避免同一問題反覆發生。"
+        ],
+        "example": "示例：表單驗證錯誤修復後，保留合成輸入與測試前後結果。",
+        "apply": "為正常、缺值及權限不足各寫一條驗收。",
+        "output": "一份含實際結果欄位的測試規格。",
+        "sourceUrl": "https://claude.dev/blog/solving-code-review-at-anthropic/"
+      },
+      {
+        "id": "approval",
+        "group": "核心練習",
+        "title": "02 按變更風險設計核准",
+        "question": "哪些情況需要人工介入？",
+        "learn": "依影響程度決定檢查及責任人。",
+        "essentials": [
+          "常規修改與權限、資料、發布修改不能視為相同風險。",
+          "將獨立程式及安全審查與人工核准分開。",
+          "新版本重新評估證據；限制反覆審查輪次，無法收斂時由負責人判斷。"
+        ],
+        "example": "示例：畫面文字變更與身分驗證規則變更使用不同核准要求。",
+        "apply": "定義三種風險及各自的通過條件和責任人。",
+        "output": "一張風險與核准矩陣。",
+        "sourceUrl": "https://claude.dev/blog/solving-code-review-at-anthropic/"
+      },
+      {
+        "id": "release",
+        "group": "核心練習",
+        "title": "03 用發布結果改善審查",
+        "question": "合併後如何降低錯誤影響？",
+        "learn": "以可回復發布及事故回饋改善檢查。",
+        "essentials": [
+          "合併前確認整合版本及必要檢查。",
+          "定義觀察條件和回復操作，避免無法逆轉的變更。",
+          "將真實缺陷回填至測試與審查評估，追蹤審查成本及事故。"
+        ],
+        "example": "示例：先在測試環境發布表單版本，發現資料錯誤便依回復條件停止。",
+        "apply": "設計發布觀察、停止與回復條件。",
+        "output": "一份可執行的 Release Gate 草稿。",
+        "sourceUrl": "https://claude.dev/blog/solving-code-review-at-anthropic/"
+      }
+    ],
+    "practice": {
+      "title": "整體練習｜規劃 AI 修改表單功能的風險分級驗收（自訂示例）",
+      "scenario": "合成表單變更、測試需求、PR diff 與發布風險。",
+      "tasks": [
+        {
+          "action": "為正常、缺值及權限不足各寫一條驗收。",
+          "deliverable": "一份含實際結果欄位的測試規格。",
+          "sourceId": "evidence"
+        },
+        {
+          "action": "定義三種風險及各自的通過條件和責任人。",
+          "deliverable": "一張風險與核准矩陣。",
+          "sourceId": "approval"
+        },
+        {
+          "action": "設計發布觀察、停止與回復條件。",
+          "deliverable": "一份可執行的 Release Gate 草稿。",
+          "sourceId": "release"
+        }
+      ],
+      "check": "逐項核對驗收、風險與回復條件；未執行項目不得記為通過。"
+    },
+    "caveat": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；練習未執行。",
+    "inlineSummary": "先證明變更符合需求 → 按變更風險設計核准 → 用發布結果改善審查 → 自我驗收"
+  },
+  "agentEvidence": [
+    {
+      "id": "evidence",
+      "detail": "先建立可重現驗收，再要求獨立審查。",
+      "locator": "https://claude.dev/blog/solving-code-review-at-anthropic/；Layer by layer；before pull request",
+      "evidenceFields": [
+        "learningGuide.modules.0.essentials",
+        "learningGuide.modules.0.apply",
+        "learningGuide.modules.0.output"
+      ],
+      "limitations": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；非實際專案測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "approval",
+      "detail": "依影響程度決定檢查及責任人。",
+      "locator": "https://claude.dev/blog/solving-code-review-at-anthropic/；Human approval；review convergence",
+      "evidenceFields": [
+        "learningGuide.modules.1.essentials",
+        "learningGuide.modules.1.apply",
+        "learningGuide.modules.1.output"
+      ],
+      "limitations": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；非實際專案測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "release",
+      "detail": "以可回復發布及事故回饋改善檢查。",
+      "locator": "https://claude.dev/blog/solving-code-review-at-anthropic/；Merge and after；How we make the reviewer better",
+      "evidenceFields": [
+        "learningGuide.modules.2.essentials",
+        "learningGuide.modules.2.apply",
+        "learningGuide.modules.2.output"
+      ],
+      "limitations": "2026-11-25 查閱 Claude Code 團隊 2026-10-15 公開文章；原團隊成果及內部流程未獨立稽核，案例及練習為自訂。；非實際專案測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "evidence",
+        "title": "先證明變更符合需求",
+        "detail": "先建立可重現驗收，再要求獨立審查。",
+        "evidenceRefs": [
+          "evidence"
+        ]
+      },
+      {
+        "id": "approval",
+        "title": "按變更風險設計核准",
+        "detail": "依影響程度決定檢查及責任人。",
+        "evidenceRefs": [
+          "approval"
+        ]
+      },
+      {
+        "id": "release",
+        "title": "用發布結果改善審查",
+        "detail": "以可回復發布及事故回饋改善檢查。",
+        "evidenceRefs": [
+          "release"
+        ]
+      }
+    ],
+    "example": {
+      "id": "anthropic-solving-code-review-at-anthropic-example",
+      "title": "規劃 AI 修改表單功能的風險分級驗收",
+      "input": "合成表單變更、測試需求、PR diff 與發布風險。",
+      "process": "先證明變更符合需求 → 按變更風險設計核准 → 用發布結果改善審查 → 自我驗收",
+      "output": "測試證據、獨立審查紀錄、風險核准與回復規格。",
+      "destination": "自有開發專案的 Agent 交付與發布驗收。",
+      "note": "自訂教學案例；未執行任何第三方工具或發布實際變更。",
+      "useCaseRefs": [
+        "evidence",
+        "approval",
+        "release"
+      ],
+      "steps": [
+        {
+          "id": "evidence",
+          "title": "先證明變更符合需求",
+          "evidenceRefs": [
+            "evidence"
+          ]
+        },
+        {
+          "id": "approval",
+          "title": "按變更風險設計核准",
+          "evidenceRefs": [
+            "approval"
+          ]
+        },
+        {
+          "id": "release",
+          "title": "用發布結果改善審查",
+          "evidenceRefs": [
+            "release"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先選定合成變更與預期行為。",
+      "依三章建立驗收、核准及發布規格。",
+      "實際執行時保留證據並記錄未驗證事項。"
+    ],
+    "limits": [
+      "作者描述的是其團隊實務，不保證對其他組織的資源、流程或風險同樣適用。",
+      "LLM 審查有誤報、漏報與上下文不足風險；不能只依 AI Review 就自動合併。",
+      "文章描述特定團隊的經驗，非所有專案的通用核准政策。",
+      "人工核准不得由 Agent 冒充；核准應綁定明確版本。",
+      "審查及測試通過不代表無缺陷；仍須可回復發布及追蹤事故。"
+    ]
   }
 }

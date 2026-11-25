@@ -6,14 +6,14 @@
   "canonicalName": "Graphify (Graphify-Labs/graphify)",
   "category": "03 Code Intelligence",
   "resourceType": "Knowledge Graph, GraphRAG-style context extraction CLI and Agent Skill",
-  "purpose": "將 Codebase、文件、PDF、圖片及可選影片／音訊轉成可查詢且可保存的知識圖譜，透過確定性 AST、AI 語意擷取與 Graph 社群偵測連接函式依賴、架構理由、引用關係及跨文件概念。可以輸出互動 HTML、Graph JSON、分析報告，也可以供 Coding Agent 或 MCP 存取。",
-  "recommendation": "適合接手陌生專案、跨模組系統設計審查、技術交接及大型文件知識整理。先在非敏感、具讀取權限的測試 Repository 試用，檢查 EXTRACTED／INFERRED／AMBIGUOUS 標註和實際路徑；留意使用 AI 子代理處理文件／圖片時可能向模型供應商傳送資料。使用 v3 分支時應固定此分支的 Commit／Package 版本，不要誤用預設 v8 分支的授權與行為。",
+  "purpose": "把程式碼與經授權的文件、圖片等資料整理成可保存、查詢的知識圖譜，讓 Agent 從相關概念和來源定位資料，而不必反覆讀取整個資料夾。",
+  "recommendation": "適合需要跨文件與程式碼理解架構或知識關係的專案；若只需找精確函式，優先採較簡單的結構索引。",
   "url": "https://github.com/Graphify-Labs/graphify/tree/v3",
   "repo": "Graphify-Labs/graphify",
   "notes": "原網址 https://github.com/safishamsi/graphify/tree/v3 轉址至 Graphify-Labs/graphify；v3 為 0.3.29、MIT，而 Repo default v8 顯示 Apache-2.0。僅完成官方文件與 Python Package metadata 檢視，未執行或實測。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "code-graph",
     "knowledge-graph",
@@ -143,10 +143,20 @@
       "https://github.com/Graphify-Labs/graphify/blob/v3/CHANGELOG.md",
       "https://github.com/Graphify-Labs/graphify/blob/v3/ARCHITECTURE.md"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official v3 GitHub branch source, architecture, changelog and security docs; current default v8 branch metadata for contrast",
     "readmeUrl": "https://github.com/Graphify-Labs/graphify/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "維持原 v3 固定 commit；查 README、LICENSE、graphify/skill.md、extract.py 的部分 AST 擷取、build.py、export.py 與 serve.py 的局部契約。未檢查 v8、完整語言支援或執行安全。",
+    "referenceUrls": [
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/README.md",
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/LICENSE",
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/graphify/skill.md",
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/graphify/extract.py",
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/graphify/build.py",
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/graphify/export.py",
+      "https://github.com/Graphify-Labs/graphify/blob/e03c4604fb782d84cdb0e53e81d31707e54152a3/graphify/serve.py"
+    ],
+    "upstreamCommit": "e03c4604fb782d84cdb0e53e81d31707e54152a3"
   },
   "researchStatus": "official-v3-source-reviewed-not-executed",
   "displayStatus": "listed",
@@ -185,17 +195,20 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "核對既有 ID 與原始來源，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -204,8 +217,8 @@
     "classificationReason": "原有 Domain data 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "維持原 v3 固定 commit；查 README、LICENSE、graphify/skill.md、extract.py 的部分 AST 擷取、build.py、export.py 與 serve.py 的局部契約。未檢查 v8、完整語言支援或執行安全。；提供局部來源契約或教材。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -215,10 +228,374 @@
       "decision": "reused",
       "reason": "沿用既有 Concept 引用，未新增 Graph 關係。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "這是使用者提供之 v3 分支，並非目前預設分支 v8；授權、功能與安全性更新不能跨分支混用。；不是對每個圖譜邊都能保證真實的程式碼分析器；AST 擷取和模型推論應分開驗證。；71.5x Token reduction 來自官方樣本與比較設定，尚無獨立實測支持普遍效果。；使用圖譜可降低重讀文件成本，但不取代工程師對核心流程的程式碼檢查、整合測試和安全審核。；本筆固定 v3，不套用其他分支授權或功能。；AST 擷取與模型語意推論有不同可靠度；不得把 INFERRED 或 AMBIGUOUS 當事實。；build 預設為無向 Graph，保留 _src/_tgt；同 ID 節點後寫屬性覆蓋，外部端點邊可能被略過。；語意處理可能把資料提供給 Agent 模型；敏感資料、外送及設定修改需另核准，效能數字未重現。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "維持原 v3 固定 commit；查 README、LICENSE、graphify/skill.md、extract.py 的部分 AST 擷取、build.py、export.py 與 serve.py 的局部契約。未檢查 v8、完整語言支援或執行安全。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "維持原 v3 固定 commit；查 README、LICENSE、graphify/skill.md、extract.py 的部分 AST 擷取、build.py、export.py 與 serve.py 的局部契約。未檢查 v8、完整語言支援或執行安全。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將 Codebase、文件、PDF、圖片及可選影片／音訊轉成可查詢且可保存的知識圖譜，透過確定性 AST、AI 語意擷取與 Graph 社群偵測連接函式依賴、架構理由、引用關係及跨文件概念。可以輸出互動 HTML、Graph JSON、分析報告，也可以供 Coding Agent 或 MCP 存取。",
+      "source": "https://github.com/Graphify-Labs/graphify/tree/v3",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合接手陌生專案、跨模組系統設計審查、技術交接及大型文件知識整理。先在非敏感、具讀取權限的測試 Repository 試用，檢查 EXTRACTED／INFERRED／AMBIGUOUS 標註和實際路徑；留意使用 AI 子代理處理文件／圖片時可能向模型供應商傳送資料。使用 v3 分支時應固定此分支的 Commit／Package 版本，不要誤用預設 v8 分支的授權與行為。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-extract",
+        "title": "區分程式結構與文件推論",
+        "detail": "需要把多種來源整理為有來處的關係資料。 含來源位置及 confidence 標記的節點與關係。",
+        "capabilityRefs": [
+          "extract"
+        ]
+      },
+      {
+        "id": "use-merge",
+        "title": "合併來源並保存可查詢圖譜",
+        "detail": "多份來源可能指向同一概念，亦可能互相矛盾。 NetworkX 圖與可匯出 JSON 資料。",
+        "capabilityRefs": [
+          "merge"
+        ]
+      },
+      {
+        "id": "use-query",
+        "title": "依問題取得局部圖譜證據",
+        "detail": "避免將整份知識庫直接塞入模型上下文。 局部節點、關係、來源位置及信心標記。",
+        "capabilityRefs": [
+          "query"
+        ]
+      }
+    ],
+    "example": {
+      "id": "graphify-labs-graphify-example",
+      "title": "規劃程式碼與公開技術筆記的知識圖譜",
+      "input": "已授權的公開技術筆記及合成程式碼、指定 v3 版本與允許處理的資料範圍。",
+      "process": "區分程式結構與文件推論 → 合併來源並保存可查詢圖譜 → 依問題取得局部圖譜證據 → 獨立驗收",
+      "output": "來源清單、含證據標記的圖譜、查詢路徑與需人工核對的關係清單。",
+      "destination": "自有知識庫的跨文件查詢與來源驗證流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-extract",
+        "use-merge",
+        "use-query"
+      ],
+      "steps": [
+        {
+          "id": "extract",
+          "title": "區分程式結構與文件推論",
+          "capabilityRefs": [
+            "extract"
+          ]
+        },
+        {
+          "id": "merge",
+          "title": "合併來源並保存可查詢圖譜",
+          "capabilityRefs": [
+            "merge"
+          ]
+        },
+        {
+          "id": "query",
+          "title": "依問題取得局部圖譜證據",
+          "capabilityRefs": [
+            "query"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備已授權的公開技術筆記及合成程式碼、指定 v3 版本與允許處理的資料範圍。",
+      "依需求選擇上述用途，閱讀固定版本來源及限制。",
+      "確認環境及權限，再另行實作與核對成果。"
+    ],
+    "limits": [
+      "這是使用者提供之 v3 分支，並非目前預設分支 v8；授權、功能與安全性更新不能跨分支混用。",
+      "不是對每個圖譜邊都能保證真實的程式碼分析器；AST 擷取和模型推論應分開驗證。",
+      "71.5x Token reduction 來自官方樣本與比較設定，尚無獨立實測支持普遍效果。",
+      "使用圖譜可降低重讀文件成本，但不取代工程師對核心流程的程式碼檢查、整合測試和安全審核。",
+      "本筆固定 v3，不套用其他分支授權或功能。",
+      "AST 擷取與模型語意推論有不同可靠度；不得把 INFERRED 或 AMBIGUOUS 當事實。",
+      "build 預設為無向 Graph，保留 _src/_tgt；同 ID 節點後寫屬性覆蓋，外部端點邊可能被略過。",
+      "語意處理可能把資料提供給 Agent 模型；敏感資料、外送及設定修改需另核准，效能數字未重現。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把程式碼與經授權的文件、圖片等資料整理成可保存、查詢的知識圖譜，讓 Agent 從相關概念和來源定位資料，而不必反覆讀取整個資料夾。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（僅固定 v3 版本）；其他分支另查"
+      },
+      {
+        "label": "版本",
+        "value": "e03c4604fb782d84cdb0e53e81d31707e54152a3"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "區分程式結構與文件推論",
+        "detail": "需要把多種來源整理為有來處的關係資料。；輸入：允許處理的程式碼、文件、資料範圍；輸出：含來源位置及 confidence 標記的節點與關係",
+        "source": "graphify/skill.md"
+      },
+      {
+        "title": "合併來源並保存可查詢圖譜",
+        "detail": "多份來源可能指向同一概念，亦可能互相矛盾。；輸入：多組 extraction nodes/edges、directed 選項；輸出：NetworkX 圖與可匯出 JSON 資料",
+        "source": "graphify/build.py"
+      },
+      {
+        "title": "依問題取得局部圖譜證據",
+        "detail": "避免將整份知識庫直接塞入模型上下文。；輸入：graph.json、查詢問題或節點名稱；輸出：局部節點、關係、來源位置及信心標記",
+        "source": "graphify/serve.py"
+      }
+    ],
+    "architecture": {
+      "summary": "區分程式結構與文件推論 → 合併來源並保存可查詢圖譜 → 依問題取得局部圖譜證據 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "區分程式結構與文件推論",
+          "detail": "允許處理的程式碼、文件、資料範圍 → 含來源位置及 confidence 標記的節點與關係",
+          "files": [
+            "README.md",
+            "graphify/skill.md",
+            "graphify/extract.py"
+          ]
+        },
+        {
+          "title": "合併來源並保存可查詢圖譜",
+          "detail": "多組 extraction nodes/edges、directed 選項 → NetworkX 圖與可匯出 JSON 資料",
+          "files": [
+            "graphify/build.py",
+            "graphify/export.py"
+          ]
+        },
+        {
+          "title": "依問題取得局部圖譜證據",
+          "detail": "graph.json、查詢問題或節點名稱 → 局部節點、關係、來源位置及信心標記",
+          "files": [
+            "README.md",
+            "graphify/serve.py",
+            "graphify/export.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "區分程式結構與文件推論",
+        "rule": "先分離本機 AST 與模型語意處理，外送需核准；推論關係需查證，不把標記當成正確率。",
+        "source": "graphify/skill.md"
+      },
+      {
+        "name": "合併來源並保存可查詢圖譜",
+        "rule": "預設無向 Graph；同 ID 後寫屬性覆蓋，未解析端點會略過；先保留原始證據，不把合併後缺邊視為不存在。",
+        "source": "graphify/build.py"
+      },
+      {
+        "name": "依問題取得局部圖譜證據",
+        "rule": "檢查來源位置與圖譜版本；查詢結果不是完整事實，重要結論需回讀來源。",
+        "source": "graphify/serve.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "維持原 v3 固定 commit；查 README、LICENSE、graphify/skill.md、extract.py 的部分 AST 擷取、build.py、export.py 與 serve.py 的局部契約。未檢查 v8、完整語言支援或執行安全。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "graphify/skill.md",
+          "graphify/extract.py",
+          "graphify/build.py",
+          "graphify/export.py",
+          "graphify/serve.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備已授權的公開技術筆記及合成程式碼、指定 v3 版本與允許處理的資料範圍。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+        "files": [
+          "graphify/skill.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有知識庫的跨文件查詢與來源驗證流程。；另驗證實際行為及限制。",
+        "file": "graphify/skill.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "extract",
+        "name": "區分程式結構與文件推論",
+        "problem": "需要把多種來源整理為有來處的關係資料。",
+        "input": "允許處理的程式碼、文件、資料範圍",
+        "output": "含來源位置及 confidence 標記的節點與關係",
+        "source": "graphify/skill.md",
+        "sourceFiles": [
+          "README.md",
+          "graphify/skill.md",
+          "graphify/extract.py"
+        ],
+        "symbols": [
+          "extract_python",
+          "extract_js",
+          "EXTRACTED",
+          "INFERRED",
+          "AMBIGUOUS"
+        ],
+        "gate": "先分離本機 AST 與模型語意處理，外送需核准；推論關係需查證，不把標記當成正確率。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "merge",
+        "name": "合併來源並保存可查詢圖譜",
+        "problem": "多份來源可能指向同一概念，亦可能互相矛盾。",
+        "input": "多組 extraction nodes/edges、directed 選項",
+        "output": "NetworkX 圖與可匯出 JSON 資料",
+        "source": "graphify/build.py",
+        "sourceFiles": [
+          "graphify/build.py",
+          "graphify/export.py"
+        ],
+        "symbols": [
+          "build",
+          "build_from_json",
+          "to_json"
+        ],
+        "gate": "預設無向 Graph；同 ID 後寫屬性覆蓋，未解析端點會略過；先保留原始證據，不把合併後缺邊視為不存在。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "query",
+        "name": "依問題取得局部圖譜證據",
+        "problem": "避免將整份知識庫直接塞入模型上下文。",
+        "input": "graph.json、查詢問題或節點名稱",
+        "output": "局部節點、關係、來源位置及信心標記",
+        "source": "graphify/serve.py",
+        "sourceFiles": [
+          "README.md",
+          "graphify/serve.py",
+          "graphify/export.py"
+        ],
+        "symbols": [
+          "serve",
+          "_subgraph_to_text",
+          "query_graph（文件工具名）",
+          "shortest_path（文件工具名）",
+          "to_html"
+        ],
+        "gate": "檢查來源位置與圖譜版本；查詢結果不是完整事實，重要結論需回讀來源。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃程式碼與公開技術筆記的知識圖譜（設計示例）",
+      "problem": "已授權的公開技術筆記及合成程式碼、指定 v3 版本與允許處理的資料範圍。",
+      "steps": [
+        {
+          "capability": "extract",
+          "action": "區分程式結構與文件推論"
+        },
+        {
+          "capability": "merge",
+          "action": "合併來源並保存可查詢圖譜"
+        },
+        {
+          "capability": "query",
+          "action": "依問題取得局部圖譜證據"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "graphify-labs-graphify-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "已授權的公開技術筆記及合成程式碼、指定 v3 版本與允許處理的資料範圍。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "區分程式結構與文件推論 → 合併來源並保存可查詢圖譜 → 依問題取得局部圖譜證據 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有知識庫的跨文件查詢與來源驗證流程。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "本筆固定 v3，不套用其他分支授權或功能。",
+        "AST 擷取與模型語意推論有不同可靠度；不得把 INFERRED 或 AMBIGUOUS 當事實。",
+        "build 預設為無向 Graph，保留 _src/_tgt；同 ID 節點後寫屬性覆蓋，外部端點邊可能被略過。",
+        "語意處理可能把資料提供給 Agent 模型；敏感資料、外送及設定修改需另核准，效能數字未重現。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與證據邊界",
+        "severity": "高",
+        "issue": "本筆固定 v3，不套用其他分支授權或功能。 AST 擷取與模型語意推論有不同可靠度；不得把 INFERRED 或 AMBIGUOUS 當事實。 build 預設為無向 Graph，保留 _src/_tgt；同 ID 節點後寫屬性覆蓋，外部端點邊可能被略過。 語意處理可能把資料提供給 Agent 模型；敏感資料、外送及設定修改需另核准，效能數字未重現。",
+        "control": "固定版本、最小權限、資料確認及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "維持原 v3 固定 commit；查 README、LICENSE、graphify/skill.md、extract.py 的部分 AST 擷取、build.py、export.py 與 serve.py 的局部契約。未檢查 v8、完整語言支援或執行安全。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
