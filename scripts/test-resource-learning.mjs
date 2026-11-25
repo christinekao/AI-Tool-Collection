@@ -580,3 +580,35 @@ test('Dual-layer batch 12: frontend component and styling contracts',()=>{
  assert.match(load('saadeghi-daisyui').repoGuide.capabilities.find(c=>c.id==='drawer-style').gate,/不是完整 dialog/);
  assert.match(load('lucide-icons').readerGuide.limits.join(' '),/Feather.*MIT/);
 });
+
+test('Dual-layer batch 13: copyable components and animation contracts',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["shadcn-ui","規劃履歷管理系統的共用元件"],["motion-dev","規劃知識庫詳情面板動效"],["magicuidesign-magicui","規劃作品集成果數字與功能展示"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  assert.ok(d.repoGuide.rebuild.gaps.length);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('shadcn-ui').repoGuide.capabilities.find(c=>c.id==='adoption').gate,/不能假定整個命令無寫入/);
+ assert.match(load('motion-dev').repoGuide.capabilities.find(c=>c.id==='reduced-motion').gate,/沒有 setter/);
+ assert.match(load('magicuidesign-magicui').readerGuide.limits.join(' '),/毫秒.*秒換算/);
+});
