@@ -6,14 +6,14 @@
   "canonicalName": "Orca",
   "category": "02 Agent Orchestration",
   "resourceType": "Agent Development Environment / Parallel Worktrees",
-  "purpose": "在同一個介面平行執行 Codex、Claude Code、OpenCode 等 coding agents，每個 Agent 可使用獨立 Git worktree，並集中追蹤 terminal、diff、GitHub task 與執行狀態。",
-  "recommendation": "適合把多 Agent 平行開發從多個散落 terminal 提升成可觀察、可隔離、可比較與可合併的工作區。",
+  "purpose": "在同一個介面管理多個 Coding Agent、終端、Git Worktree 及程式差異，方便將獨立任務分開開發再審查。",
+  "recommendation": "適合同一專案中有多個可以獨立處理的工作，例如分開修改前端與測試；若任務會修改同一批檔案，先釐清依賴與合併順序。",
   "url": "https://github.com/stablyai/orca",
   "repo": "stablyai/orca",
   "notes": "Official Orca repository confirmed for the parallel-agent/worktree product shown in the screenshot topic.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "multi-agent",
     "worktree",
@@ -80,25 +80,32 @@
   "source": {
     "url": "https://github.com/stablyai/orca",
     "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README 的 Parallel Worktrees、Orchestrate Agents、Review、Homebrew 安裝及 LICENSE；未定位實際 worktree 實作，嘗試的 src/main/git/worktree.ts 與 src/main/worktree.ts 回傳 404。",
+    "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
+    "referenceUrls": [
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
-    "sourceStatus": "source-checked",
+    "sourceStatus": "partial",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "沿用 Canonical ID，補已知文件證據與讀者用途，原始碼路徑缺口另行追蹤。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -108,7 +115,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "reason": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -121,7 +128,148 @@
     "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README 的 Parallel Worktrees、Orchestrate Agents、Review、Homebrew 安裝及 LICENSE；未定位實際 worktree 實作，嘗試的 src/main/git/worktree.ts 與 src/main/worktree.ts 回傳 404。；未執行。"
+    },
+    "sourceGap": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。",
+    "layerReview": {
+      "status": "deferred",
+      "reason": "固定版本 README 與 LICENSE 已查閱，核心實作契約尚未取得；只對應可證明的文件內容。",
+      "gap": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。",
+      "nextAction": "從固定版本專案目錄或官方程式碼索引定位 Worktree、Agent orchestration、diff/PR 及程序管理模組，逐檔核對輸入輸出、失敗與權限。"
     }
+  },
+  "implementationKnowledge": {
+    "sourceReview": {
+      "worktrees": "README 描述每個工作區可有自己的 Worktree 與 Agent；不代表程序、網路、憑證或資料皆已隔離。",
+      "orchestration": "README 描述 Coordinator 拆工作及啟動獨立 worker、收回結果；未核對執行契約。",
+      "review": "README 描述差異註記、commit/PR 草擬及回饋 CI；具體寫入與核准路徑待查。",
+      "install": "README 的 macOS stable 指令為 brew install --cask stablyai/orca/orca；RC 指令另有 @rc，兩者衝突。MIT Repo，依賴與服務條款另計。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "worktree",
+      "detail": "README 描述獨立 Worktree 用於不同 Agent 的平行工作。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md；Parallel Worktrees",
+      "evidenceFields": [
+        "features.0",
+        "implementationKnowledge.sourceReview.worktrees"
+      ],
+      "limitations": "Worktree 隔離檔案工作目錄，不等於 OS 或憑證隔離。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "orchestration",
+      "detail": "README 描述 Coordinator 拆分及收回 worker 工作；遠端及行動入口亦有文件連結。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md；Orchestrate Agents",
+      "evidenceFields": [
+        "features.1",
+        "implementationKnowledge.sourceReview.orchestration"
+      ],
+      "limitations": "未核對 worker 生命週期、遠端權限或取消。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "review",
+      "detail": "README 描述差異註記、草擬 commit/PR 及回傳審查意見。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md；Review diffs",
+      "evidenceFields": [
+        "requirements.1",
+        "implementationKnowledge.sourceReview.review"
+      ],
+      "limitations": "不保證變更可直接合併，需 Git 差異與 CI 驗收。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "parallel-tasks",
+        "title": "讓不同 Agent 分開修改功能",
+        "detail": "先拆分不互相依賴的工作，每個 Agent 使用自己的 Worktree 與分支。",
+        "evidenceRefs": [
+          "worktree",
+          "orchestration"
+        ]
+      },
+      {
+        "id": "review-diffs",
+        "title": "集中檢查 Agent 的程式修改",
+        "detail": "比較每個分支的 commit 與 diff，針對差異給回饋。",
+        "evidenceRefs": [
+          "review"
+        ]
+      },
+      {
+        "id": "coordination",
+        "title": "安排多個任務的交付順序",
+        "detail": "由 Coordinator 管理依賴、驗收及回收結果，避免兩個工作同時改同一檔案。",
+        "evidenceRefs": [
+          "orchestration",
+          "worktree",
+          "review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "parallel-feature-work",
+      "title": "分開開發網頁與回歸測試",
+      "input": "同一測試 Repo 的前端修改與獨立測試任務，指定基準 commit。",
+      "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異及合併順序",
+      "output": "兩個分支及差異審查規格（未建立實際 Worktree）。",
+      "destination": "自有專案的開發與 PR 流程。",
+      "note": "自訂設計示例；未安裝、執行或驗證真實整合。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "parallel-tasks",
+        "review-diffs",
+        "coordination"
+      ],
+      "steps": [
+        {
+          "id": "split",
+          "title": "定義獨立工作與依賴",
+          "evidenceRefs": [
+            "orchestration"
+          ]
+        },
+        {
+          "id": "isolate",
+          "title": "規劃 Worktree 與分支",
+          "evidenceRefs": [
+            "worktree"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "驗收 commit 與 diff",
+          "evidenceRefs": [
+            "review"
+          ]
+        },
+        {
+          "id": "merge",
+          "title": "核對整合結果",
+          "evidenceRefs": [],
+          "externalDependency": "Git 合併、權限、CI 與副作用須由專案獨立驗證。"
+        }
+      ]
+    },
+    "start": [
+      "先確認安裝套件名稱及版本；macOS stable 文件使用完整 cask 名稱。",
+      "先在測試 Repo 定義基準 commit、任務範圍及各自的 Worktree。",
+      "完成各自驗收後審查差異與合併順序，不把 Worktree 當資安沙箱。"
+    ],
+    "limits": [
+      "README 提醒 macOS Homebrew 必須使用完整套件名稱，裸 orca 指向另一軟體",
+      "平行 Agent 會增加權限、模型成本與 Merge 衝突風險",
+      "未安裝、啟動 Agent 或建立 Worktree；只查閱官方 README 與授權。",
+      "遠端執行、程序與憑證隔離、實際 Git 命令及授權流程未查核。"
+    ]
   }
 }
