@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 05（2026-11-25）
+
+- main 基線 `f0188548854f853cae69eb1a3db00c514125c8be`；PR #69 四項 CI 成功，已合併 `90f4115f07dc02a92d69dc67ca97f8dad7018667`，Catalog Sync 確認，26/286 筆已有雙層審查（23 完成對應、3 deferred）。
+- [Batch 05 逐筆報告](RESOURCE_DUAL_LAYER_BATCH05_20261125.md)：blender-blender、heygen-com-hyperframes、theatlasteam-motion-design-skill、microsoft-autogen、roocodeinc-roo-code。五筆 mapped 候選，15 個用途／15 個能力；原有資訊、分類與 Typed Refs 保留。AutoGen 與 Roo Code 僅供研究及遷移，已封存。
+- 本批合併前 26/286；合併後 31/286（28 完成對應、3 deferred），255 未改寫。Microsoft 課程、RAGFlow Go 核心、AFFiNE 實作與授權仍有缺口。
+- 固定版本來源、實測限制、合併與部署需依本批報告、實際 CI 及 main 重新確認。排程停用，維持直接執行。
+- 下一批：從 manifest / Canonical 實際盤點尚未改寫 Resource，優先其他來源明確的非程式碼與近期新收錄。不要把已審查數誤當全部實測或完整重建。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 04（2026-11-25）
 
 - main 基線 `000993806c1d25061667e54ac1c7408b8fae90d0`；PR #68 已合併且 Catalog Sync 確認，19/286 筆已有雙層審查（18 完成對應、1 deferred）。PR #68 四項 CI 成功；合併 SHA `70cfcb94792330811105e05b4e43e81efe42492f`。

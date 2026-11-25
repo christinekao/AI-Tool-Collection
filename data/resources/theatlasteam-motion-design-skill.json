@@ -6,14 +6,14 @@
   "canonicalName": "motion-design-skill",
   "category": "Media / Video",
   "resourceType": "Motion Design Agent Skill 專案",
-  "purpose": "為 AI 協助的產品動畫提供節奏、構圖與鏡頭規劃範例，連結 HTML 影片等產製方式。",
-  "recommendation": "適合以原始 Skill 作為創作輔助；執行前須審核 Skill 指令與可操作權限。",
+  "purpose": "讓 AI 協助設計產品展示動畫、文字動效與介面互動，並利用實際範例控制動作節奏及時間。",
+  "recommendation": "適合要改善產品動效與可預覽原型的開發者；單純靜態頁面不用套用整套動畫技能，也不能把範例直接當成可交付影片。",
   "url": "https://github.com/theatlasteam/motion-design-skill",
   "repo": "theatlasteam/motion-design-skill",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "content",
@@ -45,25 +45,36 @@
   "source": {
     "url": "https://github.com/theatlasteam/motion-design-skill",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作",
+    "upstreamCommit": "26101808ab09f220f339bd59c8d36a49ae986b8f",
+    "referenceUrls": [
+      "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/README.md",
+      "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/SKILL.md",
+      "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/examples/relay/scripts/motion-core.mjs",
+      "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/references/deterministic-rendering.md",
+      "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/examples/controls/motion-controls.html",
+      "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +83,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +97,360 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作；以局部 ID 對應前台情境及案例。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "為 AI 協助的產品動畫提供節奏、構圖與鏡頭規劃範例，連結 HTML 影片等產製方式。",
+      "source": "https://github.com/theatlasteam/motion-design-skill",
+      "reviewedAt": "2026-11-24",
+      "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "kinetic-type",
+        "title": "設計有節奏的動態文字",
+        "detail": "利用位置、時間與緩動曲線安排文字進場，不讓所有元素同時晃動。",
+        "capabilityRefs": [
+          "motion-curves"
+        ]
+      },
+      {
+        "id": "ui-motion",
+        "title": "做可操作的介面動效原型",
+        "detail": "建立滾輪、數字或分段選擇器等互動原型，另測鍵盤及動態效果設定。",
+        "capabilityRefs": [
+          "interactive-controls",
+          "motion-curves"
+        ]
+      },
+      {
+        "id": "repeatable-capture",
+        "title": "為影片預覽固定畫格",
+        "detail": "用時間直接計算畫面狀態，以便日後離線擷取指定時間點。",
+        "capabilityRefs": [
+          "interactive-controls",
+          "deterministic-clock"
+        ]
+      }
+    ],
+    "example": {
+      "id": "product-control-demo",
+      "title": "製作可互動的數字滾動示意",
+      "input": "一組假資料數值、目標狀態及三秒動畫時間。",
+      "process": "選控制項 → 設定曲線 → 互動測試 → 固定時間定位 → 檢查畫面",
+      "output": "可操作 HTML 動效原型與預期畫格驗收紀錄。",
+      "destination": "產品介面設計或後續影片產製，MP4 需另外渲染。",
+      "note": "設計示例，未開啟瀏覽器、執行範例或產生影片。",
+      "useCaseRefs": [
+        "kinetic-type",
+        "ui-motion",
+        "repeatable-capture"
+      ],
+      "steps": [
+        {
+          "id": "define",
+          "title": "決定數值及視覺動作",
+          "capabilityRefs": [],
+          "externalDependency": "業務資料、文字與設計規格須由應用提供。"
+        },
+        {
+          "id": "ease",
+          "title": "設定可控的緩動曲線",
+          "capabilityRefs": [
+            "motion-curves"
+          ]
+        },
+        {
+          "id": "interact",
+          "title": "接入互動及狀態控制",
+          "capabilityRefs": [
+            "interactive-controls"
+          ]
+        },
+        {
+          "id": "seek",
+          "title": "驗證任意時間畫格",
+          "capabilityRefs": [
+            "deterministic-clock"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先讀 SKILL.md，選最接近任務的範例，不必一次引入全部依賴。",
+      "先在核准的測試環境建立一個小型控制或文字動效。",
+      "檢查直接操作、鍵盤、動態減少設定及任意時間定位，再決定是否渲染。"
+    ],
+    "limits": [
+      "Skill 指令不代表工具已安裝或影片能直接輸出；素材版權及渲染結果需另驗收。",
+      "3D 裝置、MIDI、SoundFont、外部媒體及完整影片渲染未查核。",
+      "第三方 iPhone GLB 不隨 Repo 授權，須自行取得可合法使用的資產。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 AI 協助設計產品展示動畫、文字動效與介面互動，並利用實際範例控制動作節奏及時間。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "已查閱固定版本的限定範圍"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "HTML/CSS/JS、Motion design"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（原始程式與文件；外部素材另計）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "26101808ab09f220f339bd59c8d36a49ae986b8f"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "控制動畫節奏",
+        "detail": "位移、進場與停留需要可預期的時間曲線；輸入：時間比例、damping、frequency 或控制點；輸出：spring/quint/bezier 計算結果",
+        "source": "examples/relay/scripts/motion-core.mjs"
+      },
+      {
+        "title": "區分互動操作與固定畫格",
+        "detail": "元件需兼顧使用者輸入及影片重現；輸入：setValue 的值／animate 設定或 renderAt 的指定位置；輸出：控制項狀態及畫面",
+        "source": "examples/controls/motion-controls.html"
+      },
+      {
+        "title": "以時間定位畫面",
+        "detail": "影片擷取不能依賴前一畫格是否執行；輸入：指定 seconds 或由 frame/fps 得到的時間；輸出：指定時間的元件狀態與渲染",
+        "source": "examples/controls/motion-controls.html"
+      }
+    ],
+    "architecture": {
+      "summary": "選控制項 → 設定曲線 → 互動測試 → 固定時間定位 → 檢查畫面",
+      "nodes": [
+        {
+          "title": "控制動畫節奏",
+          "detail": "時間比例、damping、frequency 或控制點 → spring/quint/bezier 計算結果",
+          "files": [
+            "examples/relay/scripts/motion-core.mjs"
+          ]
+        },
+        {
+          "title": "區分互動操作與固定畫格",
+          "detail": "setValue 的值／animate 設定或 renderAt 的指定位置 → 控制項狀態及畫面",
+          "files": [
+            "examples/controls/motion-controls.html"
+          ]
+        },
+        {
+          "title": "以時間定位畫面",
+          "detail": "指定 seconds 或由 frame/fps 得到的時間 → 指定時間的元件狀態與渲染",
+          "files": [
+            "examples/controls/motion-controls.html",
+            "references/deterministic-rendering.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "互動與錄製分離",
+        "rule": "setValue 可採 spring 動畫；renderAt 直接設定數值，避免擷取時依賴牆鐘。",
+        "source": "examples/controls/motion-controls.html"
+      },
+      {
+        "name": "時間定位",
+        "rule": "sample 依 keyframe 與 quintic easing 計算值，renderAt 直接更新元件；直接互動停止 demo。",
+        "source": "examples/controls/motion-controls.html"
+      },
+      {
+        "name": "曲線",
+        "rule": "motion-core.mjs 的 spring、quint、bezier 由輸入數值計算曲線，不能代替視覺審查。",
+        "source": "examples/relay/scripts/motion-core.mjs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依來源與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "SKILL.md",
+          "examples/relay/scripts/motion-core.mjs",
+          "references/deterministic-rendering.md",
+          "examples/controls/motion-controls.html",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小驗證",
+        "description": "先讀 SKILL.md，選最接近任務的範例，不必一次引入全部依賴。 先在核准的測試環境建立一個小型控制或文字動效。 檢查直接操作、鍵盤、動態減少設定及任意時間定位，再決定是否渲染。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "依應用案例建立獨立測試",
+        "detail": "產品介面設計或後續影片產製，MP4 需另外渲染。；固定輸入輸出，另行驗證失敗與權限。",
+        "file": "examples/relay/scripts/motion-core.mjs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "motion-curves",
+        "name": "控制動畫節奏",
+        "problem": "位移、進場與停留需要可預期的時間曲線",
+        "input": "時間比例、damping、frequency 或控制點",
+        "output": "spring/quint/bezier 計算結果",
+        "source": "examples/relay/scripts/motion-core.mjs",
+        "sourceFiles": [
+          "examples/relay/scripts/motion-core.mjs"
+        ],
+        "symbols": [
+          "spring",
+          "quint",
+          "bezier",
+          "cameraSpring"
+        ],
+        "gate": "以實際畫面驗證文字可讀與停留；曲線不是完整影片。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "interactive-controls",
+        "name": "區分互動操作與固定畫格",
+        "problem": "元件需兼顧使用者輸入及影片重現",
+        "input": "setValue 的值／animate 設定或 renderAt 的指定位置",
+        "output": "控制項狀態及畫面",
+        "source": "examples/controls/motion-controls.html",
+        "sourceFiles": [
+          "examples/controls/motion-controls.html"
+        ],
+        "symbols": [
+          "WheelPicker",
+          "RollingNumber",
+          "SegmentedControl",
+          "renderAt",
+          "setValue"
+        ],
+        "gate": "測鍵盤、指標、reduce motion、直接操作中斷 demo；不保證各控制已實測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "deterministic-clock",
+        "name": "以時間定位畫面",
+        "problem": "影片擷取不能依賴前一畫格是否執行",
+        "input": "指定 seconds 或由 frame/fps 得到的時間",
+        "output": "指定時間的元件狀態與渲染",
+        "source": "examples/controls/motion-controls.html",
+        "sourceFiles": [
+          "examples/controls/motion-controls.html",
+          "references/deterministic-rendering.md"
+        ],
+        "symbols": [
+          "sample",
+          "renderAt",
+          "paint"
+        ],
+        "gate": "paint 是文件示意；實際 controls 範例以 sample(time) 計算狀態。需測任意順序定位與重複畫格。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "製作可互動的數字滾動示意（設計示例）",
+      "problem": "一組假資料數值、目標狀態及三秒動畫時間。",
+      "steps": [
+        {
+          "capability": "motion-curves",
+          "action": "設定可控的緩動曲線"
+        },
+        {
+          "capability": "interactive-controls",
+          "action": "接入互動及狀態控制"
+        },
+        {
+          "capability": "deterministic-clock",
+          "action": "驗證任意時間畫格"
+        }
+      ],
+      "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+      "readerExampleRef": "product-control-demo"
+    },
+    "rebuild": {
+      "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+      "stages": [
+        {
+          "title": "建立輸入輸出契約",
+          "detail": "一組假資料數值、目標狀態及三秒動畫時間。",
+          "deliverable": "可重現測試資料與預期輸出"
+        },
+        {
+          "title": "驗證核心步驟",
+          "detail": "選控制項 → 設定曲線 → 互動測試 → 固定時間定位 → 檢查畫面",
+          "deliverable": "步驟及錯誤驗收紀錄"
+        },
+        {
+          "title": "驗證交付及風險",
+          "detail": "產品介面設計或後續影片產製，MP4 需另外渲染。",
+          "deliverable": "實際交付、權限與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "3D 裝置渲染、音訊混音及 HyperFrames 完整整合未逐檔讀取。",
+        "未執行瀏覽器、視覺與音訊檢查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "媒體與外部依賴",
+        "severity": "高",
+        "issue": "示例、字型、模型、SoundFont 可能有不同使用條款。",
+        "control": "核對每個素材與依賴；不自動安裝或發布。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+      }
+    ]
   }
 }

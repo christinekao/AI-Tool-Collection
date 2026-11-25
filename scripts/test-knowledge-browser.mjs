@@ -508,7 +508,12 @@ try{
   ["comfy-org-comfyui",".resource-reader-guide","批次生成產品概念圖"],
   ["lottiefiles-dotlottie-web",".resource-reader-guide","為表單儲存加入完成動畫"],
   ["infiniflow-ragflow",".resource-reader-guide","建立公司規章問答測試"],
-  ["toeverything-affine",".resource-reader-guide","整理個人 AI 工具研究工作區"]
+  ["toeverything-affine",".resource-reader-guide","整理個人 AI 工具研究工作區"],
+  ["blender-blender",".resource-reader-guide","渲染產品旋轉預覽"],
+  ["heygen-com-hyperframes",".resource-reader-guide","製作三段式產品介紹影片"],
+  ["theatlasteam-motion-design-skill",".resource-reader-guide","製作可互動的數字滾動示意"],
+  ["microsoft-autogen",".resource-reader-guide","研究撰稿與審查代理的協作"],
+  ["roocodeinc-roo-code",".resource-reader-guide","設計規劃與開發模式的權限測試"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -535,7 +540,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 twenty-four Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 twenty-nine Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

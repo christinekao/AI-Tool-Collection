@@ -6,14 +6,14 @@
   "canonicalName": "Blender",
   "category": "Media / Video",
   "resourceType": "3D 建模與動畫軟體",
-  "purpose": "建立 3D 模型、材質、角色、場景與動畫，並進行渲染及影音製作。",
-  "recommendation": "適合需要完整 3D 製作工作流程的情境；不必為單純字幕影片導入完整 3D 管線。",
+  "purpose": "製作 3D 產品、場景及動畫，從不同角度或時間點渲染圖片與影片。",
+  "recommendation": "適合需要真正 3D 建模、動畫及攝影機控制的素材；若只需網頁平面動效，先選較簡單的 2D 方法。",
   "url": "https://github.com/blender/blender",
   "repo": "blender/blender",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "content",
@@ -45,25 +45,34 @@
   "source": {
     "url": "https://github.com/blender/blender",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎",
+    "upstreamCommit": "85d42f7cebbffe9c1da5febb7ad370414e5236c6",
+    "referenceUrls": [
+      "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/README.md",
+      "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/COPYING",
+      "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/source/blender/makesrna/intern/rna_scene.cc",
+      "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/source/blender/editors/render/render_internal.cc"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +81,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +95,349 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎；以局部 ID 對應前台情境及案例。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "建立 3D 模型、材質、角色、場景與動畫，並進行渲染及影音製作。",
+      "source": "https://github.com/blender/blender",
+      "reviewedAt": "2026-11-24",
+      "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "product-image",
+        "title": "製作 3D 產品示意圖",
+        "detail": "已有模型及場景時，設定畫面大小與攝影機，先輸出單張樣本。",
+        "capabilityRefs": [
+          "scene-settings",
+          "render-still"
+        ]
+      },
+      {
+        "id": "product-animation",
+        "title": "產出產品旋轉動畫",
+        "detail": "依設定好的動作與時間範圍渲染多個畫格，方便後續剪輯。",
+        "capabilityRefs": [
+          "scene-settings",
+          "render-sequence"
+        ]
+      },
+      {
+        "id": "repeatable-render",
+        "title": "建立重複渲染流程",
+        "detail": "固定同一場景的規格、畫格及輸出條件，先做樣張再產製完整媒體。",
+        "capabilityRefs": [
+          "scene-settings",
+          "render-still",
+          "render-sequence"
+        ]
+      }
+    ],
+    "example": {
+      "id": "product-turntable",
+      "title": "渲染產品旋轉預覽",
+      "input": "已有合法產品模型、攝影機及旋轉動畫的測試場景。",
+      "process": "設定尺寸及畫格 → 渲染樣張 → 渲染動畫範圍 → 檢查檔案",
+      "output": "單張樣圖及短動畫（預期產物）。",
+      "destination": "作品集或產品介紹的後製流程。",
+      "note": "未建模、未執行 Blender 或產生媒體；動畫與材質須另行建立。",
+      "useCaseRefs": [
+        "product-image",
+        "product-animation",
+        "repeatable-render"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "準備場景、模型及動畫",
+          "capabilityRefs": [],
+          "externalDependency": "模型建立、材質、燈光、攝影機與資產權利需另外確認。"
+        },
+        {
+          "id": "configure",
+          "title": "固定輸出範圍及尺寸",
+          "capabilityRefs": [
+            "scene-settings"
+          ]
+        },
+        {
+          "id": "preview",
+          "title": "驗收單張樣圖",
+          "capabilityRefs": [
+            "render-still"
+          ]
+        },
+        {
+          "id": "sequence",
+          "title": "渲染短動畫",
+          "capabilityRefs": [
+            "render-sequence"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先使用已授權的簡單場景，記錄 Blender 版本與目標尺寸。",
+      "先檢查一張樣圖，再測短畫格範圍及輸出設定。",
+      "檢查實際媒體、耗時、失敗及素材權利後才進入正式渲染。"
+    ],
+    "limits": [
+      "本身軟體授權不代表第三方模型、素材、外掛或音樂具備商用授權。",
+      "本次僅核對場景設定與渲染入口，未審查完整建模、Cycles、EEVEE、編碼及 Python 自動化。",
+      "陌生 .blend 檔案及腳本不得未經審查直接執行。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "製作 3D 產品、場景及動畫，從不同角度或時間點渲染圖片與影片。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "已查閱固定版本的限定範圍"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "C/C++、Python"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "GPLv3（整體；個別檔案依授權）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "85d42f7cebbffe9c1da5febb7ad370414e5236c6"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "設定場景畫格與尺寸",
+        "detail": "同一場景需固定輸出規格；輸入：Scene.frame_start、frame_end、frame_step 與 RenderSettings.resolution_x/y；輸出：播放及渲染範圍與像素設定",
+        "source": "source/blender/makesrna/intern/rna_scene.cc"
+      },
+      {
+        "title": "渲染單張產品畫面",
+        "detail": "需要預覽某個場景畫格；輸入：有效 Scene、camera、當前畫格與 write_still；輸出：渲染結果或取消",
+        "source": "source/blender/editors/render/render_internal.cc"
+      },
+      {
+        "title": "渲染動畫範圍",
+        "detail": "需要把一段 3D 動作輸出成媒體；輸入：animation 設定、起訖畫格與 frame_step；輸出：RE_RenderAnim 管理的動畫渲染",
+        "source": "source/blender/editors/render/render_internal.cc"
+      }
+    ],
+    "architecture": {
+      "summary": "設定尺寸及畫格 → 渲染樣張 → 渲染動畫範圍 → 檢查檔案",
+      "nodes": [
+        {
+          "title": "設定場景畫格與尺寸",
+          "detail": "Scene.frame_start、frame_end、frame_step 與 RenderSettings.resolution_x/y → 播放及渲染範圍與像素設定",
+          "files": [
+            "source/blender/makesrna/intern/rna_scene.cc"
+          ]
+        },
+        {
+          "title": "渲染單張產品畫面",
+          "detail": "有效 Scene、camera、當前畫格與 write_still → 渲染結果或取消",
+          "files": [
+            "source/blender/editors/render/render_internal.cc"
+          ]
+        },
+        {
+          "title": "渲染動畫範圍",
+          "detail": "animation 設定、起訖畫格與 frame_step → RE_RenderAnim 管理的動畫渲染",
+          "files": [
+            "source/blender/editors/render/render_internal.cc"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "畫格範圍",
+        "rule": "RNA frame_start/end 對應場景起訖；frame_step 影響渲染畫格跳步。",
+        "source": "source/blender/makesrna/intern/rna_scene.cc"
+      },
+      {
+        "name": "渲染分流",
+        "rule": "screen_render_exec 依 animation 選 RE_RenderAnim 或 RE_RenderFrame；無場景則取消。",
+        "source": "source/blender/editors/render/render_internal.cc"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依來源與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "COPYING",
+          "source/blender/makesrna/intern/rna_scene.cc",
+          "source/blender/editors/render/render_internal.cc"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小驗證",
+        "description": "先使用已授權的簡單場景，記錄 Blender 版本與目標尺寸。 先檢查一張樣圖，再測短畫格範圍及輸出設定。 檢查實際媒體、耗時、失敗及素材權利後才進入正式渲染。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "依應用案例建立獨立測試",
+        "detail": "作品集或產品介紹的後製流程。；固定輸入輸出，另行驗證失敗與權限。",
+        "file": "source/blender/makesrna/intern/rna_scene.cc"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "scene-settings",
+        "name": "設定場景畫格與尺寸",
+        "problem": "同一場景需固定輸出規格",
+        "input": "Scene.frame_start、frame_end、frame_step 與 RenderSettings.resolution_x/y",
+        "output": "播放及渲染範圍與像素設定",
+        "source": "source/blender/makesrna/intern/rna_scene.cc",
+        "sourceFiles": [
+          "source/blender/makesrna/intern/rna_scene.cc"
+        ],
+        "symbols": [
+          "RNA_def_property",
+          "rna_Scene_start_frame_set",
+          "rna_Scene_end_frame_set"
+        ],
+        "gate": "先核對場景範圍、解析度比例及實際輸出，避免誤用預覽設定。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "render-still",
+        "name": "渲染單張產品畫面",
+        "problem": "需要預覽某個場景畫格",
+        "input": "有效 Scene、camera、當前畫格與 write_still",
+        "output": "渲染結果或取消",
+        "source": "source/blender/editors/render/render_internal.cc",
+        "sourceFiles": [
+          "source/blender/editors/render/render_internal.cc"
+        ],
+        "symbols": [
+          "RENDER_OT_render",
+          "screen_render_exec",
+          "RE_RenderFrame"
+        ],
+        "gate": "Scene 或 render callback 缺失可取消；保存檔案與渲染成功須另驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "render-sequence",
+        "name": "渲染動畫範圍",
+        "problem": "需要把一段 3D 動作輸出成媒體",
+        "input": "animation 設定、起訖畫格與 frame_step",
+        "output": "RE_RenderAnim 管理的動畫渲染",
+        "source": "source/blender/editors/render/render_internal.cc",
+        "sourceFiles": [
+          "source/blender/editors/render/render_internal.cc"
+        ],
+        "symbols": [
+          "screen_render_exec",
+          "RE_RenderAnim"
+        ],
+        "gate": "先試短範圍；實際影格、編碼、檔案與中止狀態需要檢查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "渲染產品旋轉預覽（設計示例）",
+      "problem": "已有合法產品模型、攝影機及旋轉動畫的測試場景。",
+      "steps": [
+        {
+          "capability": "scene-settings",
+          "action": "固定輸出範圍及尺寸"
+        },
+        {
+          "capability": "render-still",
+          "action": "驗收單張樣圖"
+        },
+        {
+          "capability": "render-sequence",
+          "action": "渲染短動畫"
+        }
+      ],
+      "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+      "readerExampleRef": "product-turntable"
+    },
+    "rebuild": {
+      "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+      "stages": [
+        {
+          "title": "建立輸入輸出契約",
+          "detail": "已有合法產品模型、攝影機及旋轉動畫的測試場景。",
+          "deliverable": "可重現測試資料與預期輸出"
+        },
+        {
+          "title": "驗證核心步驟",
+          "detail": "設定尺寸及畫格 → 渲染樣張 → 渲染動畫範圍 → 檢查檔案",
+          "deliverable": "步驟及錯誤驗收紀錄"
+        },
+        {
+          "title": "驗證交付及風險",
+          "detail": "作品集或產品介紹的後製流程。",
+          "deliverable": "實際交付、權限與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "完整場景建模、渲染後端、Python API 綁定及輸出編碼未查閱。",
+        "未安裝、建置、渲染或驗證各裝置。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資產與腳本",
+        "severity": "高",
+        "issue": "外部模型、貼圖或腳本涉及授權及執行風險。",
+        "control": "隔離測試並核對來源、檔案路徑與輸出權限。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+      }
+    ]
   }
 }
