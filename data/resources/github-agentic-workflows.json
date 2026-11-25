@@ -6,14 +6,14 @@
   "canonicalName": "GitHub Agentic Workflows",
   "category": "02 Agent Orchestration",
   "resourceType": "Agentic CI/CD Workflow Compiler / GitHub Actions Runtime",
-  "purpose": "用 Markdown + YAML frontmatter 定義需要推理的 repository automation，再由 gh-aw CLI 驗證並編譯成標準 GitHub Actions workflow。適合 issue triage、PR review、CI failure investigation、文件維護、dependency analysis 與 repository reporting；deterministic build/test/lint/deploy 仍保留在一般 GitHub Actions。",
-  "recommendation": "適合想把 Agent 正式納入 GitHub repository workflow，而不是用長時間本機 session 手動跑任務的情境；尤其適合需要事件觸發、可重現 workflow artifact、模型可替換，以及把 Agent 寫入動作限制在受控權限邊界內的專案。",
+  "purpose": "把需要 AI 判斷的 GitHub 工作，例如整理 Issue、分析 CI 失敗或草擬 PR 審查，寫成可隨事件觸發的 GitHub Actions 流程。",
+  "recommendation": "適合希望將人工反覆分析的 Repository 任務自動化的團隊；一般編譯、測試、部署仍應由確定性 CI 執行。初期先採唯讀分析，經審查再開放必要的寫入。",
   "url": "https://github.com/github/gh-aw",
   "repo": "github/gh-aw",
   "notes": "Official repository confirmed. gh-aw compiles Markdown agentic workflows into GitHub Actions. Built-in engines include GitHub Copilot, Claude Code, OpenAI Codex, Google Gemini and Pi. The supported agent-job path is read-only and sandboxed by default; configured writes are normally buffered as safe outputs, validated, and applied in separate jobs with scoped permissions. The project explicitly positions agentic workflows as a complement to deterministic CI/CD, not a replacement. README also notes a historical security advisory affecting retired releases >=0.83.3 and <0.85.4; current version should be verified before deployment.",
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agentic-workflows",
     "github-actions",
@@ -101,17 +101,29 @@
     "url": "https://github.com/github/gh-aw",
     "readmeUrl": "https://github.com/github/gh-aw/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE、compile orchestrator、compiler、safe outputs job 及 validation；局部編譯與權限契約，未驗證執行時安全。",
+    "upstreamCommit": "66b508cd43f2ca20c9e623d573633b78f7f85fda",
+    "referenceUrls": [
+      "https://github.com/github/gh-aw/blob/66b508cd43f2ca20c9e623d573633b78f7f85fda/README.md",
+      "https://github.com/github/gh-aw/blob/66b508cd43f2ca20c9e623d573633b78f7f85fda/LICENSE",
+      "https://github.com/github/gh-aw/blob/66b508cd43f2ca20c9e623d573633b78f7f85fda/pkg/cli/compile_orchestrator.go",
+      "https://github.com/github/gh-aw/blob/66b508cd43f2ca20c9e623d573633b78f7f85fda/pkg/workflow/compiler.go",
+      "https://github.com/github/gh-aw/blob/66b508cd43f2ca20c9e623d573633b78f7f85fda/pkg/workflow/compiler_safe_outputs_job.go",
+      "https://github.com/github/gh-aw/blob/66b508cd43f2ca20c9e623d573633b78f7f85fda/pkg/workflow/safe_outputs_validation.go"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -127,8 +139,8 @@
     "classificationReason": "維持既有 Primary Domain software；未修改任何分類或新增 Tag。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、compile orchestrator、compiler、safe outputs job 及 validation；局部編譯與權限契約，未驗證執行時安全。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -138,10 +150,366 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
     },
-    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "riskNotes": "官方公告特定 0.83.3–0.85.3 範圍版本有安全漏洞，應避開並核對修補版本。；Agent 可能遭受 Repository 內容與 Issue Prompt Injection，CI 成功不代表安全審查充分。；Agent 可能受到 Issue、PR 或 Repository 內容的提示注入影響。；唯讀與沙箱是文件所述預設路徑，設定、生成檔及第三方 Actions 仍需審查。；README 記錄 0.83.3 至未滿 0.85.4 的歷史安全公告；正式採用前另核對版本及修補狀態。；未執行 gh-aw、模型、Actions 或安全測試。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "固定版本 README、LICENSE、compile orchestrator、compiler、safe outputs job 及 validation；局部編譯與權限契約，未驗證執行時安全。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、compile orchestrator、compiler、safe outputs job 及 validation；局部編譯與權限契約，未驗證執行時安全。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "用 Markdown + YAML frontmatter 定義需要推理的 repository automation，再由 gh-aw CLI 驗證並編譯成標準 GitHub Actions workflow。適合 issue triage、PR review、CI failure investigation、文件維護、dependency analysis 與 repository reporting；deterministic build/test/lint/deploy 仍保留在一般 GitHub Actions。",
+      "source": "https://github.com/github/gh-aw",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合想把 Agent 正式納入 GitHub repository workflow，而不是用長時間本機 session 手動跑任務的情境；尤其適合需要事件觸發、可重現 workflow artifact、模型可替換，以及把 Agent 寫入動作限制在受控權限邊界內的專案。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-compile",
+        "title": "將 AI 任務轉成 GitHub Actions",
+        "detail": "反覆手動要求 Agent 檢查 Repository，缺少一致的事件與設定。 經驗證並產生的 .lock.yml Workflow。",
+        "capabilityRefs": [
+          "compile"
+        ]
+      },
+      {
+        "id": "use-safe-output",
+        "title": "把 Agent 判斷與寫入分離",
+        "detail": "Agent 的分析文字不應直接取得任意 Repository 寫入權。 獨立的受控寫入 Job 與驗證契約。",
+        "capabilityRefs": [
+          "safe-output"
+        ]
+      },
+      {
+        "id": "use-review",
+        "title": "保留確定性 CI 並獨立核對回報",
+        "detail": "AI 診斷可能出錯，不能替代測試與正式發布 Gate。 可供維護者查證的診斷及審核流程。",
+        "capabilityRefs": [
+          "review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "github-agentic-workflows-example",
+      "title": "規劃 CI 失敗分析與受控 Issue 回報流程",
+      "input": "自有測試 Repository、合成 CI 失敗日誌、事件條件及允許的回報範圍。",
+      "process": "將 AI 任務轉成 GitHub Actions → 把 Agent 判斷與寫入分離 → 保留確定性 CI 並獨立核對回報 → 獨立驗收實際成果",
+      "output": "可審查的 Markdown 定義、編譯後 Workflow 及限定的診斷回報規格。",
+      "destination": "用於自有 GitHub 專案的 CI 失敗分析與 Issue 分流，供維護者核對後處理。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-compile",
+        "use-safe-output",
+        "use-review"
+      ],
+      "steps": [
+        {
+          "id": "compile",
+          "title": "將 AI 任務轉成 GitHub Actions",
+          "capabilityRefs": [
+            "compile"
+          ]
+        },
+        {
+          "id": "safe-output",
+          "title": "把 Agent 判斷與寫入分離",
+          "capabilityRefs": [
+            "safe-output"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "保留確定性 CI 並獨立核對回報",
+          "capabilityRefs": [
+            "review"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試 Repository、合成 CI 失敗日誌、事件條件及允許的回報範圍。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "官方公告特定 0.83.3–0.85.3 範圍版本有安全漏洞，應避開並核對修補版本。",
+      "Agent 可能遭受 Repository 內容與 Issue Prompt Injection，CI 成功不代表安全審查充分。",
+      "Agent 可能受到 Issue、PR 或 Repository 內容的提示注入影響。",
+      "唯讀與沙箱是文件所述預設路徑，設定、生成檔及第三方 Actions 仍需審查。",
+      "README 記錄 0.83.3 至未滿 0.85.4 的歷史安全公告；正式採用前另核對版本及修補狀態。",
+      "未執行 gh-aw、模型、Actions 或安全測試。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把需要 AI 判斷的 GitHub 工作，例如整理 Issue、分析 CI 失敗或草擬 PR 審查，寫成可隨事件觸發的 GitHub Actions 流程。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（上游 LICENSE；模型及外部服務另查）"
+      },
+      {
+        "label": "版本",
+        "value": "66b508cd43f2ca20c9e623d573633b78f7f85fda"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "將 AI 任務轉成 GitHub Actions",
+        "detail": "反覆手動要求 Agent 檢查 Repository，缺少一致的事件與設定。；輸入：Markdown 任務與 YAML frontmatter；輸出：經驗證並產生的 .lock.yml Workflow",
+        "source": "pkg/cli/compile_orchestrator.go"
+      },
+      {
+        "title": "把 Agent 判斷與寫入分離",
+        "detail": "Agent 的分析文字不應直接取得任意 Repository 寫入權。；輸入：允許的 safe-outputs 設定及 Agent 結構化回報；輸出：獨立的受控寫入 Job 與驗證契約",
+        "source": "pkg/workflow/compiler_safe_outputs_job.go"
+      },
+      {
+        "title": "保留確定性 CI 並獨立核對回報",
+        "detail": "AI 診斷可能出錯，不能替代測試與正式發布 Gate。；輸入：既有 CI 日誌、編譯後的 Workflow 與回報要求；輸出：可供維護者查證的診斷及審核流程",
+        "source": "README.md"
+      }
+    ],
+    "architecture": {
+      "summary": "將 AI 任務轉成 GitHub Actions → 把 Agent 判斷與寫入分離 → 保留確定性 CI 並獨立核對回報 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "將 AI 任務轉成 GitHub Actions",
+          "detail": "Markdown 任務與 YAML frontmatter → 經驗證並產生的 .lock.yml Workflow",
+          "files": [
+            "pkg/cli/compile_orchestrator.go",
+            "pkg/workflow/compiler.go",
+            "README.md"
+          ]
+        },
+        {
+          "title": "把 Agent 判斷與寫入分離",
+          "detail": "允許的 safe-outputs 設定及 Agent 結構化回報 → 獨立的受控寫入 Job 與驗證契約",
+          "files": [
+            "pkg/workflow/compiler_safe_outputs_job.go",
+            "pkg/workflow/safe_outputs_validation.go",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保留確定性 CI 並獨立核對回報",
+          "detail": "既有 CI 日誌、編譯後的 Workflow 與回報要求 → 可供維護者查證的診斷及審核流程",
+          "files": [
+            "README.md",
+            "pkg/workflow/compiler.go"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "將 AI 任務轉成 GitHub Actions",
+        "rule": "審查生成的 Workflow、事件、工具及權限；編譯成功不代表 Agent 任務正確或可安全部署。",
+        "source": "pkg/cli/compile_orchestrator.go"
+      },
+      {
+        "name": "把 Agent 判斷與寫入分離",
+        "rule": "僅允許明確目標與必要權限；不得把 safe-outputs 當成任意寫入授權，須驗證不受信任 Issue 內容的影響。",
+        "source": "pkg/workflow/compiler_safe_outputs_job.go"
+      },
+      {
+        "name": "保留確定性 CI 並獨立核對回報",
+        "rule": "Build、Test、Lint、Deploy 繼續由一般 Actions 驗收；AI 回報不得自動視為通過或核准。",
+        "source": "README.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、compile orchestrator、compiler、safe outputs job 及 validation；局部編譯與權限契約，未驗證執行時安全。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "pkg/cli/compile_orchestrator.go",
+          "pkg/workflow/compiler.go",
+          "pkg/workflow/compiler_safe_outputs_job.go",
+          "pkg/workflow/safe_outputs_validation.go"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Repository、合成 CI 失敗日誌、事件條件及允許的回報範圍。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "pkg/cli/compile_orchestrator.go"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有 GitHub 專案的 CI 失敗分析與 Issue 分流，供維護者核對後處理。 另驗證實際行為及限制。",
+        "file": "pkg/cli/compile_orchestrator.go"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "compile",
+        "name": "將 AI 任務轉成 GitHub Actions",
+        "problem": "反覆手動要求 Agent 檢查 Repository，缺少一致的事件與設定。",
+        "input": "Markdown 任務與 YAML frontmatter",
+        "output": "經驗證並產生的 .lock.yml Workflow",
+        "source": "pkg/cli/compile_orchestrator.go",
+        "sourceFiles": [
+          "pkg/cli/compile_orchestrator.go",
+          "pkg/workflow/compiler.go",
+          "README.md"
+        ],
+        "symbols": [
+          "CompileWorkflows",
+          "CompileWorkflow",
+          "generateAndValidateYAML"
+        ],
+        "gate": "審查生成的 Workflow、事件、工具及權限；編譯成功不代表 Agent 任務正確或可安全部署。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "safe-output",
+        "name": "把 Agent 判斷與寫入分離",
+        "problem": "Agent 的分析文字不應直接取得任意 Repository 寫入權。",
+        "input": "允許的 safe-outputs 設定及 Agent 結構化回報",
+        "output": "獨立的受控寫入 Job 與驗證契約",
+        "source": "pkg/workflow/compiler_safe_outputs_job.go",
+        "sourceFiles": [
+          "pkg/workflow/compiler_safe_outputs_job.go",
+          "pkg/workflow/safe_outputs_validation.go",
+          "README.md"
+        ],
+        "symbols": [
+          "buildConsolidatedSafeOutputsJob",
+          "safeOutputsJobPermissions",
+          "validateSafeOutputsTarget"
+        ],
+        "gate": "僅允許明確目標與必要權限；不得把 safe-outputs 當成任意寫入授權，須驗證不受信任 Issue 內容的影響。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "review",
+        "name": "保留確定性 CI 並獨立核對回報",
+        "problem": "AI 診斷可能出錯，不能替代測試與正式發布 Gate。",
+        "input": "既有 CI 日誌、編譯後的 Workflow 與回報要求",
+        "output": "可供維護者查證的診斷及審核流程",
+        "source": "README.md",
+        "sourceFiles": [
+          "README.md",
+          "pkg/workflow/compiler.go"
+        ],
+        "symbols": [
+          "How Agentic Workflows work（文件段落）",
+          "validateWorkflowData"
+        ],
+        "gate": "Build、Test、Lint、Deploy 繼續由一般 Actions 驗收；AI 回報不得自動視為通過或核准。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 CI 失敗分析與受控 Issue 回報流程（設計示例）",
+      "problem": "自有測試 Repository、合成 CI 失敗日誌、事件條件及允許的回報範圍。",
+      "steps": [
+        {
+          "capability": "compile",
+          "action": "將 AI 任務轉成 GitHub Actions"
+        },
+        {
+          "capability": "safe-output",
+          "action": "把 Agent 判斷與寫入分離"
+        },
+        {
+          "capability": "review",
+          "action": "保留確定性 CI 並獨立核對回報"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "github-agentic-workflows-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Repository、合成 CI 失敗日誌、事件條件及允許的回報範圍。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "將 AI 任務轉成 GitHub Actions → 把 Agent 判斷與寫入分離 → 保留確定性 CI 並獨立核對回報 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有 GitHub 專案的 CI 失敗分析與 Issue 分流，供維護者核對後處理。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Agent 可能受到 Issue、PR 或 Repository 內容的提示注入影響。",
+        "唯讀與沙箱是文件所述預設路徑，設定、生成檔及第三方 Actions 仍需審查。",
+        "README 記錄 0.83.3 至未滿 0.85.4 的歷史安全公告；正式採用前另核對版本及修補狀態。",
+        "未執行 gh-aw、模型、Actions 或安全測試。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Agent 可能受到 Issue、PR 或 Repository 內容的提示注入影響。 唯讀與沙箱是文件所述預設路徑，設定、生成檔及第三方 Actions 仍需審查。 README 記錄 0.83.3 至未滿 0.85.4 的歷史安全公告；正式採用前另核對版本及修補狀態。 未執行 gh-aw、模型、Actions 或安全測試。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、compile orchestrator、compiler、safe outputs job 及 validation；局部編譯與權限契約，未驗證執行時安全。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
