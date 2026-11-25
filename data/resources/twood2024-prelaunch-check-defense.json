@@ -6,8 +6,8 @@
   "canonicalName": "Pre-launch Check — defense reference",
   "category": "AI Security & Software Release Readiness",
   "resourceType": "Defense-only security review reference and checklist for coding agents (not an executable scanner)",
-  "purpose": "提供 AI 輔助開發的網站、App、AI wrapper 上線前檢查規則；Agent 可參考按技術範圍選擇 playbook，回報有證據的安全 Findings、修復建議及安全驗證指令。",
-  "recommendation": "適合加入 AI 輔助開發專案的 Release Security Review / Pre-deploy QA Gate，用於檢查安全標頭、敏感設定、AI Prompt 與工具權限、Cloudflare、OAuth、Tauri、Vite/PWA 等風險。由於是靜態參考文件，不可視為完整 SAST、滲透測試、漏洞掃描或安全保證；結合現有 CI、依賴掃描、授權範圍內的實機測試與專業審查。",
+  "purpose": "用防禦檢查清單規劃網站及 AI 應用上線前的安全驗收。",
+  "recommendation": "適合自有或獲授權系統的人工防禦覆核；不是掃描器。",
   "url": "https://github.com/Twood2024/prelaunch-check-defense",
   "repo": "Twood2024/prelaunch-check-defense",
   "sourceIdentity": {
@@ -84,7 +84,7 @@
   "collectionDecision": "新增單一 Resource。此倉庫是純文檔的 Agent 防禦檢查參考包，非執行工具、非 SKILL.md；與既有 Security as a Workflow Gate 概念相關聯即可，不憑空新增工具或 Skill。",
   "status": "active",
   "addedAt": "2026-11-10",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "prelaunch-check",
     "twood2024",
@@ -121,11 +121,19 @@
       "https://github.com/Twood2024/prelaunch-check-defense/blob/main/schemas/finding-report.schema.json",
       "https://github.com/Twood2024/prelaunch-check-defense/tree/main/golden"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official repository, README, AGENTS.md, PROBLEMS.md, LICENSE, seven playbook entries, finding JSON schema, golden fixtures",
     "notes": "New repository created 2026-11-10; no independent scan conducted.",
     "readmeUrl": "https://github.com/Twood2024/prelaunch-check-defense/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、playbooks/01-headers-csp.md、playbooks/02-config-secrets.md、playbooks/03-prompt-injection.md 局部文件查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "8483cad5af7a1982ef133e3f91c1cce203dc1b57",
+    "referenceUrls": [
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/README.md",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/LICENSE",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/playbooks/01-headers-csp.md",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/playbooks/02-config-secrets.md",
+      "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/playbooks/03-prompt-injection.md"
+    ]
   },
   "researchStatus": "official-repo-reviewed-no-execution",
   "displayStatus": "listed",
@@ -141,9 +149,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.3-semantic-audit",
-    "contentFormat": "repository",
+    "contentFormat": "documentation",
     "formatEvidenceFields": [
-      "url"
+      "repo",
+      "source.referenceUrls"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -151,10 +160,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -167,11 +179,11 @@
       "decision": "retain-unmapped",
       "reason": "保留原有 Tags，不新增或調整分類架構。"
     },
-    "classificationReason": "原有 Domain security 保持不變，只補強來源與未敘明的使用方式或風險。",
+    "classificationReason": "原有 Domain security 保持不變，只補強來源與未敘明的使用方式或風險。；依固定來源校正 Content Format 為 documentation，保留分類領域與既有關聯。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、playbooks/01-headers-csp.md、playbooks/02-config-secrets.md、playbooks/03-prompt-injection.md 局部文件查核；未安裝、執行或實測第三方項目。；以文件證據而非執行契約呈現。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -181,10 +193,178 @@
       "decision": "candidate",
       "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "不是正式安裝的 Agent Skill：儲存庫有 AGENTS.md，但不存在 SKILL.md，因此只新增 Resource，不另建 Skill。；不是一鍵掃描器、殺毒軟體、滲透測試、全面 SAST、0-day 研究工具或常駐監控。；不能保證安全或無漏洞；有些範例程式碼需要修正及審核。；Custom License 不允許直接當作付費安全掃描產品轉售，也未授權對外重新包裝完整內容。；作者提供不同主題 Playbooks，並不代表完整涵蓋所有 Web/API/AI Agent 風險、所有框架及部署平台。；需核對實際回應與業務需求，不以設定存在推論防護有效。；只在授權範圍覆核，不收集或記錄真實金鑰，修正後需重新驗收。；文字規則不等於執行時安全，另驗證伺服器權限、拒絕行為及資料邊界。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 README.md、LICENSE、playbooks/01-headers-csp.md、playbooks/02-config-secrets.md、playbooks/03-prompt-injection.md 局部文件查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、playbooks/01-headers-csp.md、playbooks/02-config-secrets.md、playbooks/03-prompt-injection.md 局部文件查核；未安裝、執行或實測第三方項目。；用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供 AI 輔助開發的網站、App、AI wrapper 上線前檢查規則；Agent 可參考按技術範圍選擇 playbook，回報有證據的安全 Findings、修復建議及安全驗證指令。",
+      "source": "https://github.com/Twood2024/prelaunch-check-defense",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合加入 AI 輔助開發專案的 Release Security Review / Pre-deploy QA Gate，用於檢查安全標頭、敏感設定、AI Prompt 與工具權限、Cloudflare、OAuth、Tauri、Vite/PWA 等風險。由於是靜態參考文件，不可視為完整 SAST、滲透測試、漏洞掃描或安全保證；結合現有 CI、依賴掃描、授權範圍內的實機測試與專業審查。",
+    "priorContentFormat": "repository",
+    "collectionLicense": "自訂授權；限防禦用途與引用，禁止轉售為掃描服務",
+    "documentContracts": [
+      {
+        "id": "headers",
+        "input": "已授權測試回應及部署設定",
+        "output": "安全標頭與跨來源政策檢查項目",
+        "source": "playbooks/01-headers-csp.md",
+        "locator": "Checklist",
+        "rule": "需核對實際回應與業務需求，不以設定存在推論防護有效。"
+      },
+      {
+        "id": "config",
+        "input": "合成設定與發布檔案清單",
+        "output": "敏感資料暴露及路由限制待驗收項目",
+        "source": "playbooks/02-config-secrets.md",
+        "locator": "Checklist",
+        "rule": "只在授權範圍覆核，不收集或記錄真實金鑰，修正後需重新驗收。"
+      },
+      {
+        "id": "ai",
+        "input": "合成提示詞與工具契約",
+        "output": "角色隔離及工具授權檢查項目",
+        "source": "playbooks/03-prompt-injection.md",
+        "locator": "Checklist",
+        "rule": "文字規則不等於執行時安全，另驗證伺服器權限、拒絕行為及資料邊界。"
+      }
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "headers",
+      "detail": "回應設定可能未反映實際部署；輸入：已授權測試回應及部署設定；輸出：安全標頭與跨來源政策檢查項目。",
+      "locator": "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/playbooks/01-headers-csp.md — Checklist",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "需核對實際回應與業務需求，不以設定存在推論防護有效。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "config",
+      "detail": "公開產物可能意外包含敏感設定；輸入：合成設定與發布檔案清單；輸出：敏感資料暴露及路由限制待驗收項目。",
+      "locator": "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/playbooks/02-config-secrets.md — Checklist",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "只在授權範圍覆核，不收集或記錄真實金鑰，修正後需重新驗收。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "ai",
+      "detail": "不可信內容不應擴大執行權限；輸入：合成提示詞與工具契約；輸出：角色隔離及工具授權檢查項目。",
+      "locator": "https://github.com/Twood2024/prelaunch-check-defense/blob/8483cad5af7a1982ef133e3f91c1cce203dc1b57/playbooks/03-prompt-injection.md — Checklist",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "文字規則不等於執行時安全，另驗證伺服器權限、拒絕行為及資料邊界。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-headers",
+        "title": "核對瀏覽器安全政策",
+        "detail": "回應設定可能未反映實際部署。安全標頭與跨來源政策檢查項目。",
+        "evidenceRefs": [
+          "headers"
+        ]
+      },
+      {
+        "id": "use-config",
+        "title": "檢查部署與機密邊界",
+        "detail": "公開產物可能意外包含敏感設定。敏感資料暴露及路由限制待驗收項目。",
+        "evidenceRefs": [
+          "config"
+        ]
+      },
+      {
+        "id": "use-ai",
+        "title": "核對 AI 指令與工具權限",
+        "detail": "不可信內容不應擴大執行權限。角色隔離及工具授權檢查項目。",
+        "evidenceRefs": [
+          "ai"
+        ]
+      }
+    ],
+    "example": {
+      "id": "twood2024-prelaunch-check-defense-example",
+      "title": "規劃網站與 AI 應用的上線前防禦檢查",
+      "input": "自有測試網站、合成設定及 AI 工具權限。",
+      "process": "核對瀏覽器安全政策 → 檢查部署與機密邊界 → 核對 AI 指令與工具權限 → 獨立驗收實際成果",
+      "output": "風險檢查紀錄、修正候選與驗收條件（規劃產物）。",
+      "destination": "自有專案發布審查之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-headers",
+        "use-config",
+        "use-ai"
+      ],
+      "steps": [
+        {
+          "id": "headers",
+          "title": "核對瀏覽器安全政策",
+          "evidenceRefs": [
+            "headers"
+          ]
+        },
+        {
+          "id": "config",
+          "title": "檢查部署與機密邊界",
+          "evidenceRefs": [
+            "config"
+          ]
+        },
+        {
+          "id": "ai",
+          "title": "核對 AI 指令與工具權限",
+          "evidenceRefs": [
+            "ai"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准合成測試環境、資料、權限與實際成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有測試網站、合成設定及 AI 工具權限。",
+      "依需求核對固定版本來源與操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+    ],
+    "limits": [
+      "不是正式安裝的 Agent Skill：儲存庫有 AGENTS.md，但不存在 SKILL.md，因此只新增 Resource，不另建 Skill。",
+      "不是一鍵掃描器、殺毒軟體、滲透測試、全面 SAST、0-day 研究工具或常駐監控。",
+      "不能保證安全或無漏洞；有些範例程式碼需要修正及審核。",
+      "Custom License 不允許直接當作付費安全掃描產品轉售，也未授權對外重新包裝完整內容。",
+      "作者提供不同主題 Playbooks，並不代表完整涵蓋所有 Web/API/AI Agent 風險、所有框架及部署平台。",
+      "需核對實際回應與業務需求，不以設定存在推論防護有效。",
+      "只在授權範圍覆核，不收集或記錄真實金鑰，修正後需重新驗收。",
+      "文字規則不等於執行時安全，另驗證伺服器權限、拒絕行為及資料邊界。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
   }
 }

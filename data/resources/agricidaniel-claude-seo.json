@@ -5,7 +5,7 @@
   "title": "Claude SEO — Multi-Agent Technical SEO, GEO & Search Audit Suite",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "claude-seo",
     "seo",
@@ -28,8 +28,8 @@
   "canonicalName": "AgriciDaniel/claude-seo",
   "category": "06 Skills",
   "resourceType": "MIT open-source Claude Code SEO plugin with 26 skill directories and 19 specialist agent definitions",
-  "purpose": "以 Claude Code 專用 SEO Plugin 執行網站技術、內容、Schema、PageSpeed、GEO／AI 搜尋可見度等查核，官方現行 README 列出 29 個子技能及 20 個專業 Agents，產生依重要性排序的修正建議。",
-  "recommendation": "用於檢查企業網站、產品 Landing Page、求職作品集及部落格 SEO 基礎與 AI 搜尋可存取性。先看公開頁面 audit／單頁及可直接取得的技術指標，若需 Google Search Console / GA4 / Ads、付費 SEO 或第三方抓取服務，再個別驗證授權、金鑰、資料流與額度。輸出是稽核建議，不代表可保證排名、曝光或 AI 被引用。",
+  "purpose": "從網頁結構、文章引用與版本差異找出 SEO 待改善項目。",
+  "recommendation": "適合自有網站的可重現檢查；不保證排名或流量改善。",
   "url": "https://github.com/AgriciDaniel/claude-seo",
   "repo": "AgriciDaniel/claude-seo",
   "notes": "2026-10-27 核對官方 README、skills/seo/SKILL.md（frontmatter version 2.5.0）、skills/ 下 26 個資料夾、PRIVACY.md、SECURITY.md、LICENSE (MIT)。官方 README 稱 26 sub-skills、19 specialist agents，至多 17 parallel agents，提及 10-15 分鐘全面網站稽核及自家站點實績，這些均是作者主張而非本次實測成效；主入口 skills/seo/SKILL.md 亦用『25 sub-skills + 1 router』描述，並非 26 個獨立全新產品。核心功能無需第三方 API 金鑰但會請求指定網站及公開網路資料；Google APIs / Firecrawl / DataForSEO / Matomo / AI image / live SERP 等需要各別服務、授權或預算，不能把沒有 Search Console 權限的猜測當已驗證 Search Performance。官方 Security Policy 對 SSRF、憑證、惡意掃描目標列出風險及緩解；抓取之網頁是不可信資料，防 Prompt Injection，不應將其指示當成開發授權。安裝會建立 Python 獨立環境並下載 Headless Browser，避免直接 curl|bash；高成本 Opus/Sonnet Agent 並行需注意 token 及 API 費用，並且校對報告真實證據。未登入 Google、安裝、執行 Crawl 或 SEO Audit。",
@@ -73,8 +73,16 @@
     "type": "First-party repository, README, Skill, Privacy, Security, LICENSE",
     "summary": "Checked official sources on 2026-10-27. No installation or independent audit.",
     "readmeUrl": "https://github.com/AgriciDaniel/claude-seo/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、scripts/page_checks.py、scripts/content_verify.py、scripts/drift_compare.py 局部程式查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "468ed5b0d9e3249394783710e54abb02837e326b",
+    "referenceUrls": [
+      "https://github.com/AgriciDaniel/claude-seo/blob/468ed5b0d9e3249394783710e54abb02837e326b/README.md",
+      "https://github.com/AgriciDaniel/claude-seo/blob/468ed5b0d9e3249394783710e54abb02837e326b/LICENSE",
+      "https://github.com/AgriciDaniel/claude-seo/blob/468ed5b0d9e3249394783710e54abb02837e326b/scripts/page_checks.py",
+      "https://github.com/AgriciDaniel/claude-seo/blob/468ed5b0d9e3249394783710e54abb02837e326b/scripts/content_verify.py",
+      "https://github.com/AgriciDaniel/claude-seo/blob/468ed5b0d9e3249394783710e54abb02837e326b/scripts/drift_compare.py"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -114,10 +122,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -133,8 +144,8 @@
     "classificationReason": "沿用既有 content Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、scripts/page_checks.py、scripts/content_verify.py、scripts/drift_compare.py 局部程式查核；未安裝、執行或實測第三方項目。；局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -144,10 +155,360 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "README 上的改善排名或流量案例是作者自述，不代表所有網站可重現。；依賴外部網頁、工具與服務權限，完整稽核結果仍需人工覆查。；長度門檻屬啟發式規則，不是搜尋引擎正式限制；缺標頭時不宣稱已檢查。；主要主張樣式針對英文；繁體中文覆蓋有限，附近引用不代表支持主張。；基準須存在並有效；外部請求、效能資料及真實排名須另核對。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、scripts/page_checks.py、scripts/content_verify.py、scripts/drift_compare.py 局部程式查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、scripts/page_checks.py、scripts/content_verify.py、scripts/drift_compare.py 局部程式查核；未安裝、執行或實測第三方項目。；用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "以 Claude Code 專用 SEO Plugin 執行網站技術、內容、Schema、PageSpeed、GEO／AI 搜尋可見度等查核，官方現行 README 列出 29 個子技能及 20 個專業 Agents，產生依重要性排序的修正建議。",
+      "source": "https://github.com/AgriciDaniel/claude-seo",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "用於檢查企業網站、產品 Landing Page、求職作品集及部落格 SEO 基礎與 AI 搜尋可存取性。先看公開頁面 audit／單頁及可直接取得的技術指標，若需 Google Search Console / GA4 / Ads、付費 SEO 或第三方抓取服務，再個別驗證授權、金鑰、資料流與額度。輸出是稽核建議，不代表可保證排名、曝光或 AI 被引用。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-page",
+        "title": "核對 HTML 結構",
+        "detail": "搜尋可見度需要可觀察的頁面證據。檢查事實、問題及未檢查清單。",
+        "capabilityRefs": [
+          "page"
+        ]
+      },
+      {
+        "id": "use-claims",
+        "title": "找出可能缺引用的陳述",
+        "detail": "文章可能包含未提供出處的數字或比較。候選主張、位置及附近引用標記。",
+        "capabilityRefs": [
+          "claims"
+        ]
+      },
+      {
+        "id": "use-drift",
+        "title": "比較基準與目前頁面",
+        "detail": "發布後的結構與索引政策可能改變。差異、嚴重度與修正建議。",
+        "capabilityRefs": [
+          "drift"
+        ]
+      }
+    ],
+    "example": {
+      "id": "agricidaniel-claude-seo-example",
+      "title": "規劃網站內容與 SEO 變更驗收",
+      "input": "合成 HTML、文章草稿與已保存的頁面基準。",
+      "process": "核對 HTML 結構 → 找出可能缺引用的陳述 → 比較基準與目前頁面 → 獨立驗收實際成果",
+      "output": "結構問題、引用缺口與版本差異紀錄（規劃產物）。",
+      "destination": "自有網站發布及 SEO 維護之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-page",
+        "use-claims",
+        "use-drift"
+      ],
+      "steps": [
+        {
+          "id": "page",
+          "title": "核對 HTML 結構",
+          "capabilityRefs": [
+            "page"
+          ]
+        },
+        {
+          "id": "claims",
+          "title": "找出可能缺引用的陳述",
+          "capabilityRefs": [
+            "claims"
+          ]
+        },
+        {
+          "id": "drift",
+          "title": "比較基準與目前頁面",
+          "capabilityRefs": [
+            "drift"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成測試環境、資料、權限與實際成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成 HTML、文章草稿與已保存的頁面基準。",
+      "依需求核對固定版本來源與操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+    ],
+    "limits": [
+      "README 上的改善排名或流量案例是作者自述，不代表所有網站可重現。",
+      "依賴外部網頁、工具與服務權限，完整稽核結果仍需人工覆查。",
+      "長度門檻屬啟發式規則，不是搜尋引擎正式限制；缺標頭時不宣稱已檢查。",
+      "主要主張樣式針對英文；繁體中文覆蓋有限，附近引用不代表支持主張。",
+      "基準須存在並有效；外部請求、效能資料及真實排名須另核對。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "從網頁結構、文章引用與版本差異找出 SEO 待改善項目。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "468ed5b0d9e3249394783710e54abb02837e326b"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "核對 HTML 結構",
+        "detail": "搜尋可見度需要可觀察的頁面證據。 輸入：HTML、頁面網址與可選回應標頭；輸出：檢查事實、問題及未檢查清單",
+        "source": "scripts/page_checks.py"
+      },
+      {
+        "title": "找出可能缺引用的陳述",
+        "detail": "文章可能包含未提供出處的數字或比較。 輸入：文章文字；輸出：候選主張、位置及附近引用標記",
+        "source": "scripts/content_verify.py"
+      },
+      {
+        "title": "比較基準與目前頁面",
+        "detail": "發布後的結構與索引政策可能改變。 輸入：頁面網址及歷史基準；輸出：差異、嚴重度與修正建議",
+        "source": "scripts/drift_compare.py"
+      }
+    ],
+    "architecture": {
+      "summary": "核對 HTML 結構 → 找出可能缺引用的陳述 → 比較基準與目前頁面 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "核對 HTML 結構",
+          "detail": "HTML、頁面網址與可選回應標頭 → 檢查事實、問題及未檢查清單",
+          "files": [
+            "scripts/page_checks.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "找出可能缺引用的陳述",
+          "detail": "文章文字 → 候選主張、位置及附近引用標記",
+          "files": [
+            "scripts/content_verify.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "比較基準與目前頁面",
+          "detail": "頁面網址及歷史基準 → 差異、嚴重度與修正建議",
+          "files": [
+            "scripts/drift_compare.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "核對 HTML 結構",
+        "rule": "長度門檻屬啟發式規則，不是搜尋引擎正式限制；缺標頭時不宣稱已檢查。",
+        "source": "scripts/page_checks.py"
+      },
+      {
+        "name": "找出可能缺引用的陳述",
+        "rule": "主要主張樣式針對英文；繁體中文覆蓋有限，附近引用不代表支持主張。",
+        "source": "scripts/content_verify.py"
+      },
+      {
+        "name": "比較基準與目前頁面",
+        "rule": "基準須存在並有效；外部請求、效能資料及真實排名須另核對。",
+        "source": "scripts/drift_compare.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、scripts/page_checks.py、scripts/content_verify.py、scripts/drift_compare.py 局部程式查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "scripts/page_checks.py",
+          "scripts/content_verify.py",
+          "scripts/drift_compare.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成 HTML、文章草稿與已保存的頁面基準。 依需求核對固定版本來源與操作限制。 先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。",
+        "files": [
+          "scripts/page_checks.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有網站發布及 SEO 維護另行驗收實際成果及限制。",
+        "file": "scripts/page_checks.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "page",
+        "name": "核對 HTML 結構",
+        "problem": "搜尋可見度需要可觀察的頁面證據。",
+        "input": "HTML、頁面網址與可選回應標頭",
+        "output": "檢查事實、問題及未檢查清單",
+        "source": "scripts/page_checks.py",
+        "sourceFiles": [
+          "scripts/page_checks.py",
+          "README.md"
+        ],
+        "symbols": [
+          "run_checks"
+        ],
+        "gate": "長度門檻屬啟發式規則，不是搜尋引擎正式限制；缺標頭時不宣稱已檢查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "claims",
+        "name": "找出可能缺引用的陳述",
+        "problem": "文章可能包含未提供出處的數字或比較。",
+        "input": "文章文字",
+        "output": "候選主張、位置及附近引用標記",
+        "source": "scripts/content_verify.py",
+        "sourceFiles": [
+          "scripts/content_verify.py",
+          "README.md"
+        ],
+        "symbols": [
+          "extract_claims",
+          "verify"
+        ],
+        "gate": "主要主張樣式針對英文；繁體中文覆蓋有限，附近引用不代表支持主張。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "drift",
+        "name": "比較基準與目前頁面",
+        "problem": "發布後的結構與索引政策可能改變。",
+        "input": "頁面網址及歷史基準",
+        "output": "差異、嚴重度與修正建議",
+        "source": "scripts/drift_compare.py",
+        "sourceFiles": [
+          "scripts/drift_compare.py",
+          "README.md"
+        ],
+        "symbols": [
+          "load_baseline",
+          "run_comparison"
+        ],
+        "gate": "基準須存在並有效；外部請求、效能資料及真實排名須另核對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃網站內容與 SEO 變更驗收（設計示例）",
+      "problem": "合成 HTML、文章草稿與已保存的頁面基準",
+      "steps": [
+        {
+          "capability": "page",
+          "action": "核對 HTML 結構"
+        },
+        {
+          "capability": "claims",
+          "action": "找出可能缺引用的陳述"
+        },
+        {
+          "capability": "drift",
+          "action": "比較基準與目前頁面"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "agricidaniel-claude-seo-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成 HTML、文章草稿與已保存的頁面基準",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "核對 HTML 結構 → 找出可能缺引用的陳述 → 比較基準與目前頁面 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有網站發布及 SEO 維護之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "README 上的改善排名或流量案例是作者自述，不代表所有網站可重現。",
+        "依賴外部網頁、工具與服務權限，完整稽核結果仍需人工覆查。",
+        "長度門檻屬啟發式規則，不是搜尋引擎正式限制；缺標頭時不宣稱已檢查。",
+        "主要主張樣式針對英文；繁體中文覆蓋有限，附近引用不代表支持主張。",
+        "基準須存在並有效；外部請求、效能資料及真實排名須另核對。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "README 上的改善排名或流量案例是作者自述，不代表所有網站可重現。 依賴外部網頁、工具與服務權限，完整稽核結果仍需人工覆查。 長度門檻屬啟發式規則，不是搜尋引擎正式限制；缺標頭時不宣稱已檢查。 主要主張樣式針對英文；繁體中文覆蓋有限，附近引用不代表支持主張。 基準須存在並有效；外部請求、效能資料及真實排名須另核對。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、scripts/page_checks.py、scripts/content_verify.py、scripts/drift_compare.py 局部程式查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
