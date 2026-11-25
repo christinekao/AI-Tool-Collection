@@ -5,7 +5,7 @@
   "title": "Diagram Design — Branded 45-Type Editorial Architecture & Data Diagrams",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-skill",
     "architecture",
@@ -23,8 +23,8 @@
   "canonicalName": "cathrynlavery/diagram-design",
   "category": "06 Skills",
   "resourceType": "MIT open-source agent skill and editorial HTML/SVG diagram generator",
-  "purpose": "以品牌化 HTML + Inline SVG 生成技術架構、流程與資料圖，官方 README 現列 51 種圖表類型，可參考或轉繪 Mermaid、draw.io、Excalidraw、PlantUML 並輸出圖像。",
-  "recommendation": "適用於技術交接、產品架構、簡報及作品集流程圖；對需頻繁在 Git 內版控的簡圖，優先保留 Mermaid 文字原始碼。匯入／輸出需人工檢查是否遺漏或誤解節點與關係。",
+  "purpose": "將架構、資料流、流程、時序等關係整理成帶有品牌樣式的單檔 HTML／SVG 圖，方便閱讀與技術交接。",
+  "recommendation": "適合需要解釋系統關係與資料路徑的教材或技術文件；只有簡單清單或屬性比較時，直接用文字或表格更有效。",
   "url": "https://github.com/cathrynlavery/diagram-design",
   "repo": "cathrynlavery/diagram-design",
   "notes": "2026-10-27 核對官方 README、skills/diagram-design/SKILL.md v2.6、LICENSE、PRIVACY.md、THIRD_PARTY_LICENSES.md。主程式 MIT；部分圖示為 MIT、CC0 與第三方商標。使用者若選擇 Brand Onboarding，Agent 才讀取公開網站並萃取色彩／字型；官方稱無自有伺服器或遙測，但產生的 HTML 與 PNG 匯出會請求 Google Fonts，可能向 Google 發送 IP／瀏覽資訊；宿主 Agent 仍有自己的資料政策。轉換是重新繪製，並非原格式完整可逆；技術圖必須逐項驗證。未安裝、執行、匯入私人檔或驗證輸出。",
@@ -61,8 +61,15 @@
     "type": "Official README, SKILL.md, LICENSE, PRIVACY.md, THIRD_PARTY_LICENSES.md",
     "summary": "First-party documentation read 2026-10-27; no execution.",
     "readmeUrl": "https://github.com/cathrynlavery/diagram-design/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、LICENSE、SKILL.md 的語意圖型、style gate、匯入／輸出及 accessible SVG 檢查契約，PRIVACY.md 的外部字型及品牌 onboarding；未查 self_check.py、export_png.py 或完整匯入器。",
+    "upstreamCommit": "b228c5d77794a84150fca41b22940bb316b1398d",
+    "referenceUrls": [
+      "https://github.com/cathrynlavery/diagram-design/blob/b228c5d77794a84150fca41b22940bb316b1398d/README.md",
+      "https://github.com/cathrynlavery/diagram-design/blob/b228c5d77794a84150fca41b22940bb316b1398d/LICENSE",
+      "https://github.com/cathrynlavery/diagram-design/blob/b228c5d77794a84150fca41b22940bb316b1398d/skills/diagram-design/SKILL.md",
+      "https://github.com/cathrynlavery/diagram-design/blob/b228c5d77794a84150fca41b22940bb316b1398d/PRIVACY.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -101,16 +108,19 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+      "reason": "維持既有 Canonical ID，補限定範圍的實際技能源文件對應。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -119,8 +129,8 @@
     "classificationReason": "沿用既有 design Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "已核對限定範圍的技能源文件及局部契約，保留完整實作與執行驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -133,7 +143,353 @@
     "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "README、LICENSE、SKILL.md 的語意圖型、style gate、匯入／輸出及 accessible SVG 檢查契約，PRIVACY.md 的外部字型及品牌 onboarding；未查 self_check.py、export_png.py 或完整匯入器。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、LICENSE、SKILL.md 的語意圖型、style gate、匯入／輸出及 accessible SVG 檢查契約，PRIVACY.md 的外部字型及品牌 onboarding；未查 self_check.py、export_png.py 或完整匯入器。；用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "以品牌化 HTML + Inline SVG 生成技術架構、流程與資料圖，官方 README 現列 51 種圖表類型，可參考或轉繪 Mermaid、draw.io、Excalidraw、PlantUML 並輸出圖像。",
+      "source": "https://github.com/cathrynlavery/diagram-design",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-semantic",
+        "title": "依資訊關係選擇圖型",
+        "detail": "先確認要表達的是資料流、系統架構還是步驟，選擇適合讀者的圖型。",
+        "capabilityRefs": [
+          "semantic"
+        ]
+      },
+      {
+        "id": "use-style",
+        "title": "設定一致的圖表樣式及可讀性",
+        "detail": "用一致的顏色、字體及連線讓圖表清楚易懂，並考慮手機閱讀。",
+        "capabilityRefs": [
+          "style"
+        ]
+      },
+      {
+        "id": "use-import-export",
+        "title": "規劃匯入與輸出驗收",
+        "detail": "將舊圖重繪或規劃輸出時，逐一核對節點、箭頭及必要資訊是否保留。",
+        "capabilityRefs": [
+          "import-export"
+        ]
+      }
+    ],
+    "example": {
+      "id": "data-pipeline-diagram",
+      "title": "規劃資料管線的技術交接圖",
+      "input": "合成的資料來源、轉換、儲存及報表節點，含失敗路徑及讀者需求。",
+      "process": "選語意圖型 → 標示關係與方向 → 設計品牌與可讀性 → 核對原文及輸出",
+      "output": "可追溯的圖表規格、節點清單及驗收條件（未繪製圖表）。",
+      "destination": "自有技術教材、架構文件及資料流程交接。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實成果。",
+      "useCaseRefs": [
+        "use-semantic",
+        "use-style",
+        "use-import-export"
+      ],
+      "steps": [
+        {
+          "id": "semantic",
+          "title": "依資訊關係選擇圖型",
+          "capabilityRefs": [
+            "semantic"
+          ]
+        },
+        {
+          "id": "style",
+          "title": "設定一致的圖表樣式及可讀性",
+          "capabilityRefs": [
+            "style"
+          ]
+        },
+        {
+          "id": "import-export",
+          "title": "規劃匯入與輸出驗收",
+          "capabilityRefs": [
+            "import-export"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、外部服務、素材權利、裝置及功能測試須另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先寫出圖表要解釋的問題、實際節點及連線方向。",
+      "選一種最符合語意的圖型，設計手機閱讀與替代文字；保留所有必要事實。",
+      "若需真正離線，先排除外部字型請求；核准後才生成、輸出並逐一核對關係。"
+    ],
+    "limits": [
+      "匯入來源圖不保證重繪後完全語意一致。",
+      "複雜互動與精細可編輯圖形可能需要其他繪圖工具或人工校對。",
+      "未安裝技能、繪圖、執行 self_check/export 腳本或匯入原圖；完整渲染與語意一致性未驗證。",
+      "PRIVACY.md（2026-10-01 生效）稱無作者端遙測，但 AI Host 仍處理內容，Google Fonts 預設發出外部請求；品牌 onboarding 亦可能造訪指定網站。",
+      "單檔 HTML 不等於零網路請求；移除外部字型連結或離線使用 fallback 仍需檢查實際渲染。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "將架構、資料流、流程、時序等關係整理成帶有品牌樣式的單檔 HTML／SVG 圖，方便閱讀與技術交接。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "技能指引與局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（Repo；外部字型及第三方素材另查）"
+      },
+      {
+        "label": "版本",
+        "value": "b228c5d77794a84150fca41b22940bb316b1398d"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依資訊關係選擇圖型",
+        "detail": "不同問題應採不同圖型而非固定流程圖。；輸入：關係資料、行為／風險、讀者及細節層級；輸出：語意 pattern、visual type 與節點／連線規劃",
+        "source": "skills/diagram-design/SKILL.md"
+      },
+      {
+        "title": "設定一致的圖表樣式及可讀性",
+        "detail": "同一教材或產品需維持色彩與閱讀規則。；輸入：style guide、品牌 tokens、SVG title/desc、viewBox；輸出：HTML／SVG 設計規格與可及性 checklist",
+        "source": "skills/diagram-design/SKILL.md"
+      },
+      {
+        "title": "規劃匯入與輸出驗收",
+        "detail": "需要重繪既有圖表或交付其他格式。；輸入：draw.io、Mermaid、Excalidraw、PlantUML 來源或已產生 HTML；輸出：文件描述的格式選擇、viewBox、輸出及 self-check 規格",
+        "source": "skills/diagram-design/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "選語意圖型 → 標示關係與方向 → 設計品牌與可讀性 → 核對原文及輸出",
+      "nodes": [
+        {
+          "title": "依資訊關係選擇圖型",
+          "detail": "關係資料、行為／風險、讀者及細節層級 → 語意 pattern、visual type 與節點／連線規劃",
+          "files": [
+            "skills/diagram-design/SKILL.md"
+          ]
+        },
+        {
+          "title": "設定一致的圖表樣式及可讀性",
+          "detail": "style guide、品牌 tokens、SVG title/desc、viewBox → HTML／SVG 設計規格與可及性 checklist",
+          "files": [
+            "skills/diagram-design/SKILL.md",
+            "PRIVACY.md"
+          ]
+        },
+        {
+          "title": "規劃匯入與輸出驗收",
+          "detail": "draw.io、Mermaid、Excalidraw、PlantUML 來源或已產生 HTML → 文件描述的格式選擇、viewBox、輸出及 self-check 規格",
+          "files": [
+            "skills/diagram-design/SKILL.md",
+            "README.md",
+            "PRIVACY.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "依資訊關係選擇圖型",
+        "rule": "52 圖型是版本文件所述範圍，非全量驗收；節點、方向及連線語意需與原資料比對。",
+        "source": "skills/diagram-design/SKILL.md"
+      },
+      {
+        "name": "設定一致的圖表樣式及可讀性",
+        "rule": "style guide 自訂及保存 profile 可能寫入檔案；PRIVACY.md 說明預設 Google Fonts 會連網，不能宣稱單檔必然完全離線。",
+        "source": "skills/diagram-design/SKILL.md"
+      },
+      {
+        "name": "規劃匯入與輸出驗收",
+        "rule": "只核對技能指引，未查匯入器或輸出腳本；PNG 與列印可能只呈現預設畫面，重繪不能遺漏必要資訊。",
+        "source": "skills/diagram-design/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依實際技能源文件及資料契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/diagram-design/SKILL.md",
+          "PRIVACY.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先寫出圖表要解釋的問題、實際節點及連線方向。 選一種最符合語意的圖型，設計手機閱讀與替代文字；保留所有必要事實。 若需真正離線，先排除外部字型請求；核准後才生成、輸出並逐一核對關係。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、資料寫入、素材與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有技術教材、架構文件及資料流程交接。；另驗證實際行為及限制。",
+        "file": "skills/diagram-design/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "semantic",
+        "name": "依資訊關係選擇圖型",
+        "problem": "不同問題應採不同圖型而非固定流程圖。",
+        "input": "關係資料、行為／風險、讀者及細節層級",
+        "output": "語意 pattern、visual type 與節點／連線規劃",
+        "source": "skills/diagram-design/SKILL.md",
+        "sourceFiles": [
+          "skills/diagram-design/SKILL.md"
+        ],
+        "symbols": [
+          "Selection: semantic pattern, then visual type（文件章節）",
+          "When to Use（文件章節）"
+        ],
+        "gate": "52 圖型是版本文件所述範圍，非全量驗收；節點、方向及連線語意需與原資料比對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "style",
+        "name": "設定一致的圖表樣式及可讀性",
+        "problem": "同一教材或產品需維持色彩與閱讀規則。",
+        "input": "style guide、品牌 tokens、SVG title/desc、viewBox",
+        "output": "HTML／SVG 設計規格與可及性 checklist",
+        "source": "skills/diagram-design/SKILL.md",
+        "sourceFiles": [
+          "skills/diagram-design/SKILL.md",
+          "PRIVACY.md"
+        ],
+        "symbols": [
+          "First-time setup — style guide gate（文件章節）",
+          "Accessible SVG contract（文件章節）",
+          "Pre-Output Checklist (Taste Gate)（文件章節）"
+        ],
+        "gate": "style guide 自訂及保存 profile 可能寫入檔案；PRIVACY.md 說明預設 Google Fonts 會連網，不能宣稱單檔必然完全離線。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "import-export",
+        "name": "規劃匯入與輸出驗收",
+        "problem": "需要重繪既有圖表或交付其他格式。",
+        "input": "draw.io、Mermaid、Excalidraw、PlantUML 來源或已產生 HTML",
+        "output": "文件描述的格式選擇、viewBox、輸出及 self-check 規格",
+        "source": "skills/diagram-design/SKILL.md",
+        "sourceFiles": [
+          "skills/diagram-design/SKILL.md",
+          "README.md",
+          "PRIVACY.md"
+        ],
+        "symbols": [
+          "Importing an Existing Diagram（文件章節）",
+          "Exporting to PNG / SVG / PDF（文件章節）"
+        ],
+        "gate": "只核對技能指引，未查匯入器或輸出腳本；PNG 與列印可能只呈現預設畫面，重繪不能遺漏必要資訊。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃資料管線的技術交接圖（設計示例）",
+      "problem": "合成的資料來源、轉換、儲存及報表節點，含失敗路徑及讀者需求。",
+      "steps": [
+        {
+          "capability": "semantic",
+          "action": "依資訊關係選擇圖型"
+        },
+        {
+          "capability": "style",
+          "action": "設定一致的圖表樣式及可讀性"
+        },
+        {
+          "capability": "import-export",
+          "action": "規劃匯入與輸出驗收"
+        }
+      ],
+      "gate": "未執行；實際環境與交付成果須獨立驗收。",
+      "readerExampleRef": "data-pipeline-diagram"
+    },
+    "rebuild": {
+      "verdict": "可依技能指引及局部契約設計驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成的資料來源、轉換、儲存及報表節點，含失敗路徑及讀者需求。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選語意圖型 → 標示關係與方向 → 設計品牌與可讀性 → 核對原文及輸出",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有技術教材、架構文件及資料流程交接。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝技能、繪圖、執行 self_check/export 腳本或匯入原圖；完整渲染與語意一致性未驗證。",
+        "PRIVACY.md（2026-10-01 生效）稱無作者端遙測，但 AI Host 仍處理內容，Google Fonts 預設發出外部請求；品牌 onboarding 亦可能造訪指定網站。",
+        "單檔 HTML 不等於零網路請求；移除外部字型連結或離線使用 fallback 仍需檢查實際渲染。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及授權邊界",
+        "severity": "高",
+        "issue": "未安裝技能、繪圖、執行 self_check/export 腳本或匯入原圖；完整渲染與語意一致性未驗證。 PRIVACY.md（2026-10-01 生效）稱無作者端遙測，但 AI Host 仍處理內容，Google Fonts 預設發出外部請求；品牌 onboarding 亦可能造訪指定網站。 單檔 HTML 不等於零網路請求；移除外部字型連結或離線使用 fallback 仍需檢查實際渲染。",
+        "control": "固定版本、確認素材權利、最小權限與獨立驗收；不把文件宣稱當作實測。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README、LICENSE、SKILL.md 的語意圖型、style gate、匯入／輸出及 accessible SVG 檢查契約，PRIVACY.md 的外部字型及品牌 onboarding；未查 self_check.py、export_png.py 或完整匯入器。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
