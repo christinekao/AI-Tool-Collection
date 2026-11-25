@@ -773,3 +773,35 @@ test('Dual-layer batch 18: publishing and design recommendation boundaries',()=>
  assert.match(load('baoyu-skill').repoGuide.capabilities.find(c=>c.id==='publish').gate,/正式發布分開核准/);
  assert.match(load('ui-ux-gold-standard').readerGuide.limits.join(' '),/未找到獨立 LICENSE/);
 });
+
+test('Dual-layer batch 19: desktop IPC, architecture sharing and generated code boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["electron","規劃離線個人知識庫的桌面應用"],["oh-my-mermaid","規劃知識庫專案的可展開架構文件"],["abi-screenshot-to-code","規劃履歷管理介面截圖的前端原型重建"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('electron').repoGuide.capabilities.find(c=>c.id==='bridge').gate,/禁止直接暴露 ipcRenderer.send/);
+ assert.match(load('oh-my-mermaid').repoGuide.capabilities.find(c=>c.id==='share').gate,/外送前單獨核准/);
+ assert.match(load('abi-screenshot-to-code').repoGuide.capabilities.find(c=>c.id==='events').gate,/1000 不代表功能驗收/);
+});

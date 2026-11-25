@@ -6,14 +6,14 @@
   "canonicalName": "abi/screenshot-to-code",
   "category": "08 UI & Design Engineering",
   "resourceType": "Visual → Code",
-  "purpose": "把畫面截圖、Figma 版型或網站操作錄影轉成可修改的 HTML、React、Vue 等前端程式碼，供原型重建與 UI 實作參考。",
-  "recommendation": "適合快速將參考畫面轉為前端初稿；先選輸出框架、準備模型金鑰並比較產生的檔案，再人工校正互動、無障礙、響應式與實際資料流。",
+  "purpose": "把有權使用的介面截圖或畫面錄影轉成可修改的前端程式碼，快速建立原型，再由開發者補上真實功能與測試。",
+  "recommendation": "適合從視覺參考重建 UI 原型；不適合把畫面相似度當作業務功能或安全性已完成。",
   "url": "https://github.com/abi/screenshot-to-code",
   "repo": "abi/screenshot-to-code",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "screenshot-to-code",
     "react",
@@ -69,25 +69,34 @@
   "source": {
     "url": "https://github.com/abi/screenshot-to-code",
     "readmeUrl": "https://github.com/abi/screenshot-to-code/blob/main/README.md",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README / documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。",
+    "upstreamCommit": "f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30",
+    "referenceUrls": [
+      "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/README.md",
+      "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/LICENSE",
+      "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/backend/routes/generate_code.py",
+      "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/frontend/src/generateCode.ts"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "url",
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "url"
+        "title"
       ],
-      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+      "reason": "既有 ID 與上游 repo 一致；不新增實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -96,8 +105,8 @@
     "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。；非完整重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -107,10 +116,361 @@
       "decision": "reused",
       "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
     },
-    "riskNotes": "產生的程式碼只是候選稿，互動、版權素材、可用性、語意與效能需自行驗收。；模型及影像供應商可能產生額外費用；輸入的截圖與錄影可能包含敏感資料。；未執行第三方程式、未取用憑證。",
+    "riskNotes": "產生的程式碼只是候選稿，互動、版權素材、可用性、語意與效能需自行驗收。；模型及影像供應商可能產生額外費用；輸入的截圖與錄影可能包含敏感資料。；本機部署仍可能將素材與提示送至模型服務；不能推定離線。；WebSocket 正常結束或生成程式不等於功能驗收。；託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+      "evidence": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。；局部用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把畫面截圖、Figma 版型或網站操作錄影轉成可修改的 HTML、React、Vue 等前端程式碼，供原型重建與 UI 實作參考。",
+      "source": "https://github.com/abi/screenshot-to-code",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合快速將參考畫面轉為前端初稿；先選輸出框架、準備模型金鑰並比較產生的檔案，再人工校正互動、無障礙、響應式與實際資料流。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-request",
+        "title": "選擇來源素材及輸出技術",
+        "detail": "參考畫面需轉成符合專案技術的原型。 經參數驗證的生成請求。",
+        "capabilityRefs": [
+          "request"
+        ]
+      },
+      {
+        "id": "use-generate",
+        "title": "生成前端程式候選",
+        "detail": "同一畫面可用不同模型或技術產生候選。 生成 pipeline 的程式候選或錯誤。",
+        "capabilityRefs": [
+          "generate"
+        ]
+      },
+      {
+        "id": "use-events",
+        "title": "呈現生成進度及錯誤",
+        "detail": "等待生成時需區分進度、候選失敗與取消。 按 variantIndex 更新畫面及完成／取消狀態。",
+        "capabilityRefs": [
+          "events"
+        ]
+      }
+    ],
+    "example": {
+      "id": "abi-screenshot-to-code-example",
+      "title": "規劃履歷管理介面截圖的前端原型重建",
+      "input": "自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+      "process": "選擇來源素材及輸出技術 → 生成前端程式候選 → 呈現生成進度及錯誤 → 獨立驗收",
+      "output": "前端程式碼候選的生成規格與功能驗收清單，尚未生成真實程式。",
+      "destination": "自有履歷管理產品的原型重建分支與獨立功能及安全測試流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-request",
+        "use-generate",
+        "use-events"
+      ],
+      "steps": [
+        {
+          "id": "request",
+          "title": "選擇來源素材及輸出技術",
+          "capabilityRefs": [
+            "request"
+          ]
+        },
+        {
+          "id": "generate",
+          "title": "生成前端程式候選",
+          "capabilityRefs": [
+            "generate"
+          ]
+        },
+        {
+          "id": "events",
+          "title": "呈現生成進度及錯誤",
+          "capabilityRefs": [
+            "events"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限、整合及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+      "依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。",
+      "確認授權、環境、資料及權限，再另行執行並核對實際輸出。"
+    ],
+    "limits": [
+      "產生的程式碼只是候選稿，互動、版權素材、可用性、語意與效能需自行驗收。",
+      "模型及影像供應商可能產生額外費用；輸入的截圖與錄影可能包含敏感資料。",
+      "本機部署仍可能將素材與提示送至模型服務；不能推定離線。",
+      "WebSocket 正常結束或生成程式不等於功能驗收。",
+      "託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把有權使用的介面截圖或畫面錄影轉成可修改的前端程式碼，快速建立原型，再由開發者補上真實功能與測試。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；模型、圖片及獨立託管服務另計）"
+      },
+      {
+        "label": "版本",
+        "value": "f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "選擇來源素材及輸出技術",
+        "detail": "參考畫面需轉成符合專案技術的原型。；輸入：截圖或錄影、inputMode、generatedCodeConfig；輸出：經參數驗證的生成請求",
+        "source": "backend/routes/generate_code.py"
+      },
+      {
+        "title": "生成前端程式候選",
+        "detail": "同一畫面可用不同模型或技術產生候選。；輸入：已驗證的輸入、模型及提示；輸出：生成 pipeline 的程式候選或錯誤",
+        "source": "backend/routes/generate_code.py"
+      },
+      {
+        "title": "呈現生成進度及錯誤",
+        "detail": "等待生成時需區分進度、候選失敗與取消。；輸入：/generate-code 的 WebSocket 事件；輸出：按 variantIndex 更新畫面及完成／取消狀態",
+        "source": "frontend/src/generateCode.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "選擇來源素材及輸出技術 → 生成前端程式候選 → 呈現生成進度及錯誤 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "選擇來源素材及輸出技術",
+          "detail": "截圖或錄影、inputMode、generatedCodeConfig → 經參數驗證的生成請求",
+          "files": [
+            "backend/routes/generate_code.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "生成前端程式候選",
+          "detail": "已驗證的輸入、模型及提示 → 生成 pipeline 的程式候選或錯誤",
+          "files": [
+            "backend/routes/generate_code.py"
+          ]
+        },
+        {
+          "title": "呈現生成進度及錯誤",
+          "detail": "/generate-code 的 WebSocket 事件 → 按 variantIndex 更新畫面及完成／取消狀態",
+          "files": [
+            "frontend/src/generateCode.ts",
+            "backend/routes/generate_code.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "選擇來源素材及輸出技術",
+        "rule": "至少需可用模型憑證；外部素材傳輸與模型成本先核准，未查完整輸入驗證及素材處理。",
+        "source": "backend/routes/generate_code.py"
+      },
+      {
+        "name": "生成前端程式候選",
+        "rule": "生成程式是待審候選，未查全部模型 adapter、工具副作用與執行隔離。",
+        "source": "backend/routes/generate_code.py"
+      },
+      {
+        "name": "呈現生成進度及錯誤",
+        "rule": "正常 close code 1000 不代表功能驗收；逐候選檢查程式、可及性、資料連接與安全。",
+        "source": "frontend/src/generateCode.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "backend/routes/generate_code.py",
+          "frontend/src/generateCode.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。 依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。 確認授權、環境、資料及權限，再另行執行並核對實際輸出。",
+        "files": [
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有履歷管理產品的原型重建分支與獨立功能及安全測試流程。；另驗證實際行為及限制。",
+        "file": "backend/routes/generate_code.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "request",
+        "name": "選擇來源素材及輸出技術",
+        "problem": "參考畫面需轉成符合專案技術的原型。",
+        "input": "截圖或錄影、inputMode、generatedCodeConfig",
+        "output": "經參數驗證的生成請求",
+        "source": "backend/routes/generate_code.py",
+        "sourceFiles": [
+          "backend/routes/generate_code.py",
+          "README.md"
+        ],
+        "symbols": [
+          "ParameterExtractionStage",
+          "ExtractedParams",
+          "Stack",
+          "InputMode"
+        ],
+        "gate": "至少需可用模型憑證；外部素材傳輸與模型成本先核准，未查完整輸入驗證及素材處理。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "generate",
+        "name": "生成前端程式候選",
+        "problem": "同一畫面可用不同模型或技術產生候選。",
+        "input": "已驗證的輸入、模型及提示",
+        "output": "生成 pipeline 的程式候選或錯誤",
+        "source": "backend/routes/generate_code.py",
+        "sourceFiles": [
+          "backend/routes/generate_code.py"
+        ],
+        "symbols": [
+          "Pipeline",
+          "PromptCreationMiddleware",
+          "CodeGenerationMiddleware",
+          "PostProcessingMiddleware",
+          "stream_code"
+        ],
+        "gate": "生成程式是待審候選，未查全部模型 adapter、工具副作用與執行隔離。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "events",
+        "name": "呈現生成進度及錯誤",
+        "problem": "等待生成時需區分進度、候選失敗與取消。",
+        "input": "/generate-code 的 WebSocket 事件",
+        "output": "按 variantIndex 更新畫面及完成／取消狀態",
+        "source": "frontend/src/generateCode.ts",
+        "sourceFiles": [
+          "frontend/src/generateCode.ts",
+          "backend/routes/generate_code.py"
+        ],
+        "symbols": [
+          "generateCode",
+          "WebSocketResponse",
+          "variantError",
+          "setCode"
+        ],
+        "gate": "正常 close code 1000 不代表功能驗收；逐候選檢查程式、可及性、資料連接與安全。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃履歷管理介面截圖的前端原型重建（設計示例）",
+      "problem": "自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+      "steps": [
+        {
+          "capability": "request",
+          "action": "選擇來源素材及輸出技術"
+        },
+        {
+          "capability": "generate",
+          "action": "生成前端程式候選"
+        },
+        {
+          "capability": "events",
+          "action": "呈現生成進度及錯誤"
+        }
+      ],
+      "gate": "未執行；實際環境與成果須獨立驗收。",
+      "readerExampleRef": "abi-screenshot-to-code-example"
+    },
+    "rebuild": {
+      "verdict": "可依局部文件與技術契約規劃驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選擇來源素材及輸出技術 → 生成前端程式候選 → 呈現生成進度及錯誤 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有履歷管理產品的原型重建分支與獨立功能及安全測試流程。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "本機部署仍可能將素材與提示送至模型服務；不能推定離線。",
+        "WebSocket 正常結束或生成程式不等於功能驗收。",
+        "託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "本機部署仍可能將素材與提示送至模型服務；不能推定離線。 WebSocket 正常結束或生成程式不等於功能驗收。 託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。",
+        "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "oh-my-mermaid/oh-my-mermaid",
   "category": "12 Developer Tools",
   "resourceType": "MIT open-source Node.js CLI, architecture-documentation viewer and cross-agent skills",
-  "purpose": "讓 Coding Agent 分析程式碼並將架構變成可展開的 Mermaid 圖表及 Markdown 說明。透過多種 perspective（overall architecture、request lifecycle、data flow、dependency map、external integrations 等）建立 `.omm/` 階層文件，節點可遞迴鑽取；本機 viewer 依資料夾結構呈現，並可選擇用 OAuth 登入後將架構文件推送到 ohmymermaid.com 雲端。",
-  "recommendation": "適合為現有程式庫建立 Architecture Overview、資料流、外部整合、路由／模組依賴的導覽文件，供新接手開發者或跨 Session Coding Agent 理解系統。先在非敏感 Repo 建立 `.omm/`，用真實 Source Code／路徑驗證每個圖節點，因 AI 生成的架構文件可能有誤。使用 `/omm-push` 前確認是否有機密程式碼、內部 Host、資料表或敏感架構，不應在未經明確授權下上傳外部雲端；建議依不同 Harness 與權限審查 Skills 及自動安裝行為。",
+  "purpose": "把程式碼的架構、資料流和系統依賴整理成可逐層展開的圖表與說明，方便理解陌生專案或進行技術交接。",
+  "recommendation": "適合需要讀懂現有 Codebase 或維護架構文件的人；不適合把自動生成的圖直接當成實際系統行為證據。",
   "url": "https://github.com/oh-my-mermaid/oh-my-mermaid",
   "repo": "oh-my-mermaid/oh-my-mermaid",
   "notes": "2026-10-24 核對官方 GitHub Repository Metadata、README.md、MIT LICENSE、package.json、.claude-plugin/plugin.json、skills/omm-scan/SKILL.md、skills/omm-view/SKILL.md、skills/omm-push/SKILL.md 與 docs/ROADMAP.md。Package 版本 0.2.0，Node.js >=18，npm CLI 為 `omm`。官方 README 記載 `npm install -g oh-my-mermaid && omm setup` 可註冊 Claude Code、Codex、Cursor、OpenClaw、Antigravity 等 Coding Tools，`/omm-scan` 會讀取程式庫、使用 `omm write` 建立 `.omm/<perspective>/diagram.mmd`、description/context/constraint/concern/todo/note 等資料；`/omm-view` 以 `omm list` 確認文件後用本機 viewer 瀏覽（預設 http://localhost:3000），該 viewer 僅顯示不改動 `.omm/`；`/omm-push` 透過 login（GitHub OAuth）、link、push 將 `.omm/` 架構文件傳到外部雲端，說明中提到服務有免費與付費方案、分享和公開選項，未獨立核實當期價格額度。這三個 Skill 都有獨立官方 SKILL.md，故各建 Skill Entity；是否能在不同 Agent Harness 直接使用需要依實際安裝檢驗。Skill 中若發現 `omm` 不存在會提示／嘗試全域 npm 安裝，具有執行指令與讀取專案檔案的能力，不可視為低權限唯讀工具；資料上雲尤其需要個別批准。`/omm-scan` 生成的架構描述是 AI 推斷而非靜態分析的百分百正確結論。官方 Roadmap 的 Sub-agent 並行掃描、Incremental Analysis、Natural Language Search 及 `/omm-guide` 為 planned，不能宣稱當前正式支援。專案和已收錄的 `research-to-diagram` 功能互補，但不是同一個 Repo。此輪僅建立資料庫索引，未安裝、執行任何 `omm` 命令、授權 GitHub OAuth、分析私人 Codebase、推送雲端或修改工具收藏網站 UI。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "oh-my-mermaid",
     "omm",
@@ -85,8 +85,15 @@
     "type": "Official GitHub README, MIT LICENSE, package manifest and three SKILL.md source files",
     "summary": "Verified source files and documentation on 2026-10-24. No installation, runtime testing or cloud transfer.",
     "readmeUrl": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime/security audit"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。",
+    "upstreamCommit": "38ccdb69298adec949177c92c88d6e3ddfb5bab7",
+    "referenceUrls": [
+      "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/LICENSE",
+      "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/skills/omm-scan/SKILL.md",
+      "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/skills/omm-view/SKILL.md",
+      "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/skills/omm-push/SKILL.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -126,16 +133,18 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "url"
+        "title"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "既有 ID 與上游 repo 一致；不新增實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -144,8 +153,8 @@
     "classificationReason": "沿用既有 Primary Domain software，僅改善功能、條件、限制，不更改分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。；非完整重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -155,10 +164,352 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "自動生成的架構關係仍需依真實 Code Review 驗證；層次圖可能省略執行時依賴或動態呼叫關係；Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。；本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。；雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。；局部用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Coding Agent 分析程式碼並將架構變成可展開的 Mermaid 圖表及 Markdown 說明。透過多種 perspective（overall architecture、request lifecycle、data flow、dependency map、external integrations 等）建立 `.omm/` 階層文件，節點可遞迴鑽取；本機 viewer 依資料夾結構呈現，並可選擇用 OAuth 登入後將架構文件推送到 ohmymermaid.com 雲端。",
+      "source": "https://github.com/oh-my-mermaid/oh-my-mermaid",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合為現有程式庫建立 Architecture Overview、資料流、外部整合、路由／模組依賴的導覽文件，供新接手開發者或跨 Session Coding Agent 理解系統。先在非敏感 Repo 建立 `.omm/`，用真實 Source Code／路徑驗證每個圖節點，因 AI 生成的架構文件可能有誤。使用 `/omm-push` 前確認是否有機密程式碼、內部 Host、資料表或敏感架構，不應在未經明確授權下上傳外部雲端；建議依不同 Harness 與權限審查 Skills 及自動安裝行為。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-scan",
+        "title": "按不同角度拆解程式架構",
+        "detail": "單張總覽圖不足以解釋請求、資料與依賴。 階層式 .omm/ 圖及節點說明。",
+        "capabilityRefs": [
+          "scan"
+        ]
+      },
+      {
+        "id": "use-view",
+        "title": "在本機逐層檢閱架構",
+        "detail": "閱讀者需要探索細節而非只看靜態圖。 文件所述唯讀瀏覽器 viewer。",
+        "capabilityRefs": [
+          "view"
+        ]
+      },
+      {
+        "id": "use-share",
+        "title": "獨立決定是否分享架構文件",
+        "detail": "技術交接可能需要多人查看，但文件可能包含敏感資訊。 文件所述上傳結果與查看連結。",
+        "capabilityRefs": [
+          "share"
+        ]
+      }
+    ],
+    "example": {
+      "id": "oh-my-mermaid-example",
+      "title": "規劃知識庫專案的可展開架構文件",
+      "input": "自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+      "process": "按不同角度拆解程式架構 → 在本機逐層檢閱架構 → 獨立決定是否分享架構文件 → 獨立驗收",
+      "output": "階層 Mermaid 架構圖與說明文件規格、本機檢閱及分享決策清單。",
+      "destination": "自有知識庫工程交接的本機架構文件及經核准的協作分享流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-scan",
+        "use-view",
+        "use-share"
+      ],
+      "steps": [
+        {
+          "id": "scan",
+          "title": "按不同角度拆解程式架構",
+          "capabilityRefs": [
+            "scan"
+          ]
+        },
+        {
+          "id": "view",
+          "title": "在本機逐層檢閱架構",
+          "capabilityRefs": [
+            "view"
+          ]
+        },
+        {
+          "id": "share",
+          "title": "獨立決定是否分享架構文件",
+          "capabilityRefs": [
+            "share"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限、整合及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+      "依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。",
+      "確認授權、環境、資料及權限，再另行執行並核對實際輸出。"
+    ],
+    "limits": [
+      "自動生成的架構關係仍需依真實 Code Review 驗證",
+      "層次圖可能省略執行時依賴或動態呼叫關係",
+      "Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。",
+      "本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。",
+      "雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把程式碼的架構、資料流和系統依賴整理成可逐層展開的圖表與說明，方便理解陌生專案或進行技術交接。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；雲端服務與被分析程式碼權利另計）"
+      },
+      {
+        "label": "版本",
+        "value": "38ccdb69298adec949177c92c88d6e3ddfb5bab7"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "按不同角度拆解程式架構",
+        "detail": "單張總覽圖不足以解釋請求、資料與依賴。；輸入：專案目錄、入口、實際需要的分析視角；輸出：階層式 .omm/ 圖及節點說明",
+        "source": "skills/omm-scan/SKILL.md"
+      },
+      {
+        "title": "在本機逐層檢閱架構",
+        "detail": "閱讀者需要探索細節而非只看靜態圖。；輸入：已存在的 .omm/ 文件及本機埠號；輸出：文件所述唯讀瀏覽器 viewer",
+        "source": "skills/omm-view/SKILL.md"
+      },
+      {
+        "title": "獨立決定是否分享架構文件",
+        "detail": "技術交接可能需要多人查看，但文件可能包含敏感資訊。；輸入：經審查的架構文件、帳號及目標專案；輸出：文件所述上傳結果與查看連結",
+        "source": "skills/omm-push/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "按不同角度拆解程式架構 → 在本機逐層檢閱架構 → 獨立決定是否分享架構文件 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "按不同角度拆解程式架構",
+          "detail": "專案目錄、入口、實際需要的分析視角 → 階層式 .omm/ 圖及節點說明",
+          "files": [
+            "skills/omm-scan/SKILL.md"
+          ]
+        },
+        {
+          "title": "在本機逐層檢閱架構",
+          "detail": "已存在的 .omm/ 文件及本機埠號 → 文件所述唯讀瀏覽器 viewer",
+          "files": [
+            "skills/omm-view/SKILL.md"
+          ]
+        },
+        {
+          "title": "獨立決定是否分享架構文件",
+          "detail": "經審查的架構文件、帳號及目標專案 → 文件所述上傳結果與查看連結",
+          "files": [
+            "skills/omm-push/SKILL.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "按不同角度拆解程式架構",
+        "rule": "只選原始碼實際存在的視角；圖節點 ID 與子目錄一致，每個節點要有說明，不憑名稱推測行為。",
+        "source": "skills/omm-scan/SKILL.md"
+      },
+      {
+        "name": "在本機逐層檢閱架構",
+        "rule": "先確認已有文件再啟動；唯讀不等於網路隔離，未核對 viewer 實作或監聽範圍。",
+        "source": "skills/omm-view/SKILL.md"
+      },
+      {
+        "name": "獨立決定是否分享架構文件",
+        "rule": "本機檢閱不需推送雲端；外送前單獨核准、檢查帳號及資料；未登入、上傳或驗證雲端。",
+        "source": "skills/omm-push/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。",
+        "files": [
+          "LICENSE",
+          "skills/omm-scan/SKILL.md",
+          "skills/omm-view/SKILL.md",
+          "skills/omm-push/SKILL.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。 依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。 確認授權、環境、資料及權限，再另行執行並核對實際輸出。",
+        "files": [
+          "skills/omm-scan/SKILL.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有知識庫工程交接的本機架構文件及經核准的協作分享流程。；另驗證實際行為及限制。",
+        "file": "skills/omm-scan/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "scan",
+        "name": "按不同角度拆解程式架構",
+        "problem": "單張總覽圖不足以解釋請求、資料與依賴。",
+        "input": "專案目錄、入口、實際需要的分析視角",
+        "output": "階層式 .omm/ 圖及節點說明",
+        "source": "skills/omm-scan/SKILL.md",
+        "sourceFiles": [
+          "skills/omm-scan/SKILL.md"
+        ],
+        "symbols": [
+          "Step 2: Select Perspectives（文件）",
+          "Step 3: Generate Perspectives with Recursive Drill-Down（文件）",
+          "omm write（文件 CLI）"
+        ],
+        "gate": "只選原始碼實際存在的視角；圖節點 ID 與子目錄一致，每個節點要有說明，不憑名稱推測行為。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "view",
+        "name": "在本機逐層檢閱架構",
+        "problem": "閱讀者需要探索細節而非只看靜態圖。",
+        "input": "已存在的 .omm/ 文件及本機埠號",
+        "output": "文件所述唯讀瀏覽器 viewer",
+        "source": "skills/omm-view/SKILL.md",
+        "sourceFiles": [
+          "skills/omm-view/SKILL.md"
+        ],
+        "symbols": [
+          "omm list（文件 CLI）",
+          "omm view（文件 CLI）"
+        ],
+        "gate": "先確認已有文件再啟動；唯讀不等於網路隔離，未核對 viewer 實作或監聽範圍。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "share",
+        "name": "獨立決定是否分享架構文件",
+        "problem": "技術交接可能需要多人查看，但文件可能包含敏感資訊。",
+        "input": "經審查的架構文件、帳號及目標專案",
+        "output": "文件所述上傳結果與查看連結",
+        "source": "skills/omm-push/SKILL.md",
+        "sourceFiles": [
+          "skills/omm-push/SKILL.md"
+        ],
+        "symbols": [
+          "omm share（文件 CLI）",
+          "omm link（文件 CLI）",
+          "omm push（文件 CLI）"
+        ],
+        "gate": "本機檢閱不需推送雲端；外送前單獨核准、檢查帳號及資料；未登入、上傳或驗證雲端。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃知識庫專案的可展開架構文件（設計示例）",
+      "problem": "自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+      "steps": [
+        {
+          "capability": "scan",
+          "action": "按不同角度拆解程式架構"
+        },
+        {
+          "capability": "view",
+          "action": "在本機逐層檢閱架構"
+        },
+        {
+          "capability": "share",
+          "action": "獨立決定是否分享架構文件"
+        }
+      ],
+      "gate": "未執行；實際環境與成果須獨立驗收。",
+      "readerExampleRef": "oh-my-mermaid-example"
+    },
+    "rebuild": {
+      "verdict": "可依局部文件與技術契約規劃驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "按不同角度拆解程式架構 → 在本機逐層檢閱架構 → 獨立決定是否分享架構文件 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有知識庫工程交接的本機架構文件及經核准的協作分享流程。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。",
+        "本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。",
+        "雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。 本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。 雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。",
+        "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
