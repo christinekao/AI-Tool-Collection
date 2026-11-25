@@ -6,14 +6,14 @@
   "canonicalName": "Manim",
   "category": "Media / Video",
   "resourceType": "Python 數學與教學動畫框架",
-  "purpose": "以 Python 程式建立數學、幾何、圖表與技術解說動畫。",
-  "recommendation": "適合需要精確、可重現、逐步顯示的技術教學視覺內容。",
+  "purpose": "用 Python 程式製作數學、圖表或技術概念的解說動畫，精確控制畫面中的物件、變化與播放順序。",
+  "recommendation": "適合需要公式推導、流程圖、資料變化等可重複渲染的教學影片；若是自由剪輯、照片寫實或角色表演，通常先用剪輯或 3D 工具。",
   "url": "https://github.com/ManimCommunity/manim",
   "repo": "ManimCommunity/manim",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "content",
@@ -45,25 +45,36 @@
   "source": {
     "url": "https://github.com/ManimCommunity/manim",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核",
+    "upstreamCommit": "37056b0e6e23df7be1f7087a98eb2fb5c81737f2",
+    "referenceUrls": [
+      "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/README.md",
+      "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/manim/scene/scene.py",
+      "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/manim/manager.py",
+      "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/manim/animation/transform.py",
+      "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/LICENSE",
+      "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/LICENSE.community"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +83,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +97,392 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核；未執行第三方程式。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核；具體用途與來源能力以局部 ID 雙向連結。"
     }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "explain-math",
+        "title": "把數學推導變成動畫",
+        "detail": "用明確的圖形及播放順序解釋幾何或公式變化，而非只顯示結果。",
+        "capabilityRefs": [
+          "scene-sequence",
+          "object-transform"
+        ]
+      },
+      {
+        "id": "explain-process",
+        "title": "讓流程圖逐步出現",
+        "detail": "安排每一步的物件、重點及停留時間，清楚解釋技術或商業流程。",
+        "capabilityRefs": [
+          "scene-sequence"
+        ]
+      },
+      {
+        "id": "repeatable-video",
+        "title": "用同一份程式重複渲染",
+        "detail": "修改資料或場景後重新產生影片，保留版本及設定供驗收。",
+        "capabilityRefs": [
+          "scene-sequence",
+          "render-lifecycle"
+        ]
+      }
+    ],
+    "example": {
+      "id": "geometry-explainer",
+      "title": "製作一段幾何變化解說影片",
+      "input": "一個正方形、一個圓形、兩段標示文字及各步停留時間。",
+      "process": "定義 Scene → 放置物件 → Transform 變換 → 停留 → 預覽渲染",
+      "output": "一段展示方形變成圓形的解說影片（預期產物）。",
+      "destination": "教學網頁、影片剪輯或課程內容；音樂、旁白及字幕可另行加入。",
+      "note": "設計示例，未渲染任何影片，字型及編碼仍須驗證。",
+      "useCaseRefs": [
+        "explain-math",
+        "explain-process",
+        "repeatable-video"
+      ],
+      "steps": [
+        {
+          "id": "arrange",
+          "title": "定義場景與物件順序",
+          "capabilityRefs": [
+            "scene-sequence"
+          ]
+        },
+        {
+          "id": "transform",
+          "title": "播放物件變換",
+          "capabilityRefs": [
+            "object-transform"
+          ]
+        },
+        {
+          "id": "render",
+          "title": "執行預覽及確認輸出",
+          "capabilityRefs": [
+            "render-lifecycle"
+          ]
+        },
+        {
+          "id": "publish",
+          "title": "校對教學內容並加入旁白",
+          "capabilityRefs": [],
+          "externalDependency": "文字正確性、素材權利、旁白與發布規格需另行驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "comparison": {
+      "title": "哪種動畫方法比較合適？",
+      "headers": [
+        "一般影片剪輯",
+        "Manim"
+      ],
+      "rows": [
+        [
+          "適合既有素材與自由剪輯",
+          "適合程式化、幾何或資料變化"
+        ],
+        [
+          "以時間軸直接調整素材",
+          "修改程式與參數後重複渲染"
+        ]
+      ],
+      "note": "Manim 不替代所有影片剪輯或 3D 工具。"
+    },
+    "start": [
+      "先讀官方 SquareToCircle 範例，確認使用 Manim Community 的版本及依賴。",
+      "設計短場景，定義物件、順序及時長；若已獲准安裝再做低品質預覽。",
+      "逐步檢查變換前後、文字與時間，最後才設定正式輸出品質。"
+    ],
+    "limits": [
+      "複雜場景仍須編寫動畫程式碼，渲染時間與文字顯示品質需測試。",
+      "未確認特定作業系統的安裝、字型、LaTeX 及影片編碼依賴。",
+      "教學內容、素材授權與渲染畫面須另驗收。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "Scene 定義物件及動畫；Transform 表達物件到目標的變化；Manager 負責指定版本的渲染生命週期。",
+    "status": [
+      {
+        "label": "核心來源",
+        "value": "已查閱固定 Commit 的限定範圍"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "只完成核心設計契約，不代表完整專案重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / Manim Community"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（兩份 Repo 授權文件）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "37056b0e6e23df7be1f7087a98eb2fb5c81737f2"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "場景與播放順序",
+        "detail": "教學畫面需要按順序呈現物件；輸入：Scene.construct 內的 Mobject、Animation 及時間設定；輸出：場景物件與播放序列",
+        "source": "manim/scene/scene.py"
+      },
+      {
+        "title": "物件變換",
+        "detail": "需要清楚展示形狀或概念從原態到目標；輸入：來源及目標 Mobject、路徑與動畫時間；輸出：變換後的來源物件或依設定替換",
+        "source": "manim/animation/transform.py"
+      },
+      {
+        "title": "渲染生命週期",
+        "detail": "將場景程式轉成可預覽的媒體；輸入：Scene、渲染設定、輸出設定；輸出：Manager 管理的渲染結果；render 回傳是否互動重跑",
+        "source": "manim/scene/scene.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立 Scene → 放置物件 → play／wait → Manager 渲染 → 媒體及驗收",
+      "nodes": [
+        {
+          "title": "場景",
+          "detail": "Scene.construct 組織物件與 play、wait。",
+          "files": [
+            "manim/scene/scene.py"
+          ]
+        },
+        {
+          "title": "動畫契約",
+          "detail": "Transform.begin 複製目標並依 renderer 對齊資料，原物件會變換。",
+          "files": [
+            "manim/animation/transform.py"
+          ]
+        },
+        {
+          "title": "管理執行",
+          "detail": "Scene.render 交給 Manager.render；依序 setup、construct、tear_down、post_construct。",
+          "files": [
+            "manim/scene/scene.py",
+            "manim/manager.py"
+          ]
+        },
+        {
+          "title": "錯誤與清理",
+          "detail": "Manager.render 文件說明失敗時停止編碼工作、關閉 renderer 並拋出原錯誤。",
+          "files": [
+            "manim/manager.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "變換副作用",
+        "rule": "Transform 對來源物件進行變化；replace_mobject_with_target_in_scene 決定收尾是否替換場景中的物件。",
+        "source": "manim/animation/transform.py"
+      },
+      {
+        "name": "Manager 生命周期",
+        "rule": "此固定版本 Manager 單次 render，重複使用會拋 RuntimeError；不要將 API 回傳 bool 誤當影片已正確輸出。",
+        "source": "manim/manager.py"
+      },
+      {
+        "name": "等待",
+        "rule": "Scene.wait 是無動作動畫，可依 duration、stop_condition 與 frozen_frame 控制。",
+        "source": "manim/scene/scene.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "固定版本來源閱讀",
+        "description": "按核心檔案與契約核對實作，不必先安裝。",
+        "files": [
+          "README.md",
+          "manim/scene/scene.py",
+          "manim/manager.py",
+          "manim/animation/transform.py",
+          "LICENSE",
+          "LICENSE.community"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "隔離環境的最小驗證",
+        "description": "先讀官方 SquareToCircle 範例，確認使用 Manim Community 的版本及依賴。 設計短場景，定義物件、順序及時長；若已獲准安裝再做低品質預覽。 逐步檢查變換前後、文字與時間，最後才設定正式輸出品質。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "參數化教學場景",
+        "detail": "將圖形、文字與時長外部化，保留 Scene 並獨立測試每個教學版本。",
+        "file": "manim/scene/scene.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "scene-sequence",
+        "name": "場景與播放順序",
+        "problem": "教學畫面需要按順序呈現物件",
+        "input": "Scene.construct 內的 Mobject、Animation 及時間設定",
+        "output": "場景物件與播放序列",
+        "source": "manim/scene/scene.py",
+        "sourceFiles": [
+          "manim/scene/scene.py"
+        ],
+        "symbols": [
+          "Scene.construct",
+          "Scene.add",
+          "Scene.play",
+          "Scene.wait"
+        ],
+        "gate": "驗證畫面順序、時長、文字及重疊；等待動畫不等於互動控制。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "object-transform",
+        "name": "物件變換",
+        "problem": "需要清楚展示形狀或概念從原態到目標",
+        "input": "來源及目標 Mobject、路徑與動畫時間",
+        "output": "變換後的來源物件或依設定替換",
+        "source": "manim/animation/transform.py",
+        "sourceFiles": [
+          "manim/animation/transform.py"
+        ],
+        "symbols": [
+          "Transform",
+          "Transform.begin",
+          "Transform.clean_up_from_scene",
+          "ReplacementTransform"
+        ],
+        "gate": "原物件可能被 mutate；需要保留初始狀態時自行複製，測兩種變換及收尾行為。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "render-lifecycle",
+        "name": "渲染生命週期",
+        "problem": "將場景程式轉成可預覽的媒體",
+        "input": "Scene、渲染設定、輸出設定",
+        "output": "Manager 管理的渲染結果；render 回傳是否互動重跑",
+        "source": "manim/scene/scene.py",
+        "sourceFiles": [
+          "manim/scene/scene.py",
+          "manim/manager.py",
+          "README.md"
+        ],
+        "symbols": [
+          "Scene.render",
+          "Manager.render",
+          "Manager._run"
+        ],
+        "gate": "此 commit 的 Manager 單次使用，失敗需檢查清理及輸出；低品質預覽不能當正式驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "製作一段幾何變化解說影片（設計示例）",
+      "problem": "一個正方形、一個圓形、兩段標示文字及各步停留時間。",
+      "steps": [
+        {
+          "capability": "scene-sequence",
+          "action": "定義場景與物件順序",
+          "capabilityRefs": [
+            "scene-sequence"
+          ]
+        },
+        {
+          "capability": "object-transform",
+          "action": "播放物件變換",
+          "capabilityRefs": [
+            "object-transform"
+          ]
+        },
+        {
+          "capability": "render-lifecycle",
+          "action": "執行預覽及確認輸出",
+          "capabilityRefs": [
+            "render-lifecycle"
+          ]
+        }
+      ],
+      "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+      "readerExampleRef": "geometry-explainer"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+      "stages": [
+        {
+          "title": "場景契約",
+          "detail": "定義每個 Mobject 的初始與目標狀態。",
+          "deliverable": "場景規格"
+        },
+        {
+          "title": "渲染最小場景",
+          "detail": "測 play、wait、Transform 及清理。",
+          "deliverable": "預覽媒體和時間紀錄"
+        },
+        {
+          "title": "正式驗收",
+          "detail": "比較畫面、文字、時長、輸出及錯誤。",
+          "deliverable": "影片驗收清單"
+        }
+      ],
+      "gaps": [
+        "底層 Cairo／OpenGL 渲染器、影片編碼、文字渲染與套件依賴未追蹤完整。",
+        "未安裝、渲染或確認跨平台及輸出。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "渲染環境",
+        "severity": "高",
+        "issue": "不同字型、版本與編碼器可能造成結果差異。",
+        "control": "固定版本、依賴和設定，驗收實際畫面。"
+      },
+      {
+        "title": "程式副作用",
+        "severity": "高",
+        "issue": "Scene 是 Python 程式，外來範例可執行任意操作。",
+        "control": "只執行已審核程式，限制檔案、網路及權限。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核"
+      },
+      {
+        "item": "Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝、執行、下載模型或連線正式資料。"
+      }
+    ]
   }
 }
