@@ -6,14 +6,14 @@
   "canonicalName": "frontend-design",
   "category": "06 Skills",
   "resourceType": "Agent Skill",
-  "purpose": "Anthropic Skills Repo 內的 frontend-design 單一技能，透過先規劃視覺方向、檢查設計 Brief、實作與自我批判來減少模板化介面。",
-  "recommendation": "適合建立新介面或重構現有 UI 的視覺決策參考；需有具體產品情境與人工檢查，不能當成已驗證元件庫。",
+  "purpose": "先依產品主題與實際內容決定有辨識度的視覺方向，再做設計計畫、實作與自我審查。",
+  "recommendation": "適合需要避免模板化頁面的產品或作品集；使用者已指定的視覺方向優先，不必硬性反對某種字體或版型。",
   "url": "https://github.com/anthropics/skills/tree/main/skills/frontend-design",
   "repo": "anthropics/skills",
   "notes": "Official Anthropic skill source confirmed; important to revisit because of a current related issue.",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "skills",
     "agent-design",
@@ -76,25 +76,33 @@
   "source": {
     "url": "https://github.com/anthropics/skills",
     "readmeUrl": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "skills/frontend-design/SKILL.md、skills/frontend-design/LICENSE.txt；限定範圍源文件與契約查核，未執行；這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。 未載入技能或生成畫面；完整可及性及設計品質未實測。",
+    "upstreamCommit": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+    "referenceUrls": [
+      "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/frontend-design/SKILL.md",
+      "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/frontend-design/LICENSE.txt"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "保留原 Canonical ID，補限定範圍來源契約與用途。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -102,9 +110,9 @@
     },
     "classificationReason": "沿用既有 Primary Domain design；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
-      "id": "standard",
+      "id": "repo",
       "status": "applied",
-      "reason": "僅更新此 Skill 的 Resource 來源閱讀與操作注意事項；未建立或宣稱完成完整 Repo Guide。"
+      "reason": "已核對限定範圍源文件與程式契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -117,7 +125,341 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "skills/frontend-design/SKILL.md、skills/frontend-design/LICENSE.txt；限定範圍源文件與契約查核，未執行；這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。 未載入技能或生成畫面；完整可及性及設計品質未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "skills/frontend-design/SKILL.md、skills/frontend-design/LICENSE.txt；限定範圍源文件與契約查核，未執行；這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。 未載入技能或生成畫面；完整可及性及設計品質未實測。；局部契約與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Anthropic Skills Repo 內的 frontend-design 單一技能，透過先規劃視覺方向、檢查設計 Brief、實作與自我批判來減少模板化介面。",
+      "source": "https://github.com/anthropics/skills",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-subject",
+        "title": "從產品主題建立視覺方向",
+        "detail": "先說清楚產品、受眾及主要任務，再決定首頁重點。",
+        "capabilityRefs": [
+          "subject"
+        ]
+      },
+      {
+        "id": "use-tokens",
+        "title": "規劃字體、色彩與版面",
+        "detail": "用精簡 tokens 及 wireframe 比較不同方向。",
+        "capabilityRefs": [
+          "tokens"
+        ]
+      },
+      {
+        "id": "use-critique",
+        "title": "審查設計是否服務需求",
+        "detail": "移除無助於資訊的裝飾，使用畫面與互動驗收設計。",
+        "capabilityRefs": [
+          "critique"
+        ]
+      }
+    ],
+    "example": {
+      "id": "example-frontend-design",
+      "title": "規劃具有明確主題的作品集首頁",
+      "input": "真實作品、主要訪客、設計 brief 與技術限制。",
+      "process": "理解主題 → 選配色字體及版面 → 比較 brief → 規劃實作與畫面檢查",
+      "output": "設計方向、版面及驗收規格（未建置）。",
+      "destination": "自有作品集前端。",
+      "note": "自訂設計示例；未執行第三方工具或產生實際成果。",
+      "useCaseRefs": [
+        "use-subject",
+        "use-tokens",
+        "use-critique"
+      ],
+      "steps": [
+        {
+          "id": "subject",
+          "title": "從產品主題建立視覺方向",
+          "capabilityRefs": [
+            "subject"
+          ]
+        },
+        {
+          "id": "tokens",
+          "title": "規劃字體、色彩與版面",
+          "capabilityRefs": [
+            "tokens"
+          ]
+        },
+        {
+          "id": "critique",
+          "title": "審查設計是否服務需求",
+          "capabilityRefs": [
+            "critique"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收真實結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置及功能測試須另行核准，依真實結果記錄。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義測試目標及輸入：真實作品、主要訪客、設計 brief 與技術限制。",
+      "核對固定版本來源：skills/frontend-design/SKILL.md。",
+      "先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。"
+    ],
+    "limits": [
+      "這是指令型 Skill，不會自動提供已實測的 UI 元件。",
+      "輸出品質依執行模型與 Brief，仍需響應式、可及性與人工設計驗收。",
+      "這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。",
+      "未載入技能或生成畫面；完整可及性及設計品質未實測。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "先依產品主題與實際內容決定有辨識度的視覺方向，再做設計計畫、實作與自我審查。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache 2.0（frontend-design 子目錄 LICENSE.txt）"
+      },
+      {
+        "label": "版本",
+        "value": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "從產品主題建立視覺方向",
+        "detail": "先說清楚產品、受眾及主要任務，再決定首頁重點。；輸入：已確認 brief、受眾、內容；輸出：主題與首屏重點",
+        "source": "skills/frontend-design/SKILL.md"
+      },
+      {
+        "title": "規劃字體、色彩與版面",
+        "detail": "用精簡 tokens 及 wireframe 比較不同方向。；輸入：品牌限制、閱讀目標、實際內容；輸出：4–6 色的規劃、字體角色、版面及原則",
+        "source": "skills/frontend-design/SKILL.md"
+      },
+      {
+        "title": "審查設計是否服務需求",
+        "detail": "移除無助於資訊的裝飾，使用畫面與互動驗收設計。；輸入：設計計畫、實際畫面與狀態；輸出：人工審查、響應式及焦點驗收清單",
+        "source": "skills/frontend-design/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "理解主題 → 選配色字體及版面 → 比較 brief → 規劃實作與畫面檢查",
+      "nodes": [
+        {
+          "title": "從產品主題建立視覺方向",
+          "detail": "已確認 brief、受眾、內容 → 主題與首屏重點",
+          "files": [
+            "skills/frontend-design/SKILL.md"
+          ]
+        },
+        {
+          "title": "規劃字體、色彩與版面",
+          "detail": "品牌限制、閱讀目標、實際內容 → 4–6 色的規劃、字體角色、版面及原則",
+          "files": [
+            "skills/frontend-design/SKILL.md"
+          ]
+        },
+        {
+          "title": "審查設計是否服務需求",
+          "detail": "設計計畫、實際畫面與狀態 → 人工審查、響應式及焦點驗收清單",
+          "files": [
+            "skills/frontend-design/SKILL.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "從產品主題建立視覺方向",
+        "rule": "不得發明客戶事實；使用者指定方向優先。",
+        "source": "skills/frontend-design/SKILL.md"
+      },
+      {
+        "name": "規劃字體、色彩與版面",
+        "rule": "數量及美學為設計方法，非驗收標準；先查授權與文字對比。",
+        "source": "skills/frontend-design/SKILL.md"
+      },
+      {
+        "name": "審查設計是否服務需求",
+        "rule": "只讀 Skill 文件；截圖及實際裝置測試仍需另行完成。",
+        "source": "skills/frontend-design/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "skills/frontend-design/SKILL.md",
+          "skills/frontend-design/LICENSE.txt"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先定義測試目標及輸入：真實作品、主要訪客、設計 brief 與技術限制。 核對固定版本來源：skills/frontend-design/SKILL.md。 先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。",
+        "files": [
+          "skills/frontend-design/SKILL.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料、費用與修改須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有作品集前端。；另驗證真實行為及失敗。",
+        "file": "skills/frontend-design/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "subject",
+        "name": "從產品主題建立視覺方向",
+        "problem": "先說清楚產品、受眾及主要任務，再決定首頁重點。",
+        "input": "已確認 brief、受眾、內容",
+        "output": "主題與首屏重點",
+        "source": "skills/frontend-design/SKILL.md",
+        "sourceFiles": [
+          "skills/frontend-design/SKILL.md"
+        ],
+        "symbols": [
+          "Ground your designs in the subject matter",
+          "Design principles"
+        ],
+        "gate": "不得發明客戶事實；使用者指定方向優先。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "tokens",
+        "name": "規劃字體、色彩與版面",
+        "problem": "用精簡 tokens 及 wireframe 比較不同方向。",
+        "input": "品牌限制、閱讀目標、實際內容",
+        "output": "4–6 色的規劃、字體角色、版面及原則",
+        "source": "skills/frontend-design/SKILL.md",
+        "sourceFiles": [
+          "skills/frontend-design/SKILL.md"
+        ],
+        "symbols": [
+          "Process: plan, review against the brief, build, critique"
+        ],
+        "gate": "數量及美學為設計方法，非驗收標準；先查授權與文字對比。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "critique",
+        "name": "審查設計是否服務需求",
+        "problem": "移除無助於資訊的裝飾，使用畫面與互動驗收設計。",
+        "input": "設計計畫、實際畫面與狀態",
+        "output": "人工審查、響應式及焦點驗收清單",
+        "source": "skills/frontend-design/SKILL.md",
+        "sourceFiles": [
+          "skills/frontend-design/SKILL.md"
+        ],
+        "symbols": [
+          "Restraint and self-critique",
+          "More on writing in design"
+        ],
+        "gate": "只讀 Skill 文件；截圖及實際裝置測試仍需另行完成。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃具有明確主題的作品集首頁（設計示例）",
+      "problem": "真實作品、主要訪客、設計 brief 與技術限制。",
+      "steps": [
+        {
+          "capability": "subject",
+          "action": "從產品主題建立視覺方向"
+        },
+        {
+          "capability": "tokens",
+          "action": "規劃字體、色彩與版面"
+        },
+        {
+          "capability": "critique",
+          "action": "審查設計是否服務需求"
+        }
+      ],
+      "gate": "未執行；實際環境與成果需獨立驗收。",
+      "readerExampleRef": "example-frontend-design"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "真實作品、主要訪客、設計 brief 與技術限制。",
+          "deliverable": "測試資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "理解主題 → 選配色字體及版面 → 比較 brief → 規劃實作與畫面檢查",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有作品集前端。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。",
+        "未載入技能或生成畫面；完整可及性及設計品質未實測。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "來源與實際驗收界線",
+        "severity": "高",
+        "issue": "這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。 未載入技能或生成畫面；完整可及性及設計品質未實測。",
+        "control": "固定版本、最小權限、獨立驗收功能、資料與使用體驗。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "skills/frontend-design/SKILL.md、skills/frontend-design/LICENSE.txt；限定範圍源文件與契約查核，未執行；這是 anthropics/skills 中既有 frontend-design 子資源，沿用原 ID；不新增或合併其他 Resource。 未載入技能或生成畫面；完整可及性及設計品質未實測。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行或修改第三方工具。"
+      }
+    ]
   }
 }
