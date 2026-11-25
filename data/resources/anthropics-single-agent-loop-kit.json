@@ -6,14 +6,14 @@
   "canonicalName": "Single Agent Loop Kit",
   "category": "02 Agent Orchestration",
   "resourceType": "Official Reference Implementation / Agent Architecture Migration Kit / Reusable Skill",
-  "purpose": "Anthropic 官方釋出的 Agent 架構精簡參考實作：盤點 Router、Planner 與 Subagents，先建立端到端 Eval Baseline，再逐一合併高度耦合的 Agent，或將專業規則拆成 Skills、API 動作拆成 Tools；對確實需要獨立 Context 的 Subagent 則改為 Structured Tool Call，並用相同測試集比較品質、延遲、Token 與成本。",
-  "recommendation": "適合已經有多層 Router／Orchestrator／Subagents，且可安全執行測試請求、取得實際完成標準的 Agent 專案。先依 trace 與 eval 判斷，而非盲目追求單一 Agent；平行研究、獨立驗證、Context 膨脹造成可量測品質退化時仍應保留 Subagent。沒有 Subagents 的專案可先參考 reference_loop，不需要做遷移。",
+  "purpose": "評估現有多 Agent 系統是否過度複雜，把經常一起工作的子 Agent 合併，或改成主 Agent 按需使用的 Skills 和 Tools，並逐次比較改動前後的品質及成本。",
+  "recommendation": "適合已有 Router、Planner 或多個子 Agent 且可建立端到端評估的團隊。沒有子 Agent 時先從單一迴圈開始；需要獨立 Context、平行研究或獨立驗收時保留子 Agent。",
   "url": "https://github.com/anthropics/single-agent-loop-kit",
   "repo": "anthropics/single-agent-loop-kit",
   "notes": "Verified official Claude article (Diane Sarkis, 2026-10-22), GitHub README, skill/SKILL.md, steps/00-audit.md through 05-upkeep.md and LICENSE on 2026-10-26. Repository default branch at review: release (not main). License Apache-2.0; preserve required license/notice obligations when redistributing. Official README explicitly says 'Reference implementation. Not maintained and not accepting contributions'; issues/PRs are not monitored. Includes stepwise skill, Python scripts (coupling_map, chain_coverage, compare, estimate), reference_loop/loop.py, tests and support-desk example. Official README reports only two real-model example runs by one person on one model; merge/upkeep, complete single-loop example, no-eval setup, real-world migration and updated wording are not verified with a real model. Offline fake-model smoke check is not scored. Paid evals call models and incur cost; kit reads agent code/prompts and may access traces or customer data if authorized, so use isolated sandbox/test data, scoped credentials, write approval gates and human confirmation before running. Vendor examples of faster/cheaper single loop are not universal independent benchmarks. User-supplied secondary article URL retained as an unverified pointer only, because its page could not be directly retrieved: https://www.aiposthub.com/fold-subagents-ai-news-20261025/ ; primary source: https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop. Not installed or executed.",
   "status": "active",
   "addedAt": "2026-10-26",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "anthropic",
     "single-agent-loop",
@@ -98,17 +98,29 @@
     "url": "https://github.com/anthropics/single-agent-loop-kit",
     "readmeUrl": "https://github.com/anthropics/single-agent-loop-kit/blob/main/README.md",
     "type": "Upstream official GitHub README/SKILL.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Source reviewed, not code-executed or installation-tested"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE、compare.py、chain_coverage.py、reference loop、as-tool 步驟；局部程式與文件契約，未執行模型或測試。",
+    "upstreamCommit": "c43796287b83bec847db923f07131d1cc8de750d",
+    "referenceUrls": [
+      "https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/README.md",
+      "https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/LICENSE",
+      "https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/scripts/compare.py",
+      "https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/scripts/chain_coverage.py",
+      "https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/steps/04-as-tool.md",
+      "https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/reference_loop/loop.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -124,8 +136,8 @@
     "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、compare.py、chain_coverage.py、reference loop、as-tool 步驟；局部程式與文件契約，未執行模型或測試。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -135,10 +147,364 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "並行探索、獨立 Context 與安全隔離需求可能必須保留 Subagent。；Fake Model Smoke Test 只驗證 Harness 流程，不是生產模型的品質證據。；參考實作不承諾維護；官方僅報告部分示例的真實模型結果，不能外推全部遷移步驟。；Fake model smoke 不是品質評估；同一批任務、呼叫鏈覆蓋及人工確認評分不可省略。；正式模型評估可能產生費用並外送資料，須先核准；未實測。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README、LICENSE、compare.py、chain_coverage.py、reference loop、as-tool 步驟；局部程式與文件契約，未執行模型或測試。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、compare.py、chain_coverage.py、reference loop、as-tool 步驟；局部程式與文件契約，未執行模型或測試。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Anthropic 官方釋出的 Agent 架構精簡參考實作：盤點 Router、Planner 與 Subagents，先建立端到端 Eval Baseline，再逐一合併高度耦合的 Agent，或將專業規則拆成 Skills、API 動作拆成 Tools；對確實需要獨立 Context 的 Subagent 則改為 Structured Tool Call，並用相同測試集比較品質、延遲、Token 與成本。",
+      "source": "https://github.com/anthropics/single-agent-loop-kit",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合已經有多層 Router／Orchestrator／Subagents，且可安全執行測試請求、取得實際完成標準的 Agent 專案。先依 trace 與 eval 判斷，而非盲目追求單一 Agent；平行研究、獨立驗證、Context 膨脹造成可量測品質退化時仍應保留 Subagent。沒有 Subagents 的專案可先參考 reference_loop，不需要做遷移。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-baseline",
+        "title": "建立可比較的端到端評估",
+        "detail": "多 Agent 改動若缺少基準，無法確定品質是否下降。 共同案例的品質、延遲、Token 及成本比較。",
+        "capabilityRefs": [
+          "baseline"
+        ]
+      },
+      {
+        "id": "use-as-tool",
+        "title": "保留真正需要獨立 Context 的子 Agent",
+        "detail": "有些專業任務不適合直接塞入主 Agent 的上下文。 主 Agent 可讀的結論、證據、動作及限制。",
+        "capabilityRefs": [
+          "as-tool"
+        ]
+      },
+      {
+        "id": "use-loop",
+        "title": "限制單一 Agent 迴圈的執行與寫入",
+        "detail": "單一 Agent 仍可能超過預算或發生未核准的副作用。 受限執行結果與停止原因。",
+        "capabilityRefs": [
+          "loop"
+        ]
+      }
+    ],
+    "example": {
+      "id": "anthropics-single-agent-loop-kit-example",
+      "title": "規劃客服 Agent 架構精簡與逐次驗收",
+      "input": "自有測試客服系統、匿名合成對話、現有子 Agent 呼叫紀錄及已確認的評分標準。",
+      "process": "建立可比較的端到端評估 → 保留真正需要獨立 Context 的子 Agent → 限制單一 Agent 迴圈的執行與寫入 → 獨立驗收實際成果",
+      "output": "子 Agent 處置表、同一評估集的前後比較與保留或回退的決策紀錄。",
+      "destination": "用於自有 Agent Harness 重構決策與持續品質管理。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-baseline",
+        "use-as-tool",
+        "use-loop"
+      ],
+      "steps": [
+        {
+          "id": "baseline",
+          "title": "建立可比較的端到端評估",
+          "capabilityRefs": [
+            "baseline"
+          ]
+        },
+        {
+          "id": "as-tool",
+          "title": "保留真正需要獨立 Context 的子 Agent",
+          "capabilityRefs": [
+            "as-tool"
+          ]
+        },
+        {
+          "id": "loop",
+          "title": "限制單一 Agent 迴圈的執行與寫入",
+          "capabilityRefs": [
+            "loop"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試客服系統、匿名合成對話、現有子 Agent 呼叫紀錄及已確認的評分標準。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "並行探索、獨立 Context 與安全隔離需求可能必須保留 Subagent。",
+      "Fake Model Smoke Test 只驗證 Harness 流程，不是生產模型的品質證據。",
+      "參考實作不承諾維護；官方僅報告部分示例的真實模型結果，不能外推全部遷移步驟。",
+      "Fake model smoke 不是品質評估；同一批任務、呼叫鏈覆蓋及人工確認評分不可省略。",
+      "正式模型評估可能產生費用並外送資料，須先核准；未實測。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "評估現有多 Agent 系統是否過度複雜，把經常一起工作的子 Agent 合併，或改成主 Agent 按需使用的 Skills 和 Tools，並逐次比較改動前後的品質及成本。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；參考實作，官方不承諾維護"
+      },
+      {
+        "label": "版本",
+        "value": "c43796287b83bec847db923f07131d1cc8de750d"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立可比較的端到端評估",
+        "detail": "多 Agent 改動若缺少基準，無法確定品質是否下降。；輸入：原始工作流程、同一批測試任務與評分資料；輸出：共同案例的品質、延遲、Token 及成本比較",
+        "source": "skill/scripts/compare.py"
+      },
+      {
+        "title": "保留真正需要獨立 Context 的子 Agent",
+        "detail": "有些專業任務不適合直接塞入主 Agent 的上下文。；輸入：子 Agent 的任務契約、證據與回傳格式；輸出：主 Agent 可讀的結論、證據、動作及限制",
+        "source": "skill/steps/04-as-tool.md"
+      },
+      {
+        "title": "限制單一 Agent 迴圈的執行與寫入",
+        "detail": "單一 Agent 仍可能超過預算或發生未核准的副作用。；輸入：工具規格、turn/token/batch 預算、寫入核准及選配 verifier；輸出：受限執行結果與停止原因",
+        "source": "reference_loop/loop.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立可比較的端到端評估 → 保留真正需要獨立 Context 的子 Agent → 限制單一 Agent 迴圈的執行與寫入 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立可比較的端到端評估",
+          "detail": "原始工作流程、同一批測試任務與評分資料 → 共同案例的品質、延遲、Token 及成本比較",
+          "files": [
+            "skill/scripts/compare.py",
+            "skill/scripts/chain_coverage.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保留真正需要獨立 Context 的子 Agent",
+          "detail": "子 Agent 的任務契約、證據與回傳格式 → 主 Agent 可讀的結論、證據、動作及限制",
+          "files": [
+            "skill/steps/04-as-tool.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "限制單一 Agent 迴圈的執行與寫入",
+          "detail": "工具規格、turn/token/batch 預算、寫入核准及選配 verifier → 受限執行結果與停止原因",
+          "files": [
+            "reference_loop/loop.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立可比較的端到端評估",
+        "rule": "先檢查被改動的呼叫鏈是否有完整測試；只比較共同案例，缺少測試覆蓋不得宣稱品質維持。",
+        "source": "skill/scripts/compare.py"
+      },
+      {
+        "name": "保留真正需要獨立 Context 的子 Agent",
+        "rule": "逐一修改並重跑評估，主 Agent 應核對結論；保留獨立研究或驗證需求，不以減少 Agent 數量當成目標。",
+        "source": "skill/steps/04-as-tool.md"
+      },
+      {
+        "name": "限制單一 Agent 迴圈的執行與寫入",
+        "rule": "寫入工具必須有核准閘門；子 Agent 用量計入預算；fake model smoke 僅檢查流程，不代表模型品質。",
+        "source": "reference_loop/loop.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、compare.py、chain_coverage.py、reference loop、as-tool 步驟；局部程式與文件契約，未執行模型或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skill/scripts/compare.py",
+          "skill/scripts/chain_coverage.py",
+          "skill/steps/04-as-tool.md",
+          "reference_loop/loop.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試客服系統、匿名合成對話、現有子 Agent 呼叫紀錄及已確認的評分標準。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "skill/scripts/compare.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有 Agent Harness 重構決策與持續品質管理。 另驗證實際行為及限制。",
+        "file": "skill/scripts/compare.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "baseline",
+        "name": "建立可比較的端到端評估",
+        "problem": "多 Agent 改動若缺少基準，無法確定品質是否下降。",
+        "input": "原始工作流程、同一批測試任務與評分資料",
+        "output": "共同案例的品質、延遲、Token 及成本比較",
+        "source": "skill/scripts/compare.py",
+        "sourceFiles": [
+          "skill/scripts/compare.py",
+          "skill/scripts/chain_coverage.py",
+          "README.md"
+        ],
+        "symbols": [
+          "load",
+          "summarise",
+          "load_tasks"
+        ],
+        "gate": "先檢查被改動的呼叫鏈是否有完整測試；只比較共同案例，缺少測試覆蓋不得宣稱品質維持。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "as-tool",
+        "name": "保留真正需要獨立 Context 的子 Agent",
+        "problem": "有些專業任務不適合直接塞入主 Agent 的上下文。",
+        "input": "子 Agent 的任務契約、證據與回傳格式",
+        "output": "主 Agent 可讀的結論、證據、動作及限制",
+        "source": "skill/steps/04-as-tool.md",
+        "sourceFiles": [
+          "skill/steps/04-as-tool.md",
+          "README.md"
+        ],
+        "symbols": [
+          "as-tool（文件決策）",
+          "subagent_response.schema.json（文件引用）"
+        ],
+        "gate": "逐一修改並重跑評估，主 Agent 應核對結論；保留獨立研究或驗證需求，不以減少 Agent 數量當成目標。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "loop",
+        "name": "限制單一 Agent 迴圈的執行與寫入",
+        "problem": "單一 Agent 仍可能超過預算或發生未核准的副作用。",
+        "input": "工具規格、turn/token/batch 預算、寫入核准及選配 verifier",
+        "output": "受限執行結果與停止原因",
+        "source": "reference_loop/loop.py",
+        "sourceFiles": [
+          "reference_loop/loop.py",
+          "README.md"
+        ],
+        "symbols": [
+          "Agent",
+          "Budget",
+          "Tool",
+          "_run_batch",
+          "charge"
+        ],
+        "gate": "寫入工具必須有核准閘門；子 Agent 用量計入預算；fake model smoke 僅檢查流程，不代表模型品質。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃客服 Agent 架構精簡與逐次驗收（設計示例）",
+      "problem": "自有測試客服系統、匿名合成對話、現有子 Agent 呼叫紀錄及已確認的評分標準。",
+      "steps": [
+        {
+          "capability": "baseline",
+          "action": "建立可比較的端到端評估"
+        },
+        {
+          "capability": "as-tool",
+          "action": "保留真正需要獨立 Context 的子 Agent"
+        },
+        {
+          "capability": "loop",
+          "action": "限制單一 Agent 迴圈的執行與寫入"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "anthropics-single-agent-loop-kit-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試客服系統、匿名合成對話、現有子 Agent 呼叫紀錄及已確認的評分標準。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立可比較的端到端評估 → 保留真正需要獨立 Context 的子 Agent → 限制單一 Agent 迴圈的執行與寫入 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有 Agent Harness 重構決策與持續品質管理。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "參考實作不承諾維護；官方僅報告部分示例的真實模型結果，不能外推全部遷移步驟。",
+        "Fake model smoke 不是品質評估；同一批任務、呼叫鏈覆蓋及人工確認評分不可省略。",
+        "正式模型評估可能產生費用並外送資料，須先核准；未實測。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "參考實作不承諾維護；官方僅報告部分示例的真實模型結果，不能外推全部遷移步驟。 Fake model smoke 不是品質評估；同一批任務、呼叫鏈覆蓋及人工確認評分不可省略。 正式模型評估可能產生費用並外送資料，須先核准；未實測。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、compare.py、chain_coverage.py、reference loop、as-tool 步驟；局部程式與文件契約，未執行模型或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

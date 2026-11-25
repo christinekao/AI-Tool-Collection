@@ -6,8 +6,8 @@
   "canonicalName": "Harness Relay (Agentic-System-Lab)",
   "category": "AI Agent Collaboration & Harness Orchestration",
   "resourceType": "Local-first multi-agent group chat and orchestration UI for coding CLI agents",
-  "purpose": "在本機以群組聊天室整合 Claude Code、Codex 與 Grok CLI，按對話指定每位 Agent 的角色、模型、推理強度、輪次與權限，並顯示各 Agent 的回覆、工具呼叫、檔案 Diff 與執行結果。",
-  "recommendation": "適合研究多模型工作分工、Codex/Claude 交叉審查、平行編碼與 AI Agent Cowork 模式。初次使用建議從唯讀模式及非機密測試專案開始，確認每個 Agent 的權限、工作目錄和模型費用。",
+  "purpose": "把多種 Coding Agent 放進同一個本機聊天室，依角色安排接力、輪流討論或平行修改，再比較各自的成果與程式差異。",
+  "recommendation": "適合希望比較多個 Agent 解法或安排研究、實作與審查的開發者。先用非敏感測試 Repo 及最小權限；若只需單一 Agent 或要求強隔離、商業再分發，須另外評估。",
   "url": "https://agentic-system-lab.github.io/harness-relay/zh-TW/",
   "repo": "Agentic-System-Lab/harness-relay",
   "versionReviewed": "0.1.0 (package.json, main branch; official README updated and reviewed 2026-11-10)",
@@ -99,7 +99,7 @@
   "collectionDecision": "原 Resource 已存在；2026-11-10 更新使用者分享的官方繁體中文網站連結與近期 README 顯示的排程、共用 MCP/Skills/記憶、語音、公開分享、手機連線及權限風險，未重複新增 Resource。",
   "status": "active",
   "addedAt": "2026-11-08",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "harness-relay",
     "agentic-system-lab",
@@ -136,10 +136,19 @@
       "https://github.com/Agentic-System-Lab/harness-relay/blob/main/docs/remote-access.zh-TW.md",
       "https://github.com/Agentic-System-Lab/harness-relay/blob/main/site/zh-TW/index.html"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official project Traditional Chinese GitHub Pages path confirmed in README and source, latest upstream Chinese README, package.json, license and GitHub commit metadata; not runtime audited",
     "readmeUrl": "https://github.com/Agentic-System-Lab/harness-relay/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "固定版本 README、LICENSE、orchestrator.ts、approvals.ts、user-guide 與 sandboxing 文件局部；未測各 CLI 的隔離及外部工具。",
+    "upstreamCommit": "70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2",
+    "referenceUrls": [
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2/README.md",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2/LICENSE",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2/docs/user-guide.md",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2/src/server/orchestrator.ts",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2/src/server/approvals.ts",
+      "https://github.com/Agentic-System-Lab/harness-relay/blob/70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2/docs/sandboxing.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -166,10 +175,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -185,8 +197,8 @@
     "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、orchestrator.ts、approvals.ts、user-guide 與 sandboxing 文件局部；未測各 CLI 的隔離及外部工具。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -196,10 +208,378 @@
       "decision": "candidate",
       "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "不是一個獨立的新模型，也不是沒有 CLI 就可運作的雲端平台。；與 sebastian-software/harness-relay 不同；後者偏向 bounded harness-to-harness delegation gateway，本專案則主打聊天式多人 Agent 協作 UI。；Git Worktree 不是安全隔離；平行模式中忽略檔案與巢狀儲存庫可能無法完整納入快照。；Roundtable/Relay 的檔案變更歸因會將同一回合中人手修改也算進該 Agent；並非嚴格審計記錄。；官方文件沒有獨立安全測試保證；其他工具直接修改同一工作目錄時也可能競爭。；本次只收藏主專案，不額外建立獨立 Agent Skill，因未發現專案提供可單獨分發的 SKILL.md。；此工具不是免費提供 Claude/Codex/Grok 模型額度的服務，仍使用使用者各自登入／API 計費。；公開分享連結的 secret gist 可被持有連結者打開，且撤銷後可能有快取延遲；不應視為私人文件庫。；團隊選擇、排程與外部工具的可用性依 CLI／作業系統環境；本次未驗證全部跨平台功能。；Worktree 不是安全沙箱；回合差異不是嚴格的個別 Agent 歸因。；各 CLI 權限及 OS 隔離不同；部分 CLI 在 Harness Relay 中沒有 OS sandbox。；使用自己的模型帳號及額度；外部分享與郵件等工具須核對資料外送及核准。；Sustainable Use License 限制商業對外提供；不將源碼當作無限制開源元件重製。；未實測第三方 CLI、遠端連線、隔離或資料同步。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 README、LICENSE、orchestrator.ts、approvals.ts、user-guide 與 sandboxing 文件局部；未測各 CLI 的隔離及外部工具。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、orchestrator.ts、approvals.ts、user-guide 與 sandboxing 文件局部；未測各 CLI 的隔離及外部工具。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在本機以群組聊天室整合 Claude Code、Codex 與 Grok CLI，按對話指定每位 Agent 的角色、模型、推理強度、輪次與權限，並顯示各 Agent 的回覆、工具呼叫、檔案 Diff 與執行結果。",
+      "source": "https://agentic-system-lab.github.io/harness-relay/zh-TW/",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究多模型工作分工、Codex/Claude 交叉審查、平行編碼與 AI Agent Cowork 模式。初次使用建議從唯讀模式及非機密測試專案開始，確認每個 Agent 的權限、工作目錄和模型費用。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-team",
+        "title": "選擇 Agent 團隊及協作順序",
+        "detail": "不同任務需要不同的研究、實作或審查角色。 Roundtable、Parallel 或 Relay 的工作安排。",
+        "capabilityRefs": [
+          "team"
+        ]
+      },
+      {
+        "id": "use-worktree",
+        "title": "比較平行 Agent 的程式變更",
+        "detail": "多個 Agent 同時修改同一份程式可能產生衝突。 各自變更與可供選擇的 Diff。",
+        "capabilityRefs": [
+          "worktree"
+        ]
+      },
+      {
+        "id": "use-permissions",
+        "title": "限制並審查 Agent 的操作",
+        "detail": "Agent 可能要求超出聊天權限的命令或存取。 依允許規則判斷的操作與人工核准流程。",
+        "capabilityRefs": [
+          "permissions"
+        ]
+      }
+    ],
+    "example": {
+      "id": "agentic-system-lab-harness-relay-example",
+      "title": "規劃多 Agent 平行修正與人工選擇最佳方案",
+      "input": "自有測試 Repo、已知失敗測試、兩個 Agent 角色及明確允許的操作範圍。",
+      "process": "選擇 Agent 團隊及協作順序 → 比較平行 Agent 的程式變更 → 限制並審查 Agent 的操作 → 獨立驗收實際成果",
+      "output": "各 Agent 解法、分離的 Worktree 差異及人工核准紀錄。",
+      "destination": "用於自有 AI Cowork 開發流程的平行比較、成果選擇與回歸驗收。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-team",
+        "use-worktree",
+        "use-permissions"
+      ],
+      "steps": [
+        {
+          "id": "team",
+          "title": "選擇 Agent 團隊及協作順序",
+          "capabilityRefs": [
+            "team"
+          ]
+        },
+        {
+          "id": "worktree",
+          "title": "比較平行 Agent 的程式變更",
+          "capabilityRefs": [
+            "worktree"
+          ]
+        },
+        {
+          "id": "permissions",
+          "title": "限制並審查 Agent 的操作",
+          "capabilityRefs": [
+            "permissions"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試 Repo、已知失敗測試、兩個 Agent 角色及明確允許的操作範圍。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "不是一個獨立的新模型，也不是沒有 CLI 就可運作的雲端平台。",
+      "與 sebastian-software/harness-relay 不同；後者偏向 bounded harness-to-harness delegation gateway，本專案則主打聊天式多人 Agent 協作 UI。",
+      "Git Worktree 不是安全隔離；平行模式中忽略檔案與巢狀儲存庫可能無法完整納入快照。",
+      "Roundtable/Relay 的檔案變更歸因會將同一回合中人手修改也算進該 Agent；並非嚴格審計記錄。",
+      "官方文件沒有獨立安全測試保證；其他工具直接修改同一工作目錄時也可能競爭。",
+      "本次只收藏主專案，不額外建立獨立 Agent Skill，因未發現專案提供可單獨分發的 SKILL.md。",
+      "此工具不是免費提供 Claude/Codex/Grok 模型額度的服務，仍使用使用者各自登入／API 計費。",
+      "公開分享連結的 secret gist 可被持有連結者打開，且撤銷後可能有快取延遲；不應視為私人文件庫。",
+      "團隊選擇、排程與外部工具的可用性依 CLI／作業系統環境；本次未驗證全部跨平台功能。",
+      "Worktree 不是安全沙箱；回合差異不是嚴格的個別 Agent 歸因。",
+      "各 CLI 權限及 OS 隔離不同；部分 CLI 在 Harness Relay 中沒有 OS sandbox。",
+      "使用自己的模型帳號及額度；外部分享與郵件等工具須核對資料外送及核准。",
+      "Sustainable Use License 限制商業對外提供；不將源碼當作無限制開源元件重製。",
+      "未實測第三方 CLI、遠端連線、隔離或資料同步。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把多種 Coding Agent 放進同一個本機聊天室，依角色安排接力、輪流討論或平行修改，再比較各自的成果與程式差異。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Sustainable Use License 1.0；限內部業務或非商業／個人使用，對外提供僅限免費且非商業；第三方元件另計"
+      },
+      {
+        "label": "版本",
+        "value": "70bcd3744faa3b7f772c2d62f9ef6fb5774edfb2"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "選擇 Agent 團隊及協作順序",
+        "detail": "不同任務需要不同的研究、實作或審查角色。；輸入：問題、角色模板、模型與對話模式；輸出：Roundtable、Parallel 或 Relay 的工作安排",
+        "source": "README.md"
+      },
+      {
+        "title": "比較平行 Agent 的程式變更",
+        "detail": "多個 Agent 同時修改同一份程式可能產生衝突。；輸入：測試 Repo、各 Agent Worktree 及基準版本；輸出：各自變更與可供選擇的 Diff",
+        "source": "src/server/orchestrator.ts"
+      },
+      {
+        "title": "限制並審查 Agent 的操作",
+        "detail": "Agent 可能要求超出聊天權限的命令或存取。；輸入：聊天權限、操作種類及核准規則；輸出：依允許規則判斷的操作與人工核准流程",
+        "source": "src/server/approvals.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "選擇 Agent 團隊及協作順序 → 比較平行 Agent 的程式變更 → 限制並審查 Agent 的操作 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "選擇 Agent 團隊及協作順序",
+          "detail": "問題、角色模板、模型與對話模式 → Roundtable、Parallel 或 Relay 的工作安排",
+          "files": [
+            "README.md",
+            "docs/user-guide.md",
+            "src/server/orchestrator.ts"
+          ]
+        },
+        {
+          "title": "比較平行 Agent 的程式變更",
+          "detail": "測試 Repo、各 Agent Worktree 及基準版本 → 各自變更與可供選擇的 Diff",
+          "files": [
+            "src/server/orchestrator.ts",
+            "docs/user-guide.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "限制並審查 Agent 的操作",
+          "detail": "聊天權限、操作種類及核准規則 → 依允許規則判斷的操作與人工核准流程",
+          "files": [
+            "src/server/approvals.ts",
+            "docs/sandboxing.md",
+            "docs/user-guide.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "選擇 Agent 團隊及協作順序",
+        "rule": "先確認角色、模型費用與停止條件；不同 CLI 支援能力及即時插話不同，不能視為等價。",
+        "source": "README.md"
+      },
+      {
+        "name": "比較平行 Agent 的程式變更",
+        "rule": "Worktree 不是安全隔離；同一回合人工修改可能被歸入 Agent，須以完整 Git 差異與獨立測試驗收。",
+        "source": "src/server/orchestrator.ts"
+      },
+      {
+        "name": "限制並審查 Agent 的操作",
+        "rule": "核准規則不等於 OS 隔離；固定版本文件明列部分 CLI 沒有 OS sandbox，須按實際平台驗證，外部操作另行核准。",
+        "source": "src/server/approvals.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、orchestrator.ts、approvals.ts、user-guide 與 sandboxing 文件局部；未測各 CLI 的隔離及外部工具。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "docs/user-guide.md",
+          "src/server/orchestrator.ts",
+          "src/server/approvals.ts",
+          "docs/sandboxing.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Repo、已知失敗測試、兩個 Agent 角色及明確允許的操作範圍。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有 AI Cowork 開發流程的平行比較、成果選擇與回歸驗收。 另驗證實際行為及限制。",
+        "file": "README.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "team",
+        "name": "選擇 Agent 團隊及協作順序",
+        "problem": "不同任務需要不同的研究、實作或審查角色。",
+        "input": "問題、角色模板、模型與對話模式",
+        "output": "Roundtable、Parallel 或 Relay 的工作安排",
+        "source": "README.md",
+        "sourceFiles": [
+          "README.md",
+          "docs/user-guide.md",
+          "src/server/orchestrator.ts"
+        ],
+        "symbols": [
+          "Parallel（文件模式）",
+          "Relay（文件模式）",
+          "ConversationSettings（程式型別引用）"
+        ],
+        "gate": "先確認角色、模型費用與停止條件；不同 CLI 支援能力及即時插話不同，不能視為等價。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "worktree",
+        "name": "比較平行 Agent 的程式變更",
+        "problem": "多個 Agent 同時修改同一份程式可能產生衝突。",
+        "input": "測試 Repo、各 Agent Worktree 及基準版本",
+        "output": "各自變更與可供選擇的 Diff",
+        "source": "src/server/orchestrator.ts",
+        "sourceFiles": [
+          "src/server/orchestrator.ts",
+          "docs/user-guide.md",
+          "README.md"
+        ],
+        "symbols": [
+          "madeIn",
+          "worktreeChanged",
+          "worktreeHead"
+        ],
+        "gate": "Worktree 不是安全隔離；同一回合人工修改可能被歸入 Agent，須以完整 Git 差異與獨立測試驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "permissions",
+        "name": "限制並審查 Agent 的操作",
+        "problem": "Agent 可能要求超出聊天權限的命令或存取。",
+        "input": "聊天權限、操作種類及核准規則",
+        "output": "依允許規則判斷的操作與人工核准流程",
+        "source": "src/server/approvals.ts",
+        "sourceFiles": [
+          "src/server/approvals.ts",
+          "docs/sandboxing.md",
+          "docs/user-guide.md"
+        ],
+        "symbols": [
+          "approvalKeys",
+          "isAllowed",
+          "exactLineRule"
+        ],
+        "gate": "核准規則不等於 OS 隔離；固定版本文件明列部分 CLI 沒有 OS sandbox，須按實際平台驗證，外部操作另行核准。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃多 Agent 平行修正與人工選擇最佳方案（設計示例）",
+      "problem": "自有測試 Repo、已知失敗測試、兩個 Agent 角色及明確允許的操作範圍。",
+      "steps": [
+        {
+          "capability": "team",
+          "action": "選擇 Agent 團隊及協作順序"
+        },
+        {
+          "capability": "worktree",
+          "action": "比較平行 Agent 的程式變更"
+        },
+        {
+          "capability": "permissions",
+          "action": "限制並審查 Agent 的操作"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "agentic-system-lab-harness-relay-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Repo、已知失敗測試、兩個 Agent 角色及明確允許的操作範圍。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選擇 Agent 團隊及協作順序 → 比較平行 Agent 的程式變更 → 限制並審查 Agent 的操作 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有 AI Cowork 開發流程的平行比較、成果選擇與回歸驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Worktree 不是安全沙箱；回合差異不是嚴格的個別 Agent 歸因。",
+        "各 CLI 權限及 OS 隔離不同；部分 CLI 在 Harness Relay 中沒有 OS sandbox。",
+        "使用自己的模型帳號及額度；外部分享與郵件等工具須核對資料外送及核准。",
+        "Sustainable Use License 限制商業對外提供；不將源碼當作無限制開源元件重製。",
+        "未實測第三方 CLI、遠端連線、隔離或資料同步。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Worktree 不是安全沙箱；回合差異不是嚴格的個別 Agent 歸因。 各 CLI 權限及 OS 隔離不同；部分 CLI 在 Harness Relay 中沒有 OS sandbox。 使用自己的模型帳號及額度；外部分享與郵件等工具須核對資料外送及核准。 Sustainable Use License 限制商業對外提供；不將源碼當作無限制開源元件重製。 未實測第三方 CLI、遠端連線、隔離或資料同步。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、orchestrator.ts、approvals.ts、user-guide 與 sandboxing 文件局部；未測各 CLI 的隔離及外部工具。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

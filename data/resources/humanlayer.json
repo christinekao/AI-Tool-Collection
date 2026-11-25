@@ -6,14 +6,14 @@
   "canonicalName": "HumanLayer",
   "category": "02 Agent Orchestration",
   "resourceType": "Open-source coding-agent collaborative IDE / task control plane / local & remote daemon",
-  "purpose": "將 Claude Code、Codex、OpenCode、Pi 等 Coding Agent Sessions、Tasks、Research/Plan Artifacts、程式碼 Diff、PR 與團隊評論集中管理。透過桌面／網頁介面、各主機 Daemon、可選遠端執行、Git Worktrees、多 Repo Workspace 與跨 Session 同步，支援 Research → Plan → Implement（RPI）及人工審查的 Agent 開發流程。",
-  "recommendation": "適合多個 Coding Agent、跨人員或跨裝置協作大型程式碼專案，希望清楚管理任務與工作區、審查 Plan／Diff，並可在本機與遠端切換 Session 的團隊。研究時可參考其控制平面、Human-in-the-Loop 與 RPI 技術架構；新手或單一 Agent 的簡單任務不一定需要完整服務堆疊。安裝前須先確認自架需求、模型帳號或 API 成本、權限與資訊安全。",
+  "purpose": "把同一項開發工作的研究、設計、計畫、實作及審查集中在一個 Task，讓不同 Agent 或工作站能接續執行並查看共同文件與變更。",
+  "recommendation": "適合需要跨 Session、跨 Repo 或團隊接手的開發任務；小修改可採短流程，不必每次套完整 RPI。同步涉及雲端及主機存取，敏感資料及部署前須另審查。",
   "url": "https://humanlayer.com/",
   "repo": "humanlayer/humanlayer",
   "notes": "2026-10-27 checked official HumanLayer open-source announcement (published 2026-10-23), GitHub latest main README/LICENSE/NOTICE/SECURITY and directories, and official docs. The current repository is a Bun/Turborepo monorepo containing web/desktop apps (Electron/Tauri), daemons, humanlayer CLI, oRPC/Hono cloud API, Electric/Postgres sync proxy, Claude Code/OpenCode/Pi plugins, Research-Plan-Implement Claude skills and Linear CLI. Source code released under Apache License 2.0; NOTICE enumerates vendored MIT components. This is distinct from humanlayer/agentcontrolplane (older alpha Kubernetes orchestrator) and humanlayer/12-factor-agents (methodology). Older README/search snippets may describe the old repo as deprecated and marketing pages may still say 'not yet open source'; prioritize 2026-10-23 official announcement and current main. Self-host documentation is still in progress; official README warns Docker Compose starter uses default/simple passwords that must be changed before deployment. Official announcement warns a number of third-party API keys/DSNs are not yet optional and certain processes will not start without them. Source build reportedly sends no vendor telemetry unless env keys are set, but an actual deployment, SaaS use or external agent/model invocation may process sensitive source code and send data to provider services; review security, SSO, integration scopes, credential handling and network policies. Hosted subscriptions and model/provider charges are distinct; confirm current prices with vendor prior to use. News pointer supplied by user (https://www.aiposthub.com/humanlayer-ai-news-20261025/) was not directly retrievable, so only verifiable first-party statements were recorded. No installation, source build, execution, account connection or security test performed. Existing V2 Workflow for spec → multi-agent delivery → evidence QA covers related method; no duplicate Workflow/Skill or Concept created solely for this news.",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "humanlayer",
     "open-source",
@@ -81,8 +81,19 @@
     "licenseUrl": "https://github.com/humanlayer/humanlayer/blob/main/LICENSE",
     "summary": "Official announcement dated 2026-10-23; verified repository main README, Apache-2.0 LICENSE, NOTICE and SECURITY on 2026-10-27. HumanLayer and its RPI components were not installed, executed or security-tested.",
     "readmeUrl": "https://github.com/humanlayer/humanlayer/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE、tasks、workflow-phases、workspace-model、remote-daemons 文件及 run-session、git-diff-parsers 局部程式；未核對完整雲端權限及同步實作。",
+    "upstreamCommit": "fb899cd8cba767f0392708efc20d00938dec6a87",
+    "referenceUrls": [
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/README.md",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/LICENSE",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/docs/explanation/tasks.md",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/docs/explanation/workflow-phases.md",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/docs/explanation/workspace-model.md",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/docs/explanation/remote-daemons.md",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/riptide-daemon/src/agents/shared/run-session.ts",
+      "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/riptide-daemon/src/effects/services/task-diff/git-diff-parsers.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -119,10 +130,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -138,8 +152,8 @@
     "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、tasks、workflow-phases、workspace-model、remote-daemons 文件及 run-session、git-diff-parsers 局部程式；未核對完整雲端權限及同步實作。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -149,10 +163,371 @@
       "decision": "reused",
       "reason": "沿用既有 Concept 引用，未新增 Graph 關係。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "遠端操控 Agent 前應限制工作目錄、對外連線與核准權限；Task 與 Session 不同；文件同步只涵蓋支援的檔案操作，不是 Repo 或主機備份。；共享及本機工作區設定有合併規則，須避免洩漏敏感本機資訊。；遠端 Daemon 涉及主機權限、登入憑證與雲端資料；不得把遠端執行視為安全隔離。；自架僅參考部署，非官方支援的安裝；預設簡易密碼需更換。；未實測同步、遠端權限、工作區建立及 RPI 流程。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 README、LICENSE、tasks、workflow-phases、workspace-model、remote-daemons 文件及 run-session、git-diff-parsers 局部程式；未核對完整雲端權限及同步實作。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、tasks、workflow-phases、workspace-model、remote-daemons 文件及 run-session、git-diff-parsers 局部程式；未核對完整雲端權限及同步實作。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將 Claude Code、Codex、OpenCode、Pi 等 Coding Agent Sessions、Tasks、Research/Plan Artifacts、程式碼 Diff、PR 與團隊評論集中管理。透過桌面／網頁介面、各主機 Daemon、可選遠端執行、Git Worktrees、多 Repo Workspace 與跨 Session 同步，支援 Research → Plan → Implement（RPI）及人工審查的 Agent 開發流程。",
+      "source": "https://humanlayer.com/",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合多個 Coding Agent、跨人員或跨裝置協作大型程式碼專案，希望清楚管理任務與工作區、審查 Plan／Diff，並可在本機與遠端切換 Session 的團隊。研究時可參考其控制平面、Human-in-the-Loop 與 RPI 技術架構；新手或單一 Agent 的簡單任務不一定需要完整服務堆疊。安裝前須先確認自架需求、模型帳號或 API 成本、權限與資訊安全。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-task",
+        "title": "將多個 Session 組成一個開發 Task",
+        "detail": "研究、設計與實作分散在各個 Agent 對話時容易遺失決策。 共享任務資料及可供審查的文件與評論。",
+        "capabilityRefs": [
+          "task"
+        ]
+      },
+      {
+        "id": "use-workspace",
+        "title": "為跨 Repo 任務建立獨立工作區",
+        "detail": "同一功能可能需修改前端與 API，且各有 Git 歷史。 各 Repo 的 task Worktree 與有效設定。",
+        "capabilityRefs": [
+          "workspace"
+        ]
+      },
+      {
+        "id": "use-session",
+        "title": "跨工作站執行 Session 並查核變更",
+        "detail": "任務需要在不同主機執行及回傳事件與程式差異。 執行事件、Session 狀態及可解析的變更資料。",
+        "capabilityRefs": [
+          "session"
+        ]
+      }
+    ],
+    "example": {
+      "id": "humanlayer-example",
+      "title": "規劃跨 Session 的履歷系統功能開發與審查",
+      "input": "自有測試專案、功能需求、研究與計畫文件、工作站權限及預定審查者。",
+      "process": "將多個 Session 組成一個開發 Task → 為跨 Repo 任務建立獨立工作區 → 跨工作站執行 Session 並查核變更 → 獨立驗收實際成果",
+      "output": "Task 對應的分階段 Session、共享設計資料、工作區配置與審查紀錄。",
+      "destination": "用於自有開發任務的跨 Agent 交接、計畫審核與 PR 驗收。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-task",
+        "use-workspace",
+        "use-session"
+      ],
+      "steps": [
+        {
+          "id": "task",
+          "title": "將多個 Session 組成一個開發 Task",
+          "capabilityRefs": [
+            "task"
+          ]
+        },
+        {
+          "id": "workspace",
+          "title": "為跨 Repo 任務建立獨立工作區",
+          "capabilityRefs": [
+            "workspace"
+          ]
+        },
+        {
+          "id": "session",
+          "title": "跨工作站執行 Session 並查核變更",
+          "capabilityRefs": [
+            "session"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試專案、功能需求、研究與計畫文件、工作站權限及預定審查者。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "遠端操控 Agent 前應限制工作目錄、對外連線與核准權限",
+      "Task 與 Session 不同；文件同步只涵蓋支援的檔案操作，不是 Repo 或主機備份。",
+      "共享及本機工作區設定有合併規則，須避免洩漏敏感本機資訊。",
+      "遠端 Daemon 涉及主機權限、登入憑證與雲端資料；不得把遠端執行視為安全隔離。",
+      "自架僅參考部署，非官方支援的安裝；預設簡易密碼需更換。",
+      "未實測同步、遠端權限、工作區建立及 RPI 流程。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把同一項開發工作的研究、設計、計畫、實作及審查集中在一個 Task，讓不同 Agent 或工作站能接續執行並查看共同文件與變更。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；部分 vendored 元件為 MIT（README；逐件再查）"
+      },
+      {
+        "label": "版本",
+        "value": "fb899cd8cba767f0392708efc20d00938dec6a87"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "將多個 Session 組成一個開發 Task",
+        "detail": "研究、設計與實作分散在各個 Agent 對話時容易遺失決策。；輸入：任務識別、相關 Session 與核准可同步的文件；輸出：共享任務資料及可供審查的文件與評論",
+        "source": "apps/docs/explanation/tasks.md"
+      },
+      {
+        "title": "為跨 Repo 任務建立獨立工作區",
+        "detail": "同一功能可能需修改前端與 API，且各有 Git 歷史。；輸入：共享及本機 workspace 設定、repo 路徑與 sourceRef；輸出：各 Repo 的 task Worktree 與有效設定",
+        "source": "apps/docs/explanation/workspace-model.md"
+      },
+      {
+        "title": "跨工作站執行 Session 並查核變更",
+        "detail": "任務需要在不同主機執行及回傳事件與程式差異。；輸入：Daemon 主機、Session 執行資料、Git 差異及授權；輸出：執行事件、Session 狀態及可解析的變更資料",
+        "source": "apps/docs/explanation/remote-daemons.md"
+      }
+    ],
+    "architecture": {
+      "summary": "將多個 Session 組成一個開發 Task → 為跨 Repo 任務建立獨立工作區 → 跨工作站執行 Session 並查核變更 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "將多個 Session 組成一個開發 Task",
+          "detail": "任務識別、相關 Session 與核准可同步的文件 → 共享任務資料及可供審查的文件與評論",
+          "files": [
+            "apps/docs/explanation/tasks.md",
+            "apps/docs/explanation/workflow-phases.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "為跨 Repo 任務建立獨立工作區",
+          "detail": "共享及本機 workspace 設定、repo 路徑與 sourceRef → 各 Repo 的 task Worktree 與有效設定",
+          "files": [
+            "apps/docs/explanation/workspace-model.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "跨工作站執行 Session 並查核變更",
+          "detail": "Daemon 主機、Session 執行資料、Git 差異及授權 → 執行事件、Session 狀態及可解析的變更資料",
+          "files": [
+            "apps/docs/explanation/remote-daemons.md",
+            "apps/riptide-daemon/src/agents/shared/run-session.ts",
+            "apps/riptide-daemon/src/effects/services/task-diff/git-diff-parsers.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "將多個 Session 組成一個開發 Task",
+        "rule": "Task 文件同步不是完整 Repo 備份；支援的 Agent 檔案操作才觸發文件同步，敏感資料不得未核准上傳。",
+        "source": "apps/docs/explanation/tasks.md"
+      },
+      {
+        "name": "為跨 Repo 任務建立獨立工作區",
+        "rule": "先核對各 Repo 基準及本機覆寫；本機設定可能含敏感路徑或命令，不應提交。Worktree 不是安全隔離。",
+        "source": "apps/docs/explanation/workspace-model.md"
+      },
+      {
+        "name": "跨工作站執行 Session 並查核變更",
+        "rule": "Daemon 會接觸主機資源；限制檔案及網路權限。Session 執行完成或 Diff 存在不等於功能驗收。",
+        "source": "apps/docs/explanation/remote-daemons.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、tasks、workflow-phases、workspace-model、remote-daemons 文件及 run-session、git-diff-parsers 局部程式；未核對完整雲端權限及同步實作。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "apps/docs/explanation/tasks.md",
+          "apps/docs/explanation/workflow-phases.md",
+          "apps/docs/explanation/workspace-model.md",
+          "apps/docs/explanation/remote-daemons.md",
+          "apps/riptide-daemon/src/agents/shared/run-session.ts",
+          "apps/riptide-daemon/src/effects/services/task-diff/git-diff-parsers.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試專案、功能需求、研究與計畫文件、工作站權限及預定審查者。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "apps/docs/explanation/tasks.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有開發任務的跨 Agent 交接、計畫審核與 PR 驗收。 另驗證實際行為及限制。",
+        "file": "apps/docs/explanation/tasks.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "task",
+        "name": "將多個 Session 組成一個開發 Task",
+        "problem": "研究、設計與實作分散在各個 Agent 對話時容易遺失決策。",
+        "input": "任務識別、相關 Session 與核准可同步的文件",
+        "output": "共享任務資料及可供審查的文件與評論",
+        "source": "apps/docs/explanation/tasks.md",
+        "sourceFiles": [
+          "apps/docs/explanation/tasks.md",
+          "apps/docs/explanation/workflow-phases.md",
+          "README.md"
+        ],
+        "symbols": [
+          "Task（文件契約）",
+          "Session（文件契約）",
+          "Research-Plan-Implement（文件流程）"
+        ],
+        "gate": "Task 文件同步不是完整 Repo 備份；支援的 Agent 檔案操作才觸發文件同步，敏感資料不得未核准上傳。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "workspace",
+        "name": "為跨 Repo 任務建立獨立工作區",
+        "problem": "同一功能可能需修改前端與 API，且各有 Git 歷史。",
+        "input": "共享及本機 workspace 設定、repo 路徑與 sourceRef",
+        "output": "各 Repo 的 task Worktree 與有效設定",
+        "source": "apps/docs/explanation/workspace-model.md",
+        "sourceFiles": [
+          "apps/docs/explanation/workspace-model.md",
+          "README.md"
+        ],
+        "symbols": [
+          "pathTemplate（文件欄位）",
+          "sourceRef（文件欄位）",
+          "repos（文件欄位）"
+        ],
+        "gate": "先核對各 Repo 基準及本機覆寫；本機設定可能含敏感路徑或命令，不應提交。Worktree 不是安全隔離。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "session",
+        "name": "跨工作站執行 Session 並查核變更",
+        "problem": "任務需要在不同主機執行及回傳事件與程式差異。",
+        "input": "Daemon 主機、Session 執行資料、Git 差異及授權",
+        "output": "執行事件、Session 狀態及可解析的變更資料",
+        "source": "apps/docs/explanation/remote-daemons.md",
+        "sourceFiles": [
+          "apps/docs/explanation/remote-daemons.md",
+          "apps/riptide-daemon/src/agents/shared/run-session.ts",
+          "apps/riptide-daemon/src/effects/services/task-diff/git-diff-parsers.ts"
+        ],
+        "symbols": [
+          "runSession",
+          "parseSessionForExecution",
+          "parseRawDiff",
+          "parseGitNumstat"
+        ],
+        "gate": "Daemon 會接觸主機資源；限制檔案及網路權限。Session 執行完成或 Diff 存在不等於功能驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃跨 Session 的履歷系統功能開發與審查（設計示例）",
+      "problem": "自有測試專案、功能需求、研究與計畫文件、工作站權限及預定審查者。",
+      "steps": [
+        {
+          "capability": "task",
+          "action": "將多個 Session 組成一個開發 Task"
+        },
+        {
+          "capability": "workspace",
+          "action": "為跨 Repo 任務建立獨立工作區"
+        },
+        {
+          "capability": "session",
+          "action": "跨工作站執行 Session 並查核變更"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "humanlayer-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試專案、功能需求、研究與計畫文件、工作站權限及預定審查者。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "將多個 Session 組成一個開發 Task → 為跨 Repo 任務建立獨立工作區 → 跨工作站執行 Session 並查核變更 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有開發任務的跨 Agent 交接、計畫審核與 PR 驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Task 與 Session 不同；文件同步只涵蓋支援的檔案操作，不是 Repo 或主機備份。",
+        "共享及本機工作區設定有合併規則，須避免洩漏敏感本機資訊。",
+        "遠端 Daemon 涉及主機權限、登入憑證與雲端資料；不得把遠端執行視為安全隔離。",
+        "自架僅參考部署，非官方支援的安裝；預設簡易密碼需更換。",
+        "未實測同步、遠端權限、工作區建立及 RPI 流程。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Task 與 Session 不同；文件同步只涵蓋支援的檔案操作，不是 Repo 或主機備份。 共享及本機工作區設定有合併規則，須避免洩漏敏感本機資訊。 遠端 Daemon 涉及主機權限、登入憑證與雲端資料；不得把遠端執行視為安全隔離。 自架僅參考部署，非官方支援的安裝；預設簡易密碼需更換。 未實測同步、遠端權限、工作區建立及 RPI 流程。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、tasks、workflow-phases、workspace-model、remote-daemons 文件及 run-session、git-diff-parsers 局部程式；未核對完整雲端權限及同步實作。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
