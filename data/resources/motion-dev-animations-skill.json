@@ -6,14 +6,14 @@
   "canonicalName": "motion-dev-animations-skill",
   "category": "08 UI & Design Engineering",
   "resourceType": "Skill",
-  "purpose": "教 Agent 如何使用 UI motion",
-  "recommendation": "適合讓 Agent 學會規劃與實作 UI motion。",
+  "purpose": "讓 Coding Agent 依照動畫需求選擇 Motion 的進場、手勢、滾動與版面變化做法，並建立測試規格。",
+  "recommendation": "適合已採 Motion 且有明確動畫需求的前端專案；不應將技能宣稱的效能目標或設定驗證當成真實量測。",
   "url": "https://github.com/199-biotechnologies/motion-dev-animations-skill",
-  "repo": "",
+  "repo": "199-biotechnologies/motion-dev-animations-skill",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ui-motion",
     "skills",
@@ -72,24 +72,36 @@
   ],
   "source": {
     "url": "https://github.com/199-biotechnologies/motion-dev-animations-skill",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Upstream GitHub README"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 SKILL.md、card-hover 示例、Python 設定驗證器及 JSON Schema；未執行或查 Motion 引擎。",
+    "type": "Upstream GitHub README",
+    "upstreamCommit": "3feedfb4dba8adae40fc9a5f9a23e3dda2121205",
+    "referenceUrls": [
+      "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/3feedfb4dba8adae40fc9a5f9a23e3dda2121205/README.md",
+      "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/3feedfb4dba8adae40fc9a5f9a23e3dda2121205/LICENSE",
+      "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/3feedfb4dba8adae40fc9a5f9a23e3dda2121205/SKILL.md",
+      "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/3feedfb4dba8adae40fc9a5f9a23e3dda2121205/examples/card-hover.md",
+      "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/3feedfb4dba8adae40fc9a5f9a23e3dda2121205/scripts/validate_motion_config.py",
+      "https://github.com/199-biotechnologies/motion-dev-animations-skill/blob/3feedfb4dba8adae40fc9a5f9a23e3dda2121205/schema/motion-config.schema.json"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "依原 URL 補齊空白 repo，維持相同 Canonical ID。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -98,8 +110,8 @@
     "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "已核對限定範圍技能源文件或元件程式與契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +124,356 @@
     "riskNotes": "展示的動態品質不是跨瀏覽器實測證據。；上游 Skill 指示不構成安裝或修改本機環境的授權。；未執行第三方程式、讀取機密或傳送憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "固定版本 SKILL.md、card-hover 示例、Python 設定驗證器及 JSON Schema；未執行或查 Motion 引擎。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 SKILL.md、card-hover 示例、Python 設定驗證器及 JSON Schema；未執行或查 Motion 引擎。；局部來源契約與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "教 Agent 如何使用 UI motion",
+      "source": "https://github.com/199-biotechnologies/motion-dev-animations-skill",
+      "reviewedAt": "2026-11-21"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "strategy",
+        "title": "讓 Agent 選擇適合的動畫",
+        "detail": "描述使用者目的及觸發，先比較 CSS 與 Motion。",
+        "capabilityRefs": [
+          "pattern"
+        ]
+      },
+      {
+        "id": "card",
+        "title": "規劃卡片互動與鍵盤回饋",
+        "detail": "使用語意按鈕及可見焦點，避免只在 hover 顯示重要資訊。",
+        "capabilityRefs": [
+          "hover",
+          "pattern"
+        ]
+      },
+      {
+        "id": "quality",
+        "title": "建立動畫設定與驗收分層",
+        "detail": "先檢查 JSON，另以真實瀏覽器量測效能及可及性。",
+        "capabilityRefs": [
+          "config-check"
+        ]
+      }
+    ],
+    "example": {
+      "id": "card-motion-review",
+      "title": "規劃作品集卡片動效驗收",
+      "input": "三張合成卡片、鍵盤與觸控需求、動態減量與效能目標。",
+      "process": "選動畫策略 → 審查示例 → 設計設定驗證 → 規劃實際瀏覽器驗收",
+      "output": "動畫設定與實測清單（未建置或執行）。",
+      "destination": "自有作品集的 Agent 任務及 PR 驗收。",
+      "note": "自訂設計示例；未執行第三方工具或產生真實成果。",
+      "useCaseRefs": [
+        "strategy",
+        "card",
+        "quality"
+      ],
+      "steps": [
+        {
+          "id": "pattern",
+          "title": "選擇動畫策略",
+          "capabilityRefs": [
+            "pattern"
+          ]
+        },
+        {
+          "id": "hover",
+          "title": "規劃卡片互動",
+          "capabilityRefs": [
+            "hover"
+          ]
+        },
+        {
+          "id": "config-check",
+          "title": "驗證動畫設定檔",
+          "capabilityRefs": [
+            "config-check"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置測試、相容性及權限須另行核准並驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先確認需要 Motion 而非簡單 CSS。",
+      "閱讀 Skill 與示例，區分指引、設定驗證和真實測量。",
+      "只有在核准環境才安裝依賴及執行，獨立測 FPS、鍵盤、觸控及偏好。"
+    ],
+    "limits": [
+      "展示的動態品質不是跨瀏覽器實測證據。",
+      "上游 Skill 指示不構成安裝或修改本機環境的授權。",
+      "未安裝技能、jsonschema 或 Motion，也未執行驗證器。",
+      "README 的 60/120fps 等為宣稱與目標；設定檔通過不能證明效能或可及性。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 Coding Agent 依照動畫需求選擇 Motion 的進場、手勢、滾動與版面變化做法，並建立測試規格。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Agent Skill / Python / JSON Schema"
+      },
+      {
+        "label": "授權",
+        "value": "MIT（技能 Repo）"
+      },
+      {
+        "label": "版本",
+        "value": "3feedfb4dba8adae40fc9a5f9a23e3dda2121205"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "選擇動畫策略",
+        "detail": "依觸發方式選擇動畫；輸入：框架、entrance/gesture/scroll/layout、效能與可及性需求；輸出：Clarify → Plan → Implement → Verify 的指引",
+        "source": "SKILL.md"
+      },
+      {
+        "title": "規劃卡片互動",
+        "detail": "需要清楚的 hover/tap/focus 回饋；輸入：卡片內容、spring、位移與焦點；輸出：範例中的 Motion props 與樣式",
+        "source": "examples/card-hover.md"
+      },
+      {
+        "title": "驗證動畫設定檔",
+        "detail": "需要機器可檢查的基本契約；輸入：JSON config、schema；type/component/props；輸出：validate_config 的 (is_valid,warnings) 與 CLI exit status",
+        "source": "scripts/validate_motion_config.py"
+      }
+    ],
+    "architecture": {
+      "summary": "選動畫策略 → 審查示例 → 設計設定驗證 → 規劃實際瀏覽器驗收",
+      "nodes": [
+        {
+          "title": "選擇動畫策略",
+          "detail": "框架、entrance/gesture/scroll/layout、效能與可及性需求 → Clarify → Plan → Implement → Verify 的指引",
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        {
+          "title": "規劃卡片互動",
+          "detail": "卡片內容、spring、位移與焦點 → 範例中的 Motion props 與樣式",
+          "files": [
+            "examples/card-hover.md"
+          ]
+        },
+        {
+          "title": "驗證動畫設定檔",
+          "detail": "JSON config、schema；type/component/props → validate_config 的 (is_valid,warnings) 與 CLI exit status",
+          "files": [
+            "scripts/validate_motion_config.py",
+            "schema/motion-config.schema.json"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "選擇動畫策略",
+        "rule": "僅為技能指引；allowed-tools 包含 Bash/Write/Edit，不構成執行授權。",
+        "source": "SKILL.md"
+      },
+      {
+        "name": "規劃卡片互動",
+        "rule": "範例含 boxShadow、borderColor 等非純 transform/opacity，且 div onClick 不保證鍵盤操作；不能宣稱 GPU-only 或無障礙。",
+        "source": "examples/card-hover.md"
+      },
+      {
+        "name": "驗證動畫設定檔",
+        "rule": "fps、bundleSize、gpuAccelerated 等來自設定宣告，不是量測；警告不使有效設定失敗。缺 accessibility 也可通過 schema。",
+        "source": "scripts/validate_motion_config.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "SKILL.md",
+          "examples/card-hover.md",
+          "scripts/validate_motion_config.py",
+          "schema/motion-config.schema.json"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先確認需要 Motion 而非簡單 CSS。 閱讀 Skill 與示例，區分指引、設定驗證和真實測量。 只有在核准環境才安裝依賴及執行，獨立測 FPS、鍵盤、觸控及偏好。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有作品集的 Agent 任務及 PR 驗收。；另驗證真實行為及失敗。",
+        "file": "SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "pattern",
+        "name": "選擇動畫策略",
+        "problem": "依觸發方式選擇動畫",
+        "input": "框架、entrance/gesture/scroll/layout、效能與可及性需求",
+        "output": "Clarify → Plan → Implement → Verify 的指引",
+        "source": "SKILL.md",
+        "sourceFiles": [
+          "SKILL.md"
+        ],
+        "symbols": [
+          "Workflow: Clarify → Plan → Implement → Verify",
+          "Animation Pattern Decision Tree"
+        ],
+        "gate": "僅為技能指引；allowed-tools 包含 Bash/Write/Edit，不構成執行授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "hover",
+        "name": "規劃卡片互動",
+        "problem": "需要清楚的 hover/tap/focus 回饋",
+        "input": "卡片內容、spring、位移與焦點",
+        "output": "範例中的 Motion props 與樣式",
+        "source": "examples/card-hover.md",
+        "sourceFiles": [
+          "examples/card-hover.md"
+        ],
+        "symbols": [
+          "HoverCard",
+          "InteractiveCard",
+          "AccessibleCard"
+        ],
+        "gate": "範例含 boxShadow、borderColor 等非純 transform/opacity，且 div onClick 不保證鍵盤操作；不能宣稱 GPU-only 或無障礙。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "config-check",
+        "name": "驗證動畫設定檔",
+        "problem": "需要機器可檢查的基本契約",
+        "input": "JSON config、schema；type/component/props",
+        "output": "validate_config 的 (is_valid,warnings) 與 CLI exit status",
+        "source": "scripts/validate_motion_config.py",
+        "sourceFiles": [
+          "scripts/validate_motion_config.py",
+          "schema/motion-config.schema.json"
+        ],
+        "symbols": [
+          "validate_config",
+          "load_schema",
+          "main",
+          "type/component/props"
+        ],
+        "gate": "fps、bundleSize、gpuAccelerated 等來自設定宣告，不是量測；警告不使有效設定失敗。缺 accessibility 也可通過 schema。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃作品集卡片動效驗收（設計示例）",
+      "problem": "三張合成卡片、鍵盤與觸控需求、動態減量與效能目標。",
+      "steps": [
+        {
+          "capability": "pattern",
+          "action": "選擇動畫策略"
+        },
+        {
+          "capability": "hover",
+          "action": "規劃卡片互動"
+        },
+        {
+          "capability": "config-check",
+          "action": "驗證動畫設定檔"
+        }
+      ],
+      "gate": "未執行；實際環境及結果需獨立驗收。",
+      "readerExampleRef": "card-motion-review"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "三張合成卡片、鍵盤與觸控需求、動態減量與效能目標。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選動畫策略 → 審查示例 → 設計設定驗證 → 規劃實際瀏覽器驗收",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有作品集的 Agent 任務及 PR 驗收。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "未安裝技能、jsonschema 或 Motion，也未執行驗證器。",
+        "README 的 60/120fps 等為宣稱與目標；設定檔通過不能證明效能或可及性。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "執行與相容性",
+        "severity": "高",
+        "issue": "未安裝技能、jsonschema 或 Motion，也未執行驗證器。 README 的 60/120fps 等為宣稱與目標；設定檔通過不能證明效能或可及性。",
+        "control": "固定版本、最小權限、獨立驗收實際功能及可及性。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 SKILL.md、card-hover 示例、Python 設定驗證器及 JSON Schema；未執行或查 Motion 引擎。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝或執行第三方工具。"
+      }
+    ]
   }
 }

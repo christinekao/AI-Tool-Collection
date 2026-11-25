@@ -6,14 +6,14 @@
   "canonicalName": "uiverse-io/galaxy",
   "category": "08 UI & Design Engineering",
   "resourceType": "Visual Components",
-  "purpose": "Glass / gradient / visual UI",
-  "recommendation": "適合尋找玻璃感、漸層與視覺元件靈感。",
+  "purpose": "從社群提供的按鈕、卡片、輸入框等 HTML/CSS 範例取得局部設計靈感，依自己的網站需求修改。",
+  "recommendation": "適合找單一元件的視覺做法，不宜直接把社群範例當作完整可上線元件庫。",
   "url": "https://github.com/uiverse-io/galaxy",
-  "repo": "",
+  "repo": "uiverse-io/galaxy",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "visual-ui",
     "glassmorphism",
@@ -69,24 +69,35 @@
   ],
   "source": {
     "url": "https://github.com/uiverse-io/galaxy",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Upstream GitHub README"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE 與 Buttons、Cards、Inputs 各一個實際 HTML 範例；不是全量元件稽核。",
+    "type": "Upstream GitHub README",
+    "upstreamCommit": "adbd2adde0a299a3956ea288fb444ec01891ca41",
+    "referenceUrls": [
+      "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/README.md",
+      "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/LICENSE",
+      "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Buttons/0x-Sarthak_hungry-penguin-30.html",
+      "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Cards/05akalan57_thin-sloth-31.html",
+      "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Inputs/0xnihilism_calm-baboon-55.html"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "依原 URL 補齊空白 repo，維持相同 Canonical ID。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -95,8 +106,8 @@
     "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "已核對限定範圍技能源文件或元件程式與契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -109,7 +120,352 @@
     "riskNotes": "社群元件品質不一致，不能直接視為生產等級。；大量套用第三方 CSS 可能造成衝突與效能問題。；未執行第三方程式、讀取機密或傳送憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "固定版本 README、LICENSE 與 Buttons、Cards、Inputs 各一個實際 HTML 範例；不是全量元件稽核。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE 與 Buttons、Cards、Inputs 各一個實際 HTML 範例；不是全量元件稽核。；局部來源契約與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Glass / gradient / visual UI",
+      "source": "https://github.com/uiverse-io/galaxy",
+      "reviewedAt": "2026-11-21"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "button",
+        "title": "研究網站主要操作按鈕",
+        "detail": "觀察文字與箭頭如何呈現回饋，再適配自己的操作。",
+        "capabilityRefs": [
+          "button-style"
+        ]
+      },
+      {
+        "id": "card",
+        "title": "研究卡片的邊框與層次",
+        "detail": "將裝飾與內容分開，避免固定尺寸破壞手機閱讀。",
+        "capabilityRefs": [
+          "card-style"
+        ]
+      },
+      {
+        "id": "input",
+        "title": "改良輸入框的視覺提示",
+        "detail": "參考焦點樣式但重新驗證標籤、鍵盤及動態減量。",
+        "capabilityRefs": [
+          "input-style"
+        ]
+      }
+    ],
+    "example": {
+      "id": "component-review",
+      "title": "規劃知識庫搜尋欄與卡片樣式",
+      "input": "自有搜尋欄、結果卡片與操作按鈕，搭配合成資料。",
+      "process": "選三種範例 → 抽取視覺做法 → 修正語意及樣式 → 獨立驗收",
+      "output": "元件設計規格、來源與測試清單（未建置）。",
+      "destination": "自有知識庫前端；不直接複製整個目錄。",
+      "note": "自訂設計示例；未執行第三方工具或產生真實成果。",
+      "useCaseRefs": [
+        "button",
+        "card",
+        "input"
+      ],
+      "steps": [
+        {
+          "id": "button-style",
+          "title": "按鈕視覺回饋",
+          "capabilityRefs": [
+            "button-style"
+          ]
+        },
+        {
+          "id": "card-style",
+          "title": "卡片裝飾層",
+          "capabilityRefs": [
+            "card-style"
+          ]
+        },
+        {
+          "id": "input-style",
+          "title": "輸入欄樣式",
+          "capabilityRefs": [
+            "input-style"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置測試、相容性及權限須另行核准並驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先選單一實際需要的元件，閱讀固定版本 HTML。",
+      "保留適用 MIT 聲明及作者來源，檢查全域 CSS 衝突。",
+      "核准後在獨立頁面測手機、鍵盤、表單及減少動態。"
+    ],
+    "limits": [
+      "社群元件品質不一致，不能直接視為生產等級。",
+      "大量套用第三方 CSS 可能造成衝突與效能問題。",
+      "僅查三個社群範例，未建置或實測其餘元件。",
+      "MIT 授權聲明應保留；作者署名建議與授權通知義務分開。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "從社群提供的按鈕、卡片、輸入框等 HTML/CSS 範例取得局部設計靈感，依自己的網站需求修改。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "HTML / CSS / Tailwind"
+      },
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "adbd2adde0a299a3956ea288fb444ec01891ca41"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "按鈕視覺回饋",
+        "detail": "需要有辨識度的主要操作；輸入：button、文字、SVG、hover/active CSS；輸出：具箭頭及按壓效果的按鈕外觀",
+        "source": "Buttons/0x-Sarthak_hungry-penguin-30.html"
+      },
+      {
+        "title": "卡片裝飾層",
+        "detail": "需要以邊框及背景增加層次；輸入：Tailwind classes、relative/absolute layers；輸出：固定尺寸卡片與模糊裝飾層",
+        "source": "Cards/05akalan57_thin-sloth-31.html"
+      },
+      {
+        "title": "輸入欄樣式",
+        "detail": "希望凸顯輸入狀態；輸入：input、label、focus CSS；輸出：粗框與 focus 動效",
+        "source": "Inputs/0xnihilism_calm-baboon-55.html"
+      }
+    ],
+    "architecture": {
+      "summary": "選三種範例 → 抽取視覺做法 → 修正語意及樣式 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "按鈕視覺回饋",
+          "detail": "button、文字、SVG、hover/active CSS → 具箭頭及按壓效果的按鈕外觀",
+          "files": [
+            "Buttons/0x-Sarthak_hungry-penguin-30.html"
+          ]
+        },
+        {
+          "title": "卡片裝飾層",
+          "detail": "Tailwind classes、relative/absolute layers → 固定尺寸卡片與模糊裝飾層",
+          "files": [
+            "Cards/05akalan57_thin-sloth-31.html"
+          ]
+        },
+        {
+          "title": "輸入欄樣式",
+          "detail": "input、label、focus CSS → 粗框與 focus 動效",
+          "files": [
+            "Inputs/0xnihilism_calm-baboon-55.html"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "按鈕視覺回饋",
+        "rule": "範例未指定 type、無獨立 focus-visible 或 reduced-motion 規則；應明確定義表單行為、焦點及動態替代。",
+        "source": "Buttons/0x-Sarthak_hungry-penguin-30.html"
+      },
+      {
+        "name": "卡片裝飾層",
+        "rule": "固定 w-48/h-64 與絕對定位不保證響應式；檢查長內容、對比及裝飾層。",
+        "source": "Cards/05akalan57_thin-sloth-31.html"
+      },
+      {
+        "name": "輸入欄樣式",
+        "rule": "label 未以 for/id 關聯，outline 被移除且 focus 有無限動畫；須補標籤關聯、焦點、減少動態與表單驗證。",
+        "source": "Inputs/0xnihilism_calm-baboon-55.html"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "Buttons/0x-Sarthak_hungry-penguin-30.html",
+          "Cards/05akalan57_thin-sloth-31.html",
+          "Inputs/0xnihilism_calm-baboon-55.html"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先選單一實際需要的元件，閱讀固定版本 HTML。 保留適用 MIT 聲明及作者來源，檢查全域 CSS 衝突。 核准後在獨立頁面測手機、鍵盤、表單及減少動態。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫前端；不直接複製整個目錄。；另驗證真實行為及失敗。",
+        "file": "Buttons/0x-Sarthak_hungry-penguin-30.html"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "button-style",
+        "name": "按鈕視覺回饋",
+        "problem": "需要有辨識度的主要操作",
+        "input": "button、文字、SVG、hover/active CSS",
+        "output": "具箭頭及按壓效果的按鈕外觀",
+        "source": "Buttons/0x-Sarthak_hungry-penguin-30.html",
+        "sourceFiles": [
+          "Buttons/0x-Sarthak_hungry-penguin-30.html"
+        ],
+        "symbols": [
+          ".cta",
+          ".cta:hover:before",
+          ".cta:active"
+        ],
+        "gate": "範例未指定 type、無獨立 focus-visible 或 reduced-motion 規則；應明確定義表單行為、焦點及動態替代。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "card-style",
+        "name": "卡片裝飾層",
+        "problem": "需要以邊框及背景增加層次",
+        "input": "Tailwind classes、relative/absolute layers",
+        "output": "固定尺寸卡片與模糊裝飾層",
+        "source": "Cards/05akalan57_thin-sloth-31.html",
+        "sourceFiles": [
+          "Cards/05akalan57_thin-sloth-31.html"
+        ],
+        "symbols": [
+          "relative",
+          "absolute",
+          "blur-[50px]"
+        ],
+        "gate": "固定 w-48/h-64 與絕對定位不保證響應式；檢查長內容、對比及裝飾層。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "input-style",
+        "name": "輸入欄樣式",
+        "problem": "希望凸顯輸入狀態",
+        "input": "input、label、focus CSS",
+        "output": "粗框與 focus 動效",
+        "source": "Inputs/0xnihilism_calm-baboon-55.html",
+        "sourceFiles": [
+          "Inputs/0xnihilism_calm-baboon-55.html"
+        ],
+        "symbols": [
+          ".brutalist-input",
+          ".brutalist-label",
+          ".brutalist-input:focus"
+        ],
+        "gate": "label 未以 for/id 關聯，outline 被移除且 focus 有無限動畫；須補標籤關聯、焦點、減少動態與表單驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃知識庫搜尋欄與卡片樣式（設計示例）",
+      "problem": "自有搜尋欄、結果卡片與操作按鈕，搭配合成資料。",
+      "steps": [
+        {
+          "capability": "button-style",
+          "action": "按鈕視覺回饋"
+        },
+        {
+          "capability": "card-style",
+          "action": "卡片裝飾層"
+        },
+        {
+          "capability": "input-style",
+          "action": "輸入欄樣式"
+        }
+      ],
+      "gate": "未執行；實際環境及結果需獨立驗收。",
+      "readerExampleRef": "component-review"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有搜尋欄、結果卡片與操作按鈕，搭配合成資料。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選三種範例 → 抽取視覺做法 → 修正語意及樣式 → 獨立驗收",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有知識庫前端；不直接複製整個目錄。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "僅查三個社群範例，未建置或實測其餘元件。",
+        "MIT 授權聲明應保留；作者署名建議與授權通知義務分開。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "執行與相容性",
+        "severity": "高",
+        "issue": "僅查三個社群範例，未建置或實測其餘元件。 MIT 授權聲明應保留；作者署名建議與授權通知義務分開。",
+        "control": "固定版本、最小權限、獨立驗收實際功能及可及性。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE 與 Buttons、Cards、Inputs 各一個實際 HTML 範例；不是全量元件稽核。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝或執行第三方工具。"
+      }
+    ]
   }
 }
