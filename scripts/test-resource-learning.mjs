@@ -645,3 +645,34 @@ test('Dual-layer batch 14: animation, approval UI and skill source contracts',()
  assert.match(load('anime-js').repoGuide.capabilities.find(c=>c.id==='scope-revert').gate,/退回 document/);
  assert.match(load('gsap-skills').readerGuide.limits.join(' '),/非 GSAP 引擎/);
 });
+
+test('Dual-layer batch 15: community examples and web guidance validation boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["uiverse-io-galaxy","規劃知識庫搜尋欄與卡片樣式"],["motion-dev-animations-skill","規劃作品集卡片動效驗收"],["googlechrome-modern-web-guidance","規劃知識庫的原生響應式導覽"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('motion-dev-animations-skill').repoGuide.capabilities.find(c=>c.id==='config-check').gate,/不是量測/);
+ assert.match(load('uiverse-io-galaxy').repoGuide.capabilities.find(c=>c.id==='input-style').gate,/for\/id/);
+ assert.match(load('googlechrome-modern-web-guidance').repoGuide.capabilities.find(c=>c.id==='legacy-review').gate,/20%/);
+});
