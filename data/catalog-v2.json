@@ -9,14 +9,14 @@
       "canonicalName": "abi/screenshot-to-code",
       "category": "08 UI & Design Engineering",
       "resourceType": "Visual → Code",
-      "purpose": "把畫面截圖、Figma 版型或網站操作錄影轉成可修改的 HTML、React、Vue 等前端程式碼，供原型重建與 UI 實作參考。",
-      "recommendation": "適合快速將參考畫面轉為前端初稿；先選輸出框架、準備模型金鑰並比較產生的檔案，再人工校正互動、無障礙、響應式與實際資料流。",
+      "purpose": "把有權使用的介面截圖或畫面錄影轉成可修改的前端程式碼，快速建立原型，再由開發者補上真實功能與測試。",
+      "recommendation": "適合從視覺參考重建 UI 原型；不適合把畫面相似度當作業務功能或安全性已完成。",
       "url": "https://github.com/abi/screenshot-to-code",
       "repo": "abi/screenshot-to-code",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-25",
       "tags": [
         "screenshot-to-code",
         "react",
@@ -72,25 +72,34 @@
       "source": {
         "url": "https://github.com/abi/screenshot-to-code",
         "readmeUrl": "https://github.com/abi/screenshot-to-code/blob/main/README.md",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream README / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。",
+        "upstreamCommit": "f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30",
+        "referenceUrls": [
+          "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/README.md",
+          "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/LICENSE",
+          "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/backend/routes/generate_code.py",
+          "https://github.com/abi/screenshot-to-code/blob/f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30/frontend/src/generateCode.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
-          "url",
-          "source.url"
+          "source.url",
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
-            "url"
+            "title"
           ],
-          "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+          "reason": "既有 ID 與上游 repo 一致；不新增實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -99,8 +108,8 @@
         "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。；非完整重建。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -110,11 +119,362 @@
           "decision": "reused",
           "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
         },
-        "riskNotes": "產生的程式碼只是候選稿，互動、版權素材、可用性、語意與效能需自行驗收。；模型及影像供應商可能產生額外費用；輸入的截圖與錄影可能包含敏感資料。；未執行第三方程式、未取用憑證。",
+        "riskNotes": "產生的程式碼只是候選稿，互動、版權素材、可用性、語意與效能需自行驗收。；模型及影像供應商可能產生額外費用；輸入的截圖與錄影可能包含敏感資料。；本機部署仍可能將素材與提示送至模型服務；不能推定離線。；WebSocket 正常結束或生成程式不等於功能驗收。；託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+          "evidence": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。；未執行第三方工具。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。；局部用途與技能源文件雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "把畫面截圖、Figma 版型或網站操作錄影轉成可修改的 HTML、React、Vue 等前端程式碼，供原型重建與 UI 實作參考。",
+          "source": "https://github.com/abi/screenshot-to-code",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合快速將參考畫面轉為前端初稿；先選輸出框架、準備模型金鑰並比較產生的檔案，再人工校正互動、無障礙、響應式與實際資料流。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-request",
+            "title": "選擇來源素材及輸出技術",
+            "detail": "參考畫面需轉成符合專案技術的原型。 經參數驗證的生成請求。",
+            "capabilityRefs": [
+              "request"
+            ]
+          },
+          {
+            "id": "use-generate",
+            "title": "生成前端程式候選",
+            "detail": "同一畫面可用不同模型或技術產生候選。 生成 pipeline 的程式候選或錯誤。",
+            "capabilityRefs": [
+              "generate"
+            ]
+          },
+          {
+            "id": "use-events",
+            "title": "呈現生成進度及錯誤",
+            "detail": "等待生成時需區分進度、候選失敗與取消。 按 variantIndex 更新畫面及完成／取消狀態。",
+            "capabilityRefs": [
+              "events"
+            ]
+          }
+        ],
+        "example": {
+          "id": "abi-screenshot-to-code-example",
+          "title": "規劃履歷管理介面截圖的前端原型重建",
+          "input": "自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+          "process": "選擇來源素材及輸出技術 → 生成前端程式候選 → 呈現生成進度及錯誤 → 獨立驗收",
+          "output": "前端程式碼候選的生成規格與功能驗收清單，尚未生成真實程式。",
+          "destination": "自有履歷管理產品的原型重建分支與獨立功能及安全測試流程。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-request",
+            "use-generate",
+            "use-events"
+          ],
+          "steps": [
+            {
+              "id": "request",
+              "title": "選擇來源素材及輸出技術",
+              "capabilityRefs": [
+                "request"
+              ]
+            },
+            {
+              "id": "generate",
+              "title": "生成前端程式候選",
+              "capabilityRefs": [
+                "generate"
+              ]
+            },
+            {
+              "id": "events",
+              "title": "呈現生成進度及錯誤",
+              "capabilityRefs": [
+                "events"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "實際環境、資料、權限、整合及成果測試需另行核准與驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+          "依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。",
+          "確認授權、環境、資料及權限，再另行執行並核對實際輸出。"
+        ],
+        "limits": [
+          "產生的程式碼只是候選稿，互動、版權素材、可用性、語意與效能需自行驗收。",
+          "模型及影像供應商可能產生額外費用；輸入的截圖與錄影可能包含敏感資料。",
+          "本機部署仍可能將素材與提示送至模型服務；不能推定離線。",
+          "WebSocket 正常結束或生成程式不等於功能驗收。",
+          "託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把有權使用的介面截圖或畫面錄影轉成可修改的前端程式碼，快速建立原型，再由開發者補上真實功能與測試。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（根目錄 LICENSE；模型、圖片及獨立託管服務另計）"
+          },
+          {
+            "label": "版本",
+            "value": "f2e5bbdd1dd5d93c259548d9bccf54e2a5f06a30"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "選擇來源素材及輸出技術",
+            "detail": "參考畫面需轉成符合專案技術的原型。；輸入：截圖或錄影、inputMode、generatedCodeConfig；輸出：經參數驗證的生成請求",
+            "source": "backend/routes/generate_code.py"
+          },
+          {
+            "title": "生成前端程式候選",
+            "detail": "同一畫面可用不同模型或技術產生候選。；輸入：已驗證的輸入、模型及提示；輸出：生成 pipeline 的程式候選或錯誤",
+            "source": "backend/routes/generate_code.py"
+          },
+          {
+            "title": "呈現生成進度及錯誤",
+            "detail": "等待生成時需區分進度、候選失敗與取消。；輸入：/generate-code 的 WebSocket 事件；輸出：按 variantIndex 更新畫面及完成／取消狀態",
+            "source": "frontend/src/generateCode.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "選擇來源素材及輸出技術 → 生成前端程式候選 → 呈現生成進度及錯誤 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "選擇來源素材及輸出技術",
+              "detail": "截圖或錄影、inputMode、generatedCodeConfig → 經參數驗證的生成請求",
+              "files": [
+                "backend/routes/generate_code.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "生成前端程式候選",
+              "detail": "已驗證的輸入、模型及提示 → 生成 pipeline 的程式候選或錯誤",
+              "files": [
+                "backend/routes/generate_code.py"
+              ]
+            },
+            {
+              "title": "呈現生成進度及錯誤",
+              "detail": "/generate-code 的 WebSocket 事件 → 按 variantIndex 更新畫面及完成／取消狀態",
+              "files": [
+                "frontend/src/generateCode.ts",
+                "backend/routes/generate_code.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "選擇來源素材及輸出技術",
+            "rule": "至少需可用模型憑證；外部素材傳輸與模型成本先核准，未查完整輸入驗證及素材處理。",
+            "source": "backend/routes/generate_code.py"
+          },
+          {
+            "name": "生成前端程式候選",
+            "rule": "生成程式是待審候選，未查全部模型 adapter、工具副作用與執行隔離。",
+            "source": "backend/routes/generate_code.py"
+          },
+          {
+            "name": "呈現生成進度及錯誤",
+            "rule": "正常 close code 1000 不代表功能驗收；逐候選檢查程式、可及性、資料連接與安全。",
+            "source": "frontend/src/generateCode.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "backend/routes/generate_code.py",
+              "frontend/src/generateCode.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。 依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。 確認授權、環境、資料及權限，再另行執行並核對實際輸出。",
+            "files": [
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有履歷管理產品的原型重建分支與獨立功能及安全測試流程。；另驗證實際行為及限制。",
+            "file": "backend/routes/generate_code.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "request",
+            "name": "選擇來源素材及輸出技術",
+            "problem": "參考畫面需轉成符合專案技術的原型。",
+            "input": "截圖或錄影、inputMode、generatedCodeConfig",
+            "output": "經參數驗證的生成請求",
+            "source": "backend/routes/generate_code.py",
+            "sourceFiles": [
+              "backend/routes/generate_code.py",
+              "README.md"
+            ],
+            "symbols": [
+              "ParameterExtractionStage",
+              "ExtractedParams",
+              "Stack",
+              "InputMode"
+            ],
+            "gate": "至少需可用模型憑證；外部素材傳輸與模型成本先核准，未查完整輸入驗證及素材處理。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "generate",
+            "name": "生成前端程式候選",
+            "problem": "同一畫面可用不同模型或技術產生候選。",
+            "input": "已驗證的輸入、模型及提示",
+            "output": "生成 pipeline 的程式候選或錯誤",
+            "source": "backend/routes/generate_code.py",
+            "sourceFiles": [
+              "backend/routes/generate_code.py"
+            ],
+            "symbols": [
+              "Pipeline",
+              "PromptCreationMiddleware",
+              "CodeGenerationMiddleware",
+              "PostProcessingMiddleware",
+              "stream_code"
+            ],
+            "gate": "生成程式是待審候選，未查全部模型 adapter、工具副作用與執行隔離。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "events",
+            "name": "呈現生成進度及錯誤",
+            "problem": "等待生成時需區分進度、候選失敗與取消。",
+            "input": "/generate-code 的 WebSocket 事件",
+            "output": "按 variantIndex 更新畫面及完成／取消狀態",
+            "source": "frontend/src/generateCode.ts",
+            "sourceFiles": [
+              "frontend/src/generateCode.ts",
+              "backend/routes/generate_code.py"
+            ],
+            "symbols": [
+              "generateCode",
+              "WebSocketResponse",
+              "variantError",
+              "setCode"
+            ],
+            "gate": "正常 close code 1000 不代表功能驗收；逐候選檢查程式、可及性、資料連接與安全。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃履歷管理介面截圖的前端原型重建（設計示例）",
+          "problem": "自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+          "steps": [
+            {
+              "capability": "request",
+              "action": "選擇來源素材及輸出技術"
+            },
+            {
+              "capability": "generate",
+              "action": "生成前端程式候選"
+            },
+            {
+              "capability": "events",
+              "action": "呈現生成進度及錯誤"
+            }
+          ],
+          "gate": "未執行；實際環境與成果須獨立驗收。",
+          "readerExampleRef": "abi-screenshot-to-code-example"
+        },
+        "rebuild": {
+          "verdict": "可依局部文件與技術契約規劃驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自行設計且有權使用的介面截圖、合成職缺資料及目標 React 技術規格。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "選擇來源素材及輸出技術 → 生成前端程式候選 → 呈現生成進度及錯誤 → 獨立驗收",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有履歷管理產品的原型重建分支與獨立功能及安全測試流程。",
+              "deliverable": "實際成果與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "本機部署仍可能將素材與提示送至模型服務；不能推定離線。",
+            "WebSocket 正常結束或生成程式不等於功能驗收。",
+            "託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "本機部署仍可能將素材與提示送至模型服務；不能推定離線。 WebSocket 正常結束或生成程式不等於功能驗收。 託管服務由 README 所述獨立業者經營；模型費用、權限、素材及預覽安全另查。",
+            "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、backend/routes/generate_code.py 的 pipeline 與參數驗證、frontend/src/generateCode.ts 的 WebSocket 事件；未查全部模型 adapter、生成工具及預覽隔離。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
@@ -17539,14 +17899,14 @@
       "canonicalName": "Electron",
       "category": "12 Developer Tools",
       "resourceType": "Cross-platform Desktop Application Runtime / Web-to-Desktop Shell",
-      "purpose": "讓既有 JavaScript、HTML、CSS 前端技術直接用來建立 macOS、Windows、Linux 桌面應用。Electron 把 Chromium renderer 與 Node.js-powered main process 組合在同一個 runtime，由 main process 管理視窗、生命週期與 native desktop APIs，renderer 負責 Web UI，並透過 preload、contextBridge 與 IPC 建立受控的權限橋接。",
-      "recommendation": "適合已有 Web 技術棧且需要桌面視窗、檔案互動或原生系統整合的專案；需衡量執行體積、更新與安全維護成本。",
+      "purpose": "把既有的 HTML、CSS、JavaScript 網頁做成可在 macOS、Windows、Linux 開啟的桌面應用，並讓介面透過受控方式使用本機功能。",
+      "recommendation": "適合已有 Web UI 且需要桌面視窗或本機檔案功能；若純網站即可滿足需求，不必增加桌面 runtime。",
       "url": "https://github.com/electron/electron",
       "repo": "electron/electron",
       "notes": "Official repository and docs confirmed. Electron is built on Chromium and Node.js and ships cross-platform binaries for macOS, Windows and Linux. Its architecture separates privileged main process from renderer processes; preload/contextBridge/IPC should be used as a narrow capability boundary. Security guidance recommends disabling Node integration for remote content, keeping context isolation and sandboxing enabled, validating IPC senders and not exposing privileged Electron APIs to untrusted content. MIT licensed.",
       "status": "active",
       "addedAt": "2026-09-27",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "desktop-app",
         "cross-platform",
@@ -17614,24 +17974,34 @@
         "url": "https://github.com/electron/electron",
         "readmeUrl": "https://github.com/electron/electron/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。",
+        "upstreamCommit": "9ea8e7da48401110ddebcc469ddd2312f3e1b021",
+        "referenceUrls": [
+          "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/LICENSE",
+          "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/process-model.md",
+          "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/context-isolation.md",
+          "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/ipc.md",
+          "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/security.md"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
-            "repo"
+            "title"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "既有 ID 與上游 repo 一致；不新增實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -17640,8 +18010,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain software，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。；非完整重建。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -17651,11 +18021,358 @@
           "decision": "reused",
           "reason": "保留已存在的 Concept 引用，沒有因字串相似而擴充關聯。"
         },
-        "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
+        "riskNotes": "支援的作業系統最低版本會隨 Electron 版本改變。；不能讓不受信任的網頁直接取得高權限 Node.js 能力；須驗證隔離與權限。；Electron 不等同普通瀏覽器；本機 API 權限擴大風險。；contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。；未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。；未執行第三方工具。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。；局部用途與技能源文件雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "讓既有 JavaScript、HTML、CSS 前端技術直接用來建立 macOS、Windows、Linux 桌面應用。Electron 把 Chromium renderer 與 Node.js-powered main process 組合在同一個 runtime，由 main process 管理視窗、生命週期與 native desktop APIs，renderer 負責 Web UI，並透過 preload、contextBridge 與 IPC 建立受控的權限橋接。",
+          "source": "https://github.com/electron/electron",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合已有 Web 技術棧且需要桌面視窗、檔案互動或原生系統整合的專案；需衡量執行體積、更新與安全維護成本。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-window",
+            "title": "將網頁包成桌面視窗",
+            "detail": "現有網站需要獨立桌面視窗及生命週期。 main 與 renderer 分工及視窗規格。",
+            "capabilityRefs": [
+              "window"
+            ]
+          },
+          {
+            "id": "use-bridge",
+            "title": "讓介面受控呼叫本機功能",
+            "detail": "畫面需要讀取本機資料，但不應取得所有 Node.js 權限。 contextBridge 暴露的窄介面。",
+            "capabilityRefs": [
+              "bridge"
+            ]
+          },
+          {
+            "id": "use-ipc",
+            "title": "核對跨程序請求與權限",
+            "detail": "讀取或修改本機檔案需明確處理權限與失敗。 受控 main handler 與回傳契約。",
+            "capabilityRefs": [
+              "ipc"
+            ]
+          }
+        ],
+        "example": {
+          "id": "electron-example",
+          "title": "規劃離線個人知識庫的桌面應用",
+          "input": "既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+          "process": "將網頁包成桌面視窗 → 讓介面受控呼叫本機功能 → 核對跨程序請求與權限 → 獨立驗收",
+          "output": "桌面視窗、受限檔案操作介面及權限驗收規格，尚未製作應用。",
+          "destination": "自有個人知識庫桌面版的工程規格及跨平台安全驗收流程。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-window",
+            "use-bridge",
+            "use-ipc"
+          ],
+          "steps": [
+            {
+              "id": "window",
+              "title": "將網頁包成桌面視窗",
+              "capabilityRefs": [
+                "window"
+              ]
+            },
+            {
+              "id": "bridge",
+              "title": "讓介面受控呼叫本機功能",
+              "capabilityRefs": [
+                "bridge"
+              ]
+            },
+            {
+              "id": "ipc",
+              "title": "核對跨程序請求與權限",
+              "capabilityRefs": [
+                "ipc"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "實際環境、資料、權限、整合及成果測試需另行核准與驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+          "依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。",
+          "確認授權、環境、資料及權限，再另行執行並核對實際輸出。"
+        ],
+        "limits": [
+          "支援的作業系統最低版本會隨 Electron 版本改變。",
+          "不能讓不受信任的網頁直接取得高權限 Node.js 能力；須驗證隔離與權限。",
+          "Electron 不等同普通瀏覽器；本機 API 權限擴大風險。",
+          "contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。",
+          "未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把既有的 HTML、CSS、JavaScript 網頁做成可在 macOS、Windows、Linux 開啟的桌面應用，並讓介面透過受控方式使用本機功能。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（根目錄 LICENSE；Chromium、Node.js 與其他相依元件另查）"
+          },
+          {
+            "label": "版本",
+            "value": "9ea8e7da48401110ddebcc469ddd2312f3e1b021"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "將網頁包成桌面視窗",
+            "detail": "現有網站需要獨立桌面視窗及生命週期。；輸入：本機 Web UI、視窗設定；輸出：main 與 renderer 分工及視窗規格",
+            "source": "docs/tutorial/process-model.md"
+          },
+          {
+            "title": "讓介面受控呼叫本機功能",
+            "detail": "畫面需要讀取本機資料，但不應取得所有 Node.js 權限。；輸入：preload 腳本、限定方法與輸入；輸出：contextBridge 暴露的窄介面",
+            "source": "docs/tutorial/context-isolation.md"
+          },
+          {
+            "title": "核對跨程序請求與權限",
+            "detail": "讀取或修改本機檔案需明確處理權限與失敗。；輸入：IPC channel、請求資料與來源；輸出：受控 main handler 與回傳契約",
+            "source": "docs/tutorial/ipc.md"
+          }
+        ],
+        "architecture": {
+          "summary": "將網頁包成桌面視窗 → 讓介面受控呼叫本機功能 → 核對跨程序請求與權限 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "將網頁包成桌面視窗",
+              "detail": "本機 Web UI、視窗設定 → main 與 renderer 分工及視窗規格",
+              "files": [
+                "docs/tutorial/process-model.md"
+              ]
+            },
+            {
+              "title": "讓介面受控呼叫本機功能",
+              "detail": "preload 腳本、限定方法與輸入 → contextBridge 暴露的窄介面",
+              "files": [
+                "docs/tutorial/context-isolation.md",
+                "docs/tutorial/ipc.md"
+              ]
+            },
+            {
+              "title": "核對跨程序請求與權限",
+              "detail": "IPC channel、請求資料與來源 → 受控 main handler 與回傳契約",
+              "files": [
+                "docs/tutorial/ipc.md",
+                "docs/tutorial/security.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "將網頁包成桌面視窗",
+            "rule": "main 可使用 Node.js；不要把桌面權限交給不可信任的 renderer。",
+            "source": "docs/tutorial/process-model.md"
+          },
+          {
+            "name": "讓介面受控呼叫本機功能",
+            "rule": "contextIsolation 不等於 IPC 自動安全；禁止直接暴露 ipcRenderer.send，逐方法限制參數。",
+            "source": "docs/tutorial/context-isolation.md"
+          },
+          {
+            "name": "核對跨程序請求與權限",
+            "rule": "核對 sender 與輸入、限制檔案存取範圍；本機讀寫為自訂應用邏輯，非框架自動授權。",
+            "source": "docs/tutorial/ipc.md"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。",
+            "files": [
+              "LICENSE",
+              "docs/tutorial/process-model.md",
+              "docs/tutorial/context-isolation.md",
+              "docs/tutorial/ipc.md",
+              "docs/tutorial/security.md"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。 依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。 確認授權、環境、資料及權限，再另行執行並核對實際輸出。",
+            "files": [
+              "docs/tutorial/process-model.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有個人知識庫桌面版的工程規格及跨平台安全驗收流程。；另驗證實際行為及限制。",
+            "file": "docs/tutorial/process-model.md"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "window",
+            "name": "將網頁包成桌面視窗",
+            "problem": "現有網站需要獨立桌面視窗及生命週期。",
+            "input": "本機 Web UI、視窗設定",
+            "output": "main 與 renderer 分工及視窗規格",
+            "source": "docs/tutorial/process-model.md",
+            "sourceFiles": [
+              "docs/tutorial/process-model.md"
+            ],
+            "symbols": [
+              "BrowserWindow（文件 API）",
+              "webContents（文件 API）",
+              "The main process（文件章節）"
+            ],
+            "gate": "main 可使用 Node.js；不要把桌面權限交給不可信任的 renderer。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "bridge",
+            "name": "讓介面受控呼叫本機功能",
+            "problem": "畫面需要讀取本機資料，但不應取得所有 Node.js 權限。",
+            "input": "preload 腳本、限定方法與輸入",
+            "output": "contextBridge 暴露的窄介面",
+            "source": "docs/tutorial/context-isolation.md",
+            "sourceFiles": [
+              "docs/tutorial/context-isolation.md",
+              "docs/tutorial/ipc.md"
+            ],
+            "symbols": [
+              "contextBridge.exposeInMainWorld（文件 API）",
+              "Security considerations（文件章節）"
+            ],
+            "gate": "contextIsolation 不等於 IPC 自動安全；禁止直接暴露 ipcRenderer.send，逐方法限制參數。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "ipc",
+            "name": "核對跨程序請求與權限",
+            "problem": "讀取或修改本機檔案需明確處理權限與失敗。",
+            "input": "IPC channel、請求資料與來源",
+            "output": "受控 main handler 與回傳契約",
+            "source": "docs/tutorial/ipc.md",
+            "sourceFiles": [
+              "docs/tutorial/ipc.md",
+              "docs/tutorial/security.md"
+            ],
+            "symbols": [
+              "ipcRenderer.invoke（文件 API）",
+              "ipcMain.handle（文件 API）",
+              "IPC channels（文件章節）"
+            ],
+            "gate": "核對 sender 與輸入、限制檔案存取範圍；本機讀寫為自訂應用邏輯，非框架自動授權。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃離線個人知識庫的桌面應用（設計示例）",
+          "problem": "既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+          "steps": [
+            {
+              "capability": "window",
+              "action": "將網頁包成桌面視窗"
+            },
+            {
+              "capability": "bridge",
+              "action": "讓介面受控呼叫本機功能"
+            },
+            {
+              "capability": "ipc",
+              "action": "核對跨程序請求與權限"
+            }
+          ],
+          "gate": "未執行；實際環境與成果須獨立驗收。",
+          "readerExampleRef": "electron-example"
+        },
+        "rebuild": {
+          "verdict": "可依局部文件與技術契約規劃驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "將網頁包成桌面視窗 → 讓介面受控呼叫本機功能 → 核對跨程序請求與權限 → 獨立驗收",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有個人知識庫桌面版的工程規格及跨平台安全驗收流程。",
+              "deliverable": "實際成果與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "Electron 不等同普通瀏覽器；本機 API 權限擴大風險。",
+            "contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。",
+            "未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "Electron 不等同普通瀏覽器；本機 API 權限擴大風險。 contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。 未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。",
+            "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
@@ -41627,14 +42344,14 @@
       "canonicalName": "oh-my-mermaid/oh-my-mermaid",
       "category": "12 Developer Tools",
       "resourceType": "MIT open-source Node.js CLI, architecture-documentation viewer and cross-agent skills",
-      "purpose": "讓 Coding Agent 分析程式碼並將架構變成可展開的 Mermaid 圖表及 Markdown 說明。透過多種 perspective（overall architecture、request lifecycle、data flow、dependency map、external integrations 等）建立 `.omm/` 階層文件，節點可遞迴鑽取；本機 viewer 依資料夾結構呈現，並可選擇用 OAuth 登入後將架構文件推送到 ohmymermaid.com 雲端。",
-      "recommendation": "適合為現有程式庫建立 Architecture Overview、資料流、外部整合、路由／模組依賴的導覽文件，供新接手開發者或跨 Session Coding Agent 理解系統。先在非敏感 Repo 建立 `.omm/`，用真實 Source Code／路徑驗證每個圖節點，因 AI 生成的架構文件可能有誤。使用 `/omm-push` 前確認是否有機密程式碼、內部 Host、資料表或敏感架構，不應在未經明確授權下上傳外部雲端；建議依不同 Harness 與權限審查 Skills 及自動安裝行為。",
+      "purpose": "把程式碼的架構、資料流和系統依賴整理成可逐層展開的圖表與說明，方便理解陌生專案或進行技術交接。",
+      "recommendation": "適合需要讀懂現有 Codebase 或維護架構文件的人；不適合把自動生成的圖直接當成實際系統行為證據。",
       "url": "https://github.com/oh-my-mermaid/oh-my-mermaid",
       "repo": "oh-my-mermaid/oh-my-mermaid",
       "notes": "2026-10-24 核對官方 GitHub Repository Metadata、README.md、MIT LICENSE、package.json、.claude-plugin/plugin.json、skills/omm-scan/SKILL.md、skills/omm-view/SKILL.md、skills/omm-push/SKILL.md 與 docs/ROADMAP.md。Package 版本 0.2.0，Node.js >=18，npm CLI 為 `omm`。官方 README 記載 `npm install -g oh-my-mermaid && omm setup` 可註冊 Claude Code、Codex、Cursor、OpenClaw、Antigravity 等 Coding Tools，`/omm-scan` 會讀取程式庫、使用 `omm write` 建立 `.omm/<perspective>/diagram.mmd`、description/context/constraint/concern/todo/note 等資料；`/omm-view` 以 `omm list` 確認文件後用本機 viewer 瀏覽（預設 http://localhost:3000），該 viewer 僅顯示不改動 `.omm/`；`/omm-push` 透過 login（GitHub OAuth）、link、push 將 `.omm/` 架構文件傳到外部雲端，說明中提到服務有免費與付費方案、分享和公開選項，未獨立核實當期價格額度。這三個 Skill 都有獨立官方 SKILL.md，故各建 Skill Entity；是否能在不同 Agent Harness 直接使用需要依實際安裝檢驗。Skill 中若發現 `omm` 不存在會提示／嘗試全域 npm 安裝，具有執行指令與讀取專案檔案的能力，不可視為低權限唯讀工具；資料上雲尤其需要個別批准。`/omm-scan` 生成的架構描述是 AI 推斷而非靜態分析的百分百正確結論。官方 Roadmap 的 Sub-agent 並行掃描、Incremental Analysis、Natural Language Search 及 `/omm-guide` 為 planned，不能宣稱當前正式支援。專案和已收錄的 `research-to-diagram` 功能互補，但不是同一個 Repo。此輪僅建立資料庫索引，未安裝、執行任何 `omm` 命令、授權 GitHub OAuth、分析私人 Codebase、推送雲端或修改工具收藏網站 UI。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "oh-my-mermaid",
         "omm",
@@ -41706,8 +42423,15 @@
         "type": "Official GitHub README, MIT LICENSE, package manifest and three SKILL.md source files",
         "summary": "Verified source files and documentation on 2026-10-24. No installation, runtime testing or cloud transfer.",
         "readmeUrl": "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official upstream document only; no runtime/security audit"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。",
+        "upstreamCommit": "38ccdb69298adec949177c92c88d6e3ddfb5bab7",
+        "referenceUrls": [
+          "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/LICENSE",
+          "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/skills/omm-scan/SKILL.md",
+          "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/skills/omm-view/SKILL.md",
+          "https://github.com/oh-my-mermaid/oh-my-mermaid/blob/38ccdb69298adec949177c92c88d6e3ddfb5bab7/skills/omm-push/SKILL.md"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -41747,16 +42471,18 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
-            "url"
+            "title"
           ],
-          "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+          "reason": "既有 ID 與上游 repo 一致；不新增實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -41765,8 +42491,8 @@
         "classificationReason": "沿用既有 Primary Domain software，僅改善功能、條件、限制，不更改分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。；非完整重建。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -41776,11 +42502,353 @@
           "decision": "reused",
           "reason": "保留原有 Concept References，不新增 Graph Edge。"
         },
-        "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+        "riskNotes": "自動生成的架構關係仍需依真實 Code Review 驗證；層次圖可能省略執行時依賴或動態呼叫關係；Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。；本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。；雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。；未執行第三方工具。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+          "evidence": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。；未執行第三方工具。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。；局部用途與技能源文件雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "讓 Coding Agent 分析程式碼並將架構變成可展開的 Mermaid 圖表及 Markdown 說明。透過多種 perspective（overall architecture、request lifecycle、data flow、dependency map、external integrations 等）建立 `.omm/` 階層文件，節點可遞迴鑽取；本機 viewer 依資料夾結構呈現，並可選擇用 OAuth 登入後將架構文件推送到 ohmymermaid.com 雲端。",
+          "source": "https://github.com/oh-my-mermaid/oh-my-mermaid",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合為現有程式庫建立 Architecture Overview、資料流、外部整合、路由／模組依賴的導覽文件，供新接手開發者或跨 Session Coding Agent 理解系統。先在非敏感 Repo 建立 `.omm/`，用真實 Source Code／路徑驗證每個圖節點，因 AI 生成的架構文件可能有誤。使用 `/omm-push` 前確認是否有機密程式碼、內部 Host、資料表或敏感架構，不應在未經明確授權下上傳外部雲端；建議依不同 Harness 與權限審查 Skills 及自動安裝行為。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-scan",
+            "title": "按不同角度拆解程式架構",
+            "detail": "單張總覽圖不足以解釋請求、資料與依賴。 階層式 .omm/ 圖及節點說明。",
+            "capabilityRefs": [
+              "scan"
+            ]
+          },
+          {
+            "id": "use-view",
+            "title": "在本機逐層檢閱架構",
+            "detail": "閱讀者需要探索細節而非只看靜態圖。 文件所述唯讀瀏覽器 viewer。",
+            "capabilityRefs": [
+              "view"
+            ]
+          },
+          {
+            "id": "use-share",
+            "title": "獨立決定是否分享架構文件",
+            "detail": "技術交接可能需要多人查看，但文件可能包含敏感資訊。 文件所述上傳結果與查看連結。",
+            "capabilityRefs": [
+              "share"
+            ]
+          }
+        ],
+        "example": {
+          "id": "oh-my-mermaid-example",
+          "title": "規劃知識庫專案的可展開架構文件",
+          "input": "自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+          "process": "按不同角度拆解程式架構 → 在本機逐層檢閱架構 → 獨立決定是否分享架構文件 → 獨立驗收",
+          "output": "階層 Mermaid 架構圖與說明文件規格、本機檢閱及分享決策清單。",
+          "destination": "自有知識庫工程交接的本機架構文件及經核准的協作分享流程。",
+          "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "use-scan",
+            "use-view",
+            "use-share"
+          ],
+          "steps": [
+            {
+              "id": "scan",
+              "title": "按不同角度拆解程式架構",
+              "capabilityRefs": [
+                "scan"
+              ]
+            },
+            {
+              "id": "view",
+              "title": "在本機逐層檢閱架構",
+              "capabilityRefs": [
+                "view"
+              ]
+            },
+            {
+              "id": "share",
+              "title": "獨立決定是否分享架構文件",
+              "capabilityRefs": [
+                "share"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "實際環境、資料、權限、整合及成果測試需另行核准與驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+          "依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。",
+          "確認授權、環境、資料及權限，再另行執行並核對實際輸出。"
+        ],
+        "limits": [
+          "自動生成的架構關係仍需依真實 Code Review 驗證",
+          "層次圖可能省略執行時依賴或動態呼叫關係",
+          "Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。",
+          "本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。",
+          "雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把程式碼的架構、資料流和系統依賴整理成可逐層展開的圖表與說明，方便理解陌生專案或進行技術交接。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT（根目錄 LICENSE；雲端服務與被分析程式碼權利另計）"
+          },
+          {
+            "label": "版本",
+            "value": "38ccdb69298adec949177c92c88d6e3ddfb5bab7"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "按不同角度拆解程式架構",
+            "detail": "單張總覽圖不足以解釋請求、資料與依賴。；輸入：專案目錄、入口、實際需要的分析視角；輸出：階層式 .omm/ 圖及節點說明",
+            "source": "skills/omm-scan/SKILL.md"
+          },
+          {
+            "title": "在本機逐層檢閱架構",
+            "detail": "閱讀者需要探索細節而非只看靜態圖。；輸入：已存在的 .omm/ 文件及本機埠號；輸出：文件所述唯讀瀏覽器 viewer",
+            "source": "skills/omm-view/SKILL.md"
+          },
+          {
+            "title": "獨立決定是否分享架構文件",
+            "detail": "技術交接可能需要多人查看，但文件可能包含敏感資訊。；輸入：經審查的架構文件、帳號及目標專案；輸出：文件所述上傳結果與查看連結",
+            "source": "skills/omm-push/SKILL.md"
+          }
+        ],
+        "architecture": {
+          "summary": "按不同角度拆解程式架構 → 在本機逐層檢閱架構 → 獨立決定是否分享架構文件 → 獨立驗收",
+          "nodes": [
+            {
+              "title": "按不同角度拆解程式架構",
+              "detail": "專案目錄、入口、實際需要的分析視角 → 階層式 .omm/ 圖及節點說明",
+              "files": [
+                "skills/omm-scan/SKILL.md"
+              ]
+            },
+            {
+              "title": "在本機逐層檢閱架構",
+              "detail": "已存在的 .omm/ 文件及本機埠號 → 文件所述唯讀瀏覽器 viewer",
+              "files": [
+                "skills/omm-view/SKILL.md"
+              ]
+            },
+            {
+              "title": "獨立決定是否分享架構文件",
+              "detail": "經審查的架構文件、帳號及目標專案 → 文件所述上傳結果與查看連結",
+              "files": [
+                "skills/omm-push/SKILL.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "按不同角度拆解程式架構",
+            "rule": "只選原始碼實際存在的視角；圖節點 ID 與子目錄一致，每個節點要有說明，不憑名稱推測行為。",
+            "source": "skills/omm-scan/SKILL.md"
+          },
+          {
+            "name": "在本機逐層檢閱架構",
+            "rule": "先確認已有文件再啟動；唯讀不等於網路隔離，未核對 viewer 實作或監聽範圍。",
+            "source": "skills/omm-view/SKILL.md"
+          },
+          {
+            "name": "獨立決定是否分享架構文件",
+            "rule": "本機檢閱不需推送雲端；外送前單獨核准、檢查帳號及資料；未登入、上傳或驗證雲端。",
+            "source": "skills/omm-push/SKILL.md"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。",
+            "files": [
+              "LICENSE",
+              "skills/omm-scan/SKILL.md",
+              "skills/omm-view/SKILL.md",
+              "skills/omm-push/SKILL.md"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。 依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。 確認授權、環境、資料及權限，再另行執行並核對實際輸出。",
+            "files": [
+              "skills/omm-scan/SKILL.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有知識庫工程交接的本機架構文件及經核准的協作分享流程。；另驗證實際行為及限制。",
+            "file": "skills/omm-scan/SKILL.md"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "scan",
+            "name": "按不同角度拆解程式架構",
+            "problem": "單張總覽圖不足以解釋請求、資料與依賴。",
+            "input": "專案目錄、入口、實際需要的分析視角",
+            "output": "階層式 .omm/ 圖及節點說明",
+            "source": "skills/omm-scan/SKILL.md",
+            "sourceFiles": [
+              "skills/omm-scan/SKILL.md"
+            ],
+            "symbols": [
+              "Step 2: Select Perspectives（文件）",
+              "Step 3: Generate Perspectives with Recursive Drill-Down（文件）",
+              "omm write（文件 CLI）"
+            ],
+            "gate": "只選原始碼實際存在的視角；圖節點 ID 與子目錄一致，每個節點要有說明，不憑名稱推測行為。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "view",
+            "name": "在本機逐層檢閱架構",
+            "problem": "閱讀者需要探索細節而非只看靜態圖。",
+            "input": "已存在的 .omm/ 文件及本機埠號",
+            "output": "文件所述唯讀瀏覽器 viewer",
+            "source": "skills/omm-view/SKILL.md",
+            "sourceFiles": [
+              "skills/omm-view/SKILL.md"
+            ],
+            "symbols": [
+              "omm list（文件 CLI）",
+              "omm view（文件 CLI）"
+            ],
+            "gate": "先確認已有文件再啟動；唯讀不等於網路隔離，未核對 viewer 實作或監聽範圍。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "share",
+            "name": "獨立決定是否分享架構文件",
+            "problem": "技術交接可能需要多人查看，但文件可能包含敏感資訊。",
+            "input": "經審查的架構文件、帳號及目標專案",
+            "output": "文件所述上傳結果與查看連結",
+            "source": "skills/omm-push/SKILL.md",
+            "sourceFiles": [
+              "skills/omm-push/SKILL.md"
+            ],
+            "symbols": [
+              "omm share（文件 CLI）",
+              "omm link（文件 CLI）",
+              "omm push（文件 CLI）"
+            ],
+            "gate": "本機檢閱不需推送雲端；外送前單獨核准、檢查帳號及資料；未登入、上傳或驗證雲端。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃知識庫專案的可展開架構文件（設計示例）",
+          "problem": "自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+          "steps": [
+            {
+              "capability": "scan",
+              "action": "按不同角度拆解程式架構"
+            },
+            {
+              "capability": "view",
+              "action": "在本機逐層檢閱架構"
+            },
+            {
+              "capability": "share",
+              "action": "獨立決定是否分享架構文件"
+            }
+          ],
+          "gate": "未執行；實際環境與成果須獨立驗收。",
+          "readerExampleRef": "oh-my-mermaid-example"
+        },
+        "rebuild": {
+          "verdict": "可依局部文件與技術契約規劃驗收，非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有專案的目錄、入口檔、資料流及已核准可讀取的非機密程式碼。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "按不同角度拆解程式架構 → 在本機逐層檢閱架構 → 獨立決定是否分享架構文件 → 獨立驗收",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有知識庫工程交接的本機架構文件及經核准的協作分享流程。",
+              "deliverable": "實際成果與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。",
+            "本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。",
+            "雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料與權限邊界",
+            "severity": "高",
+            "issue": "Agent 產生的圖仍須對照原始碼與實際行為，不保證完整。 本機 viewer 文件契約為唯讀；未確認監聽介面及實際存取範圍。 雲端推送會傳出架構文件，須獨立核准、檢查機密、服務條款及帳號權限。",
+            "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 LICENSE、omm-scan、omm-view、omm-push 三份 SKILL.md 的局部文件契約；未核對 CLI 及雲端實作。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+          }
+        ]
       }
     },
     {
