@@ -20950,14 +20950,14 @@
       "canonicalName": "Hindsight",
       "category": "04 Knowledge & Memory",
       "resourceType": "Agent Memory / Reflective Learning System",
-      "purpose": "替 Agent 建立可持續累積的長期記憶與學習層，不只保存對話歷史。核心操作是 retain、recall、reflect；以 memory banks 隔離不同使用者／專案脈絡，並把記憶整理成 observations、mental models 與 knowledge pages。提供 server、embedded、cloud、SDK、MCP，以及 coding agents / agent frameworks 等多種整合。",
-      "recommendation": "適合需要 Agent 跨 session 持續記住專案與使用者脈絡，並把大量 episodic facts 逐步整理成可重用 mental model，而不是每次只做向量檢索或把完整歷史重新塞進 context 的系統。",
+      "purpose": "讓 AI Agent 將長期資訊保存為可檢索的記憶，在後續任務查回相關內容，或根據記憶整理回答。",
+      "recommendation": "適合需要跨對話記住偏好、任務經驗或研究資訊的 Agent；若只需短期對話歷史，先用簡單儲存方式，避免不必要的資料保存。",
       "url": "https://github.com/vectorize-io/hindsight",
       "repo": "vectorize-io/hindsight",
       "notes": "Official repository confirmed. Hindsight positions itself as a memory system focused on agents that learn over time. It exposes retain / recall / reflect, memory banks, observations, mental models and knowledge pages; supports self-hosted, embedded and managed deployment plus many coding-agent/framework integrations. The README reports state-of-the-art LongMemEval results and says Hindsight's benchmark performance was independently reproduced by Virginia Tech collaborators and The Washington Post; benchmark numbers are project-reported here rather than independently revalidated in this collection. MIT licensed.",
       "status": "active",
       "addedAt": "2026-09-29",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "agent-memory",
         "long-term-memory",
@@ -21040,25 +21040,32 @@
       "source": {
         "url": "https://github.com/vectorize-io/hindsight",
         "readmeUrl": "https://github.com/vectorize-io/hindsight/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream README or bundle document",
-        "reviewScope": "Documentation only; not runtime-tested"
+        "reviewScope": "固定版本 README 的 Retain/Recall/Reflect、Memory Banks、Memory Defense、SDK 示例與 MIT LICENSE；兩個候選 Python 核心檔案路徑 404，未驗證內部引擎。",
+        "upstreamCommit": "550ef5e304623be2a456913acbac1b1a834fb2c3",
+        "referenceUrls": [
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md",
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
-        "sourceStatus": "source-checked",
+        "sourceStatus": "partial",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+          "reason": "沿用 Canonical ID，補已知文件證據與讀者用途，原始碼路徑缺口另行追蹤。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -21068,7 +21075,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+          "reason": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -21081,8 +21088,149 @@
         "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
         "verification": {
           "status": "not-tested",
-          "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+          "evidence": "固定版本 README 的 Retain/Recall/Reflect、Memory Banks、Memory Defense、SDK 示例與 MIT LICENSE；兩個候選 Python 核心檔案路徑 404，未驗證內部引擎。；未執行。"
+        },
+        "sourceGap": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。",
+        "layerReview": {
+          "status": "deferred",
+          "reason": "固定版本 README 與 LICENSE 已查閱，核心實作契約尚未取得；只對應可證明的文件內容。",
+          "gap": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。",
+          "nextAction": "定位固定版本 API、SDK、retain/recall/reflect 實作與 bank 權限及刪除路徑，核對程式碼及測試證據再升級 mapped。"
         }
+      },
+      "implementationKnowledge": {
+        "sourceReview": {
+          "retain": "README 示例 client.retain(bank_id,content,context,timestamp)，描述以 LLM 萃取資訊並建索引；未核對實際寫入與刪除。",
+          "recall": "README 示例 client.recall(bank_id,query)，描述記憶查詢；未核對排序、引用及過濾契約。",
+          "reflect": "README 示例 client.reflect(bank_id,query)，根據記憶整理回答；生成內容仍需驗證，不是原始記錄。",
+          "isolation": "README 宣稱 bank 隔離及選配 Memory Defense；未實測權限、跨 bank 隔離、秘密偵測或資料保留。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "retain",
+          "detail": "README 描述 retain 接收 bank_id、content、可選 context 與 timestamp；用於保存記憶。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md；Retain",
+          "evidenceFields": [
+            "features.0",
+            "implementationKnowledge.sourceReview.retain"
+          ],
+          "limitations": "未查明確 API schema、寫入／刪除、重複與保留行為。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "recall",
+          "detail": "README 描述 recall 以 bank_id、query 查詢記憶；reflect 則根據記憶整理回應。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md；The Three Operations",
+          "evidenceFields": [
+            "features.0",
+            "implementationKnowledge.sourceReview.recall",
+            "implementationKnowledge.sourceReview.reflect"
+          ],
+          "limitations": "不保證檢索完整或回答忠於記憶；需核對來源、時間及反例。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "bank-boundary",
+          "detail": "README 宣稱 Memory Banks 隔離，Memory Defense 是選配 per-bank policy。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md；Memory Banks",
+          "evidenceFields": [
+            "requirements.0",
+            "limitations.1",
+            "implementationKnowledge.sourceReview.isolation"
+          ],
+          "limitations": "廠商描述非安全證據；需測越權、刪除、資料保留與未偵測敏感資訊。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "project-memory",
+            "title": "保存跨任務的研究資訊",
+            "detail": "將核准的專案結論保存在指定記憶區，日後查回相關結論。",
+            "evidenceRefs": [
+              "retain",
+              "recall"
+            ]
+          },
+          {
+            "id": "memory-retrieval",
+            "title": "讓 Agent 根據歷史資料回答",
+            "detail": "用指定問題測試能否找回正確記憶及區分不同時間的資訊。",
+            "evidenceRefs": [
+              "recall"
+            ]
+          },
+          {
+            "id": "memory-isolation",
+            "title": "規劃不同專案的記憶隔離",
+            "detail": "先定義各 bank 的資料分類與權限，測試跨區資料不應被取得。",
+            "evidenceRefs": [
+              "bank-boundary"
+            ]
+          }
+        ],
+        "example": {
+          "id": "research-memory-test",
+          "title": "設計跨任務研究記憶測試",
+          "input": "兩個合成專案、各三則公開或合成記錄與已知正確答案。",
+          "process": "定義 bank → 保存核准資料 → 查詢與整理 → 驗證隔離及刪除",
+          "output": "記憶查詢、引用、錯誤及權限測試規格（未建立實際記憶）。",
+          "destination": "自有知識庫 Agent 的架構選型與資料治理。",
+          "note": "自訂設計示例；未安裝、執行或驗證真實整合。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "project-memory",
+            "memory-retrieval",
+            "memory-isolation"
+          ],
+          "steps": [
+            {
+              "id": "scope",
+              "title": "定義記憶區及資料界線",
+              "evidenceRefs": [
+                "bank-boundary"
+              ]
+            },
+            {
+              "id": "retain",
+              "title": "設計保存操作",
+              "evidenceRefs": [
+                "retain"
+              ]
+            },
+            {
+              "id": "recall",
+              "title": "設計檢索與反思驗收",
+              "evidenceRefs": [
+                "recall"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "測隔離、刪除與來源",
+              "evidenceRefs": [],
+              "externalDependency": "實際 SDK、模型、資料儲存、安全、刪除及權限需另行核准並實測。"
+            }
+          ]
+        },
+        "start": [
+          "先區分需要保存的事實、短期對話及不可保存的資料。",
+          "核對固定版本 SDK 說明，以合成資料定義 retain、recall 與 reflect 的期望結果。",
+          "在核准環境測錯誤記憶、跨 bank、刪除及引用，再考慮接入正式資料。"
+        ],
+        "limits": [
+          "README Benchmark 是作者測量，非自身環境保證",
+          "記憶內容可能含敏感輸入，須設權限及刪除流程",
+          "本次僅查閱 README 與 MIT LICENSE；未執行 SDK、模型或建立 bank。",
+          "Benchmark 與 bank 隔離是作者描述，未完成獨立驗證。"
+        ]
       }
     },
     {
@@ -27310,14 +27458,14 @@
       "canonicalName": "LLM",
       "category": "04 Knowledge & Memory",
       "resourceType": "LLM CLI / Python Library / Conversation Log",
-      "purpose": "Simon Willison 的 LLM CLI 與 Python Library，透過插件呼叫多種雲端或本機模型，並可記錄 Prompt、輸出、Embedding 與模型操作。",
-      "recommendation": "適合用命令列建立可重複的模型實驗及小型自動化；需管理外部 API Key、模型費用與 SQLite 記錄中的敏感資料。",
+      "purpose": "用終端機或 Python 呼叫不同 AI 模型，保存測試結果，方便比較模型或建立小型文字處理工具。",
+      "recommendation": "適合模型實驗、批次文字處理與 CLI 自動化；若只需固定模型的單一 API，直接使用官方 SDK 可能更簡單。",
       "url": "https://github.com/simonw/llm",
       "repo": "simonw/llm",
       "notes": "Official Simon Willison repository confirmed. SQLite logging is a first-class feature and can be turned on/off.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "llm-cli",
         "sqlite",
@@ -27380,25 +27528,35 @@
       "source": {
         "url": "https://github.com/simonw/llm",
         "readmeUrl": "https://github.com/simonw/llm/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore",
+        "upstreamCommit": "46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f",
+        "referenceUrls": [
+          "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/README.md",
+          "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/llm/models.py",
+          "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/llm/cli.py",
+          "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/llm/plugins.py",
+          "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -27407,8 +27565,8 @@
         "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -27421,8 +27579,356 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Simon Willison 的 LLM CLI 與 Python Library，透過插件呼叫多種雲端或本機模型，並可記錄 Prompt、輸出、Embedding 與模型操作。",
+          "source": "https://github.com/simonw/llm",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "compare-model",
+            "title": "用同一題目比較模型",
+            "detail": "以一致的輸入及驗收格式呼叫不同模型，記錄輸出差異。",
+            "capabilityRefs": [
+              "model-call",
+              "response-log"
+            ]
+          },
+          {
+            "id": "extend-model",
+            "title": "接入其他模型",
+            "detail": "檢查對應 Plugin 能否支援所需模型與執行環境。",
+            "capabilityRefs": [
+              "plugin-load",
+              "model-call"
+            ]
+          },
+          {
+            "id": "audit-output",
+            "title": "管理測試歷史及資料保留",
+            "detail": "依測試需求選擇是否保存紀錄，確認敏感內容沒有不當留存。",
+            "capabilityRefs": [
+              "response-log"
+            ]
+          }
+        ],
+        "example": {
+          "id": "summary-model-test",
+          "title": "比較三個模型的摘要表現",
+          "input": "十篇合成短文、預期摘要格式及候選模型。",
+          "process": "確認模型介面與 Plugin → 呼叫模型 → 保存核准紀錄 → 比較品質",
+          "output": "模型、輸出、格式通過率與錯誤紀錄的測試規格（未執行）。",
+          "destination": "自有模型選型或 CLI 自動化流程。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "compare-model",
+            "extend-model",
+            "audit-output"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "建立合成測試集",
+              "capabilityRefs": [],
+              "externalDependency": "評分、模型帳號及費用上限須另行準備。"
+            },
+            {
+              "id": "plugin",
+              "title": "確認模型擴充",
+              "capabilityRefs": [
+                "plugin-load"
+              ]
+            },
+            {
+              "id": "call",
+              "title": "設計同條件模型呼叫",
+              "capabilityRefs": [
+                "model-call"
+              ]
+            },
+            {
+              "id": "logs",
+              "title": "驗證日誌與保留界線",
+              "capabilityRefs": [
+                "response-log"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先定義同一組模型測試題及預期格式。",
+          "閱讀固定版本模型介面與插件來源，核准後才安裝。",
+          "確認本機日誌設定、資料路徑及實際保留，再比較輸出。"
+        ],
+        "limits": [
+          "不同 Plugin 與模型提供的工具呼叫、Embedding 能力不完全一致。",
+          "本機 Log 可能含對話或資料內容，需要額外存取權限與保留政策。",
+          "未安裝 CLI、任何 Plugin 或呼叫模型；完整 SQLite schema 與各模型能力未查核。",
+          "日誌可能保存完整歷史與附件相關資料；不得放入未核准敏感資料。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "用終端機或 Python 呼叫不同 AI 模型，保存測試結果，方便比較模型或建立小型文字處理工具。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / CLI / SQLite / pluggy"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0"
+          },
+          {
+            "label": "版本錨點",
+            "value": "46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "統一模型呼叫",
+            "detail": "不同模型需共用測試介面；輸入：Prompt、stream、Response、Conversation；KeyModel 另有 key；輸出：字串或 StreamEvent 的 iterator",
+            "source": "llm/models.py"
+          },
+          {
+            "title": "擴充模型與功能",
+            "detail": "需接入未內建的模型；輸入：已安裝的 llm entry points 或 LLM_LOAD_PLUGINS 選擇；輸出：載入並註冊 plugin",
+            "source": "llm/plugins.py"
+          },
+          {
+            "title": "保存或停止測試紀錄",
+            "detail": "需要可回查的 Prompt 與回應；輸入：Response、SQLite DB 與 CLI 日誌設定；輸出：LogStore 寫入；logs-off 控制未來 CLI 日誌",
+            "source": "llm/models.py"
+          }
+        ],
+        "architecture": {
+          "summary": "確認模型介面與 Plugin → 呼叫模型 → 保存核准紀錄 → 比較品質",
+          "nodes": [
+            {
+              "title": "統一模型呼叫",
+              "detail": "Prompt、stream、Response、Conversation；KeyModel 另有 key → 字串或 StreamEvent 的 iterator",
+              "files": [
+                "llm/models.py"
+              ]
+            },
+            {
+              "title": "擴充模型與功能",
+              "detail": "已安裝的 llm entry points 或 LLM_LOAD_PLUGINS 選擇 → 載入並註冊 plugin",
+              "files": [
+                "llm/plugins.py"
+              ]
+            },
+            {
+              "title": "保存或停止測試紀錄",
+              "detail": "Response、SQLite DB 與 CLI 日誌設定 → LogStore 寫入；logs-off 控制未來 CLI 日誌",
+              "files": [
+                "llm/models.py",
+                "llm/cli.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "模型契約",
+            "rule": "Model.execute 與 KeyModel.execute 定義 Prompt、stream、Response、Conversation；KeyModel 另有 key。",
+            "source": "llm/models.py"
+          },
+          {
+            "name": "Plugin 載入",
+            "rule": "load_plugins 使用 setuptools llm entry points，指定 LLM_LOAD_PLUGINS 時改查該套件。",
+            "source": "llm/plugins.py"
+          },
+          {
+            "name": "日誌",
+            "rule": "log_to_db 交由 LogStore；CLI 依 log_db 設定回應 callback，logs off 建立 logs-off。",
+            "source": "llm/cli.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "llm/models.py",
+              "llm/cli.py",
+              "llm/plugins.py",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先定義同一組模型測試題及預期格式。 閱讀固定版本模型介面與插件來源，核准後才安裝。 確認本機日誌設定、資料路徑及實際保留，再比較輸出。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有模型選型或 CLI 自動化流程。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "llm/models.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "model-call",
+            "name": "統一模型呼叫",
+            "problem": "不同模型需共用測試介面",
+            "input": "Prompt、stream、Response、Conversation；KeyModel 另有 key",
+            "output": "字串或 StreamEvent 的 iterator",
+            "source": "llm/models.py",
+            "sourceFiles": [
+              "llm/models.py"
+            ],
+            "symbols": [
+              "Model.execute",
+              "KeyModel.execute",
+              "Prompt.messages"
+            ],
+            "gate": "比較模型支援的格式、工具與選項；不可假定不同模型能力相同。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "plugin-load",
+            "name": "擴充模型與功能",
+            "problem": "需接入未內建的模型",
+            "input": "已安裝的 llm entry points 或 LLM_LOAD_PLUGINS 選擇",
+            "output": "載入並註冊 plugin",
+            "source": "llm/plugins.py",
+            "sourceFiles": [
+              "llm/plugins.py"
+            ],
+            "symbols": [
+              "load_plugins"
+            ],
+            "gate": "載入會執行第三方 Python 模組；先查版本、程式、依賴及授權。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "response-log",
+            "name": "保存或停止測試紀錄",
+            "problem": "需要可回查的 Prompt 與回應",
+            "input": "Response、SQLite DB 與 CLI 日誌設定",
+            "output": "LogStore 寫入；logs-off 控制未來 CLI 日誌",
+            "source": "llm/models.py",
+            "sourceFiles": [
+              "llm/models.py",
+              "llm/cli.py"
+            ],
+            "symbols": [
+              "log_to_db",
+              "log_response",
+              "logs_turn_off",
+              "logs_turn_on"
+            ],
+            "gate": "關閉日誌不代表刪除舊資料或阻止 Plugin 自行保存；核對實際檔案、敏感資料與保留期限。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "比較三個模型的摘要表現（設計示例）",
+          "problem": "十篇合成短文、預期摘要格式及候選模型。",
+          "steps": [
+            {
+              "capability": "plugin-load",
+              "action": "確認模型擴充"
+            },
+            {
+              "capability": "model-call",
+              "action": "設計同條件模型呼叫"
+            },
+            {
+              "capability": "response-log",
+              "action": "驗證日誌與保留界線"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "summary-model-test"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "十篇合成短文、預期摘要格式及候選模型。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "確認模型介面與 Plugin → 呼叫模型 → 保存核准紀錄 → 比較品質",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有模型選型或 CLI 自動化流程。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝 CLI、任何 Plugin 或呼叫模型；完整 SQLite schema 與各模型能力未查核。",
+            "日誌可能保存完整歷史與附件相關資料；不得放入未核准敏感資料。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝 CLI、任何 Plugin 或呼叫模型；完整 SQLite schema 與各模型能力未查核。 日誌可能保存完整歷史與附件相關資料；不得放入未核准敏感資料。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -32918,14 +33424,14 @@
       "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "id": "n8n-io-n8n",
       "title": "n8n — Visual Workflow Automation & AI Agent Platform",
       "canonicalName": "n8n-io/n8n",
       "category": "02 Agent Orchestration",
       "resourceType": "Fair-code, self-hostable workflow automation and AI agent orchestration platform",
-      "purpose": "用可視化流程與自訂程式串接 Webhook、排程、API、資料服務和 AI Agent，提供雲端或自行託管的自動化平台。",
-      "recommendation": "適合跨服務的業務自動化與 AI Workflow；自架前須理解憑證儲存、執行權限、持續維運與 n8n 授權。",
+      "purpose": "把資料讀取、轉換、條件判斷、通知及 AI 呼叫接成可重複執行的自動化工作流程。",
+      "recommendation": "適合跨系統整合及多步驟自動化；單一簡單腳本可先用較輕的方案，商用部署前核對 Sustainable Use License 與企業授權。",
       "url": "https://github.com/n8n-io/n8n",
       "repo": "n8n-io/n8n",
       "status": "active",
@@ -33005,25 +33511,35 @@
       "source": {
         "url": "https://github.com/n8n-io/n8n",
         "readmeUrl": "https://github.com/n8n-io/n8n/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶",
+        "upstreamCommit": "ba34719a31a9117002efb3db579f9aaf45bab4f5",
+        "referenceUrls": [
+          "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/README.md",
+          "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/LICENSE.md",
+          "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/LICENSE_EE.md",
+          "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/packages/core/src/execution-engine/workflow-execute.ts",
+          "https://github.com/n8n-io/n8n/blob/ba34719a31a9117002efb3db579f9aaf45bab4f5/packages/workflow/src/workflow.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -33032,8 +33548,8 @@
         "classificationReason": "沿用既有 Primary Domain automation；本批僅補來源形式與具證據的閱讀內容。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "mapped",
@@ -33046,8 +33562,357 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "用可視化流程與自訂程式串接 Webhook、排程、API、資料服務和 AI Agent，提供雲端或自行託管的自動化平台。",
+          "source": "https://github.com/n8n-io/n8n",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "data-pipeline",
+            "title": "串接定期資料整理",
+            "detail": "設計觸發後讀取、轉換及驗證資料的流程。",
+            "capabilityRefs": [
+              "workflow-start",
+              "node-execution"
+            ]
+          },
+          {
+            "id": "approval-workflow",
+            "title": "建立有核准步驟的自動化",
+            "detail": "規劃只讀查詢及需人工核准的寫入，明確驗收狀態。",
+            "capabilityRefs": [
+              "workflow-start",
+              "execution-state"
+            ]
+          },
+          {
+            "id": "failure-handling",
+            "title": "追蹤失敗與安全重送",
+            "detail": "區分節點錯誤、流程狀態與實際寫入，避免重複通知或寫入。",
+            "capabilityRefs": [
+              "node-execution",
+              "execution-state"
+            ]
+          }
+        ],
+        "example": {
+          "id": "daily-report-flow",
+          "title": "規劃每日報表整理流程",
+          "input": "合成 CSV、固定資料欄位、預期輸出與模擬通知。",
+          "process": "選起點 → 轉換及驗證 → 辨識錯誤 → 核對狀態與重送界線",
+          "output": "資料轉換、錯誤分流及去重驗收規格（未執行）。",
+          "destination": "自有資料處理或報表自動化；真正資料連線與通知另行核准。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "data-pipeline",
+            "approval-workflow",
+            "failure-handling"
+          ],
+          "steps": [
+            {
+              "id": "start",
+              "title": "定義起點與執行範圍",
+              "capabilityRefs": [
+                "workflow-start"
+              ]
+            },
+            {
+              "id": "nodes",
+              "title": "設計節點與錯誤處理",
+              "capabilityRefs": [
+                "node-execution"
+              ]
+            },
+            {
+              "id": "state",
+              "title": "檢查流程狀態及取消情境",
+              "capabilityRefs": [
+                "execution-state"
+              ]
+            },
+            {
+              "id": "delivery",
+              "title": "驗收實際輸出及去重",
+              "capabilityRefs": [],
+              "externalDependency": "CSV 來源、通知、排程、憑證、冪等及持久化須由專案獨立實作及驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先畫出一條只讀且使用合成資料的簡單流程。",
+          "確認部署用途與授權，閱讀節點執行及錯誤契約。",
+          "取得核准後才連線外部系統，先驗證失敗、重送與資料寫入。"
+        ],
+        "limits": [
+          "n8n 採 fair-code／Sustainable Use License 與企業授權條款，不應簡化成無限制開源。",
+          "長期執行需處理 Secrets、Webhook 安全、故障通知與資料重送。",
+          "固定版本 LICENSE.md 指明非 master 分支內容未授權，.ee. 檔名或 .ee 目錄另依 EE 授權；部署與改作須依實際版本及用途確認。",
+          "未部署、安裝或執行節點，未審查完整憑證、Webhook、佇列及外部服務權限。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把資料讀取、轉換、條件判斷、通知及 AI 呼叫接成可重複執行的自動化工作流程。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / Workflow engine"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Sustainable Use License 與 Enterprise License（依目錄及用途）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "ba34719a31a9117002efb3db579f9aaf45bab4f5"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "選擇流程起點",
+            "detail": "自動化需要指定觸發或局部執行；輸入：Workflow、startNode、destinationNode、pinData；輸出：開始執行或無起點 UserError",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts"
+          },
+          {
+            "title": "處理節點輸入輸出與失敗",
+            "detail": "流程要串接多個步驟並區分錯誤；輸入：workflow、executionData、runIndex、mode、abortSignal；輸出：IRunNodeResponse 或 EngineRequest；部分錯誤可形成 error item",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts"
+          },
+          {
+            "title": "管理流程執行與取消",
+            "detail": "長時間流程須追蹤狀態與停止；輸入：Workflow、runExecutionData、hooks；輸出：PCancelable<IRun> 與執行狀態",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "選起點 → 轉換及驗證 → 辨識錯誤 → 核對狀態與重送界線",
+          "nodes": [
+            {
+              "title": "選擇流程起點",
+              "detail": "Workflow、startNode、destinationNode、pinData → 開始執行或無起點 UserError",
+              "files": [
+                "packages/core/src/execution-engine/workflow-execute.ts",
+                "packages/workflow/src/workflow.ts"
+              ]
+            },
+            {
+              "title": "處理節點輸入輸出與失敗",
+              "detail": "workflow、executionData、runIndex、mode、abortSignal → IRunNodeResponse 或 EngineRequest；部分錯誤可形成 error item",
+              "files": [
+                "packages/core/src/execution-engine/workflow-execute.ts"
+              ]
+            },
+            {
+              "title": "管理流程執行與取消",
+              "detail": "Workflow、runExecutionData、hooks → PCancelable<IRun> 與執行狀態",
+              "files": [
+                "packages/core/src/execution-engine/workflow-execute.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "啟動",
+            "rule": "WorkflowExecute.run 選 startNode 或 workflow.getStartNode，沒有起點時拋 UserError。",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts"
+          },
+          {
+            "name": "錯誤",
+            "rule": "runNode 的 resumeError 依 continuesOnError 可返回帶 error 的 item；不得當正常輸出。",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts"
+          },
+          {
+            "name": "取消",
+            "rule": "processRunExecutionData 建立 PCancelable，設定 cancellation hooks 並檢查 workflow 問題。",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "LICENSE_EE.md",
+              "packages/core/src/execution-engine/workflow-execute.ts",
+              "packages/workflow/src/workflow.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先畫出一條只讀且使用合成資料的簡單流程。 確認部署用途與授權，閱讀節點執行及錯誤契約。 取得核准後才連線外部系統，先驗證失敗、重送與資料寫入。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有資料處理或報表自動化；真正資料連線與通知另行核准。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "packages/core/src/execution-engine/workflow-execute.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "workflow-start",
+            "name": "選擇流程起點",
+            "problem": "自動化需要指定觸發或局部執行",
+            "input": "Workflow、startNode、destinationNode、pinData",
+            "output": "開始執行或無起點 UserError",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts",
+            "sourceFiles": [
+              "packages/core/src/execution-engine/workflow-execute.ts",
+              "packages/workflow/src/workflow.ts"
+            ],
+            "symbols": [
+              "Workflow",
+              "Workflow.getStartNode",
+              "WorkflowExecute.run"
+            ],
+            "gate": "區分完整及局部執行；測 disabled node、trigger 與目的節點。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "node-execution",
+            "name": "處理節點輸入輸出與失敗",
+            "problem": "流程要串接多個步驟並區分錯誤",
+            "input": "workflow、executionData、runIndex、mode、abortSignal",
+            "output": "IRunNodeResponse 或 EngineRequest；部分錯誤可形成 error item",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts",
+            "sourceFiles": [
+              "packages/core/src/execution-engine/workflow-execute.ts"
+            ],
+            "symbols": [
+              "WorkflowExecute.runNode",
+              "continuesOnError"
+            ],
+            "gate": "continue on error 不等於成功；必須檢查 error item、外部副作用、重送與去重。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "execution-state",
+            "name": "管理流程執行與取消",
+            "problem": "長時間流程須追蹤狀態與停止",
+            "input": "Workflow、runExecutionData、hooks",
+            "output": "PCancelable<IRun> 與執行狀態",
+            "source": "packages/core/src/execution-engine/workflow-execute.ts",
+            "sourceFiles": [
+              "packages/core/src/execution-engine/workflow-execute.ts"
+            ],
+            "symbols": [
+              "WorkflowExecute.processRunExecutionData",
+              "setupCancellation",
+              "checkForWorkflowIssues"
+            ],
+            "gate": "取消未必撤銷第三方已完成的寫入；需另設補償、權限及測試。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃每日報表整理流程（設計示例）",
+          "problem": "合成 CSV、固定資料欄位、預期輸出與模擬通知。",
+          "steps": [
+            {
+              "capability": "workflow-start",
+              "action": "定義起點與執行範圍"
+            },
+            {
+              "capability": "node-execution",
+              "action": "設計節點與錯誤處理"
+            },
+            {
+              "capability": "execution-state",
+              "action": "檢查流程狀態及取消情境"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "daily-report-flow"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成 CSV、固定資料欄位、預期輸出與模擬通知。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "選起點 → 轉換及驗證 → 辨識錯誤 → 核對狀態與重送界線",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有資料處理或報表自動化；真正資料連線與通知另行核准。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "固定版本 LICENSE.md 指明非 master 分支內容未授權，.ee. 檔名或 .ee 目錄另依 EE 授權；部署與改作須依實際版本及用途確認。",
+            "未部署、安裝或執行節點，未審查完整憑證、Webhook、佇列及外部服務權限。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "固定版本 LICENSE.md 指明非 master 分支內容未授權，.ee. 檔名或 .ee 目錄另依 EE 授權；部署與改作須依實際版本及用途確認。 未部署、安裝或執行節點，未審查完整憑證、Webhook、佇列及外部服務權限。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、Workflow 的節點/連接/getStartNode、WorkflowExecute.run/runNode/processRunExecutionData、LICENSE.md/EE；未查全部節點、Webhook、佇列、憑證及多租戶"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -34049,14 +34914,14 @@
       "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "id": "ollama-ollama",
       "title": "Ollama — Local & Cloud AI Model Runtime",
       "canonicalName": "ollama/ollama",
       "category": "01 Agent Runtime & Harness",
       "resourceType": "Local LLM inference runtime, CLI and REST API with optional cloud models",
-      "purpose": "透過 Windows、macOS、Linux 或 Docker 在自己的電腦執行開放權重 AI 模型，提供 CLI、REST API、Python／JavaScript SDK 與外部 Coding Agents 及 UI 的整合；部分模型亦可使用 Ollama 提供的 Cloud 選項。",
-      "recommendation": "適合想降低固定 API 使用費、在本機處理可受硬體容量支援的資料，或為自己的 AI App／Open WebUI 提供模型 API 的使用者。應先評估裝置 RAM／GPU 記憶體、模型品質與量化差異；本機執行並不等於模型權重授權自動允許所有商用用途，也不能把雲端模型當成完全離線。",
+      "purpose": "在自己的電腦或伺服器提供 AI 模型呼叫入口，讓聊天、摘要或其他應用透過 API 使用模型。",
+      "recommendation": "適合評估本機模型與資料控制；需要雲端模型時另查計費及資料政策，本機 API 不等於所有請求都在地端處理。",
       "url": "https://github.com/ollama/ollama",
       "repo": "ollama/ollama",
       "status": "active",
@@ -34127,24 +34992,33 @@
         "url": "https://github.com/ollama/ollama",
         "readmeUrl": "https://github.com/ollama/ollama/blob/main/README.md",
         "type": "Official README / repository",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Documentation only; no execution tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略",
+        "upstreamCommit": "924cc286cc592f49c481fa84e15fa60dbc75989e",
+        "referenceUrls": [
+          "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/README.md",
+          "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/api/types.go",
+          "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/server/routes.go",
+          "https://github.com/ollama/ollama/blob/924cc286cc592f49c481fa84e15fa60dbc75989e/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+          "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -34153,8 +35027,8 @@
         "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+          "status": "applied",
+          "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -34167,8 +35041,356 @@
         "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+          "evidence": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "透過 Windows、macOS、Linux 或 Docker 在自己的電腦執行開放權重 AI 模型，提供 CLI、REST API、Python／JavaScript SDK 與外部 Coding Agents 及 UI 的整合；部分模型亦可使用 Ollama 提供的 Cloud 選項。",
+          "source": "https://github.com/ollama/ollama",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "local-summary",
+            "title": "建立本機文件摘要測試",
+            "detail": "先選已核准本機模型，透過 API 送出合成文字並核對回應。",
+            "capabilityRefs": [
+              "chat-api",
+              "model-runner"
+            ]
+          },
+          {
+            "id": "hardware-check",
+            "title": "比較模型與硬體需求",
+            "detail": "確認模型能否載入，測相同輸入的延遲及資源使用。",
+            "capabilityRefs": [
+              "model-runner",
+              "model-pull"
+            ]
+          },
+          {
+            "id": "app-integration",
+            "title": "將模型接到自己的應用程式",
+            "detail": "依聊天輸入與串流回應契約建立介面，處理失敗與完成狀態。",
+            "capabilityRefs": [
+              "chat-api"
+            ]
+          }
+        ],
+        "example": {
+          "id": "local-note-summary",
+          "title": "設計本機研究筆記摘要服務",
+          "input": "五篇公開或合成筆記、已核准本機模型與輸出規格。",
+          "process": "核對模型及來源 → 確認執行器 → 送出聊天請求 → 檢查完成與格式",
+          "output": "摘要回應契約、錯誤及模型資源驗收清單（未推論）。",
+          "destination": "自有知識庫的摘要功能；儲存及權限另行實作。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "local-summary",
+            "hardware-check",
+            "app-integration"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "核對模型資產與權利",
+              "capabilityRefs": [
+                "model-pull"
+              ]
+            },
+            {
+              "id": "runner",
+              "title": "確認模型執行路徑",
+              "capabilityRefs": [
+                "model-runner"
+              ]
+            },
+            {
+              "id": "chat",
+              "title": "設計聊天與串流測試",
+              "capabilityRefs": [
+                "chat-api"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "核對品質與資料保留",
+              "capabilityRefs": [],
+              "externalDependency": "應用程式驗證、網路隔離、授權及資料保存須另行實測。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先核對硬體、已批准模型與其授權，不先下載大模型。",
+          "讀取 ChatRequest/ChatResponse 契約，使用合成資料設計成功與失敗情境。",
+          "在核准環境確認實際推論路徑、連線、延遲及輸出，再接應用。"
+        ],
+        "limits": [
+          "本機執行品質和速度由硬體與模型決定；Cloud 模型可能另有計費與資料政策。",
+          "本機服務不等同完整的企業認證、存取控制或多租戶隔離方案。",
+          "未安裝、下載模型或執行推論；未查核完整 GPU runner、遠端代理、認證及多租戶隔離。",
+          "本機模型與 Cloud 模型的資料政策、費用和執行位置必須區分。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "在自己的電腦或伺服器提供 AI 模型呼叫入口，讓聊天、摘要或其他應用透過 API 使用模型。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Go / HTTP / 模型 runner"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（Repo；模型另計）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "924cc286cc592f49c481fa84e15fa60dbc75989e"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "聊天與串流回應",
+            "detail": "應用需送出對話及取得結果；輸入：model、messages、stream、format、tools、keep_alive；輸出：ChatResponse.message、done、done_reason 與可能的 remote 欄位",
+            "source": "api/types.go"
+          },
+          {
+            "title": "選擇已存在的模型與執行器",
+            "detail": "同一主機有多模型與資源限制；輸入：model name、runner、capabilities、options、keepAlive；輸出：已解析模型、runner、options 或錯誤",
+            "source": "server/routes.go"
+          },
+          {
+            "title": "取得指定模型",
+            "detail": "服務需準備模型資產；輸入：PullRequest model/name；輸出：下載處理或錯誤；某些 cloud 模型可為 stub",
+            "source": "server/routes.go"
+          }
+        ],
+        "architecture": {
+          "summary": "核對模型及來源 → 確認執行器 → 送出聊天請求 → 檢查完成與格式",
+          "nodes": [
+            {
+              "title": "聊天與串流回應",
+              "detail": "model、messages、stream、format、tools、keep_alive → ChatResponse.message、done、done_reason 與可能的 remote 欄位",
+              "files": [
+                "api/types.go",
+                "server/routes.go"
+              ]
+            },
+            {
+              "title": "選擇已存在的模型與執行器",
+              "detail": "model name、runner、capabilities、options、keepAlive → 已解析模型、runner、options 或錯誤",
+              "files": [
+                "server/routes.go"
+              ]
+            },
+            {
+              "title": "取得指定模型",
+              "detail": "PullRequest model/name → 下載處理或錯誤；某些 cloud 模型可為 stub",
+              "files": [
+                "server/routes.go"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "串流",
+            "rule": "ChatRequest.stream 預設 true；ChatResponse.done 表示完成，不能只收到首段就算完成。",
+            "source": "api/types.go"
+          },
+          {
+            "name": "模型解析",
+            "rule": "scheduleRunner 先解析已存在模型，之後交給 scheduleRunnerForModel。",
+            "source": "server/routes.go"
+          },
+          {
+            "name": "模型拉取",
+            "rule": "PullHandler 檢查 JSON 與模型名稱；固定版本包含 cloud stub 相容處理。",
+            "source": "server/routes.go"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "api/types.go",
+              "server/routes.go",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先核對硬體、已批准模型與其授權，不先下載大模型。 讀取 ChatRequest/ChatResponse 契約，使用合成資料設計成功與失敗情境。 在核准環境確認實際推論路徑、連線、延遲及輸出，再接應用。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有知識庫的摘要功能；儲存及權限另行實作。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "api/types.go"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "chat-api",
+            "name": "聊天與串流回應",
+            "problem": "應用需送出對話及取得結果",
+            "input": "model、messages、stream、format、tools、keep_alive",
+            "output": "ChatResponse.message、done、done_reason 與可能的 remote 欄位",
+            "source": "api/types.go",
+            "sourceFiles": [
+              "api/types.go",
+              "server/routes.go"
+            ],
+            "symbols": [
+              "ChatRequest",
+              "ChatResponse",
+              "Server.ChatHandler",
+              "Server.GenerateRoutes"
+            ],
+            "gate": "stream 預設 true；須處理錯誤與 done，工具及 JSON 格式須依模型驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "model-runner",
+            "name": "選擇已存在的模型與執行器",
+            "problem": "同一主機有多模型與資源限制",
+            "input": "model name、runner、capabilities、options、keepAlive",
+            "output": "已解析模型、runner、options 或錯誤",
+            "source": "server/routes.go",
+            "sourceFiles": [
+              "server/routes.go"
+            ],
+            "symbols": [
+              "Server.scheduleRunner",
+              "Server.scheduleRunnerForModel",
+              "Server.getExistingModelForRunner"
+            ],
+            "gate": "未檢查完整排程器及硬體；確認實際模型、記憶體、延遲與本機／遠端路徑。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "model-pull",
+            "name": "取得指定模型",
+            "problem": "服務需準備模型資產",
+            "input": "PullRequest model/name",
+            "output": "下載處理或錯誤；某些 cloud 模型可為 stub",
+            "source": "server/routes.go",
+            "sourceFiles": [
+              "server/routes.go"
+            ],
+            "symbols": [
+              "Server.PullHandler",
+              "parseNormalizePullModelRef"
+            ],
+            "gate": "下載模型需核准磁碟、網路、授權與成本；拉取模型名稱不代表推論必然本機。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "設計本機研究筆記摘要服務（設計示例）",
+          "problem": "五篇公開或合成筆記、已核准本機模型與輸出規格。",
+          "steps": [
+            {
+              "capability": "model-pull",
+              "action": "核對模型資產與權利"
+            },
+            {
+              "capability": "model-runner",
+              "action": "確認模型執行路徑"
+            },
+            {
+              "capability": "chat-api",
+              "action": "設計聊天與串流測試"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "local-note-summary"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "五篇公開或合成筆記、已核准本機模型與輸出規格。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "核對模型及來源 → 確認執行器 → 送出聊天請求 → 檢查完成與格式",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有知識庫的摘要功能；儲存及權限另行實作。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝、下載模型或執行推論；未查核完整 GPU runner、遠端代理、認證及多租戶隔離。",
+            "本機模型與 Cloud 模型的資料政策、費用和執行位置必須區分。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝、下載模型或執行推論；未查核完整 GPU runner、遠端代理、認證及多租戶隔離。 本機模型與 Cloud 模型的資料政策、費用和執行位置必須區分。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、ChatRequest/ChatResponse、GenerateRequest、GenerateRoutes、ChatHandler JSON 入口、scheduleRunner、PullHandler、LICENSE；未查完整 cloud passthrough、runner 及安全策略"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -36243,14 +37465,14 @@
       "canonicalName": "Orca",
       "category": "02 Agent Orchestration",
       "resourceType": "Agent Development Environment / Parallel Worktrees",
-      "purpose": "在同一個介面平行執行 Codex、Claude Code、OpenCode 等 coding agents，每個 Agent 可使用獨立 Git worktree，並集中追蹤 terminal、diff、GitHub task 與執行狀態。",
-      "recommendation": "適合把多 Agent 平行開發從多個散落 terminal 提升成可觀察、可隔離、可比較與可合併的工作區。",
+      "purpose": "在同一個介面管理多個 Coding Agent、終端、Git Worktree 及程式差異，方便將獨立任務分開開發再審查。",
+      "recommendation": "適合同一專案中有多個可以獨立處理的工作，例如分開修改前端與測試；若任務會修改同一批檔案，先釐清依賴與合併順序。",
       "url": "https://github.com/stablyai/orca",
       "repo": "stablyai/orca",
       "notes": "Official Orca repository confirmed for the parallel-agent/worktree product shown in the screenshot topic.",
       "status": "active",
       "addedAt": "2026-09-17",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "multi-agent",
         "worktree",
@@ -36317,25 +37539,32 @@
       "source": {
         "url": "https://github.com/stablyai/orca",
         "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream README",
-        "reviewScope": "Documentation only, no code executed"
+        "reviewScope": "固定版本 README 的 Parallel Worktrees、Orchestrate Agents、Review、Homebrew 安裝及 LICENSE；未定位實際 worktree 實作，嘗試的 src/main/git/worktree.ts 與 src/main/worktree.ts 回傳 404。",
+        "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
+        "referenceUrls": [
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
-        "sourceStatus": "source-checked",
+        "sourceStatus": "partial",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+          "reason": "沿用 Canonical ID，補已知文件證據與讀者用途，原始碼路徑缺口另行追蹤。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -36345,7 +37574,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+          "reason": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -36358,8 +37587,149 @@
         "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+          "evidence": "固定版本 README 的 Parallel Worktrees、Orchestrate Agents、Review、Homebrew 安裝及 LICENSE；未定位實際 worktree 實作，嘗試的 src/main/git/worktree.ts 與 src/main/worktree.ts 回傳 404。；未執行。"
+        },
+        "sourceGap": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。",
+        "layerReview": {
+          "status": "deferred",
+          "reason": "固定版本 README 與 LICENSE 已查閱，核心實作契約尚未取得；只對應可證明的文件內容。",
+          "gap": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。",
+          "nextAction": "從固定版本專案目錄或官方程式碼索引定位 Worktree、Agent orchestration、diff/PR 及程序管理模組，逐檔核對輸入輸出、失敗與權限。"
         }
+      },
+      "implementationKnowledge": {
+        "sourceReview": {
+          "worktrees": "README 描述每個工作區可有自己的 Worktree 與 Agent；不代表程序、網路、憑證或資料皆已隔離。",
+          "orchestration": "README 描述 Coordinator 拆工作及啟動獨立 worker、收回結果；未核對執行契約。",
+          "review": "README 描述差異註記、commit/PR 草擬及回饋 CI；具體寫入與核准路徑待查。",
+          "install": "README 的 macOS stable 指令為 brew install --cask stablyai/orca/orca；RC 指令另有 @rc，兩者衝突。MIT Repo，依賴與服務條款另計。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "worktree",
+          "detail": "README 描述獨立 Worktree 用於不同 Agent 的平行工作。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md；Parallel Worktrees",
+          "evidenceFields": [
+            "features.0",
+            "implementationKnowledge.sourceReview.worktrees"
+          ],
+          "limitations": "Worktree 隔離檔案工作目錄，不等於 OS 或憑證隔離。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "orchestration",
+          "detail": "README 描述 Coordinator 拆分及收回 worker 工作；遠端及行動入口亦有文件連結。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md；Orchestrate Agents",
+          "evidenceFields": [
+            "features.1",
+            "implementationKnowledge.sourceReview.orchestration"
+          ],
+          "limitations": "未核對 worker 生命週期、遠端權限或取消。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "review",
+          "detail": "README 描述差異註記、草擬 commit/PR 及回傳審查意見。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md；Review diffs",
+          "evidenceFields": [
+            "requirements.1",
+            "implementationKnowledge.sourceReview.review"
+          ],
+          "limitations": "不保證變更可直接合併，需 Git 差異與 CI 驗收。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "parallel-tasks",
+            "title": "讓不同 Agent 分開修改功能",
+            "detail": "先拆分不互相依賴的工作，每個 Agent 使用自己的 Worktree 與分支。",
+            "evidenceRefs": [
+              "worktree",
+              "orchestration"
+            ]
+          },
+          {
+            "id": "review-diffs",
+            "title": "集中檢查 Agent 的程式修改",
+            "detail": "比較每個分支的 commit 與 diff，針對差異給回饋。",
+            "evidenceRefs": [
+              "review"
+            ]
+          },
+          {
+            "id": "coordination",
+            "title": "安排多個任務的交付順序",
+            "detail": "由 Coordinator 管理依賴、驗收及回收結果，避免兩個工作同時改同一檔案。",
+            "evidenceRefs": [
+              "orchestration",
+              "worktree",
+              "review"
+            ]
+          }
+        ],
+        "example": {
+          "id": "parallel-feature-work",
+          "title": "分開開發網頁與回歸測試",
+          "input": "同一測試 Repo 的前端修改與獨立測試任務，指定基準 commit。",
+          "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異及合併順序",
+          "output": "兩個分支及差異審查規格（未建立實際 Worktree）。",
+          "destination": "自有專案的開發與 PR 流程。",
+          "note": "自訂設計示例；未安裝、執行或驗證真實整合。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "parallel-tasks",
+            "review-diffs",
+            "coordination"
+          ],
+          "steps": [
+            {
+              "id": "split",
+              "title": "定義獨立工作與依賴",
+              "evidenceRefs": [
+                "orchestration"
+              ]
+            },
+            {
+              "id": "isolate",
+              "title": "規劃 Worktree 與分支",
+              "evidenceRefs": [
+                "worktree"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "驗收 commit 與 diff",
+              "evidenceRefs": [
+                "review"
+              ]
+            },
+            {
+              "id": "merge",
+              "title": "核對整合結果",
+              "evidenceRefs": [],
+              "externalDependency": "Git 合併、權限、CI 與副作用須由專案獨立驗證。"
+            }
+          ]
+        },
+        "start": [
+          "先確認安裝套件名稱及版本；macOS stable 文件使用完整 cask 名稱。",
+          "先在測試 Repo 定義基準 commit、任務範圍及各自的 Worktree。",
+          "完成各自驗收後審查差異與合併順序，不把 Worktree 當資安沙箱。"
+        ],
+        "limits": [
+          "README 提醒 macOS Homebrew 必須使用完整套件名稱，裸 orca 指向另一軟體",
+          "平行 Agent 會增加權限、模型成本與 Merge 衝突風險",
+          "未安裝、啟動 Agent 或建立 Worktree；只查閱官方 README 與授權。",
+          "遠端執行、程序與憑證隔離、實際 Git 命令及授權流程未查核。"
+        ]
       }
     },
     {
@@ -37431,14 +38801,14 @@
       "canonicalName": "Playwright",
       "category": "12 Developer Tools",
       "resourceType": "Web Testing / Browser Automation",
-      "purpose": "Playwright 是跨 Chromium、Firefox、WebKit 的瀏覽器自動化與網頁測試框架，提供 Test Runner、Library 與不同 Agent 使用入口。",
-      "recommendation": "適合驗證瀏覽器互動、導覽、表單與回歸流程；需要純測試時優先使用 Playwright Test，Agent 操作則另評估 CLI 或 MCP。",
+      "purpose": "自動操作瀏覽器，驗證網站的按鈕、表單、登入後畫面與實際互動是否符合預期。",
+      "recommendation": "適合網站功能驗收及回歸測試；純資料運算先用單元測試，避免把所有驗收都交給較重的瀏覽器流程。",
       "url": "https://playwright.dev/",
       "repo": "microsoft/playwright",
       "notes": "Official documentation and repository confirmed; important to revisit because of a current related issue.",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "important",
         "revisit",
@@ -37498,24 +38868,33 @@
         "url": "https://github.com/microsoft/playwright",
         "readmeUrl": "https://github.com/microsoft/playwright/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner",
+        "upstreamCommit": "b0e0b7b555e637cc8c0ce94dd98c3be153861333",
+        "referenceUrls": [
+          "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/README.md",
+          "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/packages/playwright-core/src/client/locator.ts",
+          "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/packages/playwright-core/src/client/browserContext.ts",
+          "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -37524,8 +38903,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain software，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -37538,8 +38917,367 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Playwright 是跨 Chromium、Firefox、WebKit 的瀏覽器自動化與網頁測試框架，提供 Test Runner、Library 與不同 Agent 使用入口。",
+          "source": "https://github.com/microsoft/playwright",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "form-check",
+            "title": "測試表單送出及錯誤",
+            "detail": "填入正常與無效資料，檢查真實成功及錯誤提示。",
+            "capabilityRefs": [
+              "locator-action",
+              "assert-state"
+            ]
+          },
+          {
+            "id": "regression",
+            "title": "驗證改版沒有破壞既有互動",
+            "detail": "以相同測試在核准環境及指定瀏覽器重複操作。",
+            "capabilityRefs": [
+              "locator-action",
+              "assert-state",
+              "context-lifecycle"
+            ]
+          },
+          {
+            "id": "test-isolation",
+            "title": "讓不同測試不共用登入狀態",
+            "detail": "以獨立 context 測不同使用者情境，妥善清理測試狀態。",
+            "capabilityRefs": [
+              "context-lifecycle"
+            ]
+          }
+        ],
+        "example": {
+          "id": "form-persistence-test",
+          "title": "驗收申請表單儲存功能",
+          "input": "合成表單資料、預期正常與錯誤行為、已授權測試站。",
+          "process": "建立測試 context → 定位及填寫 → 送出 → 驗證提示與重新讀取 → 清理",
+          "output": "瀏覽器操作、預期畫面及資料讀回的測試規格（未執行）。",
+          "destination": "自有網站的 PR 回歸驗收。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "form-check",
+            "regression",
+            "test-isolation"
+          ],
+          "steps": [
+            {
+              "id": "context",
+              "title": "建立獨立測試環境",
+              "capabilityRefs": [
+                "context-lifecycle"
+              ]
+            },
+            {
+              "id": "interact",
+              "title": "定位欄位並送出合成資料",
+              "capabilityRefs": [
+                "locator-action"
+              ]
+            },
+            {
+              "id": "assert",
+              "title": "驗證畫面與錯誤提示",
+              "capabilityRefs": [
+                "assert-state"
+              ]
+            },
+            {
+              "id": "persist",
+              "title": "驗證真正保存的資料",
+              "capabilityRefs": [],
+              "externalDependency": "測試資料庫、資料讀回介面與清理流程需由應用提供。"
+            },
+            {
+              "id": "close",
+              "title": "關閉並清理 context",
+              "capabilityRefs": [
+                "context-lifecycle"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先定義正常、錯誤及資料讀回的驗收情境。",
+          "選擇 Playwright Test 或 Library，核對瀏覽器與測試環境。",
+          "使用合成帳號及資料，驗證多尺寸與指定瀏覽器，避免保存登入狀態到版本庫。"
+        ],
+        "limits": [
+          "跨瀏覽器測試需在實際目標環境運行，不等於單機測試能覆蓋所有裝置。",
+          "瀏覽器自動化可能涉及網站條款、登入資訊與操作副作用，應限制權限。",
+          "本次未安裝或啟動第三方 Playwright、未驗證各瀏覽器及完整自動等待機制。",
+          "不可把畫面成功提示當成後端保存證據；需獨立讀回。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "自動操作瀏覽器，驗證網站的按鈕、表單、登入後畫面與實際互動是否符合預期。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "限定範圍固定版本原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / Browser automation"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0"
+          },
+          {
+            "label": "版本錨點",
+            "value": "b0e0b7b555e637cc8c0ce94dd98c3be153861333"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "定位及操作頁面元件",
+            "detail": "網站測試需明確指定按鈕與表單；輸入：Locator selector、value、timeout/options；輸出：click/fill Promise 或錯誤",
+            "source": "packages/playwright-core/src/client/locator.ts"
+          },
+          {
+            "title": "驗證畫面是否符合預期",
+            "detail": "點擊成功不代表業務狀態正確；輸入：Locator、expression、expect options；輸出：ExpectResult 或失敗",
+            "source": "packages/playwright-core/src/client/locator.ts"
+          },
+          {
+            "title": "隔離及清理瀏覽器測試",
+            "detail": "測試需隔離登入和狀態；輸入：BrowserContext、新頁面、可選 storageState、close；輸出：頁面、序列化狀態或關閉結果",
+            "source": "packages/playwright-core/src/client/browserContext.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "建立測試 context → 定位及填寫 → 送出 → 驗證提示與重新讀取 → 清理",
+          "nodes": [
+            {
+              "title": "定位及操作頁面元件",
+              "detail": "Locator selector、value、timeout/options → click/fill Promise 或錯誤",
+              "files": [
+                "packages/playwright-core/src/client/locator.ts"
+              ]
+            },
+            {
+              "title": "驗證畫面是否符合預期",
+              "detail": "Locator、expression、expect options → ExpectResult 或失敗",
+              "files": [
+                "packages/playwright-core/src/client/locator.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "隔離及清理瀏覽器測試",
+              "detail": "BrowserContext、新頁面、可選 storageState、close → 頁面、序列化狀態或關閉結果",
+              "files": [
+                "packages/playwright-core/src/client/browserContext.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "定位",
+            "rule": "Locator.click/fill 傳遞 selectorForQuery 與 strict true 到 Frame。",
+            "source": "packages/playwright-core/src/client/locator.ts"
+          },
+          {
+            "name": "驗收",
+            "rule": "Locator._expect 交由 Frame._expect；公開用法見 README web-first assertions。",
+            "source": "packages/playwright-core/src/client/locator.ts"
+          },
+          {
+            "name": "生命週期",
+            "rule": "storageState 可寫 JSON 檔；close 處理 request dispose、HAR 及 channel 關閉。",
+            "source": "packages/playwright-core/src/client/browserContext.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "packages/playwright-core/src/client/locator.ts",
+              "packages/playwright-core/src/client/browserContext.ts",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先定義正常、錯誤及資料讀回的驗收情境。 選擇 Playwright Test 或 Library，核對瀏覽器與測試環境。 使用合成帳號及資料，驗證多尺寸與指定瀏覽器，避免保存登入狀態到版本庫。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有網站的 PR 回歸驗收。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "packages/playwright-core/src/client/locator.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "locator-action",
+            "name": "定位及操作頁面元件",
+            "problem": "網站測試需明確指定按鈕與表單",
+            "input": "Locator selector、value、timeout/options",
+            "output": "click/fill Promise 或錯誤",
+            "source": "packages/playwright-core/src/client/locator.ts",
+            "sourceFiles": [
+              "packages/playwright-core/src/client/locator.ts"
+            ],
+            "symbols": [
+              "Locator.click",
+              "Locator.fill",
+              "Locator.selectorForQuery"
+            ],
+            "gate": "使用穩定且唯一的 locator；client 以 strict true 傳遞操作，實際自動等待內部未查核。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "assert-state",
+            "name": "驗證畫面是否符合預期",
+            "problem": "點擊成功不代表業務狀態正確",
+            "input": "Locator、expression、expect options",
+            "output": "ExpectResult 或失敗",
+            "source": "packages/playwright-core/src/client/locator.ts",
+            "sourceFiles": [
+              "packages/playwright-core/src/client/locator.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "Locator._expect"
+            ],
+            "gate": "內部 _expect 非公開使用入口；應用以公開 web-first assertions 驗收，並另驗證資料持久化。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "context-lifecycle",
+            "name": "隔離及清理瀏覽器測試",
+            "problem": "測試需隔離登入和狀態",
+            "input": "BrowserContext、新頁面、可選 storageState、close",
+            "output": "頁面、序列化狀態或關閉結果",
+            "source": "packages/playwright-core/src/client/browserContext.ts",
+            "sourceFiles": [
+              "packages/playwright-core/src/client/browserContext.ts"
+            ],
+            "symbols": [
+              "BrowserContext.newPage",
+              "BrowserContext.storageState",
+              "BrowserContext.setStorageState",
+              "BrowserContext.close"
+            ],
+            "gate": "storageState 可能保存登入憑證；不得提交至 Repo。關閉 context 不等於刪除已存檔案。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "驗收申請表單儲存功能（設計示例）",
+          "problem": "合成表單資料、預期正常與錯誤行為、已授權測試站。",
+          "steps": [
+            {
+              "capability": "context-lifecycle",
+              "action": "建立獨立測試環境"
+            },
+            {
+              "capability": "locator-action",
+              "action": "定位欄位並送出合成資料"
+            },
+            {
+              "capability": "assert-state",
+              "action": "驗證畫面與錯誤提示"
+            },
+            {
+              "capability": "context-lifecycle",
+              "action": "關閉並清理 context"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "form-persistence-test"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成表單資料、預期正常與錯誤行為、已授權測試站。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "建立測試 context → 定位及填寫 → 送出 → 驗證提示與重新讀取 → 清理",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有網站的 PR 回歸驗收。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "本次未安裝或啟動第三方 Playwright、未驗證各瀏覽器及完整自動等待機制。",
+            "不可把畫面成功提示當成後端保存證據；需獨立讀回。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料及執行邊界",
+            "severity": "高",
+            "issue": "本次未安裝或啟動第三方 Playwright、未驗證各瀏覽器及完整自動等待機制。 不可把畫面成功提示當成後端保存證據；需獨立讀回。",
+            "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
