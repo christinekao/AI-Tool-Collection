@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 19（2026-11-25）
+
+- main 基線 `1e0784455033bbc9b11c96899c278e81bfce9185`；PR #83 四項 CI 通過合併 `259936a40063a05ca36bc8920e638900d7937b05`，Catalog Sync 通過；Pages 查核時進行中。90/286 已合併（84 完成對應、6 deferred）。
+- [Batch 19 逐筆報告](RESOURCE_DUAL_LAYER_BATCH19_20261125.md)：electron、oh-my-mermaid、abi-screenshot-to-code。3 筆 mapped 候選、9 個用途、9 個局部能力與 3 個 design-only 案例。
+- Electron contextIsolation 不等於 IPC 自動安全；Oh My Mermaid 雲端分享須獨立核准；Screenshot to Code 正常 WebSocket close 不代表功能驗收。第三方未實測。
+- 合併前 90/286；四項 CI 通過合併後 93/286（87 完成對應、6 deferred），193 尚未改寫。既有缺口保留。
+- 下一批優先其他開發教材與前端 Resource，含 react-frontend-backend-for-beginners；排程停用，直接執行。重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 18（2026-11-25）
 
 - main 基線 `b76891adace9b98bb6b61f39511028680780b9a5`；PR #82 四項 CI 通過合併 `a26b4c9e1e701391dfc7b384019bdcbc3690fec9`，Catalog Sync 通過；Pages 查核時排隊。87/286 已合併（81 完成對應、6 deferred）。

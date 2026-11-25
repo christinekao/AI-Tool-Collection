@@ -572,7 +572,10 @@ try{
   ["yanliudesign-mono-color-skill",".resource-reader-guide","規劃雙色展覽海報的視覺配方"],
   ["gzh-design-skill",".resource-reader-guide","規劃技術教學長文的公眾號排版"],
   ["baoyu-skill",".resource-reader-guide","規劃 AI 教材文章的封面與插圖發布"],
-  ["ui-ux-gold-standard",".resource-reader-guide","規劃資料分析 Dashboard 的共用設計規則"]
+  ["ui-ux-gold-standard",".resource-reader-guide","規劃資料分析 Dashboard 的共用設計規則"],
+  ["electron",".resource-reader-guide","規劃離線個人知識庫的桌面應用"],
+  ["oh-my-mermaid",".resource-reader-guide","規劃知識庫專案的可展開架構文件"],
+  ["abi-screenshot-to-code",".resource-reader-guide","規劃履歷管理介面截圖的前端原型重建"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -599,7 +602,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 eighty-eight Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 ninety-one Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

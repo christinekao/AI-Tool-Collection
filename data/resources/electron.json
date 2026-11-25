@@ -6,14 +6,14 @@
   "canonicalName": "Electron",
   "category": "12 Developer Tools",
   "resourceType": "Cross-platform Desktop Application Runtime / Web-to-Desktop Shell",
-  "purpose": "讓既有 JavaScript、HTML、CSS 前端技術直接用來建立 macOS、Windows、Linux 桌面應用。Electron 把 Chromium renderer 與 Node.js-powered main process 組合在同一個 runtime，由 main process 管理視窗、生命週期與 native desktop APIs，renderer 負責 Web UI，並透過 preload、contextBridge 與 IPC 建立受控的權限橋接。",
-  "recommendation": "適合已有 Web 技術棧且需要桌面視窗、檔案互動或原生系統整合的專案；需衡量執行體積、更新與安全維護成本。",
+  "purpose": "把既有的 HTML、CSS、JavaScript 網頁做成可在 macOS、Windows、Linux 開啟的桌面應用，並讓介面透過受控方式使用本機功能。",
+  "recommendation": "適合已有 Web UI 且需要桌面視窗或本機檔案功能；若純網站即可滿足需求，不必增加桌面 runtime。",
   "url": "https://github.com/electron/electron",
   "repo": "electron/electron",
   "notes": "Official repository and docs confirmed. Electron is built on Chromium and Node.js and ships cross-platform binaries for macOS, Windows and Linux. Its architecture separates privileged main process from renderer processes; preload/contextBridge/IPC should be used as a narrow capability boundary. Security guidance recommends disabling Node integration for remote content, keeping context isolation and sandboxing enabled, validating IPC senders and not exposing privileged Electron APIs to untrusted content. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "desktop-app",
     "cross-platform",
@@ -81,24 +81,34 @@
     "url": "https://github.com/electron/electron",
     "readmeUrl": "https://github.com/electron/electron/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。",
+    "upstreamCommit": "9ea8e7da48401110ddebcc469ddd2312f3e1b021",
+    "referenceUrls": [
+      "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/LICENSE",
+      "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/process-model.md",
+      "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/context-isolation.md",
+      "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/ipc.md",
+      "https://github.com/electron/electron/blob/9ea8e7da48401110ddebcc469ddd2312f3e1b021/docs/tutorial/security.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "repo"
+        "title"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "既有 ID 與上游 repo 一致；不新增實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -107,8 +117,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain software，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。；非完整重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -118,10 +128,357 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept 引用，沒有因字串相似而擴充關聯。"
     },
-    "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
+    "riskNotes": "支援的作業系統最低版本會隨 Electron 版本改變。；不能讓不受信任的網頁直接取得高權限 Node.js 能力；須驗證隔離與權限。；Electron 不等同普通瀏覽器；本機 API 權限擴大風險。；contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。；未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。；局部用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓既有 JavaScript、HTML、CSS 前端技術直接用來建立 macOS、Windows、Linux 桌面應用。Electron 把 Chromium renderer 與 Node.js-powered main process 組合在同一個 runtime，由 main process 管理視窗、生命週期與 native desktop APIs，renderer 負責 Web UI，並透過 preload、contextBridge 與 IPC 建立受控的權限橋接。",
+      "source": "https://github.com/electron/electron",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合已有 Web 技術棧且需要桌面視窗、檔案互動或原生系統整合的專案；需衡量執行體積、更新與安全維護成本。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-window",
+        "title": "將網頁包成桌面視窗",
+        "detail": "現有網站需要獨立桌面視窗及生命週期。 main 與 renderer 分工及視窗規格。",
+        "capabilityRefs": [
+          "window"
+        ]
+      },
+      {
+        "id": "use-bridge",
+        "title": "讓介面受控呼叫本機功能",
+        "detail": "畫面需要讀取本機資料，但不應取得所有 Node.js 權限。 contextBridge 暴露的窄介面。",
+        "capabilityRefs": [
+          "bridge"
+        ]
+      },
+      {
+        "id": "use-ipc",
+        "title": "核對跨程序請求與權限",
+        "detail": "讀取或修改本機檔案需明確處理權限與失敗。 受控 main handler 與回傳契約。",
+        "capabilityRefs": [
+          "ipc"
+        ]
+      }
+    ],
+    "example": {
+      "id": "electron-example",
+      "title": "規劃離線個人知識庫的桌面應用",
+      "input": "既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+      "process": "將網頁包成桌面視窗 → 讓介面受控呼叫本機功能 → 核對跨程序請求與權限 → 獨立驗收",
+      "output": "桌面視窗、受限檔案操作介面及權限驗收規格，尚未製作應用。",
+      "destination": "自有個人知識庫桌面版的工程規格及跨平台安全驗收流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-window",
+        "use-bridge",
+        "use-ipc"
+      ],
+      "steps": [
+        {
+          "id": "window",
+          "title": "將網頁包成桌面視窗",
+          "capabilityRefs": [
+            "window"
+          ]
+        },
+        {
+          "id": "bridge",
+          "title": "讓介面受控呼叫本機功能",
+          "capabilityRefs": [
+            "bridge"
+          ]
+        },
+        {
+          "id": "ipc",
+          "title": "核對跨程序請求與權限",
+          "capabilityRefs": [
+            "ipc"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限、整合及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+      "依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。",
+      "確認授權、環境、資料及權限，再另行執行並核對實際輸出。"
+    ],
+    "limits": [
+      "支援的作業系統最低版本會隨 Electron 版本改變。",
+      "不能讓不受信任的網頁直接取得高權限 Node.js 能力；須驗證隔離與權限。",
+      "Electron 不等同普通瀏覽器；本機 API 權限擴大風險。",
+      "contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。",
+      "未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把既有的 HTML、CSS、JavaScript 網頁做成可在 macOS、Windows、Linux 開啟的桌面應用，並讓介面透過受控方式使用本機功能。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；Chromium、Node.js 與其他相依元件另查）"
+      },
+      {
+        "label": "版本",
+        "value": "9ea8e7da48401110ddebcc469ddd2312f3e1b021"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "將網頁包成桌面視窗",
+        "detail": "現有網站需要獨立桌面視窗及生命週期。；輸入：本機 Web UI、視窗設定；輸出：main 與 renderer 分工及視窗規格",
+        "source": "docs/tutorial/process-model.md"
+      },
+      {
+        "title": "讓介面受控呼叫本機功能",
+        "detail": "畫面需要讀取本機資料，但不應取得所有 Node.js 權限。；輸入：preload 腳本、限定方法與輸入；輸出：contextBridge 暴露的窄介面",
+        "source": "docs/tutorial/context-isolation.md"
+      },
+      {
+        "title": "核對跨程序請求與權限",
+        "detail": "讀取或修改本機檔案需明確處理權限與失敗。；輸入：IPC channel、請求資料與來源；輸出：受控 main handler 與回傳契約",
+        "source": "docs/tutorial/ipc.md"
+      }
+    ],
+    "architecture": {
+      "summary": "將網頁包成桌面視窗 → 讓介面受控呼叫本機功能 → 核對跨程序請求與權限 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "將網頁包成桌面視窗",
+          "detail": "本機 Web UI、視窗設定 → main 與 renderer 分工及視窗規格",
+          "files": [
+            "docs/tutorial/process-model.md"
+          ]
+        },
+        {
+          "title": "讓介面受控呼叫本機功能",
+          "detail": "preload 腳本、限定方法與輸入 → contextBridge 暴露的窄介面",
+          "files": [
+            "docs/tutorial/context-isolation.md",
+            "docs/tutorial/ipc.md"
+          ]
+        },
+        {
+          "title": "核對跨程序請求與權限",
+          "detail": "IPC channel、請求資料與來源 → 受控 main handler 與回傳契約",
+          "files": [
+            "docs/tutorial/ipc.md",
+            "docs/tutorial/security.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "將網頁包成桌面視窗",
+        "rule": "main 可使用 Node.js；不要把桌面權限交給不可信任的 renderer。",
+        "source": "docs/tutorial/process-model.md"
+      },
+      {
+        "name": "讓介面受控呼叫本機功能",
+        "rule": "contextIsolation 不等於 IPC 自動安全；禁止直接暴露 ipcRenderer.send，逐方法限制參數。",
+        "source": "docs/tutorial/context-isolation.md"
+      },
+      {
+        "name": "核對跨程序請求與權限",
+        "rule": "核對 sender 與輸入、限制檔案存取範圍；本機讀寫為自訂應用邏輯，非框架自動授權。",
+        "source": "docs/tutorial/ipc.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。",
+        "files": [
+          "LICENSE",
+          "docs/tutorial/process-model.md",
+          "docs/tutorial/context-isolation.md",
+          "docs/tutorial/ipc.md",
+          "docs/tutorial/security.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。 依實際用途選擇上述能力，閱讀固定版本來源並確認不適用的情境。 確認授權、環境、資料及權限，再另行執行並核對實際輸出。",
+        "files": [
+          "docs/tutorial/process-model.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有個人知識庫桌面版的工程規格及跨平台安全驗收流程。；另驗證實際行為及限制。",
+        "file": "docs/tutorial/process-model.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "window",
+        "name": "將網頁包成桌面視窗",
+        "problem": "現有網站需要獨立桌面視窗及生命週期。",
+        "input": "本機 Web UI、視窗設定",
+        "output": "main 與 renderer 分工及視窗規格",
+        "source": "docs/tutorial/process-model.md",
+        "sourceFiles": [
+          "docs/tutorial/process-model.md"
+        ],
+        "symbols": [
+          "BrowserWindow（文件 API）",
+          "webContents（文件 API）",
+          "The main process（文件章節）"
+        ],
+        "gate": "main 可使用 Node.js；不要把桌面權限交給不可信任的 renderer。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "bridge",
+        "name": "讓介面受控呼叫本機功能",
+        "problem": "畫面需要讀取本機資料，但不應取得所有 Node.js 權限。",
+        "input": "preload 腳本、限定方法與輸入",
+        "output": "contextBridge 暴露的窄介面",
+        "source": "docs/tutorial/context-isolation.md",
+        "sourceFiles": [
+          "docs/tutorial/context-isolation.md",
+          "docs/tutorial/ipc.md"
+        ],
+        "symbols": [
+          "contextBridge.exposeInMainWorld（文件 API）",
+          "Security considerations（文件章節）"
+        ],
+        "gate": "contextIsolation 不等於 IPC 自動安全；禁止直接暴露 ipcRenderer.send，逐方法限制參數。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "ipc",
+        "name": "核對跨程序請求與權限",
+        "problem": "讀取或修改本機檔案需明確處理權限與失敗。",
+        "input": "IPC channel、請求資料與來源",
+        "output": "受控 main handler 與回傳契約",
+        "source": "docs/tutorial/ipc.md",
+        "sourceFiles": [
+          "docs/tutorial/ipc.md",
+          "docs/tutorial/security.md"
+        ],
+        "symbols": [
+          "ipcRenderer.invoke（文件 API）",
+          "ipcMain.handle（文件 API）",
+          "IPC channels（文件章節）"
+        ],
+        "gate": "核對 sender 與輸入、限制檔案存取範圍；本機讀寫為自訂應用邏輯，非框架自動授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃離線個人知識庫的桌面應用（設計示例）",
+      "problem": "既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+      "steps": [
+        {
+          "capability": "window",
+          "action": "將網頁包成桌面視窗"
+        },
+        {
+          "capability": "bridge",
+          "action": "讓介面受控呼叫本機功能"
+        },
+        {
+          "capability": "ipc",
+          "action": "核對跨程序請求與權限"
+        }
+      ],
+      "gate": "未執行；實際環境與成果須獨立驗收。",
+      "readerExampleRef": "electron-example"
+    },
+    "rebuild": {
+      "verdict": "可依局部文件與技術契約規劃驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "既有 HTML 知識庫介面、合成筆記資料及明確的本機讀寫需求。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "將網頁包成桌面視窗 → 讓介面受控呼叫本機功能 → 核對跨程序請求與權限 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有個人知識庫桌面版的工程規格及跨平台安全驗收流程。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Electron 不等同普通瀏覽器；本機 API 權限擴大風險。",
+        "contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。",
+        "未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Electron 不等同普通瀏覽器；本機 API 權限擴大風險。 contextIsolation 不代表 IPC 自動安全，必須限縮可呼叫方法並驗證來源與輸入。 未核對原生 runtime、依賴漏洞、打包簽署及更新；未執行第三方程式。",
+        "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 LICENSE、process-model、context-isolation、ipc、security 四份官方技術文件；未審查 C++／Chromium runtime 實作或打包流程。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
