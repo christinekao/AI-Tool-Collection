@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 15（2026-11-25）
+
+- main `1efe5513afb767866a396b041e77e8eb7b21d934`；PR #79 四項 CI 通過並合併 `60ce62bd0b82469a89dd9f9d7541acd5d208ab60`，Catalog Sync 確認。76/286 已合併（70 完成對應、6 deferred）。
+- [Batch 15 逐筆報告](RESOURCE_DUAL_LAYER_BATCH15_20261125.md)：uiverse-io-galaxy、motion-dev-animations-skill、googlechrome-modern-web-guidance；3 筆 mapped 候選、9 個用途、9 個局部能力、3 個設計案例。原分類與知識關係保留；兩筆空白 repo 依既有 URL 補齊。
+- Motion validator 不是 FPS 量測，Uiverse 社群樣式不是完整可及性，Modern Web Guidance legacy-scan 僅涵蓋約 20% 指引。第三方未實測。
+- 合併前 76/286；通過合併後 79/286（73 完成對應、6 deferred），207 未改寫。既有缺口保留。
+- 下一批優先其他設計技能與開發教材。排程停用、直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 14（2026-11-25）
 
 - 基線 main `daf1ab33fa53fb45f73c23f7494672f822dada15`；PR #78 四項 CI 通過並合併 `e530c3c8278ee579abc69f08b42ef139378a683c`，Catalog Sync 確認。73/286 已合併（67 完成對應、6 deferred）。
