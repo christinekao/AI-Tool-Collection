@@ -6,14 +6,14 @@
   "canonicalName": "Playwright",
   "category": "12 Developer Tools",
   "resourceType": "Web Testing / Browser Automation",
-  "purpose": "Playwright 是跨 Chromium、Firefox、WebKit 的瀏覽器自動化與網頁測試框架，提供 Test Runner、Library 與不同 Agent 使用入口。",
-  "recommendation": "適合驗證瀏覽器互動、導覽、表單與回歸流程；需要純測試時優先使用 Playwright Test，Agent 操作則另評估 CLI 或 MCP。",
+  "purpose": "自動操作瀏覽器，驗證網站的按鈕、表單、登入後畫面與實際互動是否符合預期。",
+  "recommendation": "適合網站功能驗收及回歸測試；純資料運算先用單元測試，避免把所有驗收都交給較重的瀏覽器流程。",
   "url": "https://playwright.dev/",
   "repo": "microsoft/playwright",
   "notes": "Official documentation and repository confirmed; important to revisit because of a current related issue.",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "important",
     "revisit",
@@ -73,24 +73,33 @@
     "url": "https://github.com/microsoft/playwright",
     "readmeUrl": "https://github.com/microsoft/playwright/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner",
+    "upstreamCommit": "b0e0b7b555e637cc8c0ce94dd98c3be153861333",
+    "referenceUrls": [
+      "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/README.md",
+      "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/packages/playwright-core/src/client/locator.ts",
+      "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/packages/playwright-core/src/client/browserContext.ts",
+      "https://github.com/microsoft/playwright/blob/b0e0b7b555e637cc8c0ce94dd98c3be153861333/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -99,8 +108,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain software，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -113,7 +122,366 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Playwright 是跨 Chromium、Firefox、WebKit 的瀏覽器自動化與網頁測試框架，提供 Test Runner、Library 與不同 Agent 使用入口。",
+      "source": "https://github.com/microsoft/playwright",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "form-check",
+        "title": "測試表單送出及錯誤",
+        "detail": "填入正常與無效資料，檢查真實成功及錯誤提示。",
+        "capabilityRefs": [
+          "locator-action",
+          "assert-state"
+        ]
+      },
+      {
+        "id": "regression",
+        "title": "驗證改版沒有破壞既有互動",
+        "detail": "以相同測試在核准環境及指定瀏覽器重複操作。",
+        "capabilityRefs": [
+          "locator-action",
+          "assert-state",
+          "context-lifecycle"
+        ]
+      },
+      {
+        "id": "test-isolation",
+        "title": "讓不同測試不共用登入狀態",
+        "detail": "以獨立 context 測不同使用者情境，妥善清理測試狀態。",
+        "capabilityRefs": [
+          "context-lifecycle"
+        ]
+      }
+    ],
+    "example": {
+      "id": "form-persistence-test",
+      "title": "驗收申請表單儲存功能",
+      "input": "合成表單資料、預期正常與錯誤行為、已授權測試站。",
+      "process": "建立測試 context → 定位及填寫 → 送出 → 驗證提示與重新讀取 → 清理",
+      "output": "瀏覽器操作、預期畫面及資料讀回的測試規格（未執行）。",
+      "destination": "自有網站的 PR 回歸驗收。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "form-check",
+        "regression",
+        "test-isolation"
+      ],
+      "steps": [
+        {
+          "id": "context",
+          "title": "建立獨立測試環境",
+          "capabilityRefs": [
+            "context-lifecycle"
+          ]
+        },
+        {
+          "id": "interact",
+          "title": "定位欄位並送出合成資料",
+          "capabilityRefs": [
+            "locator-action"
+          ]
+        },
+        {
+          "id": "assert",
+          "title": "驗證畫面與錯誤提示",
+          "capabilityRefs": [
+            "assert-state"
+          ]
+        },
+        {
+          "id": "persist",
+          "title": "驗證真正保存的資料",
+          "capabilityRefs": [],
+          "externalDependency": "測試資料庫、資料讀回介面與清理流程需由應用提供。"
+        },
+        {
+          "id": "close",
+          "title": "關閉並清理 context",
+          "capabilityRefs": [
+            "context-lifecycle"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義正常、錯誤及資料讀回的驗收情境。",
+      "選擇 Playwright Test 或 Library，核對瀏覽器與測試環境。",
+      "使用合成帳號及資料，驗證多尺寸與指定瀏覽器，避免保存登入狀態到版本庫。"
+    ],
+    "limits": [
+      "跨瀏覽器測試需在實際目標環境運行，不等於單機測試能覆蓋所有裝置。",
+      "瀏覽器自動化可能涉及網站條款、登入資訊與操作副作用，應限制權限。",
+      "本次未安裝或啟動第三方 Playwright、未驗證各瀏覽器及完整自動等待機制。",
+      "不可把畫面成功提示當成後端保存證據；需獨立讀回。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "自動操作瀏覽器，驗證網站的按鈕、表單、登入後畫面與實際互動是否符合預期。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "TypeScript / Browser automation"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Apache 2.0"
+      },
+      {
+        "label": "版本錨點",
+        "value": "b0e0b7b555e637cc8c0ce94dd98c3be153861333"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "定位及操作頁面元件",
+        "detail": "網站測試需明確指定按鈕與表單；輸入：Locator selector、value、timeout/options；輸出：click/fill Promise 或錯誤",
+        "source": "packages/playwright-core/src/client/locator.ts"
+      },
+      {
+        "title": "驗證畫面是否符合預期",
+        "detail": "點擊成功不代表業務狀態正確；輸入：Locator、expression、expect options；輸出：ExpectResult 或失敗",
+        "source": "packages/playwright-core/src/client/locator.ts"
+      },
+      {
+        "title": "隔離及清理瀏覽器測試",
+        "detail": "測試需隔離登入和狀態；輸入：BrowserContext、新頁面、可選 storageState、close；輸出：頁面、序列化狀態或關閉結果",
+        "source": "packages/playwright-core/src/client/browserContext.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "建立測試 context → 定位及填寫 → 送出 → 驗證提示與重新讀取 → 清理",
+      "nodes": [
+        {
+          "title": "定位及操作頁面元件",
+          "detail": "Locator selector、value、timeout/options → click/fill Promise 或錯誤",
+          "files": [
+            "packages/playwright-core/src/client/locator.ts"
+          ]
+        },
+        {
+          "title": "驗證畫面是否符合預期",
+          "detail": "Locator、expression、expect options → ExpectResult 或失敗",
+          "files": [
+            "packages/playwright-core/src/client/locator.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "隔離及清理瀏覽器測試",
+          "detail": "BrowserContext、新頁面、可選 storageState、close → 頁面、序列化狀態或關閉結果",
+          "files": [
+            "packages/playwright-core/src/client/browserContext.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "定位",
+        "rule": "Locator.click/fill 傳遞 selectorForQuery 與 strict true 到 Frame。",
+        "source": "packages/playwright-core/src/client/locator.ts"
+      },
+      {
+        "name": "驗收",
+        "rule": "Locator._expect 交由 Frame._expect；公開用法見 README web-first assertions。",
+        "source": "packages/playwright-core/src/client/locator.ts"
+      },
+      {
+        "name": "生命週期",
+        "rule": "storageState 可寫 JSON 檔；close 處理 request dispose、HAR 及 channel 關閉。",
+        "source": "packages/playwright-core/src/client/browserContext.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "packages/playwright-core/src/client/locator.ts",
+          "packages/playwright-core/src/client/browserContext.ts",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先定義正常、錯誤及資料讀回的驗收情境。 選擇 Playwright Test 或 Library，核對瀏覽器與測試環境。 使用合成帳號及資料，驗證多尺寸與指定瀏覽器，避免保存登入狀態到版本庫。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有網站的 PR 回歸驗收。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "packages/playwright-core/src/client/locator.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "locator-action",
+        "name": "定位及操作頁面元件",
+        "problem": "網站測試需明確指定按鈕與表單",
+        "input": "Locator selector、value、timeout/options",
+        "output": "click/fill Promise 或錯誤",
+        "source": "packages/playwright-core/src/client/locator.ts",
+        "sourceFiles": [
+          "packages/playwright-core/src/client/locator.ts"
+        ],
+        "symbols": [
+          "Locator.click",
+          "Locator.fill",
+          "Locator.selectorForQuery"
+        ],
+        "gate": "使用穩定且唯一的 locator；client 以 strict true 傳遞操作，實際自動等待內部未查核。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "assert-state",
+        "name": "驗證畫面是否符合預期",
+        "problem": "點擊成功不代表業務狀態正確",
+        "input": "Locator、expression、expect options",
+        "output": "ExpectResult 或失敗",
+        "source": "packages/playwright-core/src/client/locator.ts",
+        "sourceFiles": [
+          "packages/playwright-core/src/client/locator.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "Locator._expect"
+        ],
+        "gate": "內部 _expect 非公開使用入口；應用以公開 web-first assertions 驗收，並另驗證資料持久化。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "context-lifecycle",
+        "name": "隔離及清理瀏覽器測試",
+        "problem": "測試需隔離登入和狀態",
+        "input": "BrowserContext、新頁面、可選 storageState、close",
+        "output": "頁面、序列化狀態或關閉結果",
+        "source": "packages/playwright-core/src/client/browserContext.ts",
+        "sourceFiles": [
+          "packages/playwright-core/src/client/browserContext.ts"
+        ],
+        "symbols": [
+          "BrowserContext.newPage",
+          "BrowserContext.storageState",
+          "BrowserContext.setStorageState",
+          "BrowserContext.close"
+        ],
+        "gate": "storageState 可能保存登入憑證；不得提交至 Repo。關閉 context 不等於刪除已存檔案。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "驗收申請表單儲存功能（設計示例）",
+      "problem": "合成表單資料、預期正常與錯誤行為、已授權測試站。",
+      "steps": [
+        {
+          "capability": "context-lifecycle",
+          "action": "建立獨立測試環境"
+        },
+        {
+          "capability": "locator-action",
+          "action": "定位欄位並送出合成資料"
+        },
+        {
+          "capability": "assert-state",
+          "action": "驗證畫面與錯誤提示"
+        },
+        {
+          "capability": "context-lifecycle",
+          "action": "關閉並清理 context"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "form-persistence-test"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成表單資料、預期正常與錯誤行為、已授權測試站。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立測試 context → 定位及填寫 → 送出 → 驗證提示與重新讀取 → 清理",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有網站的 PR 回歸驗收。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "本次未安裝或啟動第三方 Playwright、未驗證各瀏覽器及完整自動等待機制。",
+        "不可把畫面成功提示當成後端保存證據；需獨立讀回。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "本次未安裝或啟動第三方 Playwright、未驗證各瀏覽器及完整自動等待機制。 不可把畫面成功提示當成後端保存證據；需獨立讀回。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、Locator.click/fill/_expect、BrowserContext.newPage/storageState/setStorageState/close、LICENSE；未追查所有伺服端 actionability、瀏覽器 driver 或完整 runner"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
