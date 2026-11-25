@@ -6,14 +6,14 @@
   "canonicalName": "Pinterest",
   "category": "11 Media / Video",
   "resourceType": "Visual discovery and reference/moodboard platform (not itself an AI video generator)",
-  "purpose": "搜尋、收藏及整理影像／影片視覺風格與創作參考，幫助確立構圖、鏡位、色彩、物件、布景及分鏡方向。",
-  "recommendation": "只能視為靈感來源；對參考素材做風格抽象、重組與原創創作。若要直接複製、上傳、改編、公開或商用第三方作品，必須另外確認著作權人授權，Pinterest 上架不代表自由商用。",
+  "purpose": "收集有助於決定構圖、色彩、鏡位及視覺風格的參考圖片，按主題整理成靈感看板。",
+  "recommendation": "適合創作初期的視覺研究與溝通；不適合把來源不明的釘選圖片直接當成商用素材或 AI 訓練資料。",
   "url": "https://www.pinterest.com/",
   "repo": "",
   "notes": "2026-10-27 以 Pinterest 官方 Copyright Help 核對權利限制；Pinterest 首頁本輪受到 403 限制，但官方 Help 可讀。Pinterest 並非此工作流的 AI 生圖引擎，只作尋找風格與建立參考集。官方明確表示若使用平台上的特定圖片／影片，必要時需向版權擁有人索取許可，平台不提供權利人身分資訊。未登入、爬取、下載或使用任何 Pin。",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "pinterest",
     "moodboard",
@@ -45,8 +45,13 @@
     "documentationUrl": "https://help.pinterest.com/en/article/copyright",
     "type": "Official product or original article",
     "summary": "Visual-reference role verified at a descriptive level; source media rights are separate.",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "referenceUrls": [
+      "https://help.pinterest.com/en/article/create-a-board",
+      "https://help.pinterest.com/en/article/save-pins-with-the-pinterest-browser-button",
+      "https://help.pinterest.com/en/article/copyright"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -85,16 +90,17 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -117,7 +123,144 @@
     "riskNotes": "釘選不等於取得圖片使用權。；搜尋結果可能包含再轉載或缺乏來源的素材。；未執行第三方程式、讀取機密或傳送憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "搜尋、收藏及整理影像／影片視覺風格與創作參考，幫助確立構圖、鏡位、色彩、物件、布景及分鏡方向。",
+      "reviewedAt": "2026-11-21",
+      "source": "https://www.pinterest.com/"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "board",
+      "detail": "官方說明 Board 是 Pins 的集合，可命名、設為秘密或邀請協作者。",
+      "locator": "https://help.pinterest.com/en/article/create-a-board",
+      "evidenceFields": [
+        "features.1",
+        "features.2"
+      ],
+      "limitations": "秘密看板不代表素材可上傳、轉載或具商用授權。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "save-reference",
+      "detail": "官方 Save Extension 說明可從網頁保存參考；保留原始頁面連結是本案策展驗收規則。",
+      "locator": "https://help.pinterest.com/en/article/save-pins-with-the-pinterest-browser-button",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未安裝 extension；只人工選擇合法可收藏來源。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "rights",
+      "detail": "官方著作權說明區分創作表達與概念；收藏不能取得重製或改作權。",
+      "locator": "https://help.pinterest.com/en/article/copyright",
+      "evidenceFields": [
+        "requirements.1",
+        "limitations.0",
+        "limitations.1"
+      ],
+      "limitations": "具體使用條款與素材原作者權利須另查。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "moodboard",
+        "title": "整理視覺風格看板",
+        "detail": "依配色、文字、材質與構圖分組靈感，提煉共通視覺特徵。",
+        "evidenceRefs": [
+          "board",
+          "save-reference"
+        ]
+      },
+      {
+        "id": "shot-reference",
+        "title": "規劃影片鏡位與布景",
+        "detail": "收藏可回查的鏡位及構圖參考，寫出自己的分鏡方向。",
+        "evidenceRefs": [
+          "board",
+          "save-reference"
+        ]
+      },
+      {
+        "id": "source-review",
+        "title": "查核參考素材的使用權",
+        "detail": "追溯原作者，分開記錄靈感與已取得授權的實際素材。",
+        "evidenceRefs": [
+          "rights",
+          "save-reference"
+        ]
+      }
+    ],
+    "example": {
+      "id": "portfolio-moodboard",
+      "title": "建立作品集視覺靈感看板",
+      "input": "三種風格方向及自行選擇的公開來源。",
+      "process": "分組收藏 → 記錄原始連結 → 萃取風格特徵 → 確認使用權",
+      "output": "風格摘要、來源連結及授權待查清單（預期產物）。",
+      "destination": "自有設計規格；不直接複製他人作品。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "moodboard",
+        "shot-reference",
+        "source-review"
+      ],
+      "steps": [
+        {
+          "id": "collect",
+          "title": "人工收藏參考與原始連結",
+          "evidenceRefs": [
+            "save-reference"
+          ]
+        },
+        {
+          "id": "group",
+          "title": "以看板組織視覺主題",
+          "evidenceRefs": [
+            "board"
+          ]
+        },
+        {
+          "id": "rights",
+          "title": "區分靈感與可用素材",
+          "evidenceRefs": [
+            "rights"
+          ]
+        },
+        {
+          "id": "design",
+          "title": "建立原創設計規格",
+          "evidenceRefs": [],
+          "externalDependency": "視覺分析、原創設計與個別素材授權需另行完成。"
+        }
+      ]
+    },
+    "start": [
+      "先決定要研究配色、構圖還是鏡位，避免無目的收藏。",
+      "建立主題看板，只人工保存具可回查來源的參考。",
+      "用自己的文字總結共通特徵，個別素材的使用權另外確認。"
+    ],
+    "limits": [
+      "釘選不等於取得圖片使用權。",
+      "搜尋結果可能包含再轉載或缺乏來源的素材。",
+      "未登入、安裝瀏覽器擴充或下載站內素材；不宣稱取得任何使用權。"
+    ]
   }
 }

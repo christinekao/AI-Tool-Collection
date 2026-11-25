@@ -347,3 +347,37 @@ test('Dual-layer batch 05: five scoped source contracts and preserved historical
   if(['microsoft-autogen','roocodeinc-roo-code'].includes(id))assert.match(d.purpose,/封存/);
  }
 });
+
+test('Dual-layer batch 06: ten official-document mappings with honest integration boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["recraft","製作網站分類圖示"],["remove-bg","整理電商商品去背流程"],["rive","設計表單儲存狀態動畫"],["pinterest-visual-reference","建立作品集視覺靈感看板"],["landing-love","研究作品集首頁滾動動效"],["maxibestof","規劃編輯式作品集首頁"],["motion-sites","設計知識庫卡片的微互動"],["google-stitch","規劃履歷投遞管理介面"],["vercel-ai-gateway","驗證摘要服務的模型備援"],["pythonanywhere","部署簡單的公開筆記展示頁"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'evidence-linked',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.readerGuide.mappingVersion,2,id);
+  assert.equal(d.agentEvidence.length,3,id);
+  assert.ok(d.implementationKnowledge.priorPurposeSnapshot.text,id);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.evidenceRefs){
+    const unit=forward.evidence.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.evidenceFields.length&&d.source.referenceUrls.includes(unit.locator),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const cutout=JSON.parse(fs.readFileSync('data/resources/remove-bg.json','utf8'));
+ assert.match(cutout.implementationKnowledge.sourceReview.migration,/2026-12-01/);
+ assert.match(cutout.readerGuide.limits.join(' '),/遷移後/);
+ const gateway=JSON.parse(fs.readFileSync('data/resources/vercel-ai-gateway.json','utf8'));
+ assert.match(gateway.agentEvidence.find(x=>x.id==='provider-routing').detail,/order.*only/);
+});

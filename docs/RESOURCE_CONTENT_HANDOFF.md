@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 06（2026-11-25）
+
+- 基線 main `41c0aa02c87665bb034731b2d6da150b9819f184`；PR #70 四項 CI 通過並合併，Catalog Sync 確認；31/286 筆已合併審查（28 完成對應、3 deferred）。
+- [Batch 06 逐筆報告](RESOURCE_DUAL_LAYER_BATCH06_20261125.md)：recraft、remove-bg、rive、pinterest-visual-reference、landing-love、maxibestof、motion-sites、google-stitch、vercel-ai-gateway、pythonanywhere。10 筆 evidence-linked 候選、30 個用途、30 個文件證據。未執行第三方服務。
+- remove.bg 官方公告 2026-12-01 遷移至 Leonardo.Ai，已保存舊 API 文件契約與待確認的新契約界線；Land-book 首頁及條款回傳 403，尚未改寫，保留原資料。
+- 合併前 31/286；本批通過並合併後 41/286（38 完成對應、3 deferred），245 未改寫。三筆 deferred 為 Microsoft AI Agents for Beginners、RAGFlow、AFFiNE。
+- 重新核對本批 PR、CI、main 與 Catalog Sync/Pages。下一批依 manifest 選取來源明確的服務、設計資料及教材。排程停用，直接執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 05（2026-11-25）
 
 - main 基線 `f0188548854f853cae69eb1a3db00c514125c8be`；PR #69 四項 CI 成功，已合併 `90f4115f07dc02a92d69dc67ca97f8dad7018667`，Catalog Sync 確認，26/286 筆已有雙層審查（23 完成對應、3 deferred）。

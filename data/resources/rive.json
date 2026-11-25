@@ -6,14 +6,14 @@
   "canonicalName": "Rive",
   "category": "08 UI & Design Engineering",
   "resourceType": "Interactive Animation / Runtime",
-  "purpose": "設計 production-ready 的互動式向量動畫，透過 State Machine 把 animation 與互動邏輯帶進 Web、React、Flutter、iOS、Android、Unity 等 runtime。",
-  "recommendation": "適合需要可真正進入產品的 micro-interaction、animated illustration、interactive icon 與 state-driven animation。",
+  "purpose": "製作會根據使用者操作或資料狀態改變的向量動畫，並將互動動畫嵌入網站或 App。",
+  "recommendation": "適合有多個互動狀態的按鈕、角色、進度或產品介面；只播放固定動畫時，簡單 CSS 或 Lottie 可能更容易整合。",
   "url": "https://rive.app/",
   "repo": "",
   "notes": "Official site confirmed. Rive exports interactive content through its runtimes and also supports traditional rendered formats.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "animation",
     "interactive",
@@ -80,25 +80,30 @@
   "source": {
     "url": "https://rive.app/",
     "readmeUrl": "https://rive.app/",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-25",
     "type": "Official product / documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "referenceUrls": [
+      "https://rive.app/blog/getting-started-with-data-binding",
+      "https://rive.app/game-ui"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "沿用 Canonical ID，比對已存在的官方入口，不新增 Entity。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -121,7 +126,145 @@
     "riskNotes": "設計工具與 Runtime 提供不同能力，不能假設所有平台的事件或渲染效果完全一致。；複雜狀態機、效能、無障礙替代及動畫減量偏好仍須在目標裝置上實測。；沒有使用憑證或執行任何第三方服務。",
     "verification": {
       "status": "not-tested",
-      "evidence": "產品與官方文件已查閱；沒有 Build／Runtime／Security／Integration 實測。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "設計 production-ready 的互動式向量動畫，透過 State Machine 把 animation 與互動邏輯帶進 Web、React、Flutter、iOS、Android、Unity 等 runtime。",
+      "reviewedAt": "2026-11-20",
+      "source": "https://rive.app/"
+    },
+    "sourceReview": {
+      "binding": "官方 Data Binding 教學使用 View Model、properties、enum 等連動 State Machine；Runtime API 必須依平台與版本另查。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "state-machine",
+      "detail": "Editor 可用 State Machine 連結動畫與狀態轉換，依事件或資料改變畫面。",
+      "locator": "https://rive.app/blog/getting-started-with-data-binding",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "未測狀態機；業務成功或失敗應由應用程式確認。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "data-binding",
+      "detail": "官方教學以 View Model、properties、enum 與 State Machine 表達資料及邏輯。",
+      "locator": "https://rive.app/blog/getting-started-with-data-binding",
+      "evidenceFields": [
+        "features.0",
+        "implementationKnowledge.sourceReview.binding"
+      ],
+      "limitations": "實際 Runtime 資料綁定 API 依版本及平台查核。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "runtime",
+      "detail": "官方產品資料描述對應 Runtime 嵌入產品介面；選定平台後再核對 .riv 及資料契約。",
+      "locator": "https://rive.app/game-ui",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1"
+      ],
+      "limitations": "此頁以遊戲場景為主，未逐一檢查所有平台 Runtime。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "feedback",
+        "title": "製作有狀態的操作回饋",
+        "detail": "讓載入、完成與失敗各有清楚的動畫狀態。",
+        "evidenceRefs": [
+          "state-machine",
+          "data-binding"
+        ]
+      },
+      {
+        "id": "live-metric",
+        "title": "讓視覺跟著資料改變",
+        "detail": "將進度或數值透過 View Model 對應動畫。",
+        "evidenceRefs": [
+          "data-binding",
+          "state-machine"
+        ]
+      },
+      {
+        "id": "embed",
+        "title": "將互動動畫嵌入產品",
+        "detail": "選擇目標平台 Runtime，核對版本與互動事件。",
+        "evidenceRefs": [
+          "runtime"
+        ]
+      }
+    ],
+    "example": {
+      "id": "save-status",
+      "title": "設計表單儲存狀態動畫",
+      "input": "idle、saving、success、error 四種真實業務狀態及一份授權動畫草稿。",
+      "process": "定義狀態 → 設計 View Model → 測資料對應 → 整合目標 Runtime",
+      "output": "可互動 .riv 資產與狀態驗收規格（預期產物）。",
+      "destination": "產品表單回饋元件；仍需文字提示與真實儲存證據。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "feedback",
+        "live-metric",
+        "embed"
+      ],
+      "steps": [
+        {
+          "id": "state",
+          "title": "定義狀態與轉換",
+          "evidenceRefs": [
+            "state-machine"
+          ]
+        },
+        {
+          "id": "bind",
+          "title": "設計資料綁定",
+          "evidenceRefs": [
+            "data-binding"
+          ]
+        },
+        {
+          "id": "embed",
+          "title": "選擇平台 Runtime",
+          "evidenceRefs": [
+            "runtime"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "驗證實際儲存及無障礙",
+          "evidenceRefs": [],
+          "externalDependency": "應用程式業務狀態、錯誤回饋及裝置實測需另行完成。"
+        }
+      ]
+    },
+    "start": [
+      "先畫出狀態轉換圖，不急著製作複雜動效。",
+      "閱讀官方 View Model 與 State Machine 教學，用合成資料設計狀態。",
+      "確認目標 Runtime、資產與方案，再測實際互動、效能及減少動態效果。"
+    ],
+    "limits": [
+      "設計工具與 Runtime 提供不同能力，不能假設所有平台的事件或渲染效果完全一致。",
+      "複雜狀態機、效能、無障礙替代及動畫減量偏好仍須在目標裝置上實測。",
+      "未製作 .riv 或驗證任何平台 Runtime；不把動畫當成業務成功證據。"
+    ]
   }
 }

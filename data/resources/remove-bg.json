@@ -6,14 +6,14 @@
   "canonicalName": "remove.bg",
   "category": "09 Content & Artifact Generation",
   "resourceType": "Background Removal / API",
-  "purpose": "自動移除圖片背景，除了網頁工具也提供 HTTP API，可把背景去除整合進 app、automation 或 asset pipeline。",
-  "recommendation": "適合商品圖、人物 cutout、社群素材與需要透明背景的自動化影像前處理。",
+  "purpose": "自動移除照片中的背景，取得透明背景的商品或人物圖片；既有 API 整合須留意 2026 年 12 月的服務遷移。",
+  "recommendation": "適合少量商品圖去背或既有去背流程維護；新 API 串接先確認 Leonardo.Ai 遷移規格，避免依賴即將變更的舊服務。",
   "url": "https://www.remove.bg/",
   "repo": "",
   "notes": "Official API confirmed. Background removal can be integrated into software or automated workflows.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "background-removal",
     "image-processing",
@@ -69,25 +69,30 @@
   ],
   "source": {
     "url": "https://www.remove.bg/",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-    "type": "Official remove.bg website and API information"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "type": "Official remove.bg website and API information",
+    "referenceUrls": [
+      "https://www.remove.bg/api#easy-to-integrate",
+      "https://www.remove.bg/api"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -110,7 +115,144 @@
     "riskNotes": "頭髮、透明物品及複雜背景可能出現遮罩缺陷，需要人工修邊。；免費與付費解析度、流量及授權條款可能不同；有隱私要求的圖片不得未經核准上傳。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "自動移除圖片背景，除了網頁工具也提供 HTTP API，可把背景去除整合進 app、automation 或 asset pipeline。",
+      "reviewedAt": "2026-11-21",
+      "source": "https://www.remove.bg/"
+    },
+    "sourceReview": {
+      "migration": "2026-11-25 官方 API 頁明示 2026-12-01 起背景移除轉至 Leonardo.Ai；目前保留的舊端點只是文件快照。新端點、金鑰與相容性未核對。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "background-removal",
+      "detail": "官方文件接受原始圖片上傳或網址，回傳去背圖片或指定格式資料。",
+      "locator": "https://www.remove.bg/api#easy-to-integrate",
+      "evidenceFields": [
+        "features.0",
+        "features.2"
+      ],
+      "limitations": "複雜邊緣需修圖；原圖不可未獲准送出。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "legacy-api",
+      "detail": "2026-11-25 文件仍列 POST https://api.remove.bg/v1.0/removebg、X-Api-Key、image_file/image_url、size；成功時讀取圖片內容。",
+      "locator": "https://www.remove.bg/api",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1"
+      ],
+      "limitations": "僅舊版文件契約；未執行，不能保證遷移後仍相容。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "migration",
+      "detail": "官方 API 頁公告 2026-12-01 起背景移除轉到 Leonardo.Ai；需重新核對端點、金鑰、回傳、額度及資料政策。",
+      "locator": "https://www.remove.bg/api",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.migration",
+        "limitations.1"
+      ],
+      "limitations": "未查核新端點、既有金鑰續用或停止日期；不可推定自動相容。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "product-cutout",
+        "title": "讓商品照片背景一致",
+        "detail": "用自有商品照片製作透明背景，再人工檢查邊緣及陰影。",
+        "evidenceRefs": [
+          "background-removal"
+        ]
+      },
+      {
+        "id": "legacy-automation",
+        "title": "盤點既有批次去背程式",
+        "detail": "找出舊 API 呼叫、輸入輸出及錯誤處理，準備遷移測試。",
+        "evidenceRefs": [
+          "legacy-api",
+          "migration"
+        ]
+      },
+      {
+        "id": "new-integration",
+        "title": "評估新去背服務的整合",
+        "detail": "依官方遷移公告重新確認服務與資料條件，不直接套用舊 API。",
+        "evidenceRefs": [
+          "migration"
+        ]
+      }
+    ],
+    "example": {
+      "id": "catalog-cutout-review",
+      "title": "整理電商商品去背流程",
+      "input": "五張自有商品照片，既有程式的 API 契約與輸出規格。",
+      "process": "盤點舊呼叫 → 確認遷移條件 → 設計測試 → 校對去背與輸出",
+      "output": "透明 PNG 的驗收規格、遷移待辦及失敗案例（未產圖）。",
+      "destination": "電商素材流程；新舊 API 測試需另行核准。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "product-cutout",
+        "legacy-automation",
+        "new-integration"
+      ],
+      "steps": [
+        {
+          "id": "inventory",
+          "title": "記錄舊端點與輸出契約",
+          "evidenceRefs": [
+            "legacy-api"
+          ]
+        },
+        {
+          "id": "migration",
+          "title": "核對官方服務變更",
+          "evidenceRefs": [
+            "migration"
+          ]
+        },
+        {
+          "id": "quality",
+          "title": "設計透明背景驗收",
+          "evidenceRefs": [
+            "background-removal"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "另行測試新 API",
+          "evidenceRefs": [],
+          "externalDependency": "取得新服務文件、核准金鑰及費用後，才可測試；本次未傳送圖片。"
+        }
+      ]
+    },
+    "start": [
+      "先區分單次網頁去背與既有 API 維護需求。",
+      "若要串接程式，先閱讀 2026-12-01 服務遷移公告，不直接採用舊端點。",
+      "用授權測試圖片驗證遮罩、解析度、錯誤處理、費用與資料政策。"
+    ],
+    "limits": [
+      "頭髮、透明物品及複雜背景可能出現遮罩缺陷，需要人工修邊。",
+      "免費與付費解析度、流量及授權條款可能不同；有隱私要求的圖片不得未經核准上傳。",
+      "遷移後的 API 契約未確認；新整合不得將舊版範例視為長期可用。"
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "Recraft",
   "category": "08 UI & Design Engineering",
   "resourceType": "AI Graphics / Vector Design",
-  "purpose": "生成與編輯 AI 圖像與向量圖，可從文字生成 SVG，也能把 raster image vectorize 成 SVG，並直接編輯 anchor points、curve 與色彩。",
-  "recommendation": "適合 logo、icon、illustration、brand asset 與需要後續精修的向量素材。",
+  "purpose": "用文字生成插畫、圖片和向量圖，或把點陣圖轉成可編輯 SVG，方便製作品牌及網站素材。",
+  "recommendation": "適合需要可縮放及可修改的圖示、插畫與品牌草稿；精確商標、文字和正式商用素材仍須人工驗收。",
   "url": "https://www.recraft.ai/",
   "repo": "",
   "notes": "Official site confirmed. Vector editor and AI vector generator support editable SVG workflows.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ai-graphics",
     "vector",
@@ -73,25 +73,31 @@
   ],
   "source": {
     "url": "https://www.recraft.ai/",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-    "type": "Official Recraft product website"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "type": "Official Recraft product website",
+    "referenceUrls": [
+      "https://www.recraft.ai/ai-models/recraft",
+      "https://www.recraft.ai/blog/vectorizer-pro",
+      "https://www.recraft.ai/api"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -114,7 +120,135 @@
     "riskNotes": "AI 產生的 SVG／插畫仍可能有不正確路徑、文字與版權疑慮，需人工編輯檢查。；產品方案與 API 可用性可能變更，網站範例不保證可重現相同設計成果。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "生成與編輯 AI 圖像與向量圖，可從文字生成 SVG，也能把 raster image vectorize 成 SVG，並直接編輯 anchor points、curve 與色彩。",
+      "reviewedAt": "2026-11-21",
+      "source": "https://www.recraft.ai/"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "generate",
+      "detail": "官方 AI 模型頁說明向量模型可直接產生 SVG；先按輸出需求選向量或點陣模型。",
+      "locator": "https://www.recraft.ai/ai-models/recraft",
+      "evidenceFields": [
+        "features.0",
+        "features.1"
+      ],
+      "limitations": "未生成圖像；不同模型與方案的可用性須核對。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "vector-edit",
+      "detail": "Studio 的 Vectorize 與 Vector Editor 支援把點陣圖轉為向量路徑，再調整顏色與節點。",
+      "locator": "https://www.recraft.ai/blog/vectorizer-pro",
+      "evidenceFields": [
+        "features.1",
+        "limitations.0"
+      ],
+      "limitations": "轉換可能失真；驗證路徑、縮放、文字及輸入素材權利。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "api",
+      "detail": "官方 API 提供圖片與向量生成、編輯及自動化；API 權利與費用依開發者條款。",
+      "locator": "https://www.recraft.ai/api",
+      "evidenceFields": [
+        "features.2",
+        "requirements.0"
+      ],
+      "limitations": "未呼叫 API；先查模型、格式、費用及金鑰。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "icon-design",
+        "title": "從文字製作網站圖示",
+        "detail": "以形狀、色彩及用途描述產出 SVG 草稿，再人工修正。",
+        "evidenceRefs": [
+          "generate",
+          "vector-edit"
+        ]
+      },
+      {
+        "id": "asset-conversion",
+        "title": "將舊圖片轉成可縮放素材",
+        "detail": "將有使用權的點陣圖片向量化，檢查路徑與輪廓。",
+        "evidenceRefs": [
+          "vector-edit"
+        ]
+      },
+      {
+        "id": "asset-pipeline",
+        "title": "建立重複產製素材的流程",
+        "detail": "在核准環境評估 API，將固定規格與人工驗收接入資產流程。",
+        "evidenceRefs": [
+          "generate",
+          "api"
+        ]
+      }
+    ],
+    "example": {
+      "id": "website-icon-set",
+      "title": "製作網站分類圖示",
+      "input": "三個圖示需求、同一線條風格與品牌色。",
+      "process": "生成向量圖 → 調整路徑與色彩 → 檢查縮放及一致性",
+      "output": "三份 SVG 草稿及驗收紀錄（預期產物）。",
+      "destination": "網站設計系統；實際匯出、SVG 安全檢查及商用權利另驗收。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "icon-design",
+        "asset-conversion",
+        "asset-pipeline"
+      ],
+      "steps": [
+        {
+          "id": "generate",
+          "title": "生成向量草稿",
+          "evidenceRefs": [
+            "generate"
+          ]
+        },
+        {
+          "id": "edit",
+          "title": "檢查路徑及配色",
+          "evidenceRefs": [
+            "vector-edit"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "驗證網站資產",
+          "evidenceRefs": [],
+          "externalDependency": "由前端或設計團隊檢查 viewBox、安全、品牌規範及授權。"
+        }
+      ]
+    },
+    "start": [
+      "先選一個小型圖示需求，區分點陣與向量輸出。",
+      "核對生成條款與素材權利，再檢查路徑及不同尺寸的呈現。",
+      "需要批次產出時才查 API 文件、費用及伺服器金鑰配置。"
+    ],
+    "limits": [
+      "AI 產生的 SVG／插畫仍可能有不正確路徑、文字與版權疑慮，需人工編輯檢查。",
+      "產品方案與 API 可用性可能變更，網站範例不保證可重現相同設計成果。",
+      "未實際生成、編輯或呼叫 API；不能保證精確重現品牌設計。"
+    ]
   }
 }

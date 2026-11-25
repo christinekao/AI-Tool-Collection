@@ -6,14 +6,14 @@
   "canonicalName": "Google Stitch",
   "category": "08 UI & Design Engineering",
   "resourceType": "AI Designer",
-  "purpose": "Google Labs 的 AI 設計畫布，從文字、語音、參考圖、既有設計或程式碼探索互動式網站與 App UI，支援設計系統及介面輸出。",
-  "recommendation": "適合用於快速提出多版 UI 方向與設計探索；先在 Stitch 確認設計目標及畫面，再輸出至設計／開發流程並人工驗證元件、互動、無障礙與實作細節。",
+  "purpose": "用文字或其他設計輸入快速建立網站與 App 介面草稿，迭代畫面並交給後續開發。",
+  "recommendation": "適合尚在確認產品介面、頁面結構及設計方向時；若需要正式功能、資料庫與權限，仍需獨立工程實作。",
   "url": "https://stitch.google.com/",
   "repo": "",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ui-design",
     "ai-design",
@@ -69,25 +69,29 @@
   "source": {
     "url": "https://stitch.google.com/",
     "documentationUrl": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
-    "reviewedAt": "2026-11-20",
-    "reviewScope": "Original official article/product documentation only; no new runtime or security testing",
-    "type": "Official product or original article"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "type": "Official product or original article",
+    "referenceUrls": [
+      "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "原有 Canonical ID 與官網及文章來源已比對，只更新既有 Resource。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -110,7 +114,142 @@
     "riskNotes": "AI 生成的 UI 不等於可直接上線的完整前後端應用；資料整合與可用性仍需實作。；不同版本的 Code／Design 匯出可能有限制，需核對實際介面及輸出格式，避免推定所有畫面都可取得完整原始碼。；沒有登入、安裝或進行付費操作。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方來源文件已查閱；沒有對第三方程式或 SaaS 執行功能、Build、安全或整合測試。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Google Labs 的 AI 設計畫布，從文字、語音、參考圖、既有設計或程式碼探索互動式網站與 App UI，支援設計系統及介面輸出。",
+      "reviewedAt": "2026-11-20",
+      "source": "https://stitch.google.com/"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "design-input",
+      "detail": "Google 2026-05-19 公告說明可由文字、語音、既有程式碼及設計檔案開始設計。",
+      "locator": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+      "evidenceFields": [
+        "features.0",
+        "requirements.1"
+      ],
+      "limitations": "未登入測試；輸入格式、帳號及資料條件需確認。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "iteration",
+      "detail": "官方公告說明 Stitch Agent 在畫布上呈現進度，使用者可以在生成過程引導修改。",
+      "locator": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+      "evidenceFields": [
+        "features.0",
+        "features.1"
+      ],
+      "limitations": "未逐項驗證目前 UI、Design.md 或全部版本功能。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "handoff",
+      "detail": "同一公告描述 Google AI Studio 分享及 Antigravity 匯出，並提到 Netlify 發布路徑。",
+      "locator": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-updates/",
+      "evidenceFields": [
+        "features.2",
+        "limitations.0",
+        "limitations.1"
+      ],
+      "limitations": "未測匯出／發布、程式完整性、後端或資料安全。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "prototype",
+        "title": "快速探索產品頁面設計",
+        "detail": "描述使用者、核心任務及畫面尺寸，建立初步版面供討論。",
+        "evidenceRefs": [
+          "design-input",
+          "iteration"
+        ]
+      },
+      {
+        "id": "variant",
+        "title": "比較兩種介面安排",
+        "detail": "指定同樣的功能，迭代導覽、資訊層級及操作流程。",
+        "evidenceRefs": [
+          "iteration"
+        ]
+      },
+      {
+        "id": "handoff",
+        "title": "將介面草稿交給工程實作",
+        "detail": "確認可取得的設計或程式輸出，再整理真實資料與功能缺口。",
+        "evidenceRefs": [
+          "handoff"
+        ]
+      }
+    ],
+    "example": {
+      "id": "cv-dashboard-prototype",
+      "title": "規劃履歷投遞管理介面",
+      "input": "合成職缺、履歷版本及面試狀態，指定桌面與手機需求。",
+      "process": "描述核心任務 → 產生草稿 → 迭代資訊層級 → 檢查交接格式",
+      "output": "介面草稿、功能差距及工程待辦（預期產物）。",
+      "destination": "自有求職系統設計；資料庫、登入與權限另行實作。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "prototype",
+        "variant",
+        "handoff"
+      ],
+      "steps": [
+        {
+          "id": "prompt",
+          "title": "描述合成資料及頁面需求",
+          "evidenceRefs": [
+            "design-input"
+          ]
+        },
+        {
+          "id": "iterate",
+          "title": "比較設計並修正",
+          "evidenceRefs": [
+            "iteration"
+          ]
+        },
+        {
+          "id": "handoff",
+          "title": "核對交接方式",
+          "evidenceRefs": [
+            "handoff"
+          ]
+        },
+        {
+          "id": "implement",
+          "title": "實作與驗收真實功能",
+          "evidenceRefs": [],
+          "externalDependency": "後端、資料持久化、身分驗證、測試及發布需另核准及實作。"
+        }
+      ]
+    },
+    "start": [
+      "先用合成資料寫出一個頁面與三項使用者任務。",
+      "檢查目前可用帳號及輸入方式，再依明確行為迭代畫面。",
+      "核對實際匯出內容與可用性，將未實作功能整理成工程待辦。"
+    ],
+    "limits": [
+      "AI 生成的 UI 不等於可直接上線的完整前後端應用；資料整合與可用性仍需實作。",
+      "不同版本的 Code／Design 匯出可能有限制，需核對實際介面及輸出格式，避免推定所有畫面都可取得完整原始碼。",
+      "公告功能不等於已驗證目前帳戶可用；未登入、生成、匯出或發布。"
+    ]
   }
 }

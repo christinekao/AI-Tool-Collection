@@ -513,7 +513,17 @@ try{
   ["heygen-com-hyperframes",".resource-reader-guide","製作三段式產品介紹影片"],
   ["theatlasteam-motion-design-skill",".resource-reader-guide","製作可互動的數字滾動示意"],
   ["microsoft-autogen",".resource-reader-guide","研究撰稿與審查代理的協作"],
-  ["roocodeinc-roo-code",".resource-reader-guide","設計規劃與開發模式的權限測試"]
+  ["roocodeinc-roo-code",".resource-reader-guide","設計規劃與開發模式的權限測試"],
+  ["recraft",".resource-reader-guide","製作網站分類圖示"],
+  ["remove-bg",".resource-reader-guide","整理電商商品去背流程"],
+  ["rive",".resource-reader-guide","設計表單儲存狀態動畫"],
+  ["pinterest-visual-reference",".resource-reader-guide","建立作品集視覺靈感看板"],
+  ["landing-love",".resource-reader-guide","研究作品集首頁滾動動效"],
+  ["maxibestof",".resource-reader-guide","規劃編輯式作品集首頁"],
+  ["motion-sites",".resource-reader-guide","設計知識庫卡片的微互動"],
+  ["google-stitch",".resource-reader-guide","規劃履歷投遞管理介面"],
+  ["vercel-ai-gateway",".resource-reader-guide","驗證摘要服務的模型備援"],
+  ["pythonanywhere",".resource-reader-guide","部署簡單的公開筆記展示頁"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -540,7 +550,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 twenty-nine Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 thirty-nine Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

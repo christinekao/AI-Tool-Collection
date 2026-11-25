@@ -6,14 +6,14 @@
   "canonicalName": "Motion Sites",
   "category": "08 UI & Design Engineering",
   "resourceType": "Inspiration",
-  "purpose": "Motion / interaction reference",
-  "recommendation": "適合蒐集 motion 與 interaction 的設計參考。",
+  "purpose": "依網頁滾動、滑鼠移入、視差及 3D 等動效類型尋找案例，協助設計網站互動而非製作影片。",
+  "recommendation": "適合已有頁面構想、需要為特定互動尋找參考的人；若只是要做影片或靜態排版，改選其他資源。",
   "url": "https://motionsites.org/motion",
   "repo": "",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "motion",
     "interaction",
@@ -69,24 +69,28 @@
   ],
   "source": {
     "url": "https://motionsites.org/motion",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Official product or original article"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。",
+    "type": "Official product or original article",
+    "referenceUrls": [
+      "https://motionsites.org/motion"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "沿用 Canonical ID 與官方來源，補足用途、案例及文件證據，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -109,7 +113,146 @@
     "riskNotes": "範例動效不代表有可重用程式碼或授權。；過度動畫可能犧牲可讀性及互動效能。；未執行第三方程式、讀取機密或傳送憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "本輪查核官方公開產品、說明或 API 文件；未登入、執行、上傳、購買、驗證完整授權或整合。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "本輪官方文件可支持所列三個使用情境與局部證據對應；不宣稱第三方程式或實際整合已驗證。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Motion / interaction reference",
+      "reviewedAt": "2026-11-21",
+      "source": "https://motionsites.org/motion"
+    },
+    "sourceReview": {
+      "scope": "官方 /motion 頁明示其主要用途是 scroll、hover、parallax 等網頁動效，而非 motion graphics 或影片模板。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "motion-category",
+      "detail": "官方 Motion 目錄依 scroll、hover、marquee、parallax、3D、shader、micro interaction 等分類。",
+      "locator": "https://motionsites.org/motion",
+      "evidenceFields": [
+        "features.0",
+        "features.1"
+      ],
+      "limitations": "目錄類型會更新；未執行個別範例。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "preview-boundary",
+      "detail": "官方說明此分類面向網頁動效，有可播放預覽，非影片模板目錄。",
+      "locator": "https://motionsites.org/motion",
+      "evidenceFields": [
+        "features.1",
+        "implementationKnowledge.sourceReview.scope"
+      ],
+      "limitations": "預覽不表示取得原始程式、素材權利或相同實作。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "motion-evaluation",
+      "detail": "依案例觀察觸發、資訊目的、初始／完成狀態與減少動態效果，屬自訂設計驗收。",
+      "locator": "https://motionsites.org/motion",
+      "evidenceFields": [
+        "features.2",
+        "requirements.1",
+        "limitations.1"
+      ],
+      "limitations": "需在目標裝置實測；不可將動效本身視為可用性改善。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "scroll-reveal",
+        "title": "研究內容隨滾動出現",
+        "detail": "找適合內容順序的滾動示例，避免遮蔽重要文字。",
+        "evidenceRefs": [
+          "motion-category",
+          "preview-boundary"
+        ]
+      },
+      {
+        "id": "hover-feedback",
+        "title": "為卡片或按鈕找互動參考",
+        "detail": "比較 hover 或微互動的視覺回饋及初始狀態。",
+        "evidenceRefs": [
+          "motion-category",
+          "motion-evaluation"
+        ]
+      },
+      {
+        "id": "motion-spec",
+        "title": "整理動效開發驗收條件",
+        "detail": "把參考轉為可執行規格，定義觸發、結束與替代狀態。",
+        "evidenceRefs": [
+          "motion-evaluation"
+        ]
+      }
+    ],
+    "example": {
+      "id": "resource-card-motion",
+      "title": "設計知識庫卡片的微互動",
+      "input": "三張內容卡片與明確的點擊、鍵盤焦點及 hover 狀態。",
+      "process": "找微互動案例 → 比較預覽 → 定義變化及觸發 → 驗收靜態替代",
+      "output": "自有卡片動效規格與驗收清單（預期產物）。",
+      "destination": "知識庫網站前端；不複製第三方素材或程式。",
+      "note": "自訂設計示例，未實際操作第三方產品、呼叫 API 或產生交付成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "scroll-reveal",
+        "hover-feedback",
+        "motion-spec"
+      ],
+      "steps": [
+        {
+          "id": "find",
+          "title": "找相關動效類型",
+          "evidenceRefs": [
+            "motion-category"
+          ]
+        },
+        {
+          "id": "observe",
+          "title": "核對預覽與實際用途",
+          "evidenceRefs": [
+            "preview-boundary"
+          ]
+        },
+        {
+          "id": "spec",
+          "title": "定義動效與驗收條件",
+          "evidenceRefs": [
+            "motion-evaluation"
+          ]
+        },
+        {
+          "id": "build",
+          "title": "實作及測試",
+          "evidenceRefs": [],
+          "externalDependency": "鍵盤、觸控、reduced motion、效能與資源權利需另行驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先決定哪個網頁操作需要動態回饋。",
+      "人工瀏覽對應動效類別，記錄少量來源與行為。",
+      "將參考轉成自己的互動規格，實測觸控與減少動態效果。"
+    ],
+    "limits": [
+      "範例動效不代表有可重用程式碼或授權。",
+      "過度動畫可能犧牲可讀性及互動效能。",
+      "未播放或執行個別案例；此頁是網頁動效參考，不等於影片模板。"
+    ]
   }
 }
