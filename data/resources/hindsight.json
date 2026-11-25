@@ -6,14 +6,14 @@
   "canonicalName": "Hindsight",
   "category": "04 Knowledge & Memory",
   "resourceType": "Agent Memory / Reflective Learning System",
-  "purpose": "替 Agent 建立可持續累積的長期記憶與學習層，不只保存對話歷史。核心操作是 retain、recall、reflect；以 memory banks 隔離不同使用者／專案脈絡，並把記憶整理成 observations、mental models 與 knowledge pages。提供 server、embedded、cloud、SDK、MCP，以及 coding agents / agent frameworks 等多種整合。",
-  "recommendation": "適合需要 Agent 跨 session 持續記住專案與使用者脈絡，並把大量 episodic facts 逐步整理成可重用 mental model，而不是每次只做向量檢索或把完整歷史重新塞進 context 的系統。",
+  "purpose": "讓 AI Agent 將長期資訊保存為可檢索的記憶，在後續任務查回相關內容，或根據記憶整理回答。",
+  "recommendation": "適合需要跨對話記住偏好、任務經驗或研究資訊的 Agent；若只需短期對話歷史，先用簡單儲存方式，避免不必要的資料保存。",
   "url": "https://github.com/vectorize-io/hindsight",
   "repo": "vectorize-io/hindsight",
   "notes": "Official repository confirmed. Hindsight positions itself as a memory system focused on agents that learn over time. It exposes retain / recall / reflect, memory banks, observations, mental models and knowledge pages; supports self-hosted, embedded and managed deployment plus many coding-agent/framework integrations. The README reports state-of-the-art LongMemEval results and says Hindsight's benchmark performance was independently reproduced by Virginia Tech collaborators and The Washington Post; benchmark numbers are project-reported here rather than independently revalidated in this collection. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-memory",
     "long-term-memory",
@@ -96,25 +96,32 @@
   "source": {
     "url": "https://github.com/vectorize-io/hindsight",
     "readmeUrl": "https://github.com/vectorize-io/hindsight/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "Documentation only; not runtime-tested"
+    "reviewScope": "固定版本 README 的 Retain/Recall/Reflect、Memory Banks、Memory Defense、SDK 示例與 MIT LICENSE；兩個候選 Python 核心檔案路徑 404，未驗證內部引擎。",
+    "upstreamCommit": "550ef5e304623be2a456913acbac1b1a834fb2c3",
+    "referenceUrls": [
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
-    "sourceStatus": "source-checked",
+    "sourceStatus": "partial",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "沿用 Canonical ID，補已知文件證據與讀者用途，原始碼路徑缺口另行追蹤。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -124,7 +131,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "reason": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -137,7 +144,148 @@
     "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README 的 Retain/Recall/Reflect、Memory Banks、Memory Defense、SDK 示例與 MIT LICENSE；兩個候選 Python 核心檔案路徑 404，未驗證內部引擎。；未執行。"
+    },
+    "sourceGap": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。",
+    "layerReview": {
+      "status": "deferred",
+      "reason": "固定版本 README 與 LICENSE 已查閱，核心實作契約尚未取得；只對應可證明的文件內容。",
+      "gap": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。",
+      "nextAction": "定位固定版本 API、SDK、retain/recall/reflect 實作與 bank 權限及刪除路徑，核對程式碼及測試證據再升級 mapped。"
     }
+  },
+  "implementationKnowledge": {
+    "sourceReview": {
+      "retain": "README 示例 client.retain(bank_id,content,context,timestamp)，描述以 LLM 萃取資訊並建索引；未核對實際寫入與刪除。",
+      "recall": "README 示例 client.recall(bank_id,query)，描述記憶查詢；未核對排序、引用及過濾契約。",
+      "reflect": "README 示例 client.reflect(bank_id,query)，根據記憶整理回答；生成內容仍需驗證，不是原始記錄。",
+      "isolation": "README 宣稱 bank 隔離及選配 Memory Defense；未實測權限、跨 bank 隔離、秘密偵測或資料保留。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "retain",
+      "detail": "README 描述 retain 接收 bank_id、content、可選 context 與 timestamp；用於保存記憶。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md；Retain",
+      "evidenceFields": [
+        "features.0",
+        "implementationKnowledge.sourceReview.retain"
+      ],
+      "limitations": "未查明確 API schema、寫入／刪除、重複與保留行為。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "recall",
+      "detail": "README 描述 recall 以 bank_id、query 查詢記憶；reflect 則根據記憶整理回應。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md；The Three Operations",
+      "evidenceFields": [
+        "features.0",
+        "implementationKnowledge.sourceReview.recall",
+        "implementationKnowledge.sourceReview.reflect"
+      ],
+      "limitations": "不保證檢索完整或回答忠於記憶；需核對來源、時間及反例。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "bank-boundary",
+      "detail": "README 宣稱 Memory Banks 隔離，Memory Defense 是選配 per-bank policy。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md；Memory Banks",
+      "evidenceFields": [
+        "requirements.0",
+        "limitations.1",
+        "implementationKnowledge.sourceReview.isolation"
+      ],
+      "limitations": "廠商描述非安全證據；需測越權、刪除、資料保留與未偵測敏感資訊。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "project-memory",
+        "title": "保存跨任務的研究資訊",
+        "detail": "將核准的專案結論保存在指定記憶區，日後查回相關結論。",
+        "evidenceRefs": [
+          "retain",
+          "recall"
+        ]
+      },
+      {
+        "id": "memory-retrieval",
+        "title": "讓 Agent 根據歷史資料回答",
+        "detail": "用指定問題測試能否找回正確記憶及區分不同時間的資訊。",
+        "evidenceRefs": [
+          "recall"
+        ]
+      },
+      {
+        "id": "memory-isolation",
+        "title": "規劃不同專案的記憶隔離",
+        "detail": "先定義各 bank 的資料分類與權限，測試跨區資料不應被取得。",
+        "evidenceRefs": [
+          "bank-boundary"
+        ]
+      }
+    ],
+    "example": {
+      "id": "research-memory-test",
+      "title": "設計跨任務研究記憶測試",
+      "input": "兩個合成專案、各三則公開或合成記錄與已知正確答案。",
+      "process": "定義 bank → 保存核准資料 → 查詢與整理 → 驗證隔離及刪除",
+      "output": "記憶查詢、引用、錯誤及權限測試規格（未建立實際記憶）。",
+      "destination": "自有知識庫 Agent 的架構選型與資料治理。",
+      "note": "自訂設計示例；未安裝、執行或驗證真實整合。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "project-memory",
+        "memory-retrieval",
+        "memory-isolation"
+      ],
+      "steps": [
+        {
+          "id": "scope",
+          "title": "定義記憶區及資料界線",
+          "evidenceRefs": [
+            "bank-boundary"
+          ]
+        },
+        {
+          "id": "retain",
+          "title": "設計保存操作",
+          "evidenceRefs": [
+            "retain"
+          ]
+        },
+        {
+          "id": "recall",
+          "title": "設計檢索與反思驗收",
+          "evidenceRefs": [
+            "recall"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "測隔離、刪除與來源",
+          "evidenceRefs": [],
+          "externalDependency": "實際 SDK、模型、資料儲存、安全、刪除及權限需另行核准並實測。"
+        }
+      ]
+    },
+    "start": [
+      "先區分需要保存的事實、短期對話及不可保存的資料。",
+      "核對固定版本 SDK 說明，以合成資料定義 retain、recall 與 reflect 的期望結果。",
+      "在核准環境測錯誤記憶、跨 bank、刪除及引用，再考慮接入正式資料。"
+    ],
+    "limits": [
+      "README Benchmark 是作者測量，非自身環境保證",
+      "記憶內容可能含敏感輸入，須設權限及刪除流程",
+      "本次僅查閱 README 與 MIT LICENSE；未執行 SDK、模型或建立 bank。",
+      "Benchmark 與 bank 隔離是作者描述，未完成獨立驗證。"
+    ]
   }
 }
