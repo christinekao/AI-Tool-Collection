@@ -558,7 +558,10 @@ try{
   ["magicuidesign-magicui",".resource-reader-guide","規劃作品集成果數字與功能展示"],
   ["anime-js",".resource-reader-guide","規劃作品集功能展示動畫"],
   ["kokonut-ui",".resource-reader-guide","規劃 AI 研究助理的操作核准介面"],
-  ["gsap-skills",".resource-reader-guide","規劃產品首頁滾動展示的 Agent 任務"]
+  ["gsap-skills",".resource-reader-guide","規劃產品首頁滾動展示的 Agent 任務"],
+  ["uiverse-io-galaxy",".resource-reader-guide","規劃知識庫搜尋欄與卡片樣式"],
+  ["motion-dev-animations-skill",".resource-reader-guide","規劃作品集卡片動效驗收"],
+  ["googlechrome-modern-web-guidance",".resource-reader-guide","規劃知識庫的原生響應式導覽"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -585,7 +588,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 seventy-four Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 seventy-seven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
