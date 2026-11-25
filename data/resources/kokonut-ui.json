@@ -6,14 +6,14 @@
   "canonicalName": "Kokonut UI",
   "category": "08 UI & Design Engineering",
   "resourceType": "Component Library",
-  "purpose": "React interactive components",
-  "recommendation": "適合探索 React 互動元件與介面靈感。",
+  "purpose": "將 AI 助理的工具核准、執行紀錄及常用按鈕等 React 元件加入自己的產品，讓使用者看懂並控制互動。",
+  "recommendation": "適合已有 React 與 Tailwind 的 AI 產品原型；核准卡片只是介面，真正的授權與執行必須由服務端處理。",
   "url": "https://github.com/kokonut-labs/kokonutui",
-  "repo": "",
+  "repo": "kokonut-labs/kokonutui",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "react",
     "interactive-ui",
@@ -68,24 +68,35 @@
   ],
   "source": {
     "url": "https://github.com/kokonut-labs/kokonutui",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Upstream GitHub README"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。",
+    "type": "Upstream GitHub README",
+    "upstreamCommit": "7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce",
+    "referenceUrls": [
+      "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/README.md",
+      "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/LICENSE",
+      "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/components/kokonutui/ai-tool-approval.tsx",
+      "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/components/kokonutui/gradient-button.tsx",
+      "https://github.com/kokonut-labs/kokonutui/blob/7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce/package.json"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "原 repo 空白，依既有官方 URL 與固定版本補齊同一 Repo 身分，未新增實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -94,8 +105,8 @@
     "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心來源契約，保留完整工具及整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -108,7 +119,354 @@
     "riskNotes": "示範效果不能保證在所有裝置維持效能。；元件可能有 CSS 衝突、依賴與無障礙缺口。；未執行第三方程式、讀取機密或傳送憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "React interactive components",
+      "source": "https://github.com/kokonut-labs/kokonutui",
+      "reviewedAt": "2026-11-21"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "approval",
+        "title": "設計 AI 工具操作核准卡片",
+        "detail": "顯示操作內容與待核准狀態，讓人選擇核准或拒絕。",
+        "capabilityRefs": [
+          "approval-ui"
+        ]
+      },
+      {
+        "id": "trace",
+        "title": "顯示 AI 助理任務進度",
+        "detail": "讓實際執行事件更新畫面，保留已決定與待處理項目。",
+        "capabilityRefs": [
+          "trace-focus",
+          "approval-ui"
+        ]
+      },
+      {
+        "id": "action",
+        "title": "建立有清楚回饋的操作按鈕",
+        "detail": "使用文字、圖示與焦點樣式表達操作，避免只靠動畫。",
+        "capabilityRefs": [
+          "button-design"
+        ]
+      }
+    ],
+    "example": {
+      "id": "agent-approval-panel",
+      "title": "規劃 AI 研究助理的操作核准介面",
+      "input": "合成工具請求、三個待核准狀態與唯讀測試資料。",
+      "process": "定義工具狀態 → 接核准回呼 → 顯示真實事件 → 驗收焦點與權限",
+      "output": "核准介面、事件與後端驗收規格（未建置）。",
+      "destination": "自有研究助理；服務端核准及工具執行另行實作。",
+      "note": "自訂設計示例；未安裝、執行或驗證第三方工具。",
+      "useCaseRefs": [
+        "approval",
+        "trace",
+        "action"
+      ],
+      "steps": [
+        {
+          "id": "approval",
+          "title": "設計核准與拒絕狀態",
+          "capabilityRefs": [
+            "approval-ui"
+          ]
+        },
+        {
+          "id": "trace",
+          "title": "規劃真實執行紀錄及焦點",
+          "capabilityRefs": [
+            "trace-focus"
+          ]
+        },
+        {
+          "id": "button",
+          "title": "選擇可辨識的操作按鈕",
+          "capabilityRefs": [
+            "button-design"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "核對服務端權限及實際結果",
+          "capabilityRefs": [],
+          "externalDependency": "需獨立驗證核准範圍、重放、拒絕、資料副作用及鍵盤；不得依 UI 直接授權。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先在合成資料下定義工具請求、操作範圍及後端狀態。",
+      "閱讀固定版本元件及 registry，確認依賴與付費內容界線。",
+      "另行核准安裝，使用 controlled calls 驗證核准、拒絕、焦點及真正結果。"
+    ],
+    "limits": [
+      "示範效果不能保證在所有裝置維持效能。",
+      "元件可能有 CSS 衝突、依賴與無障礙缺口。",
+      "未安裝或渲染；未驗證完整 registry、Pro、服務端權限及各裝置。",
+      "未傳 calls 時使用 demo；onRespond 是介面事件，不是實際工具執行。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "將 AI 助理的工具核准、執行紀錄及常用按鈕等 React 元件加入自己的產品，讓使用者看懂並控制互動。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "React / Tailwind / Motion / shadcn registry"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT；Pro 另查"
+      },
+      {
+        "label": "版本錨點",
+        "value": "7e4bd770ca3f1ff4d93b9c1d0a61b11c3a51cbce"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "呈現工具核准請求",
+        "detail": "Agent 提出操作需取得人工決策；輸入：ToolCall[]、state、onRespond(id,approved,always)；輸出：核准／拒絕事件與待處理卡片",
+        "source": "components/kokonutui/ai-tool-approval.tsx"
+      },
+      {
+        "title": "顯示工具執行狀態",
+        "detail": "連續核准需保留上下文及焦點；輸入：calls、pending/decided、currentId；輸出：TraceLine、下一張核准卡片及焦點處理",
+        "source": "components/kokonutui/ai-tool-approval.tsx"
+      },
+      {
+        "title": "建立一致的操作按鈕",
+        "detail": "產品需要清楚文字及操作回饋；輸入：children、label、icon、variant 與 button props；輸出：帶裝飾層的 Button、focus-visible 及 motion-reduce 樣式",
+        "source": "components/kokonutui/gradient-button.tsx"
+      }
+    ],
+    "architecture": {
+      "summary": "定義工具狀態 → 接核准回呼 → 顯示真實事件 → 驗收焦點與權限",
+      "nodes": [
+        {
+          "title": "呈現工具核准請求",
+          "detail": "ToolCall[]、state、onRespond(id,approved,always) → 核准／拒絕事件與待處理卡片",
+          "files": [
+            "components/kokonutui/ai-tool-approval.tsx"
+          ]
+        },
+        {
+          "title": "顯示工具執行狀態",
+          "detail": "calls、pending/decided、currentId → TraceLine、下一張核准卡片及焦點處理",
+          "files": [
+            "components/kokonutui/ai-tool-approval.tsx"
+          ]
+        },
+        {
+          "title": "建立一致的操作按鈕",
+          "detail": "children、label、icon、variant 與 button props → 帶裝飾層的 Button、focus-visible 及 motion-reduce 樣式",
+          "files": [
+            "components/kokonutui/gradient-button.tsx"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "模式",
+        "rule": "AIToolApproval 使用 callsProp 或 demo.calls；僅缺 callsProp 時執行 demo.respond。",
+        "source": "components/kokonutui/ai-tool-approval.tsx"
+      },
+      {
+        "name": "回呼",
+        "rule": "respond 呼叫 onRespond；pending/decided 依 state 分組，current 取第一筆待核准。",
+        "source": "components/kokonutui/ai-tool-approval.tsx"
+      },
+      {
+        "name": "按鈕",
+        "rule": "GradientButton 使用 children ?? label，對按壓位移提供 motion-reduce 樣式。",
+        "source": "components/kokonutui/gradient-button.tsx"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依來源及核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "components/kokonutui/ai-tool-approval.tsx",
+          "components/kokonutui/gradient-button.tsx",
+          "package.json"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先在合成資料下定義工具請求、操作範圍及後端狀態。 閱讀固定版本元件及 registry，確認依賴與付費內容界線。 另行核准安裝，使用 controlled calls 驗證核准、拒絕、焦點及真正結果。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有研究助理；服務端核准及工具執行另行實作。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "components/kokonutui/ai-tool-approval.tsx"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "approval-ui",
+        "name": "呈現工具核准請求",
+        "problem": "Agent 提出操作需取得人工決策",
+        "input": "ToolCall[]、state、onRespond(id,approved,always)",
+        "output": "核准／拒絕事件與待處理卡片",
+        "source": "components/kokonutui/ai-tool-approval.tsx",
+        "sourceFiles": [
+          "components/kokonutui/ai-tool-approval.tsx"
+        ],
+        "symbols": [
+          "ToolCall",
+          "ToolCallState",
+          "AIToolApproval",
+          "ApprovalCard"
+        ],
+        "gate": "未傳 calls 時走 demo 模擬；controlled 模式由呼叫端提供狀態。onRespond 不代表服務端已核准或執行。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "trace-focus",
+        "name": "顯示工具執行狀態",
+        "problem": "連續核准需保留上下文及焦點",
+        "input": "calls、pending/decided、currentId",
+        "output": "TraceLine、下一張核准卡片及焦點處理",
+        "source": "components/kokonutui/ai-tool-approval.tsx",
+        "sourceFiles": [
+          "components/kokonutui/ai-tool-approval.tsx"
+        ],
+        "symbols": [
+          "AIToolApproval",
+          "TraceLine",
+          "respond"
+        ],
+        "gate": "以真實執行結果更新 calls；不可將 demo 計時或 UI trace 當執行證據。測鍵盤及多筆待處理。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "button-design",
+        "name": "建立一致的操作按鈕",
+        "problem": "產品需要清楚文字及操作回饋",
+        "input": "children、label、icon、variant 與 button props",
+        "output": "帶裝飾層的 Button、focus-visible 及 motion-reduce 樣式",
+        "source": "components/kokonutui/gradient-button.tsx",
+        "sourceFiles": [
+          "components/kokonutui/gradient-button.tsx"
+        ],
+        "symbols": [
+          "GradientButton",
+          "GradientButtonProps",
+          "isPlainText"
+        ],
+        "gate": "children 優先於 label；外觀不代表完整無障礙。需測停用、可讀名稱及真實業務結果。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 AI 研究助理的操作核准介面（設計示例）",
+      "problem": "合成工具請求、三個待核准狀態與唯讀測試資料。",
+      "steps": [
+        {
+          "capability": "approval-ui",
+          "action": "設計核准與拒絕狀態"
+        },
+        {
+          "capability": "trace-focus",
+          "action": "規劃真實執行紀錄及焦點"
+        },
+        {
+          "capability": "button-design",
+          "action": "選擇可辨識的操作按鈕"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "agent-approval-panel"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成工具請求、三個待核准狀態與唯讀測試資料。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義工具狀態 → 接核准回呼 → 顯示真實事件 → 驗收焦點與權限",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有研究助理；服務端核准及工具執行另行實作。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或渲染；未驗證完整 registry、Pro、服務端權限及各裝置。",
+        "未傳 calls 時使用 demo；onRespond 是介面事件，不是實際工具執行。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "未安裝或渲染；未驗證完整 registry、Pro、服務端權限及各裝置。 未傳 calls 時使用 demo；onRespond 是介面事件，不是實際工具執行。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、資料及實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、LICENSE、package.json、ai-tool-approval.tsx 的 ToolCall、controlled/demo 分流、onRespond 與焦點管理；gradient-button.tsx 的色彩、文字及 motion-reduce。未查完整 registry installer、Pro 或伺服器授權。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、建置或測試第三方工具。"
+      }
+    ]
   }
 }
