@@ -6,14 +6,14 @@
   "canonicalName": "Microsoft AutoGen（歷史架構參考）",
   "category": "AI Agent / Framework & Learning",
   "resourceType": "已封存的多代理框架",
-  "purpose": "研究代理對話、角色分工和協調架構的歷史實作，理解多代理系統的演進。",
-  "recommendation": "適合作為既有系統維護與架構比較；新專案應先評估 Microsoft Agent Framework。",
+  "purpose": "研究多個 AI Agent 如何輪流處理同一任務、保存對話狀態，並在指定條件下停止。此專案已封存。",
+  "recommendation": "僅適合研究歷史多 Agent 設計或維護既有系統；新專案優先評估官方建議的 Microsoft Agent Framework，並查核遷移成本。",
   "url": "https://github.com/microsoft/autogen",
   "repo": "microsoft/autogen",
   "notes": "上游 Repository 已封存，僅建議作歷史架構研究。 建議參考替代來源：https://github.com/microsoft/agent-framework",
   "status": "archived",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "ai-agent",
@@ -45,25 +45,36 @@
   "source": {
     "url": "https://github.com/microsoft/autogen",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具",
+    "upstreamCommit": "8390985108cb1e3881f5f7297765758d8ad2540c",
+    "referenceUrls": [
+      "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/README.md",
+      "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/LICENSE",
+      "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/LICENSE-CODE",
+      "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+      "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+      "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +83,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +97,356 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具；以局部 ID 對應前台情境及案例。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "研究代理對話、角色分工和協調架構的歷史實作，理解多代理系統的演進。",
+      "source": "https://github.com/microsoft/autogen",
+      "reviewedAt": "2026-11-24",
+      "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "study-roles",
+        "title": "理解多 Agent 角色輪流協作",
+        "detail": "研究撰稿與審查角色如何固定順序交接，而不是讓所有角色同時執行。",
+        "capabilityRefs": [
+          "round-robin"
+        ]
+      },
+      {
+        "id": "stop-loop",
+        "title": "避免代理無限制對話",
+        "detail": "用回合、訊息數或特定條件設停止界線，再獨立驗收結果。",
+        "capabilityRefs": [
+          "termination-limits"
+        ]
+      },
+      {
+        "id": "legacy-migration",
+        "title": "盤點既有多 Agent 系統的遷移需求",
+        "detail": "核對輪替、停止條件及管理狀態有哪些必須保留的行為。",
+        "capabilityRefs": [
+          "round-robin",
+          "termination-limits",
+          "manager-state"
+        ]
+      }
+    ],
+    "example": {
+      "id": "legacy-writer-reviewer",
+      "title": "研究撰稿與審查代理的協作",
+      "input": "一組合成需求、兩個模擬角色與固定回合上限。",
+      "process": "定義角色 → 固定順序 → 模擬回合與停止 → 保存協調狀態 → 規劃遷移",
+      "output": "角色交接、停止及狀態契約測試規格（預期產物）。",
+      "destination": "供既有系統遷移或架構研究，不部署封存版本。",
+      "note": "設計示例，未安裝 AutoGen、呼叫模型或執行外部工具。",
+      "useCaseRefs": [
+        "study-roles",
+        "stop-loop",
+        "legacy-migration"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "建立模擬角色與驗收資料",
+          "capabilityRefs": [],
+          "externalDependency": "角色指令、測試資料、模型與權限須另行設計。"
+        },
+        {
+          "id": "route",
+          "title": "模擬固定順序選擇角色",
+          "capabilityRefs": [
+            "round-robin"
+          ]
+        },
+        {
+          "id": "stop",
+          "title": "測回合與訊息停止條件",
+          "capabilityRefs": [
+            "termination-limits"
+          ]
+        },
+        {
+          "id": "state",
+          "title": "記錄並驗證管理狀態",
+          "capabilityRefs": [
+            "manager-state"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先確認封存狀態及固定版本，閱讀官方遷移指引。",
+      "只研究合成資料與固定回應的協調契約，不直接安裝舊版到正式系統。",
+      "比較所需行為與受維護替代方案，遷移前建立停止及狀態回歸測試。"
+    ],
+    "limits": [
+      "GitHub 專案已於 2026-11-20 封存且不再維護；不建議直接作為新產品的生產依賴。",
+      "上游已封存，無持續安全修補；新系統不應依賴此舊版。",
+      "只核對輪替、停止與 manager 狀態；完整 AgentChat runtime、模型及工具未查閱。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "研究多個 AI Agent 如何輪流處理同一任務、保存對話狀態，並在指定條件下停止。此專案已封存。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "已查閱固定版本的限定範圍"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / AgentChat（歷史版本）"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "LICENSE-CODE MIT；LICENSE CC BY 4.0；依實際檔案核對"
+      },
+      {
+        "label": "版本錨點",
+        "value": "8390985108cb1e3881f5f7297765758d8ad2540c"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "固定順序的多 Agent 協作",
+        "detail": "不同角色需依順序輪流發言；輸入：participant names、next speaker index；輸出：下一個單一 speaker 名稱，循環更新索引",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+      },
+      {
+        "title": "限制對話停止條件",
+        "detail": "Agent 可能持續循環或提早結束；輸入：max_turns、max_messages 或指定文字與來源；輸出：StopMessage 或繼續對話",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py"
+      },
+      {
+        "title": "保存與恢復協調狀態",
+        "detail": "舊系統需保留輪流對話的進度；輸入：message_thread、current_turn、next_speaker_index；輸出：RoundRobinManagerState model_dump／load_state",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+      }
+    ],
+    "architecture": {
+      "summary": "定義角色 → 固定順序 → 模擬回合與停止 → 保存協調狀態 → 規劃遷移",
+      "nodes": [
+        {
+          "title": "固定順序的多 Agent 協作",
+          "detail": "participant names、next speaker index → 下一個單一 speaker 名稱，循環更新索引",
+          "files": [
+            "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          ]
+        },
+        {
+          "title": "限制對話停止條件",
+          "detail": "max_turns、max_messages 或指定文字與來源 → StopMessage 或繼續對話",
+          "files": [
+            "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+            "python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+          ]
+        },
+        {
+          "title": "保存與恢復協調狀態",
+          "detail": "message_thread、current_turn、next_speaker_index → RoundRobinManagerState model_dump／load_state",
+          "files": [
+            "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "輪替",
+        "rule": "select_speaker 回傳當前索引的名稱，下一索引以 participant 數量取模。",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+      },
+      {
+        "name": "停止",
+        "rule": "BaseGroupChatManager 達 max_turns 時發出 StopMessage、重設回合及 termination condition。",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py"
+      },
+      {
+        "name": "狀態",
+        "rule": "save_state 僅保存 message_thread、current_turn、next_speaker_index；load_state 進行 model_validate。",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依來源與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "LICENSE-CODE",
+          "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+          "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+          "python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小驗證",
+        "description": "先確認封存狀態及固定版本，閱讀官方遷移指引。 只研究合成資料與固定回應的協調契約，不直接安裝舊版到正式系統。 比較所需行為與受維護替代方案，遷移前建立停止及狀態回歸測試。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "依應用案例建立獨立測試",
+        "detail": "供既有系統遷移或架構研究，不部署封存版本。；固定輸入輸出，另行驗證失敗與權限。",
+        "file": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "round-robin",
+        "name": "固定順序的多 Agent 協作",
+        "problem": "不同角色需依順序輪流發言",
+        "input": "participant names、next speaker index",
+        "output": "下一個單一 speaker 名稱，循環更新索引",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+        "sourceFiles": [
+          "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+        ],
+        "symbols": [
+          "RoundRobinGroupChatManager.select_speaker",
+          "RoundRobinGroupChat"
+        ],
+        "gate": "固定順序不等於最佳動態路由；不應直接讓多代理執行有副作用的工具。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "termination-limits",
+        "name": "限制對話停止條件",
+        "problem": "Agent 可能持續循環或提早結束",
+        "input": "max_turns、max_messages 或指定文字與來源",
+        "output": "StopMessage 或繼續對話",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+        "sourceFiles": [
+          "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+          "python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+        ],
+        "symbols": [
+          "BaseGroupChatManager",
+          "MaxMessageTermination",
+          "TextMentionTermination"
+        ],
+        "gate": "文字停止不是可信業務驗收；限制回合、成本及工具權限並測反例。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "manager-state",
+        "name": "保存與恢復協調狀態",
+        "problem": "舊系統需保留輪流對話的進度",
+        "input": "message_thread、current_turn、next_speaker_index",
+        "output": "RoundRobinManagerState model_dump／load_state",
+        "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+        "sourceFiles": [
+          "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+        ],
+        "symbols": [
+          "RoundRobinGroupChatManager.save_state",
+          "RoundRobinGroupChatManager.load_state",
+          "RoundRobinGroupChatManager.reset"
+        ],
+        "gate": "僅 manager 狀態不代表完整工具或 Agent 狀態持久化；敏感對話須隔離。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "研究撰稿與審查代理的協作（設計示例）",
+      "problem": "一組合成需求、兩個模擬角色與固定回合上限。",
+      "steps": [
+        {
+          "capability": "round-robin",
+          "action": "模擬固定順序選擇角色"
+        },
+        {
+          "capability": "termination-limits",
+          "action": "測回合與訊息停止條件"
+        },
+        {
+          "capability": "manager-state",
+          "action": "記錄並驗證管理狀態"
+        }
+      ],
+      "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+      "readerExampleRef": "legacy-writer-reviewer"
+    },
+    "rebuild": {
+      "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+      "stages": [
+        {
+          "title": "建立輸入輸出契約",
+          "detail": "一組合成需求、兩個模擬角色與固定回合上限。",
+          "deliverable": "可重現測試資料與預期輸出"
+        },
+        {
+          "title": "驗證核心步驟",
+          "detail": "定義角色 → 固定順序 → 模擬回合與停止 → 保存協調狀態 → 規劃遷移",
+          "deliverable": "步驟及錯誤驗收紀錄"
+        },
+        {
+          "title": "驗證交付及風險",
+          "detail": "供既有系統遷移或架構研究，不部署封存版本。",
+          "deliverable": "實際交付、權限與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "完整執行環境、工具授權、模型、遷移相容性與依賴漏洞未審查。",
+        "未安裝舊版或測試遷移。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "封存依賴",
+        "severity": "高",
+        "issue": "已停止維護，舊依賴風險不一定會修補。",
+        "control": "只讀研究；新系統使用受維護替代方案，既有版本先隔離及規劃遷移。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+      }
+    ]
   }
 }
