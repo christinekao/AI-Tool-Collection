@@ -6,14 +6,14 @@
   "canonicalName": "Onyx",
   "category": "04 Knowledge & Memory",
   "resourceType": "Self-hosted AI Platform / RAG / Connectors",
-  "purpose": "可自行部署的 AI 平台，提供 Agentic RAG、web search、custom agents、code execution、deep research 與大量 connectors／MCP 接入，用來把組織文件與外部資料變成可問答的知識層。",
-  "recommendation": "適合需要公司文件問答、跨資料來源搜尋與 self-hosted AI knowledge platform 的情境。",
+  "purpose": "把企業文件與應用的資訊整合成可檢索的知識來源，讓 AI 依使用者權限回答並附文件引用。",
+  "recommendation": "適合多個企業資料來源的受控搜尋；先核對 Community／Enterprise 差異及 Connector 權限同步，再以隔離測試資料驗證。",
   "url": "https://github.com/onyx-dot-app/onyx",
   "repo": "onyx-dot-app/onyx",
   "notes": "Official repository confirmed. Current README describes 50+ indexing-based connectors plus MCP support.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "rag",
     "enterprise-search",
@@ -83,18 +83,29 @@
   "source": {
     "url": "https://github.com/onyx-dot-app/onyx",
     "readmeUrl": "https://github.com/onyx-dot-app/onyx/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README.md、LICENSE、backend/onyx/context/search/preprocessing/access_filters.py、backend/onyx/context/search/pipeline.py、backend/onyx/chat/citation_processor.py 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "f0e6c963b0b18bf814cce4511bcc6186a0ea8efd",
+    "referenceUrls": [
+      "https://github.com/onyx-dot-app/onyx/blob/f0e6c963b0b18bf814cce4511bcc6186a0ea8efd/README.md",
+      "https://github.com/onyx-dot-app/onyx/blob/f0e6c963b0b18bf814cce4511bcc6186a0ea8efd/LICENSE",
+      "https://github.com/onyx-dot-app/onyx/blob/f0e6c963b0b18bf814cce4511bcc6186a0ea8efd/backend/onyx/context/search/preprocessing/access_filters.py",
+      "https://github.com/onyx-dot-app/onyx/blob/f0e6c963b0b18bf814cce4511bcc6186a0ea8efd/backend/onyx/context/search/pipeline.py",
+      "https://github.com/onyx-dot-app/onyx/blob/f0e6c963b0b18bf814cce4511bcc6186a0ea8efd/backend/onyx/chat/citation_processor.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -110,8 +121,8 @@
     "classificationReason": "沿用既有 Primary Domain data，僅改善功能、條件、限制，不更改分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、backend/onyx/context/search/preprocessing/access_filters.py、backend/onyx/context/search/pipeline.py、backend/onyx/chat/citation_processor.py 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -121,10 +132,362 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "Community Edition 與 Enterprise Edition 的功能和授權不同；檢索來源授權及使用者群組權限不當可能洩露內部資料；不同配對模式可能回傳 None 或限制清單，不能把 None 解讀為普遍授權；需測試群組、匿名及撤權情境。；日期 floor 只能提高不能放寬；有 DB session 時檢查指定文件集權限，其他呼叫路徑須獨立驗證。；引用編號存在不代表語意支持結論；未知文件不應被當成已驗證來源，重要回答須回查原文。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、backend/onyx/context/search/preprocessing/access_filters.py、backend/onyx/context/search/pipeline.py、backend/onyx/chat/citation_processor.py 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、backend/onyx/context/search/preprocessing/access_filters.py、backend/onyx/context/search/pipeline.py、backend/onyx/chat/citation_processor.py 局部查核；未執行第三方程式或測試。；局部能力與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "可自行部署的 AI 平台，提供 Agentic RAG、web search、custom agents、code execution、deep research 與大量 connectors／MCP 接入，用來把組織文件與外部資料變成可問答的知識層。",
+      "source": "https://github.com/onyx-dot-app/onyx",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合需要公司文件問答、跨資料來源搜尋與 self-hosted AI knowledge platform 的情境。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-acl",
+        "title": "建立使用者可讀取的文件範圍",
+        "detail": "同一索引中的文件不能對所有人開放。ACL 及配對篩選條件。",
+        "capabilityRefs": [
+          "acl"
+        ]
+      },
+      {
+        "id": "use-retrieval",
+        "title": "依文件集與日期搜尋",
+        "detail": "查詢條件可能試圖放寬原有搜尋範圍。IndexFilters 與範圍內的檢索條件。",
+        "capabilityRefs": [
+          "retrieval"
+        ]
+      },
+      {
+        "id": "use-citation",
+        "title": "將模型回答的引用連回文件",
+        "detail": "回答需要可追溯出處。已知引用文件、引用標記或連結。",
+        "capabilityRefs": [
+          "citation"
+        ]
+      }
+    ],
+    "example": {
+      "id": "onyx-example",
+      "title": "規劃企業文件搜尋的權限與引用驗收",
+      "input": "合成文件、兩種使用者角色、資料集與查詢。",
+      "process": "建立使用者可讀取的文件範圍 → 依文件集與日期搜尋 → 將模型回答的引用連回文件 → 獨立驗收實際成果",
+      "output": "可讀範圍、搜尋結果及可回查引用（規劃產物）。",
+      "destination": "自有企業 RAG 與資料治理流程之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-acl",
+        "use-retrieval",
+        "use-citation"
+      ],
+      "steps": [
+        {
+          "id": "acl",
+          "title": "建立使用者可讀取的文件範圍",
+          "capabilityRefs": [
+            "acl"
+          ]
+        },
+        {
+          "id": "retrieval",
+          "title": "依文件集與日期搜尋",
+          "capabilityRefs": [
+            "retrieval"
+          ]
+        },
+        {
+          "id": "citation",
+          "title": "將模型回答的引用連回文件",
+          "capabilityRefs": [
+            "citation"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成測試環境、資料、權限與實際成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成文件、兩種使用者角色、資料集與查詢。",
+      "依需求核對固定版本來源與操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+    ],
+    "limits": [
+      "Community Edition 與 Enterprise Edition 的功能和授權不同",
+      "檢索來源授權及使用者群組權限不當可能洩露內部資料",
+      "不同配對模式可能回傳 None 或限制清單，不能把 None 解讀為普遍授權；需測試群組、匿名及撤權情境。",
+      "日期 floor 只能提高不能放寬；有 DB session 時檢查指定文件集權限，其他呼叫路徑須獨立驗證。",
+      "引用編號存在不代表語意支持結論；未知文件不應被當成已驗證來源，重要回答須回查原文。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把企業文件與應用的資訊整合成可檢索的知識來源，讓 AI 依使用者權限回答並附文件引用。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT Expat（非 ee）；ee 依 Onyx Enterprise License；第三方各別授權"
+      },
+      {
+        "label": "版本",
+        "value": "f0e6c963b0b18bf814cce4511bcc6186a0ea8efd"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立使用者可讀取的文件範圍",
+        "detail": "同一索引中的文件不能對所有人開放。 輸入：使用者 ACL、Connector 配對與模式；輸出：ACL 及配對篩選條件",
+        "source": "backend/onyx/context/search/preprocessing/access_filters.py"
+      },
+      {
+        "title": "依文件集與日期搜尋",
+        "detail": "查詢條件可能試圖放寬原有搜尋範圍。 輸入：查詢、使用者、文件集與日期限制；輸出：IndexFilters 與範圍內的檢索條件",
+        "source": "backend/onyx/context/search/pipeline.py"
+      },
+      {
+        "title": "將模型回答的引用連回文件",
+        "detail": "回答需要可追溯出處。 輸入：模型串流、引用編號與文件映射；輸出：已知引用文件、引用標記或連結",
+        "source": "backend/onyx/chat/citation_processor.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立使用者可讀取的文件範圍 → 依文件集與日期搜尋 → 將模型回答的引用連回文件 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立使用者可讀取的文件範圍",
+          "detail": "使用者 ACL、Connector 配對與模式 → ACL 及配對篩選條件",
+          "files": [
+            "backend/onyx/context/search/preprocessing/access_filters.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "依文件集與日期搜尋",
+          "detail": "查詢、使用者、文件集與日期限制 → IndexFilters 與範圍內的檢索條件",
+          "files": [
+            "backend/onyx/context/search/pipeline.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "將模型回答的引用連回文件",
+          "detail": "模型串流、引用編號與文件映射 → 已知引用文件、引用標記或連結",
+          "files": [
+            "backend/onyx/chat/citation_processor.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立使用者可讀取的文件範圍",
+        "rule": "不同配對模式可能回傳 None 或限制清單，不能把 None 解讀為普遍授權；需測試群組、匿名及撤權情境。",
+        "source": "backend/onyx/context/search/preprocessing/access_filters.py"
+      },
+      {
+        "name": "依文件集與日期搜尋",
+        "rule": "日期 floor 只能提高不能放寬；有 DB session 時檢查指定文件集權限，其他呼叫路徑須獨立驗證。",
+        "source": "backend/onyx/context/search/pipeline.py"
+      },
+      {
+        "name": "將模型回答的引用連回文件",
+        "rule": "引用編號存在不代表語意支持結論；未知文件不應被當成已驗證來源，重要回答須回查原文。",
+        "source": "backend/onyx/chat/citation_processor.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、backend/onyx/context/search/preprocessing/access_filters.py、backend/onyx/context/search/pipeline.py、backend/onyx/chat/citation_processor.py 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "backend/onyx/context/search/preprocessing/access_filters.py",
+          "backend/onyx/context/search/pipeline.py",
+          "backend/onyx/chat/citation_processor.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成文件、兩種使用者角色、資料集與查詢。 依需求核對固定版本來源與操作限制。 先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。",
+        "files": [
+          "backend/onyx/context/search/preprocessing/access_filters.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有企業 RAG 與資料治理流程另行驗收實際成果及限制。",
+        "file": "backend/onyx/context/search/preprocessing/access_filters.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "acl",
+        "name": "建立使用者可讀取的文件範圍",
+        "problem": "同一索引中的文件不能對所有人開放。",
+        "input": "使用者 ACL、Connector 配對與模式",
+        "output": "ACL 及配對篩選條件",
+        "source": "backend/onyx/context/search/preprocessing/access_filters.py",
+        "sourceFiles": [
+          "backend/onyx/context/search/preprocessing/access_filters.py",
+          "README.md"
+        ],
+        "symbols": [
+          "build_access_filters_for_user",
+          "_build_cc_pair_access_filter"
+        ],
+        "gate": "不同配對模式可能回傳 None 或限制清單，不能把 None 解讀為普遍授權；需測試群組、匿名及撤權情境。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "retrieval",
+        "name": "依文件集與日期搜尋",
+        "problem": "查詢條件可能試圖放寬原有搜尋範圍。",
+        "input": "查詢、使用者、文件集與日期限制",
+        "output": "IndexFilters 與範圍內的檢索條件",
+        "source": "backend/onyx/context/search/pipeline.py",
+        "sourceFiles": [
+          "backend/onyx/context/search/pipeline.py",
+          "README.md"
+        ],
+        "symbols": [
+          "apply_search_start_floor",
+          "_build_index_filters"
+        ],
+        "gate": "日期 floor 只能提高不能放寬；有 DB session 時檢查指定文件集權限，其他呼叫路徑須獨立驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "citation",
+        "name": "將模型回答的引用連回文件",
+        "problem": "回答需要可追溯出處。",
+        "input": "模型串流、引用編號與文件映射",
+        "output": "已知引用文件、引用標記或連結",
+        "source": "backend/onyx/chat/citation_processor.py",
+        "sourceFiles": [
+          "backend/onyx/chat/citation_processor.py",
+          "README.md"
+        ],
+        "symbols": [
+          "cited_documents",
+          "CitationMapping",
+          "CodeFenceTracker"
+        ],
+        "gate": "引用編號存在不代表語意支持結論；未知文件不應被當成已驗證來源，重要回答須回查原文。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃企業文件搜尋的權限與引用驗收（設計示例）",
+      "problem": "合成文件、兩種使用者角色、資料集與查詢",
+      "steps": [
+        {
+          "capability": "acl",
+          "action": "建立使用者可讀取的文件範圍"
+        },
+        {
+          "capability": "retrieval",
+          "action": "依文件集與日期搜尋"
+        },
+        {
+          "capability": "citation",
+          "action": "將模型回答的引用連回文件"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "onyx-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成文件、兩種使用者角色、資料集與查詢",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立使用者可讀取的文件範圍 → 依文件集與日期搜尋 → 將模型回答的引用連回文件 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有企業 RAG 與資料治理流程之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Community Edition 與 Enterprise Edition 的功能和授權不同",
+        "檢索來源授權及使用者群組權限不當可能洩露內部資料",
+        "不同配對模式可能回傳 None 或限制清單，不能把 None 解讀為普遍授權；需測試群組、匿名及撤權情境。",
+        "日期 floor 只能提高不能放寬；有 DB session 時檢查指定文件集權限，其他呼叫路徑須獨立驗證。",
+        "引用編號存在不代表語意支持結論；未知文件不應被當成已驗證來源，重要回答須回查原文。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Community Edition 與 Enterprise Edition 的功能和授權不同 檢索來源授權及使用者群組權限不當可能洩露內部資料 不同配對模式可能回傳 None 或限制清單，不能把 None 解讀為普遍授權；需測試群組、匿名及撤權情境。 日期 floor 只能提高不能放寬；有 DB session 時檢查指定文件集權限，其他呼叫路徑須獨立驗證。 引用編號存在不代表語意支持結論；未知文件不應被當成已驗證來源，重要回答須回查原文。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、backend/onyx/context/search/preprocessing/access_filters.py、backend/onyx/context/search/pipeline.py、backend/onyx/chat/citation_processor.py 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
