@@ -4928,7 +4928,7 @@
       "type": "resource",
       "id": "graft",
       "title": "Graft",
-      "summary": "在 Coding Agent 讀取專案前提供結構化且較小的程式碼視圖，依 AST 給出安全讀取、符號與變更脈絡，減少將大型檔案直接塞入 Context。",
+      "summary": "讓 Coding Agent 先讀取程式碼的結構與必要片段，而非每次把整個大型檔案塞進 Context，並留下讀取決策與用量紀錄。",
       "tags": [
         "code-context",
         "structural-read",
@@ -4936,8 +4936,8 @@
         "coding-agent",
         "token-efficiency"
       ],
-      "searchText": "Graft Graft 03 Code Intelligence Context Governor / Structural Code Reader 在 Coding Agent 讀取專案前提供結構化且較小的程式碼視圖，依 AST 給出安全讀取、符號與變更脈絡，減少將大型檔案直接塞入 Context。 適合中大型專案的 Coding Agent 閱讀治理；使用 init 前先檢查會建立的設定檔與 Hooks。 code-context structural-read context-governance coding-agent token-efficiency",
-      "updatedAt": "2026-11-19",
+      "searchText": "Graft Graft 03 Code Intelligence Context Governor / Structural Code Reader 讓 Coding Agent 先讀取程式碼的結構與必要片段，而非每次把整個大型檔案塞進 Context，並留下讀取決策與用量紀錄。 適合大型 Repo 的 Agent 閱讀策略、Context 預算及程式探索；先在測試專案確認政策、解析器及工具攔截範圍。不要把單一 MCP 讀取政策當成全系統檔案安全沙箱。 code-context structural-read context-governance coding-agent token-efficiency",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/flyingrobots/graft"
     },
     {
@@ -7294,7 +7294,7 @@
       "type": "resource",
       "id": "paperclip",
       "title": "Paperclip",
-      "summary": "開源的 AI agent organization control plane：用目標、org chart、角色、ticket、heartbeat、budget、approval、audit、workspace 與 runtime 管理多個不同供應商的 Agent，讓 Claude Code、Codex、Cursor、OpenClaw、CLI/HTTP agents 在同一個治理層下長時間協作。",
+      "summary": "把多個 AI Agent 組成有目標、角色及任務的團隊，集中查看分工、工作進度、支出與待核准事項。",
       "tags": [
         "agent-orchestration",
         "control-plane",
@@ -7307,8 +7307,8 @@
         "audit",
         "long-running-agent"
       ],
-      "searchText": "Paperclip Paperclip 02 Agent Orchestration AI Agent Organization Control Plane / Orchestration 開源的 AI agent organization control plane：用目標、org chart、角色、ticket、heartbeat、budget、approval、audit、workspace 與 runtime 管理多個不同供應商的 Agent，讓 Claude Code、Codex、Cursor、OpenClaw、CLI/HTTP agents 在同一個治理層下長時間協作。 適合從『同時開很多 Agent 視窗』進一步升級成可治理的 agent organization：不只分派任務，還要管理目標對齊、責任邊界、成本、權限、審批、排程、恢復與稽核。 agent-orchestration control-plane agent-organization org-chart goal-alignment governance budgets approvals audit long-running-agent",
-      "updatedAt": "2026-11-19",
+      "searchText": "Paperclip Paperclip 02 Agent Orchestration AI Agent Organization Control Plane / Orchestration 把多個 AI Agent 組成有目標、角色及任務的團隊，集中查看分工、工作進度、支出與待核准事項。 適合長期協調跨供應商 Agent 團隊，而非單次對話或單純 PR 管理；先在測試組織設定最小權限與支出上限，再驗證成果及核准機制。 agent-orchestration control-plane agent-organization org-chart goal-alignment governance budgets approvals audit long-running-agent",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/paperclipai/paperclip"
     },
     {
@@ -8287,7 +8287,7 @@
       "type": "resource",
       "id": "strelov1-freehire-mcp",
       "title": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools",
-      "summary": "以 Model Context Protocol 將 freehire 職缺 API 的 facets、search、market_fit、job、company 等搜尋功能交給 Claude Code／Claude Desktop／MCP Agent；另提供經登入的 save、apply（將職缺標記為已申請）、stage、note、履歷證據庫、CV tailoring 和部分管理工具。官方提供免登入的遠端唯讀 MCP `https://freehire.me/api/v1/mcp`，及可用 `npx -y freehire-mcp` 搭配 Freehire personal API key 運行的本機 MCP server。",
+      "summary": "讓 AI Agent 搜尋職缺、比較需求與履歷證據、建立客製 CV，並在同一求職服務中管理收藏與面試進度。",
       "tags": [
         "freehire",
         "mcp",
@@ -8309,8 +8309,8 @@
         "filter-validation",
         "prompt-injection"
       ],
-      "searchText": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools strelov1/freehire-mcp 12 Developer Tools MIT TypeScript MCP server and hosted Streamable HTTP endpoint for freehire job search / application tracking / CV workflows 以 Model Context Protocol 將 freehire 職缺 API 的 facets、search、market_fit、job、company 等搜尋功能交給 Claude Code／Claude Desktop／MCP Agent；另提供經登入的 save、apply（將職缺標記為已申請）、stage、note、履歷證據庫、CV tailoring 和部分管理工具。官方提供免登入的遠端唯讀 MCP `https://freehire.me/api/v1/mcp`，及可用 `npx -y freehire-mcp` 搭配 Freehire personal API key 運行的本機 MCP server。 想用 Coding Agent 查找新加坡／香港遠端或其他職缺時，先用官方 Hosted Read-Only MCP，不需要交出履歷、API Token 或啟用修改權限；驗證 facets 後再帶國家、remote、薪資、年資與技能篩選，注意 country + region + city 對應 OR 地理條件而非 AND，未識別的欄位可能被忽略、造成搜索範圍放大。升級到有 Key 的本地 MCP 才使用 save、stage、CV 和 applicant tracking，每項有副作用的操作都應有可檢查的預覽與批准，不應自行填寫投遞或偽造履歷成就。 freehire mcp job-search claude-code claude-desktop readonly job-api faceted-search job-alerts market-fit career-agent cv-tailoring evidence-backed-resume authentication api-key remote-jobs mit-license filter-validation prompt-injection",
-      "updatedAt": "2026-11-19",
+      "searchText": "freehire MCP — Read-Only Job Discovery and Authenticated Career Tools strelov1/freehire-mcp 12 Developer Tools MIT TypeScript MCP server and hosted Streamable HTTP endpoint for freehire job search / application tracking / CV workflows 讓 AI Agent 搜尋職缺、比較需求與履歷證據、建立客製 CV，並在同一求職服務中管理收藏與面試進度。 適合研究 JD → CV → 申請追蹤的工作流程；先確認現行 OAuth 或本機 API Key 的權限及費用。若自行建立求職系統，可參考證據庫、履歷版本及狀態契約，不直接匯入私人資料。 freehire mcp job-search claude-code claude-desktop readonly job-api faceted-search job-alerts market-fit career-agent cv-tailoring evidence-backed-resume authentication api-key remote-jobs mit-license filter-validation prompt-injection",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/strelov1/freehire-mcp"
     },
     {
