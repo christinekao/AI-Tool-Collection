@@ -245,14 +245,14 @@
       "canonicalName": "addyosmani/agent-skills",
       "category": "06 Skills",
       "resourceType": "Skill Collection",
-      "purpose": "提供給 AI Coding Agent 的工程 Skills 與指令，按照需求規格、規劃、開發、測試、審查及發布的生命週期組織工作。",
-      "recommendation": "已有成熟專案時，先補目前最薄弱的品質關卡；新專案才從規格到發布建立完整流程。不要把所有 Skills 長期注入 context，也不要把安裝完成當作流程完成。",
+      "purpose": "讓 AI Coding Agent 按開發階段選用現成工作指引，從釐清需求到測試、審查及交付。",
+      "recommendation": "適合已經使用 Coding Agent 卻常遇到需求不清、修改越界或驗收不足的開發者；依目前缺少的環節挑一個技能，不必每次載入全套。",
       "url": "https://github.com/addyosmani/agent-skills",
       "repo": "addyosmani/agent-skills",
       "notes": "選讀來源：https://github.com/addyosmani/agent-skills/tree/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills 。跨工具可複用的原則：任務階段決定 Skill，專門風險決定附加 Skill，交付證據決定能否完成。這是挑選方法，不是新增正式 Workflow 或已測整合。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [
         "skills",
         "production",
@@ -329,7 +329,7 @@
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -353,7 +353,147 @@
         "verification": {
           "status": "not-tested",
           "evidence": "已讀取四個版本化 SKILL.md 及 MIT LICENSE；其他項目為 README 索引，所有安裝與實際執行均未驗證。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "依已查閱的四份固定版本技能及索引，建立需求、程式審查與實際操作三種用途的雙向對應。"
         }
+      },
+      "agentEvidence": [
+        {
+          "id": "select-skill",
+          "detail": "依當前任務選擇技能，避免全部指令同時載入。",
+          "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/using-agent-skills/SKILL.md",
+          "evidenceFields": [
+            "features.4",
+            "requirements.0"
+          ],
+          "limitations": "Host 的載入方式與技能相容性需另核對。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "define-acceptance",
+          "detail": "將需求轉為可驗收規格；必要時先澄清任務。",
+          "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/spec-driven-development/SKILL.md",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "已讀規格技能；其他規劃與訪談技能僅索引查核。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "code-review",
+          "detail": "審查程式正確性、架構、安全、可讀性及效能。",
+          "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/code-review-and-quality/SKILL.md",
+          "evidenceFields": [
+            "features.2",
+            "limitations.2"
+          ],
+          "limitations": "不替代實際執行與獨立驗收。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "browser-check",
+          "detail": "使用瀏覽器工具查核真實互動、畫面及狀態。",
+          "locator": "https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/browser-testing-with-devtools/SKILL.md",
+          "evidenceFields": [
+            "features.2",
+            "limitations.1"
+          ],
+          "limitations": "須有核准的瀏覽器環境，未執行技能。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "unclear-requirement",
+            "title": "讓模糊需求變成規格",
+            "detail": "先把要修改的功能、預期行為與完成條件寫清楚，再讓 Agent 開發。",
+            "evidenceRefs": [
+              "select-skill",
+              "define-acceptance"
+            ]
+          },
+          {
+            "id": "review-changes",
+            "title": "檢查 Agent 修改是否合理",
+            "detail": "針對程式差異檢查錯誤、風險與不必要的修改，避免只看成功訊息。",
+            "evidenceRefs": [
+              "code-review"
+            ]
+          },
+          {
+            "id": "verify-webapp",
+            "title": "驗證網站功能真的能用",
+            "detail": "實際操作網頁，確認表單、畫面與資料狀態是否符合需求。",
+            "evidenceRefs": [
+              "browser-check",
+              "code-review"
+            ]
+          }
+        ],
+        "example": {
+          "id": "form-save-review",
+          "title": "驗收表單儲存功能",
+          "input": "一個待修正的表單，已知儲存後重新整理可能遺失資料。",
+          "process": "明訂驗收條件 → 另行修復 → 程式審查 → 瀏覽器提交與讀回",
+          "output": "驗收規格、程式審查結果及資料讀回證據（預期產物）。",
+          "destination": "交給專案 PR 審查，決定是否允許合併。",
+          "note": "設計示例，未安裝或執行任何技能，也未實測表單。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "unclear-requirement",
+            "review-changes",
+            "verify-webapp"
+          ],
+          "steps": [
+            {
+              "id": "spec",
+              "title": "定義儲存與讀回條件",
+              "evidenceRefs": [
+                "define-acceptance"
+              ]
+            },
+            {
+              "id": "repair",
+              "title": "修改程式及測試",
+              "evidenceRefs": [],
+              "externalDependency": "實際開發、測試資料與專案權限須另外準備。"
+            },
+            {
+              "id": "review",
+              "title": "審查程式差異",
+              "evidenceRefs": [
+                "code-review"
+              ]
+            },
+            {
+              "id": "browser",
+              "title": "確認實際互動",
+              "evidenceRefs": [
+                "browser-check"
+              ]
+            }
+          ]
+        },
+        "start": [
+          "先判斷目前最需要補強的是需求、程式審查還是瀏覽器驗收。",
+          "開啟對應的固定版本 SKILL.md，核對目標 Host、工具權限與專案規則。",
+          "先在單一小任務驗證有無技能時的交付物差異。"
+        ],
+        "limits": [
+          "只有 meta、spec、review、browser-testing 四份 SKILL.md 及 LICENSE 本輪逐檔查閱；其他名稱與用途來自官方 README 索引，未逐項執行驗證。",
+          "瀏覽器驗證需要可用的 Chrome DevTools MCP；不應為了測試任意使用已登入的個人瀏覽器。",
+          "Repo LICENSE 為 MIT；第三方工具、依賴及實際使用條款仍需個別核對。技能流程不等於測試通過或有權限部署。"
+        ]
       }
     },
     {
@@ -1512,12 +1652,12 @@
       "canonicalName": "AI 郵報 — AI 程式驗收教學",
       "category": "Software Engineering / Quality Assurance",
       "resourceType": "Article / practical guide",
-      "purpose": "將 AI 產生的程式碼由『看起來能動』提升為有需求對照、變更審查、測試、操作證據與上線回復條件的可驗收交付。",
-      "recommendation": "適合 AI-assisted coding、vibe coding、Agent 開發流程與交付驗收；重點是不要把測試全綠或 Agent 自述等同正式驗收。",
+      "purpose": "學習如何驗收 AI 寫的程式，從需求、程式審查、實際操作到發布與回復，避免只相信 Agent 的完成訊息。",
+      "recommendation": "適合使用 AI Coding Agent 開發產品或工作流程的人；若只有小型本機腳本，可依風險縮減發布流程，但仍須驗證需求與輸出。",
       "url": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/",
       "status": "active",
       "addedAt": "2026-10-13",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [
         "ai-coding",
         "acceptance",
@@ -1595,7 +1735,7 @@
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "核對既有 Canonical ID 與原始來源，只補人類閱讀及章節證據對應，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -1619,6 +1759,10 @@
         "verification": {
           "status": "not-tested",
           "evidence": "已閱讀文章正文；教材示例及練習未執行。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "四個已整理的驗收章節均建立讀者用途與章節證據對應，保留原教材、案例與練習。"
         }
       },
       "learningGuide": {
@@ -1723,6 +1867,153 @@
         },
         "caveat": "依原作者文章整理的方法論；職缺管理例子與練習是自訂教學情境，非實際測試或部署。",
         "inlineSummary": "需求 → Diff → 測試 → 操作與讀回 → Release Gate"
+      },
+      "agentEvidence": [
+        {
+          "id": "acceptance-contract",
+          "detail": "在開發前定義正常、無效及邊界情境，明訂應保持不變的行為。",
+          "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；01 定義驗收條件",
+          "evidenceFields": [
+            "learningGuide.modules.0.essentials",
+            "learningGuide.modules.0.apply",
+            "learningGuide.modules.0.output"
+          ],
+          "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "review-and-tests",
+          "detail": "對照需求審查程式差異，確認測試能重現原問題及覆蓋受影響的行為。",
+          "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；02 審查與測試",
+          "evidenceFields": [
+            "learningGuide.modules.1.essentials",
+            "learningGuide.modules.1.apply",
+            "learningGuide.modules.1.output"
+          ],
+          "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "user-evidence",
+          "detail": "實際操作表單、重新讀取儲存結果，保留環境及畫面證據。",
+          "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；03 操作與資料驗證",
+          "evidenceFields": [
+            "learningGuide.modules.2.essentials",
+            "learningGuide.modules.2.apply",
+            "learningGuide.modules.2.output"
+          ],
+          "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "release-gate",
+          "detail": "先確認審查、測試、觀察指標、回復條件與負責人，再擴大發布。",
+          "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；04 發布與回復",
+          "evidenceFields": [
+            "learningGuide.modules.3.essentials",
+            "learningGuide.modules.3.apply",
+            "learningGuide.modules.3.output"
+          ],
+          "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "acceptance-contract",
+            "title": "把需求轉成驗收條件",
+            "detail": "在開發前定義正常、無效及邊界情境，明訂應保持不變的行為。",
+            "evidenceRefs": [
+              "acceptance-contract"
+            ]
+          },
+          {
+            "id": "review-and-tests",
+            "title": "檢查 Agent 修改與測試",
+            "detail": "對照需求審查程式差異，確認測試能重現原問題及覆蓋受影響的行為。",
+            "evidenceRefs": [
+              "review-and-tests"
+            ]
+          },
+          {
+            "id": "user-evidence",
+            "title": "驗證真正的操作與資料",
+            "detail": "實際操作表單、重新讀取儲存結果，保留環境及畫面證據。",
+            "evidenceRefs": [
+              "user-evidence"
+            ]
+          },
+          {
+            "id": "release-gate",
+            "title": "決定是否能安全發布",
+            "detail": "先確認審查、測試、觀察指標、回復條件與負責人，再擴大發布。",
+            "evidenceRefs": [
+              "release-gate"
+            ]
+          }
+        ],
+        "example": {
+          "id": "form-release-check",
+          "title": "驗收 AI 修改的申請表單",
+          "input": "申請表單需求、程式差異及合成的正常與錯誤輸入。",
+          "process": "定義驗收 → 審查與測試 → 實際提交與資料讀回 → 決定發布與回復",
+          "output": "需求對照表、測試與操作證據、發布及回復檢查表（預期產物）。",
+          "destination": "供 PR 審查人員決定是否合併及發布。",
+          "note": "自訂教學案例，未執行表單測試或發布。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "acceptance-contract",
+            "review-and-tests",
+            "user-evidence",
+            "release-gate"
+          ],
+          "steps": [
+            {
+              "id": "acceptance-contract",
+              "title": "把需求轉成驗收條件",
+              "evidenceRefs": [
+                "acceptance-contract"
+              ]
+            },
+            {
+              "id": "review-and-tests",
+              "title": "檢查 Agent 修改與測試",
+              "evidenceRefs": [
+                "review-and-tests"
+              ]
+            },
+            {
+              "id": "user-evidence",
+              "title": "驗證真正的操作與資料",
+              "evidenceRefs": [
+                "user-evidence"
+              ]
+            },
+            {
+              "id": "release-gate",
+              "title": "決定是否能安全發布",
+              "evidenceRefs": [
+                "release-gate"
+              ]
+            }
+          ]
+        },
+        "start": [
+          "先挑一項已完成的 AI 程式修改，寫下預期行為。",
+          "照四個章節逐一設計審查、測試、操作及資料驗收證據。",
+          "依實際風險決定發布條件，確認回復方案與負責人。"
+        ],
+        "limits": [
+          "此為教學文章與案例，不是能自動部署或保證程式正確的驗收工具。",
+          "自動測試、人工審查與部署驗收各有盲點，需依專案風險補安全與資料測試。"
+        ]
       }
     },
     {
@@ -5457,14 +5748,14 @@
       "canonicalName": "anthropics/skills",
       "category": "06 Skills",
       "resourceType": "Skill Collection",
-      "purpose": "Anthropic 公開的 Agent Skills 規格、範例與文件類技能，示範 SKILL.md 如何封裝任務指示、輔助檔案與逐步載入。",
-      "recommendation": "需要建立自己的可重複工作方式時，先從 template 與 skill-creator 找結構和測試方法；需要執行具體任務時，才選一個對應技能，不必安裝整套集合。",
+      "purpose": "學習如何把重複工作封裝成 AI Agent 能選用的 Skill，並參考現成的文件、網頁測試與技能開發範例。",
+      "recommendation": "適合想把固定工作方式變成可重用技能的人；先建立一個任務的觸發、規則與驗收方式，不必安裝整個集合。",
       "url": "https://github.com/anthropics/skills",
       "repo": "anthropics/skills",
       "notes": "版本化索引：https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/README.md 。本次查核範圍見 source.reviewScope。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [
         "skills",
         "agent-design",
@@ -5542,7 +5833,7 @@
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -5566,7 +5857,139 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Official README index plus pinned template/SKILL.md, webapp-testing/SKILL.md, skill-creator/SKILL.md; no execution or per-skill license audit."
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "以已查閱的 template、skill-creator、webapp-testing 與索引建立技能學習及驗收用途對應，保留未讀技能的範圍限制。"
         }
+      },
+      "agentEvidence": [
+        {
+          "id": "skill-structure",
+          "detail": "template 提供 SKILL.md 最小結構及 name、description。",
+          "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/template/SKILL.md",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "目標 Host 的實際觸發方式需確認。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "skill-iteration",
+          "detail": "skill-creator 支援需求、草稿、測試提示與比較迭代。",
+          "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/skill-creator/SKILL.md",
+          "evidenceFields": [
+            "features.1",
+            "requirements.2"
+          ],
+          "limitations": "測試設計與結果需另執行，不能僅依描述宣稱品質。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "webapp-validation",
+          "detail": "webapp-testing 文件以 Playwright 查核渲染後的畫面與 DOM。",
+          "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/webapp-testing/SKILL.md",
+          "evidenceFields": [
+            "features.2",
+            "requirements.1"
+          ],
+          "limitations": "瀏覽器與目標資料權限需核准，未執行腳本。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "document-index",
+          "detail": "README 索引含文件及設計相關技能入口。",
+          "locator": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/README.md",
+          "evidenceFields": [
+            "features.3",
+            "limitations.1"
+          ],
+          "limitations": "各技能內容、依賴與授權未逐一查核。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "capture-routine",
+            "title": "把重複工作寫成 Skill",
+            "detail": "將工作適用時機、操作方法與限制寫成可重用的技能，而不必每次重新說明。",
+            "evidenceRefs": [
+              "skill-structure",
+              "skill-iteration"
+            ]
+          },
+          {
+            "id": "test-skill",
+            "title": "驗證 Skill 是否有幫助",
+            "detail": "使用相同的測試題比較有技能與無技能的結果，修正錯誤觸發及輸出問題。",
+            "evidenceRefs": [
+              "skill-iteration"
+            ]
+          },
+          {
+            "id": "find-task-skill",
+            "title": "尋找文件與網頁驗收範例",
+            "detail": "依實際任務選讀文件處理或網頁測試技能，再核對工具與授權。",
+            "evidenceRefs": [
+              "document-index",
+              "webapp-validation"
+            ]
+          }
+        ],
+        "example": {
+          "id": "resource-skill",
+          "title": "建立 Resource 整理 Skill",
+          "input": "已有整理規則，準備 Repo、服務、教材及來源不足四種測試輸入。",
+          "process": "定義技能觸發與規則 → 建立測試題 → 比較有無 Skill → 修正輸出",
+          "output": "SKILL.md、四種測試題、預期成果及差異記錄（未實測）。",
+          "destination": "專案的技能目錄及後續品質驗收流程。",
+          "note": "自訂設計示例，尚未建立或執行該技能；Host 與權限須另核對。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "capture-routine",
+            "test-skill"
+          ],
+          "steps": [
+            {
+              "id": "define",
+              "title": "撰寫結構與觸發條件",
+              "evidenceRefs": [
+                "skill-structure"
+              ]
+            },
+            {
+              "id": "prepare",
+              "title": "建立代表性測試資料",
+              "evidenceRefs": [],
+              "externalDependency": "測試輸入與預期答案依實際專案規則自行建立。"
+            },
+            {
+              "id": "evaluate",
+              "title": "比較結果及修正技能",
+              "evidenceRefs": [
+                "skill-iteration"
+              ]
+            }
+          ]
+        },
+        "start": [
+          "先選一項確實會重複執行的任務，列出輸入及預期產物。",
+          "讀取 template 與 skill-creator 的固定版本文件，確認目標 Host 支援方式。",
+          "準備正常與不應觸發的案例，核對工具權限後再測試。"
+        ],
+        "limits": [
+          "官方集合為示範與教育用途；同名 Host 內建能力可能與 Repo 不同。",
+          "README 宣告多項技能為 Apache 2.0；不同子目錄可能另有 LICENSE，本輪未逐一確認。",
+          "未安裝技能、執行腳本或核對跨 Host 相容性。"
+        ]
       }
     },
     {
@@ -25460,14 +25883,14 @@
       "canonicalName": "Microsoft AI Agents for Beginners",
       "category": "AI Agent / Framework & Learning",
       "resourceType": "Agent 系統性入門課程",
-      "purpose": "從 Agent 核心概念出發，依課程學習工具使用、記憶、檢索增強生成與多代理應用的設計與實作。",
-      "recommendation": "先用 Agent 基礎、Tool Use 與可信任設計三章建立最小可控 Agent，再依需求選讀原課程的 RAG、Planning、Multi-Agent、Context、Memory 與部署安全；不要先從複雜多 Agent 範例開始。",
+      "purpose": "學習如何設計能使用工具、判斷下一步並在權限範圍內完成任務的 AI Agent。",
+      "recommendation": "適合想從基本 Agent、工具呼叫及安全設計開始的人；先學三個已整理章節，進階主題再依原課程選讀，不必先開通 Azure。",
       "url": "https://github.com/microsoft/ai-agents-for-beginners",
       "repo": "microsoft/ai-agents-for-beginners",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "ai-agent",
@@ -25509,7 +25932,7 @@
       },
       "intakeReview": {
         "policyVersion": "1.0",
-        "sourceStatus": "source-checked",
+        "sourceStatus": "partial",
         "sourceEvidenceFields": [
           "url",
           "source.url"
@@ -25522,7 +25945,7 @@
             "url",
             "repo"
           ],
-          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
+          "reason": "核對既有 Canonical ID 與原始來源，只補人類閱讀及章節證據對應，不建立重複實體。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -25546,7 +25969,14 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Pinned course index and lessons 01, 04, 06 only; partial guided study, not whole-course review."
-        }
+        },
+        "layerReview": {
+          "status": "deferred",
+          "reason": "三個已確認的選讀章節已建立用途及證據對應，整門課程的其他主題仍未逐章查核。",
+          "gap": "剩餘 Agent 設計模式、RAG、規劃、協作、Context、Memory 及部署章節尚未逐章審查。",
+          "nextAction": "依固定版本課程目錄逐章讀取教學及範例，補充重點、練習與來源映射；不宣稱已執行。"
+        },
+        "sourceGap": "本輪只確認課程索引及第 01、04、06 章，其餘課程與 Notebook 尚未深入查核。"
       },
       "learningGuide": {
         "version": 2,
@@ -25628,6 +26058,130 @@
           "check": "每個可行動步驟都有可檢查的權限與結果；未測試不得標記通過。"
         },
         "caveat": "本頁為三章選讀教材；其餘原課程尚未深入整理。案例與練習是自訂設計，未實測。"
+      },
+      "agentEvidence": [
+        {
+          "id": "agent-intro",
+          "detail": "先比較固定規則與模型決策；只有需要補查資訊或選擇動作時才增加 Agent。",
+          "locator": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/01-intro-to-ai-agents/README.md；何時需要 Agent？",
+          "evidenceFields": [
+            "learningGuide.modules.0.essentials",
+            "learningGuide.modules.0.apply",
+            "learningGuide.modules.0.output"
+          ],
+          "limitations": "僅限本次已查閱的選讀章節；未執行原始範例或驗證整門課程。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "tool-contract",
+          "detail": "學習如何定義工具、驗證參數、處理工具結果及可辨識的失敗。",
+          "locator": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/04-tool-use/README.md；Tool Use 的執行鏈",
+          "evidenceFields": [
+            "learningGuide.modules.1.essentials",
+            "learningGuide.modules.1.apply",
+            "learningGuide.modules.1.output"
+          ],
+          "limitations": "僅限本次已查閱的選讀章節；未執行原始範例或驗證整門課程。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "trust-boundary",
+          "detail": "將權限、停止條件、資料驗證及高風險操作核准落實在應用程式。",
+          "locator": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/06-building-trustworthy-agents/README.md；可信任 Agent",
+          "evidenceFields": [
+            "learningGuide.modules.2.essentials",
+            "learningGuide.modules.2.apply",
+            "learningGuide.modules.2.output"
+          ],
+          "limitations": "僅限本次已查閱的選讀章節；未執行原始範例或驗證整門課程。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "agent-intro",
+            "title": "判斷何時需要 AI Agent",
+            "detail": "先比較固定規則與模型決策；只有需要補查資訊或選擇動作時才增加 Agent。",
+            "evidenceRefs": [
+              "agent-intro"
+            ]
+          },
+          {
+            "id": "tool-contract",
+            "title": "讓 Agent 使用外部工具",
+            "detail": "學習如何定義工具、驗證參數、處理工具結果及可辨識的失敗。",
+            "evidenceRefs": [
+              "tool-contract"
+            ]
+          },
+          {
+            "id": "trust-boundary",
+            "title": "限制 Agent 可執行的動作",
+            "detail": "將權限、停止條件、資料驗證及高風險操作核准落實在應用程式。",
+            "evidenceRefs": [
+              "trust-boundary"
+            ]
+          }
+        ],
+        "example": {
+          "id": "support-ticket-agent",
+          "title": "設計只讀客服案件查詢 Agent",
+          "input": "合成客服案件、案件編號、兩個只讀查詢工具及權限限制。",
+          "process": "確認是否需要 Agent → 定義工具及錯誤 → 加入權限與停止條件 → 設計反例",
+          "output": "Agent 設計規格、工具輸入輸出、允許及拒絕情境的驗收清單。",
+          "destination": "交給開發者實作及測試，不直接部署正式系統。",
+          "note": "自訂教學設計示例，未執行模型、Notebook 或客服資料查詢。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "agent-intro",
+            "tool-contract",
+            "trust-boundary"
+          ],
+          "steps": [
+            {
+              "id": "decide",
+              "title": "確認 Agent 的必要性",
+              "evidenceRefs": [
+                "agent-intro"
+              ]
+            },
+            {
+              "id": "tools",
+              "title": "定義工具與錯誤",
+              "evidenceRefs": [
+                "tool-contract"
+              ]
+            },
+            {
+              "id": "boundaries",
+              "title": "設計最小權限及停止條件",
+              "evidenceRefs": [
+                "trust-boundary"
+              ]
+            },
+            {
+              "id": "implement",
+              "title": "另行實作與驗收",
+              "evidenceRefs": [],
+              "externalDependency": "應用程式、測試資料、核准的環境及模型配置須另行準備。"
+            }
+          ]
+        },
+        "start": [
+          "先讀本頁三個選讀章節，判斷固定流程與 Agent 的適用情況。",
+          "完成工具契約與權限設計練習，使用合成資料建立測試案例。",
+          "需要執行原始課程時再核對固定版本 Setup、模型及費用。"
+        ],
+        "limits": [
+          "只完成三個選讀章節的教學整理，不宣稱整門課程已逐章查核。",
+          "原始 Notebook、程式執行及整合未測；翻譯可能落後英文主線。"
+        ]
       }
     },
     {
@@ -27314,14 +27868,14 @@
       "canonicalName": "GenAI_Agents",
       "category": "AI Agent / Framework & Learning",
       "resourceType": "AI Agent 實作 Notebook 合集",
-      "purpose": "蒐集多種 Agent 技巧的教學與實作範例，協助比較單一 Agent、工具使用及多代理設計方法。",
-      "recommendation": "把此集合當成 Agent 設計模式實驗庫。先挑與目前問題對應的 Notebook，建立固定案例及基準，再比較模式是否值得增加複雜度。",
+      "purpose": "透過 Agent 教學與 Notebook 範例，學習如何選擇工具、規劃任務、重試及建立多步 AI 工作流程。",
+      "recommendation": "適合正在學習 Agent 設計模式、需要比較不同架構的人；不要把所有範例直接拼成正式系統，先選一個問題與最簡單的基準。",
       "url": "https://github.com/NirDiamant/GenAI_Agents",
       "repo": "NirDiamant/GenAI_Agents",
       "notes": "版本化索引：https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md 。本次查核範圍見 source.reviewScope。",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "ai-agent",
@@ -27376,7 +27930,7 @@
             "url",
             "repo"
           ],
-          "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -27400,7 +27954,125 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Pinned README collection index; named notebooks referenced by index only; no notebook execution."
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "此資源為教學集合，已知證據是固定版本 README 的各類 Notebook 入口；未將索引冒充程式碼深度審查。"
         }
+      },
+      "agentEvidence": [
+        {
+          "id": "loop-index",
+          "detail": "README 索引列出 agent_while_loop_from_scratch.ipynb，供選讀基本 Agent 迴圈。",
+          "locator": "https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md（Agent loop 範例索引）",
+          "evidenceFields": [
+            "features.0"
+          ],
+          "limitations": "只查閱索引，未核對 Notebook 內部實作。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "router-index",
+          "detail": "README 索引列出 one_step_decision_router.ipynb，供研究單步路由。",
+          "locator": "https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md（Decision router 範例索引）",
+          "evidenceFields": [
+            "features.1"
+          ],
+          "limitations": "未逐份讀取或執行 Notebook。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "pattern-index",
+          "detail": "README 列出規劃、反思、思考預算與技能等教學入口。",
+          "locator": "https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md（進階模式索引）",
+          "evidenceFields": [
+            "features.2",
+            "requirements.1",
+            "requirements.2"
+          ],
+          "limitations": "比較與驗收為策展建議；不代表各模式已證明優於固定流程。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "learn-loop",
+            "title": "理解 Agent 如何連續工作",
+            "detail": "選讀迴圈範例，理解模型如何根據上一步結果決定下一個動作。",
+            "evidenceRefs": [
+              "loop-index"
+            ]
+          },
+          {
+            "id": "choose-routing",
+            "title": "判斷是否需要智慧路由",
+            "detail": "比較單步決策與固定分類規則，避免簡單任務使用過度複雜的 Agent。",
+            "evidenceRefs": [
+              "router-index"
+            ]
+          },
+          {
+            "id": "compare-patterns",
+            "title": "挑選進階 Agent 設計",
+            "detail": "遇到規劃、反思或呼叫成本問題時，再從索引找對應的學習範例。",
+            "evidenceRefs": [
+              "pattern-index"
+            ]
+          }
+        ],
+        "example": {
+          "id": "ticket-routing-study",
+          "title": "比較客服問題的分流方法",
+          "input": "十筆合成客服問題及人工定義的正確分類。",
+          "process": "選讀單步路由 → 設計固定規則基準 → 需要多步處理時比較 Agent 迴圈",
+          "output": "分類正確率、呼叫次數、成本與失敗案例比較表（尚未實驗）。",
+          "destination": "用於選擇客服流程架構，不直接部署。",
+          "note": "獨立學習設計示例，未讀完或執行索引中的 Notebook。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "choose-routing",
+            "learn-loop",
+            "compare-patterns"
+          ],
+          "steps": [
+            {
+              "id": "baseline",
+              "title": "建立假資料與固定規則",
+              "evidenceRefs": [],
+              "externalDependency": "基準資料與正確答案須自行建立。"
+            },
+            {
+              "id": "choose",
+              "title": "選讀單步路由",
+              "evidenceRefs": [
+                "router-index"
+              ]
+            },
+            {
+              "id": "compare",
+              "title": "研究多步迴圈及進階模式",
+              "evidenceRefs": [
+                "loop-index",
+                "pattern-index"
+              ]
+            }
+          ]
+        },
+        "start": [
+          "從 README 索引先找與問題對應的 Notebook。",
+          "閱讀該 Notebook 的模型、依賴、費用與權限後才決定是否執行。",
+          "使用同一組合成資料比較不同方法，保存失敗案例及版本。"
+        ],
+        "limits": [
+          "本輪讀取 README 索引，未逐份核對 Notebook 內容、執行結果或各範例的授權。",
+          "不同範例的 SDK 與 API 可能不同；不能直接拼接為可用的生產流程。"
+        ]
       }
     },
     {
@@ -29687,14 +30359,14 @@
       "canonicalName": "OpenRouter",
       "category": "02 Agent Orchestration",
       "resourceType": "Commercial hosted multi-provider LLM API gateway / model marketplace & routing service",
-      "purpose": "以單一 OpenAI-compatible API 及 API Key 存取多家供應商的語言與多模態模型，依模型 ID、供應商與設定執行請求路由、模型／Provider 備援、串流、工具呼叫、結構化輸出及用量／成本管理；支援 Bring Your Own Key (BYOK) 與可選資料政策式路由（含 Zero Data Retention 限制）。",
-      "recommendation": "需要同時比較多個模型、統一 API 或管理供應商備援時採用；若產品只依賴單一固定模型、具有嚴格資料落地要求或需供應商專屬能力，先評估直接串接。",
+      "purpose": "透過同一組 API 介面使用不同 AI 模型，方便比較模型、選擇供應商並設定備援與資料政策。",
+      "recommendation": "適合需要比較模型、避免只依賴單一供應商的應用；若只需一個固定模型或有嚴格的資料落地要求，先評估直接串接供應商。",
       "url": "https://openrouter.ai/",
       "repo": "",
       "notes": "2026-10-24 查核官方開發者入口、Pricing、Support、Privacy Policy、Zero Data Retention 及 Provider 清單：統一端點 https://openrouter.ai/api/v1，可支援不同模型 Provider 與路由／fallback；提供 OpenAI-compatible API，亦有官方 SDK、Agent SDK、MCP Server 和 Cookbook。官方 pricing 有免費模型／免費 API 額度、按使用量計費及可選 BYOK；模型費率、免費額度、加值手續費和 BYOK 費率依最新方案與實際模型變動，不能以單一價格概括所有模型。官方 Support 表示 API 基本 metadata 會記錄，預設不保存 prompts/completions；但可選 prompt logging，而請求內容會送到實際承接的模型供應商。ZDR 可限制符合要求的供應商不保留 inference prompt/response，但不代表資料完全不出站、不經過 OpenRouter，也不涵蓋自己的 Logs、Tools、Plugins 或持久檔案儲存。模型供應商在 retention、訓練及所在地上有所不同，對敏感資料應明確確認 Provider 與 Policy 並閱讀服務條款。雖然官方有 OpenRouterTeam/openrouter-examples 等公開範例 Repo，這不代表 OpenRouter 託管 API 服務本身是完整開源專案；故 Repo 欄位保持空白。需保存 API Key 並管理額度與洩露／濫用風險；如啟用自動路由或 fallback，請求可能改由不同 Provider 處理，應以 policy 過濾與回傳模型資訊核實。僅完成資料收錄，不曾登入、建立或測試 API Key，亦未呼叫付費模型。",
       "status": "active",
       "addedAt": "2026-10-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [
         "openrouter",
         "llm-api-gateway",
@@ -29801,7 +30473,7 @@
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -29825,7 +30497,154 @@
         "verification": {
           "status": "not-tested",
           "evidence": "Official provider routing and ZDR documentation; no API calls or policy audit."
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "依已查核官方供應商路由與資料政策文件，建立模型比較、備援與資料限制的用途對應；未實測 API。"
         }
+      },
+      "agentEvidence": [
+        {
+          "id": "model-provider",
+          "detail": "model 選擇模型，provider 設定可提供該模型的供應商端點。",
+          "locator": "https://openrouter.ai/docs/guides/routing/provider-selection",
+          "evidenceFields": [
+            "features.0",
+            "requirements.0"
+          ],
+          "limitations": "模型與端點可用性會變動，未實測。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "provider-routing",
+          "detail": "order、only、allow_fallbacks 與 require_parameters 控制供應商偏好、限制、備援與參數相容性。",
+          "locator": "https://openrouter.ai/docs/guides/routing/provider-selection",
+          "evidenceFields": [
+            "features.1",
+            "requirements.1"
+          ],
+          "limitations": "未模擬實際故障；供應商備援不等於 Gateway 容災。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "data-policy",
+          "detail": "data_collection=deny 與 zdr 路由選擇符合條件的端點。",
+          "locator": "https://openrouter.ai/docs/guides/routing/provider-selection；https://openrouter.ai/blog/insights/zero-data-retention/",
+          "evidenceFields": [
+            "features.2",
+            "requirements.2",
+            "limitations.2"
+          ],
+          "limitations": "服務本身政策、企業條款及資料處理未稽核，不能承諾合規。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "compare-models",
+            "title": "用同一介面比較 AI 模型",
+            "detail": "以相同測試題比較模型的輸出品質、延遲與成本，不必為每個模型建立不同介面。",
+            "evidenceRefs": [
+              "model-provider"
+            ]
+          },
+          {
+            "id": "provider-fallback",
+            "title": "設定供應商備援",
+            "detail": "同一模型可能有多個端點，依需求限定可用供應商並檢查故障時的處理。",
+            "evidenceRefs": [
+              "model-provider",
+              "provider-routing"
+            ]
+          },
+          {
+            "id": "restrict-data",
+            "title": "限制模型端點的資料政策",
+            "detail": "指定可接受的供應商與資料保留要求；沒有符合條件的端點時應明確處理失敗。",
+            "evidenceRefs": [
+              "provider-routing",
+              "data-policy"
+            ]
+          }
+        ],
+        "example": {
+          "id": "model-selection-review",
+          "title": "替摘要應用選擇模型",
+          "input": "十筆不含個資的合成摘要題、指定輸出格式與允許的供應商條件。",
+          "process": "選模型 → 設定允許端點 → 比較輸出、延遲及費用 → 模擬端點失敗",
+          "output": "模型與實際供應商、格式通過率、延遲、費用及錯誤處理紀錄（預期產物）。",
+          "destination": "供應商選型及 API 串接規格；正式資料仍須核准。",
+          "note": "自訂測試設計，未呼叫 API、未取得費用或實際測試結果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "compare-models",
+            "provider-fallback",
+            "restrict-data"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "準備合成題目及驗收規格",
+              "evidenceRefs": [],
+              "externalDependency": "應用程式的評分規則、測試資料及核准的費用由專案提供。"
+            },
+            {
+              "id": "select",
+              "title": "選模型及端點",
+              "evidenceRefs": [
+                "model-provider"
+              ]
+            },
+            {
+              "id": "restrict",
+              "title": "設定路由及資料條件",
+              "evidenceRefs": [
+                "provider-routing",
+                "data-policy"
+              ]
+            },
+            {
+              "id": "measure",
+              "title": "評估實際結果",
+              "evidenceRefs": [],
+              "externalDependency": "需另行執行 API 測試與成本、隱私審查。"
+            }
+          ]
+        },
+        "comparison": {
+          "title": "什麼時候選擇統一 API？",
+          "headers": [
+            "直接接模型供應商",
+            "OpenRouter"
+          ],
+          "rows": [
+            [
+              "單一模型及專屬功能較直接",
+              "多模型與供應商比較較方便"
+            ],
+            [
+              "各服務分別管理備援與政策",
+              "可集中設定路由，但增加 Gateway 依賴"
+            ]
+          ],
+          "note": "兩者均須核對費用、政策、實際輸出及相容性。"
+        },
+        "start": [
+          "先列出需要比較的模型、必要參數與資料政策。",
+          "確認官方文件及費用，在核准的伺服器環境使用專案金鑰與合成資料測試。",
+          "確認實際供應商與錯誤處理，再評估是否接正式資料。"
+        ],
+        "limits": [
+          "共用 Gateway 本身可能故障，供應商備援不能替代獨立災難復原。",
+          "模型能力、價格、端點資料政策會變動；不得把單次成功當成各端點相容性證明。",
+          "未呼叫 API、未評估企業條款、未測資料保留或實際帳單。"
+        ]
       }
     },
     {
