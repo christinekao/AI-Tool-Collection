@@ -1151,3 +1151,186 @@ test('Dual-layer batch 28: budget scope, context governance and career evidence'
  assert.match(load('strelov1-freehire-mcp').repoGuide.capabilities.find(c=>c.id==='tracking').gate,/不代表向雇主送件/);
  assert.ok(load('strelov1-freehire-mcp').implementationKnowledge.priorSourceClaims);
 });
+
+// One acceptance PR, seven independently documented content groups.
+for(const [batch,topic,rows] of [
+  [
+    29,
+    "多 Agent 協作與交接",
+    [
+      [
+        "arumwu-agentrelay",
+        "規劃兩個 Coding Agent 的跨工作階段交接",
+        1
+      ],
+      [
+        "charonyuu-whatsmyagentdoing",
+        "規劃多 Agent 等待人工處理的監控面板",
+        1
+      ],
+      [
+        "kieiken-project-hub",
+        "規劃個人專案與 AI 任務的工作台",
+        1
+      ]
+    ]
+  ],
+  [
+    30,
+    "Agent 用量與可觀測性",
+    [
+      [
+        "bi0h4z4rd88-pi-sidebar-tui",
+        "規劃 Pi 終端內的 Context 與任務資訊面板",
+        1
+      ],
+      [
+        "gagansd-herdr-insights",
+        "規劃跨 Coding Agent 的本機用量分析",
+        1
+      ],
+      [
+        "lakris2407-herdr-agent-quota",
+        "規劃跨供應商使用額度與支出的提醒面板",
+        1
+      ]
+    ]
+  ],
+  [
+    31,
+    "工具契約與文件知識",
+    [
+      [
+        "allanyiin-toolanything",
+        "規劃企業查詢工具的跨協議契約",
+        1
+      ],
+      [
+        "allanyiin-documa",
+        "規劃長文件知識庫的逐步閱讀與引用",
+        1
+      ],
+      [
+        "yusufkaraaslan-skill-seekers",
+        "規劃公開技術文件的知識包製作",
+        1
+      ]
+    ]
+  ],
+  [
+    32,
+    "工程工作流程",
+    [
+      [
+        "mattpocock-skills",
+        "規劃從模糊需求到可驗證的功能修正",
+        2
+      ],
+      [
+        "garrytan-gstack",
+        "規劃功能需求、程式審查與 QA 證據的交付流程",
+        1
+      ],
+      [
+        "affaan-m-ecc",
+        "規劃 Agent 工作階段保存與交付驗收",
+        1
+      ]
+    ]
+  ],
+  [
+    33,
+    "職能插件與受控 Bot",
+    [
+      [
+        "anthropics-knowledge-work-plugins",
+        "規劃企業資料分析與審查的職能插件組合",
+        2
+      ],
+      [
+        "anthropics-financial-services",
+        "規劃金融對帳差異的分層讀取與覆核",
+        1
+      ],
+      [
+        "pramoddutta-botskills",
+        "規劃只在測試環境運作的 Bug 重現 Bot",
+        1
+      ]
+    ]
+  ],
+  [
+    34,
+    "成本與治理",
+    [
+      [
+        "aws-samples-sample-agent-cost-bench",
+        "規劃跨 Coding Agent 的成本與功能品質對照",
+        1
+      ],
+      [
+        "gggodlin-cc-harness",
+        "規劃 Agent 修改工作規則時的授權與證據閘門",
+        1
+      ],
+      [
+        "cloudflare-cloudflare-os",
+        "規劃企業知識工作區的讀取與外部寫入核准",
+        1
+      ]
+    ]
+  ],
+  [
+    35,
+    "工程角色與驗收指引",
+    [
+      [
+        "michael-denyer-pstack-claude",
+        "規劃跨 Claude Code 與 Codex 的專案驗收技能",
+        2
+      ],
+      [
+        "cursor-pstack-poteto",
+        "規劃複雜功能的架構選型與實際操作驗收",
+        2
+      ],
+      [
+        "agency-agents",
+        "規劃資料管線與儀表板的跨角色交付審查",
+        2
+      ]
+    ]
+  ]
+]){
+ test('Dual-layer batch '+batch+': '+topic,()=>{
+  const context=vm.createContext({URL});
+  vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+  for(const [id,title,version] of rows){
+   const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+   assert.ok(built,id);
+   for(const key of ['readerGuide',version===1?'repoGuide':'agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+   assert.deepEqual(validateResourceLayerLinks(d),[],id);
+   assert.equal(d.readerGuide.mappingVersion,version,id);
+   assert.equal(d.intakeReview.layerReview.status,version===1?'mapped':'evidence-linked',id);
+   assert.equal(d.intakeReview.verification.status,'not-tested',id);
+   assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+   assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+   assert.equal(d.readerGuide.useCases.length,3,id);
+   if(version===2)assert.equal(d.classification.contentFormat,'collection',id);
+   for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+   for(const uc of d.readerGuide.useCases){
+    const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+    for(const ref of version===1?uc.capabilityRefs:uc.evidenceRefs){
+     const unit=(version===1?forward.capabilities:forward.evidence).find(u=>u.id===ref);
+     assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+     if(version===1)assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+     else assert.ok(unit.locator&&Object.keys(unit.fields).length,id+' '+ref);
+     assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+    }
+   }
+   const html=context.detail(built);
+   assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+   assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  }
+ });
+}

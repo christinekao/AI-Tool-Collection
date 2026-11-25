@@ -3,7 +3,7 @@
   "entityType": "resource",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
   "id": "lakris2407-herdr-agent-quota",
@@ -11,8 +11,8 @@
   "canonicalName": "Herdr Agent Quota",
   "category": "AI Agent Observability & Usage Monitoring",
   "resourceType": "Community Herdr status-bar mod for provider quota and optional system-load telemetry",
-  "purpose": "在 Herdr Desktop 狀態列顯示 Claude 的五小時和每週額度、Codex 與其他供應商的使用上限、重設時間、使用節奏，以及選配 CPU/RAM/GPU 系統負載。",
-  "recommendation": "適合多 Agent 開發時即時觀察供應商額度消耗、使用速度和遠端機器狀態；需先安裝並審查第三方 quota-axi。",
+  "purpose": "在 Herdr 狀態列看到不同 Coding Agent 的使用額度、重設時間與使用速度，避免工作中途才發現用量不足。",
+  "recommendation": "適合 Herdr Desktop 使用者；需先查 quota-axi 及 OpenRouter 憑證來源，使用比例與付費支出需分開。",
   "url": "https://github.com/Lakris2407/herdr-mods/tree/main/quota",
   "repo": "Lakris2407/herdr-mods",
   "license": "MIT (Herdr quota mod); quota-axi is a separate MIT dependency; Herdr and provider terms apply",
@@ -75,10 +75,18 @@
       "https://github.com/Lakris2407/herdr-mods/blob/main/LICENSE",
       "https://github.com/Lakris2407/herdr-mods/tree/main/quota/mods"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official author repository, quota README, recipe, executable mod structure and MIT license",
     "readmeUrl": "https://github.com/Lakris2407/herdr-mods/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "固定版本 quota/README.md、LICENSE、quota/mods/quota/quota-data.js、quota/mods/quota/quota-windows.js、quota/mods/quota/openrouter.js 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "b6fdb2ffb1207f8f686dffdd6addc19fe696d435",
+    "referenceUrls": [
+      "https://github.com/Lakris2407/herdr-mods/blob/b6fdb2ffb1207f8f686dffdd6addc19fe696d435/quota/README.md",
+      "https://github.com/Lakris2407/herdr-mods/blob/b6fdb2ffb1207f8f686dffdd6addc19fe696d435/LICENSE",
+      "https://github.com/Lakris2407/herdr-mods/blob/b6fdb2ffb1207f8f686dffdd6addc19fe696d435/quota/mods/quota/quota-data.js",
+      "https://github.com/Lakris2407/herdr-mods/blob/b6fdb2ffb1207f8f686dffdd6addc19fe696d435/quota/mods/quota/quota-windows.js",
+      "https://github.com/Lakris2407/herdr-mods/blob/b6fdb2ffb1207f8f686dffdd6addc19fe696d435/quota/mods/quota/openrouter.js"
+    ]
   },
   "tags": [
     "herdr",
@@ -120,10 +128,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -139,8 +150,8 @@
     "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "固定版本 quota/README.md、LICENSE、quota/mods/quota/quota-data.js、quota/mods/quota/quota-windows.js、quota/mods/quota/openrouter.js 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -150,10 +161,358 @@
       "decision": "candidate",
       "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "供應商可能變動額度 API，UI 提示不可替代官方用量或收費紀錄；quota-axi 使用既有登入狀態，錯誤不應顯示為零用量；需另行核准查詢。；used-share 非獨立額度；時間進度與用量百分比不能推導硬性費用上限。；程式涉及 Keychain 與外部服務；不得讀取或輸出真實憑證，美元支出不是百分比視窗。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 quota/README.md、LICENSE、quota/mods/quota/quota-data.js、quota/mods/quota/quota-windows.js、quota/mods/quota/openrouter.js 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 quota/README.md、LICENSE、quota/mods/quota/quota-data.js、quota/mods/quota/quota-windows.js、quota/mods/quota/openrouter.js 局部查核；未執行第三方程式或測試。；局部能力與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在 Herdr Desktop 狀態列顯示 Claude 的五小時和每週額度、Codex 與其他供應商的使用上限、重設時間、使用節奏，以及選配 CPU/RAM/GPU 系統負載。",
+      "source": "https://github.com/Lakris2407/herdr-mods/tree/main/quota",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合多 Agent 開發時即時觀察供應商額度消耗、使用速度和遠端機器狀態；需先安裝並審查第三方 quota-axi。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-fetch",
+        "title": "收集供應商額度資料",
+        "detail": "各 CLI 的額度查詢入口不同。可用供應商、取得時間及錯誤。",
+        "capabilityRefs": [
+          "fetch"
+        ]
+      },
+      {
+        "id": "use-windows",
+        "title": "區分五小時、每週與每月限制",
+        "detail": "不同額度視窗不可直接相加。選定的額度視窗。",
+        "capabilityRefs": [
+          "windows"
+        ]
+      },
+      {
+        "id": "use-spend",
+        "title": "獨立呈現 OpenRouter 支出",
+        "detail": "付費使用量與訂閱百分比意義不同。美元支出、額度資訊或錯誤。",
+        "capabilityRefs": [
+          "spend"
+        ]
+      }
+    ],
+    "example": {
+      "id": "lakris2407-herdr-agent-quota-example",
+      "title": "規劃跨供應商使用額度與支出的提醒面板",
+      "input": "合成供應商額度視窗、重設時間與美元使用紀錄。",
+      "process": "收集供應商額度資料 → 區分五小時、每週與每月限制 → 獨立呈現 OpenRouter 支出 → 獨立驗收實際成果",
+      "output": "額度與使用節奏顯示、支出及錯誤提示（規劃產物）。",
+      "destination": "自有 AI 使用量與成本觀察介面之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-fetch",
+        "use-windows",
+        "use-spend"
+      ],
+      "steps": [
+        {
+          "id": "fetch",
+          "title": "收集供應商額度資料",
+          "capabilityRefs": [
+            "fetch"
+          ]
+        },
+        {
+          "id": "windows",
+          "title": "區分五小時、每週與每月限制",
+          "capabilityRefs": [
+            "windows"
+          ]
+        },
+        {
+          "id": "spend",
+          "title": "獨立呈現 OpenRouter 支出",
+          "capabilityRefs": [
+            "spend"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成供應商額度視窗、重設時間與美元使用紀錄。",
+      "依需求選用對應能力並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "供應商可能變動額度 API，UI 提示不可替代官方用量或收費紀錄",
+      "quota-axi 使用既有登入狀態，錯誤不應顯示為零用量；需另行核准查詢。",
+      "used-share 非獨立額度；時間進度與用量百分比不能推導硬性費用上限。",
+      "程式涉及 Keychain 與外部服務；不得讀取或輸出真實憑證，美元支出不是百分比視窗。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在 Herdr 狀態列看到不同 Coding Agent 的使用額度、重設時間與使用速度，避免工作中途才發現用量不足。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "b6fdb2ffb1207f8f686dffdd6addc19fe696d435"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "收集供應商額度資料",
+        "detail": "各 CLI 的額度查詢入口不同。 輸入：經核准的本機 quota-axi 查詢環境；輸出：可用供應商、取得時間及錯誤",
+        "source": "quota/mods/quota/quota-data.js"
+      },
+      {
+        "title": "區分五小時、每週與每月限制",
+        "detail": "不同額度視窗不可直接相加。 輸入：供應商視窗與顯示選項；輸出：選定的額度視窗",
+        "source": "quota/mods/quota/quota-windows.js"
+      },
+      {
+        "title": "獨立呈現 OpenRouter 支出",
+        "detail": "付費使用量與訂閱百分比意義不同。 輸入：經核准的 OpenRouter 回應；輸出：美元支出、額度資訊或錯誤",
+        "source": "quota/mods/quota/openrouter.js"
+      }
+    ],
+    "architecture": {
+      "summary": "收集供應商額度資料 → 區分五小時、每週與每月限制 → 獨立呈現 OpenRouter 支出 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "收集供應商額度資料",
+          "detail": "經核准的本機 quota-axi 查詢環境 → 可用供應商、取得時間及錯誤",
+          "files": [
+            "quota/mods/quota/quota-data.js",
+            "quota/README.md"
+          ]
+        },
+        {
+          "title": "區分五小時、每週與每月限制",
+          "detail": "供應商視窗與顯示選項 → 選定的額度視窗",
+          "files": [
+            "quota/mods/quota/quota-windows.js",
+            "quota/README.md"
+          ]
+        },
+        {
+          "title": "獨立呈現 OpenRouter 支出",
+          "detail": "經核准的 OpenRouter 回應 → 美元支出、額度資訊或錯誤",
+          "files": [
+            "quota/mods/quota/openrouter.js",
+            "quota/README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "收集供應商額度資料",
+        "rule": "quota-axi 使用既有登入狀態，錯誤不應顯示為零用量；需另行核准查詢。",
+        "source": "quota/mods/quota/quota-data.js"
+      },
+      {
+        "name": "區分五小時、每週與每月限制",
+        "rule": "used-share 非獨立額度；時間進度與用量百分比不能推導硬性費用上限。",
+        "source": "quota/mods/quota/quota-windows.js"
+      },
+      {
+        "name": "獨立呈現 OpenRouter 支出",
+        "rule": "程式涉及 Keychain 與外部服務；不得讀取或輸出真實憑證，美元支出不是百分比視窗。",
+        "source": "quota/mods/quota/openrouter.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 quota/README.md、LICENSE、quota/mods/quota/quota-data.js、quota/mods/quota/quota-windows.js、quota/mods/quota/openrouter.js 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "quota/README.md",
+          "LICENSE",
+          "quota/mods/quota/quota-data.js",
+          "quota/mods/quota/quota-windows.js",
+          "quota/mods/quota/openrouter.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成供應商額度視窗、重設時間與美元使用紀錄。 依需求選用對應能力並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "quota/mods/quota/quota-data.js"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 AI 使用量與成本觀察介面另行驗收實際成果及限制。",
+        "file": "quota/mods/quota/quota-data.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "fetch",
+        "name": "收集供應商額度資料",
+        "problem": "各 CLI 的額度查詢入口不同。",
+        "input": "經核准的本機 quota-axi 查詢環境",
+        "output": "可用供應商、取得時間及錯誤",
+        "source": "quota/mods/quota/quota-data.js",
+        "sourceFiles": [
+          "quota/mods/quota/quota-data.js",
+          "quota/README.md"
+        ],
+        "symbols": [
+          "loadQuota",
+          "readQuota"
+        ],
+        "gate": "quota-axi 使用既有登入狀態，錯誤不應顯示為零用量；需另行核准查詢。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "windows",
+        "name": "區分五小時、每週與每月限制",
+        "problem": "不同額度視窗不可直接相加。",
+        "input": "供應商視窗與顯示選項",
+        "output": "選定的額度視窗",
+        "source": "quota/mods/quota/quota-windows.js",
+        "sourceFiles": [
+          "quota/mods/quota/quota-windows.js",
+          "quota/README.md"
+        ],
+        "symbols": [
+          "visibleWindows"
+        ],
+        "gate": "used-share 非獨立額度；時間進度與用量百分比不能推導硬性費用上限。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "spend",
+        "name": "獨立呈現 OpenRouter 支出",
+        "problem": "付費使用量與訂閱百分比意義不同。",
+        "input": "經核准的 OpenRouter 回應",
+        "output": "美元支出、額度資訊或錯誤",
+        "source": "quota/mods/quota/openrouter.js",
+        "sourceFiles": [
+          "quota/mods/quota/openrouter.js",
+          "quota/README.md"
+        ],
+        "symbols": [
+          "parseOpenRouter",
+          "KEYCHAIN_SERVICE"
+        ],
+        "gate": "程式涉及 Keychain 與外部服務；不得讀取或輸出真實憑證，美元支出不是百分比視窗。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃跨供應商使用額度與支出的提醒面板（設計示例）",
+      "problem": "合成供應商額度視窗、重設時間與美元使用紀錄",
+      "steps": [
+        {
+          "capability": "fetch",
+          "action": "收集供應商額度資料"
+        },
+        {
+          "capability": "windows",
+          "action": "區分五小時、每週與每月限制"
+        },
+        {
+          "capability": "spend",
+          "action": "獨立呈現 OpenRouter 支出"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "lakris2407-herdr-agent-quota-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成供應商額度視窗、重設時間與美元使用紀錄",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "收集供應商額度資料 → 區分五小時、每週與每月限制 → 獨立呈現 OpenRouter 支出 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 AI 使用量與成本觀察介面之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "供應商可能變動額度 API，UI 提示不可替代官方用量或收費紀錄",
+        "quota-axi 使用既有登入狀態，錯誤不應顯示為零用量；需另行核准查詢。",
+        "used-share 非獨立額度；時間進度與用量百分比不能推導硬性費用上限。",
+        "程式涉及 Keychain 與外部服務；不得讀取或輸出真實憑證，美元支出不是百分比視窗。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "供應商可能變動額度 API，UI 提示不可替代官方用量或收費紀錄 quota-axi 使用既有登入狀態，錯誤不應顯示為零用量；需另行核准查詢。 used-share 非獨立額度；時間進度與用量百分比不能推導硬性費用上限。 程式涉及 Keychain 與外部服務；不得讀取或輸出真實憑證，美元支出不是百分比視窗。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 quota/README.md、LICENSE、quota/mods/quota/quota-data.js、quota/mods/quota/quota-windows.js、quota/mods/quota/openrouter.js 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

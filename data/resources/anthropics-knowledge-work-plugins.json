@@ -6,14 +6,14 @@
   "canonicalName": "anthropics/knowledge-work-plugins",
   "category": "06 Skills",
   "resourceType": "Anthropic-maintained Apache-2.0 GitHub marketplace manifest with job-specific Claude Plugins, Skills, Commands, MCP Connectors and Subagents",
-  "purpose": "以職能為單位提供可在 Claude Cowork／Claude Code 使用的知識工作插件。核心用途涵蓋 Productivity、Sales、Customer Support、Product Management、Marketing、Legal、Finance、Data、Enterprise Search、Bio Research、Plugin Management；目前目錄亦列出 Engineering、Design、Human Resources、Operations、Small Business、合作夥伴及外部來源插件。每個插件可組合專用 Skills、Slash Commands、.mcp.json Connectors 或 Subagents，讓 Agent 依角色執行研究、文件、溝通、資料分析、產品規劃等任務。",
-  "recommendation": "適合希望比較、選用或客製化 Claude Cowork／Claude Code 職能插件的使用者。建議先依實際工作場景找單一插件（如 product-management、data、engineering、design），閱讀該插件的 plugin.json、Skills、Commands、.mcp.json、權限與外部 Source，再決定是否啟用。不要一次性安裝整套 Marketplace；也不要把 GitHub 上列出的所有合作夥伴插件視為 Anthropic 親自編寫、逐個審計或保證相同授權。若要連結 Slack、Notion、Jira、Figma、Snowflake 等內部資料，先核對授權與讀寫範圍、資料處理、外部資料流及可能費用。",
+  "purpose": "按職能選擇 Claude 工作插件，把分析、程式審查、產品規劃等常用工作流程與資料工具組合起來。",
+  "recommendation": "適合已知團隊角色與工作規則、想建立一致交付方式的組織；安裝插件不會自動取得公司資料或核准權限。",
   "url": "https://github.com/anthropics/knowledge-work-plugins",
   "repo": "anthropics/knowledge-work-plugins",
   "notes": "2026-10-24 核對官方 GitHub Repo、README.md、根目錄 LICENSE、.claude-plugin/marketplace.json、data/.claude-plugin/plugin.json、data/.mcp.json、product-management/.claude-plugin/plugin.json 與 product-management/.mcp.json。Repo 非封存、官方 GitHub metadata 顯示 Apache-2.0 授權，README 描述初始 11 個由 Anthropic 建立／啟發的職能插件；當次 marketplace.json 實際列出 **123** 個 entries（22 個本 Repo 相對路徑 source、101 個外部 Git repository／git-subdir／外部 source），包含不同供應商與 partner-built 插件，數量隨版本改變。故它是一個 Marketplace/插件合集，不是 123 個已安裝且全部可直接執行的 Skills，也不應宣稱每個 entry 同一授權與安全性。README 提供 Cowork 使用 https://claude.com/plugins 與 Claude Code 的 `claude plugin marketplace add anthropics/knowledge-work-plugins`、`claude plugin install sales@knowledge-work-plugins` 範例；僅留存操作說明，未實際執行。Plugin 通常包含 .claude-plugin/plugin.json、.mcp.json、commands/、skills/，不同插件有不同內容。檢查 data 與 product-management 的 .mcp.json，連接器可以含 Slack、Notion、Figma、BigQuery、Hex、Atlassian 等遠端 MCP URL，也有空字串 placeholder 需要配置；有 Marketplace 並不代表連接器預設可用、無需登入，亦不代表僅裝 Markdown Skill 就是全離線。MCP/命令可能讀取或寫入使用者已授權的 CRM、Email、財務、資料倉儲、文件或專案管理系統；由權限、宿主產品、外部 Model Provider 與每個第三方服務決定資料外送和保留。隱私與可執行性需逐插件獨立審查。Repo 根授權不應自動推定涵蓋每個外部來源插件。未安裝任何 Plugin、未連線 MCP、未授權服務、未執行 Commands 或下載外部資料。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "anthropic",
     "knowledge-work-plugins",
@@ -71,8 +71,16 @@
     "type": "Official Anthropic GitHub repository, README, LICENSE, plugin manifests and connector manifests",
     "summary": "Reviewed original Anthropic repository on 2026-10-24. Repository described initial 11 built-in job plugins; the actual current Marketplace manifest had 123 entries including external plugin sources. No installation or runtime tests.",
     "readmeUrl": "https://github.com/anthropics/knowledge-work-plugins/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、data/skills/validate-data/SKILL.md、engineering/skills/code-review/SKILL.md、data/.mcp.json 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "5e504ae11498f2b8daa30d86b7dab97b2ecd8092",
+    "referenceUrls": [
+      "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/README.md",
+      "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/LICENSE",
+      "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/data/skills/validate-data/SKILL.md",
+      "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/engineering/skills/code-review/SKILL.md",
+      "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/data/.mcp.json"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -87,9 +95,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1",
-    "contentFormat": "repository",
+    "contentFormat": "collection",
     "formatEvidenceFields": [
-      "url"
+      "repo",
+      "source.referenceUrls"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -110,10 +119,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -126,11 +138,11 @@
       "decision": "retain-unmapped",
       "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
     },
-    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。；固定來源顯示主要收錄可挑選的技能／角色文件集合，僅 Content Format 由 repository 校正為 collection，Primary Domain、Tags、Category 與 Typed References 不變。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、data/skills/validate-data/SKILL.md、engineering/skills/code-review/SKILL.md、data/.mcp.json 局部查核；未執行第三方程式或測試。；主要收錄可挑選的角色或技能文件集合，非單一程式重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -140,10 +152,176 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "安裝 Plugin 不會自動取得 CRM、雲端文件或內部系統權限。；不同職能插件可能有相依、指令或資料存取衝突，需以小範圍試用驗證。；先查母體、分母、Join grain、比較期間與替代解釋；信心評估不等於資料已正確。；外部工具連線並非必備，但未取得 diff 或 CI 時不能聲稱已驗證；最終合併須獨立核准。；部分端點是空白 placeholder；需另外設定與授權，不把 .mcp.json 視為已連線或已獲權限。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、data/skills/validate-data/SKILL.md、engineering/skills/code-review/SKILL.md、data/.mcp.json 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、data/skills/validate-data/SKILL.md、engineering/skills/code-review/SKILL.md、data/.mcp.json 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "以職能為單位提供可在 Claude Cowork／Claude Code 使用的知識工作插件。核心用途涵蓋 Productivity、Sales、Customer Support、Product Management、Marketing、Legal、Finance、Data、Enterprise Search、Bio Research、Plugin Management；目前目錄亦列出 Engineering、Design、Human Resources、Operations、Small Business、合作夥伴及外部來源插件。每個插件可組合專用 Skills、Slash Commands、.mcp.json Connectors 或 Subagents，讓 Agent 依角色執行研究、文件、溝通、資料分析、產品規劃等任務。",
+      "source": "https://github.com/anthropics/knowledge-work-plugins",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合希望比較、選用或客製化 Claude Cowork／Claude Code 職能插件的使用者。建議先依實際工作場景找單一插件（如 product-management、data、engineering、design），閱讀該插件的 plugin.json、Skills、Commands、.mcp.json、權限與外部 Source，再決定是否啟用。不要一次性安裝整套 Marketplace；也不要把 GitHub 上列出的所有合作夥伴插件視為 Anthropic 親自編寫、逐個審計或保證相同授權。若要連結 Slack、Notion、Jira、Figma、Snowflake 等內部資料，先核對授權與讀寫範圍、資料處理、外部資料流及可能費用。",
+    "priorContentFormat": "repository",
+    "documentContracts": [
+      {
+        "id": "data",
+        "input": "分析報告、SQL、資料樣本與指標定義",
+        "output": "方法檢查、獨立重算及改進建議",
+        "rule": "先查母體、分母、Join grain、比較期間與替代解釋；信心評估不等於資料已正確。",
+        "source": "data/skills/validate-data/SKILL.md",
+        "references": []
+      },
+      {
+        "id": "review",
+        "input": "PR diff、相關測試及可取得的團隊規則",
+        "output": "安全、效能、正確性與維護性問題及建議",
+        "rule": "外部工具連線並非必備，但未取得 diff 或 CI 時不能聲稱已驗證；最終合併須獨立核准。",
+        "source": "engineering/skills/code-review/SKILL.md",
+        "references": []
+      },
+      {
+        "id": "connect",
+        "input": "職能需求、MCP 設定及已核准的企業連線",
+        "output": "適用技能與連接器配置的選用規格",
+        "rule": "部分端點是空白 placeholder；需另外設定與授權，不把 .mcp.json 視為已連線或已獲權限。",
+        "source": "data/.mcp.json",
+        "references": [
+          "README.md"
+        ]
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-data",
+        "title": "檢查資料分析是否可信",
+        "detail": "圖表或 SQL 結果可能因聚合與範圍錯誤而失真。方法檢查、獨立重算及改進建議。",
+        "evidenceRefs": [
+          "data"
+        ]
+      },
+      {
+        "id": "use-review",
+        "title": "依工程角色審查程式變更",
+        "detail": "團隊需要一致的程式審查尺度。安全、效能、正確性與維護性問題及建議。",
+        "evidenceRefs": [
+          "review"
+        ]
+      },
+      {
+        "id": "use-connect",
+        "title": "選擇職能插件與資料工具",
+        "detail": "角色工作流程與企業資料來源需要分開設定。適用技能與連接器配置的選用規格。",
+        "evidenceRefs": [
+          "connect"
+        ]
+      }
+    ],
+    "example": {
+      "id": "anthropics-knowledge-work-plugins-example",
+      "title": "規劃企業資料分析與審查的職能插件組合",
+      "input": "合成資料、分析問題、程式差異與已允許的資料來源。",
+      "process": "檢查資料分析是否可信 → 依工程角色審查程式變更 → 選擇職能插件與資料工具 → 獨立驗收實際成果",
+      "output": "資料驗收清單、程式審查紀錄與連線權限規格（規劃產物）。",
+      "destination": "自有企業 AI 工作流程與插件設計之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-data",
+        "use-review",
+        "use-connect"
+      ],
+      "steps": [
+        {
+          "id": "data",
+          "title": "檢查資料分析是否可信",
+          "evidenceRefs": [
+            "data"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "依工程角色審查程式變更",
+          "evidenceRefs": [
+            "review"
+          ]
+        },
+        {
+          "id": "connect",
+          "title": "選擇職能插件與資料工具",
+          "evidenceRefs": [
+            "connect"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成資料、分析問題、程式差異與已允許的資料來源。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "安裝 Plugin 不會自動取得 CRM、雲端文件或內部系統權限。",
+      "不同職能插件可能有相依、指令或資料存取衝突，需以小範圍試用驗證。",
+      "先查母體、分母、Join grain、比較期間與替代解釋；信心評估不等於資料已正確。",
+      "外部工具連線並非必備，但未取得 diff 或 CI 時不能聲稱已驗證；最終合併須獨立核准。",
+      "部分端點是空白 placeholder；需另外設定與授權，不把 .mcp.json 視為已連線或已獲權限。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "data",
+      "detail": "圖表或 SQL 結果可能因聚合與範圍錯誤而失真；輸入：分析報告、SQL、資料樣本與指標定義；輸出：方法檢查、獨立重算及改進建議。",
+      "locator": "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/data/skills/validate-data/SKILL.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "先查母體、分母、Join grain、比較期間與替代解釋；信心評估不等於資料已正確。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "review",
+      "detail": "團隊需要一致的程式審查尺度；輸入：PR diff、相關測試及可取得的團隊規則；輸出：安全、效能、正確性與維護性問題及建議。",
+      "locator": "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/engineering/skills/code-review/SKILL.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "外部工具連線並非必備，但未取得 diff 或 CI 時不能聲稱已驗證；最終合併須獨立核准。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "connect",
+      "detail": "角色工作流程與企業資料來源需要分開設定；輸入：職能需求、MCP 設定及已核准的企業連線；輸出：適用技能與連接器配置的選用規格。",
+      "locator": "https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/data/.mcp.json；https://github.com/anthropics/knowledge-work-plugins/blob/5e504ae11498f2b8daa30d86b7dab97b2ecd8092/README.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "部分端點是空白 placeholder；需另外設定與授權，不把 .mcp.json 視為已連線或已獲權限。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }

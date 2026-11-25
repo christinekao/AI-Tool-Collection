@@ -6,13 +6,13 @@
   "canonicalName": "aws-samples/sample-agent-cost-bench",
   "category": "12 Developer Tools",
   "resourceType": "Open-source Python CLI benchmark framework for AI coding agents and models",
-  "purpose": "在相同程式開發任務與驗收條件下，比較多個 AI Coding CLI／模型的執行費用、原生額度或 Token、品質／測試通過率與耗時。提供 cli-compare（跨 Kiro、Claude Code、Codex、Copilot、Cursor、OpenCode 等工具）與 model-compare（Kiro CLI 內比較模型），支援自備 GitHub 程式庫、pytest／Docker／客製評分器／LLM Judge，以及 HTML 與 JSON 結果報告。",
-  "recommendation": "適合在選擇 Coding Agent、模型與推理強度前，使用同一批真實開發任務比較品質、延遲及成本，建立可重複執行的選型證據。先設定小量 task_ids、固定目標 Repo Commit 與驗收測試，調整相同 effort 與一致的執行權限，重複多輪後再比較；成本估算須核對供應商現行費率，並預留訂閱額度與額外測試／LLM Judge 花費。",
+  "purpose": "用相同開發任務及驗收條件比較不同 Coding Agent 或模型的成本、品質與耗時。",
+  "recommendation": "適合已有固定任務、測試及預算的團隊；不要直接把不同供應商 native units 或模型評分當成同一量尺。",
   "url": "https://github.com/aws-samples/sample-agent-cost-bench",
   "repo": "aws-samples/sample-agent-cost-bench",
   "status": "active",
   "addedAt": "2026-10-15",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-benchmark",
     "coding-agent",
@@ -82,17 +82,28 @@
     "url": "https://github.com/aws-samples/sample-agent-cost-bench",
     "readmeUrl": "https://github.com/aws-samples/sample-agent-cost-bench/blob/main/README.md",
     "type": "Upstream official GitHub README/SKILL.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Source reviewed, not code-executed or installation-tested"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、agent_cost_bench/evaluator/functional.py、agent_cost_bench/evaluator/rubric.py、agent_cost_bench/reporter/json_reporter.py 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d",
+    "referenceUrls": [
+      "https://github.com/aws-samples/sample-agent-cost-bench/blob/22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d/README.md",
+      "https://github.com/aws-samples/sample-agent-cost-bench/blob/22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d/LICENSE",
+      "https://github.com/aws-samples/sample-agent-cost-bench/blob/22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d/agent_cost_bench/evaluator/functional.py",
+      "https://github.com/aws-samples/sample-agent-cost-bench/blob/22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d/agent_cost_bench/evaluator/rubric.py",
+      "https://github.com/aws-samples/sample-agent-cost-bench/blob/22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d/agent_cost_bench/reporter/json_reporter.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -108,8 +119,8 @@
     "classificationReason": "沿用既有 software Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、agent_cost_bench/evaluator/functional.py、agent_cost_bench/evaluator/rubric.py、agent_cost_bench/reporter/json_reporter.py 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -119,10 +130,363 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "模型、CLI 及價格隨時間變動，單次跑分不能代表長期表現。；執行任務可能讀取私有程式碼並產生模型呼叫或 Judge 費用。；graduated 分數來自測試結果，無 marker 退回二元退出碼；需保持測試獨立並防止資料或測試遭污染。；judge 可能讀取檔案且包含 .env 類副檔名，須先使用合成資料；模型評分不可替代獨立事實驗收。；USD 與原生額度分開呈現；缺資料或無限值不能轉成零成本，結果不等同供應商實際帳單。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、agent_cost_bench/evaluator/functional.py、agent_cost_bench/evaluator/rubric.py、agent_cost_bench/reporter/json_reporter.py 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、agent_cost_bench/evaluator/functional.py、agent_cost_bench/evaluator/rubric.py、agent_cost_bench/reporter/json_reporter.py 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在相同程式開發任務與驗收條件下，比較多個 AI Coding CLI／模型的執行費用、原生額度或 Token、品質／測試通過率與耗時。提供 cli-compare（跨 Kiro、Claude Code、Codex、Copilot、Cursor、OpenCode 等工具）與 model-compare（Kiro CLI 內比較模型），支援自備 GitHub 程式庫、pytest／Docker／客製評分器／LLM Judge，以及 HTML 與 JSON 結果報告。",
+      "source": "https://github.com/aws-samples/sample-agent-cost-bench",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合在選擇 Coding Agent、模型與推理強度前，使用同一批真實開發任務比較品質、延遲及成本，建立可重複執行的選型證據。先設定小量 task_ids、固定目標 Repo Commit 與驗收測試，調整相同 effort 與一致的執行權限，重複多輪後再比較；成本估算須核對供應商現行費率，並預留訂閱額度與額外測試／LLM Judge 花費。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-functional",
+        "title": "用獨立測試驗收任務結果",
+        "detail": "僅比較 Agent 回覆可能掩蓋功能失敗。功能分數、checkpoint 或退出碼。",
+        "capabilityRefs": [
+          "functional"
+        ]
+      },
+      {
+        "id": "use-rubric",
+        "title": "為非程式產物設計評分規格",
+        "detail": "不易以單元測試測量文件或設計品質。各驗收條件分數與評分結果。",
+        "capabilityRefs": [
+          "rubric"
+        ]
+      },
+      {
+        "id": "use-report",
+        "title": "以共同單位保存成本與品質",
+        "detail": "不同 CLI 的額度與成本來源不一致。JSON 報表含 USD、native units、PASS/FAIL/unavailable。",
+        "capabilityRefs": [
+          "report"
+        ]
+      }
+    ],
+    "example": {
+      "id": "aws-samples-sample-agent-cost-bench-example",
+      "title": "規劃跨 Coding Agent 的成本與功能品質對照",
+      "input": "相同合成任務、固定程式基線、測試腳本與核准的模型配置。",
+      "process": "用獨立測試驗收任務結果 → 為非程式產物設計評分規格 → 以共同單位保存成本與品質 → 獨立驗收實際成果",
+      "output": "可重現的功能分數、成本、耗時及失敗紀錄（規劃產物）。",
+      "destination": "自有 AI 工具採用與成本品質評估之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-functional",
+        "use-rubric",
+        "use-report"
+      ],
+      "steps": [
+        {
+          "id": "functional",
+          "title": "用獨立測試驗收任務結果",
+          "capabilityRefs": [
+            "functional"
+          ]
+        },
+        {
+          "id": "rubric",
+          "title": "為非程式產物設計評分規格",
+          "capabilityRefs": [
+            "rubric"
+          ]
+        },
+        {
+          "id": "report",
+          "title": "以共同單位保存成本與品質",
+          "capabilityRefs": [
+            "report"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備相同合成任務、固定程式基線、測試腳本與核准的模型配置。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "模型、CLI 及價格隨時間變動，單次跑分不能代表長期表現。",
+      "執行任務可能讀取私有程式碼並產生模型呼叫或 Judge 費用。",
+      "graduated 分數來自測試結果，無 marker 退回二元退出碼；需保持測試獨立並防止資料或測試遭污染。",
+      "judge 可能讀取檔案且包含 .env 類副檔名，須先使用合成資料；模型評分不可替代獨立事實驗收。",
+      "USD 與原生額度分開呈現；缺資料或無限值不能轉成零成本，結果不等同供應商實際帳單。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用相同開發任務及驗收條件比較不同 Coding Agent 或模型的成本、品質與耗時。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT No Attribution（MIT-0）"
+      },
+      {
+        "label": "版本",
+        "value": "22ee6ed9f2a8b287e7201110ebaa16d3abfccc3d"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "用獨立測試驗收任務結果",
+        "detail": "僅比較 Agent 回覆可能掩蓋功能失敗。 輸入：相同任務、工作區及驗收腳本；輸出：功能分數、checkpoint 或退出碼",
+        "source": "agent_cost_bench/evaluator/functional.py"
+      },
+      {
+        "title": "為非程式產物設計評分規格",
+        "detail": "不易以單元測試測量文件或設計品質。 輸入：固定 rubric、提交檔案與已核准的 judge 模型；輸出：各驗收條件分數與評分結果",
+        "source": "agent_cost_bench/evaluator/rubric.py"
+      },
+      {
+        "title": "以共同單位保存成本與品質",
+        "detail": "不同 CLI 的額度與成本來源不一致。 輸入：BenchmarkRun、各 runner 成本來源與結果；輸出：JSON 報表含 USD、native units、PASS/FAIL/unavailable",
+        "source": "agent_cost_bench/reporter/json_reporter.py"
+      }
+    ],
+    "architecture": {
+      "summary": "用獨立測試驗收任務結果 → 為非程式產物設計評分規格 → 以共同單位保存成本與品質 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "用獨立測試驗收任務結果",
+          "detail": "相同任務、工作區及驗收腳本 → 功能分數、checkpoint 或退出碼",
+          "files": [
+            "agent_cost_bench/evaluator/functional.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "為非程式產物設計評分規格",
+          "detail": "固定 rubric、提交檔案與已核准的 judge 模型 → 各驗收條件分數與評分結果",
+          "files": [
+            "agent_cost_bench/evaluator/rubric.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "以共同單位保存成本與品質",
+          "detail": "BenchmarkRun、各 runner 成本來源與結果 → JSON 報表含 USD、native units、PASS/FAIL/unavailable",
+          "files": [
+            "agent_cost_bench/reporter/json_reporter.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "用獨立測試驗收任務結果",
+        "rule": "graduated 分數來自測試結果，無 marker 退回二元退出碼；需保持測試獨立並防止資料或測試遭污染。",
+        "source": "agent_cost_bench/evaluator/functional.py"
+      },
+      {
+        "name": "為非程式產物設計評分規格",
+        "rule": "judge 可能讀取檔案且包含 .env 類副檔名，須先使用合成資料；模型評分不可替代獨立事實驗收。",
+        "source": "agent_cost_bench/evaluator/rubric.py"
+      },
+      {
+        "name": "以共同單位保存成本與品質",
+        "rule": "USD 與原生額度分開呈現；缺資料或無限值不能轉成零成本，結果不等同供應商實際帳單。",
+        "source": "agent_cost_bench/reporter/json_reporter.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、agent_cost_bench/evaluator/functional.py、agent_cost_bench/evaluator/rubric.py、agent_cost_bench/reporter/json_reporter.py 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "agent_cost_bench/evaluator/functional.py",
+          "agent_cost_bench/evaluator/rubric.py",
+          "agent_cost_bench/reporter/json_reporter.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備相同合成任務、固定程式基線、測試腳本與核准的模型配置。 依需求選用對應項目並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "agent_cost_bench/evaluator/functional.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 AI 工具採用與成本品質評估另行驗收實際成果及限制。",
+        "file": "agent_cost_bench/evaluator/functional.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "functional",
+        "name": "用獨立測試驗收任務結果",
+        "problem": "僅比較 Agent 回覆可能掩蓋功能失敗。",
+        "input": "相同任務、工作區及驗收腳本",
+        "output": "功能分數、checkpoint 或退出碼",
+        "source": "agent_cost_bench/evaluator/functional.py",
+        "sourceFiles": [
+          "agent_cost_bench/evaluator/functional.py",
+          "README.md"
+        ],
+        "symbols": [
+          "FunctionalEvaluator",
+          "evaluate",
+          "_RESULT_MARKERS"
+        ],
+        "gate": "graduated 分數來自測試結果，無 marker 退回二元退出碼；需保持測試獨立並防止資料或測試遭污染。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "rubric",
+        "name": "為非程式產物設計評分規格",
+        "problem": "不易以單元測試測量文件或設計品質。",
+        "input": "固定 rubric、提交檔案與已核准的 judge 模型",
+        "output": "各驗收條件分數與評分結果",
+        "source": "agent_cost_bench/evaluator/rubric.py",
+        "sourceFiles": [
+          "agent_cost_bench/evaluator/rubric.py",
+          "README.md"
+        ],
+        "symbols": [
+          "_INCLUDE_EXTS",
+          "_SKIP_DIRS",
+          "_usage_artifact_names"
+        ],
+        "gate": "judge 可能讀取檔案且包含 .env 類副檔名，須先使用合成資料；模型評分不可替代獨立事實驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "report",
+        "name": "以共同單位保存成本與品質",
+        "problem": "不同 CLI 的額度與成本來源不一致。",
+        "input": "BenchmarkRun、各 runner 成本來源與結果",
+        "output": "JSON 報表含 USD、native units、PASS/FAIL/unavailable",
+        "source": "agent_cost_bench/reporter/json_reporter.py",
+        "sourceFiles": [
+          "agent_cost_bench/reporter/json_reporter.py",
+          "README.md"
+        ],
+        "symbols": [
+          "JSONReporter",
+          "write"
+        ],
+        "gate": "USD 與原生額度分開呈現；缺資料或無限值不能轉成零成本，結果不等同供應商實際帳單。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃跨 Coding Agent 的成本與功能品質對照（設計示例）",
+      "problem": "相同合成任務、固定程式基線、測試腳本與核准的模型配置",
+      "steps": [
+        {
+          "capability": "functional",
+          "action": "用獨立測試驗收任務結果"
+        },
+        {
+          "capability": "rubric",
+          "action": "為非程式產物設計評分規格"
+        },
+        {
+          "capability": "report",
+          "action": "以共同單位保存成本與品質"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "aws-samples-sample-agent-cost-bench-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "相同合成任務、固定程式基線、測試腳本與核准的模型配置",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "用獨立測試驗收任務結果 → 為非程式產物設計評分規格 → 以共同單位保存成本與品質 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 AI 工具採用與成本品質評估之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "模型、CLI 及價格隨時間變動，單次跑分不能代表長期表現。",
+        "執行任務可能讀取私有程式碼並產生模型呼叫或 Judge 費用。",
+        "graduated 分數來自測試結果，無 marker 退回二元退出碼；需保持測試獨立並防止資料或測試遭污染。",
+        "judge 可能讀取檔案且包含 .env 類副檔名，須先使用合成資料；模型評分不可替代獨立事實驗收。",
+        "USD 與原生額度分開呈現；缺資料或無限值不能轉成零成本，結果不等同供應商實際帳單。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "模型、CLI 及價格隨時間變動，單次跑分不能代表長期表現。 執行任務可能讀取私有程式碼並產生模型呼叫或 Judge 費用。 graduated 分數來自測試結果，無 marker 退回二元退出碼；需保持測試獨立並防止資料或測試遭污染。 judge 可能讀取檔案且包含 .env 類副檔名，須先使用合成資料；模型評分不可替代獨立事實驗收。 USD 與原生額度分開呈現；缺資料或無限值不能轉成零成本，結果不等同供應商實際帳單。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、agent_cost_bench/evaluator/functional.py、agent_cost_bench/evaluator/rubric.py、agent_cost_bench/reporter/json_reporter.py 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

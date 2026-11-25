@@ -1,3 +1,19 @@
+# Resource 最新交接｜雙層知識 Batch 29～35（2026-11-25）
+
+- main 基線 `fde96af41f63a655290afd95879f188d83167383`；PR #93 四項 CI 通過，合併 `0fdefc04434e20a31d6eb0c8003323732d799e90`；Catalog Sync 與 Pages 通過。120/286 已合併（114 完成對應、6 deferred）。
+- 本次七組採單一驗收 PR，避免共用測試及交接檔案的平行 PR 衝突。21 筆候選，16 mapped、5 evidence-linked、63 個用途、48 個局部能力、15 個文件證據、21 個 design-only 案例。固定上游版本；未執行第三方程式。五筆 Skill／角色集合校正 Content Format 為 collection，保留原 Primary Domain、Category、Tags 與既有知識關係；舊值留存。
+- [Batch 29｜多 Agent 協作與交接](RESOURCE_DUAL_LAYER_BATCH29_20261125.md)：arumwu-agentrelay、charonyuu-whatsmyagentdoing、kieiken-project-hub。
+- [Batch 30｜Agent 用量與可觀測性](RESOURCE_DUAL_LAYER_BATCH30_20261125.md)：bi0h4z4rd88-pi-sidebar-tui、gagansd-herdr-insights、lakris2407-herdr-agent-quota。
+- [Batch 31｜工具契約與文件知識](RESOURCE_DUAL_LAYER_BATCH31_20261125.md)：allanyiin-toolanything、allanyiin-documa、yusufkaraaslan-skill-seekers。
+- [Batch 32｜工程工作流程](RESOURCE_DUAL_LAYER_BATCH32_20261125.md)：mattpocock-skills、garrytan-gstack、affaan-m-ecc。
+- [Batch 33｜職能插件與受控 Bot](RESOURCE_DUAL_LAYER_BATCH33_20261125.md)：anthropics-knowledge-work-plugins、anthropics-financial-services、pramoddutta-botskills。
+- [Batch 34｜成本與治理](RESOURCE_DUAL_LAYER_BATCH34_20261125.md)：aws-samples-sample-agent-cost-bench、gggodlin-cc-harness、cloudflare-cloudflare-os。
+- [Batch 35｜工程角色與驗收指引](RESOURCE_DUAL_LAYER_BATCH35_20261125.md)：michael-denyer-pstack-claude、cursor-pstack-poteto、agency-agents。
+- 驗收前 120/286 已合併、21 候選；全部通過合併後 141/286（135 完成對應、6 deferred），145 尚未改寫。瀏覽器回歸涵蓋全部 21 筆在 375/430/768/1440px，測試待 CI 執行。
+- 下一步：確認本次 PR 四項 CI 均通過且可合併，再合併、確認 main Catalog Sync／Pages；若失敗先修正，不計為已合併。之後從 Batch 36 接續；既有 deferred 缺口保留。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 28（2026-11-25）
 
 - main 基線 `7844730d676201d1856a74526a756aabcdbef1a5`；PR #92 四項 CI 通過並合併 `01f6c8e13b9291c82164979a193ae16dabc7d4f5`，Catalog Sync 通過，Pages 查核時尚未完成。117/286 已合併（111 完成對應、6 deferred）。

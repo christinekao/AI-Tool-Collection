@@ -6,13 +6,13 @@
   "canonicalName": "michael-denyer/pstack-claude",
   "category": "06 Skills",
   "resourceType": "Open-source cross-harness Agent Skills pack / Coding Agent workflow orchestration plugin",
-  "purpose": "將 Lauren Tan 的 Cursor pstack 工作方式移植到 Claude Code、Codex、Pi、GitHub Copilot 等 Agent 執行環境，以 poteto-mode 依需求啟動除錯、架構分析、多模型探索、平行任務、程式審查、測試與驗收流程，提供可組合的 Agent Skills、路由 Hook、角色模型與推理程度設定。",
-  "recommendation": "適合希望把 AI-assisted coding 從單次提示升級成可重複的開發流程的人：先用 poteto-mode 讓 Agent 釐清問題並選擇 playbook，搭配 how／why、architect、arena、swarm、interrogate、tdd 與 deslop 等 Skills，再要求實際執行的測試與修復前後證據。依各 CLI 版本採用原生 Plugin 或 Skills-only 安裝；啟用自動路由 Hook 前先審視指令與工具授權，並先在非機密測試專案評估。",
+  "purpose": "把 pstack 的工程工作指引移植到多種 Coding Agent，讓 Agent 依任務選擇工作方式並建立真正可操作的驗收流程。",
+  "recommendation": "適合多 Host 工作流程與可重複驗收設計；這是移植版本，不能假設與 Cursor 上游逐字等價，安裝器及權限須另查。",
   "url": "https://github.com/michael-denyer/pstack-claude",
   "repo": "michael-denyer/pstack-claude",
   "status": "active",
   "addedAt": "2026-10-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-skills",
     "claude-code",
@@ -76,9 +76,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review",
-    "contentFormat": "repository",
+    "contentFormat": "collection",
     "formatEvidenceFields": [
-      "repo"
+      "repo",
+      "source.referenceUrls"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -97,18 +98,29 @@
   "source": {
     "url": "https://github.com/michael-denyer/pstack-claude",
     "readmeUrl": "https://github.com/michael-denyer/pstack-claude/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README.md、LICENSE、plugins/pstack/skills/poteto-mode/SKILL.md、plugins/pstack/skills/create-verification-skill/SKILL.md、plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "103a68d9a9aa23759d00ad95b01cb78cb8f57772",
+    "referenceUrls": [
+      "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/README.md",
+      "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/LICENSE",
+      "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/plugins/pstack/skills/poteto-mode/SKILL.md",
+      "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/plugins/pstack/skills/create-verification-skill/SKILL.md",
+      "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -121,11 +133,11 @@
       "decision": "retain-unmapped",
       "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain ai-agent，僅改善功能、條件、限制，不更改分類。",
+    "classificationReason": "沿用既有 Primary Domain ai-agent，僅改善功能、條件、限制，不更改分類。；固定來源顯示主要收錄可挑選的技能／角色文件集合，僅 Content Format 由 repository 校正為 collection，Primary Domain、Tags、Category 與 Typed References 不變。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、plugins/pstack/skills/poteto-mode/SKILL.md、plugins/pstack/skills/create-verification-skill/SKILL.md、plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md 局部查核；未執行第三方程式或測試。；主要收錄可挑選的角色或技能文件集合，非單一程式重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -135,10 +147,176 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "不同 Host 的支援與 Session Hook 行為不一致；跨 Provider 請求與外部模型可能涉及成本、Context 和資料出站；各平台映射分開，不將一種 Host 的工具名稱套到另一種；避免重複安裝技能。；先查 repo 啟動、隔離與證據；不能在未核准的使用者真實 Session 中雙重操作。；測試須在行為破壞時失敗、僅內部變化時保持通過；實際測試仍須另行執行。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、plugins/pstack/skills/poteto-mode/SKILL.md、plugins/pstack/skills/create-verification-skill/SKILL.md、plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、plugins/pstack/skills/poteto-mode/SKILL.md、plugins/pstack/skills/create-verification-skill/SKILL.md、plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將 Lauren Tan 的 Cursor pstack 工作方式移植到 Claude Code、Codex、Pi、GitHub Copilot 等 Agent 執行環境，以 poteto-mode 依需求啟動除錯、架構分析、多模型探索、平行任務、程式審查、測試與驗收流程，提供可組合的 Agent Skills、路由 Hook、角色模型與推理程度設定。",
+      "source": "https://github.com/michael-denyer/pstack-claude",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合希望把 AI-assisted coding 從單次提示升級成可重複的開發流程的人：先用 poteto-mode 讓 Agent 釐清問題並選擇 playbook，搭配 how／why、architect、arena、swarm、interrogate、tdd 與 deslop 等 Skills，再要求實際執行的測試與修復前後證據。依各 CLI 版本採用原生 Plugin 或 Skills-only 安裝；啟用自動路由 Hook 前先審視指令與工具授權，並先在非機密測試專案評估。",
+    "priorContentFormat": "repository",
+    "documentContracts": [
+      {
+        "id": "route",
+        "input": "任務目標、Host 及 playbook 選擇",
+        "output": "對應工作步驟、待辦與決策紀錄",
+        "rule": "各平台映射分開，不將一種 Host 的工具名稱套到另一種；避免重複安裝技能。",
+        "source": "plugins/pstack/skills/poteto-mode/SKILL.md",
+        "references": [
+          "README.md"
+        ]
+      },
+      {
+        "id": "verify",
+        "input": "專案啟動方式、UI/API/CLI 入口及測試資料",
+        "output": "可重新執行的 verify Skill 設計",
+        "rule": "先查 repo 啟動、隔離與證據；不能在未核准的使用者真實 Session 中雙重操作。",
+        "source": "plugins/pstack/skills/create-verification-skill/SKILL.md",
+        "references": []
+      },
+      {
+        "id": "behavior",
+        "input": "明確需求、公共介面與獨立預期值",
+        "output": "能抓到行為錯誤而允許內部重構的測試規格",
+        "rule": "測試須在行為破壞時失敗、僅內部變化時保持通過；實際測試仍須另行執行。",
+        "source": "plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md",
+        "references": []
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-route",
+        "title": "按任務及 Host 選擇工程工作方式",
+        "detail": "不同 Agent 的工具名稱和能力不能直接互換。對應工作步驟、待辦與決策紀錄。",
+        "evidenceRefs": [
+          "route"
+        ]
+      },
+      {
+        "id": "use-verify",
+        "title": "建立專案專屬的實際操作驗收",
+        "detail": "純 unit test 不一定能證明使用者可以操作。可重新執行的 verify Skill 設計。",
+        "evidenceRefs": [
+          "verify"
+        ]
+      },
+      {
+        "id": "use-behavior",
+        "title": "確保測試驗證外部行為而非內部實作",
+        "detail": "與程式內部耦合的測試容易假通過。能抓到行為錯誤而允許內部重構的測試規格。",
+        "evidenceRefs": [
+          "behavior"
+        ]
+      }
+    ],
+    "example": {
+      "id": "michael-denyer-pstack-claude-example",
+      "title": "規劃跨 Claude Code 與 Codex 的專案驗收技能",
+      "input": "合成 UI 或 CLI 專案、預期行為與兩種 Host 的工具清單。",
+      "process": "按任務及 Host 選擇工程工作方式 → 建立專案專屬的實際操作驗收 → 確保測試驗證外部行為而非內部實作 → 獨立驗收實際成果",
+      "output": "Host 對應表、專案驗收 Skill 規格與行為測試（規劃產物）。",
+      "destination": "自有 AI Cowork 的跨 Host 驗收工作流之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-route",
+        "use-verify",
+        "use-behavior"
+      ],
+      "steps": [
+        {
+          "id": "route",
+          "title": "按任務及 Host 選擇工程工作方式",
+          "evidenceRefs": [
+            "route"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "建立專案專屬的實際操作驗收",
+          "evidenceRefs": [
+            "verify"
+          ]
+        },
+        {
+          "id": "behavior",
+          "title": "確保測試驗證外部行為而非內部實作",
+          "evidenceRefs": [
+            "behavior"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成 UI 或 CLI 專案、預期行為與兩種 Host 的工具清單。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "不同 Host 的支援與 Session Hook 行為不一致",
+      "跨 Provider 請求與外部模型可能涉及成本、Context 和資料出站",
+      "各平台映射分開，不將一種 Host 的工具名稱套到另一種；避免重複安裝技能。",
+      "先查 repo 啟動、隔離與證據；不能在未核准的使用者真實 Session 中雙重操作。",
+      "測試須在行為破壞時失敗、僅內部變化時保持通過；實際測試仍須另行執行。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "route",
+      "detail": "不同 Agent 的工具名稱和能力不能直接互換；輸入：任務目標、Host 及 playbook 選擇；輸出：對應工作步驟、待辦與決策紀錄。",
+      "locator": "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/plugins/pstack/skills/poteto-mode/SKILL.md；https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/README.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "各平台映射分開，不將一種 Host 的工具名稱套到另一種；避免重複安裝技能。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "verify",
+      "detail": "純 unit test 不一定能證明使用者可以操作；輸入：專案啟動方式、UI/API/CLI 入口及測試資料；輸出：可重新執行的 verify Skill 設計。",
+      "locator": "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/plugins/pstack/skills/create-verification-skill/SKILL.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "先查 repo 啟動、隔離與證據；不能在未核准的使用者真實 Session 中雙重操作。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "behavior",
+      "detail": "與程式內部耦合的測試容易假通過；輸入：明確需求、公共介面與獨立預期值；輸出：能抓到行為錯誤而允許內部重構的測試規格。",
+      "locator": "https://github.com/michael-denyer/pstack-claude/blob/103a68d9a9aa23759d00ad95b01cb78cb8f57772/plugins/pstack/skills/principle-test-behavior-not-implementation/SKILL.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "測試須在行為破壞時失敗、僅內部變化時保持通過；實際測試仍須另行執行。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }
