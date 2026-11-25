@@ -8,7 +8,7 @@
 | ryanhanwu-how-to-ask-questions-the-smart-way | 將無法儲存的表單問題整理成工程除錯單 | 固定版本繁體中文 README 的提問前準備、症狀、目標、最小重現及解決後補充段落；原文語氣及歷史平台案例不照搬，授權再散布範圍未核對。；https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/fc6c538e5d833fc16f4ff99a36267c171fb84550/README.md |
 | dslab-lessons | 規劃第一支 AI 影音的學習與驗收流程 | 原始 Lesson 索引與 ComfyUI × MiniMax H3 課程總覽；個別課程動態載入內容、工作流檔及影片未逐一查核。；https://dslab.tw/lesson、https://dslab.tw/lesson-h3 |
 
-三筆 evidence-linked 候選、9 章教材、9 個用途、9 個文件證據與 3 個 design-only 案例。依內容而非託管形式選 learning 規格，保留原 ID、URL、分類、Tags、features、requirements、limitations、Typed Refs、歷史用途與推薦。不新增全域 Graph Edge。
+三筆 evidence-linked 候選、9 章教材、9 個用途、9 個文件證據與 3 個 design-only 案例。依內容而非託管形式選 learning 規格，保留原 ID、URL、Domain、Category、Tags、features、requirements、limitations、Typed Refs、歷史用途與推薦。不新增全域 Graph Edge。
 
 ## 重要界線
 
@@ -19,3 +19,7 @@
 ## Gate 與接續
 
 新增 Catalog 等值、局部證據映射、案例欄位、教材章節與四尺寸瀏覽器回歸。CI 尚待執行；第三方未實測。合併前 93/286；通過合併後 96/286（90 完成對應、6 deferred），190 尚未改寫。下一批優先 SVG 動畫及其他開發資源；依 Canonical 核對。排程停用。
+
+## PR #85 驗收修正
+
+首次 Unified Intake Gate 拒絕《提問的智慧》的 repository 與 evidence-linked 組合；核對 README 實為教材，改正 Content Format 為 learning-guide，保存原分類證據、Repo 身分與關係。不更動 Gate 或降級驗收。新版本需重跑 CI。
