@@ -381,3 +381,37 @@ test('Dual-layer batch 06: ten official-document mappings with honest integratio
  const gateway=JSON.parse(fs.readFileSync('data/resources/vercel-ai-gateway.json','utf8'));
  assert.match(gateway.agentEvidence.find(x=>x.id==='provider-routing').detail,/order.*only/);
 });
+
+test('Dual-layer batch 07: eight official document mappings with data, rights and access boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["higgsfield-ai","規劃三鏡頭商品宣傳短片"],["inspora","建立產品品牌風格參考表"],["chatcut","剪輯產品操作示範影片"],["motionsites-ai","規劃投遞管理 Dashboard"],["vercel-skills-sh","選擇程式審查 Skill"],["meigen-ai","設計商品海報的生成測試"],["openai-codex-security","規劃合成表單專案安全審查"],["ibkr-portfolioanalyst","設計每月資產與交易回顧"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'evidence-linked',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.readerGuide.mappingVersion,2,id);
+  assert.equal(d.agentEvidence.length,3,id);
+  assert.ok(d.implementationKnowledge.priorPurposeSnapshot.text,id);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.evidenceRefs){
+    const unit=forward.evidence.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.evidenceFields.length&&d.source.referenceUrls.includes(unit.locator),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('motionsites-ai').implementationKnowledge.sourceReview.identity,/其他同名/);
+ assert.match(load('meigen-ai').implementationKnowledge.sourceReview.privacy,/公開 URL/);
+ assert.match(load('vercel-skills-sh').implementationKnowledge.sourceReview.telemetry,/DISABLE_TELEMETRY=1/);
+ assert.match(load('ibkr-portfolioanalyst').implementationKnowledge.sourceReview.export,/文字或 XML/);
+});
