@@ -38057,8 +38057,8 @@
       "canonicalName": "OpenClaw",
       "category": "AI Agent Platforms & Automation",
       "resourceType": "Self-hosted AI assistant, multi-channel agent gateway and extensible automation runtime",
-      "purpose": "在使用者自有設備上運行個人 AI Agent，透過 Gateway 統一管理模型、訊息通道、工作階段、工具、Skills、Plugins 與裝置動作，支援跨平台工作流程和可授權的實際操作。",
-      "recommendation": "適合研究個人 AI Agent 工作站、訊息通道整合、自動化作業、工具權限管控、Plugin/Skill 架構、Gateway 信任邊界和 Agent Harness 的實際設計；若接入企業或私人帳號，需優先進行隔離部署、憑證治理和安全審核。",
+      "purpose": "在自己的設備上運行 AI 助理，透過聊天平台或控制介面接收任務，集中管理 Agent、工具及工作階段。",
+      "recommendation": "適合可信任操作者的個人助理或隔離測試環境；不適合直接將不同信任程度的使用者放進同一 Gateway，涉及私人資料或外部操作要先核對權限。",
       "url": "https://github.com/openclaw/openclaw",
       "repo": "openclaw/openclaw",
       "homepage": "https://openclaw.ai",
@@ -38116,7 +38116,7 @@
       "collectionDecision": "新增 1 Resource。主 repo 內雖有大量 Skills／Plugins，但不是同一項獨立 Skill；不為此網址批量建立 SKILL records。",
       "status": "active",
       "addedAt": "2026-11-05",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "openclaw",
         "self-hosted-agent",
@@ -38149,11 +38149,19 @@
           "https://docs.openclaw.ai/gateway/sandboxing",
           "https://openclaw.ai/security"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream README, MIT license, SECURITY.md, notices, GitHub metadata, and official security documentation",
         "summary": "Source-only research. No installation or execution. No independent audit. GitHub URL tracking parameter removed.",
         "readmeUrl": "https://github.com/openclaw/openclaw/blob/main/README.md",
-        "reviewScope": "README only; not installed/runtime tested"
+        "reviewScope": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。",
+        "upstreamCommit": "185313e988b954491cf05978bcc8e8bbc0dc9754",
+        "referenceUrls": [
+          "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/README.md",
+          "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/LICENSE",
+          "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/SECURITY.md",
+          "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/src/gateway/server-methods/agent-run-handler.ts",
+          "https://github.com/openclaw/openclaw/blob/185313e988b954491cf05978bcc8e8bbc0dc9754/src/gateway/server-methods/agent.ts"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -38185,16 +38193,18 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -38203,8 +38213,8 @@
         "classificationReason": "保留 Primary Domain ai-agent、Category 與原始 Tags；只補來源和使用限制。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -38217,8 +38227,358 @@
         "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+          "evidence": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "在使用者自有設備上運行個人 AI Agent，透過 Gateway 統一管理模型、訊息通道、工作階段、工具、Skills、Plugins 與裝置動作，支援跨平台工作流程和可授權的實際操作。",
+          "source": "https://github.com/openclaw/openclaw",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "personal-assistant",
+            "title": "建立個人訊息助理",
+            "detail": "先在隔離環境規劃只讀任務與單一可信任入口。",
+            "capabilityRefs": [
+              "turn-admission",
+              "trust-boundary"
+            ]
+          },
+          {
+            "id": "task-monitor",
+            "title": "追蹤助理任務是否完成",
+            "detail": "區分請求接受、執行中及可讀取結果，避免僅憑成功訊息判斷。",
+            "capabilityRefs": [
+              "turn-admission",
+              "run-observation"
+            ]
+          },
+          {
+            "id": "permission-review",
+            "title": "評估助理可操作的資源",
+            "detail": "分開核對主機、模型供應商、通道與工具權限，不以 session 名稱當安全隔離。",
+            "capabilityRefs": [
+              "trust-boundary",
+              "run-observation"
+            ]
+          }
+        ],
+        "example": {
+          "id": "trusted-assistant-review",
+          "title": "規劃只讀個人研究助理",
+          "input": "一個隔離測試環境、合成資料及單一可信任操作者。",
+          "process": "定義權限 → 設計任務入口 → 觀察結果 → 核對工具與資料邊界",
+          "output": "助理任務、停止／失敗及權限驗收規格（未安裝）。",
+          "destination": "自有 Agent 架構評估，不直接接真實聊天帳號。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "personal-assistant",
+            "task-monitor",
+            "permission-review"
+          ],
+          "steps": [
+            {
+              "id": "scope",
+              "title": "界定可信任操作者及權限",
+              "capabilityRefs": [
+                "trust-boundary"
+              ]
+            },
+            {
+              "id": "submit",
+              "title": "設計任務入口與拒絕情境",
+              "capabilityRefs": [
+                "turn-admission"
+              ]
+            },
+            {
+              "id": "observe",
+              "title": "查核結果讀取及錯誤",
+              "capabilityRefs": [
+                "run-observation"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "獨立驗證工具與外部副作用",
+              "capabilityRefs": [],
+              "externalDependency": "實際部署、模型、聊天帳號、sandbox 與工具權限須另行核准。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先讀固定版本 SECURITY.md，設計單一可信任操作者及隔離測試環境。",
+          "明訂不允許的工具、主機資料及外部連線，不先安裝陌生 Skills。",
+          "核准後才測任務提交、失敗、停止、權限及實際資料路徑。"
+        ],
+        "limits": [
+          "連接 Shell、外部服務和 Skills 可能造成資料外送及副作用",
+          "官方安全政策不將 session ownership/visibility 視為安全邊界；不應以同一 Gateway 隔離敵對使用者。",
+          "未部署、安裝 Skills、連接通道或執行工具；完整沙盒、授權、程序、資料出站與停止行為未查。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "在自己的設備上運行 AI 助理，透過聊天平台或控制介面接收任務，集中管理 Agent、工具及工作階段。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / Gateway / Agent Turn"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（Repo；第三方元件另查）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "185313e988b954491cf05978bcc8e8bbc0dc9754"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "接收及檢查 Agent 任務",
+            "detail": "不同入口的請求需要驗證及前置處理；輸入：agent request params、client、context、authority/commit guards；輸出：preflight 後呼叫 startTurn 或錯誤",
+            "source": "src/gateway/server-methods/agent-run-handler.ts"
+          },
+          {
+            "title": "等待並查核任務結果",
+            "detail": "需區分 Agent 接受與實際完成；輸入：agent.wait params、client、run session observation；輸出：觀察結果或 invalid request",
+            "source": "src/gateway/server-methods/agent.ts"
+          },
+          {
+            "title": "規劃執行與信任邊界",
+            "detail": "助理可操作主機工具及外部服務；輸入：可信任操作者、Gateway、通道與 sandbox 設定；輸出：安全配置與需另驗證的權限界線",
+            "source": "SECURITY.md"
+          }
+        ],
+        "architecture": {
+          "summary": "定義權限 → 設計任務入口 → 觀察結果 → 核對工具與資料邊界",
+          "nodes": [
+            {
+              "title": "接收及檢查 Agent 任務",
+              "detail": "agent request params、client、context、authority/commit guards → preflight 後呼叫 startTurn 或錯誤",
+              "files": [
+                "src/gateway/server-methods/agent-run-handler.ts"
+              ]
+            },
+            {
+              "title": "等待並查核任務結果",
+              "detail": "agent.wait params、client、run session observation → 觀察結果或 invalid request",
+              "files": [
+                "src/gateway/server-methods/agent.ts"
+              ]
+            },
+            {
+              "title": "規劃執行與信任邊界",
+              "detail": "可信任操作者、Gateway、通道與 sandbox 設定 → 安全配置與需另驗證的權限界線",
+              "files": [
+                "SECURITY.md",
+                "README.md",
+                "src/gateway/server-methods/agent-run-handler.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "提交",
+            "rule": "agentRunHandler 檢查參數、取得 principal 並執行 preflight，再呼叫 startTurn；authority 變更例外回錯誤。",
+            "source": "src/gateway/server-methods/agent-run-handler.ts"
+          },
+          {
+            "name": "觀察",
+            "rule": "agentWaitHandler 驗證參數，透過 canReadRun 檢查觀察結果及 session 條件。",
+            "source": "src/gateway/server-methods/agent.ts"
+          },
+          {
+            "name": "信任模型",
+            "rule": "SECURITY.md 定義可信任操作者模式，session ownership 不是安全界線。",
+            "source": "SECURITY.md"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "SECURITY.md",
+              "src/gateway/server-methods/agent-run-handler.ts",
+              "src/gateway/server-methods/agent.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先讀固定版本 SECURITY.md，設計單一可信任操作者及隔離測試環境。 明訂不允許的工具、主機資料及外部連線，不先安裝陌生 Skills。 核准後才測任務提交、失敗、停止、權限及實際資料路徑。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有 Agent 架構評估，不直接接真實聊天帳號。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "src/gateway/server-methods/agent-run-handler.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "turn-admission",
+            "name": "接收及檢查 Agent 任務",
+            "problem": "不同入口的請求需要驗證及前置處理",
+            "input": "agent request params、client、context、authority/commit guards",
+            "output": "preflight 後呼叫 startTurn 或錯誤",
+            "source": "src/gateway/server-methods/agent-run-handler.ts",
+            "sourceFiles": [
+              "src/gateway/server-methods/agent-run-handler.ts"
+            ],
+            "symbols": [
+              "agentRunHandler",
+              "prepareAgentRequestPreflight",
+              "captureAgentTurnPrincipal"
+            ],
+            "gate": "只核對呼叫入口，未證明所有工具或執行路徑均受限制；接受任務不等於完成。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "run-observation",
+            "name": "等待並查核任務結果",
+            "problem": "需區分 Agent 接受與實際完成",
+            "input": "agent.wait params、client、run session observation",
+            "output": "觀察結果或 invalid request",
+            "source": "src/gateway/server-methods/agent.ts",
+            "sourceFiles": [
+              "src/gateway/server-methods/agent.ts"
+            ],
+            "symbols": [
+              "agentWaitHandler",
+              "agentHandlers",
+              "prepareProjectedSessionSharing"
+            ],
+            "gate": "讀取檢查依角色與 session 狀態；不推定完整租戶隔離，未查相關 service 內部。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "trust-boundary",
+            "name": "規劃執行與信任邊界",
+            "problem": "助理可操作主機工具及外部服務",
+            "input": "可信任操作者、Gateway、通道與 sandbox 設定",
+            "output": "安全配置與需另驗證的權限界線",
+            "source": "SECURITY.md",
+            "sourceFiles": [
+              "SECURITY.md",
+              "README.md",
+              "src/gateway/server-methods/agent-run-handler.ts"
+            ],
+            "symbols": [
+              "agentRunHandler",
+              "captureGatewayClientUploadCommitGuard"
+            ],
+            "gate": "SECURITY.md 明示不設計為敵對多租戶；README 說明主 session 預設主機工具執行，需另配 sandbox。文件政策不是已實測的安全保證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃只讀個人研究助理（設計示例）",
+          "problem": "一個隔離測試環境、合成資料及單一可信任操作者。",
+          "steps": [
+            {
+              "capability": "trust-boundary",
+              "action": "界定可信任操作者及權限"
+            },
+            {
+              "capability": "turn-admission",
+              "action": "設計任務入口與拒絕情境"
+            },
+            {
+              "capability": "run-observation",
+              "action": "查核結果讀取及錯誤"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "trusted-assistant-review"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "一個隔離測試環境、合成資料及單一可信任操作者。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義權限 → 設計任務入口 → 觀察結果 → 核對工具與資料邊界",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有 Agent 架構評估，不直接接真實聊天帳號。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "官方安全政策不將 session ownership/visibility 視為安全邊界；不應以同一 Gateway 隔離敵對使用者。",
+            "未部署、安裝 Skills、連接通道或執行工具；完整沙盒、授權、程序、資料出站與停止行為未查。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "授權、資料及執行邊界",
+            "severity": "高",
+            "issue": "官方安全政策不將 session ownership/visibility 視為安全邊界；不應以同一 Gateway 隔離敵對使用者。 未部署、安裝 Skills、連接通道或執行工具；完整沙盒、授權、程序、資料出站與停止行為未查。",
+            "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、SECURITY.md、agentRunHandler 與 agentWaitHandler 的參數檢查、preflight、turn service 及讀取檢查；sessions.ts 路徑 404，未查完整 Gateway、沙盒及工具策略。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -38229,14 +38589,14 @@
       "canonicalName": "opendatalab/MinerU",
       "category": "05 Data & Ingestion",
       "resourceType": "Parser",
-      "purpose": "MinerU 將 PDF、掃描文件與其他複雜文件轉成較適合 AI 處理的 Markdown 或 JSON，保留表格、公式與版面資訊的結構。",
-      "recommendation": "適合文件擷取、知識庫建置或 RAG 前處理；應用自己的掃描品質與表格範例確認解析準確性。",
+      "purpose": "把 PDF、掃描文件及其他文件轉成可搜尋的文字與結構化內容，方便閱讀、查找段落和建立知識庫。",
+      "recommendation": "適合表格、掃描頁及跨頁內容較多的文件；純文字先用簡單讀取方式。敏感文件需確認本機與遠端路徑，解析結果仍須比對原文。",
       "url": "https://github.com/opendatalab/MinerU",
       "repo": "opendatalab/MinerU",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "pdf",
         "parsing",
@@ -38295,24 +38655,35 @@
         "url": "https://github.com/opendatalab/MinerU",
         "readmeUrl": "https://github.com/opendatalab/MinerU/blob/master/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。",
+        "upstreamCommit": "097de7f63f54722c9b805ee1c9a14a0c5b02e078",
+        "referenceUrls": [
+          "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/README.md",
+          "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/LICENSE.md",
+          "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/pyproject.toml",
+          "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/mineru/doclib/client.py",
+          "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/mineru/doclib/types.py",
+          "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/mineru/doclib/__init__.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -38321,8 +38692,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain data，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -38335,8 +38706,362 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "MinerU 將 PDF、掃描文件與其他複雜文件轉成較適合 AI 處理的 Markdown 或 JSON，保留表格、公式與版面資訊的結構。",
+          "source": "https://github.com/opendatalab/MinerU",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "parse-pdf",
+            "title": "整理含表格的 PDF",
+            "detail": "以指定頁面解析公開測試文件，逐頁確認文字及欄位。",
+            "capabilityRefs": [
+              "parse-request",
+              "read-content"
+            ]
+          },
+          {
+            "id": "document-search",
+            "title": "搜尋多份研究文件",
+            "detail": "先確認解析完成，再查找主題詞及原文段落。",
+            "capabilityRefs": [
+              "parse-request",
+              "search-content"
+            ]
+          },
+          {
+            "id": "long-doc",
+            "title": "分段閱讀長文件",
+            "detail": "利用頁碼、範圍與續讀資訊避免誤把截斷內容當完整文件。",
+            "capabilityRefs": [
+              "read-content",
+              "search-content"
+            ]
+          }
+        ],
+        "example": {
+          "id": "document-ingestion",
+          "title": "規劃研究文件解析與搜尋",
+          "input": "三份合法公開的測試文件，包含掃描頁、表格與文字。",
+          "process": "提交解析 → 查狀態 → 讀取頁面及續讀 → 搜尋並比對原文",
+          "output": "解析、搜尋與原文一致性的驗收規格（未解析）。",
+          "destination": "自有文件知識庫；索引、儲存、權限及引用另行驗收。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "parse-pdf",
+            "document-search",
+            "long-doc"
+          ],
+          "steps": [
+            {
+              "id": "submit",
+              "title": "設計文件解析及版本測試",
+              "capabilityRefs": [
+                "parse-request"
+              ]
+            },
+            {
+              "id": "read",
+              "title": "核對頁面內容及續讀",
+              "capabilityRefs": [
+                "read-content"
+              ]
+            },
+            {
+              "id": "search",
+              "title": "設計搜尋與狀態驗收",
+              "capabilityRefs": [
+                "search-content"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "獨立核對原頁與資料使用權",
+              "capabilityRefs": [],
+              "externalDependency": "需核准實際解析、模型下載、資料儲存及外部服務；逐頁比對表格與 OCR。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先用合法公開或合成 PDF 設定頁面驗收。",
+          "核對固定版本 Python 3.11–3.14、Doclib SDK 與授權，避免直接沿用舊 API。",
+          "在核准環境確認 remote、解析狀態、截斷及原頁對應，再考慮正式文件。"
+        ],
+        "limits": [
+          "OCR 與文件結構辨識可能出錯，不能將解析輸出當成已核實事實。",
+          "GPU、模型、作業系統與授權條件需依實際版本另查，不能只靠 README 摘要判定。",
+          "固定版本 LICENSE.md：關聯企業合併口徑每月活躍使用者超過 1 億或每月總營收超過 2,000 萬美元需另取得商業授權；對第三方提供線上服務須明確標示使用 MinerU。",
+          "README 明示 4.1 Tasks API 變更，舊 HTTP API 需遷移；本輪僅確認 Doclib SDK，未驗證新 HTTP Tasks API、解析引擎、遠端及遙測。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把 PDF、掃描文件及其他文件轉成可搜尋的文字與結構化內容，方便閱讀、查找段落和建立知識庫。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / Doclib SDK"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MinerU Open Source License（Apache 2.0 加附加條款）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "097de7f63f54722c9b805ee1c9a14a0c5b02e078"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "提交文件解析",
+            "detail": "需將文件轉成可讀內容；輸入：ParseRequest.path、tier、page_range、force、remote；輸出：ParseResponse 的 status、cache_hit、wait/created/reused parse IDs",
+            "source": "mineru/doclib/client.py"
+          },
+          {
+            "title": "讀取指定頁面與解析結果",
+            "detail": "文件太長或需定位原始頁面；輸入：doc_ref、tier、page_range、after、limit、format；輸出：DocContentResponse.content、content_ranges、truncated、next_request",
+            "source": "mineru/doclib/client.py"
+          },
+          {
+            "title": "搜尋文件庫",
+            "detail": "需從多份解析文件找相關內容；輸入：query、file_type、tier、min_tier、limit、offset；輸出：SearchResponse.results、total、query",
+            "source": "mineru/doclib/client.py"
+          }
+        ],
+        "architecture": {
+          "summary": "提交解析 → 查狀態 → 讀取頁面及續讀 → 搜尋並比對原文",
+          "nodes": [
+            {
+              "title": "提交文件解析",
+              "detail": "ParseRequest.path、tier、page_range、force、remote → ParseResponse 的 status、cache_hit、wait/created/reused parse IDs",
+              "files": [
+                "mineru/doclib/client.py",
+                "mineru/doclib/types.py"
+              ]
+            },
+            {
+              "title": "讀取指定頁面與解析結果",
+              "detail": "doc_ref、tier、page_range、after、limit、format → DocContentResponse.content、content_ranges、truncated、next_request",
+              "files": [
+                "mineru/doclib/client.py",
+                "mineru/doclib/types.py"
+              ]
+            },
+            {
+              "title": "搜尋文件庫",
+              "detail": "query、file_type、tier、min_tier、limit、offset → SearchResponse.results、total、query",
+              "files": [
+                "mineru/doclib/client.py",
+                "mineru/doclib/types.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "解析提交",
+            "rule": "ensure_parse 正規化 page_range 後 POST /parses；ParseResponse 區分建立、重用與等待 IDs。",
+            "source": "mineru/doclib/client.py"
+          },
+          {
+            "name": "內容截斷",
+            "rule": "DocContentResponse 提供 truncated 與 next_request；不得將部分結果視為完整。",
+            "source": "mineru/doclib/types.py"
+          },
+          {
+            "name": "資料路徑",
+            "rule": "ParseRequest.remote 預設 false；實際外部連線仍需獨立查核。",
+            "source": "mineru/doclib/types.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "pyproject.toml",
+              "mineru/doclib/client.py",
+              "mineru/doclib/types.py",
+              "mineru/doclib/__init__.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先用合法公開或合成 PDF 設定頁面驗收。 核對固定版本 Python 3.11–3.14、Doclib SDK 與授權，避免直接沿用舊 API。 在核准環境確認 remote、解析狀態、截斷及原頁對應，再考慮正式文件。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有文件知識庫；索引、儲存、權限及引用另行驗收。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "mineru/doclib/client.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "parse-request",
+            "name": "提交文件解析",
+            "problem": "需將文件轉成可讀內容",
+            "input": "ParseRequest.path、tier、page_range、force、remote",
+            "output": "ParseResponse 的 status、cache_hit、wait/created/reused parse IDs",
+            "source": "mineru/doclib/client.py",
+            "sourceFiles": [
+              "mineru/doclib/client.py",
+              "mineru/doclib/types.py"
+            ],
+            "symbols": [
+              "DoclibClient.ensure_parse",
+              "ParseRequest",
+              "ParseResponse"
+            ],
+            "gate": "remote 預設 false；不代表全部依賴均無網路。提交或 cache hit 不代表解析結果完整，需查 status。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "read-content",
+            "name": "讀取指定頁面與解析結果",
+            "problem": "文件太長或需定位原始頁面",
+            "input": "doc_ref、tier、page_range、after、limit、format",
+            "output": "DocContentResponse.content、content_ranges、truncated、next_request",
+            "source": "mineru/doclib/client.py",
+            "sourceFiles": [
+              "mineru/doclib/client.py",
+              "mineru/doclib/types.py"
+            ],
+            "symbols": [
+              "DoclibClient.get_doc_content",
+              "DocContentResponse"
+            ],
+            "gate": "檢查頁碼、截斷及 next_request；表格、公式、OCR 須與原頁核對。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "search-content",
+            "name": "搜尋文件庫",
+            "problem": "需從多份解析文件找相關內容",
+            "input": "query、file_type、tier、min_tier、limit、offset",
+            "output": "SearchResponse.results、total、query",
+            "source": "mineru/doclib/client.py",
+            "sourceFiles": [
+              "mineru/doclib/client.py",
+              "mineru/doclib/types.py"
+            ],
+            "symbols": [
+              "DoclibClient.search",
+              "SearchResponse",
+              "DoclibClient.get_parse"
+            ],
+            "gate": "搜尋結果需核對原文及解析狀態，不將搜尋命中當成事實已驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃研究文件解析與搜尋（設計示例）",
+          "problem": "三份合法公開的測試文件，包含掃描頁、表格與文字。",
+          "steps": [
+            {
+              "capability": "parse-request",
+              "action": "設計文件解析及版本測試"
+            },
+            {
+              "capability": "read-content",
+              "action": "核對頁面內容及續讀"
+            },
+            {
+              "capability": "search-content",
+              "action": "設計搜尋與狀態驗收"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "document-ingestion"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "三份合法公開的測試文件，包含掃描頁、表格與文字。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "提交解析 → 查狀態 → 讀取頁面及續讀 → 搜尋並比對原文",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有文件知識庫；索引、儲存、權限及引用另行驗收。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "固定版本 LICENSE.md：關聯企業合併口徑每月活躍使用者超過 1 億或每月總營收超過 2,000 萬美元需另取得商業授權；對第三方提供線上服務須明確標示使用 MinerU。",
+            "README 明示 4.1 Tasks API 變更，舊 HTTP API 需遷移；本輪僅確認 Doclib SDK，未驗證新 HTTP Tasks API、解析引擎、遠端及遙測。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "授權、資料及執行邊界",
+            "severity": "高",
+            "issue": "固定版本 LICENSE.md：關聯企業合併口徑每月活躍使用者超過 1 億或每月總營收超過 2,000 萬美元需另取得商業授權；對第三方提供線上服務須明確標示使用 MinerU。 README 明示 4.1 Tasks API 變更，舊 HTTP API 需遷移；本輪僅確認 Doclib SDK，未驗證新 HTTP Tasks API、解析引擎、遠端及遙測。",
+            "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
@@ -42643,14 +43368,14 @@
       "schemaVersion": 2,
       "entityType": "resource",
       "addedAt": "2026-10-18",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "id": "r0x0r-pywebview",
       "title": "pywebview — Native Desktop Window for Python Web UIs",
       "canonicalName": "r0x0r/pywebview",
       "category": "12 Developer Tools",
       "resourceType": "Lightweight cross-platform native WebView GUI wrapper for Python",
-      "purpose": "用 Python 透過系統原生 WebView 顯示 HTML／CSS／JavaScript 使用者介面，並提供視窗管理、JavaScript↔Python 雙向呼叫、原生 Dialog／Menu、內建 HTTP Server 等能力，把 Python 程式包成桌面操作視窗。",
-      "recommendation": "適合把內部 Python 自動化、SQLite 小型資料工具、報表介面或現有 Web UI 包成 Windows／macOS／Linux 桌面程式，而不想完整搬到 Electron 的情境；先以最小 PoC 測試平台原生 WebView／WebKit、JS↔Python bridge 權限、打包與安裝相依。不是 AI 模型、通用 Agent 或完整跨平台桌面 Runtime 隔離層。",
+      "purpose": "把 HTML、CSS、JavaScript 介面放進原生桌面視窗，並透過 Python 處理本機資料與應用邏輯。",
+      "recommendation": "適合已有 HTML 介面、需要 Python 桌面工具的人；若只需瀏覽器開啟網頁，不必另外封裝。接入本機資料前應限制 Bridge 能力。",
       "url": "https://github.com/r0x0r/pywebview",
       "repo": "r0x0r/pywebview",
       "status": "active",
@@ -42715,25 +43440,34 @@
       "source": {
         "url": "https://github.com/r0x0r/pywebview",
         "readmeUrl": "https://github.com/r0x0r/pywebview/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Official upstream README",
-        "reviewScope": "Documentation only, no code executed"
+        "reviewScope": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。",
+        "upstreamCommit": "696dfe67edc7fa597ff5c7758b14e6dc461e5c9e",
+        "referenceUrls": [
+          "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/README.md",
+          "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/LICENSE",
+          "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/webview/__init__.py",
+          "https://github.com/r0x0r/pywebview/blob/696dfe67edc7fa597ff5c7758b14e6dc461e5c9e/webview/window.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+          "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -42742,8 +43476,8 @@
         "classificationReason": "沿用既有 Primary Domain software，僅改善功能、條件、限制，不更改分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+          "status": "applied",
+          "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -42756,8 +43490,356 @@
         "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+          "evidence": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。；局部能力與前台情境雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "用 Python 透過系統原生 WebView 顯示 HTML／CSS／JavaScript 使用者介面，並提供視窗管理、JavaScript↔Python 雙向呼叫、原生 Dialog／Menu、內建 HTTP Server 等能力，把 Python 程式包成桌面操作視窗。",
+          "source": "https://github.com/r0x0r/pywebview",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "desktop-reader",
+            "title": "將 HTML 筆記閱讀器變成桌面工具",
+            "detail": "保留網頁內容及原生視窗，使用 Python 提供必要本機資料。",
+            "capabilityRefs": [
+              "native-window",
+              "content-render"
+            ]
+          },
+          {
+            "id": "local-app",
+            "title": "設計有本機資料的操作介面",
+            "detail": "以清楚的輸入輸出契約提供必要的 Python 方法。",
+            "capabilityRefs": [
+              "python-bridge",
+              "native-window"
+            ]
+          },
+          {
+            "id": "cross-platform",
+            "title": "評估桌面介面相容性",
+            "detail": "測試各 OS 的視窗、畫面及 Bridge 行為，避免將單一平台成果視為全面可用。",
+            "capabilityRefs": [
+              "native-window",
+              "content-render",
+              "python-bridge"
+            ]
+          }
+        ],
+        "example": {
+          "id": "desktop-note-reader",
+          "title": "規劃本機 HTML 筆記閱讀器",
+          "input": "自有 HTML 頁面、合成筆記及唯讀資料方法。",
+          "process": "建立視窗 → 載入 HTML → 設計唯讀 Bridge → 核對來源及各平台",
+          "output": "桌面閱讀器介面與本機資料驗收規格（未執行）。",
+          "destination": "自有知識庫桌面原型；資料隔離、封裝及更新另驗收。",
+          "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+          "useCaseRefs": [
+            "desktop-reader",
+            "local-app",
+            "cross-platform"
+          ],
+          "steps": [
+            {
+              "id": "window",
+              "title": "定義視窗與 GUI 啟動",
+              "capabilityRefs": [
+                "native-window"
+              ]
+            },
+            {
+              "id": "load",
+              "title": "載入自有 HTML",
+              "capabilityRefs": [
+                "content-render"
+              ]
+            },
+            {
+              "id": "bridge",
+              "title": "規劃最小唯讀方法",
+              "capabilityRefs": [
+                "python-bridge"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "驗收跨平台及本機資料界線",
+              "capabilityRefs": [],
+              "externalDependency": "需核准安裝、OS runtime、封裝、來源驗證與資料權限測試。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先用自有 HTML 與合成資料定義最小桌面工具。",
+          "核對 OS runtime、主執行緒及 create_window/start 契約。",
+          "只提供必要 Bridge 方法，測非預期來源、錯誤及各平台畫面。"
+        ],
+        "limits": [
+          "WebView 的引擎能力和系統依賴因 OS 而異",
+          "JavaScript 與 Python Bridge 需限制非預期內容存取本機資源",
+          "未安裝或開啟桌面視窗；各 OS renderer、JS Bridge 安全、封裝與更新未完整查。",
+          "不把 private_mode 或來源檢查當成完整沙箱；遠端網頁不得取得非必要本機權限。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把 HTML、CSS、JavaScript 介面放進原生桌面視窗，並透過 Python 處理本機資料與應用邏輯。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍原始碼已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / Native WebView / JS Bridge"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "BSD 3-Clause"
+          },
+          {
+            "label": "版本錨點",
+            "value": "696dfe67edc7fa597ff5c7758b14e6dc461e5c9e"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "建立桌面視窗",
+            "detail": "既有網頁需要原生視窗；輸入：title、url 或 html、js_api、尺寸；GUI 設定；輸出：Window 與 GUI loop",
+            "source": "webview/__init__.py"
+          },
+          {
+            "title": "載入及更新畫面",
+            "detail": "桌面工具要顯示 HTML 並更新狀態；輸入：HTML、base_uri、JavaScript script；輸出：載入內容或 evaluate_js 結果／錯誤",
+            "source": "webview/window.py"
+          },
+          {
+            "title": "暴露受限 Python 方法",
+            "detail": "前台需呼叫本機邏輯；輸入：明確可呼叫的 functions 或 js_api；輸出：JS API 方法及呼叫結果",
+            "source": "webview/__init__.py"
+          }
+        ],
+        "architecture": {
+          "summary": "建立視窗 → 載入 HTML → 設計唯讀 Bridge → 核對來源及各平台",
+          "nodes": [
+            {
+              "title": "建立桌面視窗",
+              "detail": "title、url 或 html、js_api、尺寸；GUI 設定 → Window 與 GUI loop",
+              "files": [
+                "webview/__init__.py"
+              ]
+            },
+            {
+              "title": "載入及更新畫面",
+              "detail": "HTML、base_uri、JavaScript script → 載入內容或 evaluate_js 結果／錯誤",
+              "files": [
+                "webview/window.py"
+              ]
+            },
+            {
+              "title": "暴露受限 Python 方法",
+              "detail": "明確可呼叫的 functions 或 js_api → JS API 方法及呼叫結果",
+              "files": [
+                "webview/__init__.py",
+                "webview/window.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "啟動",
+            "rule": "start 要求主執行緒且先建立 window。",
+            "source": "webview/__init__.py"
+          },
+          {
+            "name": "載入",
+            "rule": "load_html 清除既有 JS API 狀態並設定可允許的來源後呼叫 renderer。",
+            "source": "webview/window.py"
+          },
+          {
+            "name": "暴露方法",
+            "rule": "expose 檢查 callable 與 protected 函式，再更新 JS API；需另驗證實際來源及權限。",
+            "source": "webview/window.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "webview/__init__.py",
+              "webview/window.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先用自有 HTML 與合成資料定義最小桌面工具。 核對 OS runtime、主執行緒及 create_window/start 契約。 只提供必要 Bridge 方法，測非預期來源、錯誤及各平台畫面。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有知識庫桌面原型；資料隔離、封裝及更新另驗收。；固定輸入輸出，另行驗證失敗及權限。",
+            "file": "webview/__init__.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "native-window",
+            "name": "建立桌面視窗",
+            "problem": "既有網頁需要原生視窗",
+            "input": "title、url 或 html、js_api、尺寸；GUI 設定",
+            "output": "Window 與 GUI loop",
+            "source": "webview/__init__.py",
+            "sourceFiles": [
+              "webview/__init__.py"
+            ],
+            "symbols": [
+              "create_window",
+              "start"
+            ],
+            "gate": "先建立 window 再從主執行緒呼叫 start；各 OS 引擎與依賴需另驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "content-render",
+            "name": "載入及更新畫面",
+            "problem": "桌面工具要顯示 HTML 並更新狀態",
+            "input": "HTML、base_uri、JavaScript script",
+            "output": "載入內容或 evaluate_js 結果／錯誤",
+            "source": "webview/window.py",
+            "sourceFiles": [
+              "webview/window.py"
+            ],
+            "symbols": [
+              "Window.load_html",
+              "Window.evaluate_js"
+            ],
+            "gate": "禁止將未信任字串直接當程式執行；頁面來源與實際畫面另驗收。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "python-bridge",
+            "name": "暴露受限 Python 方法",
+            "problem": "前台需呼叫本機邏輯",
+            "input": "明確可呼叫的 functions 或 js_api",
+            "output": "JS API 方法及呼叫結果",
+            "source": "webview/__init__.py",
+            "sourceFiles": [
+              "webview/__init__.py",
+              "webview/window.py"
+            ],
+            "symbols": [
+              "create_window",
+              "Window.expose",
+              "Window._allow_js_api_on"
+            ],
+            "gate": "expose 拒絕非 callable 或 protected functions，來源限制需查；只暴露最小能力，不將任意本機檔案或 Shell 開放給網頁。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃本機 HTML 筆記閱讀器（設計示例）",
+          "problem": "自有 HTML 頁面、合成筆記及唯讀資料方法。",
+          "steps": [
+            {
+              "capability": "native-window",
+              "action": "定義視窗與 GUI 啟動"
+            },
+            {
+              "capability": "content-render",
+              "action": "載入自有 HTML"
+            },
+            {
+              "capability": "python-bridge",
+              "action": "規劃最小唯讀方法"
+            }
+          ],
+          "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+          "readerExampleRef": "desktop-note-reader"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有 HTML 頁面、合成筆記及唯讀資料方法。",
+              "deliverable": "合成測試集及預期結果"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "建立視窗 → 載入 HTML → 設計唯讀 Bridge → 核對來源及各平台",
+              "deliverable": "行為與錯誤驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有知識庫桌面原型；資料隔離、封裝及更新另驗收。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或開啟桌面視窗；各 OS renderer、JS Bridge 安全、封裝與更新未完整查。",
+            "不把 private_mode 或來源檢查當成完整沙箱；遠端網頁不得取得非必要本機權限。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "授權、資料及執行邊界",
+            "severity": "高",
+            "issue": "未安裝或開啟桌面視窗；各 OS renderer、JS Bridge 安全、封裝與更新未完整查。 不把 private_mode 或來源檢查當成完整沙箱；遠端網頁不得取得非必要本機權限。",
+            "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE、create_window/start、Window.load_html/expose/evaluate_js；未查各 OS renderer、封裝及 Bridge 全部安全實作。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security",
+            "state": "未驗證",
+            "evidence": "未安裝、未執行、未連接正式資料。"
+          }
+        ]
       }
     },
     {
