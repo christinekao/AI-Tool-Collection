@@ -6,14 +6,14 @@
   "canonicalName": "ai-memory",
   "category": "04 Knowledge & Memory",
   "resourceType": "Cross-Agent Long-term Memory / Handoff Infrastructure",
-  "purpose": "替 AI coding agents 建立跨 Agent、跨機器、跨團隊的長期記憶與 handoff 基礎設施。透過 lifecycle hooks 自動擷取 prompts、tool calls 與 session boundaries，將記憶整理成 git-backed Markdown wiki，並以 derived index 提供全文、entity、graph 與可選 vector retrieval；支援 Claude Code、Codex、Cursor、Gemini CLI、OpenCode、Grok、Kimi、Kiro、OMP 等多種 harness。",
-  "recommendation": "適合需要在 Claude Code、Codex、OpenCode 等不同 coding agents 之間直接延續專案脈絡，不想每次手動重述架構、失敗嘗試、open questions 與 handoff 狀態的情境。",
+  "purpose": "讓不同 Coding Agent 在同一專案接續先前的工作，保存已確認的決策、未解問題與交接資訊，不必反覆描述背景。",
+  "recommendation": "適合需要跨工具、工作階段或機器交接的團隊；擷取工作紀錄前應明確限定允許的專案、資料及分享對象。",
   "url": "https://github.com/akitaonrails/ai-memory",
   "repo": "akitaonrails/ai-memory",
   "notes": "Official repository confirmed. Key design: git-backed Markdown is the source of truth; database/index is derived and rebuildable. Default capture/search/handoff path can work with zero LLM calls. Handoffs are typed and claim-once; multi-user attribution and audit logging are built in.",
   "status": "active",
   "addedAt": "2026-09-22",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "long-term-memory",
     "cross-agent",
@@ -93,17 +93,28 @@
     "url": "https://github.com/akitaonrails/ai-memory",
     "readmeUrl": "https://github.com/akitaonrails/ai-memory/blob/main/README.md",
     "type": "Upstream official GitHub README/SKILL.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Source reviewed, not code-executed or installation-tested"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、crates/ai-memory-hooks/src/capture_policy.rs、crates/ai-memory-core/src/handoff.rs、crates/ai-memory-web/src/recall.rs 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "78370da511b012f8410359df6ecf1fc7c6c39f21",
+    "referenceUrls": [
+      "https://github.com/akitaonrails/ai-memory/blob/78370da511b012f8410359df6ecf1fc7c6c39f21/README.md",
+      "https://github.com/akitaonrails/ai-memory/blob/78370da511b012f8410359df6ecf1fc7c6c39f21/LICENSE",
+      "https://github.com/akitaonrails/ai-memory/blob/78370da511b012f8410359df6ecf1fc7c6c39f21/crates/ai-memory-hooks/src/capture_policy.rs",
+      "https://github.com/akitaonrails/ai-memory/blob/78370da511b012f8410359df6ecf1fc7c6c39f21/crates/ai-memory-core/src/handoff.rs",
+      "https://github.com/akitaonrails/ai-memory/blob/78370da511b012f8410359df6ecf1fc7c6c39f21/crates/ai-memory-web/src/recall.rs"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -119,8 +130,8 @@
     "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、crates/ai-memory-hooks/src/capture_policy.rs、crates/ai-memory-core/src/handoff.rs、crates/ai-memory-web/src/recall.rs 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -130,10 +141,365 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "擷取 Prompt／Tool Call 可能涉及公司機密或個人資訊，不可視為零風險。；記憶摘要與自動檢索可能遺漏脈絡，重要決策仍需對照原始證據。；預設 Denylist 在缺少 marker 時仍允許擷取；敏感專案應採明確 Allowlist 並測試所有事件類型，而非只測工具事件。；owner 為空可能發布到整個專案；型別不證明原子領取成功，須另測競態、授權與過期。；呼叫端須先解析允許的 scopes；embedding 與 reranker 是可選服務，啟用可能產生資料傳輸或費用，檢索命中不等於事實。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、crates/ai-memory-hooks/src/capture_policy.rs、crates/ai-memory-core/src/handoff.rs、crates/ai-memory-web/src/recall.rs 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、crates/ai-memory-hooks/src/capture_policy.rs、crates/ai-memory-core/src/handoff.rs、crates/ai-memory-web/src/recall.rs 局部查核；未執行第三方程式或測試。；局部能力與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "替 AI coding agents 建立跨 Agent、跨機器、跨團隊的長期記憶與 handoff 基礎設施。透過 lifecycle hooks 自動擷取 prompts、tool calls 與 session boundaries，將記憶整理成 git-backed Markdown wiki，並以 derived index 提供全文、entity、graph 與可選 vector retrieval；支援 Claude Code、Codex、Cursor、Gemini CLI、OpenCode、Grok、Kimi、Kiro、OMP 等多種 harness。",
+      "source": "https://github.com/akitaonrails/ai-memory",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合需要在 Claude Code、Codex、OpenCode 等不同 coding agents 之間直接延續專案脈絡，不想每次手動重述架構、失敗嘗試、open questions 與 handoff 狀態的情境。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-capture",
+        "title": "先決定哪些專案與事件可以保存",
+        "detail": "自動擷取工作紀錄可能洩漏敏感資料。允許、捨棄或只保留 metadata 的判斷。",
+        "capabilityRefs": [
+          "capture"
+        ]
+      },
+      {
+        "id": "use-handoff",
+        "title": "交接尚未完成的工作",
+        "detail": "換 Agent 時容易遺失已嘗試的方法與下一步。具 Open／Accepted／Expired 狀態與接收範圍的交接契約。",
+        "capabilityRefs": [
+          "handoff"
+        ]
+      },
+      {
+        "id": "use-recall",
+        "title": "依工作範圍檢索相關記憶",
+        "detail": "全部歷史送入 Context 既昂貴又可能越權。排序後的相關頁面與查詢資訊。",
+        "capabilityRefs": [
+          "recall"
+        ]
+      }
+    ],
+    "example": {
+      "id": "ai-memory-example",
+      "title": "規劃跨 Coding Agent 的持久記憶與交接",
+      "input": "兩個測試 Agent、合成專案、可保存的決策與未解問題。",
+      "process": "先決定哪些專案與事件可以保存 → 交接尚未完成的工作 → 依工作範圍檢索相關記憶 → 獨立驗收實際成果",
+      "output": "範圍受控的記憶、待接收交接及可查回的來源（規劃產物）。",
+      "destination": "自有知識庫與開發協作工作流之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-capture",
+        "use-handoff",
+        "use-recall"
+      ],
+      "steps": [
+        {
+          "id": "capture",
+          "title": "先決定哪些專案與事件可以保存",
+          "capabilityRefs": [
+            "capture"
+          ]
+        },
+        {
+          "id": "handoff",
+          "title": "交接尚未完成的工作",
+          "capabilityRefs": [
+            "handoff"
+          ]
+        },
+        {
+          "id": "recall",
+          "title": "依工作範圍檢索相關記憶",
+          "capabilityRefs": [
+            "recall"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成測試環境、資料、權限與實際成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備兩個測試 Agent、合成專案、可保存的決策與未解問題。",
+      "依需求核對固定版本來源及專案的資料保存範圍。",
+      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+    ],
+    "limits": [
+      "擷取 Prompt／Tool Call 可能涉及公司機密或個人資訊，不可視為零風險。",
+      "記憶摘要與自動檢索可能遺漏脈絡，重要決策仍需對照原始證據。",
+      "預設 Denylist 在缺少 marker 時仍允許擷取；敏感專案應採明確 Allowlist 並測試所有事件類型，而非只測工具事件。",
+      "owner 為空可能發布到整個專案；型別不證明原子領取成功，須另測競態、授權與過期。",
+      "呼叫端須先解析允許的 scopes；embedding 與 reranker 是可選服務，啟用可能產生資料傳輸或費用，檢索命中不等於事實。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓不同 Coding Agent 在同一專案接續先前的工作，保存已確認的決策、未解問題與交接資訊，不必反覆描述背景。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "78370da511b012f8410359df6ecf1fc7c6c39f21"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "先決定哪些專案與事件可以保存",
+        "detail": "自動擷取工作紀錄可能洩漏敏感資料。 輸入：工作區的 capture mode、marker、事件與路徑；輸出：允許、捨棄或只保留 metadata 的判斷",
+        "source": "crates/ai-memory-hooks/src/capture_policy.rs"
+      },
+      {
+        "title": "交接尚未完成的工作",
+        "detail": "換 Agent 時容易遺失已嘗試的方法與下一步。 輸入：工作區、專案、owner、摘要及待處理事項；輸出：具 Open／Accepted／Expired 狀態與接收範圍的交接契約",
+        "source": "crates/ai-memory-core/src/handoff.rs"
+      },
+      {
+        "title": "依工作範圍檢索相關記憶",
+        "detail": "全部歷史送入 Context 既昂貴又可能越權。 輸入：已授權 scopes、查詢、owner filter 與可選模型；輸出：排序後的相關頁面與查詢資訊",
+        "source": "crates/ai-memory-web/src/recall.rs"
+      }
+    ],
+    "architecture": {
+      "summary": "先決定哪些專案與事件可以保存 → 交接尚未完成的工作 → 依工作範圍檢索相關記憶 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "先決定哪些專案與事件可以保存",
+          "detail": "工作區的 capture mode、marker、事件與路徑 → 允許、捨棄或只保留 metadata 的判斷",
+          "files": [
+            "crates/ai-memory-hooks/src/capture_policy.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "交接尚未完成的工作",
+          "detail": "工作區、專案、owner、摘要及待處理事項 → 具 Open／Accepted／Expired 狀態與接收範圍的交接契約",
+          "files": [
+            "crates/ai-memory-core/src/handoff.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "依工作範圍檢索相關記憶",
+          "detail": "已授權 scopes、查詢、owner filter 與可選模型 → 排序後的相關頁面與查詢資訊",
+          "files": [
+            "crates/ai-memory-web/src/recall.rs",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "先決定哪些專案與事件可以保存",
+        "rule": "預設 Denylist 在缺少 marker 時仍允許擷取；敏感專案應採明確 Allowlist 並測試所有事件類型，而非只測工具事件。",
+        "source": "crates/ai-memory-hooks/src/capture_policy.rs"
+      },
+      {
+        "name": "交接尚未完成的工作",
+        "rule": "owner 為空可能發布到整個專案；型別不證明原子領取成功，須另測競態、授權與過期。",
+        "source": "crates/ai-memory-core/src/handoff.rs"
+      },
+      {
+        "name": "依工作範圍檢索相關記憶",
+        "rule": "呼叫端須先解析允許的 scopes；embedding 與 reranker 是可選服務，啟用可能產生資料傳輸或費用，檢索命中不等於事實。",
+        "source": "crates/ai-memory-web/src/recall.rs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、crates/ai-memory-hooks/src/capture_policy.rs、crates/ai-memory-core/src/handoff.rs、crates/ai-memory-web/src/recall.rs 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "crates/ai-memory-hooks/src/capture_policy.rs",
+          "crates/ai-memory-core/src/handoff.rs",
+          "crates/ai-memory-web/src/recall.rs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備兩個測試 Agent、合成專案、可保存的決策與未解問題。 依需求核對固定版本來源及專案的資料保存範圍。 先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。",
+        "files": [
+          "crates/ai-memory-hooks/src/capture_policy.rs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有知識庫與開發協作工作流另行驗收實際成果及限制。",
+        "file": "crates/ai-memory-hooks/src/capture_policy.rs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "capture",
+        "name": "先決定哪些專案與事件可以保存",
+        "problem": "自動擷取工作紀錄可能洩漏敏感資料。",
+        "input": "工作區的 capture mode、marker、事件與路徑",
+        "output": "允許、捨棄或只保留 metadata 的判斷",
+        "source": "crates/ai-memory-hooks/src/capture_policy.rs",
+        "sourceFiles": [
+          "crates/ai-memory-hooks/src/capture_policy.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "CaptureMode",
+          "repository_admits_capture",
+          "CaptureDisposition",
+          "CaptureConfig"
+        ],
+        "gate": "預設 Denylist 在缺少 marker 時仍允許擷取；敏感專案應採明確 Allowlist 並測試所有事件類型，而非只測工具事件。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "handoff",
+        "name": "交接尚未完成的工作",
+        "problem": "換 Agent 時容易遺失已嘗試的方法與下一步。",
+        "input": "工作區、專案、owner、摘要及待處理事項",
+        "output": "具 Open／Accepted／Expired 狀態與接收範圍的交接契約",
+        "source": "crates/ai-memory-core/src/handoff.rs",
+        "sourceFiles": [
+          "crates/ai-memory-core/src/handoff.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "NewHandoff",
+          "HandoffState",
+          "HandoffAcceptance"
+        ],
+        "gate": "owner 為空可能發布到整個專案；型別不證明原子領取成功，須另測競態、授權與過期。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "recall",
+        "name": "依工作範圍檢索相關記憶",
+        "problem": "全部歷史送入 Context 既昂貴又可能越權。",
+        "input": "已授權 scopes、查詢、owner filter 與可選模型",
+        "output": "排序後的相關頁面與查詢資訊",
+        "source": "crates/ai-memory-web/src/recall.rs",
+        "sourceFiles": [
+          "crates/ai-memory-web/src/recall.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "Recall",
+          "RecallResult",
+          "search_scopes"
+        ],
+        "gate": "呼叫端須先解析允許的 scopes；embedding 與 reranker 是可選服務，啟用可能產生資料傳輸或費用，檢索命中不等於事實。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃跨 Coding Agent 的持久記憶與交接（設計示例）",
+      "problem": "兩個測試 Agent、合成專案、可保存的決策與未解問題",
+      "steps": [
+        {
+          "capability": "capture",
+          "action": "先決定哪些專案與事件可以保存"
+        },
+        {
+          "capability": "handoff",
+          "action": "交接尚未完成的工作"
+        },
+        {
+          "capability": "recall",
+          "action": "依工作範圍檢索相關記憶"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "ai-memory-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "兩個測試 Agent、合成專案、可保存的決策與未解問題",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "先決定哪些專案與事件可以保存 → 交接尚未完成的工作 → 依工作範圍檢索相關記憶 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有知識庫與開發協作工作流之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "擷取 Prompt／Tool Call 可能涉及公司機密或個人資訊，不可視為零風險。",
+        "記憶摘要與自動檢索可能遺漏脈絡，重要決策仍需對照原始證據。",
+        "預設 Denylist 在缺少 marker 時仍允許擷取；敏感專案應採明確 Allowlist 並測試所有事件類型，而非只測工具事件。",
+        "owner 為空可能發布到整個專案；型別不證明原子領取成功，須另測競態、授權與過期。",
+        "呼叫端須先解析允許的 scopes；embedding 與 reranker 是可選服務，啟用可能產生資料傳輸或費用，檢索命中不等於事實。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "擷取 Prompt／Tool Call 可能涉及公司機密或個人資訊，不可視為零風險。 記憶摘要與自動檢索可能遺漏脈絡，重要決策仍需對照原始證據。 預設 Denylist 在缺少 marker 時仍允許擷取；敏感專案應採明確 Allowlist 並測試所有事件類型，而非只測工具事件。 owner 為空可能發布到整個專案；型別不證明原子領取成功，須另測競態、授權與過期。 呼叫端須先解析允許的 scopes；embedding 與 reranker 是可選服務，啟用可能產生資料傳輸或費用，檢索命中不等於事實。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、crates/ai-memory-hooks/src/capture_policy.rs、crates/ai-memory-core/src/handoff.rs、crates/ai-memory-web/src/recall.rs 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
