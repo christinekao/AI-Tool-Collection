@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 14（2026-11-25）
+
+- 基線 main `daf1ab33fa53fb45f73c23f7494672f822dada15`；PR #78 四項 CI 通過並合併 `e530c3c8278ee579abc69f08b42ef139378a683c`，Catalog Sync 確認。73/286 已合併（67 完成對應、6 deferred）。
+- [Batch 14 逐筆報告](RESOURCE_DUAL_LAYER_BATCH14_20261125.md)：anime-js、kokonut-ui、gsap-skills，三筆 mapped 候選、9 個用途、9 個局部能力及 3 個未實測案例。
+- Kokonut UI 原 repo 空白，依既有 URL 補齊同一身分；GSAP Skills 為技能源文件對應、非引擎實作。Anime Scope fallback、Kokonut demo/controlled 核准邊界已記錄。原分類及知識關係保留。
+- 合併前 73/286；本批通過合併後 76/286（70 完成對應、6 deferred），210 尚未改寫。既有缺口保留。
+- 下一批優先 Uiverse、Motion.dev Animations Skill 等設計資源；排程停用、直接執行。重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 13（2026-11-25）
 
 - 基線 main `1d139b33c5c1e5d67f006e1aa32fb7627cdb26dd`；PR #77 四項 CI 通過並合併 `202ba4295456bf23f433b18749bddfd0ecb6d921`，Catalog Sync 確認。70/286 已合併（64 完成對應、6 deferred）。
