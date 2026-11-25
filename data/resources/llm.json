@@ -6,14 +6,14 @@
   "canonicalName": "LLM",
   "category": "04 Knowledge & Memory",
   "resourceType": "LLM CLI / Python Library / Conversation Log",
-  "purpose": "Simon Willison 的 LLM CLI 與 Python Library，透過插件呼叫多種雲端或本機模型，並可記錄 Prompt、輸出、Embedding 與模型操作。",
-  "recommendation": "適合用命令列建立可重複的模型實驗及小型自動化；需管理外部 API Key、模型費用與 SQLite 記錄中的敏感資料。",
+  "purpose": "用終端機或 Python 呼叫不同 AI 模型，保存測試結果，方便比較模型或建立小型文字處理工具。",
+  "recommendation": "適合模型實驗、批次文字處理與 CLI 自動化；若只需固定模型的單一 API，直接使用官方 SDK 可能更簡單。",
   "url": "https://github.com/simonw/llm",
   "repo": "simonw/llm",
   "notes": "Official Simon Willison repository confirmed. SQLite logging is a first-class feature and can be turned on/off.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "llm-cli",
     "sqlite",
@@ -76,25 +76,35 @@
   "source": {
     "url": "https://github.com/simonw/llm",
     "readmeUrl": "https://github.com/simonw/llm/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore",
+    "upstreamCommit": "46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f",
+    "referenceUrls": [
+      "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/README.md",
+      "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/llm/models.py",
+      "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/llm/cli.py",
+      "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/llm/plugins.py",
+      "https://github.com/simonw/llm/blob/46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約，不新增重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -103,8 +113,8 @@
     "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍的實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -117,7 +127,355 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Simon Willison 的 LLM CLI 與 Python Library，透過插件呼叫多種雲端或本機模型，並可記錄 Prompt、輸出、Embedding 與模型操作。",
+      "source": "https://github.com/simonw/llm",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "compare-model",
+        "title": "用同一題目比較模型",
+        "detail": "以一致的輸入及驗收格式呼叫不同模型，記錄輸出差異。",
+        "capabilityRefs": [
+          "model-call",
+          "response-log"
+        ]
+      },
+      {
+        "id": "extend-model",
+        "title": "接入其他模型",
+        "detail": "檢查對應 Plugin 能否支援所需模型與執行環境。",
+        "capabilityRefs": [
+          "plugin-load",
+          "model-call"
+        ]
+      },
+      {
+        "id": "audit-output",
+        "title": "管理測試歷史及資料保留",
+        "detail": "依測試需求選擇是否保存紀錄，確認敏感內容沒有不當留存。",
+        "capabilityRefs": [
+          "response-log"
+        ]
+      }
+    ],
+    "example": {
+      "id": "summary-model-test",
+      "title": "比較三個模型的摘要表現",
+      "input": "十篇合成短文、預期摘要格式及候選模型。",
+      "process": "確認模型介面與 Plugin → 呼叫模型 → 保存核准紀錄 → 比較品質",
+      "output": "模型、輸出、格式通過率與錯誤紀錄的測試規格（未執行）。",
+      "destination": "自有模型選型或 CLI 自動化流程。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "compare-model",
+        "extend-model",
+        "audit-output"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "建立合成測試集",
+          "capabilityRefs": [],
+          "externalDependency": "評分、模型帳號及費用上限須另行準備。"
+        },
+        {
+          "id": "plugin",
+          "title": "確認模型擴充",
+          "capabilityRefs": [
+            "plugin-load"
+          ]
+        },
+        {
+          "id": "call",
+          "title": "設計同條件模型呼叫",
+          "capabilityRefs": [
+            "model-call"
+          ]
+        },
+        {
+          "id": "logs",
+          "title": "驗證日誌與保留界線",
+          "capabilityRefs": [
+            "response-log"
+          ]
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義同一組模型測試題及預期格式。",
+      "閱讀固定版本模型介面與插件來源，核准後才安裝。",
+      "確認本機日誌設定、資料路徑及實際保留，再比較輸出。"
+    ],
+    "limits": [
+      "不同 Plugin 與模型提供的工具呼叫、Embedding 能力不完全一致。",
+      "本機 Log 可能含對話或資料內容，需要額外存取權限與保留政策。",
+      "未安裝 CLI、任何 Plugin 或呼叫模型；完整 SQLite schema 與各模型能力未查核。",
+      "日誌可能保存完整歷史與附件相關資料；不得放入未核准敏感資料。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用終端機或 Python 呼叫不同 AI 模型，保存測試結果，方便比較模型或建立小型文字處理工具。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / CLI / SQLite / pluggy"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Apache 2.0"
+      },
+      {
+        "label": "版本錨點",
+        "value": "46f0461d9b1ea9e898cac8a1d7333ab9bc6c8f7f"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "統一模型呼叫",
+        "detail": "不同模型需共用測試介面；輸入：Prompt、stream、Response、Conversation；KeyModel 另有 key；輸出：字串或 StreamEvent 的 iterator",
+        "source": "llm/models.py"
+      },
+      {
+        "title": "擴充模型與功能",
+        "detail": "需接入未內建的模型；輸入：已安裝的 llm entry points 或 LLM_LOAD_PLUGINS 選擇；輸出：載入並註冊 plugin",
+        "source": "llm/plugins.py"
+      },
+      {
+        "title": "保存或停止測試紀錄",
+        "detail": "需要可回查的 Prompt 與回應；輸入：Response、SQLite DB 與 CLI 日誌設定；輸出：LogStore 寫入；logs-off 控制未來 CLI 日誌",
+        "source": "llm/models.py"
+      }
+    ],
+    "architecture": {
+      "summary": "確認模型介面與 Plugin → 呼叫模型 → 保存核准紀錄 → 比較品質",
+      "nodes": [
+        {
+          "title": "統一模型呼叫",
+          "detail": "Prompt、stream、Response、Conversation；KeyModel 另有 key → 字串或 StreamEvent 的 iterator",
+          "files": [
+            "llm/models.py"
+          ]
+        },
+        {
+          "title": "擴充模型與功能",
+          "detail": "已安裝的 llm entry points 或 LLM_LOAD_PLUGINS 選擇 → 載入並註冊 plugin",
+          "files": [
+            "llm/plugins.py"
+          ]
+        },
+        {
+          "title": "保存或停止測試紀錄",
+          "detail": "Response、SQLite DB 與 CLI 日誌設定 → LogStore 寫入；logs-off 控制未來 CLI 日誌",
+          "files": [
+            "llm/models.py",
+            "llm/cli.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "模型契約",
+        "rule": "Model.execute 與 KeyModel.execute 定義 Prompt、stream、Response、Conversation；KeyModel 另有 key。",
+        "source": "llm/models.py"
+      },
+      {
+        "name": "Plugin 載入",
+        "rule": "load_plugins 使用 setuptools llm entry points，指定 LLM_LOAD_PLUGINS 時改查該套件。",
+        "source": "llm/plugins.py"
+      },
+      {
+        "name": "日誌",
+        "rule": "log_to_db 交由 LogStore；CLI 依 log_db 設定回應 callback，logs off 建立 logs-off。",
+        "source": "llm/cli.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "llm/models.py",
+          "llm/cli.py",
+          "llm/plugins.py",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先定義同一組模型測試題及預期格式。 閱讀固定版本模型介面與插件來源，核准後才安裝。 確認本機日誌設定、資料路徑及實際保留，再比較輸出。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有模型選型或 CLI 自動化流程。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "llm/models.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "model-call",
+        "name": "統一模型呼叫",
+        "problem": "不同模型需共用測試介面",
+        "input": "Prompt、stream、Response、Conversation；KeyModel 另有 key",
+        "output": "字串或 StreamEvent 的 iterator",
+        "source": "llm/models.py",
+        "sourceFiles": [
+          "llm/models.py"
+        ],
+        "symbols": [
+          "Model.execute",
+          "KeyModel.execute",
+          "Prompt.messages"
+        ],
+        "gate": "比較模型支援的格式、工具與選項；不可假定不同模型能力相同。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "plugin-load",
+        "name": "擴充模型與功能",
+        "problem": "需接入未內建的模型",
+        "input": "已安裝的 llm entry points 或 LLM_LOAD_PLUGINS 選擇",
+        "output": "載入並註冊 plugin",
+        "source": "llm/plugins.py",
+        "sourceFiles": [
+          "llm/plugins.py"
+        ],
+        "symbols": [
+          "load_plugins"
+        ],
+        "gate": "載入會執行第三方 Python 模組；先查版本、程式、依賴及授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "response-log",
+        "name": "保存或停止測試紀錄",
+        "problem": "需要可回查的 Prompt 與回應",
+        "input": "Response、SQLite DB 與 CLI 日誌設定",
+        "output": "LogStore 寫入；logs-off 控制未來 CLI 日誌",
+        "source": "llm/models.py",
+        "sourceFiles": [
+          "llm/models.py",
+          "llm/cli.py"
+        ],
+        "symbols": [
+          "log_to_db",
+          "log_response",
+          "logs_turn_off",
+          "logs_turn_on"
+        ],
+        "gate": "關閉日誌不代表刪除舊資料或阻止 Plugin 自行保存；核對實際檔案、敏感資料與保留期限。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "比較三個模型的摘要表現（設計示例）",
+      "problem": "十篇合成短文、預期摘要格式及候選模型。",
+      "steps": [
+        {
+          "capability": "plugin-load",
+          "action": "確認模型擴充"
+        },
+        {
+          "capability": "model-call",
+          "action": "設計同條件模型呼叫"
+        },
+        {
+          "capability": "response-log",
+          "action": "驗證日誌與保留界線"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "summary-model-test"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "十篇合成短文、預期摘要格式及候選模型。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "確認模型介面與 Plugin → 呼叫模型 → 保存核准紀錄 → 比較品質",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有模型選型或 CLI 自動化流程。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝 CLI、任何 Plugin 或呼叫模型；完整 SQLite schema 與各模型能力未查核。",
+        "日誌可能保存完整歷史與附件相關資料；不得放入未核准敏感資料。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝 CLI、任何 Plugin 或呼叫模型；完整 SQLite schema 與各模型能力未查核。 日誌可能保存完整歷史與附件相關資料；不得放入未核准敏感資料。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、Model/KeyModel.execute、Prompt.messages、log_to_db、CLI log_response 與 logs on/off、load_plugins、LICENSE；未逐一查核模型 Plugin 或完整 LogStore"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
