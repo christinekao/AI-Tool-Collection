@@ -6,8 +6,8 @@
   "canonicalName": "OpenCode",
   "category": "AI Coding Agents & Developer Tools",
   "resourceType": "Open-source coding agent for terminal, desktop, IDE and programmable agent workflows",
-  "purpose": "讓開發者使用可自行選擇的 LLM，在專案中進行程式碼探索、開發規劃、檔案修改、命令執行與除錯；以 Agents、Subagents、工具權限及擴充功能建構 AI 協作工作流程。",
-  "recommendation": "適合比較 Claude Code、Codex 與其他 Coding Agent 的架構，實作多代理工作分工、開發流程自動化、計畫與執行分離、權限審查和自訂 Agent。導入時先用測試專案及隔離執行環境。",
+  "purpose": "在終端機或編輯器使用 AI 協助理解、修改及檢查程式碼，依任務選擇分析或開發角色。",
+  "recommendation": "適合需要在程式工作區切換分析與修改任務的人；先在測試 Repo 核對角色、工具與真正的寫入限制，不將角色名稱當安全邊界。",
   "url": "https://github.com/anomalyco/opencode",
   "repo": "anomalyco/opencode",
   "homepage": "https://opencode.ai",
@@ -56,7 +56,7 @@
   "collectionDecision": "主專案為 Coding Agent 執行平台而非單一獨立 Agent SKILL.md；本次僅收錄 1 Resource，不執行安裝。",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "opencode",
     "coding-agent",
@@ -86,10 +86,15 @@
       "https://opencode.ai/v2/docs/permissions/",
       "https://opencode.ai/v2/docs/agents/"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
     "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README 的 Agents 與 general subagent 介紹、LICENSE；未取得現行角色及權限核心程式碼。",
+    "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
+    "referenceUrls": [
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/LICENSE"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -121,19 +126,21 @@
   ],
   "intakeReview": {
     "policyVersion": "1.0",
-    "sourceStatus": "source-checked",
+    "sourceStatus": "partial",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "沿用既有 Canonical ID 與上游 Repo，補已知用途及固定版本文件，保留程式碼查核缺口。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -143,7 +150,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "reason": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -156,7 +163,144 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README 的 Agents 與 general subagent 介紹、LICENSE；未取得現行角色及權限核心程式碼。；未執行。"
+    },
+    "sourceGap": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。",
+    "layerReview": {
+      "status": "deferred",
+      "reason": "只建立已確認的 README 角色用途及來源對應，不宣稱權限實作已驗證。",
+      "gap": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。",
+      "nextAction": "從固定版本專案結構或官方索引定位角色與工具權限模組，核對設定、核准、命令與子代理的實作及測試，再升級 mapped。"
     }
+  },
+  "implementationKnowledge": {
+    "sourceReview": {
+      "plan": "README 描述 plan 為分析與探索用角色，執行 bash 前詢問核准；未查實際 permission 邏輯。",
+      "build": "README 描述 build 為預設開發角色，具有較完整的操作能力；不可直接套用正式工作區。",
+      "general": "README 描述 general subagent 用於複雜搜尋及多步任務；未核對權限繼承及生命週期。",
+      "license": "固定版本 LICENSE 為 MIT；依賴、模型及服務條款另查。"
+    }
+  },
+  "agentEvidence": [
+    {
+      "id": "plan",
+      "detail": "README 說明 plan 用於分析及程式探索，執行 bash 前詢問。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md；Agents / plan",
+      "evidenceFields": [
+        "features.2",
+        "implementationKnowledge.sourceReview.plan"
+      ],
+      "limitations": "未確認所有工具均為唯讀或命令核准的實際執行。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "build",
+      "detail": "README 描述 build 為預設開發角色。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md；Agents / build",
+      "evidenceFields": [
+        "features.2",
+        "implementationKnowledge.sourceReview.build"
+      ],
+      "limitations": "未核對實際寫入、命令與 MCP 權限；角色名稱不構成沙箱。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "general",
+      "detail": "README 描述 general subagent 適用複雜搜尋及多步工作。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md；Agents / general",
+      "evidenceFields": [
+        "features.2",
+        "implementationKnowledge.sourceReview.general"
+      ],
+      "limitations": "未驗證子代理的權限繼承、隔離或工作回收。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "explore-code",
+        "title": "先理解程式再決定修改",
+        "detail": "以分析角色找出問題、相關檔案及預期行為，保留待核准操作。",
+        "evidenceRefs": [
+          "plan"
+        ]
+      },
+      {
+        "id": "fix-feature",
+        "title": "按明確範圍修改功能",
+        "detail": "切換至開發角色前確認允許的檔案及命令，完成後另行驗收。",
+        "evidenceRefs": [
+          "build"
+        ]
+      },
+      {
+        "id": "delegate-research",
+        "title": "拆分複雜的程式研究",
+        "detail": "評估是否需要專用子代理處理搜尋，保留來源及交接結果。",
+        "evidenceRefs": [
+          "general"
+        ]
+      }
+    ],
+    "example": {
+      "id": "plan-build-review",
+      "title": "先分析再修正網頁顯示問題",
+      "input": "合成測試 Repo、可重現的網頁問題及允許修改範圍。",
+      "process": "分析問題 → 必要時拆分研究 → 核准修改 → 審查差異與測試",
+      "output": "問題分析、修改計畫及測試驗收規格（未執行）。",
+      "destination": "自有專案 PR 流程；實際程式與資料驗收另行實作。",
+      "note": "設計示例，未安裝或執行 OpenCode；目前僅文件證據。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "explore-code",
+        "fix-feature",
+        "delegate-research"
+      ],
+      "steps": [
+        {
+          "id": "plan",
+          "title": "規劃程式探索",
+          "evidenceRefs": [
+            "plan"
+          ]
+        },
+        {
+          "id": "research",
+          "title": "評估獨立研究任務",
+          "evidenceRefs": [
+            "general"
+          ]
+        },
+        {
+          "id": "build",
+          "title": "核准後規劃修改",
+          "evidenceRefs": [
+            "build"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "獨立驗收修改及權限",
+          "evidenceRefs": [],
+          "externalDependency": "實際工具限制、Git 差異、測試及資料副作用須獨立核對。"
+        }
+      ]
+    },
+    "start": [
+      "先確認固定版本與適用角色文件，在測試 Repo 定義讀寫範圍。",
+      "以合成需求比較 plan 與 build 的預期行為，確認角色切換前後的權限。",
+      "另取得實作證據後才考慮安裝，驗證核准、拒絕及測試結果。"
+    ],
+    "limits": [
+      "具備讀寫程式碼及執行指令能力，須備份和最小權限",
+      "目前僅查閱 README 與 MIT LICENSE；候選角色及權限核心路徑 404。",
+      "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。"
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "openai/codex",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "Runtime",
-  "purpose": "OpenAI Codex 的開源 Coding Agent 專案，提供終端機操作及編輯器整合入口，可在授權範圍內協助閱讀、修改及檢查程式碼。",
-  "recommendation": "適合希望在本機專案中透過 Coding Agent 處理開發任務的使用者；先確認登入方式、權限設定及程式碼資料外送邊界。",
+  "purpose": "讓 AI 在程式專案中協助閱讀、修改程式碼與執行測試，並透過版本差異及操作核准管理變更。",
+  "recommendation": "適合有明確需求與驗收條件的程式開發任務；未知指令、正式資料、不可逆修改及外部連線應先確認權限，不應把 Agent 回報當成驗收。",
   "url": "https://github.com/openai/codex",
   "repo": "openai/codex",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agent-runtime",
     "tool-use",
@@ -68,24 +68,33 @@
     "url": "https://github.com/openai/codex",
     "readmeUrl": "https://github.com/openai/codex/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。",
+    "upstreamCommit": "ebd0765aafa255d63ebf690ebdffe0164dc14a0c",
+    "referenceUrls": [
+      "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/README.md",
+      "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/LICENSE",
+      "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/codex-rs/protocol/src/protocol.rs",
+      "https://github.com/openai/codex/blob/ebd0765aafa255d63ebf690ebdffe0164dc14a0c/codex-rs/core/src/exec.rs"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -94,8 +103,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain ai-agent，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -108,7 +117,354 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "OpenAI Codex 的開源 Coding Agent 專案，提供終端機操作及編輯器整合入口，可在授權範圍內協助閱讀、修改及檢查程式碼。",
+      "source": "https://github.com/openai/codex",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "bounded-change",
+        "title": "讓 Agent 修改一個指定功能",
+        "detail": "先定義預期行為、允許檔案及測試，限定 Agent 可執行的操作。",
+        "capabilityRefs": [
+          "approval",
+          "exec"
+        ]
+      },
+      {
+        "id": "test-evidence",
+        "title": "取得可審查的測試證據",
+        "detail": "確認命令、工作目錄、執行結果與實際程式差異，再進行人工驗收。",
+        "capabilityRefs": [
+          "exec",
+          "lifecycle"
+        ]
+      },
+      {
+        "id": "cancel-task",
+        "title": "停止不符合預期的工作",
+        "detail": "區分中止當前任務與清理背景終端，再查是否仍有外部副作用。",
+        "capabilityRefs": [
+          "lifecycle",
+          "approval"
+        ]
+      }
+    ],
+    "example": {
+      "id": "bounded-form-fix",
+      "title": "修正表單儲存錯誤",
+      "input": "測試 Repo、可重現的表單問題及限定修改範圍。",
+      "process": "定義驗收 → 核對核准 → 修改與測試 → 審查差異及執行狀態",
+      "output": "程式差異、測試及人工驗收規格（未執行）。",
+      "destination": "自有專案 PR 審查；資料庫讀回與部署另行驗證。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "bounded-change",
+        "test-evidence",
+        "cancel-task"
+      ],
+      "steps": [
+        {
+          "id": "scope",
+          "title": "設定操作範圍與核准",
+          "capabilityRefs": [
+            "approval"
+          ]
+        },
+        {
+          "id": "execute",
+          "title": "規劃修復及測試命令",
+          "capabilityRefs": [
+            "exec"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "核對執行及停止狀態",
+          "capabilityRefs": [
+            "lifecycle"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收功能及差異",
+          "capabilityRefs": [],
+          "externalDependency": "Git 工作區、測試資料、實際持久化及發布需另行準備及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先在測試 Repo 建立基準 commit、需求及允許修改的檔案。",
+      "核對適用 CLI 版本、工作目錄與核准／沙盒設定，不自行擴張權限。",
+      "完成後查 diff、測試輸出及實際行為；必要時確認背景工作已停止。"
+    ],
+    "limits": [
+      "Coding Agent 能操作工具不代表所有變更都正確，仍需程式測試與人工驗收。",
+      "實際模型、方案、CLI 與 IDE 功能依官方最新文件及帳號權限為準。",
+      "未安裝或執行 Codex；完整 Agent loop、沙盒後端、命令批准及網路隔離未查核。",
+      "CLI 原始碼授權不代表模型、帳戶及服務均免費或同一授權。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 AI 在程式專案中協助閱讀、修改程式碼與執行測試，並透過版本差異及操作核准管理變更。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Rust / CLI / Agent protocol"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Apache 2.0"
+      },
+      {
+        "label": "版本錨點",
+        "value": "ebd0765aafa255d63ebf690ebdffe0164dc14a0c"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "控制操作核准",
+        "detail": "需分開允許範圍與核准方式；輸入：AskForApproval、GranularApprovalConfig；輸出：核准政策的設定契約",
+        "source": "codex-rs/protocol/src/protocol.rs"
+      },
+      {
+        "title": "執行有界線的命令",
+        "detail": "開發工作需執行測試或工具；輸入：ExecParams.command、cwd、env、expiration、sandbox_permissions 與 PermissionProfile；輸出：ExecToolCallOutput 或錯誤",
+        "source": "codex-rs/core/src/exec.rs"
+      },
+      {
+        "title": "追蹤命令與停止任務",
+        "detail": "需區分停止當前任務與停止背景工作；輸入：Op.Interrupt、CleanBackgroundTerminals 與執行事件；輸出：中止與執行結束事件的協議",
+        "source": "codex-rs/protocol/src/protocol.rs"
+      }
+    ],
+    "architecture": {
+      "summary": "定義驗收 → 核對核准 → 修改與測試 → 審查差異及執行狀態",
+      "nodes": [
+        {
+          "title": "控制操作核准",
+          "detail": "AskForApproval、GranularApprovalConfig → 核准政策的設定契約",
+          "files": [
+            "codex-rs/protocol/src/protocol.rs"
+          ]
+        },
+        {
+          "title": "執行有界線的命令",
+          "detail": "ExecParams.command、cwd、env、expiration、sandbox_permissions 與 PermissionProfile → ExecToolCallOutput 或錯誤",
+          "files": [
+            "codex-rs/core/src/exec.rs"
+          ]
+        },
+        {
+          "title": "追蹤命令與停止任務",
+          "detail": "Op.Interrupt、CleanBackgroundTerminals 與執行事件 → 中止與執行結束事件的協議",
+          "files": [
+            "codex-rs/protocol/src/protocol.rs"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "核准與權限",
+        "rule": "AskForApproval::Never 不會將失敗升級請求使用者批准；不可等同 unrestricted。",
+        "source": "codex-rs/protocol/src/protocol.rs"
+      },
+      {
+        "name": "命令契約",
+        "rule": "ExecParams 明列 command、cwd、env、expiration 及 sandbox_permissions，process_exec_tool_call 另接收 PermissionProfile。",
+        "source": "codex-rs/core/src/exec.rs"
+      },
+      {
+        "name": "停止範圍",
+        "rule": "Op::Interrupt 不終止背景終端，CleanBackgroundTerminals 為另一路操作。",
+        "source": "codex-rs/protocol/src/protocol.rs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "codex-rs/protocol/src/protocol.rs",
+          "codex-rs/core/src/exec.rs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先在測試 Repo 建立基準 commit、需求及允許修改的檔案。 核對適用 CLI 版本、工作目錄與核准／沙盒設定，不自行擴張權限。 完成後查 diff、測試輸出及實際行為；必要時確認背景工作已停止。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有專案 PR 審查；資料庫讀回與部署另行驗證。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "codex-rs/protocol/src/protocol.rs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "approval",
+        "name": "控制操作核准",
+        "problem": "需分開允許範圍與核准方式",
+        "input": "AskForApproval、GranularApprovalConfig",
+        "output": "核准政策的設定契約",
+        "source": "codex-rs/protocol/src/protocol.rs",
+        "sourceFiles": [
+          "codex-rs/protocol/src/protocol.rs"
+        ],
+        "symbols": [
+          "AskForApproval",
+          "GranularApprovalConfig"
+        ],
+        "gate": "Never 代表不向人提出核准，不是無限制權限；實際執行策略未核對完整。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "exec",
+        "name": "執行有界線的命令",
+        "problem": "開發工作需執行測試或工具",
+        "input": "ExecParams.command、cwd、env、expiration、sandbox_permissions 與 PermissionProfile",
+        "output": "ExecToolCallOutput 或錯誤",
+        "source": "codex-rs/core/src/exec.rs",
+        "sourceFiles": [
+          "codex-rs/core/src/exec.rs"
+        ],
+        "symbols": [
+          "ExecParams",
+          "ExecExpiration",
+          "process_exec_tool_call"
+        ],
+        "gate": "核對命令、工作目錄、網路及沙盒範圍；不得將輸出成功誤當功能驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "lifecycle",
+        "name": "追蹤命令與停止任務",
+        "problem": "需區分停止當前任務與停止背景工作",
+        "input": "Op.Interrupt、CleanBackgroundTerminals 與執行事件",
+        "output": "中止與執行結束事件的協議",
+        "source": "codex-rs/protocol/src/protocol.rs",
+        "sourceFiles": [
+          "codex-rs/protocol/src/protocol.rs"
+        ],
+        "symbols": [
+          "Op::Interrupt",
+          "Op::CleanBackgroundTerminals",
+          "EventMsg",
+          "ExecCommandEndEvent"
+        ],
+        "gate": "Interrupt 不會終止背景終端；停止不等於復原已寫入資料。核對獨立背景程序與真實差異。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "修正表單儲存錯誤（設計示例）",
+      "problem": "測試 Repo、可重現的表單問題及限定修改範圍。",
+      "steps": [
+        {
+          "capability": "approval",
+          "action": "設定操作範圍與核准"
+        },
+        {
+          "capability": "exec",
+          "action": "規劃修復及測試命令"
+        },
+        {
+          "capability": "lifecycle",
+          "action": "核對執行及停止狀態"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "bounded-form-fix"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "測試 Repo、可重現的表單問題及限定修改範圍。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義驗收 → 核對核准 → 修改與測試 → 審查差異及執行狀態",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有專案 PR 審查；資料庫讀回與部署另行驗證。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或執行 Codex；完整 Agent loop、沙盒後端、命令批准及網路隔離未查核。",
+        "CLI 原始碼授權不代表模型、帳戶及服務均免費或同一授權。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝或執行 Codex；完整 Agent loop、沙盒後端、命令批准及網路隔離未查核。 CLI 原始碼授權不代表模型、帳戶及服務均免費或同一授權。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、protocol.rs 的 AskForApproval、GranularApprovalConfig、Op、EventMsg、ExecCommandEndEvent；exec.rs 的 ExecParams、ExecExpiration、process_exec_tool_call。未追查完整工具、沙盒後端與核准執行策略。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }

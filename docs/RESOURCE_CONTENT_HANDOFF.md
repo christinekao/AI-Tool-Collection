@@ -1,3 +1,12 @@
+# Resource 最新交接｜雙層知識 Batch 09（2026-11-25）
+
+- 基線 main `be4dfae6633245715e4d506c5aae9b28d0080134`；PR #73 四項 CI 成功，合併 `402e0dda7e37c8822e257b3fa4ce04829bc65476`，Catalog Sync 確認。55/286 已合併（50 完成對應、5 deferred）。
+- [Batch 09 逐筆報告](RESOURCE_DUAL_LAYER_BATCH09_20261125.md)：openai-codex、openui、vercel-labs-skills-cli、browser-use-browser-use 為 mapped 候選；anomalyco-opencode 為 deferred 候選。5 筆、15 個用途、15 個能力／文件證據，均未實測。
+- 本批合併前 55/286；通過合併後 60/286（54 完成對應、6 deferred），226 未改寫。OpenCode 角色及權限實作候選路徑 404；既有五筆 deferred 與三筆來源阻塞仍待補。
+- 下一批優先 Dify、Open WebUI、Crawl4AI 等未改寫 Resource。排程停用，直接執行。重新查核本批 CI、main、Catalog Sync、Pages；不得將來源審查當成執行驗證。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 08（2026-11-25）
 
 - 基線 main `2858a1b5814b4c09eca5f4aaa768c9e03a5a6ffb`；PR #72 四項 CI 通過，合併 `22388bcad52ef1f39f09244d87775da7e418be89`，Catalog Sync 確認。49/286 筆已合併（46 完成對應、3 deferred）。

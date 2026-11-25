@@ -6,14 +6,14 @@
   "canonicalName": "OpenUI",
   "category": "08 UI & Design Engineering",
   "resourceType": "Generative UI Framework / Open Standard",
-  "purpose": "以 OpenUI Lang 讓 LLM 依允許的元件集合串流產生結構化 UI，支援 React、Vue、Svelte、Angular 與現成聊天介面。",
-  "recommendation": "適合需要控制生成 UI 元件種類與串流呈現的產品；導入後仍需檢查資料格式、元件安全與可及性。",
+  "purpose": "讓 AI 回傳由指定元件組成的介面，例如卡片、表格或表單，並隨模型輸出逐步呈現，而不是只回傳一段文字。",
+  "recommendation": "適合需根據問題動態呈現結構化資訊的應用；固定頁面通常直接用一般前端元件即可，涉及寫入的操作仍要由應用程式驗證。",
   "url": "https://github.com/thesysdev/openui",
   "repo": "thesysdev/openui",
   "notes": "Official repository confirmed; project describes itself as the open standard for Generative UI.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "generative-ui",
     "streaming-ui",
@@ -80,25 +80,36 @@
   "source": {
     "url": "https://github.com/thesysdev/openui",
     "readmeUrl": "https://github.com/thesysdev/openui/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。",
+    "upstreamCommit": "2465d2bda7eb470cf5a29618d123d0940a8ca731",
+    "referenceUrls": [
+      "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/README.md",
+      "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/LICENSE",
+      "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/lang-core/src/library.ts",
+      "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/lang-core/src/parser/parser.ts",
+      "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/lang-core/src/parser/prompt.ts",
+      "https://github.com/thesysdev/openui/blob/2465d2bda7eb470cf5a29618d123d0940a8ca731/packages/react-lang/src/exports.ts"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -107,8 +118,8 @@
     "classificationReason": "沿用既有 Primary Domain design；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -121,7 +132,363 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "以 OpenUI Lang 讓 LLM 依允許的元件集合串流產生結構化 UI，支援 React、Vue、Svelte、Angular 與現成聊天介面。",
+      "source": "https://github.com/thesysdev/openui",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "structured-answer",
+        "title": "把 AI 回答整理成卡片與表格",
+        "detail": "先定義可用元件及資料欄位，讓回答能依任務顯示資訊。",
+        "capabilityRefs": [
+          "library",
+          "prompt"
+        ]
+      },
+      {
+        "id": "progressive-view",
+        "title": "讓介面隨 AI 回答逐步出現",
+        "detail": "串流解析產生中的內容，區分暫時未完成及最終可驗收畫面。",
+        "capabilityRefs": [
+          "stream-parse",
+          "library"
+        ]
+      },
+      {
+        "id": "safe-ui",
+        "title": "限制生成介面的組成與操作",
+        "detail": "只提供已核准的元件及工具描述，外部操作另有權限驗證。",
+        "capabilityRefs": [
+          "library",
+          "prompt",
+          "stream-parse"
+        ]
+      }
+    ],
+    "example": {
+      "id": "dynamic-analysis-cards",
+      "title": "呈現研究摘要與來源卡片",
+      "input": "合成研究資料、允許的摘要卡片與來源列表元件。",
+      "process": "定義元件 → 產生模型指令 → 解析串流 → 驗收完整畫面",
+      "output": "生成式介面規格、串流與錯誤測試（未執行）。",
+      "destination": "自有研究工具前端；資料查詢、來源驗證及外部操作另行實作。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "structured-answer",
+        "progressive-view",
+        "safe-ui"
+      ],
+      "steps": [
+        {
+          "id": "define",
+          "title": "定義卡片與列表的資料契約",
+          "capabilityRefs": [
+            "library"
+          ]
+        },
+        {
+          "id": "prompt",
+          "title": "規劃模型生成指令",
+          "capabilityRefs": [
+            "prompt"
+          ]
+        },
+        {
+          "id": "parse",
+          "title": "驗證完整與不完整串流",
+          "capabilityRefs": [
+            "stream-parse"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "核對內容、無障礙及資料來源",
+          "capabilityRefs": [],
+          "externalDependency": "真實模型串流、前端 Renderer、外部 API 與權限需另行測試。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先選兩三個已有元件，定義清楚的欄位、root 與資料規則。",
+      "核對固定版本元件庫與 parser，使用手寫合成輸出設計正常、未知元件與不完整輸入測試。",
+      "再接核准的模型與前端，檢查錯誤、互動、可讀性及實際資料。"
+    ],
+    "limits": [
+      "結構化串流只限制渲染格式，不保證內容正確或外部工具安全。",
+      "跨 Framework 的元件支援及 Renderer 能力不同，需先核對相容版本。",
+      "未安裝或渲染實際 UI；React Renderer 僅核對匯出，未查完整 action、runtime 及 Vue/Svelte/Angular 行為。",
+      "結構驗證不能取代工具授權或資料正確性；parser 有 telemetry 呼叫，實際傳送未查核。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 AI 回傳由指定元件組成的介面，例如卡片、表格或表單，並隨模型輸出逐步呈現，而不是只回傳一段文字。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "限定範圍固定版本原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "TypeScript / Zod v4 / OpenUI Lang"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "2465d2bda7eb470cf5a29618d123d0940a8ca731"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "定義允許的介面元件",
+        "detail": "模型不應任意產生不受控的畫面結構；輸入：name、props 的 Zod schema、description、component；LibraryDefinition；輸出：DefinedComponent、Library 與 JSON Schema",
+        "source": "packages/lang-core/src/library.ts"
+      },
+      {
+        "title": "從元件規格描述生成語言",
+        "detail": "模型需知道可用元件及參數；輸入：Library 與 PromptOptions、ComponentPromptSpec；輸出：提示指令文字及規格",
+        "source": "packages/lang-core/src/library.ts"
+      },
+      {
+        "title": "解析逐段產生的介面",
+        "detail": "模型串流內容可能尚未完成；輸入：LibraryJSONSchema、rootName、文字或串流 chunk；輸出：ParseResult；StreamParser.push 更新解析結果",
+        "source": "packages/lang-core/src/parser/parser.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "定義元件 → 產生模型指令 → 解析串流 → 驗收完整畫面",
+      "nodes": [
+        {
+          "title": "定義允許的介面元件",
+          "detail": "name、props 的 Zod schema、description、component；LibraryDefinition → DefinedComponent、Library 與 JSON Schema",
+          "files": [
+            "packages/lang-core/src/library.ts"
+          ]
+        },
+        {
+          "title": "從元件規格描述生成語言",
+          "detail": "Library 與 PromptOptions、ComponentPromptSpec → 提示指令文字及規格",
+          "files": [
+            "packages/lang-core/src/library.ts",
+            "packages/lang-core/src/parser/prompt.ts"
+          ]
+        },
+        {
+          "title": "解析逐段產生的介面",
+          "detail": "LibraryJSONSchema、rootName、文字或串流 chunk → ParseResult；StreamParser.push 更新解析結果",
+          "files": [
+            "packages/lang-core/src/parser/parser.ts",
+            "packages/react-lang/src/exports.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "元件契約",
+        "rule": "defineComponent 要求 Zod v4 schema；createLibrary 對元件註冊並檢查 root 是否存在。",
+        "source": "packages/lang-core/src/library.ts"
+      },
+      {
+        "name": "解析",
+        "rule": "createParser 先 compileSchema；parse 預處理、autoClose、切分 statements，回傳 ParseResult。",
+        "source": "packages/lang-core/src/parser/parser.ts"
+      },
+      {
+        "name": "串流",
+        "rule": "createStreamingParser 由 schema 建立 StreamParser，push 接收 chunk 與可選 complete。",
+        "source": "packages/lang-core/src/parser/parser.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "packages/lang-core/src/library.ts",
+          "packages/lang-core/src/parser/parser.ts",
+          "packages/lang-core/src/parser/prompt.ts",
+          "packages/react-lang/src/exports.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先選兩三個已有元件，定義清楚的欄位、root 與資料規則。 核對固定版本元件庫與 parser，使用手寫合成輸出設計正常、未知元件與不完整輸入測試。 再接核准的模型與前端，檢查錯誤、互動、可讀性及實際資料。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型、外部服務、費用與資料存取需另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有研究工具前端；資料查詢、來源驗證及外部操作另行實作。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "packages/lang-core/src/library.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "library",
+        "name": "定義允許的介面元件",
+        "problem": "模型不應任意產生不受控的畫面結構",
+        "input": "name、props 的 Zod schema、description、component；LibraryDefinition",
+        "output": "DefinedComponent、Library 與 JSON Schema",
+        "source": "packages/lang-core/src/library.ts",
+        "sourceFiles": [
+          "packages/lang-core/src/library.ts"
+        ],
+        "symbols": [
+          "defineComponent",
+          "createLibrary",
+          "Library.toJSONSchema"
+        ],
+        "gate": "檢查元件名稱與 root；schema 限制介面格式，不等於資料或業務權限已驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "prompt",
+        "name": "從元件規格描述生成語言",
+        "problem": "模型需知道可用元件及參數",
+        "input": "Library 與 PromptOptions、ComponentPromptSpec",
+        "output": "提示指令文字及規格",
+        "source": "packages/lang-core/src/library.ts",
+        "sourceFiles": [
+          "packages/lang-core/src/library.ts",
+          "packages/lang-core/src/parser/prompt.ts"
+        ],
+        "symbols": [
+          "Library.prompt",
+          "ComponentPromptSpec",
+          "ToolSpec"
+        ],
+        "gate": "指令不保證模型遵守；工具參數與實際執行權限另驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "stream-parse",
+        "name": "解析逐段產生的介面",
+        "problem": "模型串流內容可能尚未完成",
+        "input": "LibraryJSONSchema、rootName、文字或串流 chunk",
+        "output": "ParseResult；StreamParser.push 更新解析結果",
+        "source": "packages/lang-core/src/parser/parser.ts",
+        "sourceFiles": [
+          "packages/lang-core/src/parser/parser.ts",
+          "packages/react-lang/src/exports.ts"
+        ],
+        "symbols": [
+          "createParser",
+          "createStreamingParser",
+          "StreamParser.push",
+          "parse",
+          "Renderer"
+        ],
+        "gate": "Renderer 僅核對公開匯出；不完整畫面與解析錯誤需明確處理，不能把畫面渲染當成寫入成功。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "呈現研究摘要與來源卡片（設計示例）",
+      "problem": "合成研究資料、允許的摘要卡片與來源列表元件。",
+      "steps": [
+        {
+          "capability": "library",
+          "action": "定義卡片與列表的資料契約"
+        },
+        {
+          "capability": "prompt",
+          "action": "規劃模型生成指令"
+        },
+        {
+          "capability": "stream-parse",
+          "action": "驗證完整與不完整串流"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "dynamic-analysis-cards"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成研究資料、允許的摘要卡片與來源列表元件。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義元件 → 產生模型指令 → 解析串流 → 驗收完整畫面",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有研究工具前端；資料查詢、來源驗證及外部操作另行實作。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或渲染實際 UI；React Renderer 僅核對匯出，未查完整 action、runtime 及 Vue/Svelte/Angular 行為。",
+        "結構驗證不能取代工具授權或資料正確性；parser 有 telemetry 呼叫，實際傳送未查核。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝或渲染實際 UI；React Renderer 僅核對匯出，未查完整 action、runtime 及 Vue/Svelte/Angular 行為。 結構驗證不能取代工具授權或資料正確性；parser 有 telemetry 呼叫，實際傳送未查核。",
+        "control": "固定版本、最小權限、使用合成資料；第三方安裝或外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、library.ts 的 defineComponent/createLibrary、Parser/StreamParser 與 createParser/createStreamingParser、prompt.ts 的元件與工具規格、React exports 的 Renderer 入口。未核對完整 renderer、action 執行與網路。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }

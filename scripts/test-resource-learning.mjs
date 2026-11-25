@@ -449,3 +449,37 @@ test('Dual-layer batch 08: scoped runtime contracts and two explicit implementat
  assert.match(load('n8n-io-n8n').readerGuide.limits.join(' '),/Sustainable|EE/);
  assert.match(load('llm').repoGuide.capabilities.find(c=>c.id==='response-log').gate,/不代表刪除/);
 });
+
+test('Dual-layer batch 09: four scoped agent contracts and an explicit permission gap',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title,expected] of [["openai-codex","修正表單儲存錯誤","mapped"],["openui","呈現研究摘要與來源卡片","mapped"],["vercel-labs-skills-cli","規劃專案專用程式審查技能","mapped"],["browser-use-browser-use","整理公開文件的指定欄位","mapped"],["anomalyco-opencode","先分析再修正網頁顯示問題","deferred"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,expected,id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs||uc.evidenceRefs){
+    const unit=(forward.capabilities||forward.evidence).find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+    if(expected==='mapped'){assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)));assert.ok(unit.symbols?.length);}
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  if(expected==='deferred'){assert.equal(d.intakeReview.sourceStatus,'partial');assert.match(d.intakeReview.layerReview.gap,/404/);assert.ok(d.intakeReview.layerReview.nextAction);}
+  else{assert.ok(d.repoGuide.rebuild.gaps.length);}
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('openai-codex').repoGuide.capabilities.find(c=>c.id==='lifecycle').gate,/不會終止背景終端/);
+ assert.match(load('browser-use-browser-use').repoGuide.capabilities.find(c=>c.id==='run-boundary').gate,/timeout 不包含/);
+ assert.match(load('vercel-labs-skills-cli').repoGuide.capabilities.find(c=>c.id==='discovery').gate,/不代表指令可信/);
+ assert.match(load('anomalyco-opencode').agentEvidence.find(c=>c.id==='build').limitations,/不構成沙箱/);
+});
