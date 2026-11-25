@@ -6,8 +6,8 @@
   "canonicalName": "GoogleChrome/modern-web-guidance",
   "category": "03 Code Intelligence",
   "resourceType": "Official web platform guidance CLI and coding-agent skills",
-  "purpose": "透過可搜尋、可擷取的現代 HTML／CSS／DOM／JavaScript 指引及瀏覽器相容性資訊，協助 Coding Agent 在實作 UI 時優先使用適當的原生 Web API，並兼顧效能、無障礙、安全與必要的回退方案。",
-  "recommendation": "適合 Next.js、React、TypeScript、原生 CSS 的前端實作、重構及 Code Review。針對具體功能先 search 再 retrieve 相關 Guide，按瀏覽器支援情況加入 Fallback；只在進行整體舊版程式碼現代化檢查時使用 legacy-scan，不能取代真實跨瀏覽器與 E2E 測試。",
+  "purpose": "讓開發者或 Coding Agent 先查現代 Web API 的具體做法與相容性，再決定是否需要第三方元件或舊版 JavaScript 寫法。",
+  "recommendation": "適合開發原生網頁互動、響應式版面及可及性功能時作為指引；新 API 需對照實際目標瀏覽器與備援。",
   "url": "https://github.com/GoogleChrome/modern-web-guidance",
   "repo": "GoogleChrome/modern-web-guidance",
   "homepage": "https://developer.chrome.com/docs/modern-web-guidance",
@@ -66,7 +66,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-12",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "modern-web-guidance",
     "googlechrome",
@@ -97,10 +97,17 @@
       "https://github.com/GoogleChrome/modern-web-guidance/blob/main/package.json",
       "https://github.com/GoogleChrome/modern-web-guidance/blob/main/LICENSE"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official GitHub README, SKILL.md, package.json and license; no execution",
     "readmeUrl": "https://github.com/GoogleChrome/modern-web-guidance/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README、LICENSE、實際 SKILL.md 與 navigation-drawer 指引；未審查 CLI 實作、完整指南或瀏覽器支援。",
+    "upstreamCommit": "2b4aa13a72dd47cd135b06ce5abfccd92e19b24f",
+    "referenceUrls": [
+      "https://github.com/GoogleChrome/modern-web-guidance/blob/2b4aa13a72dd47cd135b06ce5abfccd92e19b24f/README.md",
+      "https://github.com/GoogleChrome/modern-web-guidance/blob/2b4aa13a72dd47cd135b06ce5abfccd92e19b24f/LICENSE",
+      "https://github.com/GoogleChrome/modern-web-guidance/blob/2b4aa13a72dd47cd135b06ce5abfccd92e19b24f/skills/modern-web-guidance/SKILL.md",
+      "https://github.com/GoogleChrome/modern-web-guidance/blob/2b4aa13a72dd47cd135b06ce5abfccd92e19b24f/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md"
+    ]
   },
   "classification": {
     "primaryDomain": "software",
@@ -126,16 +133,19 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "保留原 Canonical ID，補限定範圍來源契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -144,8 +154,8 @@
     "classificationReason": "保留 Primary Domain software、Category 與原始 Tags；只補來源和使用限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍技能源文件或元件程式與契約，未宣稱完整引擎或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -158,7 +168,352 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README、LICENSE、實際 SKILL.md 與 navigation-drawer 指引；未審查 CLI 實作、完整指南或瀏覽器支援。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、實際 SKILL.md 與 navigation-drawer 指引；未審查 CLI 實作、完整指南或瀏覽器支援。；局部來源契約與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "透過可搜尋、可擷取的現代 HTML／CSS／DOM／JavaScript 指引及瀏覽器相容性資訊，協助 Coding Agent 在實作 UI 時優先使用適當的原生 Web API，並兼顧效能、無障礙、安全與必要的回退方案。",
+      "source": "https://github.com/GoogleChrome/modern-web-guidance",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "native-ui",
+        "title": "先研究原生 Web 元件",
+        "detail": "針對具體 UI 情境查指引，再比較現有套件及目標瀏覽器。",
+        "capabilityRefs": [
+          "guide-search"
+        ]
+      },
+      {
+        "id": "responsive-nav",
+        "title": "規劃手機導覽與桌面側欄",
+        "detail": "區分模態抽屜與固定 sidebar，設計焦點、Escape、觸控與備援。",
+        "capabilityRefs": [
+          "drawer",
+          "guide-search"
+        ]
+      },
+      {
+        "id": "modernize",
+        "title": "盤點既有網站的過時寫法",
+        "detail": "只在廣泛現代化需求中規劃掃描，逐項查證並保留合理 fallback。",
+        "capabilityRefs": [
+          "legacy-review",
+          "guide-search"
+        ]
+      }
+    ],
+    "example": {
+      "id": "native-navigation-spec",
+      "title": "規劃知識庫的原生響應式導覽",
+      "input": "自有測試頁、桌面固定側欄、手機抽屜與瀏覽器清單。",
+      "process": "查具體指引 → 選擇抽屜語意 → 設計關閉與焦點 → 核對相容與備援",
+      "output": "原生導覽規格及跨裝置測試清單（未建置）。",
+      "destination": "自有知識庫前端；不代表已選定或實作新架構。",
+      "note": "自訂設計示例；未執行第三方工具或產生真實成果。",
+      "useCaseRefs": [
+        "native-ui",
+        "responsive-nav",
+        "modernize"
+      ],
+      "steps": [
+        {
+          "id": "guide-search",
+          "title": "按情境取得指引",
+          "capabilityRefs": [
+            "guide-search"
+          ]
+        },
+        {
+          "id": "drawer",
+          "title": "規劃原生側邊導覽",
+          "capabilityRefs": [
+            "drawer"
+          ]
+        },
+        {
+          "id": "legacy-review",
+          "title": "規劃舊版寫法掃描",
+          "capabilityRefs": [
+            "legacy-review"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際結果",
+          "capabilityRefs": [],
+          "externalDependency": "實際安裝、執行、裝置測試、相容性及權限須另行核准並驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先寫出一項具體 Web UI 或平台需求。",
+      "閱讀固定版本 Skill 與對應指南，核對相容性與替代方案。",
+      "只在核准環境執行 CLI 或改程式，獨立驗證實際行為。"
+    ],
+    "limits": [
+      "Skill 的 MANDATORY 指示是第三方 Skill 自訂工作流程，不代表對所有任務必須安裝或遵循。",
+      "新 Web API 可能仍屬實驗性、瀏覽器支援不一致；必須依目標瀏覽器做 Compatibility Check 與 Fallback。",
+      "legacy-scan 是部分模式掃描，不等於完整靜態分析、資安掃描、無障礙稽核或跨瀏覽器測試。",
+      "官方提供的指引會隨版本更新；@latest 的結果不可保證可重現。",
+      "未執行 CLI、安裝技能或測試瀏覽器；只查技能與一份具體指南。",
+      "README 的功能數量隨版本變化，舊 features 的 250/203 為歷史快照；legacy-scan 約 20% 覆蓋也只是文件描述。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓開發者或 Coding Agent 先查現代 Web API 的具體做法與相容性，再決定是否需要第三方元件或舊版 JavaScript 寫法。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Web platform guidance / Agent Skill"
+      },
+      {
+        "label": "授權",
+        "value": "Apache 2.0"
+      },
+      {
+        "label": "版本",
+        "value": "2b4aa13a72dd47cd135b06ce5abfccd92e19b24f"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "按情境取得指引",
+        "detail": "避免將全部文件加入 Agent Context；輸入：2–5 個英文詞描述單一 UI 需求；輸出：文件描述的 search 結果 id/description 與 retrieve 指引",
+        "source": "skills/modern-web-guidance/SKILL.md"
+      },
+      {
+        "title": "規劃原生側邊導覽",
+        "detail": "手機抽屜與桌面側欄有不同語意；輸入：drawer-only 或兼任 sidebar、dialog/popover、scroll snap；輸出：原生抽屜設計及焦點、關閉、狀態管理",
+        "source": "skills/modern-web-guidance/guides/ui-components/navigation-drawer.md"
+      },
+      {
+        "title": "規劃舊版寫法掃描",
+        "detail": "需要廣泛現代化既有網站；輸入：codebase path、legacy-scan JSON、guide id；輸出：候選發現、keepWhen/dropWhen 核對與再掃描",
+        "source": "skills/modern-web-guidance/SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "查具體指引 → 選擇抽屜語意 → 設計關閉與焦點 → 核對相容與備援",
+      "nodes": [
+        {
+          "title": "按情境取得指引",
+          "detail": "2–5 個英文詞描述單一 UI 需求 → 文件描述的 search 結果 id/description 與 retrieve 指引",
+          "files": [
+            "skills/modern-web-guidance/SKILL.md"
+          ]
+        },
+        {
+          "title": "規劃原生側邊導覽",
+          "detail": "drawer-only 或兼任 sidebar、dialog/popover、scroll snap → 原生抽屜設計及焦點、關閉、狀態管理",
+          "files": [
+            "skills/modern-web-guidance/guides/ui-components/navigation-drawer.md"
+          ]
+        },
+        {
+          "title": "規劃舊版寫法掃描",
+          "detail": "codebase path、legacy-scan JSON、guide id → 候選發現、keepWhen/dropWhen 核對與再掃描",
+          "files": [
+            "skills/modern-web-guidance/SKILL.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "按情境取得指引",
+        "rule": "僅核對技能文件契約，未執行 CLI；@latest 不固定版本，第三方強制指令不構成執行授權。",
+        "source": "skills/modern-web-guidance/SKILL.md"
+      },
+      {
+        "name": "規劃原生側邊導覽",
+        "rule": "dialog 模態與 popover 非模態不同；後者需手動管理 modality；scroll-driven animation 需 @supports 與 fallback，實際裝置未驗證。",
+        "source": "skills/modern-web-guidance/guides/ui-components/navigation-drawer.md"
+      },
+      {
+        "name": "規劃舊版寫法掃描",
+        "rule": "文件說明只涵蓋約 20% 指引，不能當完整靜態分析或安全掃描；局部修改不應直接全庫掃描。",
+        "source": "skills/modern-web-guidance/SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "來源閱讀",
+        "description": "依固定版本閱讀來源，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/modern-web-guidance/SKILL.md",
+          "skills/modern-web-guidance/guides/ui-components/navigation-drawer.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "獨立測試",
+        "description": "先寫出一項具體 Web UI 或平台需求。 閱讀固定版本 Skill 與對應指南，核對相容性與替代方案。 只在核准環境執行 CLI 或改程式，獨立驗證實際行為。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫前端；不代表已選定或實作新架構。；另驗證真實行為及失敗。",
+        "file": "skills/modern-web-guidance/SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "guide-search",
+        "name": "按情境取得指引",
+        "problem": "避免將全部文件加入 Agent Context",
+        "input": "2–5 個英文詞描述單一 UI 需求",
+        "output": "文件描述的 search 結果 id/description 與 retrieve 指引",
+        "source": "skills/modern-web-guidance/SKILL.md",
+        "sourceFiles": [
+          "skills/modern-web-guidance/SKILL.md"
+        ],
+        "symbols": [
+          "Step 1. Search Use Cases",
+          "Step 2. Retrieve Best Practices"
+        ],
+        "gate": "僅核對技能文件契約，未執行 CLI；@latest 不固定版本，第三方強制指令不構成執行授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "drawer",
+        "name": "規劃原生側邊導覽",
+        "problem": "手機抽屜與桌面側欄有不同語意",
+        "input": "drawer-only 或兼任 sidebar、dialog/popover、scroll snap",
+        "output": "原生抽屜設計及焦點、關閉、狀態管理",
+        "source": "skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+        "sourceFiles": [
+          "skills/modern-web-guidance/guides/ui-components/navigation-drawer.md"
+        ],
+        "symbols": [
+          "Choose the drawer element",
+          "Implementation with <dialog>",
+          "Tie the backdrop opacity to the scroll position"
+        ],
+        "gate": "dialog 模態與 popover 非模態不同；後者需手動管理 modality；scroll-driven animation 需 @supports 與 fallback，實際裝置未驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "legacy-review",
+        "name": "規劃舊版寫法掃描",
+        "problem": "需要廣泛現代化既有網站",
+        "input": "codebase path、legacy-scan JSON、guide id",
+        "output": "候選發現、keepWhen/dropWhen 核對與再掃描",
+        "source": "skills/modern-web-guidance/SKILL.md",
+        "sourceFiles": [
+          "skills/modern-web-guidance/SKILL.md"
+        ],
+        "symbols": [
+          "Alternative flow: Modernize an existing codebase"
+        ],
+        "gate": "文件說明只涵蓋約 20% 指引，不能當完整靜態分析或安全掃描；局部修改不應直接全庫掃描。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃知識庫的原生響應式導覽（設計示例）",
+      "problem": "自有測試頁、桌面固定側欄、手機抽屜與瀏覽器清單。",
+      "steps": [
+        {
+          "capability": "guide-search",
+          "action": "按情境取得指引"
+        },
+        {
+          "capability": "drawer",
+          "action": "規劃原生側邊導覽"
+        },
+        {
+          "capability": "legacy-review",
+          "action": "規劃舊版寫法掃描"
+        }
+      ],
+      "gate": "未執行；實際環境及結果需獨立驗收。",
+      "readerExampleRef": "native-navigation-spec"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，非完整重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試頁、桌面固定側欄、手機抽屜與瀏覽器清單。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "查具體指引 → 選擇抽屜語意 → 設計關閉與焦點 → 核對相容與備援",
+          "deliverable": "行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有知識庫前端；不代表已選定或實作新架構。",
+          "deliverable": "實際結果與限制"
+        }
+      ],
+      "gaps": [
+        "未執行 CLI、安裝技能或測試瀏覽器；只查技能與一份具體指南。",
+        "README 的功能數量隨版本變化，舊 features 的 250/203 為歷史快照；legacy-scan 約 20% 覆蓋也只是文件描述。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "執行與相容性",
+        "severity": "高",
+        "issue": "未執行 CLI、安裝技能或測試瀏覽器；只查技能與一份具體指南。 README 的功能數量隨版本變化，舊 features 的 250/203 為歷史快照；legacy-scan 約 20% 覆蓋也只是文件描述。",
+        "control": "固定版本、最小權限、獨立驗收實際功能及可及性。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、實際 SKILL.md 與 navigation-drawer 指引；未審查 CLI 實作、完整指南或瀏覽器支援。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝或執行第三方工具。"
+      }
+    ]
   }
 }
