@@ -8656,14 +8656,14 @@
       "canonicalName": "Blender",
       "category": "Media / Video",
       "resourceType": "3D 建模與動畫軟體",
-      "purpose": "建立 3D 模型、材質、角色、場景與動畫，並進行渲染及影音製作。",
-      "recommendation": "適合需要完整 3D 製作工作流程的情境；不必為單純字幕影片導入完整 3D 管線。",
+      "purpose": "製作 3D 產品、場景及動畫，從不同角度或時間點渲染圖片與影片。",
+      "recommendation": "適合需要真正 3D 建模、動畫及攝影機控制的素材；若只需網頁平面動效，先選較簡單的 2D 方法。",
       "url": "https://github.com/blender/blender",
       "repo": "blender/blender",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "content",
@@ -8695,25 +8695,34 @@
       "source": {
         "url": "https://github.com/blender/blender",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎",
+        "upstreamCommit": "85d42f7cebbffe9c1da5febb7ad370414e5236c6",
+        "referenceUrls": [
+          "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/README.md",
+          "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/COPYING",
+          "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/source/blender/makesrna/intern/rna_scene.cc",
+          "https://github.com/blender/blender/blob/85d42f7cebbffe9c1da5febb7ad370414e5236c6/source/blender/editors/render/render_internal.cc"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -8722,8 +8731,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -8736,8 +8745,350 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎；以局部 ID 對應前台情境及案例。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "建立 3D 模型、材質、角色、場景與動畫，並進行渲染及影音製作。",
+          "source": "https://github.com/blender/blender",
+          "reviewedAt": "2026-11-24",
+          "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "product-image",
+            "title": "製作 3D 產品示意圖",
+            "detail": "已有模型及場景時，設定畫面大小與攝影機，先輸出單張樣本。",
+            "capabilityRefs": [
+              "scene-settings",
+              "render-still"
+            ]
+          },
+          {
+            "id": "product-animation",
+            "title": "產出產品旋轉動畫",
+            "detail": "依設定好的動作與時間範圍渲染多個畫格，方便後續剪輯。",
+            "capabilityRefs": [
+              "scene-settings",
+              "render-sequence"
+            ]
+          },
+          {
+            "id": "repeatable-render",
+            "title": "建立重複渲染流程",
+            "detail": "固定同一場景的規格、畫格及輸出條件，先做樣張再產製完整媒體。",
+            "capabilityRefs": [
+              "scene-settings",
+              "render-still",
+              "render-sequence"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-turntable",
+          "title": "渲染產品旋轉預覽",
+          "input": "已有合法產品模型、攝影機及旋轉動畫的測試場景。",
+          "process": "設定尺寸及畫格 → 渲染樣張 → 渲染動畫範圍 → 檢查檔案",
+          "output": "單張樣圖及短動畫（預期產物）。",
+          "destination": "作品集或產品介紹的後製流程。",
+          "note": "未建模、未執行 Blender 或產生媒體；動畫與材質須另行建立。",
+          "useCaseRefs": [
+            "product-image",
+            "product-animation",
+            "repeatable-render"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "準備場景、模型及動畫",
+              "capabilityRefs": [],
+              "externalDependency": "模型建立、材質、燈光、攝影機與資產權利需另外確認。"
+            },
+            {
+              "id": "configure",
+              "title": "固定輸出範圍及尺寸",
+              "capabilityRefs": [
+                "scene-settings"
+              ]
+            },
+            {
+              "id": "preview",
+              "title": "驗收單張樣圖",
+              "capabilityRefs": [
+                "render-still"
+              ]
+            },
+            {
+              "id": "sequence",
+              "title": "渲染短動畫",
+              "capabilityRefs": [
+                "render-sequence"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先使用已授權的簡單場景，記錄 Blender 版本與目標尺寸。",
+          "先檢查一張樣圖，再測短畫格範圍及輸出設定。",
+          "檢查實際媒體、耗時、失敗及素材權利後才進入正式渲染。"
+        ],
+        "limits": [
+          "本身軟體授權不代表第三方模型、素材、外掛或音樂具備商用授權。",
+          "本次僅核對場景設定與渲染入口，未審查完整建模、Cycles、EEVEE、編碼及 Python 自動化。",
+          "陌生 .blend 檔案及腳本不得未經審查直接執行。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "製作 3D 產品、場景及動畫，從不同角度或時間點渲染圖片與影片。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "已查閱固定版本的限定範圍"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "C/C++、Python"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "GPLv3（整體；個別檔案依授權）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "85d42f7cebbffe9c1da5febb7ad370414e5236c6"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "設定場景畫格與尺寸",
+            "detail": "同一場景需固定輸出規格；輸入：Scene.frame_start、frame_end、frame_step 與 RenderSettings.resolution_x/y；輸出：播放及渲染範圍與像素設定",
+            "source": "source/blender/makesrna/intern/rna_scene.cc"
+          },
+          {
+            "title": "渲染單張產品畫面",
+            "detail": "需要預覽某個場景畫格；輸入：有效 Scene、camera、當前畫格與 write_still；輸出：渲染結果或取消",
+            "source": "source/blender/editors/render/render_internal.cc"
+          },
+          {
+            "title": "渲染動畫範圍",
+            "detail": "需要把一段 3D 動作輸出成媒體；輸入：animation 設定、起訖畫格與 frame_step；輸出：RE_RenderAnim 管理的動畫渲染",
+            "source": "source/blender/editors/render/render_internal.cc"
+          }
+        ],
+        "architecture": {
+          "summary": "設定尺寸及畫格 → 渲染樣張 → 渲染動畫範圍 → 檢查檔案",
+          "nodes": [
+            {
+              "title": "設定場景畫格與尺寸",
+              "detail": "Scene.frame_start、frame_end、frame_step 與 RenderSettings.resolution_x/y → 播放及渲染範圍與像素設定",
+              "files": [
+                "source/blender/makesrna/intern/rna_scene.cc"
+              ]
+            },
+            {
+              "title": "渲染單張產品畫面",
+              "detail": "有效 Scene、camera、當前畫格與 write_still → 渲染結果或取消",
+              "files": [
+                "source/blender/editors/render/render_internal.cc"
+              ]
+            },
+            {
+              "title": "渲染動畫範圍",
+              "detail": "animation 設定、起訖畫格與 frame_step → RE_RenderAnim 管理的動畫渲染",
+              "files": [
+                "source/blender/editors/render/render_internal.cc"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "畫格範圍",
+            "rule": "RNA frame_start/end 對應場景起訖；frame_step 影響渲染畫格跳步。",
+            "source": "source/blender/makesrna/intern/rna_scene.cc"
+          },
+          {
+            "name": "渲染分流",
+            "rule": "screen_render_exec 依 animation 選 RE_RenderAnim 或 RE_RenderFrame；無場景則取消。",
+            "source": "source/blender/editors/render/render_internal.cc"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依來源與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "COPYING",
+              "source/blender/makesrna/intern/rna_scene.cc",
+              "source/blender/editors/render/render_internal.cc"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小驗證",
+            "description": "先使用已授權的簡單場景，記錄 Blender 版本與目標尺寸。 先檢查一張樣圖，再測短畫格範圍及輸出設定。 檢查實際媒體、耗時、失敗及素材權利後才進入正式渲染。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "依應用案例建立獨立測試",
+            "detail": "作品集或產品介紹的後製流程。；固定輸入輸出，另行驗證失敗與權限。",
+            "file": "source/blender/makesrna/intern/rna_scene.cc"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "scene-settings",
+            "name": "設定場景畫格與尺寸",
+            "problem": "同一場景需固定輸出規格",
+            "input": "Scene.frame_start、frame_end、frame_step 與 RenderSettings.resolution_x/y",
+            "output": "播放及渲染範圍與像素設定",
+            "source": "source/blender/makesrna/intern/rna_scene.cc",
+            "sourceFiles": [
+              "source/blender/makesrna/intern/rna_scene.cc"
+            ],
+            "symbols": [
+              "RNA_def_property",
+              "rna_Scene_start_frame_set",
+              "rna_Scene_end_frame_set"
+            ],
+            "gate": "先核對場景範圍、解析度比例及實際輸出，避免誤用預覽設定。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "render-still",
+            "name": "渲染單張產品畫面",
+            "problem": "需要預覽某個場景畫格",
+            "input": "有效 Scene、camera、當前畫格與 write_still",
+            "output": "渲染結果或取消",
+            "source": "source/blender/editors/render/render_internal.cc",
+            "sourceFiles": [
+              "source/blender/editors/render/render_internal.cc"
+            ],
+            "symbols": [
+              "RENDER_OT_render",
+              "screen_render_exec",
+              "RE_RenderFrame"
+            ],
+            "gate": "Scene 或 render callback 缺失可取消；保存檔案與渲染成功須另驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "render-sequence",
+            "name": "渲染動畫範圍",
+            "problem": "需要把一段 3D 動作輸出成媒體",
+            "input": "animation 設定、起訖畫格與 frame_step",
+            "output": "RE_RenderAnim 管理的動畫渲染",
+            "source": "source/blender/editors/render/render_internal.cc",
+            "sourceFiles": [
+              "source/blender/editors/render/render_internal.cc"
+            ],
+            "symbols": [
+              "screen_render_exec",
+              "RE_RenderAnim"
+            ],
+            "gate": "先試短範圍；實際影格、編碼、檔案與中止狀態需要檢查。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "渲染產品旋轉預覽（設計示例）",
+          "problem": "已有合法產品模型、攝影機及旋轉動畫的測試場景。",
+          "steps": [
+            {
+              "capability": "scene-settings",
+              "action": "固定輸出範圍及尺寸"
+            },
+            {
+              "capability": "render-still",
+              "action": "驗收單張樣圖"
+            },
+            {
+              "capability": "render-sequence",
+              "action": "渲染短動畫"
+            }
+          ],
+          "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+          "readerExampleRef": "product-turntable"
+        },
+        "rebuild": {
+          "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+          "stages": [
+            {
+              "title": "建立輸入輸出契約",
+              "detail": "已有合法產品模型、攝影機及旋轉動畫的測試場景。",
+              "deliverable": "可重現測試資料與預期輸出"
+            },
+            {
+              "title": "驗證核心步驟",
+              "detail": "設定尺寸及畫格 → 渲染樣張 → 渲染動畫範圍 → 檢查檔案",
+              "deliverable": "步驟及錯誤驗收紀錄"
+            },
+            {
+              "title": "驗證交付及風險",
+              "detail": "作品集或產品介紹的後製流程。",
+              "deliverable": "實際交付、權限與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "完整場景建模、渲染後端、Python API 綁定及輸出編碼未查閱。",
+            "未安裝、建置、渲染或驗證各裝置。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資產與腳本",
+            "severity": "高",
+            "issue": "外部模型、貼圖或腳本涉及授權及執行風險。",
+            "control": "隔離測試並核對來源、檔案路徑與輸出權限。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、COPYING、RNA 場景與解析度欄位、render_internal.cc 渲染 operator 的單格／動畫分流與取消條件；未讀完整建模、Python 綁定及渲染引擎"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+          }
+        ]
       }
     },
     {
@@ -19511,13 +19862,13 @@
       "canonicalName": "heygen-com/hyperframes",
       "category": "11 Media / Video",
       "resourceType": "Apache-2.0 open-source HTML/CSS/JS-to-video framework, CLI, Studio, render engine and agent-skill catalog",
-      "purpose": "以 HTML、CSS、影片／音訊資產與 seekable 動畫定義 clips、tracks、timing、transitions 與 composition，透過 headless Chrome/Puppeteer 擷取逐格影像並用 FFmpeg 混音與輸出 MP4。提供 CLI、瀏覽器 Studio、視覺特效 Catalog、frame.md 設計語言、7 個公開發布的 Agent Skills（4 Core：hyperframes、hyperframes-cli、hyperframes-registry、media-use；3 按需：figma、slideshow、remotion-to-hyperframes）與選配 AWS Lambda／HeyGen cloud 渲染。",
-      "recommendation": "適合 AI 程式化製作產品介紹影片、作品集 Demo、工程 PR 摘要影片、數據視覺化與可批次重算的社群短影音。優先先用本地 CLI／/hyperframes Skill 製作 5–10 秒小樣，檢查 Node 22+、FFmpeg 與 Chromium 等需求、實際 render 耗時、1080p 品質及音訊授權；通過驗證後再導入多場景、批次、CI 或雲端。與 OneTake 著重鏡頭連續性不同，HyperFrames 主要是具組合時間軸與確定性輸出的影片框架。使用產品網站、人物、影音、Logo／配樂前應查權限，來源資料與輸出的片段逐格檢查文字、事實、畫面及聲音；外部 AI / 雲端生成額外計費。",
+      "purpose": "用 HTML、文字、圖片及可定位時間的動畫製作可修改的影片專案，再透過渲染工具輸出影片。",
+      "recommendation": "適合會寫網頁或使用 Coding Agent、需要反覆修改產品影片及動態排版的人；若已有完整剪輯流程，先評估是否值得搬到程式式時間軸。",
       "url": "https://github.com/heygen-com/hyperframes",
       "repo": "heygen-com/hyperframes",
       "status": "active",
       "addedAt": "2026-10-21",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [
         "hyperframes",
         "heygen",
@@ -19586,10 +19937,19 @@
         "type": "Official current README and skills/hyperframes/SKILL.md",
         "summary": "Reverified 2026-10-27: 7 published skills, previously 21 noted in older record. Not run.",
         "readmeUrl": "https://github.com/heygen-com/hyperframes/blob/main/README.md",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Official README check only; runtime and security not audited",
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；另核對 runtimeContract.ts 的 HYPERFRAME_RUNTIME_GLOBALS 與 seek action 宣告",
         "alternateSavedUrls": [
           "https://github.com/KentwareDemo/hyperframes"
+        ],
+        "upstreamCommit": "4864ade2838704b92c69d37ec5ffe554ddca4114",
+        "referenceUrls": [
+          "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/README.md",
+          "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/skills/hyperframes/SKILL.md",
+          "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/packages/cli/src/commands/render.ts",
+          "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/packages/cli/src/commands/check.ts",
+          "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/LICENSE",
+          "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/packages/core/src/inline-scripts/runtimeContract.ts"
         ]
       },
       "classification": {
@@ -19630,16 +19990,18 @@
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "核對既有 heygen-com/hyperframes 與收藏連結 KentwareDemo/hyperframes 的 README 交叉引用；增補 alternateSavedUrls，不建立同名重複正式 Resource。"
+          "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -19648,8 +20010,8 @@
         "classificationReason": "維持既有 Primary Domain content；未修改任何分類或新增 Tag。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+          "status": "applied",
+          "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -19662,8 +20024,363 @@
         "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。 外部來源版本沿革仍待查證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+          "evidence": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；另核對 runtimeContract.ts 的 HYPERFRAME_RUNTIME_GLOBALS 與 seek action 宣告；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；以局部 ID 對應前台情境及案例。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "以 HTML、CSS、影片／音訊資產與 seekable 動畫定義 clips、tracks、timing、transitions 與 composition，透過 headless Chrome/Puppeteer 擷取逐格影像並用 FFmpeg 混音與輸出 MP4。提供 CLI、瀏覽器 Studio、視覺特效 Catalog、frame.md 設計語言、7 個公開發布的 Agent Skills（4 Core：hyperframes、hyperframes-cli、hyperframes-registry、media-use；3 按需：figma、slideshow、remotion-to-hyperframes）與選配 AWS Lambda／HeyGen cloud 渲染。",
+          "source": "https://github.com/heygen-com/hyperframes",
+          "reviewedAt": "2026-11-24",
+          "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "editable-video",
+            "title": "製作可修改的產品介紹影片",
+            "detail": "把影片拆成 HTML 場景及明確時間點，之後可以調整文字、節奏或畫面。",
+            "capabilityRefs": [
+              "composition-contract",
+              "render-plan"
+            ]
+          },
+          {
+            "id": "batch-video",
+            "title": "重複產製不同版本的動態內容",
+            "detail": "保留相同場景規格，替換授權內容並檢查、渲染各版本。",
+            "capabilityRefs": [
+              "composition-contract",
+              "project-check",
+              "render-plan"
+            ]
+          },
+          {
+            "id": "video-check",
+            "title": "輸出前檢查影片專案",
+            "detail": "先檢查布局、時間軸與渲染尺寸，再人工核對代表畫格。",
+            "capabilityRefs": [
+              "project-check",
+              "render-plan"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-intro-film",
+          "title": "製作三段式產品介紹影片",
+          "input": "三段產品故事、已授權畫面與文字，以及指定影片比例。",
+          "process": "拆場景 → 定義時間軸 → 檢查專案 → 審查畫格 → 渲染影片",
+          "output": "可編輯的 HTML 影片專案及預期 MP4。",
+          "destination": "產品作品集或影片後製；素材、音樂及發布規格另驗收。",
+          "note": "設計示例，未執行 CLI、Studio、渲染或使用任何付費模型。",
+          "useCaseRefs": [
+            "editable-video",
+            "batch-video",
+            "video-check"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "整理故事與授權素材",
+              "capabilityRefs": [],
+              "externalDependency": "故事腳本、媒體權利及音訊設計須由專案另行提供。"
+            },
+            {
+              "id": "compose",
+              "title": "建立場景時間軸",
+              "capabilityRefs": [
+                "composition-contract"
+              ]
+            },
+            {
+              "id": "check",
+              "title": "執行檢查並核對問題",
+              "capabilityRefs": [
+                "project-check"
+              ]
+            },
+            {
+              "id": "render",
+              "title": "預覽後規劃正式輸出",
+              "capabilityRefs": [
+                "render-plan"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先讀固定版本 Skill 的時間軸及場景契約，確認使用方式與授權。",
+          "使用短小自有素材設計一個可定位場景，另行核准安裝及本地執行。",
+          "檢查專案後人工看代表畫格，再核對最終影片尺寸、時長及音訊。"
+        ],
+        "limits": [
+          "程式可渲染不代表時間軸、畫格、音訊與最終影片已視覺驗收。",
+          "Studio 的 Pro 功能與外部生成模型可能涉及額外費用。",
+          "本次未追查瀏覽器逐格擷取、FFmpeg 混音編碼及 Studio 雲端內部。",
+          "上游 Skill 含 telemetry/usage 指令；本次未發送，日後需明確核准外部傳送。",
+          "舊記錄的 7 個 Skill 是 2026-10-27 快照，不能當現行完整清單；KentwareDemo URL 身分尚未證實。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "用 HTML、文字、圖片及可定位時間的動畫製作可修改的影片專案，再透過渲染工具輸出影片。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "已查閱固定版本的限定範圍"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "HTML/CSS/JS、TypeScript CLI"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0（Repo；Studio 與媒體另計）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "4864ade2838704b92c69d37ec5ffe554ddca4114"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "定義可定位時間的場景",
+            "detail": "影片需要按時間重複呈現相同畫面；輸入：root data-duration、composition ID、HTML 元素、paused timeline；輸出：可依時間定位的場景定義",
+            "source": "skills/hyperframes/SKILL.md"
+          },
+          {
+            "title": "檢查影片專案",
+            "detail": "需在正式渲染前辨識布局及執行問題；輸入：專案目錄、check 選項；輸出：SavedCheckReport 或 JSON 失敗與非零 exit code",
+            "source": "packages/cli/src/commands/check.ts"
+          },
+          {
+            "title": "規劃及執行影片輸出",
+            "detail": "可編輯專案需要轉成影片；輸入：render args、composition 尺寸與輸出設定；輸出：執行 local/Docker render plan 或錯誤",
+            "source": "packages/cli/src/commands/render.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "拆場景 → 定義時間軸 → 檢查專案 → 審查畫格 → 渲染影片",
+          "nodes": [
+            {
+              "title": "定義可定位時間的場景",
+              "detail": "root data-duration、composition ID、HTML 元素、paused timeline → 可依時間定位的場景定義",
+              "files": [
+                "skills/hyperframes/SKILL.md",
+                "packages/core/src/inline-scripts/runtimeContract.ts"
+              ]
+            },
+            {
+              "title": "檢查影片專案",
+              "detail": "專案目錄、check 選項 → SavedCheckReport 或 JSON 失敗與非零 exit code",
+              "files": [
+                "packages/cli/src/commands/check.ts"
+              ]
+            },
+            {
+              "title": "規劃及執行影片輸出",
+              "detail": "render args、composition 尺寸與輸出設定 → 執行 local/Docker render plan 或錯誤",
+              "files": [
+                "packages/cli/src/commands/render.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "時間軸契約",
+            "rule": "Skill 要求暫停 timeline 並註冊於 window.__timelines；畫面由時間決定，非獨立計時器。",
+            "source": "skills/hyperframes/SKILL.md"
+          },
+          {
+            "name": "Check 快取",
+            "rule": "checkOrReplay 先核對 cache key；專案未變才保存 pass。reportCheckFailure 設定非零 exit code。",
+            "source": "packages/cli/src/commands/check.ts"
+          },
+          {
+            "name": "尺寸前置檢查",
+            "rule": "checkRenderResolutionPreflight 讀取 composition 寬高，無法辨識時交給下游防禦檢查，不自行猜測。",
+            "source": "packages/cli/src/commands/render.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依來源與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "skills/hyperframes/SKILL.md",
+              "packages/cli/src/commands/render.ts",
+              "packages/cli/src/commands/check.ts",
+              "LICENSE",
+              "packages/core/src/inline-scripts/runtimeContract.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小驗證",
+            "description": "先讀固定版本 Skill 的時間軸及場景契約，確認使用方式與授權。 使用短小自有素材設計一個可定位場景，另行核准安裝及本地執行。 檢查專案後人工看代表畫格，再核對最終影片尺寸、時長及音訊。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "依應用案例建立獨立測試",
+            "detail": "產品作品集或影片後製；素材、音樂及發布規格另驗收。；固定輸入輸出，另行驗證失敗與權限。",
+            "file": "skills/hyperframes/SKILL.md"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "composition-contract",
+            "name": "定義可定位時間的場景",
+            "problem": "影片需要按時間重複呈現相同畫面",
+            "input": "root data-duration、composition ID、HTML 元素、paused timeline",
+            "output": "可依時間定位的場景定義",
+            "source": "skills/hyperframes/SKILL.md",
+            "sourceFiles": [
+              "skills/hyperframes/SKILL.md",
+              "packages/core/src/inline-scripts/runtimeContract.ts"
+            ],
+            "symbols": [
+              "HYPERFRAME_RUNTIME_GLOBALS",
+              "HYPERFRAME_CONTROL_ACTIONS",
+              "window.__timelines（文件契約）"
+            ],
+            "gate": "固定版本 runtimeContract.ts 宣告 timeline global 與 seek control，Skill 文件描述場景作者契約；未核對底層逐格引擎。禁止依牆鐘與未控制亂數。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "project-check",
+            "name": "檢查影片專案",
+            "problem": "需在正式渲染前辨識布局及執行問題",
+            "input": "專案目錄、check 選項",
+            "output": "SavedCheckReport 或 JSON 失敗與非零 exit code",
+            "source": "packages/cli/src/commands/check.ts",
+            "sourceFiles": [
+              "packages/cli/src/commands/check.ts"
+            ],
+            "symbols": [
+              "createCheckCommand",
+              "checkOrReplay",
+              "reportCheckFailure"
+            ],
+            "gate": "檢查通過不等於畫面、內容或音訊驗收；快取受專案與版本等條件影響。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "render-plan",
+            "name": "規劃及執行影片輸出",
+            "problem": "可編輯專案需要轉成影片",
+            "input": "render args、composition 尺寸與輸出設定",
+            "output": "執行 local/Docker render plan 或錯誤",
+            "source": "packages/cli/src/commands/render.ts",
+            "sourceFiles": [
+              "packages/cli/src/commands/render.ts"
+            ],
+            "symbols": [
+              "createRenderPlan",
+              "executeRenderPlan",
+              "checkRenderResolutionPreflight",
+              "readCompositionDimensions"
+            ],
+            "gate": "須確認輸出尺寸、資產、費用、執行環境及實際影片，不因 CLI 接收即視為完成。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "製作三段式產品介紹影片（設計示例）",
+          "problem": "三段產品故事、已授權畫面與文字，以及指定影片比例。",
+          "steps": [
+            {
+              "capability": "composition-contract",
+              "action": "建立場景時間軸"
+            },
+            {
+              "capability": "project-check",
+              "action": "執行檢查並核對問題"
+            },
+            {
+              "capability": "render-plan",
+              "action": "預覽後規劃正式輸出"
+            }
+          ],
+          "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+          "readerExampleRef": "product-intro-film"
+        },
+        "rebuild": {
+          "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+          "stages": [
+            {
+              "title": "建立輸入輸出契約",
+              "detail": "三段產品故事、已授權畫面與文字，以及指定影片比例。",
+              "deliverable": "可重現測試資料與預期輸出"
+            },
+            {
+              "title": "驗證核心步驟",
+              "detail": "拆場景 → 定義時間軸 → 檢查專案 → 審查畫格 → 渲染影片",
+              "deliverable": "步驟及錯誤驗收紀錄"
+            },
+            {
+              "title": "驗證交付及風險",
+              "detail": "產品作品集或影片後製；素材、音樂及發布規格另驗收。",
+              "deliverable": "實際交付、權限與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "逐格渲染、FFmpeg、Studio、雲端與各子技能未完整查核。",
+            "未驗證素材、實際影片、成本或 telemetry 行為。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "外部資產與連線",
+            "severity": "高",
+            "issue": "第三方技能指令、媒體擷取、雲端模型與 telemetry 可能傳送資料或產生費用。",
+            "control": "不執行外部指令、不擅自送出資料；先核對授權與明確核准。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；另核對 runtimeContract.ts 的 HYPERFRAME_RUNTIME_GLOBALS 與 seek action 宣告"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+          }
+        ]
       }
     },
     {
@@ -28582,14 +29299,14 @@
       "canonicalName": "Microsoft AutoGen（歷史架構參考）",
       "category": "AI Agent / Framework & Learning",
       "resourceType": "已封存的多代理框架",
-      "purpose": "研究代理對話、角色分工和協調架構的歷史實作，理解多代理系統的演進。",
-      "recommendation": "適合作為既有系統維護與架構比較；新專案應先評估 Microsoft Agent Framework。",
+      "purpose": "研究多個 AI Agent 如何輪流處理同一任務、保存對話狀態，並在指定條件下停止。此專案已封存。",
+      "recommendation": "僅適合研究歷史多 Agent 設計或維護既有系統；新專案優先評估官方建議的 Microsoft Agent Framework，並查核遷移成本。",
       "url": "https://github.com/microsoft/autogen",
       "repo": "microsoft/autogen",
       "notes": "上游 Repository 已封存，僅建議作歷史架構研究。 建議參考替代來源：https://github.com/microsoft/agent-framework",
       "status": "archived",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "ai-agent",
@@ -28621,25 +29338,36 @@
       "source": {
         "url": "https://github.com/microsoft/autogen",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具",
+        "upstreamCommit": "8390985108cb1e3881f5f7297765758d8ad2540c",
+        "referenceUrls": [
+          "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/README.md",
+          "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/LICENSE",
+          "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/LICENSE-CODE",
+          "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+          "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+          "https://github.com/microsoft/autogen/blob/8390985108cb1e3881f5f7297765758d8ad2540c/python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -28648,8 +29376,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -28662,8 +29390,357 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具；以局部 ID 對應前台情境及案例。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "研究代理對話、角色分工和協調架構的歷史實作，理解多代理系統的演進。",
+          "source": "https://github.com/microsoft/autogen",
+          "reviewedAt": "2026-11-24",
+          "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "study-roles",
+            "title": "理解多 Agent 角色輪流協作",
+            "detail": "研究撰稿與審查角色如何固定順序交接，而不是讓所有角色同時執行。",
+            "capabilityRefs": [
+              "round-robin"
+            ]
+          },
+          {
+            "id": "stop-loop",
+            "title": "避免代理無限制對話",
+            "detail": "用回合、訊息數或特定條件設停止界線，再獨立驗收結果。",
+            "capabilityRefs": [
+              "termination-limits"
+            ]
+          },
+          {
+            "id": "legacy-migration",
+            "title": "盤點既有多 Agent 系統的遷移需求",
+            "detail": "核對輪替、停止條件及管理狀態有哪些必須保留的行為。",
+            "capabilityRefs": [
+              "round-robin",
+              "termination-limits",
+              "manager-state"
+            ]
+          }
+        ],
+        "example": {
+          "id": "legacy-writer-reviewer",
+          "title": "研究撰稿與審查代理的協作",
+          "input": "一組合成需求、兩個模擬角色與固定回合上限。",
+          "process": "定義角色 → 固定順序 → 模擬回合與停止 → 保存協調狀態 → 規劃遷移",
+          "output": "角色交接、停止及狀態契約測試規格（預期產物）。",
+          "destination": "供既有系統遷移或架構研究，不部署封存版本。",
+          "note": "設計示例，未安裝 AutoGen、呼叫模型或執行外部工具。",
+          "useCaseRefs": [
+            "study-roles",
+            "stop-loop",
+            "legacy-migration"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "建立模擬角色與驗收資料",
+              "capabilityRefs": [],
+              "externalDependency": "角色指令、測試資料、模型與權限須另行設計。"
+            },
+            {
+              "id": "route",
+              "title": "模擬固定順序選擇角色",
+              "capabilityRefs": [
+                "round-robin"
+              ]
+            },
+            {
+              "id": "stop",
+              "title": "測回合與訊息停止條件",
+              "capabilityRefs": [
+                "termination-limits"
+              ]
+            },
+            {
+              "id": "state",
+              "title": "記錄並驗證管理狀態",
+              "capabilityRefs": [
+                "manager-state"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先確認封存狀態及固定版本，閱讀官方遷移指引。",
+          "只研究合成資料與固定回應的協調契約，不直接安裝舊版到正式系統。",
+          "比較所需行為與受維護替代方案，遷移前建立停止及狀態回歸測試。"
+        ],
+        "limits": [
+          "GitHub 專案已於 2026-11-20 封存且不再維護；不建議直接作為新產品的生產依賴。",
+          "上游已封存，無持續安全修補；新系統不應依賴此舊版。",
+          "只核對輪替、停止與 manager 狀態；完整 AgentChat runtime、模型及工具未查閱。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "研究多個 AI Agent 如何輪流處理同一任務、保存對話狀態，並在指定條件下停止。此專案已封存。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "已查閱固定版本的限定範圍"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / AgentChat（歷史版本）"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "LICENSE-CODE MIT；LICENSE CC BY 4.0；依實際檔案核對"
+          },
+          {
+            "label": "版本錨點",
+            "value": "8390985108cb1e3881f5f7297765758d8ad2540c"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "固定順序的多 Agent 協作",
+            "detail": "不同角色需依順序輪流發言；輸入：participant names、next speaker index；輸出：下一個單一 speaker 名稱，循環更新索引",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          },
+          {
+            "title": "限制對話停止條件",
+            "detail": "Agent 可能持續循環或提早結束；輸入：max_turns、max_messages 或指定文字與來源；輸出：StopMessage 或繼續對話",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py"
+          },
+          {
+            "title": "保存與恢復協調狀態",
+            "detail": "舊系統需保留輪流對話的進度；輸入：message_thread、current_turn、next_speaker_index；輸出：RoundRobinManagerState model_dump／load_state",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          }
+        ],
+        "architecture": {
+          "summary": "定義角色 → 固定順序 → 模擬回合與停止 → 保存協調狀態 → 規劃遷移",
+          "nodes": [
+            {
+              "title": "固定順序的多 Agent 協作",
+              "detail": "participant names、next speaker index → 下一個單一 speaker 名稱，循環更新索引",
+              "files": [
+                "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+              ]
+            },
+            {
+              "title": "限制對話停止條件",
+              "detail": "max_turns、max_messages 或指定文字與來源 → StopMessage 或繼續對話",
+              "files": [
+                "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+                "python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+              ]
+            },
+            {
+              "title": "保存與恢復協調狀態",
+              "detail": "message_thread、current_turn、next_speaker_index → RoundRobinManagerState model_dump／load_state",
+              "files": [
+                "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "輪替",
+            "rule": "select_speaker 回傳當前索引的名稱，下一索引以 participant 數量取模。",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          },
+          {
+            "name": "停止",
+            "rule": "BaseGroupChatManager 達 max_turns 時發出 StopMessage、重設回合及 termination condition。",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py"
+          },
+          {
+            "name": "狀態",
+            "rule": "save_state 僅保存 message_thread、current_turn、next_speaker_index；load_state 進行 model_validate。",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依來源與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "LICENSE-CODE",
+              "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+              "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+              "python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小驗證",
+            "description": "先確認封存狀態及固定版本，閱讀官方遷移指引。 只研究合成資料與固定回應的協調契約，不直接安裝舊版到正式系統。 比較所需行為與受維護替代方案，遷移前建立停止及狀態回歸測試。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "依應用案例建立獨立測試",
+            "detail": "供既有系統遷移或架構研究，不部署封存版本。；固定輸入輸出，另行驗證失敗與權限。",
+            "file": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "round-robin",
+            "name": "固定順序的多 Agent 協作",
+            "problem": "不同角色需依順序輪流發言",
+            "input": "participant names、next speaker index",
+            "output": "下一個單一 speaker 名稱，循環更新索引",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+            "sourceFiles": [
+              "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+            ],
+            "symbols": [
+              "RoundRobinGroupChatManager.select_speaker",
+              "RoundRobinGroupChat"
+            ],
+            "gate": "固定順序不等於最佳動態路由；不應直接讓多代理執行有副作用的工具。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "termination-limits",
+            "name": "限制對話停止條件",
+            "problem": "Agent 可能持續循環或提早結束",
+            "input": "max_turns、max_messages 或指定文字與來源",
+            "output": "StopMessage 或繼續對話",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+            "sourceFiles": [
+              "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_base_group_chat_manager.py",
+              "python/packages/autogen-agentchat/src/autogen_agentchat/conditions/_terminations.py"
+            ],
+            "symbols": [
+              "BaseGroupChatManager",
+              "MaxMessageTermination",
+              "TextMentionTermination"
+            ],
+            "gate": "文字停止不是可信業務驗收；限制回合、成本及工具權限並測反例。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "manager-state",
+            "name": "保存與恢復協調狀態",
+            "problem": "舊系統需保留輪流對話的進度",
+            "input": "message_thread、current_turn、next_speaker_index",
+            "output": "RoundRobinManagerState model_dump／load_state",
+            "source": "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py",
+            "sourceFiles": [
+              "python/packages/autogen-agentchat/src/autogen_agentchat/teams/_group_chat/_round_robin_group_chat.py"
+            ],
+            "symbols": [
+              "RoundRobinGroupChatManager.save_state",
+              "RoundRobinGroupChatManager.load_state",
+              "RoundRobinGroupChatManager.reset"
+            ],
+            "gate": "僅 manager 狀態不代表完整工具或 Agent 狀態持久化；敏感對話須隔離。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "研究撰稿與審查代理的協作（設計示例）",
+          "problem": "一組合成需求、兩個模擬角色與固定回合上限。",
+          "steps": [
+            {
+              "capability": "round-robin",
+              "action": "模擬固定順序選擇角色"
+            },
+            {
+              "capability": "termination-limits",
+              "action": "測回合與訊息停止條件"
+            },
+            {
+              "capability": "manager-state",
+              "action": "記錄並驗證管理狀態"
+            }
+          ],
+          "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+          "readerExampleRef": "legacy-writer-reviewer"
+        },
+        "rebuild": {
+          "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+          "stages": [
+            {
+              "title": "建立輸入輸出契約",
+              "detail": "一組合成需求、兩個模擬角色與固定回合上限。",
+              "deliverable": "可重現測試資料與預期輸出"
+            },
+            {
+              "title": "驗證核心步驟",
+              "detail": "定義角色 → 固定順序 → 模擬回合與停止 → 保存協調狀態 → 規劃遷移",
+              "deliverable": "步驟及錯誤驗收紀錄"
+            },
+            {
+              "title": "驗證交付及風險",
+              "detail": "供既有系統遷移或架構研究，不部署封存版本。",
+              "deliverable": "實際交付、權限與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "完整執行環境、工具授權、模型、遷移相容性與依賴漏洞未審查。",
+            "未安裝舊版或測試遷移。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "封存依賴",
+            "severity": "高",
+            "issue": "已停止維護，舊依賴風險不一定會修補。",
+            "control": "只讀研究；新系統使用受維護替代方案，既有版本先隔離及規劃遷移。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "封存 README、LICENSE 與 LICENSE-CODE、RoundRobinGroupChatManager 的選擇／狀態、BaseGroupChatManager 的 turn 上限、MaxMessageTermination 與 TextMentionTermination；未讀完整 runtime、模型及工具"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+          }
+        ]
       }
     },
     {
@@ -37532,14 +38609,14 @@
       "canonicalName": "Roo Code（已封存）",
       "category": "AI Development Tools",
       "resourceType": "已封存的 VS Code AI 程式代理",
-      "purpose": "從既有原始碼研究編輯器內 Agent 的角色分工、工具呼叫與權限控制機制。",
-      "recommendation": "適合參考歷史架構；新專案或日常工作不應直接依賴已封存版本的持續維護。",
+      "purpose": "研究 IDE 裡的 AI Coding Agent 如何依角色選擇工具、處理使用者核准，並管理任務開始與停止。此專案已封存。",
+      "recommendation": "適合研究既有 Coding Agent 的角色與人工核准設計；不建議新產品依賴已停止維護的版本。選型時另找受維護工具。",
       "url": "https://github.com/RooCodeInc/Roo-Code",
       "repo": "RooCodeInc/Roo-Code",
       "notes": "上游 Repository 已封存，僅建議作歷史架構研究。",
       "status": "archived",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "software",
@@ -37571,25 +38648,34 @@
       "source": {
         "url": "https://github.com/RooCodeInc/Roo-Code",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "既有封存資料與固定版本 README、LICENSE、modes.ts 的工具組與自訂角色查詢、Task.ts 的 ask/checkAutoApproval/startTask/abortTask；未讀完整 auto-approval 策略、MCP、工具執行與權限檢查",
+        "upstreamCommit": "b867ec9145750d0ae1ff7f02d35406e9bf2a0b16",
+        "referenceUrls": [
+          "https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/README.md",
+          "https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/LICENSE",
+          "https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/shared/modes.ts",
+          "https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task/Task.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -37598,8 +38684,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -37612,8 +38698,354 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "既有封存資料與固定版本 README、LICENSE、modes.ts 的工具組與自訂角色查詢、Task.ts 的 ask/checkAutoApproval/startTask/abortTask；未讀完整 auto-approval 策略、MCP、工具執行與權限檢查；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "既有封存資料與固定版本 README、LICENSE、modes.ts 的工具組與自訂角色查詢、Task.ts 的 ask/checkAutoApproval/startTask/abortTask；未讀完整 auto-approval 策略、MCP、工具執行與權限檢查；以局部 ID 對應前台情境及案例。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "從既有原始碼研究編輯器內 Agent 的角色分工、工具呼叫與權限控制機制。",
+          "source": "https://github.com/RooCodeInc/Roo-Code",
+          "reviewedAt": "2026-11-24",
+          "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "study-modes",
+            "title": "研究不同角色的工作邊界",
+            "detail": "比較規劃、開發與除錯模式需要哪些工具，避免不必要的操作權限。",
+            "capabilityRefs": [
+              "mode-tool-selection"
+            ]
+          },
+          {
+            "id": "approval-design",
+            "title": "設計需要人類核准的操作",
+            "detail": "研究 Agent 提出操作後如何依狀態核准、拒絕或等待。",
+            "capabilityRefs": [
+              "approval-interaction"
+            ]
+          },
+          {
+            "id": "stop-design",
+            "title": "設計任務停止與介面狀態",
+            "detail": "核對停止事件、執行狀態與後續清理，避免顯示已停止但外部操作仍進行。",
+            "capabilityRefs": [
+              "task-lifecycle",
+              "approval-interaction"
+            ]
+          }
+        ],
+        "example": {
+          "id": "agent-mode-review",
+          "title": "設計規劃與開發模式的權限測試",
+          "input": "兩組合成角色、只讀工具與模擬寫入請求。",
+          "process": "定義工具組 → 模擬核准及拒絕 → 測試中止 → 核對外部副作用",
+          "output": "角色工具矩陣與人工核准／停止測試規格（預期產物）。",
+          "destination": "供自有 Coding Agent 或受維護替代方案的設計參考。",
+          "note": "設計示例，未安裝封存 Roo Code 或執行檔案、Shell、MCP。",
+          "useCaseRefs": [
+            "study-modes",
+            "approval-design",
+            "stop-design"
+          ],
+          "steps": [
+            {
+              "id": "tools",
+              "title": "定義角色與工具清單",
+              "capabilityRefs": [
+                "mode-tool-selection"
+              ]
+            },
+            {
+              "id": "approval",
+              "title": "設計核准及拒絕情境",
+              "capabilityRefs": [
+                "approval-interaction"
+              ]
+            },
+            {
+              "id": "abort",
+              "title": "設計任務停止及事件驗證",
+              "capabilityRefs": [
+                "task-lifecycle"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "驗證實際副作用及權限",
+              "capabilityRefs": [],
+              "externalDependency": "執行層權限、防止外部副作用與完整測試須另行實作。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先固定歷史版本，讀 README 與模式／Task 核心，不直接安裝封存外掛。",
+          "定義規劃與開發角色的最小工具集合及不得執行的操作。",
+          "在自有模擬環境驗證核准、拒絕、中止及實際副作用，另選受維護替代方案。"
+        ],
+        "limits": [
+          "原 Repository 已於 2026-05-15 封存；功能、漏洞修補及相依版本未保證持續更新。",
+          "上游封存且相依套件未保證更新；不得將舊版設計視為安全已驗證。",
+          "auto-approval 規則、MCP、Shell 及所有工具執行層尚未逐檔查核。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "研究 IDE 裡的 AI Coding Agent 如何依角色選擇工具、處理使用者核准，並管理任務開始與停止。此專案已封存。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "已查閱固定版本的限定範圍"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / IDE Agent（歷史版本）"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "Apache 2.0（Repo）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "b867ec9145750d0ae1ff7f02d35406e9bf2a0b16"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "依角色選擇工具",
+            "detail": "不同工作模式需要不同的工具清單；輸入：GroupEntry、TOOL_GROUPS、custom modes；輸出：getToolsForMode 去重後的工具名稱；角色查詢結果",
+            "source": "src/shared/modes.ts"
+          },
+          {
+            "title": "處理人工與自動核准",
+            "detail": "有風險的操作需取得明確決策；輸入：ask type、text、isProtected、使用者狀態；輸出：approve、deny、timeout 或等待使用者回覆",
+            "source": "src/core/task/Task.ts"
+          },
+          {
+            "title": "處理任務開始及中止",
+            "detail": "任務需能結束並更新介面狀態；輸入：Task、startTask 或 abortTask 呼叫；輸出：歷史初始化、abort 狀態、事件及 dispose 呼叫",
+            "source": "src/core/task/Task.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "定義工具組 → 模擬核准及拒絕 → 測試中止 → 核對外部副作用",
+          "nodes": [
+            {
+              "title": "依角色選擇工具",
+              "detail": "GroupEntry、TOOL_GROUPS、custom modes → getToolsForMode 去重後的工具名稱；角色查詢結果",
+              "files": [
+                "src/shared/modes.ts"
+              ]
+            },
+            {
+              "title": "處理人工與自動核准",
+              "detail": "ask type、text、isProtected、使用者狀態 → approve、deny、timeout 或等待使用者回覆",
+              "files": [
+                "src/core/task/Task.ts"
+              ]
+            },
+            {
+              "title": "處理任務開始及中止",
+              "detail": "Task、startTask 或 abortTask 呼叫 → 歷史初始化、abort 狀態、事件及 dispose 呼叫",
+              "files": [
+                "src/core/task/Task.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "工具組",
+            "rule": "getToolsForMode 對 groups 去重，加入 ALWAYS_AVAILABLE_TOOLS；自訂工具不是自動加入。",
+            "source": "src/shared/modes.ts"
+          },
+          {
+            "name": "角色查詢",
+            "rule": "getModeBySlug 優先 custom mode，再內建；getModeConfig 無結果時拋錯。",
+            "source": "src/shared/modes.ts"
+          },
+          {
+            "name": "核准及中止",
+            "rule": "Task.ask 呼叫 checkAutoApproval 依決策處理；abortTask 設定 abort、發出事件及 dispose。",
+            "source": "src/core/task/Task.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依來源與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "src/shared/modes.ts",
+              "src/core/task/Task.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小驗證",
+            "description": "先固定歷史版本，讀 README 與模式／Task 核心，不直接安裝封存外掛。 定義規劃與開發角色的最小工具集合及不得執行的操作。 在自有模擬環境驗證核准、拒絕、中止及實際副作用，另選受維護替代方案。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "依應用案例建立獨立測試",
+            "detail": "供自有 Coding Agent 或受維護替代方案的設計參考。；固定輸入輸出，另行驗證失敗與權限。",
+            "file": "src/shared/modes.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "mode-tool-selection",
+            "name": "依角色選擇工具",
+            "problem": "不同工作模式需要不同的工具清單",
+            "input": "GroupEntry、TOOL_GROUPS、custom modes",
+            "output": "getToolsForMode 去重後的工具名稱；角色查詢結果",
+            "source": "src/shared/modes.ts",
+            "sourceFiles": [
+              "src/shared/modes.ts"
+            ],
+            "symbols": [
+              "getToolsForMode",
+              "getModeBySlug",
+              "getModeConfig"
+            ],
+            "gate": "工具清單不是完整安全控制；另需在執行層驗證操作及資源範圍。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "approval-interaction",
+            "name": "處理人工與自動核准",
+            "problem": "有風險的操作需取得明確決策",
+            "input": "ask type、text、isProtected、使用者狀態",
+            "output": "approve、deny、timeout 或等待使用者回覆",
+            "source": "src/core/task/Task.ts",
+            "sourceFiles": [
+              "src/core/task/Task.ts"
+            ],
+            "symbols": [
+              "Task.ask",
+              "checkAutoApproval",
+              "approveAsk",
+              "denyAsk"
+            ],
+            "gate": "僅追蹤 Task 呼叫點；未審查 checkAutoApproval 策略。不得把自動核准當通用授權。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "task-lifecycle",
+            "name": "處理任務開始及中止",
+            "problem": "任務需能結束並更新介面狀態",
+            "input": "Task、startTask 或 abortTask 呼叫",
+            "output": "歷史初始化、abort 狀態、事件及 dispose 呼叫",
+            "source": "src/core/task/Task.ts",
+            "sourceFiles": [
+              "src/core/task/Task.ts"
+            ],
+            "symbols": [
+              "Task.startTask",
+              "Task.abortTask",
+              "Task.dispose"
+            ],
+            "gate": "中止不等同撤銷外部副作用；需另測進行中工具、網路與資料清理。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "設計規劃與開發模式的權限測試（設計示例）",
+          "problem": "兩組合成角色、只讀工具與模擬寫入請求。",
+          "steps": [
+            {
+              "capability": "mode-tool-selection",
+              "action": "定義角色與工具清單"
+            },
+            {
+              "capability": "approval-interaction",
+              "action": "設計核准及拒絕情境"
+            },
+            {
+              "capability": "task-lifecycle",
+              "action": "設計任務停止及事件驗證"
+            }
+          ],
+          "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+          "readerExampleRef": "agent-mode-review"
+        },
+        "rebuild": {
+          "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+          "stages": [
+            {
+              "title": "建立輸入輸出契約",
+              "detail": "兩組合成角色、只讀工具與模擬寫入請求。",
+              "deliverable": "可重現測試資料與預期輸出"
+            },
+            {
+              "title": "驗證核心步驟",
+              "detail": "定義工具組 → 模擬核准及拒絕 → 測試中止 → 核對外部副作用",
+              "deliverable": "步驟及錯誤驗收紀錄"
+            },
+            {
+              "title": "驗證交付及風險",
+              "detail": "供自有 Coding Agent 或受維護替代方案的設計參考。",
+              "deliverable": "實際交付、權限與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "實際 auto-approval 策略、工具執行、完整權限及取消行為未查核。",
+            "未執行或驗證封存版本、依賴與安全。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "舊版高權限外掛",
+            "severity": "高",
+            "issue": "外掛可能存取工作區、Shell 或憑證，且已封存。",
+            "control": "只讀研究，不安裝到正式工作區；執行層權限與新工具須獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "既有封存資料與固定版本 README、LICENSE、modes.ts 的工具組與自訂角色查詢、Task.ts 的 ask/checkAutoApproval/startTask/abortTask；未讀完整 auto-approval 策略、MCP、工具執行與權限檢查"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+          }
+        ]
       }
     },
     {
@@ -40429,14 +41861,14 @@
       "canonicalName": "motion-design-skill",
       "category": "Media / Video",
       "resourceType": "Motion Design Agent Skill 專案",
-      "purpose": "為 AI 協助的產品動畫提供節奏、構圖與鏡頭規劃範例，連結 HTML 影片等產製方式。",
-      "recommendation": "適合以原始 Skill 作為創作輔助；執行前須審核 Skill 指令與可操作權限。",
+      "purpose": "讓 AI 協助設計產品展示動畫、文字動效與介面互動，並利用實際範例控制動作節奏及時間。",
+      "recommendation": "適合要改善產品動效與可預覽原型的開發者；單純靜態頁面不用套用整套動畫技能，也不能把範例直接當成可交付影片。",
       "url": "https://github.com/theatlasteam/motion-design-skill",
       "repo": "theatlasteam/motion-design-skill",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "content",
@@ -40468,25 +41900,36 @@
       "source": {
         "url": "https://github.com/theatlasteam/motion-design-skill",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作",
+        "upstreamCommit": "26101808ab09f220f339bd59c8d36a49ae986b8f",
+        "referenceUrls": [
+          "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/README.md",
+          "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/SKILL.md",
+          "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/examples/relay/scripts/motion-core.mjs",
+          "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/references/deterministic-rendering.md",
+          "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/examples/controls/motion-controls.html",
+          "https://github.com/theatlasteam/motion-design-skill/blob/26101808ab09f220f339bd59c8d36a49ae986b8f/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "核對 Canonical ID、Repo 與固定上游版本，僅新增前台用途及底層契約。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -40495,8 +41938,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "固定版本限定範圍核心實作及文件契約已對應，保留完整重建與實測缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -40509,8 +41952,361 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作；以局部 ID 對應前台情境及案例。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "為 AI 協助的產品動畫提供節奏、構圖與鏡頭規劃範例，連結 HTML 影片等產製方式。",
+          "source": "https://github.com/theatlasteam/motion-design-skill",
+          "reviewedAt": "2026-11-24",
+          "note": "歷史用途快照；新增 readerGuide 及固定版本來源為本輪範圍，歷史功能數字不作現況保證。"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "kinetic-type",
+            "title": "設計有節奏的動態文字",
+            "detail": "利用位置、時間與緩動曲線安排文字進場，不讓所有元素同時晃動。",
+            "capabilityRefs": [
+              "motion-curves"
+            ]
+          },
+          {
+            "id": "ui-motion",
+            "title": "做可操作的介面動效原型",
+            "detail": "建立滾輪、數字或分段選擇器等互動原型，另測鍵盤及動態效果設定。",
+            "capabilityRefs": [
+              "interactive-controls",
+              "motion-curves"
+            ]
+          },
+          {
+            "id": "repeatable-capture",
+            "title": "為影片預覽固定畫格",
+            "detail": "用時間直接計算畫面狀態，以便日後離線擷取指定時間點。",
+            "capabilityRefs": [
+              "interactive-controls",
+              "deterministic-clock"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-control-demo",
+          "title": "製作可互動的數字滾動示意",
+          "input": "一組假資料數值、目標狀態及三秒動畫時間。",
+          "process": "選控制項 → 設定曲線 → 互動測試 → 固定時間定位 → 檢查畫面",
+          "output": "可操作 HTML 動效原型與預期畫格驗收紀錄。",
+          "destination": "產品介面設計或後續影片產製，MP4 需另外渲染。",
+          "note": "設計示例，未開啟瀏覽器、執行範例或產生影片。",
+          "useCaseRefs": [
+            "kinetic-type",
+            "ui-motion",
+            "repeatable-capture"
+          ],
+          "steps": [
+            {
+              "id": "define",
+              "title": "決定數值及視覺動作",
+              "capabilityRefs": [],
+              "externalDependency": "業務資料、文字與設計規格須由應用提供。"
+            },
+            {
+              "id": "ease",
+              "title": "設定可控的緩動曲線",
+              "capabilityRefs": [
+                "motion-curves"
+              ]
+            },
+            {
+              "id": "interact",
+              "title": "接入互動及狀態控制",
+              "capabilityRefs": [
+                "interactive-controls"
+              ]
+            },
+            {
+              "id": "seek",
+              "title": "驗證任意時間畫格",
+              "capabilityRefs": [
+                "deterministic-clock"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先讀 SKILL.md，選最接近任務的範例，不必一次引入全部依賴。",
+          "先在核准的測試環境建立一個小型控制或文字動效。",
+          "檢查直接操作、鍵盤、動態減少設定及任意時間定位，再決定是否渲染。"
+        ],
+        "limits": [
+          "Skill 指令不代表工具已安裝或影片能直接輸出；素材版權及渲染結果需另驗收。",
+          "3D 裝置、MIDI、SoundFont、外部媒體及完整影片渲染未查核。",
+          "第三方 iPhone GLB 不隨 Repo 授權，須自行取得可合法使用的資產。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "讓 AI 協助設計產品展示動畫、文字動效與介面互動，並利用實際範例控制動作節奏及時間。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "已查閱固定版本的限定範圍"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "HTML/CSS/JS、Motion design"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（原始程式與文件；外部素材另計）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "26101808ab09f220f339bd59c8d36a49ae986b8f"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "控制動畫節奏",
+            "detail": "位移、進場與停留需要可預期的時間曲線；輸入：時間比例、damping、frequency 或控制點；輸出：spring/quint/bezier 計算結果",
+            "source": "examples/relay/scripts/motion-core.mjs"
+          },
+          {
+            "title": "區分互動操作與固定畫格",
+            "detail": "元件需兼顧使用者輸入及影片重現；輸入：setValue 的值／animate 設定或 renderAt 的指定位置；輸出：控制項狀態及畫面",
+            "source": "examples/controls/motion-controls.html"
+          },
+          {
+            "title": "以時間定位畫面",
+            "detail": "影片擷取不能依賴前一畫格是否執行；輸入：指定 seconds 或由 frame/fps 得到的時間；輸出：指定時間的元件狀態與渲染",
+            "source": "examples/controls/motion-controls.html"
+          }
+        ],
+        "architecture": {
+          "summary": "選控制項 → 設定曲線 → 互動測試 → 固定時間定位 → 檢查畫面",
+          "nodes": [
+            {
+              "title": "控制動畫節奏",
+              "detail": "時間比例、damping、frequency 或控制點 → spring/quint/bezier 計算結果",
+              "files": [
+                "examples/relay/scripts/motion-core.mjs"
+              ]
+            },
+            {
+              "title": "區分互動操作與固定畫格",
+              "detail": "setValue 的值／animate 設定或 renderAt 的指定位置 → 控制項狀態及畫面",
+              "files": [
+                "examples/controls/motion-controls.html"
+              ]
+            },
+            {
+              "title": "以時間定位畫面",
+              "detail": "指定 seconds 或由 frame/fps 得到的時間 → 指定時間的元件狀態與渲染",
+              "files": [
+                "examples/controls/motion-controls.html",
+                "references/deterministic-rendering.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "互動與錄製分離",
+            "rule": "setValue 可採 spring 動畫；renderAt 直接設定數值，避免擷取時依賴牆鐘。",
+            "source": "examples/controls/motion-controls.html"
+          },
+          {
+            "name": "時間定位",
+            "rule": "sample 依 keyframe 與 quintic easing 計算值，renderAt 直接更新元件；直接互動停止 demo。",
+            "source": "examples/controls/motion-controls.html"
+          },
+          {
+            "name": "曲線",
+            "rule": "motion-core.mjs 的 spring、quint、bezier 由輸入數值計算曲線，不能代替視覺審查。",
+            "source": "examples/relay/scripts/motion-core.mjs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "讀取固定版本",
+            "description": "依來源與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "SKILL.md",
+              "examples/relay/scripts/motion-core.mjs",
+              "references/deterministic-rendering.md",
+              "examples/controls/motion-controls.html",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小驗證",
+            "description": "先讀 SKILL.md，選最接近任務的範例，不必一次引入全部依賴。 先在核准的測試環境建立一個小型控制或文字動效。 檢查直接操作、鍵盤、動態減少設定及任意時間定位，再決定是否渲染。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "執行、安裝、外部傳送、素材、模型與付費須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "依應用案例建立獨立測試",
+            "detail": "產品介面設計或後續影片產製，MP4 需另外渲染。；固定輸入輸出，另行驗證失敗與權限。",
+            "file": "examples/relay/scripts/motion-core.mjs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "motion-curves",
+            "name": "控制動畫節奏",
+            "problem": "位移、進場與停留需要可預期的時間曲線",
+            "input": "時間比例、damping、frequency 或控制點",
+            "output": "spring/quint/bezier 計算結果",
+            "source": "examples/relay/scripts/motion-core.mjs",
+            "sourceFiles": [
+              "examples/relay/scripts/motion-core.mjs"
+            ],
+            "symbols": [
+              "spring",
+              "quint",
+              "bezier",
+              "cameraSpring"
+            ],
+            "gate": "以實際畫面驗證文字可讀與停留；曲線不是完整影片。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "interactive-controls",
+            "name": "區分互動操作與固定畫格",
+            "problem": "元件需兼顧使用者輸入及影片重現",
+            "input": "setValue 的值／animate 設定或 renderAt 的指定位置",
+            "output": "控制項狀態及畫面",
+            "source": "examples/controls/motion-controls.html",
+            "sourceFiles": [
+              "examples/controls/motion-controls.html"
+            ],
+            "symbols": [
+              "WheelPicker",
+              "RollingNumber",
+              "SegmentedControl",
+              "renderAt",
+              "setValue"
+            ],
+            "gate": "測鍵盤、指標、reduce motion、直接操作中斷 demo；不保證各控制已實測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "deterministic-clock",
+            "name": "以時間定位畫面",
+            "problem": "影片擷取不能依賴前一畫格是否執行",
+            "input": "指定 seconds 或由 frame/fps 得到的時間",
+            "output": "指定時間的元件狀態與渲染",
+            "source": "examples/controls/motion-controls.html",
+            "sourceFiles": [
+              "examples/controls/motion-controls.html",
+              "references/deterministic-rendering.md"
+            ],
+            "symbols": [
+              "sample",
+              "renderAt",
+              "paint"
+            ],
+            "gate": "paint 是文件示意；實際 controls 範例以 sample(time) 計算狀態。需測任意順序定位與重複畫格。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "製作可互動的數字滾動示意（設計示例）",
+          "problem": "一組假資料數值、目標狀態及三秒動畫時間。",
+          "steps": [
+            {
+              "capability": "motion-curves",
+              "action": "設定可控的緩動曲線"
+            },
+            {
+              "capability": "interactive-controls",
+              "action": "接入互動及狀態控制"
+            },
+            {
+              "capability": "deterministic-clock",
+              "action": "驗證任意時間畫格"
+            }
+          ],
+          "gate": "未執行；須另驗證真實環境、資料、權限及最終結果。",
+          "readerExampleRef": "product-control-demo"
+        },
+        "rebuild": {
+          "verdict": "只可依本次來源契約設計小型驗證，不代表完整專案重建。",
+          "stages": [
+            {
+              "title": "建立輸入輸出契約",
+              "detail": "一組假資料數值、目標狀態及三秒動畫時間。",
+              "deliverable": "可重現測試資料與預期輸出"
+            },
+            {
+              "title": "驗證核心步驟",
+              "detail": "選控制項 → 設定曲線 → 互動測試 → 固定時間定位 → 檢查畫面",
+              "deliverable": "步驟及錯誤驗收紀錄"
+            },
+            {
+              "title": "驗證交付及風險",
+              "detail": "產品介面設計或後續影片產製，MP4 需另外渲染。",
+              "deliverable": "實際交付、權限與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "3D 裝置渲染、音訊混音及 HyperFrames 完整整合未逐檔讀取。",
+            "未執行瀏覽器、視覺與音訊檢查。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "媒體與外部依賴",
+            "severity": "高",
+            "issue": "示例、字型、模型、SoundFont 可能有不同使用條款。",
+            "control": "核對每個素材與依賴；不自動安裝或發布。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "README、SKILL.md、motion-core.mjs 的 easing 與 spring、motion-controls.html 的 setValue/renderAt 及 demo clock、deterministic-rendering.md、LICENSE；未讀所有 3D、MIDI、影片輸出實作"
+          },
+          {
+            "item": "第三方 Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝或執行第三方程式、未使用付費服務。"
+          }
+        ]
       }
     },
     {
