@@ -6,14 +6,14 @@
   "canonicalName": "faster-whisper",
   "category": "Media / Video",
   "resourceType": "CTranslate2 Whisper 語音轉文字工具",
-  "purpose": "轉錄音訊為文字，供字幕時間軸、訪談稿及影片後製使用。",
-  "recommendation": "適合在經授權的音訊上建立自動逐字稿；重要字幕仍需人工校對。",
+  "purpose": "把錄音或影片中的人聲轉成帶時間戳記的文字，方便整理訪談、製作字幕及搜尋內容。",
+  "recommendation": "適合已取得使用權的長音訊轉錄與批次字幕製作；如果需要可靠的講者身分辨識、逐字法律紀錄或翻譯，仍需另加流程與人工驗收。",
   "url": "https://github.com/SYSTRAN/faster-whisper",
   "repo": "SYSTRAN/faster-whisper",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "content",
@@ -45,25 +45,34 @@
   "source": {
     "url": "https://github.com/SYSTRAN/faster-whisper",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測",
+    "upstreamCommit": "6cb639e70786aea42b9233006ae60eaf07190bdb",
+    "referenceUrls": [
+      "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/README.md",
+      "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/faster_whisper/transcribe.py",
+      "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/faster_whisper/vad.py",
+      "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +81,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +95,390 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測；未執行第三方程式。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測；具體用途與來源能力以局部 ID 雙向連結。"
     }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "interview-notes",
+        "title": "把訪談錄音轉成文字",
+        "detail": "取得原始時間與逐段文字，方便後續搜尋或人工整理摘要。",
+        "capabilityRefs": [
+          "speech-transcription"
+        ]
+      },
+      {
+        "id": "subtitle-timing",
+        "title": "製作影片字幕時間軸",
+        "detail": "依語音片段及選用的字詞時間，建立可校對的字幕草稿。",
+        "capabilityRefs": [
+          "speech-transcription",
+          "speech-timing"
+        ]
+      },
+      {
+        "id": "long-audio-batch",
+        "title": "批次處理長音訊",
+        "detail": "依實際硬體測試批次大小及語音區段設定，控制時間與記憶體。",
+        "capabilityRefs": [
+          "batch-inference",
+          "speech-timing"
+        ]
+      }
+    ],
+    "example": {
+      "id": "video-caption-draft",
+      "title": "為產品介紹影片建立字幕草稿",
+      "input": "已授權的 3 分鐘旁白音訊及預期繁體中文字幕。",
+      "process": "選模型與語言 → 迭代轉錄結果 → 對齊時間 → 人工校對 → 另行轉 SRT",
+      "output": "帶起訖時間的逐段文字與待校正名詞清單，之後另行匯出 SRT。",
+      "destination": "交給影片剪輯或字幕校對流程；字幕格式轉換需另行處理。",
+      "note": "自訂設計示例，未執行音訊轉錄；不代表會自動輸出正確繁體中文字幕。",
+      "useCaseRefs": [
+        "interview-notes",
+        "subtitle-timing",
+        "long-audio-batch"
+      ],
+      "steps": [
+        {
+          "id": "transcribe",
+          "title": "取得並迭代轉錄結果",
+          "capabilityRefs": [
+            "speech-transcription"
+          ]
+        },
+        {
+          "id": "align",
+          "title": "檢查時間戳記及語音區段",
+          "capabilityRefs": [
+            "speech-timing"
+          ]
+        },
+        {
+          "id": "compare",
+          "title": "長音訊時比較批次設定",
+          "capabilityRefs": [
+            "batch-inference"
+          ]
+        },
+        {
+          "id": "deliver",
+          "title": "校對及轉換字幕檔",
+          "capabilityRefs": [],
+          "externalDependency": "專有名詞、繁簡文字、SRT 格式及影片同步須另行人工／程式驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "comparison": {
+      "title": "什麼時候選用語音轉錄？",
+      "headers": [
+        "人工逐字輸入",
+        "Faster Whisper"
+      ],
+      "rows": [
+        [
+          "需要從頭聽寫",
+          "先產生逐段文字及時間，人工校對"
+        ],
+        [
+          "品質受聽寫者與音質影響",
+          "速度、辨識及時間精度依模型與硬體而異"
+        ]
+      ],
+      "note": "自動轉錄不能替代正式紀錄的人工確認。"
+    },
+    "start": [
+      "先準備一段已授權且不含敏感資料的短音訊，核對模型及 CPU／GPU 依賴。",
+      "比較原音與逐段文字，確認 generator 已完整迭代，逐筆檢查時間戳記。",
+      "再以相同音訊比較一般與批次模式，保存模型、設定與錯誤。"
+    ],
+    "limits": [
+      "對人名、品牌與混合語言可能辨識錯誤；字幕時間戳記也需人工檢查。",
+      "模型可能自動下載；依賴、音訊權利及模型授權須另確認。",
+      "單字時間與 VAD 的結果不是講者分離，也不保證繁體中文字形。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以 CTranslate2 推論 Whisper，輸出可迭代的 Segment；VAD 可排除無語音區段，並將時間對回原始音訊。",
+    "status": [
+      {
+        "label": "核心來源",
+        "value": "已查閱固定 Commit 的限定範圍"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "只完成核心設計契約，不代表完整專案重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / CTranslate2"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT（Repo）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "6cb639e70786aea42b9233006ae60eaf07190bdb"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "帶時間的語音轉錄",
+        "detail": "需要將錄音內容轉成可搜尋的文字；輸入：音訊檔／陣列、模型、語言及推論設定；輸出：segments generator、TranscriptionInfo；Segment.start/end/text",
+        "source": "faster_whisper/transcribe.py"
+      },
+      {
+        "title": "語音區段與時間對齊",
+        "detail": "停頓較多或需要更細字幕時間軸；輸入：音訊、vad_filter、vad_parameters、word_timestamps；輸出：語音區段、原始時間軸上的 Segment／可選 words",
+        "source": "faster_whisper/transcribe.py"
+      },
+      {
+        "title": "控制批次推論",
+        "detail": "長錄音或多個區段需要比較速度與資源；輸入：WhisperModel、音訊、batch_size 及設定；輸出：批次轉錄的 Segment 與 info",
+        "source": "faster_whisper/transcribe.py"
+      }
+    ],
+    "architecture": {
+      "summary": "音訊／模型設定 → 語音區段 → 推論並迭代結果 → 時間對齊 → 下游字幕",
+      "nodes": [
+        {
+          "title": "模型配置",
+          "detail": "WhisperModel 初始化 model_size_or_path、device、compute_type；模型 ID 可能觸發下載。",
+          "files": [
+            "faster_whisper/transcribe.py"
+          ]
+        },
+        {
+          "title": "語音區間",
+          "detail": "一般 transcribe 僅在 vad_filter 且 clip_timestamps 為預設值時收集語音區段。",
+          "files": [
+            "faster_whisper/transcribe.py",
+            "faster_whisper/vad.py"
+          ]
+        },
+        {
+          "title": "轉錄輸出",
+          "detail": "Segment 帶 id、start、end、text、words 等；generator 必須消費。",
+          "files": [
+            "faster_whisper/transcribe.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "時間恢復",
+          "detail": "restore_speech_timestamps 依 SpeechTimestampsMap 將詞或片段時間對回原始音訊。",
+          "files": [
+            "faster_whisper/transcribe.py",
+            "faster_whisper/vad.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "執行時機",
+        "rule": "轉錄 segment 為 generator，僅建立物件不等於已完成音訊推論。",
+        "source": "README.md"
+      },
+      {
+        "name": "時間映射",
+        "rule": "VAD 移除靜音後需依原始語音區段恢復時間；字詞可選，不能假定每筆都有。",
+        "source": "faster_whisper/transcribe.py"
+      },
+      {
+        "name": "批次差異",
+        "rule": "BatchedInferencePipeline.transcribe 的 vad_filter 預設 true；WhisperModel.transcribe 預設 false，比較需對齊設定。",
+        "source": "faster_whisper/transcribe.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "固定版本來源閱讀",
+        "description": "按核心檔案與契約核對實作，不必先安裝。",
+        "files": [
+          "README.md",
+          "faster_whisper/transcribe.py",
+          "faster_whisper/vad.py",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "隔離環境的最小驗證",
+        "description": "先準備一段已授權且不含敏感資料的短音訊，核對模型及 CPU／GPU 依賴。 比較原音與逐段文字，確認 generator 已完整迭代，逐筆檢查時間戳記。 再以相同音訊比較一般與批次模式，保存模型、設定與錯誤。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "字幕轉換與校對",
+        "detail": "另將 start/end/text 轉為 SRT，驗證順序、格式、原音與繁體字；不改動轉錄證據。",
+        "file": "faster_whisper/transcribe.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "speech-transcription",
+        "name": "帶時間的語音轉錄",
+        "problem": "需要將錄音內容轉成可搜尋的文字",
+        "input": "音訊檔／陣列、模型、語言及推論設定",
+        "output": "segments generator、TranscriptionInfo；Segment.start/end/text",
+        "source": "faster_whisper/transcribe.py",
+        "sourceFiles": [
+          "faster_whisper/transcribe.py"
+        ],
+        "symbols": [
+          "WhisperModel.transcribe",
+          "Segment",
+          "TranscriptionInfo"
+        ],
+        "gate": "實際迭代 generator 才完成轉錄；記錄模型版本與音訊權限、失敗及人工校對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "speech-timing",
+        "name": "語音區段與時間對齊",
+        "problem": "停頓較多或需要更細字幕時間軸",
+        "input": "音訊、vad_filter、vad_parameters、word_timestamps",
+        "output": "語音區段、原始時間軸上的 Segment／可選 words",
+        "source": "faster_whisper/transcribe.py",
+        "sourceFiles": [
+          "faster_whisper/transcribe.py",
+          "faster_whisper/vad.py"
+        ],
+        "symbols": [
+          "get_speech_timestamps",
+          "restore_speech_timestamps",
+          "SpeechTimestampsMap",
+          "Word"
+        ],
+        "gate": "不得把 VAD 當成講者辨識；驗證靜音、音樂、重疊語音和起訖時間。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "batch-inference",
+        "name": "控制批次推論",
+        "problem": "長錄音或多個區段需要比較速度與資源",
+        "input": "WhisperModel、音訊、batch_size 及設定",
+        "output": "批次轉錄的 Segment 與 info",
+        "source": "faster_whisper/transcribe.py",
+        "sourceFiles": [
+          "faster_whisper/transcribe.py",
+          "README.md"
+        ],
+        "symbols": [
+          "BatchedInferencePipeline",
+          "BatchedInferencePipeline.transcribe"
+        ],
+        "gate": "同一音訊比較一般與批次模式，檢查品質與記憶體；預設 VAD 不同，不能只比較速度。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "為產品介紹影片建立字幕草稿（設計示例）",
+      "problem": "已授權的 3 分鐘旁白音訊及預期繁體中文字幕。",
+      "steps": [
+        {
+          "capability": "speech-transcription",
+          "action": "取得並迭代轉錄結果",
+          "capabilityRefs": [
+            "speech-transcription"
+          ]
+        },
+        {
+          "capability": "speech-timing",
+          "action": "檢查時間戳記及語音區段",
+          "capabilityRefs": [
+            "speech-timing"
+          ]
+        },
+        {
+          "capability": "batch-inference",
+          "action": "長音訊時比較批次設定",
+          "capabilityRefs": [
+            "batch-inference"
+          ]
+        }
+      ],
+      "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+      "readerExampleRef": "video-caption-draft"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸出",
+          "detail": "建立含 start、end、text 與語言資訊的資料契約。",
+          "deliverable": "逐段 JSON 測試資料"
+        },
+        {
+          "title": "對照時間",
+          "detail": "選有靜音和混合語言的授權短音訊，驗證 VAD 與非 VAD。",
+          "deliverable": "逐段與原音對照紀錄"
+        },
+        {
+          "title": "比較資源",
+          "detail": "對齊設定後比較批次及一般推論。",
+          "deliverable": "耗時、記憶體、錯誤與校對表"
+        }
+      ],
+      "gaps": [
+        "尚未查核音訊解碼、CTranslate2 核心及各模型授權或辨識表現。",
+        "未測字幕轉換、GPU 依賴、批次效能及資料處理。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "音訊與模型",
+        "severity": "高",
+        "issue": "音訊可能含私密資訊，模型可能需下載。",
+        "control": "先確認合法使用、資料保存與連線權限。"
+      },
+      {
+        "title": "錯誤字幕",
+        "severity": "高",
+        "issue": "錯字、時間偏移或漏掉語音可能造成誤導。",
+        "control": "與原音逐段校對；重要內容人工覆核。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測"
+      },
+      {
+        "item": "Build／Runtime／Security／Integration",
+        "state": "未驗證",
+        "evidence": "未安裝、執行、下載模型或連線正式資料。"
+      }
+    ]
   }
 }
