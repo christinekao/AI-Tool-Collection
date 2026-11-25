@@ -587,7 +587,10 @@ try{
   ["code-graph",".resource-reader-guide","規劃共用驗證函式的修改影響檢查"],
   ["codebase-memory-mcp",".resource-reader-guide","規劃跨模組功能與部署路徑的追蹤"],
   ["graphify-labs-graphify",".resource-reader-guide","規劃程式碼與公開技術筆記的知識圖譜"],
-  ["anthropic-solving-code-review-at-anthropic",".resource-reader-guide","規劃 AI 修改表單功能的風險分級驗收"]
+  ["anthropic-solving-code-review-at-anthropic",".resource-reader-guide","規劃 AI 修改表單功能的風險分級驗收"],
+  ["pingdotgg-t3code",".resource-reader-guide","規劃多個 Coding Agent 的分支與遠端核准流程"],
+  ["claude-codex-harness-sync",".resource-reader-guide","規劃 Claude Code 與 Codex 的共用開發規則維護"],
+  ["df3011212-codex-local-board",".resource-reader-guide","規劃多專案 Agent 工作進度與驗收看板"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
