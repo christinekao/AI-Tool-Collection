@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 25（2026-11-25）
+
+- main 基線 `e8798c7587afb86d13b42ccc0fbcca56e7f09dbc`；PR #89 四項 CI 通過並合併 `bc07357204c21205a0a85d70f8387ed3677464e4`，Catalog Sync 通過，Pages 查核時進行中。108/286 已合併（102 完成對應、6 deferred）。
+- [Batch 25 逐筆報告](RESOURCE_DUAL_LAYER_BATCH25_20261125.md)：rtk、github-agentic-workflows、anthropics-sandbox-runtime，3 mapped 候選、9 個用途、9 個局部能力與 3 個 design-only 案例。
+- RTK bytes/4 為估算且非總成本；gh-aw 不取代確定性 CI；srt 預設讀取廣泛開放且 control-fd 不重新套用全部檔案規則。第三方未實測。
+- 本批合併前 108/286；驗收合併後 111/286（105 完成對應、6 deferred），175 尚未改寫。既有缺口保留。
+- 下一批優先其他來源明確的 Agent 開發及自動化 Resource；排程停用，直接執行，重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 24（2026-11-25）
 
 - main 基線 `9a1c108797185587749558abffa965da6e85633e`；PR #88 四項 CI 通過合併。105/286 已合併（99 完成對應、6 deferred）。

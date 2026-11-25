@@ -5,7 +5,7 @@
   "title": "Anthropic Sandbox Runtime (srt) — OS-Level Filesystem & Network Isolation for Agents",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "anthropic",
     "sandbox-runtime",
@@ -27,8 +27,8 @@
   "canonicalName": "Anthropic Sandbox Runtime",
   "category": "07 Security & Governance",
   "resourceType": "Apache-2.0 OS process sandbox / Node.js CLI & library / HTTP+SOCKS network mediation",
-  "purpose": "提供獨立於完整 Container 的 Agent 執行權限邊界：以 macOS sandbox-exec/Seatbelt、Linux bubblewrap 和 Windows（Alpha）受限帳戶與 WFP 防火牆機制，限制 CLI 命令、Agent / MCP Server 等子程序所能讀寫的檔案路徑、連線的網域／埠與本機 Socket；可作 CLI `srt` 或 TypeScript library 使用，支援違規紀錄。",
-  "recommendation": "適合研究讓高權限 Coding Agent 或 MCP Server 在工作目錄內安全執行的 Architecture／Harness：分離工具可見的環境、檔案讀寫／憑證存取政策、域名允許清單與失敗回報。採最小權限配置並在實際目標 OS 測試，再交給 Agent 操作第三方程式；研究預覽版本及 Windows Alpha 都不能視為成熟且絕對安全的隔離。",
+  "purpose": "讓 AI Agent 或 MCP Server 在受限制的環境執行命令，明確規定它能讀寫哪些資料夾、可以連到哪些網站。",
+  "recommendation": "適合需要限制本機工具及子程序權限的 Agent Harness；不要把沙箱當成完整安全保證。先用合成資料在實際作業系統驗證讀、寫、網路及拒絕案例，再考慮正式整合。",
   "url": "https://github.com/anthropics/sandbox-runtime",
   "repo": "anthropics/sandbox-runtime",
   "notes": "2026-10-27 核對官方 main README、package.json（@anthropic-ai/sandbox-runtime v0.0.81，Node >=22.12）、LICENSE（Apache-2.0）。官方明列 Beta Research Preview，介面與配置可變；Windows 為 Alpha，需額外本機帳戶、Windows Filtering Platform 與 ACL 操作，安裝有管理員權限提示且 Shared Windows Machines 有額外風險。macOS 使用 Seatbelt sandbox-exec，Linux 使用 bubblewrap、socat、ripgrep 並依 User Namespace / 版本配置；Network 透過 HTTP/SOCKS5 Proxy 設 Domain/Port Allowlist，某些 Windows WFP 通道如系統服務代理、SMB／WSL 與更換 Thread Token 可能繞過，README 自行揭露。重要配置：預設 read access 幾乎全域可讀，敏感內容必須額外設定 denyRead/allowRead 和 credentials；預設 no allowedDomains 不連網，預設只對明確列出的目錄允許 Write；即使叫 Sandbox 亦不代表能防所有 Kernel、環境逃逸與 Prompt Injection。應遵從最小權限、範圍有限、選擇性允許 Domain / 本機 socket、隔離 Secrets 與檢測被沙箱限制的必要執行流程。只核對官方 Source/README，不安裝或執行，也未對目標 OS 做安全測試。",
@@ -81,8 +81,15 @@
     "licenseUrl": "https://github.com/anthropics/sandbox-runtime/blob/main/LICENSE",
     "type": "Official Anthropic GitHub README, package.json and Apache-2.0 license",
     "summary": "Validated first-party documented architecture and published package metadata on 2026-10-27; no sandbox execution or hardening test.",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE、CLI、sandbox-manager、sandbox-schemas；僅局部設定與呼叫契約，未執行平台隔離或安全測試。",
+    "upstreamCommit": "0bbebed0aa9a8e628dc4df8bc30293550a1988eb",
+    "referenceUrls": [
+      "https://github.com/anthropics/sandbox-runtime/blob/0bbebed0aa9a8e628dc4df8bc30293550a1988eb/README.md",
+      "https://github.com/anthropics/sandbox-runtime/blob/0bbebed0aa9a8e628dc4df8bc30293550a1988eb/LICENSE",
+      "https://github.com/anthropics/sandbox-runtime/blob/0bbebed0aa9a8e628dc4df8bc30293550a1988eb/src/sandbox/sandbox-manager.ts",
+      "https://github.com/anthropics/sandbox-runtime/blob/0bbebed0aa9a8e628dc4df8bc30293550a1988eb/src/cli.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -119,10 +126,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -138,8 +148,8 @@
     "classificationReason": "沿用既有 security Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、CLI、sandbox-manager、sandbox-schemas；僅局部設定與呼叫契約，未執行平台隔離或安全測試。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -149,10 +159,367 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "README 將此專案標為研究預覽，Windows 支援屬 Alpha，不能視為已完成高保證隔離。；預設讀取規則需檢視，OS 隔離和 Proxy 也不能取代人類批准或資料脫敏。；讀取預設廣泛開放，寫入與網路則依允許規則限制。；設定檔不存在與設定檔存在但無效的處理不同；後者應報錯而非靜默套預設。；執行中 control-fd 更新並不等於重新套用檔案隔離。；研究預覽，Windows Alpha 與 OS 特定限制須查核；未實測隔離、憑證或網路安全。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README、LICENSE、CLI、sandbox-manager、sandbox-schemas；僅局部設定與呼叫契約，未執行平台隔離或安全測試。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、CLI、sandbox-manager、sandbox-schemas；僅局部設定與呼叫契約，未執行平台隔離或安全測試。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供獨立於完整 Container 的 Agent 執行權限邊界：以 macOS sandbox-exec/Seatbelt、Linux bubblewrap 和 Windows（Alpha）受限帳戶與 WFP 防火牆機制，限制 CLI 命令、Agent / MCP Server 等子程序所能讀寫的檔案路徑、連線的網域／埠與本機 Socket；可作 CLI `srt` 或 TypeScript library 使用，支援違規紀錄。",
+      "source": "https://github.com/anthropics/sandbox-runtime",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究讓高權限 Coding Agent 或 MCP Server 在工作目錄內安全執行的 Architecture／Harness：分離工具可見的環境、檔案讀寫／憑證存取政策、域名允許清單與失敗回報。採最小權限配置並在實際目標 OS 測試，再交給 Agent 操作第三方程式；研究預覽版本及 Windows Alpha 都不能視為成熟且絕對安全的隔離。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-filesystem",
+        "title": "限制 Agent 可讀寫的資料夾",
+        "detail": "Agent 執行命令時可能接觸工作範圍以外的敏感資料。 交由作業系統套用的檔案存取限制。",
+        "capabilityRefs": [
+          "filesystem"
+        ]
+      },
+      {
+        "id": "use-network",
+        "title": "限制 Agent 對外連線",
+        "detail": "本機工具可能將資料送往不允許的服務。 經網路代理與作業系統限制的連線路徑。",
+        "capabilityRefs": [
+          "network"
+        ]
+      },
+      {
+        "id": "use-lifecycle",
+        "title": "啟動沙箱並核對設定更新",
+        "detail": "執行期間政策變動容易被誤認為已重新套用全部權限。 受限子程序及依版本契約生效的設定更新。",
+        "capabilityRefs": [
+          "lifecycle"
+        ]
+      }
+    ],
+    "example": {
+      "id": "anthropics-sandbox-runtime-example",
+      "title": "規劃 MCP Server 的檔案與網路最小權限",
+      "input": "自有測試資料夾、假敏感檔案、允許與拒絕的網路目標及明確核准政策。",
+      "process": "限制 Agent 可讀寫的資料夾 → 限制 Agent 對外連線 → 啟動沙箱並核對設定更新 → 獨立驗收實際成果",
+      "output": "檔案與網路權限設定、拒絕案例測試規格及平台限制紀錄。",
+      "destination": "用於自有 Agent Harness 的 MCP 啟動權限審查、負面測試與安全驗收。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-filesystem",
+        "use-network",
+        "use-lifecycle"
+      ],
+      "steps": [
+        {
+          "id": "filesystem",
+          "title": "限制 Agent 可讀寫的資料夾",
+          "capabilityRefs": [
+            "filesystem"
+          ]
+        },
+        {
+          "id": "network",
+          "title": "限制 Agent 對外連線",
+          "capabilityRefs": [
+            "network"
+          ]
+        },
+        {
+          "id": "lifecycle",
+          "title": "啟動沙箱並核對設定更新",
+          "capabilityRefs": [
+            "lifecycle"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試資料夾、假敏感檔案、允許與拒絕的網路目標及明確核准政策。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "README 將此專案標為研究預覽，Windows 支援屬 Alpha，不能視為已完成高保證隔離。",
+      "預設讀取規則需檢視，OS 隔離和 Proxy 也不能取代人類批准或資料脫敏。",
+      "讀取預設廣泛開放，寫入與網路則依允許規則限制。",
+      "設定檔不存在與設定檔存在但無效的處理不同；後者應報錯而非靜默套預設。",
+      "執行中 control-fd 更新並不等於重新套用檔案隔離。",
+      "研究預覽，Windows Alpha 與 OS 特定限制須查核；未實測隔離、憑證或網路安全。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 AI Agent 或 MCP Server 在受限制的環境執行命令，明確規定它能讀寫哪些資料夾、可以連到哪些網站。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0（上游 LICENSE）"
+      },
+      {
+        "label": "版本",
+        "value": "0bbebed0aa9a8e628dc4df8bc30293550a1988eb"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "限制 Agent 可讀寫的資料夾",
+        "detail": "Agent 執行命令時可能接觸工作範圍以外的敏感資料。；輸入：明確的讀寫允許／拒絕規則及目標工作目錄；輸出：交由作業系統套用的檔案存取限制",
+        "source": "README.md"
+      },
+      {
+        "title": "限制 Agent 對外連線",
+        "detail": "本機工具可能將資料送往不允許的服務。；輸入：allowedDomains、deniedDomains 及平台代理條件；輸出：經網路代理與作業系統限制的連線路徑",
+        "source": "README.md"
+      },
+      {
+        "title": "啟動沙箱並核對設定更新",
+        "detail": "執行期間政策變動容易被誤認為已重新套用全部權限。；輸入：完整設定、待執行命令與可選控制通道；輸出：受限子程序及依版本契約生效的設定更新",
+        "source": "src/cli.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "限制 Agent 可讀寫的資料夾 → 限制 Agent 對外連線 → 啟動沙箱並核對設定更新 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "限制 Agent 可讀寫的資料夾",
+          "detail": "明確的讀寫允許／拒絕規則及目標工作目錄 → 交由作業系統套用的檔案存取限制",
+          "files": [
+            "README.md",
+            "src/sandbox/sandbox-manager.ts",
+            "src/cli.ts"
+          ]
+        },
+        {
+          "title": "限制 Agent 對外連線",
+          "detail": "allowedDomains、deniedDomains 及平台代理條件 → 經網路代理與作業系統限制的連線路徑",
+          "files": [
+            "README.md",
+            "src/sandbox/sandbox-manager.ts"
+          ]
+        },
+        {
+          "title": "啟動沙箱並核對設定更新",
+          "detail": "完整設定、待執行命令與可選控制通道 → 受限子程序及依版本契約生效的設定更新",
+          "files": [
+            "src/cli.ts",
+            "src/sandbox/sandbox-manager.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "限制 Agent 可讀寫的資料夾",
+        "rule": "預設讀取廣泛允許；明訂敏感檔案拒絕規則，讀寫優先順序不同，需測試重疊規則與負面案例。",
+        "source": "README.md"
+      },
+      {
+        "name": "限制 Agent 對外連線",
+        "rule": "空 allowedDomains 表示預設拒絕網路；驗證實際 OS、代理、允許與拒絕目標，不以設定存在推定隔離有效。",
+        "source": "README.md"
+      },
+      {
+        "name": "啟動沙箱並核對設定更新",
+        "rule": "control-fd 是完整設定替換而非 patch；多數檔案規則在啟動時固定，不能依賴執行中更新撤銷檔案存取。",
+        "source": "src/cli.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、CLI、sandbox-manager、sandbox-schemas；僅局部設定與呼叫契約，未執行平台隔離或安全測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/sandbox/sandbox-manager.ts",
+          "src/cli.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試資料夾、假敏感檔案、允許與拒絕的網路目標及明確核准政策。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有 Agent Harness 的 MCP 啟動權限審查、負面測試與安全驗收。 另驗證實際行為及限制。",
+        "file": "README.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "filesystem",
+        "name": "限制 Agent 可讀寫的資料夾",
+        "problem": "Agent 執行命令時可能接觸工作範圍以外的敏感資料。",
+        "input": "明確的讀寫允許／拒絕規則及目標工作目錄",
+        "output": "交由作業系統套用的檔案存取限制",
+        "source": "README.md",
+        "sourceFiles": [
+          "README.md",
+          "src/sandbox/sandbox-manager.ts",
+          "src/cli.ts"
+        ],
+        "symbols": [
+          "denyRead",
+          "allowRead",
+          "allowWrite",
+          "denyWrite",
+          "SandboxManager.wrapWithSandbox"
+        ],
+        "gate": "預設讀取廣泛允許；明訂敏感檔案拒絕規則，讀寫優先順序不同，需測試重疊規則與負面案例。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "network",
+        "name": "限制 Agent 對外連線",
+        "problem": "本機工具可能將資料送往不允許的服務。",
+        "input": "allowedDomains、deniedDomains 及平台代理條件",
+        "output": "經網路代理與作業系統限制的連線路徑",
+        "source": "README.md",
+        "sourceFiles": [
+          "README.md",
+          "src/sandbox/sandbox-manager.ts"
+        ],
+        "symbols": [
+          "SandboxManager.initialize",
+          "allowedDomains",
+          "registerCommandNetworkLists"
+        ],
+        "gate": "空 allowedDomains 表示預設拒絕網路；驗證實際 OS、代理、允許與拒絕目標，不以設定存在推定隔離有效。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "lifecycle",
+        "name": "啟動沙箱並核對設定更新",
+        "problem": "執行期間政策變動容易被誤認為已重新套用全部權限。",
+        "input": "完整設定、待執行命令與可選控制通道",
+        "output": "受限子程序及依版本契約生效的設定更新",
+        "source": "src/cli.ts",
+        "sourceFiles": [
+          "src/cli.ts",
+          "src/sandbox/sandbox-manager.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "SandboxManager.initialize",
+          "SandboxManager.wrapWithSandbox",
+          "--control-fd（文件／CLI）"
+        ],
+        "gate": "control-fd 是完整設定替換而非 patch；多數檔案規則在啟動時固定，不能依賴執行中更新撤銷檔案存取。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 MCP Server 的檔案與網路最小權限（設計示例）",
+      "problem": "自有測試資料夾、假敏感檔案、允許與拒絕的網路目標及明確核准政策。",
+      "steps": [
+        {
+          "capability": "filesystem",
+          "action": "限制 Agent 可讀寫的資料夾"
+        },
+        {
+          "capability": "network",
+          "action": "限制 Agent 對外連線"
+        },
+        {
+          "capability": "lifecycle",
+          "action": "啟動沙箱並核對設定更新"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "anthropics-sandbox-runtime-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試資料夾、假敏感檔案、允許與拒絕的網路目標及明確核准政策。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "限制 Agent 可讀寫的資料夾 → 限制 Agent 對外連線 → 啟動沙箱並核對設定更新 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有 Agent Harness 的 MCP 啟動權限審查、負面測試與安全驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "讀取預設廣泛開放，寫入與網路則依允許規則限制。",
+        "設定檔不存在與設定檔存在但無效的處理不同；後者應報錯而非靜默套預設。",
+        "執行中 control-fd 更新並不等於重新套用檔案隔離。",
+        "研究預覽，Windows Alpha 與 OS 特定限制須查核；未實測隔離、憑證或網路安全。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "讀取預設廣泛開放，寫入與網路則依允許規則限制。 設定檔不存在與設定檔存在但無效的處理不同；後者應報錯而非靜默套預設。 執行中 control-fd 更新並不等於重新套用檔案隔離。 研究預覽，Windows Alpha 與 OS 特定限制須查核；未實測隔離、憑證或網路安全。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、CLI、sandbox-manager、sandbox-schemas；僅局部設定與呼叫契約，未執行平台隔離或安全測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
