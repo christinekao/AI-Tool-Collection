@@ -415,3 +415,37 @@ test('Dual-layer batch 07: eight official document mappings with data, rights an
  assert.match(load('vercel-skills-sh').implementationKnowledge.sourceReview.telemetry,/DISABLE_TELEMETRY=1/);
  assert.match(load('ibkr-portfolioanalyst').implementationKnowledge.sourceReview.export,/文字或 XML/);
 });
+
+test('Dual-layer batch 08: scoped runtime contracts and two explicit implementation gaps',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title,expected] of [["llm","比較三個模型的摘要表現","mapped"],["ollama-ollama","設計本機研究筆記摘要服務","mapped"],["playwright","驗收申請表單儲存功能","mapped"],["n8n-io-n8n","規劃每日報表整理流程","mapped"],["orca","分開開發網頁與回歸測試","deferred"],["hindsight","設計跨任務研究記憶測試","deferred"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,expected,id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs||uc.evidenceRefs){
+    const unit=(forward.capabilities||forward.evidence).find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+    if(expected==='mapped'){assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)));assert.ok(unit.symbols?.length);}
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  if(expected==='deferred'){assert.equal(d.intakeReview.sourceStatus,'partial');assert.match(d.intakeReview.layerReview.gap,/404/);assert.ok(d.intakeReview.layerReview.nextAction);}
+  else{assert.ok(d.repoGuide.rebuild.gaps.length);}
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('orca').implementationKnowledge.sourceReview.install,/stablyai\/orca\/orca/);
+ assert.match(load('hindsight').implementationKnowledge.sourceReview.isolation,/未實測/);
+ assert.match(load('n8n-io-n8n').readerGuide.limits.join(' '),/Sustainable|EE/);
+ assert.match(load('llm').repoGuide.capabilities.find(c=>c.id==='response-log').gate,/不代表刪除/);
+});
