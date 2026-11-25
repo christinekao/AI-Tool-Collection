@@ -1334,3 +1334,37 @@ for(const [batch,topic,rows] of [
   }
  });
 }
+
+
+test('Dual-layer batch 36: memory capture, scoped retrieval and historical source',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ for(const [id,title] of [["ai-memory","規劃跨 Coding Agent 的持久記憶與交接"],["amp-agent-memory-protocol","規劃多 Agent 的 GitHub 記憶索引與按需讀取"],["hermes-memory-wiki","規劃個人 Agent 歷史對話的唯讀知識索引"]]){
+  const d=load(id),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ assert.match(load('ai-memory').repoGuide.capabilities.find(c=>c.id==='capture').gate,/缺少 marker 時仍允許擷取/);
+ assert.match(load('amp-agent-memory-protocol').repoGuide.capabilities.find(c=>c.id==='privacy').gate,/不會清除已存在的 Git 歷史/);
+ assert.equal(load('hermes-memory-wiki').implementationKnowledge.upstreamMigration.newSourceStatus,'not-reviewed');
+ assert.match(load('hermes-memory-wiki').repoGuide.capabilities.find(c=>c.id==='read').gate,/不代表能防止資料洩漏/);
+});

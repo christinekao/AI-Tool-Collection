@@ -623,7 +623,10 @@ try{
   ["cloudflare-cloudflare-os",".resource-reader-guide","規劃企業知識工作區的讀取與外部寫入核准"],
   ["michael-denyer-pstack-claude",".resource-reader-guide","規劃跨 Claude Code 與 Codex 的專案驗收技能"],
   ["cursor-pstack-poteto",".resource-reader-guide","規劃複雜功能的架構選型與實際操作驗收"],
-  ["agency-agents",".resource-reader-guide","規劃資料管線與儀表板的跨角色交付審查"]
+  ["agency-agents",".resource-reader-guide","規劃資料管線與儀表板的跨角色交付審查"],
+  ["ai-memory",".resource-reader-guide","規劃跨 Coding Agent 的持久記憶與交接"],
+  ["amp-agent-memory-protocol",".resource-reader-guide","規劃多 Agent 的 GitHub 記憶索引與按需讀取"],
+  ["hermes-memory-wiki",".resource-reader-guide","規劃個人 Agent 歷史對話的唯讀知識索引"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

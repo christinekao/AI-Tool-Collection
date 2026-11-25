@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 36（2026-11-25）
+
+- main 基線 `a6287904d570519ea7642a361b97e1a272d7e8ff`；PR #94 四項 CI 全部通過，合併 `f4a406ff7b3b3030465e41a672255aa69f25252b`；Catalog Sync 及最新 Pages 部署 PASS，merge commit 的 P1 Graph Unit Tests 查核時仍進行中。141/286 已合併（135 完成對應、6 deferred）。
+- [Batch 36 逐筆報告](RESOURCE_DUAL_LAYER_BATCH36_20261125.md)：ai-memory、amp-agent-memory-protocol、hermes-memory-wiki，3 mapped 候選、9 個用途、9 個局部能力及 3 個 design-only 案例。
+- ai-memory 預設 Denylist 缺 marker 仍允許擷取；AMP 私有記憶投影與公開掃描不同，AGPL／商業授權；Hermes Memory Wiki 已封存遷移，保留原 ID 與歷史版本，新來源未查核。第三方未實測；不修改分類或 Graph。
+- 驗收前 141/286；合併後 144/286（138 完成對應、6 deferred），142 尚未改寫。回歸測試新增三筆與四種 viewport，CI 待執行。
+- 下一步：核對本批 PR 四項 CI、合併、Catalog Sync／Pages；再從 Batch 37 繼續尚未改寫的知識／Agent 資源。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 29～35（2026-11-25）
 
 - main 基線 `fde96af41f63a655290afd95879f188d83167383`；PR #93 四項 CI 通過，合併 `0fdefc04434e20a31d6eb0c8003323732d799e90`；Catalog Sync 與 Pages 通過。120/286 已合併（114 完成對應、6 deferred）。
