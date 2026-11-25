@@ -596,7 +596,10 @@ try{
   ["anthropics-sandbox-runtime",".resource-reader-guide","規劃 MCP Server 的檔案與網路最小權限"],
   ["anthropics-single-agent-loop-kit",".resource-reader-guide","規劃客服 Agent 架構精簡與逐次驗收"],
   ["agentic-system-lab-harness-relay",".resource-reader-guide","規劃多 Agent 平行修正與人工選擇最佳方案"],
-  ["humanlayer",".resource-reader-guide","規劃跨 Session 的履歷系統功能開發與審查"]
+  ["humanlayer",".resource-reader-guide","規劃跨 Session 的履歷系統功能開發與審查"],
+  ["zed-industries-zed",".resource-reader-guide","規劃編輯器內的 AI 程式修改與權限審查"],
+  ["herdrdev-herdr",".resource-reader-guide","規劃多主機 Coding Agent 終端與交接監控"],
+  ["microsoft-tokeneconomizer",".resource-reader-guide","規劃重複開發任務的成本與品質對照實驗"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

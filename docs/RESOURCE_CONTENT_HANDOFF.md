@@ -1,3 +1,14 @@
+# Resource 最新交接｜雙層知識 Batch 27（2026-11-25）
+
+- main 基線 `1013a13ad9d7f37bbd0292b7f507bdd79d0f6249`；PR #91 四項 CI 通過並合併 `a6b8cb72a4ed5bdeacccb8aea6475f2f78d2e9c8`，Catalog Sync 通過，Pages 查核時進行中。114/286 已合併（108 完成對應、6 deferred）。
+- [Batch 27 逐筆報告](RESOURCE_DUAL_LAYER_BATCH27_20261125.md)：zed-industries-zed、herdrdev-herdr、microsoft-tokeneconomizer，3 mapped 候選、9 個用途、9 個局部能力、3 個 design-only 案例。
+- Zed Profile 不等於核准政策；Herdr 重啟不保留原程序；TokenEconomizer 提醒不會自行停止回合，研究數字非成本保證。第三方未實測。
+- cyyeh-agent-loop-visualizer 上游重新導向，依舊 ID 的 API 端點無法取得新身分；不改寫、不增加已完成數。
+- 本批合併前 114/286；驗收合併後 117/286（111 完成對應、6 deferred），169 尚未改寫。既有缺口保留。
+- 下一批優先其他來源明確的 Agent 開發與自動化資源；排程停用，直接執行，重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 26（2026-11-25）
 
 - main 基線 `09517cccfa2ebc9e549acd48699f554f8c534910`；PR #90 四項 CI 通過並合併 `06a6223146aff5a6873e18926dac1659592573c5`，Catalog Sync 通過，Pages 查核時進行中。111/286 已合併（105 完成對應、6 deferred）。

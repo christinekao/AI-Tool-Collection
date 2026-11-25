@@ -6,8 +6,8 @@
   "canonicalName": "Zed",
   "category": "Developer Tools & Code Editors",
   "resourceType": "Open-source GPU-accelerated code editor with real-time collaboration and AI agent integration",
-  "purpose": "提供以 Rust 建構、支援 GPU 加速的跨平台程式碼編輯體驗，重視低延遲、多人協作、語言伺服器、終端機、Git 與 AI Agent 開發工作流。",
-  "recommendation": "適合測試取代或搭配 VS Code 的快速編輯器，並研究原生 Zed Agent、ACP 外部 Agents（Claude/Codex/OpenCode）和終端機 Agent 整合。效能應在同機、相同專案與擴充條件下比較，而非直接假定任何場景更快。",
+  "purpose": "在程式碼編輯器中直接讓 AI 閱讀專案、修改程式及執行工具，並在多個獨立對話間切換與檢查變更。",
+  "recommendation": "適合想在同一編輯器完成程式閱讀、AI 修改與審查的開發者；先使用唯讀 Profile 並設定工具核准，再考慮外部 Agent。若只需終端協作，無須為此更換編輯器。",
   "url": "https://github.com/zed-industries/zed",
   "repo": "zed-industries/zed",
   "homepage": "https://zed.dev",
@@ -65,7 +65,7 @@
   "comparisonCaveat": "官方定位為高效能編輯器，但本次沒有在相同硬體、專案及擴充條件下對 Zed vs VS Code 執行效能 benchmark；不可把行銷敘述當成已證實通用性能排名。",
   "status": "active",
   "addedAt": "2026-11-07",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "zed",
     "code-editor",
@@ -100,10 +100,20 @@
       "https://zed.dev/docs/ai/privacy-and-security",
       "https://zed.dev/pricing"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official Zed GitHub README and licenses, installation, telemetry, AI and pricing documentation",
     "readmeUrl": "https://github.com/zed-industries/zed/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。",
+    "upstreamCommit": "f38d614b4b58bb44cc19d08ef5dd3efba918f9a3",
+    "referenceUrls": [
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/README.md",
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/LICENSE-GPL",
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/LICENSE-APACHE",
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/docs/src/ai/agent-panel.md",
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/docs/src/ai/agent-profiles.md",
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/crates/agent/src/tool_permissions.rs",
+      "https://github.com/zed-industries/zed/blob/f38d614b4b58bb44cc19d08ef5dd3efba918f9a3/crates/agent/src/tools/edit_file_tool.rs"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -137,10 +147,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -156,8 +169,8 @@
     "classificationReason": "保留 Primary Domain software、Category 與原始 Tags；只補來源和使用限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -167,10 +180,363 @@
       "decision": "candidate",
       "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
     },
-    "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+    "riskNotes": "Repo 核心主要為 GPL-3.0-or-later，其他元件條款另確認；Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。；不同 Agent 功能及模型服務成本不同。；GPL 與 Apache 元件須逐件查核後才可重用或分發。；未實測編輯器、模型、工具核准或工作區。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供以 Rust 建構、支援 GPU 加速的跨平台程式碼編輯體驗，重視低延遲、多人協作、語言伺服器、終端機、Git 與 AI Agent 開發工作流。",
+      "source": "https://github.com/zed-industries/zed",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合測試取代或搭配 VS Code 的快速編輯器，並研究原生 Zed Agent、ACP 外部 Agents（Claude/Codex/OpenCode）和終端機 Agent 整合。效能應在同機、相同專案與擴充條件下比較，而非直接假定任何場景更快。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-threads",
+        "title": "分開多個開發任務",
+        "detail": "不同功能的 AI 對話與修改需要分離。 獨立對話、歷史與工作區安排。",
+        "capabilityRefs": [
+          "threads"
+        ]
+      },
+      {
+        "id": "use-permissions",
+        "title": "分離工具可用性與操作核准",
+        "detail": "允許 Agent 看見某工具不等於允許它執行。 工具可用集合及 allow、deny、confirm 判斷。",
+        "capabilityRefs": [
+          "permissions"
+        ]
+      },
+      {
+        "id": "use-edit",
+        "title": "檢查 Agent 提出的程式修改",
+        "detail": "AI 修改檔案後仍須辨識變更與錯誤。 編輯工具輸出與可供審查的修改。",
+        "capabilityRefs": [
+          "edit"
+        ]
+      }
+    ],
+    "example": {
+      "id": "zed-industries-zed-example",
+      "title": "規劃編輯器內的 AI 程式修改與權限審查",
+      "input": "自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+      "process": "分開多個開發任務 → 分離工具可用性與操作核准 → 檢查 Agent 提出的程式修改 → 獨立驗收實際成果",
+      "output": "分離的 Agent Threads、工具權限設定、修改差異與回歸測試規格。",
+      "destination": "用於自有專案的程式閱讀、實作及人工驗收。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-threads",
+        "use-permissions",
+        "use-edit"
+      ],
+      "steps": [
+        {
+          "id": "threads",
+          "title": "分開多個開發任務",
+          "capabilityRefs": [
+            "threads"
+          ]
+        },
+        {
+          "id": "permissions",
+          "title": "分離工具可用性與操作核准",
+          "capabilityRefs": [
+            "permissions"
+          ]
+        },
+        {
+          "id": "edit",
+          "title": "檢查 Agent 提出的程式修改",
+          "capabilityRefs": [
+            "edit"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "Repo 核心主要為 GPL-3.0-or-later，其他元件條款另確認",
+      "Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。",
+      "不同 Agent 功能及模型服務成本不同。",
+      "GPL 與 Apache 元件須逐件查核後才可重用或分發。",
+      "未實測編輯器、模型、工具核准或工作區。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在程式碼編輯器中直接讓 AI 閱讀專案、修改程式及執行工具，並在多個獨立對話間切換與檢查變更。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "主要 GPL-3.0-or-later，標示的元件 Apache-2.0；逐件查核"
+      },
+      {
+        "label": "版本",
+        "value": "f38d614b4b58bb44cc19d08ef5dd3efba918f9a3"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "分開多個開發任務",
+        "detail": "不同功能的 AI 對話與修改需要分離。；輸入：專案、Agent 選擇、Thread 與 Git Worktree；輸出：獨立對話、歷史與工作區安排",
+        "source": "docs/src/ai/agent-panel.md"
+      },
+      {
+        "title": "分離工具可用性與操作核准",
+        "detail": "允許 Agent 看見某工具不等於允許它執行。；輸入：Agent Profile、工具設定與核准規則；輸出：工具可用集合及 allow、deny、confirm 判斷",
+        "source": "docs/src/ai/agent-profiles.md"
+      },
+      {
+        "title": "檢查 Agent 提出的程式修改",
+        "detail": "AI 修改檔案後仍須辨識變更與錯誤。；輸入：檔案位置、修改輸入及授權；輸出：編輯工具輸出與可供審查的修改",
+        "source": "crates/agent/src/tools/edit_file_tool.rs"
+      }
+    ],
+    "architecture": {
+      "summary": "分開多個開發任務 → 分離工具可用性與操作核准 → 檢查 Agent 提出的程式修改 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "分開多個開發任務",
+          "detail": "專案、Agent 選擇、Thread 與 Git Worktree → 獨立對話、歷史與工作區安排",
+          "files": [
+            "docs/src/ai/agent-panel.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "分離工具可用性與操作核准",
+          "detail": "Agent Profile、工具設定與核准規則 → 工具可用集合及 allow、deny、confirm 判斷",
+          "files": [
+            "docs/src/ai/agent-profiles.md",
+            "crates/agent/src/tool_permissions.rs"
+          ]
+        },
+        {
+          "title": "檢查 Agent 提出的程式修改",
+          "detail": "檔案位置、修改輸入及授權 → 編輯工具輸出與可供審查的修改",
+          "files": [
+            "crates/agent/src/tools/edit_file_tool.rs",
+            "docs/src/ai/agent-panel.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "分開多個開發任務",
+        "rule": "外部 Agent 的歷史、Token 顯示及即時插話功能因整合而異；Worktree 不等於安全隔離。",
+        "source": "docs/src/ai/agent-panel.md"
+      },
+      {
+        "name": "分離工具可用性與操作核准",
+        "rule": "Profile 決定工具是否可用，Tool Permissions 決定受控呼叫如何核准；外部 Agent 與終端 Thread 不一定受同一 Profile 約束。",
+        "source": "docs/src/ai/agent-profiles.md"
+      },
+      {
+        "name": "檢查 Agent 提出的程式修改",
+        "rule": "先核對修改範圍、完整 Diff 與測試結果；工具授權或串流編輯完成不代表功能通過。",
+        "source": "crates/agent/src/tools/edit_file_tool.rs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。",
+        "files": [
+          "README.md",
+          "LICENSE-GPL",
+          "LICENSE-APACHE",
+          "docs/src/ai/agent-panel.md",
+          "docs/src/ai/agent-profiles.md",
+          "crates/agent/src/tool_permissions.rs",
+          "crates/agent/src/tools/edit_file_tool.rs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "docs/src/ai/agent-panel.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於自有專案的程式閱讀、實作及人工驗收。 另驗證實際行為及限制。",
+        "file": "docs/src/ai/agent-panel.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "threads",
+        "name": "分開多個開發任務",
+        "problem": "不同功能的 AI 對話與修改需要分離。",
+        "input": "專案、Agent 選擇、Thread 與 Git Worktree",
+        "output": "獨立對話、歷史與工作區安排",
+        "source": "docs/src/ai/agent-panel.md",
+        "sourceFiles": [
+          "docs/src/ai/agent-panel.md",
+          "README.md"
+        ],
+        "symbols": [
+          "NewThread（文件操作）",
+          "New From Summary（文件操作）",
+          "Worktree picker（文件介面）"
+        ],
+        "gate": "外部 Agent 的歷史、Token 顯示及即時插話功能因整合而異；Worktree 不等於安全隔離。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "permissions",
+        "name": "分離工具可用性與操作核准",
+        "problem": "允許 Agent 看見某工具不等於允許它執行。",
+        "input": "Agent Profile、工具設定與核准規則",
+        "output": "工具可用集合及 allow、deny、confirm 判斷",
+        "source": "docs/src/ai/agent-profiles.md",
+        "sourceFiles": [
+          "docs/src/ai/agent-profiles.md",
+          "crates/agent/src/tool_permissions.rs"
+        ],
+        "symbols": [
+          "ToolPermissionDecision",
+          "from_input",
+          "agent.profiles（文件設定）"
+        ],
+        "gate": "Profile 決定工具是否可用，Tool Permissions 決定受控呼叫如何核准；外部 Agent 與終端 Thread 不一定受同一 Profile 約束。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "edit",
+        "name": "檢查 Agent 提出的程式修改",
+        "problem": "AI 修改檔案後仍須辨識變更與錯誤。",
+        "input": "檔案位置、修改輸入及授權",
+        "output": "編輯工具輸出與可供審查的修改",
+        "source": "crates/agent/src/tools/edit_file_tool.rs",
+        "sourceFiles": [
+          "crates/agent/src/tools/edit_file_tool.rs",
+          "docs/src/ai/agent-panel.md"
+        ],
+        "symbols": [
+          "EditFileToolInput",
+          "EditFileTool",
+          "authorize"
+        ],
+        "gate": "先核對修改範圍、完整 Diff 與測試結果；工具授權或串流編輯完成不代表功能通過。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃編輯器內的 AI 程式修改與權限審查（設計示例）",
+      "problem": "自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+      "steps": [
+        {
+          "capability": "threads",
+          "action": "分開多個開發任務"
+        },
+        {
+          "capability": "permissions",
+          "action": "分離工具可用性與操作核准"
+        },
+        {
+          "capability": "edit",
+          "action": "檢查 Agent 提出的程式修改"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "zed-industries-zed-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Repo、待修正的功能、明確可讀寫範圍及已配置的模型。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "分開多個開發任務 → 分離工具可用性與操作核准 → 檢查 Agent 提出的程式修改 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於自有專案的程式閱讀、實作及人工驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。",
+        "不同 Agent 功能及模型服務成本不同。",
+        "GPL 與 Apache 元件須逐件查核後才可重用或分發。",
+        "未實測編輯器、模型、工具核准或工作區。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "Profile 與工具權限是兩套控制；外部 Agent 不一定遵守 Zed 的 Profile。 不同 Agent 功能及模型服務成本不同。 GPL 與 Apache 元件須逐件查核後才可重用或分發。 未實測編輯器、模型、工具核准或工作區。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE-GPL、LICENSE-APACHE、agent-panel、agent-profiles、tool_permissions.rs、edit_file_tool.rs；局部介面與實作契約。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
