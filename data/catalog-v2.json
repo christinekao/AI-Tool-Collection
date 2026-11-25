@@ -11391,14 +11391,14 @@
       "canonicalName": "ComfyUI",
       "category": "Media / Video",
       "resourceType": "節點式生成模型工作流介面",
-      "purpose": "以節點圖編排影像生成模型、前處理與後處理步驟，方便調整和重複使用生成流程。",
-      "recommendation": "適合需要精細控制影像生成流程及本機推論的使用者。",
+      "purpose": "把 AI 圖片、影片等生成過程拆成可連接的步驟，保存模型、參數及處理順序，方便重複使用與自動化。",
+      "recommendation": "適合需要控制生成步驟、重複產出素材或串接自動化流程的人；若只需要一次性生成圖片，簡單的圖像生成介面更省設定。",
       "url": "https://github.com/comfyanonymous/ComfyUI",
       "repo": "Comfy-Org/ComfyUI",
       "notes": "使用者原始連結為 comfyanonymous/ComfyUI；GitHub 目前導向 Comfy-Org/ComfyUI，保留原始連結。",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "content",
@@ -11430,25 +11430,34 @@
       "source": {
         "url": "https://github.com/comfyanonymous/ComfyUI",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部",
+        "upstreamCommit": "0d0e105153c02261519a6a552c52ec1cd5d9855e",
+        "referenceUrls": [
+          "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/README.md",
+          "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/server.py",
+          "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/execution.py",
+          "https://github.com/Comfy-Org/ComfyUI/blob/0d0e105153c02261519a6a552c52ec1cd5d9855e/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -11457,8 +11466,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -11471,8 +11480,400 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部；未執行第三方程式。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部；具體用途與來源能力以局部 ID 雙向連結。"
         }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "repeat-visual",
+            "title": "保存可重複生成的圖片流程",
+            "detail": "將選定模型、生成設定及處理步驟保存在工作流，方便後續調整與比較。",
+            "capabilityRefs": [
+              "node-contract",
+              "validate-queue"
+            ]
+          },
+          {
+            "id": "batch-production",
+            "title": "將生成流程接到自動化",
+            "detail": "在核准的本地環境送出已驗證的工作流，取得任務識別碼後追蹤結果。",
+            "capabilityRefs": [
+              "node-contract",
+              "validate-queue",
+              "track-result"
+            ]
+          },
+          {
+            "id": "diagnose-generation",
+            "title": "辨識生成失敗與參數問題",
+            "detail": "先檢查節點與輸入是否可用，再區分排程、執行錯誤及實際輸出。",
+            "capabilityRefs": [
+              "node-contract",
+              "validate-queue",
+              "track-result"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-image-variations",
+          "title": "批次生成產品概念圖",
+          "input": "已授權的產品參考素材、三種文字描述及已核准模型與參數。",
+          "process": "確認節點契約 → 建立可執行 graph → 提交並保留 prompt_id → 查詢結果與錯誤 → 人工驗收",
+          "output": "三組候選概念圖及對應的工作流、參數、job 識別碼與驗收紀錄（預期產物）。",
+          "destination": "交給設計評估或後製流程；不得直接當作實際產品照片。",
+          "note": "自訂設計示例，未執行 ComfyUI、下載模型或使用付費 API。",
+          "useCaseRefs": [
+            "repeat-visual",
+            "batch-production",
+            "diagnose-generation"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "確認已安裝的節點契約",
+              "capabilityRefs": [
+                "node-contract"
+              ]
+            },
+            {
+              "id": "graph",
+              "title": "準備 API graph 與授權素材",
+              "capabilityRefs": [],
+              "externalDependency": "模型、參考素材、硬體及具體節點配置需經獨立查核。"
+            },
+            {
+              "id": "queue",
+              "title": "送出並驗證生成任務",
+              "capabilityRefs": [
+                "validate-queue"
+              ]
+            },
+            {
+              "id": "track",
+              "title": "查核實際輸出與失敗",
+              "capabilityRefs": [
+                "track-result"
+              ]
+            },
+            {
+              "id": "review",
+              "title": "檢視圖像、權利及用途",
+              "capabilityRefs": [],
+              "externalDependency": "圖像品質、事實正確性與商用權限須人工確認。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "comparison": {
+          "title": "何時需要節點工作流？",
+          "headers": [
+            "直接輸入文字生成",
+            "ComfyUI"
+          ],
+          "rows": [
+            [
+              "適合單次圖像及少量調整",
+              "適合需保存多步設定與重複產出"
+            ],
+            [
+              "設定與硬體負擔通常較低",
+              "需管理模型、節點、執行環境與驗收"
+            ]
+          ],
+          "note": "使用節點不保證品質，也不代表所有生成步驟都離線或免費。"
+        },
+        "start": [
+          "先閱讀固定版本 README 及 API 契約，選擇單一有權模型與最小工作流。",
+          "於核准隔離環境確認節點輸入、模型、硬體及是否需外部服務；不直接安裝未知自訂節點。",
+          "先提交無敏感資料的小型 graph，再核對 prompt_id、執行狀態、實際輸出與參數紀錄。"
+        ],
+        "limits": [
+          "模型、Checkpoint、自訂節點和輸出素材各有授權；不應將程式授權等同輸出商用權。",
+          "此範圍未查閱完整模型推論、所有節點及自訂節點安全。",
+          "核心離線選項與外部／付費節點須分開確認，不以宣傳宣告代替網路及費用驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "伺服器接受可執行 prompt graph，驗證節點與參數後排入 PromptQueue，執行結果及錯誤透過 job history 等介面追蹤。",
+        "status": [
+          {
+            "label": "核心來源",
+            "value": "已查閱固定 Commit 的限定範圍"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "只完成核心設計契約，不代表完整專案重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / node graph / HTTP API"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "GPLv3（Repo LICENSE；模型與節點另計）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "0d0e105153c02261519a6a552c52ec1cd5d9855e"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "查詢節點輸入輸出",
+            "detail": "需確認選定模型及節點支援的參數；輸入：已安裝節點集合或 node_class；輸出：/object_info JSON 節點資料",
+            "source": "server.py"
+          },
+          {
+            "title": "驗證並排入工作流",
+            "detail": "希望將可重複的生成流程交給本地服務執行；輸入：POST /prompt 的 prompt graph、選用 prompt_id 及附加參數；輸出：有效時 prompt_id、number、node_errors；無效時 HTTP 400 與錯誤",
+            "source": "server.py"
+          },
+          {
+            "title": "追蹤執行狀態與輸出",
+            "detail": "生成任務非同步，須識別未完成或錯誤；輸入：prompt_id 或 queue 查詢；輸出：歷史及排程資訊；execution_error 事件／狀態",
+            "source": "server.py"
+          }
+        ],
+        "architecture": {
+          "summary": "建立節點工作流 → 取得節點契約 → 驗證 prompt → 排入 queue → 執行及查詢歷史",
+          "nodes": [
+            {
+              "title": "節點資訊",
+              "detail": "server 的 get_object_info 由 NODE_CLASS_MAPPINGS 取得 node_info，支援按 node_class 查詢。",
+              "files": [
+                "server.py"
+              ]
+            },
+            {
+              "title": "驗證與排程",
+              "detail": "post_prompt 讀取 JSON；產生或驗證 prompt_id，呼叫 validate_prompt，成功後 PromptQueue.put；失敗回 400。",
+              "files": [
+                "server.py",
+                "execution.py"
+              ]
+            },
+            {
+              "title": "執行",
+              "detail": "PromptExecutor.execute／execute_async 管理 graph 執行；錯誤經 handle_execution_error。",
+              "files": [
+                "execution.py"
+              ]
+            },
+            {
+              "title": "結果追蹤",
+              "detail": "/history/{prompt_id} 使用 PromptQueue.get_history，/queue 回傳執行中與待處理。",
+              "files": [
+                "server.py",
+                "execution.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "提交契約",
+            "rule": "/prompt 接受 prompt 欄位；此版本可提供 canonical UUID 格式 prompt_id，省略由伺服器生成。",
+            "source": "server.py"
+          },
+          {
+            "name": "接收不是完成",
+            "rule": "有效 graph 只在 validate_prompt 成功後排程，回傳 prompt_id/number/node_errors；不代表已輸出。",
+            "source": "server.py"
+          },
+          {
+            "name": "失敗可區別",
+            "rule": "無效 graph 及缺 prompt 回 400；執行期錯誤由 PromptExecutor 處理，不以歷史空值猜測成功。",
+            "source": "execution.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "固定版本來源閱讀",
+            "description": "按核心檔案與契約核對實作，不必先安裝。",
+            "files": [
+              "README.md",
+              "server.py",
+              "execution.py",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "隔離環境的最小驗證",
+            "description": "先閱讀固定版本 README 及 API 契約，選擇單一有權模型與最小工作流。 於核准隔離環境確認節點輸入、模型、硬體及是否需外部服務；不直接安裝未知自訂節點。 先提交無敏感資料的小型 graph，再核對 prompt_id、執行狀態、實際輸出與參數紀錄。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "批次媒體生成控制器",
+            "detail": "在外部控制器保存 prompt_id、輸入版本與輸出位置，建立逾時與重試界線，驗證結果後才交付。",
+            "file": "server.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "node-contract",
+            "name": "查詢節點輸入輸出",
+            "problem": "需確認選定模型及節點支援的參數",
+            "input": "已安裝節點集合或 node_class",
+            "output": "/object_info JSON 節點資料",
+            "source": "server.py",
+            "sourceFiles": [
+              "server.py"
+            ],
+            "symbols": [
+              "node_info",
+              "get_object_info",
+              "get_object_info_node"
+            ],
+            "gate": "僅查核已安裝節點，不能假設第三方節點可信或可用；不可任意安裝。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "validate-queue",
+            "name": "驗證並排入工作流",
+            "problem": "希望將可重複的生成流程交給本地服務執行",
+            "input": "POST /prompt 的 prompt graph、選用 prompt_id 及附加參數",
+            "output": "有效時 prompt_id、number、node_errors；無效時 HTTP 400 與錯誤",
+            "source": "server.py",
+            "sourceFiles": [
+              "server.py",
+              "execution.py"
+            ],
+            "symbols": [
+              "post_prompt",
+              "validate_prompt",
+              "PromptQueue.put"
+            ],
+            "gate": "收到 prompt_id 只代表接受排程；不要把 UI 工作流 JSON 當作已確認可執行的 API graph；禁止未授權付費節點。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "track-result",
+            "name": "追蹤執行狀態與輸出",
+            "problem": "生成任務非同步，須識別未完成或錯誤",
+            "input": "prompt_id 或 queue 查詢",
+            "output": "歷史及排程資訊；execution_error 事件／狀態",
+            "source": "server.py",
+            "sourceFiles": [
+              "server.py",
+              "execution.py"
+            ],
+            "symbols": [
+              "get_history_prompt_id",
+              "get_queue",
+              "PromptQueue.get_history",
+              "PromptExecutor.handle_execution_error"
+            ],
+            "gate": "核對完成狀態、實際媒體、錯誤及來源權利；沒有歷史資料不等於生成完成。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "批次生成產品概念圖（設計示例）",
+          "problem": "已授權的產品參考素材、三種文字描述及已核准模型與參數。",
+          "steps": [
+            {
+              "capability": "node-contract",
+              "action": "確認已安裝的節點契約",
+              "capabilityRefs": [
+                "node-contract"
+              ]
+            },
+            {
+              "capability": "validate-queue",
+              "action": "送出並驗證生成任務",
+              "capabilityRefs": [
+                "validate-queue"
+              ]
+            },
+            {
+              "capability": "track-result",
+              "action": "查核實際輸出與失敗",
+              "capabilityRefs": [
+                "track-result"
+              ]
+            }
+          ],
+          "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+          "readerExampleRef": "product-image-variations"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+          "stages": [
+            {
+              "title": "Graph 契約",
+              "detail": "核對 API graph 與節點輸入，設計有效與無效測試。",
+              "deliverable": "最小 graph 及預期錯誤"
+            },
+            {
+              "title": "佇列與追蹤",
+              "detail": "在核准環境提交並查詢 job，驗證排程與完成的差異。",
+              "deliverable": "job 狀態與輸出紀錄"
+            },
+            {
+              "title": "安全及產物",
+              "detail": "查模型和節點授權、費用及資源，逐張檢視。",
+              "deliverable": "來源、權利與品質驗收表"
+            }
+          ],
+          "gaps": [
+            "自訂節點、所有模型、完整 graph/cache 實作、網路隔離及 UI graph 轉換尚未逐檔查核。",
+            "未測 GPU、模型與生成輸出；未作完整資安審查。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "第三方節點",
+            "severity": "高",
+            "issue": "自訂節點可執行程式與存取資料。",
+            "control": "審查來源及依賴、限制檔案／網路／金鑰，不自動安裝。"
+          },
+          {
+            "title": "成本及授權",
+            "severity": "高",
+            "issue": "模型、素材、生成端點可能有費用與限制。",
+            "control": "固定允許清單；核對模型、素材、節點、輸出各自的授權。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、server.py 的 /prompt、/object_info、/history/{prompt_id} 與 queue 路徑、execution.py 的 PromptExecutor、validate_prompt、PromptQueue 與錯誤介面、GPLv3 LICENSE；未追蹤所有模型、自訂節點及完整圖執行內部"
+          },
+          {
+            "item": "Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝、執行、下載模型或連線正式資料。"
+          }
+        ]
       }
     },
     {
@@ -20915,13 +21316,13 @@
       "canonicalName": "infiniflow/ragflow",
       "category": "RAG / Knowledge Infrastructure",
       "resourceType": "Open-source RAG and agentic retrieval platform",
-      "purpose": "以文件解析、切塊和索引建立具引用的檢索問答與 Agent 資料基礎，支援多來源文件和可配置知識檢索。",
-      "recommendation": "適合有複雜文件與來源引用需求的 RAG 系統；部署前須估算硬體、索引服務、模型、資料權限與維護成本。",
+      "purpose": "把公司文件整理成可搜尋的知識庫，讓 AI 回答問題時先找相關內容，並提供可供人工回查的來源。",
+      "recommendation": "適合文件很多、格式複雜且需要引用及檢索驗收的知識問答；若只有少量筆記或不需管理索引，可先用簡單的文件搜尋。",
       "url": "https://github.com/infiniflow/ragflow",
       "repo": "infiniflow/ragflow",
       "status": "active",
       "addedAt": "2026-10-12",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "rag",
         "agentic-retrieval",
@@ -20983,25 +21384,33 @@
       "source": {
         "url": "https://github.com/infiniflow/ragflow",
         "readmeUrl": "https://github.com/infiniflow/ragflow/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-25",
         "type": "Upstream README or SKILL.md",
-        "reviewScope": "Documentation-level review only; no runtime/security audit"
+        "reviewScope": "固定版本 README、Go Docker 部署文件與 Apache-2.0 LICENSE；舊 rag/app/naive.py、deepdoc/parser/pdf_parser.py、rag/nlp/search.py 在此版本未找到，未推斷新 Go 核心位置",
+        "upstreamCommit": "37b63fc3979365ea70f267f290c2f12d93fdbf50",
+        "referenceUrls": [
+          "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md",
+          "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/docker/README.md",
+          "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
-        "sourceStatus": "source-checked",
+        "sourceStatus": "partial",
         "sourceEvidenceFields": [
           "source.url",
-          "url"
+          "url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "比對既有 Canonical ID、Repo 與固定上游版本；更新用途、文件證據及原始碼查核缺口，不建立重複實體。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -21011,7 +21420,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "reason": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -21024,7 +21433,168 @@
         "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "固定版本 README、Go Docker 部署文件與 Apache-2.0 LICENSE；舊 rag/app/naive.py、deepdoc/parser/pdf_parser.py、rag/nlp/search.py 在此版本未找到，未推斷新 Go 核心位置；未安裝或執行。"
+        },
+        "sourceGap": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。",
+        "layerReview": {
+          "status": "deferred",
+          "reason": "已確認固定版本的文件及授權範圍，已知用途與文件證據可雙向對應；原始碼完整契約仍待查。",
+          "gap": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。",
+          "nextAction": "從此固定版本 Go 專案結構定位文件 ingestion、檢索、引用、API 及授權檢查；取得實際原始碼、輸入輸出和安全邊界後再升級 mapped。"
+        }
+      },
+      "implementationKnowledge": {
+        "sourceReview": {
+          "ingestion": "README 說明文件解析、模板切塊、知識索引及人工介入。",
+          "retrieval": "README 說明 Agentic Retrieval 與可追溯引用；尚未核對 Go 內部檢索及引用生成契約。",
+          "deployment": "docker/README.md 明示 Go deployment、Linux x86-64；macOS 暫不支援；預設依賴 Elasticsearch、MySQL、MinIO、Kvrocks、NATS、ClickHouse，可依配置選引擎。管理密碼應更換，服務不應無限制公開。",
+          "license": "Repo LICENSE Apache 2.0；模型、依賴及外部服務條款另查。",
+          "gap": "舊 Python 核心路徑在固定版本回傳 404；新的 Go ingestion、retrieval、citation、資料隔離及 API 契約尚未查核。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "document-ingestion",
+          "detail": "固定 README 描述多種文件輸入、複雜文件解析、模板化切塊及人工介入。",
+          "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md；Key Features / Template-based chunking",
+          "evidenceFields": [
+            "features.0",
+            "implementationKnowledge.sourceReview.ingestion"
+          ],
+          "limitations": "未追查實際 Go parser、切塊及索引 I/O。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "retrieval-citations",
+          "detail": "README 描述多步檢索及可回查引用，引用仍需核對支持的原文。",
+          "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md；Agentic Retrieval / Grounded citations",
+          "evidenceFields": [
+            "features.1",
+            "limitations.0",
+            "implementationKnowledge.sourceReview.retrieval"
+          ],
+          "limitations": "未核對新版本召回、排序、權限或引用演算法。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "deployment-conditions",
+          "detail": "Go 部署依賴及平台限制依固定版本 docker/README.md；Linux x86-64，macOS 暫不支援。",
+          "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/docker/README.md",
+          "evidenceFields": [
+            "features.2",
+            "requirements.0",
+            "requirements.1",
+            "implementationKnowledge.sourceReview.deployment"
+          ],
+          "limitations": "未實際部署或驗證版本、網路、備份與服務權限。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "company-knowledge",
+            "title": "建立公司文件問答",
+            "detail": "把已授權的規章與操作文件整理為知識庫，依員工問題找相關內容及引用。",
+            "evidenceRefs": [
+              "document-ingestion",
+              "retrieval-citations"
+            ]
+          },
+          {
+            "id": "document-quality",
+            "title": "檢查文件解析及搜尋品質",
+            "detail": "查看文件如何切分，找出掃描件、表格或關鍵段落是否遺失，再改善檢索。",
+            "evidenceRefs": [
+              "document-ingestion"
+            ]
+          },
+          {
+            "id": "self-host-evaluation",
+            "title": "評估能否自行部署知識問答",
+            "detail": "先了解目前版本的主機、索引、儲存與資料隔離需求，再決定是否導入。",
+            "evidenceRefs": [
+              "deployment-conditions"
+            ]
+          }
+        ],
+        "example": {
+          "id": "policy-search-pilot",
+          "title": "建立公司規章問答測試",
+          "input": "五份不含機密的合成公司規章及十個人工標註正確來源的問題。",
+          "process": "確認部署條件 → 檢查文件解析與切塊 → 設計檢索問答 → 人工核對每個引用",
+          "output": "問答、引用段落、無答案情境與錯誤紀錄（預期產物）。",
+          "destination": "知識庫導入評估及權限與品質驗收，不直接接正式文件。",
+          "note": "設計示例，未部署 RAGFlow、未執行模型或搜尋；目前只確認文件層證據。",
+          "useCaseRefs": [
+            "company-knowledge",
+            "document-quality",
+            "self-host-evaluation"
+          ],
+          "steps": [
+            {
+              "id": "preflight",
+              "title": "核對主機、資料服務與權限",
+              "evidenceRefs": [
+                "deployment-conditions"
+              ]
+            },
+            {
+              "id": "index",
+              "title": "準備測試文件並檢查切塊",
+              "evidenceRefs": [
+                "document-ingestion"
+              ]
+            },
+            {
+              "id": "retrieve",
+              "title": "以問題評估檢索與引用",
+              "evidenceRefs": [
+                "retrieval-citations"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "逐筆驗證答案、原文及權限",
+              "evidenceRefs": [],
+              "externalDependency": "標註測試答案、拒答與使用者資料隔離須由應用團隊另外設計及驗證。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先讀固定版本 README 與 Go Docker 部署指南，確認 Linux 主機及依賴需求。",
+          "準備小量合成文件及人工標註問題，不先使用正式內部資料。",
+          "核對解析、切塊、引用、拒答及權限後，再判斷是否投入部署。"
+        ],
+        "limits": [
+          "引用來源只能改善可追溯性，不代表答案絕對正確。",
+          "資料解析、Embedding、索引與模型可能涉及大量運算與儲存成本。",
+          "目前固定版本部署文件明示 Go 實作及 macOS 暫不支援；舊 Python 路徑不可沿用。",
+          "自架不代表所有服務或模型免費，也不代表權限及資料隔離已驗證。"
+        ],
+        "comparison": {
+          "title": "何時值得建立 RAG 平台？",
+          "headers": [
+            "簡單文件搜尋",
+            "RAGFlow"
+          ],
+          "rows": [
+            [
+              "適合已知關鍵字及少量資料",
+              "適合多格式文件、解析切塊與引用問答"
+            ],
+            [
+              "部署及維護較簡單",
+              "需管理索引、模型、儲存、資料權限及驗收"
+            ]
+          ],
+          "note": "是否提升答案品質，須用相同測試集驗證。"
         }
       }
     },
@@ -25439,14 +26009,14 @@
       "canonicalName": "dotlottie-web",
       "category": "UI / Design Engineering",
       "resourceType": "Web dotLottie 動畫播放函式庫",
-      "purpose": "在網頁及應用程式中播放 Lottie／dotLottie 動畫素材，提供程式化控制介面。",
-      "recommendation": "適合網頁向量動態素材的播放；不是影像生成或影片剪輯引擎。",
+      "purpose": "把已有的 Lottie 或 dotLottie 動畫放進網頁，控制何時播放、暫停或顯示特定畫格，適合介面動效。",
+      "recommendation": "適合已經有向量動畫素材、需要互動控制的網站；若要從零設計動畫或輸出 MP4，需另外使用動畫製作或影片渲染工具。",
       "url": "https://github.com/LottieFiles/dotlottie-web",
       "repo": "LottieFiles/dotlottie-web",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "design",
@@ -25478,25 +26048,33 @@
       "source": {
         "url": "https://github.com/LottieFiles/dotlottie-web",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、packages/web/src/dotlottie.ts 的 load、play、setFrame、freeze、destroy 及狀態介面、MIT LICENSE；未查閱 Rust/WASM 核心、Worker、所有渲染後端或跨框架包裝",
+        "upstreamCommit": "db3f9b19e8e515aa9e87b7667a899825bb992e13",
+        "referenceUrls": [
+          "https://github.com/LottieFiles/dotlottie-web/blob/db3f9b19e8e515aa9e87b7667a899825bb992e13/README.md",
+          "https://github.com/LottieFiles/dotlottie-web/blob/db3f9b19e8e515aa9e87b7667a899825bb992e13/packages/web/src/dotlottie.ts",
+          "https://github.com/LottieFiles/dotlottie-web/blob/db3f9b19e8e515aa9e87b7667a899825bb992e13/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "沿用既有 Canonical ID，確認上游固定版本並補人類及技術對應。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -25505,8 +26083,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "已建立 Web API 核心契約與未確認範圍，不代表完整引擎審查。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -25519,8 +26097,373 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README、packages/web/src/dotlottie.ts 的 load、play、setFrame、freeze、destroy 及狀態介面、MIT LICENSE；未查閱 Rust/WASM 核心、Worker、所有渲染後端或跨框架包裝；未安裝及執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 Web 播放器載入、控制及生命週期的程式證據與三種人類用途對應。"
         }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "ui-feedback",
+            "title": "讓介面操作有動態回饋",
+            "detail": "在儲存完成、載入中等狀態切換時，播放已準備的動畫；實際成功狀態仍由應用程式確認。",
+            "capabilityRefs": [
+              "load-animation",
+              "playback-control"
+            ]
+          },
+          {
+            "id": "interactive-preview",
+            "title": "控制網頁動畫的播放進度",
+            "detail": "將播放、暫停或特定畫格連結到使用者操作，適合動態產品插畫或教學示意。",
+            "capabilityRefs": [
+              "load-animation",
+              "playback-control"
+            ]
+          },
+          {
+            "id": "lightweight-animation",
+            "title": "管理多個動畫的資源使用",
+            "detail": "在動畫不需要顯示時停止不必要的渲染，離開頁面後銷毀播放器並確認清理。",
+            "capabilityRefs": [
+              "player-lifecycle"
+            ]
+          }
+        ],
+        "example": {
+          "id": "save-feedback-animation",
+          "title": "為表單儲存加入完成動畫",
+          "input": "一份有使用權的成功提示動畫，以及表單實際儲存成功的事件。",
+          "process": "載入動畫 → 等待應用程式確認儲存 → 播放 → 離開頁面時清理",
+          "output": "儲存成功後播放的完成提示動畫（預期介面行為）。",
+          "destination": "產品表單的回饋元件；失敗時應顯示真實錯誤，而不是成功動畫。",
+          "note": "自訂設計示例，未建置網頁或播放實際動畫。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "ui-feedback",
+            "interactive-preview",
+            "lightweight-animation"
+          ],
+          "steps": [
+            {
+              "id": "prepare",
+              "title": "準備已有的動畫素材",
+              "capabilityRefs": [],
+              "externalDependency": "動畫設計、檔案格式相容與素材使用權需另行確認。"
+            },
+            {
+              "id": "load",
+              "title": "建立播放器並等待素材載入",
+              "capabilityRefs": [
+                "load-animation"
+              ]
+            },
+            {
+              "id": "play",
+              "title": "依實際儲存結果播放動畫",
+              "capabilityRefs": [
+                "playback-control"
+              ]
+            },
+            {
+              "id": "cleanup",
+              "title": "切換頁面時釋放播放器",
+              "capabilityRefs": [
+                "player-lifecycle"
+              ]
+            }
+          ]
+        },
+        "comparison": {
+          "title": "應該選 Lottie 播放器還是影片？",
+          "headers": [
+            "一般影片",
+            "dotLottie Web"
+          ],
+          "rows": [
+            [
+              "播放固定畫面及聲音",
+              "依既有動畫素材控制畫格與播放"
+            ],
+            [
+              "適合既有 MP4 素材",
+              "適合網頁動態圖示與狀態回饋"
+            ]
+          ],
+          "note": "實際檔案大小、效能及相容性須測試，不能保證更快或更小。"
+        },
+        "start": [
+          "先準備有使用權的 .json 或 .lottie 動畫，閱讀固定版本 README 及播放器狀態。",
+          "使用核准的網頁環境驗證載入、播放與指定畫格，檢查載入失敗時的替代畫面。",
+          "確認頁面切換時的清理，測手機、鍵盤及減少動態效果的需求。"
+        ],
+        "limits": [
+          "動畫播放與 MP4 輸出是不同工作；檔案相容與效能需依實際裝置驗證。",
+          "Rust/WASM 核心、Worker、各框架包裝及渲染後端尚未逐檔查閱；未測實際檔案。",
+          "動畫可有提示作用，但不應是唯一的狀態訊息；需提供文字或靜態替代。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "DotLottie 封裝 Canvas 播放與核心控制；load 重設配置，播放或指定畫格時更新核心與畫布，destroy 停止並清理核心。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本的 Web API 核心已查閱"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "僅 Web 播放器介面，非 WASM 核心重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / Rust + WASM（README）"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本錨點",
+            "value": "db3f9b19e8e515aa9e87b7667a899825bb992e13"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "載入既有動畫素材",
+            "detail": "Config 的 canvas、src／data 及播放設定 → DotLottie player 與 isReady/isLoaded 等狀態",
+            "source": "packages/web/src/dotlottie.ts"
+          },
+          {
+            "title": "控制播放與指定畫格",
+            "detail": "play、pause、stop、setFrame 或速度設定 → 畫布中更新的動畫畫格及播放狀態",
+            "source": "packages/web/src/dotlottie.ts"
+          },
+          {
+            "title": "暫停渲染與銷毀播放器",
+            "detail": "播放器、freeze/unfreeze 或 destroy → 停止／恢復渲染迴圈或釋放核心及取消來源載入",
+            "source": "packages/web/src/dotlottie.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "動畫素材與 canvas → load／狀態 → 播放／畫格 → draw → freeze／destroy",
+          "nodes": [
+            {
+              "title": "載入",
+              "detail": "DotLottie.load 在核心不存在時返回，否則停止舊動畫迴圈、清理畫布，套用 autoplay、loop、speed、segment 等配置。",
+              "files": [
+                "packages/web/src/dotlottie.ts"
+              ]
+            },
+            {
+              "title": "播放",
+              "detail": "play 檢查核心與 isLoaded；核心播放成功或處於 Playing 時重啟動畫迴圈。",
+              "files": [
+                "packages/web/src/dotlottie.ts"
+              ]
+            },
+            {
+              "title": "指定畫格",
+              "detail": "setFrame 呼叫核心 set_frame，更新成功時 render、派發事件及 draw。",
+              "files": [
+                "packages/web/src/dotlottie.ts"
+              ]
+            },
+            {
+              "title": "生命週期",
+              "detail": "freeze 停止畫格迴圈；destroy 停止迴圈、清理畫布、取消來源載入並 free 核心。",
+              "files": [
+                "packages/web/src/dotlottie.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "載入狀態",
+            "rule": "play 在核心未初始化或尚未載入時直接返回；應用程式先確認 isLoaded 並處理錯誤。",
+            "source": "packages/web/src/dotlottie.ts"
+          },
+          {
+            "name": "畫格更新",
+            "rule": "setFrame 只在核心回報 frameUpdated 且 render 成功時繪製。",
+            "source": "packages/web/src/dotlottie.ts"
+          },
+          {
+            "name": "資源清理",
+            "rule": "freeze/unfreeze 控制渲染迴圈且保留播放狀態；destroy 釋放核心、取消來源載入，不可與 pause 混用。",
+            "source": "packages/web/src/dotlottie.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀版本化 API",
+            "description": "先閱讀 README 與 DotLottie 實作，確認動畫來源、Canvas 及載入狀態。",
+            "files": [
+              "README.md",
+              "packages/web/src/dotlottie.ts",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "隔離驗證",
+            "description": "核准後在最小網頁測一個動畫；加入錯誤與靜態替代內容。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true
+          }
+        ],
+        "extension": [
+          {
+            "title": "介面狀態控制元件",
+            "detail": "把真實業務事件映射到播放方法，額外提供文字提示與減少動態效果設定，元件卸載時清理。",
+            "file": "packages/web/src/dotlottie.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "load-animation",
+            "name": "載入既有動畫素材",
+            "problem": "網站需要播放設計好的動態圖示或插畫",
+            "input": "Config 的 canvas、src／data 及播放設定",
+            "output": "DotLottie player 與 isReady/isLoaded 等狀態",
+            "source": "packages/web/src/dotlottie.ts",
+            "sourceFiles": [
+              "packages/web/src/dotlottie.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "DotLottie",
+              "DotLottie.load",
+              "DotLottie.isLoaded"
+            ],
+            "gate": "準備合法素材及可用網路／本地載入路徑；確認初始化及載入狀態後才播放。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "playback-control",
+            "name": "控制播放與指定畫格",
+            "problem": "介面需依點擊、進度或狀態播放動畫",
+            "input": "play、pause、stop、setFrame 或速度設定",
+            "output": "畫布中更新的動畫畫格及播放狀態",
+            "source": "packages/web/src/dotlottie.ts",
+            "sourceFiles": [
+              "packages/web/src/dotlottie.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "DotLottie.play",
+              "DotLottie.pause",
+              "DotLottie.stop",
+              "DotLottie.setFrame"
+            ],
+            "gate": "測未載入、重複觸發與畫格範圍；不要將視覺動畫當成業務操作成功證據。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "player-lifecycle",
+            "name": "暫停渲染與銷毀播放器",
+            "problem": "畫面離開或動畫不再需要時避免持續渲染",
+            "input": "播放器、freeze/unfreeze 或 destroy",
+            "output": "停止／恢復渲染迴圈或釋放核心及取消來源載入",
+            "source": "packages/web/src/dotlottie.ts",
+            "sourceFiles": [
+              "packages/web/src/dotlottie.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "DotLottie.freeze",
+              "DotLottie.unfreeze",
+              "DotLottie.destroy"
+            ],
+            "gate": "測路由切換及反覆掛載；freeze 不是 pause，destroy 之後不可假定原實例可直接重用。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "表單成功動效（設計示例）",
+          "problem": "只在資料實際保存成功後顯示完成動畫。",
+          "steps": [
+            {
+              "capability": "load-animation",
+              "action": "建立播放器並等待素材載入"
+            },
+            {
+              "capability": "playback-control",
+              "action": "依實際儲存結果播放動畫"
+            },
+            {
+              "capability": "player-lifecycle",
+              "action": "切換頁面時釋放播放器"
+            }
+          ],
+          "gate": "未執行；應用程式狀態、動畫權利及跨裝置相容性需另驗收。",
+          "readerExampleRef": "save-feedback-animation"
+        },
+        "rebuild": {
+          "verdict": "可根據 Web 介面契約設計最小播放器元件；無法宣稱重建 WASM 引擎。",
+          "stages": [
+            {
+              "title": "載入測試",
+              "detail": "準備一份合法動畫、Canvas 及載入失敗案例。",
+              "deliverable": "載入與狀態紀錄"
+            },
+            {
+              "title": "控制測試",
+              "detail": "驗證 play、pause、setFrame 與重複操作。",
+              "deliverable": "狀態和畫格測試"
+            },
+            {
+              "title": "生命週期",
+              "detail": "測 freeze、destroy、路由切換與畫面替代。",
+              "deliverable": "資源及無障礙驗收"
+            }
+          ],
+          "gaps": [
+            "Rust/WASM 核心、Worker、WebGL/WebGPU 後端、框架整合未逐檔審查。",
+            "未建置或驗證真實檔案及各裝置。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "動畫來源",
+            "severity": "高",
+            "issue": "外部動畫或素材可能涉及權利、網路與隱私。",
+            "control": "固定來源、核對素材授權，不任意載入第三方內容。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本 Web API",
+            "state": "已查閱",
+            "evidence": "固定版本 README、packages/web/src/dotlottie.ts 的 load、play、setFrame、freeze、destroy 及狀態介面、MIT LICENSE；未查閱 Rust/WASM 核心、Worker、所有渲染後端或跨框架包裝"
+          },
+          {
+            "item": "執行及整合",
+            "state": "未驗證",
+            "evidence": "未安裝或播放動畫。"
+          }
+        ]
       }
     },
     {
@@ -26194,14 +27137,14 @@
       "canonicalName": "Manim",
       "category": "Media / Video",
       "resourceType": "Python 數學與教學動畫框架",
-      "purpose": "以 Python 程式建立數學、幾何、圖表與技術解說動畫。",
-      "recommendation": "適合需要精確、可重現、逐步顯示的技術教學視覺內容。",
+      "purpose": "用 Python 程式製作數學、圖表或技術概念的解說動畫，精確控制畫面中的物件、變化與播放順序。",
+      "recommendation": "適合需要公式推導、流程圖、資料變化等可重複渲染的教學影片；若是自由剪輯、照片寫實或角色表演，通常先用剪輯或 3D 工具。",
       "url": "https://github.com/ManimCommunity/manim",
       "repo": "ManimCommunity/manim",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "content",
@@ -26233,25 +27176,36 @@
       "source": {
         "url": "https://github.com/ManimCommunity/manim",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核",
+        "upstreamCommit": "37056b0e6e23df7be1f7087a98eb2fb5c81737f2",
+        "referenceUrls": [
+          "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/README.md",
+          "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/manim/scene/scene.py",
+          "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/manim/manager.py",
+          "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/manim/animation/transform.py",
+          "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/LICENSE",
+          "https://github.com/ManimCommunity/manim/blob/37056b0e6e23df7be1f7087a98eb2fb5c81737f2/LICENSE.community"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -26260,8 +27214,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -26274,8 +27228,393 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核；未執行第三方程式。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核；具體用途與來源能力以局部 ID 雙向連結。"
         }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "explain-math",
+            "title": "把數學推導變成動畫",
+            "detail": "用明確的圖形及播放順序解釋幾何或公式變化，而非只顯示結果。",
+            "capabilityRefs": [
+              "scene-sequence",
+              "object-transform"
+            ]
+          },
+          {
+            "id": "explain-process",
+            "title": "讓流程圖逐步出現",
+            "detail": "安排每一步的物件、重點及停留時間，清楚解釋技術或商業流程。",
+            "capabilityRefs": [
+              "scene-sequence"
+            ]
+          },
+          {
+            "id": "repeatable-video",
+            "title": "用同一份程式重複渲染",
+            "detail": "修改資料或場景後重新產生影片，保留版本及設定供驗收。",
+            "capabilityRefs": [
+              "scene-sequence",
+              "render-lifecycle"
+            ]
+          }
+        ],
+        "example": {
+          "id": "geometry-explainer",
+          "title": "製作一段幾何變化解說影片",
+          "input": "一個正方形、一個圓形、兩段標示文字及各步停留時間。",
+          "process": "定義 Scene → 放置物件 → Transform 變換 → 停留 → 預覽渲染",
+          "output": "一段展示方形變成圓形的解說影片（預期產物）。",
+          "destination": "教學網頁、影片剪輯或課程內容；音樂、旁白及字幕可另行加入。",
+          "note": "設計示例，未渲染任何影片，字型及編碼仍須驗證。",
+          "useCaseRefs": [
+            "explain-math",
+            "explain-process",
+            "repeatable-video"
+          ],
+          "steps": [
+            {
+              "id": "arrange",
+              "title": "定義場景與物件順序",
+              "capabilityRefs": [
+                "scene-sequence"
+              ]
+            },
+            {
+              "id": "transform",
+              "title": "播放物件變換",
+              "capabilityRefs": [
+                "object-transform"
+              ]
+            },
+            {
+              "id": "render",
+              "title": "執行預覽及確認輸出",
+              "capabilityRefs": [
+                "render-lifecycle"
+              ]
+            },
+            {
+              "id": "publish",
+              "title": "校對教學內容並加入旁白",
+              "capabilityRefs": [],
+              "externalDependency": "文字正確性、素材權利、旁白與發布規格需另行驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "comparison": {
+          "title": "哪種動畫方法比較合適？",
+          "headers": [
+            "一般影片剪輯",
+            "Manim"
+          ],
+          "rows": [
+            [
+              "適合既有素材與自由剪輯",
+              "適合程式化、幾何或資料變化"
+            ],
+            [
+              "以時間軸直接調整素材",
+              "修改程式與參數後重複渲染"
+            ]
+          ],
+          "note": "Manim 不替代所有影片剪輯或 3D 工具。"
+        },
+        "start": [
+          "先讀官方 SquareToCircle 範例，確認使用 Manim Community 的版本及依賴。",
+          "設計短場景，定義物件、順序及時長；若已獲准安裝再做低品質預覽。",
+          "逐步檢查變換前後、文字與時間，最後才設定正式輸出品質。"
+        ],
+        "limits": [
+          "複雜場景仍須編寫動畫程式碼，渲染時間與文字顯示品質需測試。",
+          "未確認特定作業系統的安裝、字型、LaTeX 及影片編碼依賴。",
+          "教學內容、素材授權與渲染畫面須另驗收。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "Scene 定義物件及動畫；Transform 表達物件到目標的變化；Manager 負責指定版本的渲染生命週期。",
+        "status": [
+          {
+            "label": "核心來源",
+            "value": "已查閱固定 Commit 的限定範圍"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "只完成核心設計契約，不代表完整專案重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / Manim Community"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（兩份 Repo 授權文件）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "37056b0e6e23df7be1f7087a98eb2fb5c81737f2"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "場景與播放順序",
+            "detail": "教學畫面需要按順序呈現物件；輸入：Scene.construct 內的 Mobject、Animation 及時間設定；輸出：場景物件與播放序列",
+            "source": "manim/scene/scene.py"
+          },
+          {
+            "title": "物件變換",
+            "detail": "需要清楚展示形狀或概念從原態到目標；輸入：來源及目標 Mobject、路徑與動畫時間；輸出：變換後的來源物件或依設定替換",
+            "source": "manim/animation/transform.py"
+          },
+          {
+            "title": "渲染生命週期",
+            "detail": "將場景程式轉成可預覽的媒體；輸入：Scene、渲染設定、輸出設定；輸出：Manager 管理的渲染結果；render 回傳是否互動重跑",
+            "source": "manim/scene/scene.py"
+          }
+        ],
+        "architecture": {
+          "summary": "建立 Scene → 放置物件 → play／wait → Manager 渲染 → 媒體及驗收",
+          "nodes": [
+            {
+              "title": "場景",
+              "detail": "Scene.construct 組織物件與 play、wait。",
+              "files": [
+                "manim/scene/scene.py"
+              ]
+            },
+            {
+              "title": "動畫契約",
+              "detail": "Transform.begin 複製目標並依 renderer 對齊資料，原物件會變換。",
+              "files": [
+                "manim/animation/transform.py"
+              ]
+            },
+            {
+              "title": "管理執行",
+              "detail": "Scene.render 交給 Manager.render；依序 setup、construct、tear_down、post_construct。",
+              "files": [
+                "manim/scene/scene.py",
+                "manim/manager.py"
+              ]
+            },
+            {
+              "title": "錯誤與清理",
+              "detail": "Manager.render 文件說明失敗時停止編碼工作、關閉 renderer 並拋出原錯誤。",
+              "files": [
+                "manim/manager.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "變換副作用",
+            "rule": "Transform 對來源物件進行變化；replace_mobject_with_target_in_scene 決定收尾是否替換場景中的物件。",
+            "source": "manim/animation/transform.py"
+          },
+          {
+            "name": "Manager 生命周期",
+            "rule": "此固定版本 Manager 單次 render，重複使用會拋 RuntimeError；不要將 API 回傳 bool 誤當影片已正確輸出。",
+            "source": "manim/manager.py"
+          },
+          {
+            "name": "等待",
+            "rule": "Scene.wait 是無動作動畫，可依 duration、stop_condition 與 frozen_frame 控制。",
+            "source": "manim/scene/scene.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "固定版本來源閱讀",
+            "description": "按核心檔案與契約核對實作，不必先安裝。",
+            "files": [
+              "README.md",
+              "manim/scene/scene.py",
+              "manim/manager.py",
+              "manim/animation/transform.py",
+              "LICENSE",
+              "LICENSE.community"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "隔離環境的最小驗證",
+            "description": "先讀官方 SquareToCircle 範例，確認使用 Manim Community 的版本及依賴。 設計短場景，定義物件、順序及時長；若已獲准安裝再做低品質預覽。 逐步檢查變換前後、文字與時間，最後才設定正式輸出品質。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "參數化教學場景",
+            "detail": "將圖形、文字與時長外部化，保留 Scene 並獨立測試每個教學版本。",
+            "file": "manim/scene/scene.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "scene-sequence",
+            "name": "場景與播放順序",
+            "problem": "教學畫面需要按順序呈現物件",
+            "input": "Scene.construct 內的 Mobject、Animation 及時間設定",
+            "output": "場景物件與播放序列",
+            "source": "manim/scene/scene.py",
+            "sourceFiles": [
+              "manim/scene/scene.py"
+            ],
+            "symbols": [
+              "Scene.construct",
+              "Scene.add",
+              "Scene.play",
+              "Scene.wait"
+            ],
+            "gate": "驗證畫面順序、時長、文字及重疊；等待動畫不等於互動控制。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "object-transform",
+            "name": "物件變換",
+            "problem": "需要清楚展示形狀或概念從原態到目標",
+            "input": "來源及目標 Mobject、路徑與動畫時間",
+            "output": "變換後的來源物件或依設定替換",
+            "source": "manim/animation/transform.py",
+            "sourceFiles": [
+              "manim/animation/transform.py"
+            ],
+            "symbols": [
+              "Transform",
+              "Transform.begin",
+              "Transform.clean_up_from_scene",
+              "ReplacementTransform"
+            ],
+            "gate": "原物件可能被 mutate；需要保留初始狀態時自行複製，測兩種變換及收尾行為。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "render-lifecycle",
+            "name": "渲染生命週期",
+            "problem": "將場景程式轉成可預覽的媒體",
+            "input": "Scene、渲染設定、輸出設定",
+            "output": "Manager 管理的渲染結果；render 回傳是否互動重跑",
+            "source": "manim/scene/scene.py",
+            "sourceFiles": [
+              "manim/scene/scene.py",
+              "manim/manager.py",
+              "README.md"
+            ],
+            "symbols": [
+              "Scene.render",
+              "Manager.render",
+              "Manager._run"
+            ],
+            "gate": "此 commit 的 Manager 單次使用，失敗需檢查清理及輸出；低品質預覽不能當正式驗收。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "製作一段幾何變化解說影片（設計示例）",
+          "problem": "一個正方形、一個圓形、兩段標示文字及各步停留時間。",
+          "steps": [
+            {
+              "capability": "scene-sequence",
+              "action": "定義場景與物件順序",
+              "capabilityRefs": [
+                "scene-sequence"
+              ]
+            },
+            {
+              "capability": "object-transform",
+              "action": "播放物件變換",
+              "capabilityRefs": [
+                "object-transform"
+              ]
+            },
+            {
+              "capability": "render-lifecycle",
+              "action": "執行預覽及確認輸出",
+              "capabilityRefs": [
+                "render-lifecycle"
+              ]
+            }
+          ],
+          "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+          "readerExampleRef": "geometry-explainer"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+          "stages": [
+            {
+              "title": "場景契約",
+              "detail": "定義每個 Mobject 的初始與目標狀態。",
+              "deliverable": "場景規格"
+            },
+            {
+              "title": "渲染最小場景",
+              "detail": "測 play、wait、Transform 及清理。",
+              "deliverable": "預覽媒體和時間紀錄"
+            },
+            {
+              "title": "正式驗收",
+              "detail": "比較畫面、文字、時長、輸出及錯誤。",
+              "deliverable": "影片驗收清單"
+            }
+          ],
+          "gaps": [
+            "底層 Cairo／OpenGL 渲染器、影片編碼、文字渲染與套件依賴未追蹤完整。",
+            "未安裝、渲染或確認跨平台及輸出。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "渲染環境",
+            "severity": "高",
+            "issue": "不同字型、版本與編碼器可能造成結果差異。",
+            "control": "固定版本、依賴和設定，驗收實際畫面。"
+          },
+          {
+            "title": "程式副作用",
+            "severity": "高",
+            "issue": "Scene 是 Python 程式，外來範例可執行任意操作。",
+            "control": "只執行已審核程式，限制檔案、網路及權限。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、scene.py、manager.py 的渲染生命週期與 play、transform.py 的物件變換及清理、兩份 MIT LICENSE；底層渲染器及文字與影片編碼尚未查核"
+          },
+          {
+            "item": "Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝、執行、下載模型或連線正式資料。"
+          }
+        ]
       }
     },
     {
@@ -28454,14 +29793,14 @@
       "canonicalName": "Three.js",
       "category": "UI / Design Engineering",
       "resourceType": "JavaScript 3D 圖形函式庫",
-      "purpose": "透過 JavaScript 建立網頁 3D 場景、相機、燈光、材質與動畫。",
-      "recommendation": "適合 3D 網頁視覺與互動展示；若只需簡單 2D 動畫，先評估較輕量方式。",
+      "purpose": "在網頁中呈現可旋轉、可操作或會動的 3D 物件，讓產品展示與技術解說不必只使用靜態圖片。",
+      "recommendation": "適合需要真實互動的 3D 網頁展示；若只要簡單按鈕動畫或播放既有影片，先採 CSS、Lottie 或影片元件，降低 GPU 負擔。",
       "url": "https://github.com/mrdoob/three.js",
       "repo": "mrdoob/three.js",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "design",
@@ -28493,25 +29832,35 @@
       "source": {
         "url": "https://github.com/mrdoob/three.js",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線",
+        "upstreamCommit": "084ec06444244980752a420f0e1af5cd8f112aa1",
+        "referenceUrls": [
+          "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/README.md",
+          "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/src/scenes/Scene.js",
+          "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/src/renderers/WebGLRenderer.js",
+          "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/src/animation/AnimationMixer.js",
+          "https://github.com/mrdoob/three.js/blob/084ec06444244980752a420f0e1af5cd8f112aa1/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -28520,8 +29869,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -28534,8 +29883,417 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線；未執行第三方程式。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線；具體用途與來源能力以局部 ID 雙向連結。"
         }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "product-view",
+            "title": "建立互動式 3D 產品展示",
+            "detail": "在網站放入立體產品，透過應用程式設計的控制方式改變觀看角度。",
+            "capabilityRefs": [
+              "scene-render",
+              "animation-loop"
+            ]
+          },
+          {
+            "id": "animate-model",
+            "title": "讓 3D 模型播放動作",
+            "detail": "若模型附有動畫片段，可控制更新時間並播放示意動作。",
+            "capabilityRefs": [
+              "clip-playback",
+              "scene-render",
+              "animation-loop"
+            ]
+          },
+          {
+            "id": "embedded-3d",
+            "title": "在網頁中安全掛載與移除 3D 畫面",
+            "detail": "管理渲染迴圈、畫面尺寸與頁面離開時的清理，避免長時間占用資源。",
+            "capabilityRefs": [
+              "scene-render",
+              "renderer-cleanup"
+            ]
+          }
+        ],
+        "example": {
+          "id": "product-3d-preview",
+          "title": "製作網頁 3D 產品預覽",
+          "input": "已授權的 3D 產品模型、展示尺寸及預期旋轉動作。",
+          "process": "建立 Scene 與 Camera → 加入模型 → 更新旋轉或動畫片段 → 渲染 → 離開頁面時清理",
+          "output": "可在網頁中呈現並更新的 3D 預覽畫面（預期產物）。",
+          "destination": "作品集或產品頁面；資產載入、互動介面及低階裝置替代內容須另行實作。",
+          "note": "自訂設計示例，未載入模型、渲染網頁或進行裝置效能測試。",
+          "useCaseRefs": [
+            "product-view",
+            "animate-model",
+            "embedded-3d"
+          ],
+          "steps": [
+            {
+              "id": "load",
+              "title": "準備與載入 3D 資產",
+              "capabilityRefs": [],
+              "externalDependency": "模型格式、載入器、授權及互動控制須另核對。"
+            },
+            {
+              "id": "scene",
+              "title": "建立場景、相機及渲染器",
+              "capabilityRefs": [
+                "scene-render"
+              ]
+            },
+            {
+              "id": "animate",
+              "title": "更新旋轉及可用動畫片段",
+              "capabilityRefs": [
+                "animation-loop",
+                "clip-playback"
+              ]
+            },
+            {
+              "id": "cleanup",
+              "title": "退出頁面時停止迴圈並清理",
+              "capabilityRefs": [
+                "renderer-cleanup"
+              ]
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "comparison": {
+          "title": "何時需要 3D 函式庫？",
+          "headers": [
+            "CSS／影片",
+            "Three.js"
+          ],
+          "rows": [
+            [
+              "適合平面動效與固定影片",
+              "適合真正的 3D 畫面與動態相機"
+            ],
+            [
+              "通常整合較簡單",
+              "需要模型、GPU、渲染及生命週期控制"
+            ]
+          ],
+          "note": "不必為了單純動態圖示使用完整 3D 渲染。"
+        },
+        "start": [
+          "先讀固定版本官方旋轉立方體範例，定義畫布、場景與相機。",
+          "在核准的開發環境驗證最小幾何物件，再逐步加入有授權的模型及動畫。",
+          "檢查不同裝置的幀率、尺寸、替代內容、頁面移除及資源清理。"
+        ],
+        "limits": [
+          "低階裝置、資源大小、動畫效能和無障礙替代內容需要額外設計。",
+          "此範圍未查閱模型 Loader、相機控制元件、WebGPU 或完整資產管理。",
+          "WebGL 不保證所有裝置均可使用；需要替代畫面及無障礙操作。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "Scene 容納物件，WebGLRenderer 以 Camera 渲染畫面及維護迴圈，AnimationMixer 更新已定義的動畫片段。",
+        "status": [
+          {
+            "label": "核心來源",
+            "value": "已查閱固定 Commit 的限定範圍"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "只完成核心設計契約，不代表完整專案重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "JavaScript / WebGL"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（Repo）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "084ec06444244980752a420f0e1af5cd8f112aa1"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "網頁 3D 渲染",
+            "detail": "需要將立體物件投影至網頁畫布；輸入：Scene 或 Object3D、Camera、renderer 設定；輸出：WebGL canvas 或指定 render target",
+            "source": "src/scenes/Scene.js"
+          },
+          {
+            "title": "持續更新畫面",
+            "detail": "需要在網頁中持續改變 3D 物件；輸入：每幀 callback、場景與相機；輸出：更新後的畫面；callback=null 可停止迴圈",
+            "source": "src/renderers/WebGLRenderer.js"
+          },
+          {
+            "title": "播放既有 3D 動畫片段",
+            "detail": "既有模型具有定義好的動畫需要按時間播放；輸入：AnimationClip、root object、deltaTime；輸出：AnimationAction 及更新的場景屬性",
+            "source": "src/animation/AnimationMixer.js"
+          },
+          {
+            "title": "結束渲染與釋放資源",
+            "detail": "網頁切換或銷毀元件時避免殘留渲染工作；輸入：WebGLRenderer 實例及其生命週期；輸出：停止動畫迴圈並釋放 renderer 內部資源與事件",
+            "source": "src/renderers/WebGLRenderer.js"
+          }
+        ],
+        "architecture": {
+          "summary": "Scene 與 Camera → 資料與物件 → 動畫更新 → WebGL render → 釋放資源",
+          "nodes": [
+            {
+              "title": "場景",
+              "detail": "Scene 繼承 Object3D，容納待渲染物件。",
+              "files": [
+                "src/scenes/Scene.js"
+              ]
+            },
+            {
+              "title": "逐幀更新",
+              "detail": "setAnimationLoop 控制 callback 與 animation.start／stop；AnimationMixer.update 以 deltaTime 與 timeScale 更新 action。",
+              "files": [
+                "src/renderers/WebGLRenderer.js",
+                "src/animation/AnimationMixer.js"
+              ]
+            },
+            {
+              "title": "渲染",
+              "detail": "render 檢查 camera 及 context lost，再更新場景矩陣並渲染至 canvas 或 render target。",
+              "files": [
+                "src/renderers/WebGLRenderer.js"
+              ]
+            },
+            {
+              "title": "清理",
+              "detail": "dispose 釋放 renderer 的事件、渲染快取、資源及動畫迴圈。",
+              "files": [
+                "src/renderers/WebGLRenderer.js"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "渲染前提",
+            "rule": "camera 必須為有效 Camera，失去 WebGL context 時 render 直接返回。",
+            "source": "src/renderers/WebGLRenderer.js"
+          },
+          {
+            "name": "動畫時間",
+            "rule": "AnimationMixer.update 將 deltaTime 乘 timeScale 並更新 active actions。",
+            "source": "src/animation/AnimationMixer.js"
+          },
+          {
+            "name": "生命週期",
+            "rule": "setAnimationLoop(null) 停止迴圈；dispose 清理 renderer 自身狀態。",
+            "source": "src/renderers/WebGLRenderer.js"
+          }
+        ],
+        "usage": [
+          {
+            "title": "固定版本來源閱讀",
+            "description": "按核心檔案與契約核對實作，不必先安裝。",
+            "files": [
+              "README.md",
+              "src/scenes/Scene.js",
+              "src/renderers/WebGLRenderer.js",
+              "src/animation/AnimationMixer.js",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "隔離環境的最小驗證",
+            "description": "先讀固定版本官方旋轉立方體範例，定義畫布、場景與相機。 在核准的開發環境驗證最小幾何物件，再逐步加入有授權的模型及動畫。 檢查不同裝置的幀率、尺寸、替代內容、頁面移除及資源清理。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "模型控制與替代畫面",
+            "detail": "另建立載入、相機控制、低效能及不可用情況的替代畫面，核對 Loader 與控制元件。",
+            "file": "src/renderers/WebGLRenderer.js"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "scene-render",
+            "name": "網頁 3D 渲染",
+            "problem": "需要將立體物件投影至網頁畫布",
+            "input": "Scene 或 Object3D、Camera、renderer 設定",
+            "output": "WebGL canvas 或指定 render target",
+            "source": "src/scenes/Scene.js",
+            "sourceFiles": [
+              "src/scenes/Scene.js",
+              "src/renderers/WebGLRenderer.js",
+              "README.md"
+            ],
+            "symbols": [
+              "Scene",
+              "WebGLRenderer.render",
+              "WebGLRenderer.setSize"
+            ],
+            "gate": "驗證 camera 與 GPU 支援；WebGL context lost 時 render 提早返回，須處理畫面失效。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "animation-loop",
+            "name": "持續更新畫面",
+            "problem": "需要在網頁中持續改變 3D 物件",
+            "input": "每幀 callback、場景與相機",
+            "output": "更新後的畫面；callback=null 可停止迴圈",
+            "source": "src/renderers/WebGLRenderer.js",
+            "sourceFiles": [
+              "src/renderers/WebGLRenderer.js",
+              "README.md"
+            ],
+            "symbols": [
+              "WebGLRenderer.setAnimationLoop",
+              "WebGLRenderer.render"
+            ],
+            "gate": "檢查動畫時間、幀率及停止條件；不可無限新增迴圈。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "clip-playback",
+            "name": "播放既有 3D 動畫片段",
+            "problem": "既有模型具有定義好的動畫需要按時間播放",
+            "input": "AnimationClip、root object、deltaTime",
+            "output": "AnimationAction 及更新的場景屬性",
+            "source": "src/animation/AnimationMixer.js",
+            "sourceFiles": [
+              "src/animation/AnimationMixer.js"
+            ],
+            "symbols": [
+              "AnimationMixer",
+              "AnimationMixer.clipAction",
+              "AnimationMixer.update"
+            ],
+            "gate": "驗證 clip 是否存在，時間單位及動畫狀態；模型載入與動畫製作須另行處理。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "renderer-cleanup",
+            "name": "結束渲染與釋放資源",
+            "problem": "網頁切換或銷毀元件時避免殘留渲染工作",
+            "input": "WebGLRenderer 實例及其生命週期",
+            "output": "停止動畫迴圈並釋放 renderer 內部資源與事件",
+            "source": "src/renderers/WebGLRenderer.js",
+            "sourceFiles": [
+              "src/renderers/WebGLRenderer.js"
+            ],
+            "symbols": [
+              "WebGLRenderer.dispose",
+              "WebGLRenderer.setAnimationLoop"
+            ],
+            "gate": "另核對使用者建立的 geometry、material、texture 的生命週期；dispose 不等於所有應用資產都已清除。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "製作網頁 3D 產品預覽（設計示例）",
+          "problem": "已授權的 3D 產品模型、展示尺寸及預期旋轉動作。",
+          "steps": [
+            {
+              "capability": "scene-render",
+              "action": "建立場景、相機及渲染器",
+              "capabilityRefs": [
+                "scene-render"
+              ]
+            },
+            {
+              "capability": "animation-loop",
+              "action": "更新旋轉及可用動畫片段",
+              "capabilityRefs": [
+                "animation-loop",
+                "clip-playback"
+              ]
+            },
+            {
+              "capability": "renderer-cleanup",
+              "action": "退出頁面時停止迴圈並清理",
+              "capabilityRefs": [
+                "renderer-cleanup"
+              ]
+            }
+          ],
+          "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+          "readerExampleRef": "product-3d-preview"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+          "stages": [
+            {
+              "title": "最小場景",
+              "detail": "定義 Scene、Camera 及測試物件。",
+              "deliverable": "畫布與尺寸契約"
+            },
+            {
+              "title": "動畫與切換",
+              "detail": "以固定時間序列比較旋轉及 clip 更新，測試停止。",
+              "deliverable": "動畫測試紀錄"
+            },
+            {
+              "title": "裝置及清理",
+              "detail": "測低階裝置、context lost 與元件反覆掛載。",
+              "deliverable": "效能及資源驗收"
+            }
+          ],
+          "gaps": [
+            "WebGPU、Loader、材質／貼圖生命週期、相機控制與完整 GPU 資源策略未逐檔審查。",
+            "未建置或測試實際模型、瀏覽器與裝置。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "裝置與資源",
+            "severity": "高",
+            "issue": "大量模型、貼圖、持續渲染會增加記憶體和 GPU 負擔。",
+            "control": "限制資產及畫布尺寸、監控幀率、切換時清理。"
+          },
+          {
+            "title": "素材與外部載入",
+            "severity": "高",
+            "issue": "模型或遠端素材可能涉及授權、跨來源與隱私。",
+            "control": "只用有權素材及核准來源，提供替代內容。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、Scene.js、WebGLRenderer.js 的 render、setAnimationLoop、dispose，以及 AnimationMixer.js 的 clipAction、update、LICENSE；尚未追查資產載入、WebGPU 與完整渲染管線"
+          },
+          {
+            "item": "Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝、執行、下載模型或連線正式資料。"
+          }
+        ]
       }
     },
     {
@@ -38187,14 +39945,14 @@
       "canonicalName": "faster-whisper",
       "category": "Media / Video",
       "resourceType": "CTranslate2 Whisper 語音轉文字工具",
-      "purpose": "轉錄音訊為文字，供字幕時間軸、訪談稿及影片後製使用。",
-      "recommendation": "適合在經授權的音訊上建立自動逐字稿；重要字幕仍需人工校對。",
+      "purpose": "把錄音或影片中的人聲轉成帶時間戳記的文字，方便整理訪談、製作字幕及搜尋內容。",
+      "recommendation": "適合已取得使用權的長音訊轉錄與批次字幕製作；如果需要可靠的講者身分辨識、逐字法律紀錄或翻譯，仍需另加流程與人工驗收。",
       "url": "https://github.com/SYSTRAN/faster-whisper",
       "repo": "SYSTRAN/faster-whisper",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "content",
@@ -38226,25 +39984,34 @@
       "source": {
         "url": "https://github.com/SYSTRAN/faster-whisper",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測",
+        "upstreamCommit": "6cb639e70786aea42b9233006ae60eaf07190bdb",
+        "referenceUrls": [
+          "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/README.md",
+          "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/faster_whisper/transcribe.py",
+          "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/faster_whisper/vad.py",
+          "https://github.com/SYSTRAN/faster-whisper/blob/6cb639e70786aea42b9233006ae60eaf07190bdb/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "比對既有 Canonical ID、Repo 與固定上游版本，僅補雙層內容，不建立重複紀錄。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -38253,8 +40020,8 @@
         "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "status": "applied",
+          "reason": "已建立限定範圍原始碼契約及重建缺口，非完整專案或執行驗證。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -38267,8 +40034,391 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測；未執行第三方程式。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測；具體用途與來源能力以局部 ID 雙向連結。"
         }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "interview-notes",
+            "title": "把訪談錄音轉成文字",
+            "detail": "取得原始時間與逐段文字，方便後續搜尋或人工整理摘要。",
+            "capabilityRefs": [
+              "speech-transcription"
+            ]
+          },
+          {
+            "id": "subtitle-timing",
+            "title": "製作影片字幕時間軸",
+            "detail": "依語音片段及選用的字詞時間，建立可校對的字幕草稿。",
+            "capabilityRefs": [
+              "speech-transcription",
+              "speech-timing"
+            ]
+          },
+          {
+            "id": "long-audio-batch",
+            "title": "批次處理長音訊",
+            "detail": "依實際硬體測試批次大小及語音區段設定，控制時間與記憶體。",
+            "capabilityRefs": [
+              "batch-inference",
+              "speech-timing"
+            ]
+          }
+        ],
+        "example": {
+          "id": "video-caption-draft",
+          "title": "為產品介紹影片建立字幕草稿",
+          "input": "已授權的 3 分鐘旁白音訊及預期繁體中文字幕。",
+          "process": "選模型與語言 → 迭代轉錄結果 → 對齊時間 → 人工校對 → 另行轉 SRT",
+          "output": "帶起訖時間的逐段文字與待校正名詞清單，之後另行匯出 SRT。",
+          "destination": "交給影片剪輯或字幕校對流程；字幕格式轉換需另行處理。",
+          "note": "自訂設計示例，未執行音訊轉錄；不代表會自動輸出正確繁體中文字幕。",
+          "useCaseRefs": [
+            "interview-notes",
+            "subtitle-timing",
+            "long-audio-batch"
+          ],
+          "steps": [
+            {
+              "id": "transcribe",
+              "title": "取得並迭代轉錄結果",
+              "capabilityRefs": [
+                "speech-transcription"
+              ]
+            },
+            {
+              "id": "align",
+              "title": "檢查時間戳記及語音區段",
+              "capabilityRefs": [
+                "speech-timing"
+              ]
+            },
+            {
+              "id": "compare",
+              "title": "長音訊時比較批次設定",
+              "capabilityRefs": [
+                "batch-inference"
+              ]
+            },
+            {
+              "id": "deliver",
+              "title": "校對及轉換字幕檔",
+              "capabilityRefs": [],
+              "externalDependency": "專有名詞、繁簡文字、SRT 格式及影片同步須另行人工／程式驗收。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "comparison": {
+          "title": "什麼時候選用語音轉錄？",
+          "headers": [
+            "人工逐字輸入",
+            "Faster Whisper"
+          ],
+          "rows": [
+            [
+              "需要從頭聽寫",
+              "先產生逐段文字及時間，人工校對"
+            ],
+            [
+              "品質受聽寫者與音質影響",
+              "速度、辨識及時間精度依模型與硬體而異"
+            ]
+          ],
+          "note": "自動轉錄不能替代正式紀錄的人工確認。"
+        },
+        "start": [
+          "先準備一段已授權且不含敏感資料的短音訊，核對模型及 CPU／GPU 依賴。",
+          "比較原音與逐段文字，確認 generator 已完整迭代，逐筆檢查時間戳記。",
+          "再以相同音訊比較一般與批次模式，保存模型、設定與錯誤。"
+        ],
+        "limits": [
+          "對人名、品牌與混合語言可能辨識錯誤；字幕時間戳記也需人工檢查。",
+          "模型可能自動下載；依賴、音訊權利及模型授權須另確認。",
+          "單字時間與 VAD 的結果不是講者分離，也不保證繁體中文字形。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以 CTranslate2 推論 Whisper，輸出可迭代的 Segment；VAD 可排除無語音區段，並將時間對回原始音訊。",
+        "status": [
+          {
+            "label": "核心來源",
+            "value": "已查閱固定 Commit 的限定範圍"
+          },
+          {
+            "label": "執行",
+            "value": "未安裝／未實測"
+          },
+          {
+            "label": "重建",
+            "value": "只完成核心設計契約，不代表完整專案重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "Python / CTranslate2"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT（Repo）"
+          },
+          {
+            "label": "版本錨點",
+            "value": "6cb639e70786aea42b9233006ae60eaf07190bdb"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "帶時間的語音轉錄",
+            "detail": "需要將錄音內容轉成可搜尋的文字；輸入：音訊檔／陣列、模型、語言及推論設定；輸出：segments generator、TranscriptionInfo；Segment.start/end/text",
+            "source": "faster_whisper/transcribe.py"
+          },
+          {
+            "title": "語音區段與時間對齊",
+            "detail": "停頓較多或需要更細字幕時間軸；輸入：音訊、vad_filter、vad_parameters、word_timestamps；輸出：語音區段、原始時間軸上的 Segment／可選 words",
+            "source": "faster_whisper/transcribe.py"
+          },
+          {
+            "title": "控制批次推論",
+            "detail": "長錄音或多個區段需要比較速度與資源；輸入：WhisperModel、音訊、batch_size 及設定；輸出：批次轉錄的 Segment 與 info",
+            "source": "faster_whisper/transcribe.py"
+          }
+        ],
+        "architecture": {
+          "summary": "音訊／模型設定 → 語音區段 → 推論並迭代結果 → 時間對齊 → 下游字幕",
+          "nodes": [
+            {
+              "title": "模型配置",
+              "detail": "WhisperModel 初始化 model_size_or_path、device、compute_type；模型 ID 可能觸發下載。",
+              "files": [
+                "faster_whisper/transcribe.py"
+              ]
+            },
+            {
+              "title": "語音區間",
+              "detail": "一般 transcribe 僅在 vad_filter 且 clip_timestamps 為預設值時收集語音區段。",
+              "files": [
+                "faster_whisper/transcribe.py",
+                "faster_whisper/vad.py"
+              ]
+            },
+            {
+              "title": "轉錄輸出",
+              "detail": "Segment 帶 id、start、end、text、words 等；generator 必須消費。",
+              "files": [
+                "faster_whisper/transcribe.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "時間恢復",
+              "detail": "restore_speech_timestamps 依 SpeechTimestampsMap 將詞或片段時間對回原始音訊。",
+              "files": [
+                "faster_whisper/transcribe.py",
+                "faster_whisper/vad.py"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "執行時機",
+            "rule": "轉錄 segment 為 generator，僅建立物件不等於已完成音訊推論。",
+            "source": "README.md"
+          },
+          {
+            "name": "時間映射",
+            "rule": "VAD 移除靜音後需依原始語音區段恢復時間；字詞可選，不能假定每筆都有。",
+            "source": "faster_whisper/transcribe.py"
+          },
+          {
+            "name": "批次差異",
+            "rule": "BatchedInferencePipeline.transcribe 的 vad_filter 預設 true；WhisperModel.transcribe 預設 false，比較需對齊設定。",
+            "source": "faster_whisper/transcribe.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "固定版本來源閱讀",
+            "description": "按核心檔案與契約核對實作，不必先安裝。",
+            "files": [
+              "README.md",
+              "faster_whisper/transcribe.py",
+              "faster_whisper/vad.py",
+              "LICENSE"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "隔離環境的最小驗證",
+            "description": "先準備一段已授權且不含敏感資料的短音訊，核對模型及 CPU／GPU 依賴。 比較原音與逐段文字，確認 generator 已完整迭代，逐筆檢查時間戳記。 再以相同音訊比較一般與批次模式，保存模型、設定與錯誤。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、模型下載、付費、資料及外部服務須另取得核准；本次未執行。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "字幕轉換與校對",
+            "detail": "另將 start/end/text 轉為 SRT，驗證順序、格式、原音與繁體字；不改動轉錄證據。",
+            "file": "faster_whisper/transcribe.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "speech-transcription",
+            "name": "帶時間的語音轉錄",
+            "problem": "需要將錄音內容轉成可搜尋的文字",
+            "input": "音訊檔／陣列、模型、語言及推論設定",
+            "output": "segments generator、TranscriptionInfo；Segment.start/end/text",
+            "source": "faster_whisper/transcribe.py",
+            "sourceFiles": [
+              "faster_whisper/transcribe.py"
+            ],
+            "symbols": [
+              "WhisperModel.transcribe",
+              "Segment",
+              "TranscriptionInfo"
+            ],
+            "gate": "實際迭代 generator 才完成轉錄；記錄模型版本與音訊權限、失敗及人工校對。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "speech-timing",
+            "name": "語音區段與時間對齊",
+            "problem": "停頓較多或需要更細字幕時間軸",
+            "input": "音訊、vad_filter、vad_parameters、word_timestamps",
+            "output": "語音區段、原始時間軸上的 Segment／可選 words",
+            "source": "faster_whisper/transcribe.py",
+            "sourceFiles": [
+              "faster_whisper/transcribe.py",
+              "faster_whisper/vad.py"
+            ],
+            "symbols": [
+              "get_speech_timestamps",
+              "restore_speech_timestamps",
+              "SpeechTimestampsMap",
+              "Word"
+            ],
+            "gate": "不得把 VAD 當成講者辨識；驗證靜音、音樂、重疊語音和起訖時間。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "batch-inference",
+            "name": "控制批次推論",
+            "problem": "長錄音或多個區段需要比較速度與資源",
+            "input": "WhisperModel、音訊、batch_size 及設定",
+            "output": "批次轉錄的 Segment 與 info",
+            "source": "faster_whisper/transcribe.py",
+            "sourceFiles": [
+              "faster_whisper/transcribe.py",
+              "README.md"
+            ],
+            "symbols": [
+              "BatchedInferencePipeline",
+              "BatchedInferencePipeline.transcribe"
+            ],
+            "gate": "同一音訊比較一般與批次模式，檢查品質與記憶體；預設 VAD 不同，不能只比較速度。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "為產品介紹影片建立字幕草稿（設計示例）",
+          "problem": "已授權的 3 分鐘旁白音訊及預期繁體中文字幕。",
+          "steps": [
+            {
+              "capability": "speech-transcription",
+              "action": "取得並迭代轉錄結果",
+              "capabilityRefs": [
+                "speech-transcription"
+              ]
+            },
+            {
+              "capability": "speech-timing",
+              "action": "檢查時間戳記及語音區段",
+              "capabilityRefs": [
+                "speech-timing"
+              ]
+            },
+            {
+              "capability": "batch-inference",
+              "action": "長音訊時比較批次設定",
+              "capabilityRefs": [
+                "batch-inference"
+              ]
+            }
+          ],
+          "gate": "設計示例，所有輸出須實測及獨立驗收，外部依賴不屬於本工具。",
+          "readerExampleRef": "video-caption-draft"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍核心契約建立最小測試，不宣稱已重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸出",
+              "detail": "建立含 start、end、text 與語言資訊的資料契約。",
+              "deliverable": "逐段 JSON 測試資料"
+            },
+            {
+              "title": "對照時間",
+              "detail": "選有靜音和混合語言的授權短音訊，驗證 VAD 與非 VAD。",
+              "deliverable": "逐段與原音對照紀錄"
+            },
+            {
+              "title": "比較資源",
+              "detail": "對齊設定後比較批次及一般推論。",
+              "deliverable": "耗時、記憶體、錯誤與校對表"
+            }
+          ],
+          "gaps": [
+            "尚未查核音訊解碼、CTranslate2 核心及各模型授權或辨識表現。",
+            "未測字幕轉換、GPU 依賴、批次效能及資料處理。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "音訊與模型",
+            "severity": "高",
+            "issue": "音訊可能含私密資訊，模型可能需下載。",
+            "control": "先確認合法使用、資料保存與連線權限。"
+          },
+          {
+            "title": "錯誤字幕",
+            "severity": "高",
+            "issue": "錯字、時間偏移或漏掉語音可能造成誤導。",
+            "control": "與原音逐段校對；重要內容人工覆核。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、transcribe.py 的 Segment、WhisperModel.transcribe、BatchedInferencePipeline、restore_speech_timestamps，以及 vad.py 的語音區間與時間映射、LICENSE；未查核推論模型內部或實測"
+          },
+          {
+            "item": "Build／Runtime／Security／Integration",
+            "state": "未驗證",
+            "evidence": "未安裝、執行、下載模型或連線正式資料。"
+          }
+        ]
       }
     },
     {
@@ -39298,14 +41448,14 @@
       "canonicalName": "AFFiNE",
       "category": "Knowledge Management",
       "resourceType": "Local-first 文件與白板工作區",
-      "purpose": "整合文件、白板與知識組織工作流程，提供注重隱私的本地優先筆記與協作介面。",
-      "recommendation": "適合研究 Personal Knowledge OS 的文件編輯、畫布及資料組織設計；先確認同步與自架邊界。",
+      "purpose": "把筆記文件、視覺白板及資料表放進同一個工作區，讓研究、規劃與知識整理可以在文字和畫布之間切換。",
+      "recommendation": "適合需要同時整理文件、關聯圖及工作計畫的人；若已有成熟文件系統或只需要純文字筆記，先比較搬移與維護成本。",
       "url": "https://github.com/toeverything/AFFiNE",
       "repo": "toeverything/AFFiNE",
       "notes": "",
       "status": "active",
       "addedAt": "2026-11-24",
-      "updatedAt": "2026-11-24",
+      "updatedAt": "2026-11-25",
       "tags": [],
       "classification": {
         "primaryDomain": "data",
@@ -39337,25 +41487,33 @@
       "source": {
         "url": "https://github.com/toeverything/AFFiNE",
         "type": "Official GitHub repository metadata and README",
-        "reviewedAt": "2026-11-24",
-        "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、根目錄 LICENSE 與 packages/backend/server/LICENSE；只確認產品功能、依賴專案與授權分區，未查閱編輯器、同步、儲存及權限核心實作",
+        "upstreamCommit": "81da59d63d535d72ba677a097d9a0cc9a5871ade",
+        "referenceUrls": [
+          "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md",
+          "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/LICENSE",
+          "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/LICENSE"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
-        "sourceStatus": "source-checked",
+        "sourceStatus": "partial",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-24",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
-          "decision": "new",
+          "decision": "update",
           "checkedFields": [
             "id",
             "url",
             "repo"
           ],
-          "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+          "reason": "比對既有 Canonical ID、Repo 與固定上游版本；更新用途、文件證據及原始碼查核缺口，不建立重複實體。"
         },
         "tagReview": {
           "decision": "all-mapped",
@@ -39365,7 +41523,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+          "reason": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -39378,7 +41536,165 @@
         "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README、根目錄 LICENSE 與 packages/backend/server/LICENSE；只確認產品功能、依賴專案與授權分區，未查閱編輯器、同步、儲存及權限核心實作；未安裝或執行。"
+        },
+        "sourceGap": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。",
+        "layerReview": {
+          "status": "deferred",
+          "reason": "已確認固定版本的文件及授權範圍，已知用途與文件證據可雙向對應；原始碼完整契約仍待查。",
+          "gap": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。",
+          "nextAction": "定位固定版本的工作區編輯器、local storage、sync、權限與匯出實作，檢視實際模組授權及可用功能，取得明確 I/O 後再建立 mapped 指南。"
+        }
+      },
+      "implementationKnowledge": {
+        "sourceReview": {
+          "blocks": "README 描述文件與 edgeless 畫布共用文字、便利貼、連結頁、資料表等 blocks；BlockSuite 為相關編輯器專案。",
+          "sync": "README 宣稱 local-first 及即時同步協作，列 y-octo、OctoBase 等相關專案；實際 client/server 資料流程與衝突處理未查核。",
+          "license": "根 LICENSE 明示 packages/backend、packages/common/native 目錄（若存在）適用 packages/backend/server/LICENSE。後者為 EE License，正式使用條件涉及有效 EE 訂閱或其他適用協議；其餘內容原則依 MIT，第三方元件另計。README 的 CE 自架宣稱不能覆蓋實際目錄授權。",
+          "deployment": "README 指向自架文件；尚未核對實際版本的備份、匯出、工作區隔離、資料保留或可商用範圍。"
+        }
+      },
+      "agentEvidence": [
+        {
+          "id": "documents-canvas",
+          "detail": "文件、畫布與資料表共用區塊，README 描述文件、視覺組織及知識管理用途。",
+          "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md；Features / A true canvas",
+          "evidenceFields": [
+            "features.0",
+            "implementationKnowledge.sourceReview.blocks"
+          ],
+          "limitations": "未追查 BlockSuite 整合、區塊 schema 或匯入匯出。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "local-collaboration",
+          "detail": "README 宣稱 local-first、即時同步及協作，列相關 CRDT 與資料專案。",
+          "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md；Local-first & Real-time collaborative / Related Projects",
+          "evidenceFields": [
+            "features.1",
+            "implementationKnowledge.sourceReview.sync"
+          ],
+          "limitations": "未驗證離線、同步衝突、工作區隔離或資料存放位置。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "hosting-license",
+          "detail": "根 LICENSE 對特定目錄另指向 EE License，須核對實際使用版本及協議。",
+          "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/LICENSE；https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/LICENSE",
+          "evidenceFields": [
+            "requirements.0",
+            "limitations.0",
+            "implementationKnowledge.sourceReview.license",
+            "implementationKnowledge.sourceReview.deployment"
+          ],
+          "limitations": "不能將所有程式碼、功能或自架服務一律視為 MIT 或免費。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        }
+      ],
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "visual-research",
+            "title": "用白板整理研究及知識",
+            "detail": "把筆記、連結、便利貼及資料表放在同一工作區，整理研究脈絡與關聯。",
+            "evidenceRefs": [
+              "documents-canvas"
+            ]
+          },
+          {
+            "id": "document-workspace",
+            "title": "在文件與畫布之間切換",
+            "detail": "把專案說明留在文件，另用畫布整理規劃及工作項目，確認兩種呈現方式是否合適。",
+            "evidenceRefs": [
+              "documents-canvas"
+            ]
+          },
+          {
+            "id": "workspace-evaluation",
+            "title": "評估離線與協作需求",
+            "detail": "依實際資料同步、帳號、授權與工作區隔離需求評估是否採用。",
+            "evidenceRefs": [
+              "local-collaboration",
+              "hosting-license"
+            ]
+          }
+        ],
+        "example": {
+          "id": "personal-research-workspace",
+          "title": "整理個人 AI 工具研究工作區",
+          "input": "五篇公開研究筆記、三個主題及已確認可保存的來源連結。",
+          "process": "建立測試文件與畫布 → 整理主題和關聯 → 檢查本地使用與同步 → 核對匯出及授權",
+          "output": "可瀏覽的研究文件、主題畫布與資料保留驗收清單（預期產物）。",
+          "destination": "個人知識管理評估；工作機密不得與個人資料混放。",
+          "note": "設計示例，尚未安裝、測試離線／同步、匯出或實際工作區隔離。",
+          "useCaseRefs": [
+            "visual-research",
+            "document-workspace",
+            "workspace-evaluation"
+          ],
+          "steps": [
+            {
+              "id": "organize",
+              "title": "以文件與畫布組織公開資料",
+              "evidenceRefs": [
+                "documents-canvas"
+              ]
+            },
+            {
+              "id": "sync",
+              "title": "核對離線及同步需求",
+              "evidenceRefs": [
+                "local-collaboration"
+              ]
+            },
+            {
+              "id": "license",
+              "title": "確認版本與授權分區",
+              "evidenceRefs": [
+                "hosting-license"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "測匯出、還原及工作區隔離",
+              "evidenceRefs": [],
+              "externalDependency": "資料遷移、備份、還原、權限及個人／工作隔離須另行實測。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先準備公開或合成資料建立小型工作區需求。",
+          "閱讀固定版本的 README、LICENSE 及實際方案條款，不將全部自架程式視為同一授權。",
+          "若獲准測試，再核對離線、同步、匯出、復原與工作區權限。"
+        ],
+        "limits": [
+          "本地優先不代表所有功能完全離線或免費；AI、同步、協作和商用條款應依方案確認。",
+          "根 LICENSE 有目錄分區，不能把全部 Repo 視為 MIT；使用或改作 EE 目錄前需核對適用協議。",
+          "未驗證真正離線範圍、同步衝突、資料匯出及備份還原。"
+        ],
+        "comparison": {
+          "title": "是否需要文件與白板整合？",
+          "headers": [
+            "純筆記系統",
+            "AFFiNE"
+          ],
+          "rows": [
+            [
+              "適合文件閱讀及簡單記錄",
+              "適合同時需要文字、畫布及資料表的工作區"
+            ],
+            [
+              "搬移及工具依賴可能較少",
+              "同步、授權、匯出與資料隔離需要評估"
+            ]
+          ],
+          "note": "選型取決於實際閱讀、資料保存及協作需求。"
         }
       }
     },
