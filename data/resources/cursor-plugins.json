@@ -6,13 +6,13 @@
   "canonicalName": "cursor/plugins",
   "category": "12 Developer Tools",
   "resourceType": "Official Cursor multi-plugin marketplace, manifest specification and integration / agent workflow directory",
-  "purpose": "由 Cursor 官方維護的開源多插件 Repository，提供 `.cursor-plugin/marketplace.json` Marketplace Manifest 與每個插件的 `.cursor-plugin/plugin.json`，把開發工作流程、Agent Skills、Rules、Agents、Commands、MCP 及第三方 SaaS 整合集中封裝與安裝。涵蓋 pstack、orchestrate、thermos、continual-learning、create-plugin、ralph-loop、Cursor SDK，以及 GitHub、Google Workspace、Workday、Playwright 等外部服務整合。",
-  "recommendation": "適合探索 Cursor Agent 插件能力、學習 Plugin Manifest 格式，或選擇 CI／Code Review／Agent Orchestration／記憶管理／外部 SaaS 等工作流程。先依需求挑選單一插件並檢查該插件的 manifest、所需權限與相依服務，不要直接把整個 Marketplace 當成一個 Skill。若要使用原始 pstack 可查看本 Repo 的 `pstack/`；如需 Claude Code／Codex／Pi 等跨 Harness 工作流程則另比較已收錄的 `michael-denyer/pstack-claude`。",
+  "purpose": "從 Cursor 官方插件目錄挑選程式開發、文件、企業應用與 Agent 協作的擴充方式。",
+  "recommendation": "適合按需求選擇插件；官方目錄不等於每個插件都由同一作者或具有相同授權與權限。",
   "url": "https://github.com/cursor/plugins",
   "repo": "cursor/plugins",
   "status": "active",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "cursor",
     "official-plugins",
@@ -64,9 +64,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1",
-    "contentFormat": "repository",
+    "contentFormat": "collection",
     "formatEvidenceFields": [
-      "repo"
+      "repo",
+      "source.referenceUrls"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -87,17 +88,26 @@
     "url": "https://github.com/cursor/plugins",
     "readmeUrl": "https://github.com/cursor/plugins/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、.cursor-plugin/marketplace.json、pstack/.cursor-plugin/plugin.json 文件與索引查核；只驗證集合選型證據，未逐一執行或審計項目。",
+    "upstreamCommit": "41e400932eca14f289e7db717a70455256b6d388",
+    "referenceUrls": [
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/README.md",
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/.cursor-plugin/marketplace.json",
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/pstack/.cursor-plugin/plugin.json"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -110,11 +120,11 @@
       "decision": "retain-unmapped",
       "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
     },
-    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
+    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。；依固定來源校正 Content Format 為 collection，原分類領域、Tags、Category 與 Typed References 不變。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、.cursor-plugin/marketplace.json、pstack/.cursor-plugin/plugin.json 文件與索引查核；只驗證集合選型證據，未逐一執行或審計項目。；本筆為可挑選的來源集合，不是單一程式重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -124,10 +134,175 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
     },
-    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "riskNotes": "同一 Marketplace 中有第三方維護的項目，不代表全部由 Cursor 官方直接測試。；插件可能包含 MCP、指令與可修改檔案的動作，需核對實際授權邊界。；Manifest 是目錄資料，不代表插件已安裝、已連線或經過安全測試。；同一插件集合可能有重複用途，須按任務挑選，不把名稱相近當作功能等價。；pstack 的 MIT 不可套到其他插件；需逐件查核 Host、權限、外部資料寫入與相依。；未安裝或執行個別第三方項目；正式採用前須查核實際版本與權限。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "固定版本 README.md、.cursor-plugin/marketplace.json、pstack/.cursor-plugin/plugin.json 文件與索引查核；只驗證集合選型證據，未逐一執行或審計項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、.cursor-plugin/marketplace.json、pstack/.cursor-plugin/plugin.json 文件與索引查核；只驗證集合選型證據，未逐一執行或審計項目。；用途與文件證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "由 Cursor 官方維護的開源多插件 Repository，提供 `.cursor-plugin/marketplace.json` Marketplace Manifest 與每個插件的 `.cursor-plugin/plugin.json`，把開發工作流程、Agent Skills、Rules、Agents、Commands、MCP 及第三方 SaaS 整合集中封裝與安裝。涵蓋 pstack、orchestrate、thermos、continual-learning、create-plugin、ralph-loop、Cursor SDK，以及 GitHub、Google Workspace、Workday、Playwright 等外部服務整合。",
+      "source": "https://github.com/cursor/plugins",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合探索 Cursor Agent 插件能力、學習 Plugin Manifest 格式，或選擇 CI／Code Review／Agent Orchestration／記憶管理／外部 SaaS 等工作流程。先依需求挑選單一插件並檢查該插件的 manifest、所需權限與相依服務，不要直接把整個 Marketplace 當成一個 Skill。若要使用原始 pstack 可查看本 Repo 的 `pstack/`；如需 Claude Code／Codex／Pi 等跨 Harness 工作流程則另比較已收錄的 `michael-denyer/pstack-claude`。",
+    "priorContentFormat": "repository",
+    "collectionLicense": "各插件獨立授權；pstack manifest 標示 MIT；未查全庫授權",
+    "documentContracts": [
+      {
+        "id": "market",
+        "input": "任務名稱與候選類型",
+        "output": "名稱、source、description 對應表",
+        "source": ".cursor-plugin/marketplace.json",
+        "locator": "plugins[] / metadata",
+        "rule": "Manifest 是目錄資料，不代表插件已安裝、已連線或經過安全測試。"
+      },
+      {
+        "id": "workflow",
+        "input": "需求規劃、PR 審查或驗收要求",
+        "output": "teaching、cursor-team-kit、pstack 等候選",
+        "source": "README.md",
+        "locator": "Plugins",
+        "rule": "同一插件集合可能有重複用途，須按任務挑選，不把名稱相近當作功能等價。"
+      },
+      {
+        "id": "manifest",
+        "input": "選定的插件來源與版本",
+        "output": "pstack 名稱、版本、skills、agents 及授權欄位",
+        "source": "pstack/.cursor-plugin/plugin.json",
+        "locator": "name / version / skills / agents / license",
+        "rule": "pstack 的 MIT 不可套到其他插件；需逐件查核 Host、權限、外部資料寫入與相依。"
+      }
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "market",
+      "detail": "插件清單需有清楚的識別與來源；輸入：任務名稱與候選類型；輸出：名稱、source、description 對應表。",
+      "locator": "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/.cursor-plugin/marketplace.json — plugins[] / metadata",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "Manifest 是目錄資料，不代表插件已安裝、已連線或經過安全測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "workflow",
+      "detail": "架構、審查與學習可能需要不同插件；輸入：需求規劃、PR 審查或驗收要求；輸出：teaching、cursor-team-kit、pstack 等候選。",
+      "locator": "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/README.md — Plugins",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "同一插件集合可能有重複用途，須按任務挑選，不把名稱相近當作功能等價。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "manifest",
+      "detail": "Marketplace 描述不含所有實作與權限；輸入：選定的插件來源與版本；輸出：pstack 名稱、版本、skills、agents 及授權欄位。",
+      "locator": "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/pstack/.cursor-plugin/plugin.json — name / version / skills / agents / license",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "pstack 的 MIT 不可套到其他插件；需逐件查核 Host、權限、外部資料寫入與相依。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-market",
+        "title": "依 Marketplace Manifest 查找插件",
+        "detail": "插件清單需有清楚的識別與來源。名稱、source、description 對應表。",
+        "evidenceRefs": [
+          "market"
+        ]
+      },
+      {
+        "id": "use-workflow",
+        "title": "選擇工程工作方式",
+        "detail": "架構、審查與學習可能需要不同插件。teaching、cursor-team-kit、pstack 等候選。",
+        "evidenceRefs": [
+          "workflow"
+        ]
+      },
+      {
+        "id": "use-manifest",
+        "title": "核對個別插件的範圍",
+        "detail": "Marketplace 描述不含所有實作與權限。pstack 名稱、版本、skills、agents 及授權欄位。",
+        "evidenceRefs": [
+          "manifest"
+        ]
+      }
+    ],
+    "example": {
+      "id": "cursor-plugins-example",
+      "title": "規劃開發團隊的 Cursor 插件選用與治理",
+      "input": "合成開發需求、文件任務及可用 Host。",
+      "process": "依 Marketplace Manifest 查找插件 → 選擇工程工作方式 → 核對個別插件的範圍 → 核對來源與選型條件",
+      "output": "插件候選、來源 manifest 與權限審查規格（規劃產物）。",
+      "destination": "自有 Agent 插件目錄與工作流程選型之規劃與後續驗收。",
+      "note": "自訂選型案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-market",
+        "use-workflow",
+        "use-manifest"
+      ],
+      "steps": [
+        {
+          "id": "market",
+          "title": "依 Marketplace Manifest 查找插件",
+          "evidenceRefs": [
+            "market"
+          ]
+        },
+        {
+          "id": "workflow",
+          "title": "選擇工程工作方式",
+          "evidenceRefs": [
+            "workflow"
+          ]
+        },
+        {
+          "id": "manifest",
+          "title": "核對個別插件的範圍",
+          "evidenceRefs": [
+            "manifest"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "核對實際來源與選型條件",
+          "evidenceRefs": [],
+          "externalDependency": "個別候選的原始碼、授權、權限、版本及實際測試需獨立核對。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成開發需求、文件任務及可用 Host。",
+      "按工作問題選擇適合的候選，不需要一次安裝整個集合。",
+      "固定候選版本並核對來源、授權及測試條件。"
+    ],
+    "limits": [
+      "同一 Marketplace 中有第三方維護的項目，不代表全部由 Cursor 官方直接測試。",
+      "插件可能包含 MCP、指令與可修改檔案的動作，需核對實際授權邊界。",
+      "Manifest 是目錄資料，不代表插件已安裝、已連線或經過安全測試。",
+      "同一插件集合可能有重複用途，須按任務挑選，不把名稱相近當作功能等價。",
+      "pstack 的 MIT 不可套到其他插件；需逐件查核 Host、權限、外部資料寫入與相依。",
+      "未安裝或執行個別第三方項目；正式採用前須查核實際版本與權限。"
+    ]
   }
 }
