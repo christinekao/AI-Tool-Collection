@@ -6,14 +6,14 @@
   "canonicalName": "Charonyuu/whatsmyagentdoing",
   "category": "12 Developer Tools",
   "resourceType": "MIT open-source local Agent Session Monitoring Dashboard / Node.js Web UI and Claude Code/Codex Skill",
-  "purpose": "把本機 Claude Code、Codex、Gemini CLI 的 Session JSONL 事件即時轉成工作狀態，於 2D 手繪／3D 虛擬辦公室或清單檢視哪些 Agent 正在思考、執行工具、輸出回覆、等待人類批准、已完成、出錯或中斷；顯示當前任務、工具類型、回覆摘要、計時與 Resume 指令，並可用 /myoffice 開啟。",
-  "recommendation": "適合同時開多個 Codex／Claude Code 工作階段，想快速查看誰在執行測試、哪個 Agent 等待介入或已完成的開發者。建議先使用 --demo 確認 UI，再對真實工作階段視需要以 --private 遮蔽 Prompt／回覆。只在可信賴的本機使用，因為 Session Log 可能包含程式碼、工作路徑、私人輸入、機密或其他敏感資料；勿透過不安全反向代理公開 localhost dashboard。此工具是狀態觀察器，不是跨 Agent 排程／執行控制平台。",
+  "purpose": "在同一畫面看見多個本機 Coding Agent 是否正在思考、執行工具、等待人工處理或已結束。",
+  "recommendation": "適合需要快速辨識卡住的工作；狀態是日誌推導，不能代替成果驗收，勿公開顯示私人對話。",
   "url": "https://github.com/Charonyuu/whatsmyagentdoing",
   "repo": "Charonyuu/whatsmyagentdoing",
   "notes": "2026-10-24 核對官方 GitHub README.md、SKILL.md、package.json、LICENSE、bin/cli.js、src/server.js、scenes.json 和 GitHub 元資料。主 repo 為 MIT，package.json 版本 0.2.2、Node.js>=18，專案於 2026-10-23 建立，仍屬極新專案（當時約 63 stars），不能以範例動畫推定穩定性。支援 Claude Code CLI/desktop/IDE、Codex CLI/desktop/IDE、Gemini CLI 的本機 JSONL session logs；不支援 Google Antigravity 的未公開 binary conversation store。READ-only 監視既有 Session Logs，不需要 Agent Hooks、模型 API Key 或新 npm runtime install；從 Clone 後使用 node bin/cli.js 啟動，技能 /myoffice 是可獨立收錄的 SKILL.md。2D 無 runtime dependencies；3D bundled three.js/CC0 Kenney assets 只在使用者切換 High 3D 時載入；選擇其他場景時才從 GitHub Releases 下載 SHA-256 驗證素材。服務預設 127.0.0.1:4545（埠佔用改用下一個），檢查 Host header 防 DNS rebinding；但 /api/sessions 與 /events 在本機不要求額外帳號認證，能連本機埠的程式／使用者可能讀取 Session 內容。--private 會隱藏 prompt、reply、title 並縮減 activity，但標準模式可展示敏感程式碼路徑、User Prompt 與 Reply，應在螢幕分享前啟用。雖 README 宣稱 'nothing leaves your machine'，版本檢查預設每約半小時連 GitHub 取 package.json；--update/頁面 Update 可能執行 git pull 並重啟；場景下載亦會對外連網。對外請求不代表 Session Logs 必定上傳；現有程式碼檢查不能保證全部隱私邊界無漏洞。模型 API 本身仍依原有 Agent 與 Provider 資料政策。Claude Code 對 Permission Prompt 並不記錄到 JSONL，故畫面可能維持 Running 而不是 Waiting；log event 並非逐 Token 即時。此輪只收錄，不在使用者電腦安裝、執行或讀取任何真實 Session Logs。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "whatsmyagentdoing",
     "myoffice",
@@ -75,8 +75,15 @@
     "type": "Official GitHub README, SKILL.md, source files, package metadata and LICENSE",
     "summary": "Primary repository verified on 2026-10-24; not installed or tested.",
     "readmeUrl": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、src/parsers.js、src/watcher.js 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "0706fee33b7b9b84e809f57a7887075ca50ad70b",
+    "referenceUrls": [
+      "https://github.com/Charonyuu/whatsmyagentdoing/blob/0706fee33b7b9b84e809f57a7887075ca50ad70b/README.md",
+      "https://github.com/Charonyuu/whatsmyagentdoing/blob/0706fee33b7b9b84e809f57a7887075ca50ad70b/LICENSE",
+      "https://github.com/Charonyuu/whatsmyagentdoing/blob/0706fee33b7b9b84e809f57a7887075ca50ad70b/src/parsers.js",
+      "https://github.com/Charonyuu/whatsmyagentdoing/blob/0706fee33b7b9b84e809f57a7887075ca50ad70b/src/watcher.js"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -114,10 +121,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -133,8 +143,8 @@
     "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、src/parsers.js、src/watcher.js 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -144,10 +154,363 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "只能觀察有支援且可讀到本機記錄的 Agent，不能替代任務排程。；Session Log 可能含路徑、Prompt、工具輸出與敏感資料，不應直接公開服務。；狀態是來源事件推導，Done 僅表示回合結束，非任務完成證明。；無法讀取的日誌可能被略過；應顯示資料新鮮度與缺漏，不把沒有事件當空閒。；日誌可能有私人文字；僅供本機核准展示，用量不可當供應商帳單。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、src/parsers.js、src/watcher.js 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、src/parsers.js、src/watcher.js 局部查核；未執行第三方程式或測試。；局部能力與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把本機 Claude Code、Codex、Gemini CLI 的 Session JSONL 事件即時轉成工作狀態，於 2D 手繪／3D 虛擬辦公室或清單檢視哪些 Agent 正在思考、執行工具、輸出回覆、等待人類批准、已完成、出錯或中斷；顯示當前任務、工具類型、回覆摘要、計時與 Resume 指令，並可用 /myoffice 開啟。",
+      "source": "https://github.com/Charonyuu/whatsmyagentdoing",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合同時開多個 Codex／Claude Code 工作階段，想快速查看誰在執行測試、哪個 Agent 等待介入或已完成的開發者。建議先使用 --demo 確認 UI，再對真實工作階段視需要以 --private 遮蔽 Prompt／回覆。只在可信賴的本機使用，因為 Session Log 可能包含程式碼、工作路徑、私人輸入、機密或其他敏感資料；勿透過不安全反向代理公開 localhost dashboard。此工具是狀態觀察器，不是跨 Agent 排程／執行控制平台。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-parse",
+        "title": "統一不同 Agent 的事件狀態",
+        "detail": "不同 CLI 日誌格式不一致。推導出的 thinking、running、waiting 等狀態。",
+        "capabilityRefs": [
+          "parse"
+        ]
+      },
+      {
+        "id": "use-watch",
+        "title": "追蹤新事件與檔案更新",
+        "detail": "人工反覆查看各終端耗時。Session 更新與事件流。",
+        "capabilityRefs": [
+          "watch"
+        ]
+      },
+      {
+        "id": "use-usage",
+        "title": "查看回合及 Token 概況",
+        "detail": "需要辨識活躍度與 Context 變化。本機每日回合、Token 與 Context 資訊。",
+        "capabilityRefs": [
+          "usage"
+        ]
+      }
+    ],
+    "example": {
+      "id": "charonyuu-whatsmyagentdoing-example",
+      "title": "規劃多 Agent 等待人工處理的監控面板",
+      "input": "匿名的本機 Session 事件、合成工具執行和核准紀錄。",
+      "process": "統一不同 Agent 的事件狀態 → 追蹤新事件與檔案更新 → 查看回合及 Token 概況 → 獨立驗收實際成果",
+      "output": "狀態面板、等待提醒及可回查的工作階段（規劃產物）。",
+      "destination": "自有開發監控及交接介面之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-parse",
+        "use-watch",
+        "use-usage"
+      ],
+      "steps": [
+        {
+          "id": "parse",
+          "title": "統一不同 Agent 的事件狀態",
+          "capabilityRefs": [
+            "parse"
+          ]
+        },
+        {
+          "id": "watch",
+          "title": "追蹤新事件與檔案更新",
+          "capabilityRefs": [
+            "watch"
+          ]
+        },
+        {
+          "id": "usage",
+          "title": "查看回合及 Token 概況",
+          "capabilityRefs": [
+            "usage"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備匿名的本機 Session 事件、合成工具執行和核准紀錄。",
+      "依需求選用對應能力並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "只能觀察有支援且可讀到本機記錄的 Agent，不能替代任務排程。",
+      "Session Log 可能含路徑、Prompt、工具輸出與敏感資料，不應直接公開服務。",
+      "狀態是來源事件推導，Done 僅表示回合結束，非任務完成證明。",
+      "無法讀取的日誌可能被略過；應顯示資料新鮮度與缺漏，不把沒有事件當空閒。",
+      "日誌可能有私人文字；僅供本機核准展示，用量不可當供應商帳單。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在同一畫面看見多個本機 Coding Agent 是否正在思考、執行工具、等待人工處理或已結束。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "0706fee33b7b9b84e809f57a7887075ca50ad70b"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "統一不同 Agent 的事件狀態",
+        "detail": "不同 CLI 日誌格式不一致。 輸入：支援格式的 Session 事件；輸出：推導出的 thinking、running、waiting 等狀態",
+        "source": "src/parsers.js"
+      },
+      {
+        "title": "追蹤新事件與檔案更新",
+        "detail": "人工反覆查看各終端耗時。 輸入：支援的本機日誌路徑及增量讀取；輸出：Session 更新與事件流",
+        "source": "src/watcher.js"
+      },
+      {
+        "title": "查看回合及 Token 概況",
+        "detail": "需要辨識活躍度與 Context 變化。 輸入：Session 用量及時間；輸出：本機每日回合、Token 與 Context 資訊",
+        "source": "src/parsers.js"
+      }
+    ],
+    "architecture": {
+      "summary": "統一不同 Agent 的事件狀態 → 追蹤新事件與檔案更新 → 查看回合及 Token 概況 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "統一不同 Agent 的事件狀態",
+          "detail": "支援格式的 Session 事件 → 推導出的 thinking、running、waiting 等狀態",
+          "files": [
+            "src/parsers.js",
+            "README.md"
+          ]
+        },
+        {
+          "title": "追蹤新事件與檔案更新",
+          "detail": "支援的本機日誌路徑及增量讀取 → Session 更新與事件流",
+          "files": [
+            "src/watcher.js",
+            "README.md"
+          ]
+        },
+        {
+          "title": "查看回合及 Token 概況",
+          "detail": "Session 用量及時間 → 本機每日回合、Token 與 Context 資訊",
+          "files": [
+            "src/parsers.js",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "統一不同 Agent 的事件狀態",
+        "rule": "狀態是來源事件推導，Done 僅表示回合結束，非任務完成證明。",
+        "source": "src/parsers.js"
+      },
+      {
+        "name": "追蹤新事件與檔案更新",
+        "rule": "無法讀取的日誌可能被略過；應顯示資料新鮮度與缺漏，不把沒有事件當空閒。",
+        "source": "src/watcher.js"
+      },
+      {
+        "name": "查看回合及 Token 概況",
+        "rule": "日誌可能有私人文字；僅供本機核准展示，用量不可當供應商帳單。",
+        "source": "src/parsers.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、src/parsers.js、src/watcher.js 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/parsers.js",
+          "src/watcher.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備匿名的本機 Session 事件、合成工具執行和核准紀錄。 依需求選用對應能力並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "src/parsers.js"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有開發監控及交接介面另行驗收實際成果及限制。",
+        "file": "src/parsers.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "parse",
+        "name": "統一不同 Agent 的事件狀態",
+        "problem": "不同 CLI 日誌格式不一致。",
+        "input": "支援格式的 Session 事件",
+        "output": "推導出的 thinking、running、waiting 等狀態",
+        "source": "src/parsers.js",
+        "sourceFiles": [
+          "src/parsers.js",
+          "README.md"
+        ],
+        "symbols": [
+          "newSession",
+          "applyClaude",
+          "applyCodex"
+        ],
+        "gate": "狀態是來源事件推導，Done 僅表示回合結束，非任務完成證明。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "watch",
+        "name": "追蹤新事件與檔案更新",
+        "problem": "人工反覆查看各終端耗時。",
+        "input": "支援的本機日誌路徑及增量讀取",
+        "output": "Session 更新與事件流",
+        "source": "src/watcher.js",
+        "sourceFiles": [
+          "src/watcher.js",
+          "README.md"
+        ],
+        "symbols": [
+          "Watcher",
+          "tick",
+          "readRange"
+        ],
+        "gate": "無法讀取的日誌可能被略過；應顯示資料新鮮度與缺漏，不把沒有事件當空閒。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "usage",
+        "name": "查看回合及 Token 概況",
+        "problem": "需要辨識活躍度與 Context 變化。",
+        "input": "Session 用量及時間",
+        "output": "本機每日回合、Token 與 Context 資訊",
+        "source": "src/parsers.js",
+        "sourceFiles": [
+          "src/parsers.js",
+          "README.md"
+        ],
+        "symbols": [
+          "usage",
+          "countTurn",
+          "dayKey"
+        ],
+        "gate": "日誌可能有私人文字；僅供本機核准展示，用量不可當供應商帳單。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃多 Agent 等待人工處理的監控面板（設計示例）",
+      "problem": "匿名的本機 Session 事件、合成工具執行和核准紀錄",
+      "steps": [
+        {
+          "capability": "parse",
+          "action": "統一不同 Agent 的事件狀態"
+        },
+        {
+          "capability": "watch",
+          "action": "追蹤新事件與檔案更新"
+        },
+        {
+          "capability": "usage",
+          "action": "查看回合及 Token 概況"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "charonyuu-whatsmyagentdoing-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "匿名的本機 Session 事件、合成工具執行和核准紀錄",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "統一不同 Agent 的事件狀態 → 追蹤新事件與檔案更新 → 查看回合及 Token 概況 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有開發監控及交接介面之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "只能觀察有支援且可讀到本機記錄的 Agent，不能替代任務排程。",
+        "Session Log 可能含路徑、Prompt、工具輸出與敏感資料，不應直接公開服務。",
+        "狀態是來源事件推導，Done 僅表示回合結束，非任務完成證明。",
+        "無法讀取的日誌可能被略過；應顯示資料新鮮度與缺漏，不把沒有事件當空閒。",
+        "日誌可能有私人文字；僅供本機核准展示，用量不可當供應商帳單。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "只能觀察有支援且可讀到本機記錄的 Agent，不能替代任務排程。 Session Log 可能含路徑、Prompt、工具輸出與敏感資料，不應直接公開服務。 狀態是來源事件推導，Done 僅表示回合結束，非任務完成證明。 無法讀取的日誌可能被略過；應顯示資料新鮮度與缺漏，不把沒有事件當空閒。 日誌可能有私人文字；僅供本機核准展示，用量不可當供應商帳單。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、src/parsers.js、src/watcher.js 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

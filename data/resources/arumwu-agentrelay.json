@@ -6,13 +6,13 @@
   "canonicalName": "arumwu/agentrelay",
   "category": "02 Agent Orchestration",
   "resourceType": "Apache-2.0 local-first coding-agent coordination CLI / MCP server with SQLite memory and tmux messaging",
-  "purpose": "讓 Claude Code、Codex 與其他 Coding Agents 在同一個 Git Repo 或跨多 Repo 工作區協作，管理 Agent Sessions/Heartbeat、到期 Task Leases、檔案與 Glob Scope Claim 重疊警告、Architecture Decisions、Failed Attempts、Git-aware Markdown Handoffs、FTS5 可搜尋本機專案記憶和 token-budgeted context packs；內建 tmux Terminal list/read/send/name/doctor 五個工具，在可信任的同一個 tmux Session 內傳遞有限長度的訊息。",
-  "recommendation": "適合一個人同時用 Claude Code 與 Codex 處理同一專案，想降低重複分析、檔案互相覆蓋與切換 Session 的交接成本。可作為 Cross-Agent Continuity Stack 裡的協作／交接組件，與跨 Agent Shared Memory 概念不同，著重同一工作區的任務所有權和歷史決策。先在非敏感測試 Repo 安裝，明確針對各 Repo 設定 Project-local MCP 而非開到全域；同時啟動多個 Agent 前，先驗證 Task Lease 衝突、Scope Warning、Handoff 內容與 git status。安全優先只讓受信任 Agent 使用同一 tmux Session，不把 Shell/Production Console 當成可供 terminal_send 的 Agent Pane；不要誤以為 Advisory File Claims 能硬性防止覆寫檔案。",
+  "purpose": "讓多個 Coding Agent 在同一專案接續工作，避免重複探索、重複領取任務或遺失交接資訊。",
+  "recommendation": "適合跨 CLI 的本機協作；需實際限制工作區與終端操作，不以 advisory claim 當作檔案鎖。",
   "url": "https://github.com/arumwu/agentrelay",
   "repo": "arumwu/agentrelay",
   "status": "active",
   "addedAt": "2026-10-22",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "agentrelay",
     "cross-agent",
@@ -112,17 +112,28 @@
     "url": "https://github.com/arumwu/agentrelay",
     "readmeUrl": "https://github.com/arumwu/agentrelay/blob/main/README.md",
     "type": "Upstream official GitHub README/SKILL.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Source reviewed, not code-executed or installation-tested"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、src/store.ts、src/git.ts、src/terminal.ts 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "d49ef59de1330209d93f6ade9dc38b83e66671e9",
+    "referenceUrls": [
+      "https://github.com/arumwu/agentrelay/blob/d49ef59de1330209d93f6ade9dc38b83e66671e9/README.md",
+      "https://github.com/arumwu/agentrelay/blob/d49ef59de1330209d93f6ade9dc38b83e66671e9/LICENSE",
+      "https://github.com/arumwu/agentrelay/blob/d49ef59de1330209d93f6ade9dc38b83e66671e9/src/store.ts",
+      "https://github.com/arumwu/agentrelay/blob/d49ef59de1330209d93f6ade9dc38b83e66671e9/src/git.ts",
+      "https://github.com/arumwu/agentrelay/blob/d49ef59de1330209d93f6ade9dc38b83e66671e9/src/terminal.ts"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -138,8 +149,8 @@
     "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、src/store.ts、src/git.ts、src/terminal.ts 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -149,10 +160,363 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "檔案範圍 Claim 主要用於協作提示，不能替代 Git 合併衝突處理。；tmux 訊息傳送及 MCP 工具具執行面風險，不應授權對不受信任工作階段操作。；檔案 claim 是 advisory，不是 OS 強制鎖；租約過期或失聯需重新核對 Git 狀態。；工作目錄須在工作區內；Git 快照不是完整執行驗收，也不可把秘密寫入交接。；read-before-send 與遮蔽不是安全沙箱；只准已確認對象，不能把終端輸出當成授權。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、src/store.ts、src/git.ts、src/terminal.ts 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、src/store.ts、src/git.ts、src/terminal.ts 局部查核；未執行第三方程式或測試。；局部能力與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Claude Code、Codex 與其他 Coding Agents 在同一個 Git Repo 或跨多 Repo 工作區協作，管理 Agent Sessions/Heartbeat、到期 Task Leases、檔案與 Glob Scope Claim 重疊警告、Architecture Decisions、Failed Attempts、Git-aware Markdown Handoffs、FTS5 可搜尋本機專案記憶和 token-budgeted context packs；內建 tmux Terminal list/read/send/name/doctor 五個工具，在可信任的同一個 tmux Session 內傳遞有限長度的訊息。",
+      "source": "https://github.com/arumwu/agentrelay",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合一個人同時用 Claude Code 與 Codex 處理同一專案，想降低重複分析、檔案互相覆蓋與切換 Session 的交接成本。可作為 Cross-Agent Continuity Stack 裡的協作／交接組件，與跨 Agent Shared Memory 概念不同，著重同一工作區的任務所有權和歷史決策。先在非敏感測試 Repo 安裝，明確針對各 Repo 設定 Project-local MCP 而非開到全域；同時啟動多個 Agent 前，先驗證 Task Lease 衝突、Scope Warning、Handoff 內容與 git status。安全優先只讓受信任 Agent 使用同一 tmux Session，不把 Shell/Production Console 當成可供 terminal_send 的 Agent Pane；不要誤以為 Advisory File Claims 能硬性防止覆寫檔案。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-lease",
+        "title": "避免重複領取工作",
+        "detail": "同時工作的 Agent 可能重複處理任務。可到期的租約與重疊警告。",
+        "capabilityRefs": [
+          "lease"
+        ]
+      },
+      {
+        "id": "use-handoff",
+        "title": "保留可接續的專案脈絡",
+        "detail": "另一 Agent 不應重新讀取所有歷史。Git 快照與有限的任務交接脈絡。",
+        "capabilityRefs": [
+          "handoff"
+        ]
+      },
+      {
+        "id": "use-terminal",
+        "title": "在受信任終端間交接訊息",
+        "detail": "Agent 需查看或提醒正在工作的同伴。受限讀取與單行訊息。",
+        "capabilityRefs": [
+          "terminal"
+        ]
+      }
+    ],
+    "example": {
+      "id": "arumwu-agentrelay-example",
+      "title": "規劃兩個 Coding Agent 的跨工作階段交接",
+      "input": "合成 Git 專案、兩個 Agent 身分、任務與檔案範圍。",
+      "process": "避免重複領取工作 → 保留可接續的專案脈絡 → 在受信任終端間交接訊息 → 獨立驗收實際成果",
+      "output": "任務租約、已嘗試方法、Git 狀態與交接文件（規劃產物）。",
+      "destination": "自有 Agent 協作工作台之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-lease",
+        "use-handoff",
+        "use-terminal"
+      ],
+      "steps": [
+        {
+          "id": "lease",
+          "title": "避免重複領取工作",
+          "capabilityRefs": [
+            "lease"
+          ]
+        },
+        {
+          "id": "handoff",
+          "title": "保留可接續的專案脈絡",
+          "capabilityRefs": [
+            "handoff"
+          ]
+        },
+        {
+          "id": "terminal",
+          "title": "在受信任終端間交接訊息",
+          "capabilityRefs": [
+            "terminal"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成 Git 專案、兩個 Agent 身分、任務與檔案範圍。",
+      "依需求選用對應能力並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "檔案範圍 Claim 主要用於協作提示，不能替代 Git 合併衝突處理。",
+      "tmux 訊息傳送及 MCP 工具具執行面風險，不應授權對不受信任工作階段操作。",
+      "檔案 claim 是 advisory，不是 OS 強制鎖；租約過期或失聯需重新核對 Git 狀態。",
+      "工作目錄須在工作區內；Git 快照不是完整執行驗收，也不可把秘密寫入交接。",
+      "read-before-send 與遮蔽不是安全沙箱；只准已確認對象，不能把終端輸出當成授權。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓多個 Coding Agent 在同一專案接續工作，避免重複探索、重複領取任務或遺失交接資訊。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；部分整合元件另有 MIT"
+      },
+      {
+        "label": "版本",
+        "value": "d49ef59de1330209d93f6ade9dc38b83e66671e9"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "避免重複領取工作",
+        "detail": "同時工作的 Agent 可能重複處理任務。 輸入：Session、heartbeat 與任務範圍；輸出：可到期的租約與重疊警告",
+        "source": "src/store.ts"
+      },
+      {
+        "title": "保留可接續的專案脈絡",
+        "detail": "另一 Agent 不應重新讀取所有歷史。 輸入：工作目錄、Git 變更、已記錄事件；輸出：Git 快照與有限的任務交接脈絡",
+        "source": "src/git.ts"
+      },
+      {
+        "title": "在受信任終端間交接訊息",
+        "detail": "Agent 需查看或提醒正在工作的同伴。 輸入：tmux pane、受信任範圍、待送訊息；輸出：受限讀取與單行訊息",
+        "source": "src/terminal.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "避免重複領取工作 → 保留可接續的專案脈絡 → 在受信任終端間交接訊息 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "避免重複領取工作",
+          "detail": "Session、heartbeat 與任務範圍 → 可到期的租約與重疊警告",
+          "files": [
+            "src/store.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保留可接續的專案脈絡",
+          "detail": "工作目錄、Git 變更、已記錄事件 → Git 快照與有限的任務交接脈絡",
+          "files": [
+            "src/git.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "在受信任終端間交接訊息",
+          "detail": "tmux pane、受信任範圍、待送訊息 → 受限讀取與單行訊息",
+          "files": [
+            "src/terminal.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "避免重複領取工作",
+        "rule": "檔案 claim 是 advisory，不是 OS 強制鎖；租約過期或失聯需重新核對 Git 狀態。",
+        "source": "src/store.ts"
+      },
+      {
+        "name": "保留可接續的專案脈絡",
+        "rule": "工作目錄須在工作區內；Git 快照不是完整執行驗收，也不可把秘密寫入交接。",
+        "source": "src/git.ts"
+      },
+      {
+        "name": "在受信任終端間交接訊息",
+        "rule": "read-before-send 與遮蔽不是安全沙箱；只准已確認對象，不能把終端輸出當成授權。",
+        "source": "src/terminal.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、src/store.ts、src/git.ts、src/terminal.ts 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/store.ts",
+          "src/git.ts",
+          "src/terminal.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成 Git 專案、兩個 Agent 身分、任務與檔案範圍。 依需求選用對應能力並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "src/store.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 Agent 協作工作台另行驗收實際成果及限制。",
+        "file": "src/store.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "lease",
+        "name": "避免重複領取工作",
+        "problem": "同時工作的 Agent 可能重複處理任務。",
+        "input": "Session、heartbeat 與任務範圍",
+        "output": "可到期的租約與重疊警告",
+        "source": "src/store.ts",
+        "sourceFiles": [
+          "src/store.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "ProjectStore",
+          "heartbeat",
+          "scopePatternsMayOverlap"
+        ],
+        "gate": "檔案 claim 是 advisory，不是 OS 強制鎖；租約過期或失聯需重新核對 Git 狀態。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "handoff",
+        "name": "保留可接續的專案脈絡",
+        "problem": "另一 Agent 不應重新讀取所有歷史。",
+        "input": "工作目錄、Git 變更、已記錄事件",
+        "output": "Git 快照與有限的任務交接脈絡",
+        "source": "src/git.ts",
+        "sourceFiles": [
+          "src/git.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "captureGitSnapshot",
+          "resolveWorkingDirectory"
+        ],
+        "gate": "工作目錄須在工作區內；Git 快照不是完整執行驗收，也不可把秘密寫入交接。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "terminal",
+        "name": "在受信任終端間交接訊息",
+        "problem": "Agent 需查看或提醒正在工作的同伴。",
+        "input": "tmux pane、受信任範圍、待送訊息",
+        "output": "受限讀取與單行訊息",
+        "source": "src/terminal.ts",
+        "sourceFiles": [
+          "src/terminal.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "TerminalTransport",
+          "read",
+          "resolvePane"
+        ],
+        "gate": "read-before-send 與遮蔽不是安全沙箱；只准已確認對象，不能把終端輸出當成授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃兩個 Coding Agent 的跨工作階段交接（設計示例）",
+      "problem": "合成 Git 專案、兩個 Agent 身分、任務與檔案範圍",
+      "steps": [
+        {
+          "capability": "lease",
+          "action": "避免重複領取工作"
+        },
+        {
+          "capability": "handoff",
+          "action": "保留可接續的專案脈絡"
+        },
+        {
+          "capability": "terminal",
+          "action": "在受信任終端間交接訊息"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "arumwu-agentrelay-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成 Git 專案、兩個 Agent 身分、任務與檔案範圍",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "避免重複領取工作 → 保留可接續的專案脈絡 → 在受信任終端間交接訊息 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 Agent 協作工作台之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "檔案範圍 Claim 主要用於協作提示，不能替代 Git 合併衝突處理。",
+        "tmux 訊息傳送及 MCP 工具具執行面風險，不應授權對不受信任工作階段操作。",
+        "檔案 claim 是 advisory，不是 OS 強制鎖；租約過期或失聯需重新核對 Git 狀態。",
+        "工作目錄須在工作區內；Git 快照不是完整執行驗收，也不可把秘密寫入交接。",
+        "read-before-send 與遮蔽不是安全沙箱；只准已確認對象，不能把終端輸出當成授權。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "檔案範圍 Claim 主要用於協作提示，不能替代 Git 合併衝突處理。 tmux 訊息傳送及 MCP 工具具執行面風險，不應授權對不受信任工作階段操作。 檔案 claim 是 advisory，不是 OS 強制鎖；租約過期或失聯需重新核對 Git 狀態。 工作目錄須在工作區內；Git 快照不是完整執行驗收，也不可把秘密寫入交接。 read-before-send 與遮蔽不是安全沙箱；只准已確認對象，不能把終端輸出當成授權。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、src/store.ts、src/git.ts、src/terminal.ts 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
