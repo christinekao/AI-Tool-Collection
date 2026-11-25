@@ -581,7 +581,10 @@ try{
   ["dslab-lessons",".resource-reader-guide","規劃第一支 AI 影音的學習與驗收流程"],
   ["research-to-diagram",".resource-reader-guide","規劃 AI Agent 元件關係的研究圖解"],
   ["kubai087-kubai-icons",".resource-reader-guide","規劃履歷管理系統的統一功能圖示"],
-  ["claude-svg-animation-logo-loading-chart-tutorial",".resource-reader-guide","規劃資料分析網站的動畫與靜態替代方案"]
+  ["claude-svg-animation-logo-loading-chart-tutorial",".resource-reader-guide","規劃資料分析網站的動畫與靜態替代方案"],
+  ["reactive-resume",".resource-reader-guide","規劃職缺專屬履歷版本及面試追蹤"],
+  ["codebase-index",".resource-reader-guide","規劃修改履歷表單前的程式影響分析"],
+  ["code-graph",".resource-reader-guide","規劃共用驗證函式的修改影響檢查"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -608,7 +611,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 ninety-seven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 one hundred Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

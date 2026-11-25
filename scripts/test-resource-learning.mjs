@@ -888,3 +888,48 @@ test('Dual-layer batch 21: SVG teaching preserves data and evidence',()=>{
   assert.doesNotMatch(html,/class="repo-guide"/,id);
  }
 });
+
+test('Dual-layer batch 22: resume versioning and code index boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["reactive-resume","規劃職缺專屬履歷版本及面試追蹤"],["codebase-index","規劃修改履歷表單前的程式影響分析"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('reactive-resume').repoGuide.capabilities.find(c=>c.id==='tailor').gate,/match score 會寫入/);
+ assert.match(load('codebase-index').repoGuide.capabilities.find(c=>c.id==='verify').gate,/不代表功能通過/);
+});
+
+test('Dual-layer batch 22: code graph remains a concept, not an executable repository',()=>{
+ const id='code-graph',d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+ assert.ok(built,id);
+ for(const key of ['readerGuide','agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+ assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ assert.equal(d.intakeReview.layerReview.status,'evidence-linked');
+ assert.equal(d.intakeReview.verification.status,'not-tested');
+ assert.equal(d.repo,'');assert.equal(d.url,'');assert.equal(d.repoGuide,undefined);
+ for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+ for(const uc of d.readerGuide.useCases)for(const ref of uc.evidenceRefs){assert.ok(d.agentEvidence.some(u=>u.id===ref&&u.runtimeStatus==='not-tested'));assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id));}
+ const context=vm.createContext({URL});vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ const html=context.detail(built);assert.ok(html.includes('規劃共用驗證函式的修改影響檢查')&&html.includes('class="resource-reader-guide"'));assert.doesNotMatch(html,/class="repo-guide"/);
+});
