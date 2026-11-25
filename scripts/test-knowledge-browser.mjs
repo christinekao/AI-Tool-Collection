@@ -523,7 +523,15 @@ try{
   ["motion-sites",".resource-reader-guide","設計知識庫卡片的微互動"],
   ["google-stitch",".resource-reader-guide","規劃履歷投遞管理介面"],
   ["vercel-ai-gateway",".resource-reader-guide","驗證摘要服務的模型備援"],
-  ["pythonanywhere",".resource-reader-guide","部署簡單的公開筆記展示頁"]
+  ["pythonanywhere",".resource-reader-guide","部署簡單的公開筆記展示頁"],
+  ["higgsfield-ai",".resource-reader-guide","規劃三鏡頭商品宣傳短片"],
+  ["inspora",".resource-reader-guide","建立產品品牌風格參考表"],
+  ["chatcut",".resource-reader-guide","剪輯產品操作示範影片"],
+  ["motionsites-ai",".resource-reader-guide","規劃投遞管理 Dashboard"],
+  ["vercel-skills-sh",".resource-reader-guide","選擇程式審查 Skill"],
+  ["meigen-ai",".resource-reader-guide","設計商品海報的生成測試"],
+  ["openai-codex-security",".resource-reader-guide","規劃合成表單專案安全審查"],
+  ["ibkr-portfolioanalyst",".resource-reader-guide","設計每月資產與交易回顧"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -550,7 +558,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 thirty-nine Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 forty-seven Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.
