@@ -6,14 +6,14 @@
   "canonicalName": "dotlottie-web",
   "category": "UI / Design Engineering",
   "resourceType": "Web dotLottie 動畫播放函式庫",
-  "purpose": "在網頁及應用程式中播放 Lottie／dotLottie 動畫素材，提供程式化控制介面。",
-  "recommendation": "適合網頁向量動態素材的播放；不是影像生成或影片剪輯引擎。",
+  "purpose": "把已有的 Lottie 或 dotLottie 動畫放進網頁，控制何時播放、暫停或顯示特定畫格，適合介面動效。",
+  "recommendation": "適合已經有向量動畫素材、需要互動控制的網站；若要從零設計動畫或輸出 MP4，需另外使用動畫製作或影片渲染工具。",
   "url": "https://github.com/LottieFiles/dotlottie-web",
   "repo": "LottieFiles/dotlottie-web",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "design",
@@ -45,25 +45,33 @@
   "source": {
     "url": "https://github.com/LottieFiles/dotlottie-web",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、packages/web/src/dotlottie.ts 的 load、play、setFrame、freeze、destroy 及狀態介面、MIT LICENSE；未查閱 Rust/WASM 核心、Worker、所有渲染後端或跨框架包裝",
+    "upstreamCommit": "db3f9b19e8e515aa9e87b7667a899825bb992e13",
+    "referenceUrls": [
+      "https://github.com/LottieFiles/dotlottie-web/blob/db3f9b19e8e515aa9e87b7667a899825bb992e13/README.md",
+      "https://github.com/LottieFiles/dotlottie-web/blob/db3f9b19e8e515aa9e87b7667a899825bb992e13/packages/web/src/dotlottie.ts",
+      "https://github.com/LottieFiles/dotlottie-web/blob/db3f9b19e8e515aa9e87b7667a899825bb992e13/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url",
         "repo"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "沿用既有 Canonical ID，確認上游固定版本並補人類及技術對應。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,8 +80,8 @@
     "classificationReason": "依讀者使用任務及實際來源形式選擇既有 Primary Domain 和 Content Format；不推斷可組裝能力。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅建立來源查核與基本用途記錄，尚未逐檔追蹤原始碼、實作契約及重建驗證。"
+      "status": "applied",
+      "reason": "已建立 Web API 核心契約與未確認範圍，不代表完整引擎審查。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -86,7 +94,372 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README、packages/web/src/dotlottie.ts 的 load、play、setFrame、freeze、destroy 及狀態介面、MIT LICENSE；未查閱 Rust/WASM 核心、Worker、所有渲染後端或跨框架包裝；未安裝及執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 Web 播放器載入、控制及生命週期的程式證據與三種人類用途對應。"
     }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "ui-feedback",
+        "title": "讓介面操作有動態回饋",
+        "detail": "在儲存完成、載入中等狀態切換時，播放已準備的動畫；實際成功狀態仍由應用程式確認。",
+        "capabilityRefs": [
+          "load-animation",
+          "playback-control"
+        ]
+      },
+      {
+        "id": "interactive-preview",
+        "title": "控制網頁動畫的播放進度",
+        "detail": "將播放、暫停或特定畫格連結到使用者操作，適合動態產品插畫或教學示意。",
+        "capabilityRefs": [
+          "load-animation",
+          "playback-control"
+        ]
+      },
+      {
+        "id": "lightweight-animation",
+        "title": "管理多個動畫的資源使用",
+        "detail": "在動畫不需要顯示時停止不必要的渲染，離開頁面後銷毀播放器並確認清理。",
+        "capabilityRefs": [
+          "player-lifecycle"
+        ]
+      }
+    ],
+    "example": {
+      "id": "save-feedback-animation",
+      "title": "為表單儲存加入完成動畫",
+      "input": "一份有使用權的成功提示動畫，以及表單實際儲存成功的事件。",
+      "process": "載入動畫 → 等待應用程式確認儲存 → 播放 → 離開頁面時清理",
+      "output": "儲存成功後播放的完成提示動畫（預期介面行為）。",
+      "destination": "產品表單的回饋元件；失敗時應顯示真實錯誤，而不是成功動畫。",
+      "note": "自訂設計示例，未建置網頁或播放實際動畫。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "ui-feedback",
+        "interactive-preview",
+        "lightweight-animation"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "準備已有的動畫素材",
+          "capabilityRefs": [],
+          "externalDependency": "動畫設計、檔案格式相容與素材使用權需另行確認。"
+        },
+        {
+          "id": "load",
+          "title": "建立播放器並等待素材載入",
+          "capabilityRefs": [
+            "load-animation"
+          ]
+        },
+        {
+          "id": "play",
+          "title": "依實際儲存結果播放動畫",
+          "capabilityRefs": [
+            "playback-control"
+          ]
+        },
+        {
+          "id": "cleanup",
+          "title": "切換頁面時釋放播放器",
+          "capabilityRefs": [
+            "player-lifecycle"
+          ]
+        }
+      ]
+    },
+    "comparison": {
+      "title": "應該選 Lottie 播放器還是影片？",
+      "headers": [
+        "一般影片",
+        "dotLottie Web"
+      ],
+      "rows": [
+        [
+          "播放固定畫面及聲音",
+          "依既有動畫素材控制畫格與播放"
+        ],
+        [
+          "適合既有 MP4 素材",
+          "適合網頁動態圖示與狀態回饋"
+        ]
+      ],
+      "note": "實際檔案大小、效能及相容性須測試，不能保證更快或更小。"
+    },
+    "start": [
+      "先準備有使用權的 .json 或 .lottie 動畫，閱讀固定版本 README 及播放器狀態。",
+      "使用核准的網頁環境驗證載入、播放與指定畫格，檢查載入失敗時的替代畫面。",
+      "確認頁面切換時的清理，測手機、鍵盤及減少動態效果的需求。"
+    ],
+    "limits": [
+      "動畫播放與 MP4 輸出是不同工作；檔案相容與效能需依實際裝置驗證。",
+      "Rust/WASM 核心、Worker、各框架包裝及渲染後端尚未逐檔查閱；未測實際檔案。",
+      "動畫可有提示作用，但不應是唯一的狀態訊息；需提供文字或靜態替代。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "DotLottie 封裝 Canvas 播放與核心控制；load 重設配置，播放或指定畫格時更新核心與畫布，destroy 停止並清理核心。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本的 Web API 核心已查閱"
+      },
+      {
+        "label": "執行",
+        "value": "未安裝／未實測"
+      },
+      {
+        "label": "重建",
+        "value": "僅 Web 播放器介面，非 WASM 核心重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "TypeScript / Rust + WASM（README）"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "db3f9b19e8e515aa9e87b7667a899825bb992e13"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "載入既有動畫素材",
+        "detail": "Config 的 canvas、src／data 及播放設定 → DotLottie player 與 isReady/isLoaded 等狀態",
+        "source": "packages/web/src/dotlottie.ts"
+      },
+      {
+        "title": "控制播放與指定畫格",
+        "detail": "play、pause、stop、setFrame 或速度設定 → 畫布中更新的動畫畫格及播放狀態",
+        "source": "packages/web/src/dotlottie.ts"
+      },
+      {
+        "title": "暫停渲染與銷毀播放器",
+        "detail": "播放器、freeze/unfreeze 或 destroy → 停止／恢復渲染迴圈或釋放核心及取消來源載入",
+        "source": "packages/web/src/dotlottie.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "動畫素材與 canvas → load／狀態 → 播放／畫格 → draw → freeze／destroy",
+      "nodes": [
+        {
+          "title": "載入",
+          "detail": "DotLottie.load 在核心不存在時返回，否則停止舊動畫迴圈、清理畫布，套用 autoplay、loop、speed、segment 等配置。",
+          "files": [
+            "packages/web/src/dotlottie.ts"
+          ]
+        },
+        {
+          "title": "播放",
+          "detail": "play 檢查核心與 isLoaded；核心播放成功或處於 Playing 時重啟動畫迴圈。",
+          "files": [
+            "packages/web/src/dotlottie.ts"
+          ]
+        },
+        {
+          "title": "指定畫格",
+          "detail": "setFrame 呼叫核心 set_frame，更新成功時 render、派發事件及 draw。",
+          "files": [
+            "packages/web/src/dotlottie.ts"
+          ]
+        },
+        {
+          "title": "生命週期",
+          "detail": "freeze 停止畫格迴圈；destroy 停止迴圈、清理畫布、取消來源載入並 free 核心。",
+          "files": [
+            "packages/web/src/dotlottie.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "載入狀態",
+        "rule": "play 在核心未初始化或尚未載入時直接返回；應用程式先確認 isLoaded 並處理錯誤。",
+        "source": "packages/web/src/dotlottie.ts"
+      },
+      {
+        "name": "畫格更新",
+        "rule": "setFrame 只在核心回報 frameUpdated 且 render 成功時繪製。",
+        "source": "packages/web/src/dotlottie.ts"
+      },
+      {
+        "name": "資源清理",
+        "rule": "freeze/unfreeze 控制渲染迴圈且保留播放狀態；destroy 釋放核心、取消來源載入，不可與 pause 混用。",
+        "source": "packages/web/src/dotlottie.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀版本化 API",
+        "description": "先閱讀 README 與 DotLottie 實作，確認動畫來源、Canvas 及載入狀態。",
+        "files": [
+          "README.md",
+          "packages/web/src/dotlottie.ts",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "隔離驗證",
+        "description": "核准後在最小網頁測一個動畫；加入錯誤與靜態替代內容。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true
+      }
+    ],
+    "extension": [
+      {
+        "title": "介面狀態控制元件",
+        "detail": "把真實業務事件映射到播放方法，額外提供文字提示與減少動態效果設定，元件卸載時清理。",
+        "file": "packages/web/src/dotlottie.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "load-animation",
+        "name": "載入既有動畫素材",
+        "problem": "網站需要播放設計好的動態圖示或插畫",
+        "input": "Config 的 canvas、src／data 及播放設定",
+        "output": "DotLottie player 與 isReady/isLoaded 等狀態",
+        "source": "packages/web/src/dotlottie.ts",
+        "sourceFiles": [
+          "packages/web/src/dotlottie.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "DotLottie",
+          "DotLottie.load",
+          "DotLottie.isLoaded"
+        ],
+        "gate": "準備合法素材及可用網路／本地載入路徑；確認初始化及載入狀態後才播放。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "playback-control",
+        "name": "控制播放與指定畫格",
+        "problem": "介面需依點擊、進度或狀態播放動畫",
+        "input": "play、pause、stop、setFrame 或速度設定",
+        "output": "畫布中更新的動畫畫格及播放狀態",
+        "source": "packages/web/src/dotlottie.ts",
+        "sourceFiles": [
+          "packages/web/src/dotlottie.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "DotLottie.play",
+          "DotLottie.pause",
+          "DotLottie.stop",
+          "DotLottie.setFrame"
+        ],
+        "gate": "測未載入、重複觸發與畫格範圍；不要將視覺動畫當成業務操作成功證據。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "player-lifecycle",
+        "name": "暫停渲染與銷毀播放器",
+        "problem": "畫面離開或動畫不再需要時避免持續渲染",
+        "input": "播放器、freeze/unfreeze 或 destroy",
+        "output": "停止／恢復渲染迴圈或釋放核心及取消來源載入",
+        "source": "packages/web/src/dotlottie.ts",
+        "sourceFiles": [
+          "packages/web/src/dotlottie.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "DotLottie.freeze",
+          "DotLottie.unfreeze",
+          "DotLottie.destroy"
+        ],
+        "gate": "測路由切換及反覆掛載；freeze 不是 pause，destroy 之後不可假定原實例可直接重用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "表單成功動效（設計示例）",
+      "problem": "只在資料實際保存成功後顯示完成動畫。",
+      "steps": [
+        {
+          "capability": "load-animation",
+          "action": "建立播放器並等待素材載入"
+        },
+        {
+          "capability": "playback-control",
+          "action": "依實際儲存結果播放動畫"
+        },
+        {
+          "capability": "player-lifecycle",
+          "action": "切換頁面時釋放播放器"
+        }
+      ],
+      "gate": "未執行；應用程式狀態、動畫權利及跨裝置相容性需另驗收。",
+      "readerExampleRef": "save-feedback-animation"
+    },
+    "rebuild": {
+      "verdict": "可根據 Web 介面契約設計最小播放器元件；無法宣稱重建 WASM 引擎。",
+      "stages": [
+        {
+          "title": "載入測試",
+          "detail": "準備一份合法動畫、Canvas 及載入失敗案例。",
+          "deliverable": "載入與狀態紀錄"
+        },
+        {
+          "title": "控制測試",
+          "detail": "驗證 play、pause、setFrame 與重複操作。",
+          "deliverable": "狀態和畫格測試"
+        },
+        {
+          "title": "生命週期",
+          "detail": "測 freeze、destroy、路由切換與畫面替代。",
+          "deliverable": "資源及無障礙驗收"
+        }
+      ],
+      "gaps": [
+        "Rust/WASM 核心、Worker、WebGL/WebGPU 後端、框架整合未逐檔審查。",
+        "未建置或驗證真實檔案及各裝置。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "動畫來源",
+        "severity": "高",
+        "issue": "外部動畫或素材可能涉及權利、網路與隱私。",
+        "control": "固定來源、核對素材授權，不任意載入第三方內容。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本 Web API",
+        "state": "已查閱",
+        "evidence": "固定版本 README、packages/web/src/dotlottie.ts 的 load、play、setFrame、freeze、destroy 及狀態介面、MIT LICENSE；未查閱 Rust/WASM 核心、Worker、所有渲染後端或跨框架包裝"
+      },
+      {
+        "item": "執行及整合",
+        "state": "未驗證",
+        "evidence": "未安裝或播放動畫。"
+      }
+    ]
   }
 }
