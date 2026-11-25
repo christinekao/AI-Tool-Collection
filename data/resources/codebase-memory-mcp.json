@@ -6,14 +6,14 @@
   "canonicalName": "Codebase Memory MCP",
   "category": "03 Code Intelligence",
   "resourceType": "Local Code Knowledge Graph / MCP",
-  "purpose": "在本機解析程式碼建立符號、呼叫與依賴知識圖譜，透過 MCP、CLI 與選配的視覺化工具提供 Coding Agent 結構化程式脈絡。",
-  "recommendation": "適合大型或需要長期探索的 Codebase；建議先審查安裝腳本、Agent 設定寫入、索引範圍與資源占用。",
+  "purpose": "讓 Coding Agent 查詢專案中的程式、文件、設定與部署關係，找出功能位置、追蹤呼叫路徑及修改可能影響的範圍，不必每次重新閱讀所有檔案。",
+  "recommendation": "適合需要跨模組或服務追蹤的開發工作；單純搜尋字串不必先建完整知識圖譜。",
   "url": "https://github.com/DeusData/codebase-memory-mcp",
   "repo": "DeusData/codebase-memory-mcp",
   "notes": "Official project identified from the screenshot topic. Local-first codebase knowledge graph / MCP pattern.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "mcp",
     "codebase-memory",
@@ -79,25 +79,34 @@
   "source": {
     "url": "https://github.com/DeusData/codebase-memory-mcp",
     "readmeUrl": "https://github.com/DeusData/codebase-memory-mcp/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README、LICENSE 與 src/mcp/mcp.c 的工具登錄及 handler 識別；未全面審查 C 實作、解析器、網路或發行檔安全。",
+    "referenceUrls": [
+      "https://github.com/DeusData/codebase-memory-mcp/blob/9a4da7a314833d8d965b74612e1f25fef5371861/README.md",
+      "https://github.com/DeusData/codebase-memory-mcp/blob/9a4da7a314833d8d965b74612e1f25fef5371861/LICENSE",
+      "https://github.com/DeusData/codebase-memory-mcp/blob/9a4da7a314833d8d965b74612e1f25fef5371861/src/mcp/mcp.c"
+    ],
+    "upstreamCommit": "9a4da7a314833d8d965b74612e1f25fef5371861"
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對既有 ID 與原始來源，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -106,8 +115,8 @@
     "classificationReason": "沿用既有 Primary Domain software；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE 與 src/mcp/mcp.c 的工具登錄及 handler 識別；未全面審查 C 實作、解析器、網路或發行檔安全。；提供局部來源契約或教材。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -117,10 +126,362 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
     },
-    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "riskNotes": "大型索引會消耗本機記憶體與磁碟；語言支援與語意解析完整度不同。；可選 Lens 模型下載及插件設定屬另外的網路與系統變更，不應隱含授權。；check_index_coverage 沒有回報缺口不代表完整；先確認索引及版本。；圖譜靜態路徑不是實際執行紀錄；跨服務與部署關係仍需查配置及測試。；索引可能長時間執行；queued/running 不能當作完成。；安裝器會修改 Agent 設定，選配 Lens 模型下載及索引範圍須另核准；本機處理聲明未獨立稽核。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README、LICENSE 與 src/mcp/mcp.c 的工具登錄及 handler 識別；未全面審查 C 實作、解析器、網路或發行檔安全。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE 與 src/mcp/mcp.c 的工具登錄及 handler 識別；未全面審查 C 實作、解析器、網路或發行檔安全。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在本機解析程式碼建立符號、呼叫與依賴知識圖譜，透過 MCP、CLI 與選配的視覺化工具提供 Coding Agent 結構化程式脈絡。",
+      "source": "https://github.com/DeusData/codebase-memory-mcp",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合大型或需要長期探索的 Codebase；建議先審查安裝腳本、Agent 設定寫入、索引範圍與資源占用。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-index",
+        "title": "先建立與確認專案索引",
+        "detail": "需要讓 Agent 對指定專案建立可重用的結構脈絡。 圖譜索引狀態及覆蓋缺口紀錄。",
+        "capabilityRefs": [
+          "index"
+        ]
+      },
+      {
+        "id": "use-trace",
+        "title": "追蹤功能與跨服務關係",
+        "detail": "需要找出 API、程式碼及部署設定如何連接。 節點、關係路徑、對應原始碼位置。",
+        "capabilityRefs": [
+          "trace"
+        ]
+      },
+      {
+        "id": "use-change",
+        "title": "找出候選變更影響",
+        "detail": "需要確認目前 diff 涉及哪些模組與測試。 受影響符號與候選影響範圍。",
+        "capabilityRefs": [
+          "change"
+        ]
+      }
+    ],
+    "example": {
+      "id": "codebase-memory-mcp-example",
+      "title": "規劃跨模組功能與部署路徑的追蹤",
+      "input": "自有測試 Repo、合成的功能變更需求、指定索引範圍與 Git 版本。",
+      "process": "先建立與確認專案索引 → 追蹤功能與跨服務關係 → 找出候選變更影響 → 獨立驗收",
+      "output": "索引覆蓋紀錄、候選呼叫與部署路徑、受影響模組和回歸驗收清單。",
+      "destination": "自有開發專案的架構理解、變更規劃與 PR 驗收。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-index",
+        "use-trace",
+        "use-change"
+      ],
+      "steps": [
+        {
+          "id": "index",
+          "title": "先建立與確認專案索引",
+          "capabilityRefs": [
+            "index"
+          ]
+        },
+        {
+          "id": "trace",
+          "title": "追蹤功能與跨服務關係",
+          "capabilityRefs": [
+            "trace"
+          ]
+        },
+        {
+          "id": "change",
+          "title": "找出候選變更影響",
+          "capabilityRefs": [
+            "change"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、資料、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試 Repo、合成的功能變更需求、指定索引範圍與 Git 版本。",
+      "依需求選擇上述用途，閱讀固定版本來源及限制。",
+      "確認環境及權限，再另行實作與核對成果。"
+    ],
+    "limits": [
+      "大型索引會消耗本機記憶體與磁碟；語言支援與語意解析完整度不同。",
+      "可選 Lens 模型下載及插件設定屬另外的網路與系統變更，不應隱含授權。",
+      "check_index_coverage 沒有回報缺口不代表完整；先確認索引及版本。",
+      "圖譜靜態路徑不是實際執行紀錄；跨服務與部署關係仍需查配置及測試。",
+      "索引可能長時間執行；queued/running 不能當作完成。",
+      "安裝器會修改 Agent 設定，選配 Lens 模型下載及索引範圍須另核准；本機處理聲明未獨立稽核。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "讓 Coding Agent 查詢專案中的程式、文件、設定與部署關係，找出功能位置、追蹤呼叫路徑及修改可能影響的範圍，不必每次重新閱讀所有檔案。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT（根目錄 LICENSE；相依元件及被索引資料權利另查）"
+      },
+      {
+        "label": "版本",
+        "value": "9a4da7a314833d8d965b74612e1f25fef5371861"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "先建立與確認專案索引",
+        "detail": "需要讓 Agent 對指定專案建立可重用的結構脈絡。；輸入：repo_path、索引範圍與目前版本；輸出：圖譜索引狀態及覆蓋缺口紀錄",
+        "source": "src/mcp/mcp.c"
+      },
+      {
+        "title": "追蹤功能與跨服務關係",
+        "detail": "需要找出 API、程式碼及部署設定如何連接。；輸入：專案、符號或圖譜查詢、追蹤模式；輸出：節點、關係路徑、對應原始碼位置",
+        "source": "src/mcp/mcp.c"
+      },
+      {
+        "title": "找出候選變更影響",
+        "detail": "需要確認目前 diff 涉及哪些模組與測試。；輸入：Git diff、指定版本及已建立的索引；輸出：受影響符號與候選影響範圍",
+        "source": "src/mcp/mcp.c"
+      }
+    ],
+    "architecture": {
+      "summary": "先建立與確認專案索引 → 追蹤功能與跨服務關係 → 找出候選變更影響 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "先建立與確認專案索引",
+          "detail": "repo_path、索引範圍與目前版本 → 圖譜索引狀態及覆蓋缺口紀錄",
+          "files": [
+            "README.md",
+            "src/mcp/mcp.c"
+          ]
+        },
+        {
+          "title": "追蹤功能與跨服務關係",
+          "detail": "專案、符號或圖譜查詢、追蹤模式 → 節點、關係路徑、對應原始碼位置",
+          "files": [
+            "README.md",
+            "src/mcp/mcp.c"
+          ]
+        },
+        {
+          "title": "找出候選變更影響",
+          "detail": "Git diff、指定版本及已建立的索引 → 受影響符號與候選影響範圍",
+          "files": [
+            "README.md",
+            "src/mcp/mcp.c"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "先建立與確認專案索引",
+        "rule": "等待索引實際成功；覆蓋查詢沒有缺口不代表完整，需核對實際檔案。",
+        "source": "src/mcp/mcp.c"
+      },
+      {
+        "name": "追蹤功能與跨服務關係",
+        "rule": "依查詢模式解讀路徑；靜態 CALLS 不代表執行軌跡，逐項回讀程式與設定。",
+        "source": "src/mcp/mcp.c"
+      },
+      {
+        "name": "找出候選變更影響",
+        "rule": "圖譜風險分級不能取代人工審查；保留未確認路徑，另執行回歸測試。",
+        "source": "src/mcp/mcp.c"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE 與 src/mcp/mcp.c 的工具登錄及 handler 識別；未全面審查 C 實作、解析器、網路或發行檔安全。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/mcp/mcp.c"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Repo、合成的功能變更需求、指定索引範圍與 Git 版本。 依需求選擇上述用途，閱讀固定版本來源及限制。 確認環境及權限，再另行實作與核對成果。",
+        "files": [
+          "src/mcp/mcp.c"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有開發專案的架構理解、變更規劃與 PR 驗收。；另驗證實際行為及限制。",
+        "file": "src/mcp/mcp.c"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "index",
+        "name": "先建立與確認專案索引",
+        "problem": "需要讓 Agent 對指定專案建立可重用的結構脈絡。",
+        "input": "repo_path、索引範圍與目前版本",
+        "output": "圖譜索引狀態及覆蓋缺口紀錄",
+        "source": "src/mcp/mcp.c",
+        "sourceFiles": [
+          "README.md",
+          "src/mcp/mcp.c"
+        ],
+        "symbols": [
+          "index_repository",
+          "index_status",
+          "check_index_coverage",
+          "handle_index_repository"
+        ],
+        "gate": "等待索引實際成功；覆蓋查詢沒有缺口不代表完整，需核對實際檔案。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "trace",
+        "name": "追蹤功能與跨服務關係",
+        "problem": "需要找出 API、程式碼及部署設定如何連接。",
+        "input": "專案、符號或圖譜查詢、追蹤模式",
+        "output": "節點、關係路徑、對應原始碼位置",
+        "source": "src/mcp/mcp.c",
+        "sourceFiles": [
+          "README.md",
+          "src/mcp/mcp.c"
+        ],
+        "symbols": [
+          "search_graph",
+          "trace_path",
+          "get_code_snippet",
+          "get_graph_schema"
+        ],
+        "gate": "依查詢模式解讀路徑；靜態 CALLS 不代表執行軌跡，逐項回讀程式與設定。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "change",
+        "name": "找出候選變更影響",
+        "problem": "需要確認目前 diff 涉及哪些模組與測試。",
+        "input": "Git diff、指定版本及已建立的索引",
+        "output": "受影響符號與候選影響範圍",
+        "source": "src/mcp/mcp.c",
+        "sourceFiles": [
+          "README.md",
+          "src/mcp/mcp.c"
+        ],
+        "symbols": [
+          "detect_changes",
+          "compare_graphs",
+          "handle_detect_changes"
+        ],
+        "gate": "圖譜風險分級不能取代人工審查；保留未確認路徑，另執行回歸測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃跨模組功能與部署路徑的追蹤（設計示例）",
+      "problem": "自有測試 Repo、合成的功能變更需求、指定索引範圍與 Git 版本。",
+      "steps": [
+        {
+          "capability": "index",
+          "action": "先建立與確認專案索引"
+        },
+        {
+          "capability": "trace",
+          "action": "追蹤功能與跨服務關係"
+        },
+        {
+          "capability": "change",
+          "action": "找出候選變更影響"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "codebase-memory-mcp-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Repo、合成的功能變更需求、指定索引範圍與 Git 版本。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "先建立與確認專案索引 → 追蹤功能與跨服務關係 → 找出候選變更影響 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有開發專案的架構理解、變更規劃與 PR 驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "check_index_coverage 沒有回報缺口不代表完整；先確認索引及版本。",
+        "圖譜靜態路徑不是實際執行紀錄；跨服務與部署關係仍需查配置及測試。",
+        "索引可能長時間執行；queued/running 不能當作完成。",
+        "安裝器會修改 Agent 設定，選配 Lens 模型下載及索引範圍須另核准；本機處理聲明未獨立稽核。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與證據邊界",
+        "severity": "高",
+        "issue": "check_index_coverage 沒有回報缺口不代表完整；先確認索引及版本。 圖譜靜態路徑不是實際執行紀錄；跨服務與部署關係仍需查配置及測試。 索引可能長時間執行；queued/running 不能當作完成。 安裝器會修改 Agent 設定，選配 Lens 模型下載及索引範圍須另核准；本機處理聲明未獨立稽核。",
+        "control": "固定版本、最小權限、資料確認及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE 與 src/mcp/mcp.c 的工具登錄及 handler 識別；未全面審查 C 實作、解析器、網路或發行檔安全。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

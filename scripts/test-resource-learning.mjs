@@ -933,3 +933,60 @@ test('Dual-layer batch 22: code graph remains a concept, not an executable repos
  const context=vm.createContext({URL});vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
  const html=context.detail(built);assert.ok(html.includes('規劃共用驗證函式的修改影響檢查')&&html.includes('class="resource-reader-guide"'));assert.doesNotMatch(html,/class="repo-guide"/);
 });
+
+test('Dual-layer batch 23: graph coverage and branch-specific source boundaries',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["codebase-memory-mcp","規劃跨模組功能與部署路徑的追蹤"],["graphify-labs-graphify","規劃程式碼與公開技術筆記的知識圖譜"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('codebase-memory-mcp').repoGuide.capabilities[0].gate,/沒有缺口不代表完整/);
+ const g=load('graphify-labs-graphify');assert.equal(g.source.upstreamCommit,g.branchCommitReviewed);assert.equal(g.branchReviewed,'v3');assert.match(g.repoGuide.capabilities.find(c=>c.id==='merge').gate,/後寫屬性覆蓋/);
+});
+
+test('Dual-layer batch 23: code review teaching and evidence',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["anthropic-solving-code-review-at-anthropic","規劃 AI 修改表單功能的風險分級驗收"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','agentEvidence','learningGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'evidence-linked',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.learningGuide.modules.length,3,id);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   for(const ref of uc.evidenceRefs){
+    assert.ok(d.agentEvidence.some(u=>u.id===ref&&u.runtimeStatus==='not-tested'),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.equal((html.match(/class="learn-module learn-module-inline"/g)||[]).length,3,id);
+  assert.doesNotMatch(html,/class="repo-guide"/,id);
+ }
+});
+

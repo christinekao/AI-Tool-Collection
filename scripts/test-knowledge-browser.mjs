@@ -584,7 +584,10 @@ try{
   ["claude-svg-animation-logo-loading-chart-tutorial",".resource-reader-guide","規劃資料分析網站的動畫與靜態替代方案"],
   ["reactive-resume",".resource-reader-guide","規劃職缺專屬履歷版本及面試追蹤"],
   ["codebase-index",".resource-reader-guide","規劃修改履歷表單前的程式影響分析"],
-  ["code-graph",".resource-reader-guide","規劃共用驗證函式的修改影響檢查"]
+  ["code-graph",".resource-reader-guide","規劃共用驗證函式的修改影響檢查"],
+  ["codebase-memory-mcp",".resource-reader-guide","規劃跨模組功能與部署路徑的追蹤"],
+  ["graphify-labs-graphify",".resource-reader-guide","規劃程式碼與公開技術筆記的知識圖譜"],
+  ["anthropic-solving-code-review-at-anthropic",".resource-reader-guide","規劃 AI 修改表單功能的風險分級驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -605,7 +608,7 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
-  if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners',"react-frontend-backend-for-beginners","ryanhanwu-how-to-ask-questions-the-smart-way","dslab-lessons","claude-svg-animation-logo-loading-chart-tutorial"].includes(id)){
+  if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners',"react-frontend-backend-for-beginners","ryanhanwu-how-to-ask-questions-the-smart-way","dslab-lessons","claude-svg-animation-logo-loading-chart-tutorial","anthropic-solving-code-review-at-anthropic"].includes(id)){
    const expected=id==='ai-code-acceptance-review-testing-rollout-guide'?4:3;
    assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),expected);
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);

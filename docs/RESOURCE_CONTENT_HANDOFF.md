@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 23（2026-11-25）
+
+- main 基線 `8482172c57cf886e04158e63f9ad59bd9e8a20c5`；PR #87 四項 CI 通過合併，Catalog Sync 通過、Pages 查核時進行中。102/286 已合併（96 完成對應、6 deferred）。
+- [Batch 23 逐筆報告](RESOURCE_DUAL_LAYER_BATCH23_20261125.md)：codebase-memory-mcp、graphify-labs-graphify、anthropic-solving-code-review-at-anthropic。2 mapped、1 evidence-linked 候選，9 個用途、6 個能力、3 個教材證據及 3 個 design-only 案例。
+- CBM coverage 無缺口不代表完整；Graphify 固定 v3、合併時同 ID 後寫覆蓋且外部端點邊可略過；Code Review 按風險及版本核准。第三方未實測。
+- 合併前 102/286；驗收合併後 105/286（99 完成對應、6 deferred），181 尚未改寫。既有缺口保留。
+- 下一批優先其他 Coding Agent 開發資源；排程停用，直接執行，重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 22（2026-11-25）
 
 - main 基線 `f83a7c243d76dcc028f06097168452c8116cd713`；PR #86 四項 CI 通過合併，Catalog Sync／Pages 尚待查核。99/286 已合併（93 完成對應、6 deferred）。
