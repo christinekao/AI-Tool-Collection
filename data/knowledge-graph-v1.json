@@ -3072,7 +3072,7 @@
       "type": "resource",
       "id": "anthropic-solving-code-review-at-anthropic",
       "title": "How the Claude Code Team Does Code Review — Risk-Adaptive Agent Review",
-      "summary": "整理 Anthropic Claude Code 團隊在大量 Agent 生成 PR 情境下的多層品質管線：變更前自動驗證、fresh-context Agent Diff Review、每 PR AI／安全審查、Lint／Typecheck／跨平台 CI、依變更風險分級的人工核准、commit-bound approval、Merge Queue、Feature Flags 與快速回滾；並以 incidents/reverts 建立 reviewer eval set、以人工耗時與事故率評估流程效果。",
+      "summary": "學習如何驗收大量 AI 產生的程式變更：用可執行證據、獨立審查、風險分級核准及可回復發布，減少人工重複檢查而不降低品質。",
       "tags": [
         "anthropic",
         "claude-code",
@@ -3093,8 +3093,8 @@
         "claude-md",
         "engineering-case-study"
       ],
-      "searchText": "How the Claude Code Team Does Code Review — Risk-Adaptive Agent Review Anthropic Claude Code Engineering — How the Claude Code team does code review Software Engineering / Quality Assurance First-party engineering case study / AI-assisted code review governance 整理 Anthropic Claude Code 團隊在大量 Agent 生成 PR 情境下的多層品質管線：變更前自動驗證、fresh-context Agent Diff Review、每 PR AI／安全審查、Lint／Typecheck／跨平台 CI、依變更風險分級的人工核准、commit-bound approval、Merge Queue、Feature Flags 與快速回滾；並以 incidents/reverts 建立 reviewer eval set、以人工耗時與事故率評估流程效果。 適合設計 AI Coding Agent 的 PR 交付治理與驗收策略：先要求 Agent 提供可執行檢查與 Evidence，對每個 PR 做針對目的與整體 Codebase 的審查；Security Finding／CI 未結案不可合併。依功能與受影響路徑設 Risk Tier、信任作者條件與人工核准要求，不得用 AI 取代必需的人類核准。限制重複 Review 輪數、防止重複報錯，並把事故與回滾納入回歸評測。既有 workflow 可採 `ai-code-acceptance-review-testing-rollout-guide`，無須重複建立。 anthropic claude-code agentic-code-review ai-code-review pull-request risk-adaptive-approvals human-in-the-loop fresh-context-review security-review merge-queue feature-flags rollback review-convergence reviewer-evals incident-regression review-md claude-md engineering-case-study",
-      "updatedAt": "2026-11-20",
+      "searchText": "How the Claude Code Team Does Code Review — Risk-Adaptive Agent Review Anthropic Claude Code Engineering — How the Claude Code team does code review Software Engineering / Quality Assurance First-party engineering case study / AI-assisted code review governance 學習如何驗收大量 AI 產生的程式變更：用可執行證據、獨立審查、風險分級核准及可回復發布，減少人工重複檢查而不降低品質。 適合設計 Coding Agent 的 PR 與發布流程；這是團隊經驗文章，不是保證適用所有專案的自動化產品。 anthropic claude-code agentic-code-review ai-code-review pull-request risk-adaptive-approvals human-in-the-loop fresh-context-review security-review merge-queue feature-flags rollback review-convergence reviewer-evals incident-regression review-md claude-md engineering-case-study",
+      "updatedAt": "2026-11-25",
       "url": "https://claude.dev/blog/solving-code-review-at-anthropic/"
     },
     {
@@ -4062,7 +4062,7 @@
       "type": "resource",
       "id": "codebase-memory-mcp",
       "title": "Codebase Memory MCP",
-      "summary": "在本機解析程式碼建立符號、呼叫與依賴知識圖譜，透過 MCP、CLI 與選配的視覺化工具提供 Coding Agent 結構化程式脈絡。",
+      "summary": "讓 Coding Agent 查詢專案中的程式、文件、設定與部署關係，找出功能位置、追蹤呼叫路徑及修改可能影響的範圍，不必每次重新閱讀所有檔案。",
       "tags": [
         "mcp",
         "codebase-memory",
@@ -4070,8 +4070,8 @@
         "local-first",
         "code-intelligence"
       ],
-      "searchText": "Codebase Memory MCP Codebase Memory MCP 03 Code Intelligence Local Code Knowledge Graph / MCP 在本機解析程式碼建立符號、呼叫與依賴知識圖譜，透過 MCP、CLI 與選配的視覺化工具提供 Coding Agent 結構化程式脈絡。 適合大型或需要長期探索的 Codebase；建議先審查安裝腳本、Agent 設定寫入、索引範圍與資源占用。 mcp codebase-memory knowledge-graph local-first code-intelligence",
-      "updatedAt": "2026-11-19",
+      "searchText": "Codebase Memory MCP Codebase Memory MCP 03 Code Intelligence Local Code Knowledge Graph / MCP 讓 Coding Agent 查詢專案中的程式、文件、設定與部署關係，找出功能位置、追蹤呼叫路徑及修改可能影響的範圍，不必每次重新閱讀所有檔案。 適合需要跨模組或服務追蹤的開發工作；單純搜尋字串不必先建完整知識圖譜。 mcp codebase-memory knowledge-graph local-first code-intelligence",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/DeusData/codebase-memory-mcp"
     },
     {
@@ -4945,7 +4945,7 @@
       "type": "resource",
       "id": "graphify-labs-graphify",
       "title": "Graphify — Codebase／文件 → 可查詢 Knowledge Graph（v3 版）",
-      "summary": "將 Codebase、文件、PDF、圖片及可選影片／音訊轉成可查詢且可保存的知識圖譜，透過確定性 AST、AI 語意擷取與 Graph 社群偵測連接函式依賴、架構理由、引用關係及跨文件概念。可以輸出互動 HTML、Graph JSON、分析報告，也可以供 Coding Agent 或 MCP 存取。",
+      "summary": "把程式碼與經授權的文件、圖片等資料整理成可保存、查詢的知識圖譜，讓 Agent 從相關概念和來源定位資料，而不必反覆讀取整個資料夾。",
       "tags": [
         "code-graph",
         "knowledge-graph",
@@ -4971,8 +4971,8 @@
         "commercial-license-review",
         "security-review"
       ],
-      "searchText": "Graphify — Codebase／文件 → 可查詢 Knowledge Graph（v3 版） Graphify (Graphify-Labs/graphify) 03 Code Intelligence Knowledge Graph, GraphRAG-style context extraction CLI and Agent Skill 將 Codebase、文件、PDF、圖片及可選影片／音訊轉成可查詢且可保存的知識圖譜，透過確定性 AST、AI 語意擷取與 Graph 社群偵測連接函式依賴、架構理由、引用關係及跨文件概念。可以輸出互動 HTML、Graph JSON、分析報告，也可以供 Coding Agent 或 MCP 存取。 適合接手陌生專案、跨模組系統設計審查、技術交接及大型文件知識整理。先在非敏感、具讀取權限的測試 Repository 試用，檢查 EXTRACTED／INFERRED／AMBIGUOUS 標註和實際路徑；留意使用 AI 子代理處理文件／圖片時可能向模型供應商傳送資料。使用 v3 分支時應固定此分支的 Commit／Package 版本，不要誤用預設 v8 分支的授權與行為。 code-graph knowledge-graph codebase graphify graphify-v3 tree-sitter ast mcp claude-code codex cursor opencode context-engineering graph-rag graph-search leiden code-intelligence mit-v3 model-egress install-hook-risk privacy-review commercial-license-review security-review",
-      "updatedAt": "2026-11-19",
+      "searchText": "Graphify — Codebase／文件 → 可查詢 Knowledge Graph（v3 版） Graphify (Graphify-Labs/graphify) 03 Code Intelligence Knowledge Graph, GraphRAG-style context extraction CLI and Agent Skill 把程式碼與經授權的文件、圖片等資料整理成可保存、查詢的知識圖譜，讓 Agent 從相關概念和來源定位資料，而不必反覆讀取整個資料夾。 適合需要跨文件與程式碼理解架構或知識關係的專案；若只需找精確函式，優先採較簡單的結構索引。 code-graph knowledge-graph codebase graphify graphify-v3 tree-sitter ast mcp claude-code codex cursor opencode context-engineering graph-rag graph-search leiden code-intelligence mit-v3 model-egress install-hook-risk privacy-review commercial-license-review security-review",
+      "updatedAt": "2026-11-25",
       "url": "https://github.com/Graphify-Labs/graphify/tree/v3"
     },
     {
