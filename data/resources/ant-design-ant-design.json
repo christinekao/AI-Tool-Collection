@@ -6,14 +6,14 @@
   "canonicalName": "ant-design/ant-design",
   "category": "08 UI & Design Engineering",
   "resourceType": "Design System",
-  "purpose": "Ant Design 提供面向企業管理介面的 React 元件庫及設計語言，支援用一致的表單、表格與互動規範建構應用。",
-  "recommendation": "適合具有大量表單、資料展示與管理操作的 React 商業系統；若需要完全客製的視覺設計，先評估樣式覆寫成本。",
+  "purpose": "用現成 React 表單、表格等介面元件建立管理後台，減少重複開發常見的資料操作畫面。",
+  "recommendation": "適合企業管理系統、資料清單與申請表單；若追求獨特視覺風格或極簡頁面，先衡量主題客製及依賴成本。",
   "url": "https://github.com/ant-design/ant-design",
   "repo": "ant-design/ant-design",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "react",
     "enterprise-ui",
@@ -72,24 +72,33 @@
     "url": "https://github.com/ant-design/ant-design",
     "readmeUrl": "https://github.com/ant-design/ant-design/blob/master/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、LICENSE、Form.tsx 的 InternalForm/onInternalFinishFailed 與 InternalTable.tsx 的 TableProps、排序、篩選、分頁及 triggerOnChange；未查 rc-component 內部及全部元件。",
+    "upstreamCommit": "fdff100719297c25e079e4d0995918155663f348",
+    "referenceUrls": [
+      "https://github.com/ant-design/ant-design/blob/fdff100719297c25e079e4d0995918155663f348/README.md",
+      "https://github.com/ant-design/ant-design/blob/fdff100719297c25e079e4d0995918155663f348/LICENSE",
+      "https://github.com/ant-design/ant-design/blob/fdff100719297c25e079e4d0995918155663f348/components/form/Form.tsx",
+      "https://github.com/ant-design/ant-design/blob/fdff100719297c25e079e4d0995918155663f348/components/table/InternalTable.tsx"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -98,8 +107,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +121,350 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "README、LICENSE、Form.tsx 的 InternalForm/onInternalFinishFailed 與 InternalTable.tsx 的 TableProps、排序、篩選、分頁及 triggerOnChange；未查 rc-component 內部及全部元件。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、LICENSE、Form.tsx 的 InternalForm/onInternalFinishFailed 與 InternalTable.tsx 的 TableProps、排序、篩選、分頁及 triggerOnChange；未查 rc-component 內部及全部元件。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Ant Design 提供面向企業管理介面的 React 元件庫及設計語言，支援用一致的表單、表格與互動規範建構應用。",
+      "source": "https://github.com/ant-design/ant-design",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "approval-form",
+        "title": "建立員工申請表單",
+        "detail": "安排欄位、必填提示與送出失敗時的回饋，另驗證後端資料。",
+        "capabilityRefs": [
+          "form"
+        ]
+      },
+      {
+        "id": "admin-list",
+        "title": "建立管理後台資料清單",
+        "detail": "以表格顯示申請狀態，設計排序、篩選與分頁。",
+        "capabilityRefs": [
+          "table"
+        ]
+      },
+      {
+        "id": "mobile-view",
+        "title": "改善小螢幕的資料閱讀",
+        "detail": "依資訊優先順序設定欄位呈現及替代閱讀方式。",
+        "capabilityRefs": [
+          "responsive",
+          "table"
+        ]
+      }
+    ],
+    "example": {
+      "id": "application-admin",
+      "title": "規劃申請審核管理頁",
+      "input": "合成申請紀錄、表單欄位、審核狀態及手機尺寸需求。",
+      "process": "定義表單 → 顯示清單 → 設計篩選及分頁 → 核對手機與錯誤",
+      "output": "管理頁元件及資料、互動驗收規格（未建置）。",
+      "destination": "企業申請流程的前端；資料庫、審核權限與寫入另行實作。",
+      "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+      "useCaseRefs": [
+        "approval-form",
+        "admin-list",
+        "mobile-view"
+      ],
+      "steps": [
+        {
+          "id": "form",
+          "title": "設計欄位及錯誤提示",
+          "capabilityRefs": [
+            "form"
+          ]
+        },
+        {
+          "id": "list",
+          "title": "規劃資料表及排序篩選",
+          "capabilityRefs": [
+            "table"
+          ]
+        },
+        {
+          "id": "mobile",
+          "title": "核對小螢幕欄位",
+          "capabilityRefs": [
+            "responsive"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "驗證保存、授權與鍵盤操作",
+          "capabilityRefs": [],
+          "externalDependency": "後端驗證、資料庫、RBAC、無障礙與各裝置測試須另行完成。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義表單欄位、資料識別碼與主要使用者任務。",
+      "依固定版本選 Form 與 Table，區分本機與伺服器資料處理。",
+      "用合成資料測錯誤、排序、分頁、手機及鍵盤操作。"
+    ],
+    "limits": [
+      "元件庫不會自動解決產品資訊架構和無障礙驗收。",
+      "升級版本時需測試表單、表格、主題及自訂樣式的相容性。",
+      "未安裝或建置 React；rc-component 內部、全部主題及無障礙未查。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用現成 React 表單、表格等介面元件建立管理後台，減少重複開發常見的資料操作畫面。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "React / TypeScript"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "fdff100719297c25e079e4d0995918155663f348"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "表單與錯誤提示",
+        "detail": "統一申請欄位與驗證失敗的呈現；輸入：FormProps、form instance、onFinishFailed、scrollToFirstError；輸出：FieldForm、驗證失敗 callback 與可選捲動",
+        "source": "components/form/Form.tsx"
+      },
+      {
+        "title": "資料清單排序與篩選",
+        "detail": "需要以一致介面瀏覽大量資料；輸入：dataSource、columns、rowKey、pagination、filters、sorter；輸出：排序篩選後資料及 onChange 的 action/currentDataSource",
+        "source": "components/table/InternalTable.tsx"
+      },
+      {
+        "title": "依畫面尺寸呈現欄位",
+        "detail": "小螢幕需要調整資訊密度；輸入：columns.responsive、useBreakpoint；輸出：mergedColumns 依符合 breakpoint 過濾",
+        "source": "components/table/InternalTable.tsx"
+      }
+    ],
+    "architecture": {
+      "summary": "定義表單 → 顯示清單 → 設計篩選及分頁 → 核對手機與錯誤",
+      "nodes": [
+        {
+          "title": "表單與錯誤提示",
+          "detail": "FormProps、form instance、onFinishFailed、scrollToFirstError → FieldForm、驗證失敗 callback 與可選捲動",
+          "files": [
+            "components/form/Form.tsx"
+          ]
+        },
+        {
+          "title": "資料清單排序與篩選",
+          "detail": "dataSource、columns、rowKey、pagination、filters、sorter → 排序篩選後資料及 onChange 的 action/currentDataSource",
+          "files": [
+            "components/table/InternalTable.tsx"
+          ]
+        },
+        {
+          "title": "依畫面尺寸呈現欄位",
+          "detail": "columns.responsive、useBreakpoint → mergedColumns 依符合 breakpoint 過濾",
+          "files": [
+            "components/table/InternalTable.tsx"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "失敗處理",
+        "rule": "InternalForm 呼叫 onFinishFailed，再依 scrollToFirstError 或 context 設定捲動。",
+        "source": "components/form/Form.tsx"
+      },
+      {
+        "name": "表格資料",
+        "rule": "InternalTable 先排序再篩選，onChange 提供 pagination、filters、sorter 與 action。",
+        "source": "components/table/InternalTable.tsx"
+      },
+      {
+        "name": "響應式欄位",
+        "rule": "mergedColumns 按 responsive 與 breakpoint 篩選欄位。",
+        "source": "components/table/InternalTable.tsx"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "components/form/Form.tsx",
+          "components/table/InternalTable.tsx"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先定義表單欄位、資料識別碼與主要使用者任務。 依固定版本選 Form 與 Table，區分本機與伺服器資料處理。 用合成資料測錯誤、排序、分頁、手機及鍵盤操作。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "企業申請流程的前端；資料庫、審核權限與寫入另行實作。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "components/form/Form.tsx"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "form",
+        "name": "表單與錯誤提示",
+        "problem": "統一申請欄位與驗證失敗的呈現",
+        "input": "FormProps、form instance、onFinishFailed、scrollToFirstError",
+        "output": "FieldForm、驗證失敗 callback 與可選捲動",
+        "source": "components/form/Form.tsx",
+        "sourceFiles": [
+          "components/form/Form.tsx"
+        ],
+        "symbols": [
+          "InternalForm",
+          "FormProps",
+          "onInternalFinishFailed"
+        ],
+        "gate": "前端驗證不是後端權限或資料保存證據；需測鍵盤焦點與伺服器錯誤。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "table",
+        "name": "資料清單排序與篩選",
+        "problem": "需要以一致介面瀏覽大量資料",
+        "input": "dataSource、columns、rowKey、pagination、filters、sorter",
+        "output": "排序篩選後資料及 onChange 的 action/currentDataSource",
+        "source": "components/table/InternalTable.tsx",
+        "sourceFiles": [
+          "components/table/InternalTable.tsx"
+        ],
+        "symbols": [
+          "InternalTable",
+          "TableProps",
+          "triggerOnChange",
+          "getFilterData"
+        ],
+        "gate": "使用穩定 rowKey；伺服器分頁需自行整合，不能將畫面資料當全部資料。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "responsive",
+        "name": "依畫面尺寸呈現欄位",
+        "problem": "小螢幕需要調整資訊密度",
+        "input": "columns.responsive、useBreakpoint",
+        "output": "mergedColumns 依符合 breakpoint 過濾",
+        "source": "components/table/InternalTable.tsx",
+        "sourceFiles": [
+          "components/table/InternalTable.tsx"
+        ],
+        "symbols": [
+          "InternalTable",
+          "useBreakpoint"
+        ],
+        "gate": "欄位隱藏不等於資料權限；重要資訊須提供替代查看方式。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃申請審核管理頁（設計示例）",
+      "problem": "合成申請紀錄、表單欄位、審核狀態及手機尺寸需求。",
+      "steps": [
+        {
+          "capability": "form",
+          "action": "設計欄位及錯誤提示"
+        },
+        {
+          "capability": "table",
+          "action": "規劃資料表及排序篩選"
+        },
+        {
+          "capability": "responsive",
+          "action": "核對小螢幕欄位"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "application-admin"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成申請紀錄、表單欄位、審核狀態及手機尺寸需求。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義表單 → 顯示清單 → 設計篩選及分頁 → 核對手機與錯誤",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "企業申請流程的前端；資料庫、審核權限與寫入另行實作。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或建置 React；rc-component 內部、全部主題及無障礙未查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "未安裝或建置 React；rc-component 內部、全部主題及無障礙未查。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、LICENSE、Form.tsx 的 InternalForm/onInternalFinishFailed 與 InternalTable.tsx 的 TableProps、排序、篩選、分頁及 triggerOnChange；未查 rc-component 內部及全部元件。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、未建置或測試第三方元件。"
+      }
+    ]
   }
 }
