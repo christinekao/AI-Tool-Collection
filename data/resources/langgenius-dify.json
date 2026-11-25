@@ -2,14 +2,14 @@
   "schemaVersion": 2,
   "entityType": "resource",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "id": "langgenius-dify",
   "title": "Dify — AI App, RAG & Agentic Workflow Platform",
   "canonicalName": "langgenius/dify",
   "category": "02 Agent Orchestration",
   "resourceType": "Self-hostable AI application, RAG and agentic workflow development platform",
-  "purpose": "透過視覺化畫布、知識庫、工具與模型接入建立 AI App、RAG、Agent 和多步 Workflow，可自架或選用代管服務。",
-  "recommendation": "適合團隊快速建立可管理的 AI 應用原型；自架前須核對 Docker 依賴、Secrets、Agent 沙盒與服務成本。",
+  "purpose": "把 AI 摘要、資料查詢及其他處理步驟接成視覺化流程，建立可重複使用的 AI 應用。",
+  "recommendation": "適合需要多步處理與模型整合的應用原型；單次模型呼叫可先用 SDK，多租戶商用及改品牌前須核對授權。",
   "url": "https://github.com/langgenius/dify",
   "repo": "langgenius/dify",
   "status": "active",
@@ -88,25 +88,33 @@
   "source": {
     "url": "https://github.com/langgenius/dify",
     "readmeUrl": "https://github.com/langgenius/dify/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。",
+    "upstreamCommit": "409387a1b8d6c9eab3ab788a282b894a67a7fe8e",
+    "referenceUrls": [
+      "https://github.com/langgenius/dify/blob/409387a1b8d6c9eab3ab788a282b894a67a7fe8e/README.md",
+      "https://github.com/langgenius/dify/blob/409387a1b8d6c9eab3ab788a282b894a67a7fe8e/LICENSE",
+      "https://github.com/langgenius/dify/blob/409387a1b8d6c9eab3ab788a282b894a67a7fe8e/api/core/workflow/workflow_entry.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -115,8 +123,8 @@
     "classificationReason": "沿用既有 Primary Domain ai-agent；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "mapped",
@@ -129,7 +137,348 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "透過視覺化畫布、知識庫、工具與模型接入建立 AI App、RAG、Agent 和多步 Workflow，可自架或選用代管服務。",
+      "source": "https://github.com/langgenius/dify",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "build-flow",
+        "title": "建立 AI 報表摘要流程",
+        "detail": "把輸入、摘要及輸出整理為可重複驗收的步驟。",
+        "capabilityRefs": [
+          "graph-run",
+          "input-mapping"
+        ]
+      },
+      {
+        "id": "debug-node",
+        "title": "找出哪個流程步驟出錯",
+        "detail": "先以合成輸入隔離有問題的節點，再測整條流程。",
+        "capabilityRefs": [
+          "node-test",
+          "graph-run"
+        ]
+      },
+      {
+        "id": "data-contract",
+        "title": "確認節點間資料能正確傳遞",
+        "detail": "核對欄位及變數對應，避免錯誤資料流向後續步驟。",
+        "capabilityRefs": [
+          "input-mapping",
+          "node-test"
+        ]
+      }
+    ],
+    "example": {
+      "id": "report-summary-flow",
+      "title": "規劃每週報表摘要流程",
+      "input": "合成報表資料、預期摘要欄位與錯誤情境。",
+      "process": "定義變數 → 設計工作流程 → 隔離節點測試 → 核對最終輸出",
+      "output": "可驗收的流程與節點測試規格（未執行）。",
+      "destination": "自有報表應用；模型、資料來源及通知另行接入。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "build-flow",
+        "debug-node",
+        "data-contract"
+      ],
+      "steps": [
+        {
+          "id": "map",
+          "title": "規劃輸入及變數",
+          "capabilityRefs": [
+            "input-mapping"
+          ]
+        },
+        {
+          "id": "node",
+          "title": "設計節點測試",
+          "capabilityRefs": [
+            "node-test"
+          ]
+        },
+        {
+          "id": "run",
+          "title": "設計全流程事件驗收",
+          "capabilityRefs": [
+            "graph-run"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收摘要與資料",
+          "capabilityRefs": [],
+          "externalDependency": "模型、資料管線、權限、通知及實際部署需另核准並測試。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先定義合成資料與最終輸出，畫出最短流程。",
+      "閱讀固定版本執行入口與授權，特別是 workspace 多租戶限制。",
+      "在核准環境逐節點驗收，再查完整流程及實際輸出。"
+    ],
+    "limits": [
+      "部分 Agent 能執行工具或程式，沙盒與權限設定需獨立稽核。",
+      "模型費用、資料保留和使用條款依部署模式與連接的供應商而異。",
+      "LICENSE 對多租戶服務有額外限制（tenant 定義為 workspace）；未經書面授權不得營運多租戶環境。使用前端不得移除或修改標誌及著作權資訊，特定用途須商業授權。",
+      "未部署或執行；模型節點、Graph Engine、RAG、沙盒及權限未完整查核。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把 AI 摘要、資料查詢及其他處理步驟接成視覺化流程，建立可重複使用的 AI 應用。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / Workflow Graph"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Dify Open Source License（Apache 2.0 加額外條件）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "409387a1b8d6c9eab3ab788a282b894a67a7fe8e"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "執行工作流程",
+        "detail": "多步處理需要統一入口；輸入：graph_config、Graph、RuntimeState、call_depth；輸出：EngineEvent generator 或 GraphRunFailedEvent",
+        "source": "api/core/workflow/workflow_entry.py"
+      },
+      {
+        "title": "獨立測試單一節點",
+        "detail": "需找出特定步驟的問題；輸入：Workflow、node_id、user_id、user_inputs、VariablePool、execution_driver；輸出：Node 與 NodeEvent/ContainerAwaitRequest generator",
+        "source": "api/core/workflow/workflow_entry.py"
+      },
+      {
+        "title": "將輸入對應流程變數",
+        "detail": "不同節點需要一致資料契約；輸入：variable_mapping、user_inputs、VariablePool、tenant_id；輸出：更新 variable pool",
+        "source": "api/core/workflow/workflow_entry.py"
+      }
+    ],
+    "architecture": {
+      "summary": "定義變數 → 設計工作流程 → 隔離節點測試 → 核對最終輸出",
+      "nodes": [
+        {
+          "title": "執行工作流程",
+          "detail": "graph_config、Graph、RuntimeState、call_depth → EngineEvent generator 或 GraphRunFailedEvent",
+          "files": [
+            "api/core/workflow/workflow_entry.py"
+          ]
+        },
+        {
+          "title": "獨立測試單一節點",
+          "detail": "Workflow、node_id、user_id、user_inputs、VariablePool、execution_driver → Node 與 NodeEvent/ContainerAwaitRequest generator",
+          "files": [
+            "api/core/workflow/workflow_entry.py"
+          ]
+        },
+        {
+          "title": "將輸入對應流程變數",
+          "detail": "variable_mapping、user_inputs、VariablePool、tenant_id → 更新 variable pool",
+          "files": [
+            "api/core/workflow/workflow_entry.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "流程",
+        "rule": "WorkflowEntry.run 迭代 graph engine 事件；一般例外產生 GraphRunFailedEvent。",
+        "source": "api/core/workflow/workflow_entry.py"
+      },
+      {
+        "name": "節點",
+        "rule": "single_step_run 以指定 workflow、node_id、variable pool 建立節點及事件。",
+        "source": "api/core/workflow/workflow_entry.py"
+      },
+      {
+        "name": "變數",
+        "rule": "mapping_user_inputs_to_variable_pool 先套整體物件再套巢狀覆寫，原始碼警告語意未明。",
+        "source": "api/core/workflow/workflow_entry.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "api/core/workflow/workflow_entry.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先定義合成資料與最終輸出，畫出最短流程。 閱讀固定版本執行入口與授權，特別是 workspace 多租戶限制。 在核准環境逐節點驗收，再查完整流程及實際輸出。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有報表應用；模型、資料來源及通知另行接入。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "api/core/workflow/workflow_entry.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "graph-run",
+        "name": "執行工作流程",
+        "problem": "多步處理需要統一入口",
+        "input": "graph_config、Graph、RuntimeState、call_depth",
+        "output": "EngineEvent generator 或 GraphRunFailedEvent",
+        "source": "api/core/workflow/workflow_entry.py",
+        "sourceFiles": [
+          "api/core/workflow/workflow_entry.py"
+        ],
+        "symbols": [
+          "WorkflowEntry.__init__",
+          "WorkflowEntry.run"
+        ],
+        "gate": "檢查 call depth 及最終事件；收到事件不等於所有業務寫入成功。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "node-test",
+        "name": "獨立測試單一節點",
+        "problem": "需找出特定步驟的問題",
+        "input": "Workflow、node_id、user_id、user_inputs、VariablePool、execution_driver",
+        "output": "Node 與 NodeEvent/ContainerAwaitRequest generator",
+        "source": "api/core/workflow/workflow_entry.py",
+        "sourceFiles": [
+          "api/core/workflow/workflow_entry.py"
+        ],
+        "symbols": [
+          "WorkflowEntry.single_step_run"
+        ],
+        "gate": "單節點成功不代表整體流程成功；輸入、依賴及外部副作用另驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "input-mapping",
+        "name": "將輸入對應流程變數",
+        "problem": "不同節點需要一致資料契約",
+        "input": "variable_mapping、user_inputs、VariablePool、tenant_id",
+        "output": "更新 variable pool",
+        "source": "api/core/workflow/workflow_entry.py",
+        "sourceFiles": [
+          "api/core/workflow/workflow_entry.py"
+        ],
+        "symbols": [
+          "WorkflowEntry.mapping_user_inputs_to_variable_pool"
+        ],
+        "gate": "來源明示方法語意尚未清楚定義；對應錯誤、巢狀覆寫、隔離及敏感資料須實測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃每週報表摘要流程（設計示例）",
+      "problem": "合成報表資料、預期摘要欄位與錯誤情境。",
+      "steps": [
+        {
+          "capability": "input-mapping",
+          "action": "規劃輸入及變數"
+        },
+        {
+          "capability": "node-test",
+          "action": "設計節點測試"
+        },
+        {
+          "capability": "graph-run",
+          "action": "設計全流程事件驗收"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "report-summary-flow"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成報表資料、預期摘要欄位與錯誤情境。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義變數 → 設計工作流程 → 隔離節點測試 → 核對最終輸出",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有報表應用；模型、資料來源及通知另行接入。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "LICENSE 對多租戶服務有額外限制（tenant 定義為 workspace）；未經書面授權不得營運多租戶環境。使用前端不得移除或修改標誌及著作權資訊，特定用途須商業授權。",
+        "未部署或執行；模型節點、Graph Engine、RAG、沙盒及權限未完整查核。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "授權、資料及執行邊界",
+        "severity": "高",
+        "issue": "LICENSE 對多租戶服務有額外限制（tenant 定義為 workspace）；未經書面授權不得營運多租戶環境。使用前端不得移除或修改標誌及著作權資訊，特定用途須商業授權。 未部署或執行；模型節點、Graph Engine、RAG、沙盒及權限未完整查核。",
+        "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、WorkflowEntry.__init__、run、single_step_run、mapping_user_inputs_to_variable_pool；舊 LLM node 路徑 404，未查底層 Graph Engine、模型與沙盒。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
