@@ -315,3 +315,35 @@ test('Dual-layer batch 04: five source-mapped repositories and two documented de
  assert.match(affine.implementationKnowledge.sourceReview.license,/EE License/);
  assert.ok(affine.readerGuide.limits.some(x=>x.includes('MIT')));
 });
+
+test('Dual-layer batch 05: five scoped source contracts and preserved historical context',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["blender-blender","渲染產品旋轉預覽"],["heygen-com-hyperframes","製作三段式產品介紹影片"],["theatlasteam-motion-design-skill","製作可互動的數字滾動示意"],["microsoft-autogen","研究撰稿與審查代理的協作"],["roocodeinc-roo-code","設計規劃與開發模式的權限測試"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  assert.ok(d.implementationKnowledge.priorPurposeSnapshot.text,id);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(unit.symbols?.length);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  assert.ok(d.repoGuide.architecture.nodes.every(n=>n.files?.length));
+  assert.ok(d.repoGuide.rebuild.gaps.length);
+  if(['microsoft-autogen','roocodeinc-roo-code'].includes(id))assert.match(d.purpose,/封存/);
+ }
+});
