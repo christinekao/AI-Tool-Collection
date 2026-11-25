@@ -575,7 +575,10 @@ try{
   ["ui-ux-gold-standard",".resource-reader-guide","規劃資料分析 Dashboard 的共用設計規則"],
   ["electron",".resource-reader-guide","規劃離線個人知識庫的桌面應用"],
   ["oh-my-mermaid",".resource-reader-guide","規劃知識庫專案的可展開架構文件"],
-  ["abi-screenshot-to-code",".resource-reader-guide","規劃履歷管理介面截圖的前端原型重建"]
+  ["abi-screenshot-to-code",".resource-reader-guide","規劃履歷管理介面截圖的前端原型重建"],
+  ["react-frontend-backend-for-beginners",".resource-reader-guide","判斷履歷管理網站的前後端及部署方式"],
+  ["ryanhanwu-how-to-ask-questions-the-smart-way",".resource-reader-guide","將無法儲存的表單問題整理成工程除錯單"],
+  ["dslab-lessons",".resource-reader-guide","規劃第一支 AI 影音的學習與驗收流程"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -596,13 +599,13 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
-  if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners'].includes(id)){
-   const expected=id==='microsoft-ai-agents-for-beginners'?3:4;
+  if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners',"react-frontend-backend-for-beginners","ryanhanwu-how-to-ask-questions-the-smart-way","dslab-lessons"].includes(id)){
+   const expected=id==='ai-code-acceptance-review-testing-rollout-guide'?4:3;
    assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),expected);
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 ninety-one Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 ninety-four Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

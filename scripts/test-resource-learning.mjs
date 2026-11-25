@@ -805,3 +805,28 @@ test('Dual-layer batch 19: desktop IPC, architecture sharing and generated code 
  assert.match(load('oh-my-mermaid').repoGuide.capabilities.find(c=>c.id==='share').gate,/外送前單獨核准/);
  assert.match(load('abi-screenshot-to-code').repoGuide.capabilities.find(c=>c.id==='events').gate,/1000 不代表功能驗收/);
 });
+
+test('Dual-layer batch 20: learning materials preserve teaching and evidence',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["react-frontend-backend-for-beginners","判斷履歷管理網站的前後端及部署方式"],["ryanhanwu-how-to-ask-questions-the-smart-way","將無法儲存的表單問題整理成工程除錯單"],["dslab-lessons","規劃第一支 AI 影音的學習與驗收流程"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','agentEvidence','learningGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'evidence-linked',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.learningGuide.modules.length,3,id);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   for(const ref of uc.evidenceRefs){
+    assert.ok(d.agentEvidence.some(u=>u.id===ref&&u.runtimeStatus==='not-tested'),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.equal((html.match(/class="learn-module learn-module-inline"/g)||[]).length,3,id);
+  assert.doesNotMatch(html,/class="repo-guide"/,id);
+ }
+});
