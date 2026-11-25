@@ -612,3 +612,36 @@ test('Dual-layer batch 13: copyable components and animation contracts',()=>{
  assert.match(load('motion-dev').repoGuide.capabilities.find(c=>c.id==='reduced-motion').gate,/沒有 setter/);
  assert.match(load('magicuidesign-magicui').readerGuide.limits.join(' '),/毫秒.*秒換算/);
 });
+
+test('Dual-layer batch 14: animation, approval UI and skill source contracts',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["anime-js","規劃作品集功能展示動畫"],["kokonut-ui","規劃 AI 研究助理的操作核准介面"],["gsap-skills","規劃產品首頁滾動展示的 Agent 任務"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  assert.ok(d.repoGuide.rebuild.gaps.length);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.equal(load('kokonut-ui').repo,'kokonut-labs/kokonutui');
+ assert.match(load('kokonut-ui').repoGuide.capabilities.find(c=>c.id==='approval-ui').gate,/不代表服務端已核准/);
+ assert.match(load('anime-js').repoGuide.capabilities.find(c=>c.id==='scope-revert').gate,/退回 document/);
+ assert.match(load('gsap-skills').readerGuide.limits.join(' '),/非 GSAP 引擎/);
+});
