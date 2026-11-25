@@ -6,14 +6,14 @@
   "canonicalName": "FFmpeg",
   "category": "Media / Video",
   "resourceType": "音視頻轉檔與編碼工具組",
-  "purpose": "處理音視訊轉檔、剪接、音軌合成、字幕及最終影片輸出。",
-  "recommendation": "適合影片產製管線的匯出與轉檔階段；先從固定輸入輸出規格測試。",
+  "purpose": "用命令列自動處理影音檔，包含轉檔、調整尺寸與音訊、選擇音軌或字幕，以及輸出可交付的影片。",
+  "recommendation": "適合大量重複的影音處理或自動化流程；需要視覺化剪輯、調色及逐格創作時，使用影片編輯軟體更直觀。",
   "url": "https://ffmpeg.org/",
   "repo": "",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "content",
@@ -45,8 +45,13 @@
   "source": {
     "url": "https://ffmpeg.org/",
     "type": "Official learning resource / software website",
-    "reviewedAt": "2026-11-24",
-    "reviewScope": "Basic source and usage review only; no package installation, runtime, code audit, license or integration tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "Reviewed official CLI documentation: input/output, stream selection, streamcopy, transcoding/filtergraphs; ffprobe output and official legal documentation. No commands executed.",
+    "referenceUrls": [
+      "https://ffmpeg.org/ffmpeg.html",
+      "https://ffmpeg.org/ffprobe.html",
+      "https://ffmpeg.org/legal.html"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
@@ -55,14 +60,14 @@
       "url",
       "source.url"
     ],
-    "sourceCheckedAt": "2026-11-24",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
-      "decision": "new",
+      "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對目前 270 筆 Resource 的 Canonical ID、名稱及來源 URL；未發現相同的獨立正式紀錄。"
+      "reason": "核對既有 Canonical ID 與來源，補充雙層閱讀及證據，不新增重複紀錄。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -72,7 +77,7 @@
     "readingSpec": {
       "id": "standard",
       "status": "applied",
-      "reason": "已提供基本用途、功能、採用條件及限制；不宣稱完整專屬深度指南。"
+      "reason": "依資源實際用途採官方產品或操作文件的閱讀規格，不假設能取得產品內部程式碼。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -85,7 +90,159 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "只確認來源與基本描述；Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "核對官方文件及既有來源記錄；未執行工具、生成、付費操作或實際驗收。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "依官方文件建立人類情境及底層來源對應；保留未執行及實際驗證缺口。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "select-stream",
+      "detail": "輸入用 -i 指定，-map 選擇需要的影片、音訊及字幕串流；輸出選項順序與檔案歸屬有關。",
+      "locator": "https://ffmpeg.org/ffmpeg.html#Stream-selection",
+      "evidenceFields": [
+        "features.0",
+        "features.1",
+        "requirements.0"
+      ],
+      "limitations": "須核對容器支援與每個來源串流，不要假設所有音軌均已保留。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "transform-media",
+      "detail": "Streamcopy（-c copy）不經解碼濾鏡與重新編碼；調整畫面或混音通常需解碼、filtergraph 及重新編碼。",
+      "locator": "https://ffmpeg.org/ffmpeg.html#Detailed-description",
+      "evidenceFields": [
+        "features.0",
+        "features.1",
+        "requirements.0"
+      ],
+      "limitations": "版本與編譯選項會影響編碼器及濾鏡可用性；未測品質或速度。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "inspect-output",
+      "detail": "ffprobe 可取得媒體串流與格式資訊，支援 JSON 輸出；與人工播放檢查互補。",
+      "locator": "https://ffmpeg.org/ffprobe.html",
+      "evidenceFields": [
+        "features.1",
+        "requirements.0"
+      ],
+      "limitations": "需另行驗收音畫同步、字幕正確性及實際播放效果。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "license-build",
+      "detail": "官方法律文件說明 LGPL 與選用 GPL 元件的差異；散布程式及第三方編碼器的義務需按實際組建核對。",
+      "locator": "https://ffmpeg.org/legal.html",
+      "evidenceFields": [
+        "limitations.0",
+        "requirements.0"
+      ],
+      "limitations": "不是法律意見；未檢查任何實際 binary、編碼器專利或素材權利。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "batch-convert",
+        "title": "批次將影片轉成一致格式",
+        "detail": "將來源影片轉成符合後續平台規格的檔案，保留原檔並檢查輸出。",
+        "evidenceRefs": [
+          "select-stream",
+          "transform-media",
+          "inspect-output"
+        ]
+      },
+      {
+        "id": "combine-audio",
+        "title": "替影片加入或整理音軌",
+        "detail": "明確選擇影片與音訊來源，按需求合成或調整音軌。",
+        "evidenceRefs": [
+          "select-stream",
+          "transform-media"
+        ]
+      },
+      {
+        "id": "export-pipeline",
+        "title": "建立可重複的影音輸出流程",
+        "detail": "固定參數、檔名及檢查方式，將每次輸出的格式和錯誤保留成紀錄。",
+        "evidenceRefs": [
+          "select-stream",
+          "transform-media",
+          "inspect-output",
+          "license-build"
+        ]
+      }
+    ],
+    "example": {
+      "id": "video-delivery-pipeline",
+      "title": "批次輸出已完成的短影片",
+      "input": "已獲授權的合成影片及旁白、目標容器、解析度與音軌需求。",
+      "process": "檢查來源 → 選擇串流 → 視需要重新編碼 → 驗證輸出",
+      "output": "預期影片檔、媒體資訊 JSON 及錯誤紀錄（未執行）。",
+      "destination": "交給影片發布驗收與資產管理。",
+      "steps": [
+        {
+          "id": "probe",
+          "title": "取得來源媒體資訊",
+          "evidenceRefs": [
+            "inspect-output"
+          ]
+        },
+        {
+          "id": "map",
+          "title": "選擇音視訊串流",
+          "evidenceRefs": [
+            "select-stream"
+          ]
+        },
+        {
+          "id": "encode",
+          "title": "設定轉換及輸出",
+          "evidenceRefs": [
+            "transform-media"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "檢查輸出資訊及授權",
+          "evidenceRefs": [
+            "inspect-output",
+            "license-build"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "人工播放與字幕核對",
+          "evidenceRefs": [],
+          "externalDependency": "實際影片內容、繁體中文字幕、音畫同步與商用權須人工或獨立測試驗收。"
+        }
+      ],
+      "note": "獨立設計示例，未實際操作或取得輸出結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "batch-convert",
+        "combine-audio",
+        "export-pipeline"
+      ]
+    },
+    "start": [
+      "先查已安裝版本、實際支援的編碼器與濾鏡、素材授權及輸出要求。",
+      "用合成或備份素材試驗；寫入新路徑，不覆蓋原始檔。",
+      "保存參數、版本、媒體資訊及錯誤，完整播放確認成片。"
+    ],
+    "limits": [
+      "FFmpeg 與其編譯選項、編碼器、外掛授權不同；輸出品質和商用權仍需分別核查。"
+    ]
   }
 }
