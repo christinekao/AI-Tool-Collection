@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 26（2026-11-25）
+
+- main 基線 `09517cccfa2ebc9e549acd48699f554f8c534910`；PR #90 四項 CI 通過並合併 `06a6223146aff5a6873e18926dac1659592573c5`，Catalog Sync 通過，Pages 查核時進行中。111/286 已合併（105 完成對應、6 deferred）。
+- [Batch 26 逐筆報告](RESOURCE_DUAL_LAYER_BATCH26_20261125.md)：anthropics-single-agent-loop-kit、agentic-system-lab-harness-relay、humanlayer，3 mapped 候選、9 個用途、9 個局部能力、3 個 design-only 案例。
+- Single Agent Loop 須先覆蓋受影響呼叫鏈；Harness Relay Worktree 非安全隔離且授權受限；HumanLayer Task 文件同步非 Repo 備份。第三方未實測。
+- 本批合併前 111/286；驗收合併後 114/286（108 完成對應、6 deferred），172 尚未改寫。既有缺口保留。
+- 下一批優先其他 Agent 開發與自動化資源；排程停用，直接執行，重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 25（2026-11-25）
 
 - main 基線 `e8798c7587afb86d13b42ccc0fbcca56e7f09dbc`；PR #89 四項 CI 通過並合併 `bc07357204c21205a0a85d70f8387ed3677464e4`，Catalog Sync 通過，Pages 查核時進行中。108/286 已合併（102 完成對應、6 deferred）。

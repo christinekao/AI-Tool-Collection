@@ -593,7 +593,10 @@ try{
   ["df3011212-codex-local-board",".resource-reader-guide","規劃多專案 Agent 工作進度與驗收看板"],
   ["rtk",".resource-reader-guide","規劃 Coding Agent 的終端輸出與除錯回溯"],
   ["github-agentic-workflows",".resource-reader-guide","規劃 CI 失敗分析與受控 Issue 回報流程"],
-  ["anthropics-sandbox-runtime",".resource-reader-guide","規劃 MCP Server 的檔案與網路最小權限"]
+  ["anthropics-sandbox-runtime",".resource-reader-guide","規劃 MCP Server 的檔案與網路最小權限"],
+  ["anthropics-single-agent-loop-kit",".resource-reader-guide","規劃客服 Agent 架構精簡與逐次驗收"],
+  ["agentic-system-lab-harness-relay",".resource-reader-guide","規劃多 Agent 平行修正與人工選擇最佳方案"],
+  ["humanlayer",".resource-reader-guide","規劃跨 Session 的履歷系統功能開發與審查"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
