@@ -82,7 +82,7 @@
     "summary": "Reverified 2026-10-27: 7 published skills, previously 21 noted in older record. Not run.",
     "readmeUrl": "https://github.com/heygen-com/hyperframes/blob/main/README.md",
     "reviewedAt": "2026-11-25",
-    "reviewScope": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心",
+    "reviewScope": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；另核對 runtimeContract.ts 的 HYPERFRAME_RUNTIME_GLOBALS 與 seek action 宣告",
     "alternateSavedUrls": [
       "https://github.com/KentwareDemo/hyperframes"
     ],
@@ -92,7 +92,8 @@
       "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/skills/hyperframes/SKILL.md",
       "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/packages/cli/src/commands/render.ts",
       "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/packages/cli/src/commands/check.ts",
-      "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/LICENSE"
+      "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/LICENSE",
+      "https://github.com/heygen-com/hyperframes/blob/4864ade2838704b92c69d37ec5ffe554ddca4114/packages/core/src/inline-scripts/runtimeContract.ts"
     ]
   },
   "classification": {
@@ -167,7 +168,7 @@
     "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。 外部來源版本沿革仍待查證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；未執行。"
+      "evidence": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；另核對 runtimeContract.ts 的 HYPERFRAME_RUNTIME_GLOBALS 與 seek action 宣告；未執行。"
     },
     "layerReview": {
       "status": "mapped",
@@ -329,7 +330,8 @@
           "title": "定義可定位時間的場景",
           "detail": "root data-duration、composition ID、HTML 元素、paused timeline → 可依時間定位的場景定義",
           "files": [
-            "skills/hyperframes/SKILL.md"
+            "skills/hyperframes/SKILL.md",
+            "packages/core/src/inline-scripts/runtimeContract.ts"
           ]
         },
         {
@@ -374,7 +376,8 @@
           "skills/hyperframes/SKILL.md",
           "packages/cli/src/commands/render.ts",
           "packages/cli/src/commands/check.ts",
-          "LICENSE"
+          "LICENSE",
+          "packages/core/src/inline-scripts/runtimeContract.ts"
         ],
         "commands": [],
         "approval": false
@@ -406,14 +409,15 @@
         "output": "可依時間定位的場景定義",
         "source": "skills/hyperframes/SKILL.md",
         "sourceFiles": [
-          "skills/hyperframes/SKILL.md"
+          "skills/hyperframes/SKILL.md",
+          "packages/core/src/inline-scripts/runtimeContract.ts"
         ],
         "symbols": [
-          "window.__timelines",
-          "data-composition-id",
-          "data-duration"
+          "HYPERFRAME_RUNTIME_GLOBALS",
+          "HYPERFRAME_CONTROL_ACTIONS",
+          "window.__timelines（文件契約）"
         ],
-        "gate": "此為已查核 Skill 文件契約，非底層引擎程式審查；禁止依牆鐘與未控制亂數。",
+        "gate": "固定版本 runtimeContract.ts 宣告 timeline global 與 seek control，Skill 文件描述場景作者契約；未核對底層逐格引擎。禁止依牆鐘與未控制亂數。",
         "evidenceStatus": "source-reviewed",
         "runtimeStatus": "not-tested"
       },
@@ -513,7 +517,7 @@
       {
         "item": "固定版本來源",
         "state": "已查閱",
-        "evidence": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心"
+        "evidence": "README、HyperFrames Skill 的 composition/time contract、render CLI 的 plan 與尺寸 preflight、check CLI 的驗證與失敗、LICENSE；未讀逐格擷取及編碼核心；另核對 runtimeContract.ts 的 HYPERFRAME_RUNTIME_GLOBALS 與 seek action 宣告"
       },
       {
         "item": "第三方 Build／Runtime／Security／Integration",
