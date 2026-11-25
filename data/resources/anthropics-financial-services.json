@@ -6,14 +6,14 @@
   "canonicalName": "anthropics/financial-services",
   "category": "06 Skills",
   "resourceType": "Apache-2.0 open-source Claude Cowork/Claude Code plugin marketplace with financial-agent templates, vertical skills, commands, MCP connector manifests and Claude Managed Agents cookbooks",
-  "purpose": "Anthropic 金融服務業專用的參考 Agent 與 Skills 集合，支援 Claude Cowork 插件、Claude Code Plugin Marketplace 及 Claude Managed Agents API 模板。涵蓋投資銀行、股票研究、私募股權、財富管理、基金行政、財務結帳與 KYC 作業；內含自成一體的 Pitch Agent、Meeting Prep Agent、Market Researcher、Earnings Reviewer、Model Builder、Valuation Reviewer、GL Reconciler、Month-End Closer、Statement Auditor、KYC Screener，以及 financial-analysis 核心技能（DCF、LBO、Comps、3-statement、Excel audit、Deck QA）與不同 Vertical Plugin。",
-  "recommendation": "適合作為金融分析自動化與資料治理、專業 Agent/Skill 架構及 MCP 整合的參考範本。先用文件範例和非敏感測試資料評估，不要假設已取得 FactSet、Morningstar、PitchBook、LSEG、Box 等供應商授權或資料存取權。建置前要驗證 .mcp.json、Plugin Manifest 與 Skill 相容性；金融模型、估值、投資報告、KYC、會計結帳等仍需專業人員覆核與法規檢查，不允許讓範例 Agent 直接進行交易、批准開戶、過帳或代表公司做最終風險決定。",
+  "purpose": "提供金融業的參考 Agent 與技能模板，協助準備對帳、財務報告、投資研究與客戶審查的待覆核產物。",
+  "recommendation": "適合研究受監管的財務工作如何設計唯讀、獨立驗證與人工簽核；不是交易、入帳、投資建議或合規核准系統。",
   "url": "https://github.com/anthropics/financial-services",
   "repo": "anthropics/financial-services",
   "notes": "2026-10-25 核對 Anthropic 官方 GitHub Repo Metadata、README.md、LICENSE、.claude-plugin/marketplace.json、plugins/agent-plugins 目錄、plugins/vertical-plugins/financial-analysis/{skills,.mcp.json}。Repo 為 Apache-2.0，與此前收錄的 `anthropics/knowledge-work-plugins` 不同；這裡專注金融服務，並在 README 提供 Cowork 插件 + Claude Managed Agents API 兩條部署方式。官方 Marketplace 實際列出 19 個插件，包括核心 financial-analysis、investment-banking、equity-research、private-equity、fund-admin、operations、10 個 named Agents、2 個金融資料商合作插件和 M365 Add-in 管理工具。README 的 Investment Banking/Equity Research/PE Skills 包括 /comps、/dcf、/lbo、/earnings、/ic-memo、/screen 等命令；核心技能目錄列出 13 個技能。若只收錄整套 Marketplace，不應把每個 vertical 的 SKILL.md 或管理型 Agent 重複收錄成新的 Skill；日後使用者指定單一 Skill 可逐項展開。README 列出金融數據/文檔 MCP 提供商 Daloopa、Morningstar、S&P Global、FactSet、Moody's、MT Newswires、Aiera、LSEG、PitchBook、Chronograph、Egnyte、Box，訂閱／認證／資料授權及供應商條款須另外核實。重要品質註記：查看本次 main 分支 `plugins/vertical-plugins/financial-analysis/.mcp.json`，在 egnyte 區塊結尾與 box 區塊間發現缺少逗號，使該檔案按標準 JSON 解析會出錯；應先確認 upstream 是否已修復，再使用任何自動安裝/部署流程，不能直接宣稱所有連接器已即插即用。README 也把 Managed Agents `callable_agents` 標為 Research Preview，需檢查帳號可用性，不可推定各使用者已有相同 entitlement。Managed Agent templates `agent.yaml`、leaf-worker、handoff events 與 scripts/deploy-managed-agent.sh 是可選部署參考；未執行腳本、未開啟 MCP 或讀取私人金融資料。這些 Agent 產出草稿、估值模型和對帳供具資格人員審核；不屬投資/稅務/法律/會計建議或交易權限。此輪僅收錄，不安裝、連線或修改金融系統。",
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "anthropic",
     "financial-services",
@@ -79,8 +79,19 @@
     "type": "Official Anthropic Repository README, GitHub License/Metadata, marketplace, core financial skills and MCP manifest",
     "summary": "2026-10-25 static source and manifest verified; not installed, executed, accessed provider data or tested financial conclusions.",
     "readmeUrl": "https://github.com/anthropics/financial-services/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、scripts/validate.py、scripts/orchestrate.py、scripts/deploy-managed-agent.sh、managed-agent-cookbooks/gl-reconciler/README.md、managed-agent-cookbooks/statement-auditor/README.md、managed-agent-cookbooks/kyc-screener/README.md 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f",
+    "referenceUrls": [
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/README.md",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/LICENSE",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/scripts/validate.py",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/scripts/orchestrate.py",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/scripts/deploy-managed-agent.sh",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/managed-agent-cookbooks/gl-reconciler/README.md",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/managed-agent-cookbooks/statement-auditor/README.md",
+      "https://github.com/anthropics/financial-services/blob/3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f/managed-agent-cookbooks/kyc-screener/README.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -122,10 +133,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -141,8 +155,8 @@
     "classificationReason": "沿用既有 business Domain，補足來源內容與使用限制，不變動分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、scripts/validate.py、scripts/orchestrate.py、scripts/deploy-managed-agent.sh、managed-agent-cookbooks/gl-reconciler/README.md、managed-agent-cookbooks/statement-auditor/README.md、managed-agent-cookbooks/kyc-screener/README.md 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -152,10 +166,375 @@
       "decision": "reused",
       "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "作者明確聲明內容不構成投資、法律、稅務或會計建議，產物須專業審查。；第三方金融資料服務需另取得權限；示範 Agent 不等於符合內部監理與合規規範。；Schema 通過只驗證形狀；對帳數值須由獨立 reviewer 比對可信來源。；允許清單與 Schema 不能取代權限驗證；不可讓外部文件直接接觸寫入工具或系統紀錄。；dry-run 與真實部署分開；帳務入帳、投資決策、KYC 審核仍需專業人員決定，不能由 Agent 自行批准。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、scripts/validate.py、scripts/orchestrate.py、scripts/deploy-managed-agent.sh、managed-agent-cookbooks/gl-reconciler/README.md、managed-agent-cookbooks/statement-auditor/README.md、managed-agent-cookbooks/kyc-screener/README.md 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、scripts/validate.py、scripts/orchestrate.py、scripts/deploy-managed-agent.sh、managed-agent-cookbooks/gl-reconciler/README.md、managed-agent-cookbooks/statement-auditor/README.md、managed-agent-cookbooks/kyc-screener/README.md 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Anthropic 金融服務業專用的參考 Agent 與 Skills 集合，支援 Claude Cowork 插件、Claude Code Plugin Marketplace 及 Claude Managed Agents API 模板。涵蓋投資銀行、股票研究、私募股權、財富管理、基金行政、財務結帳與 KYC 作業；內含自成一體的 Pitch Agent、Meeting Prep Agent、Market Researcher、Earnings Reviewer、Model Builder、Valuation Reviewer、GL Reconciler、Month-End Closer、Statement Auditor、KYC Screener，以及 financial-analysis 核心技能（DCF、LBO、Comps、3-statement、Excel audit、Deck QA）與不同 Vertical Plugin。",
+      "source": "https://github.com/anthropics/financial-services",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合作為金融分析自動化與資料治理、專業 Agent/Skill 架構及 MCP 整合的參考範本。先用文件範例和非敏感測試資料評估，不要假設已取得 FactSet、Morningstar、PitchBook、LSEG、Box 等供應商授權或資料存取權。建置前要驗證 .mcp.json、Plugin Manifest 與 Skill 相容性；金融模型、估值、投資報告、KYC、會計結帳等仍需專業人員覆核與法規檢查，不允許讓範例 Agent 直接進行交易、批准開戶、過帳或代表公司做最終風險決定。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-validate",
+        "title": "先驗證不受信任文件的結構化結果",
+        "detail": "外部文件可能包含錯誤與非授權指令。結構驗證結果或拒絕原因。",
+        "capabilityRefs": [
+          "validate"
+        ]
+      },
+      {
+        "id": "use-handoff",
+        "title": "將核准範圍內的資料交接給另一 Agent",
+        "detail": "多角色交接可能被不可信資料誘導到錯誤目標。通過 allowlist、Schema 的交接請求。",
+        "capabilityRefs": [
+          "handoff"
+        ]
+      },
+      {
+        "id": "use-deploy",
+        "title": "將模板轉成可部署的角色契約",
+        "detail": "各專業 Agent 的工具與權限需固定。Resolved agent body、子角色與部署規格。",
+        "capabilityRefs": [
+          "deploy"
+        ]
+      }
+    ],
+    "example": {
+      "id": "anthropics-financial-services-example",
+      "title": "規劃金融對帳差異的分層讀取與覆核",
+      "input": "合成總帳、明細帳、外部報表及對帳規則。",
+      "process": "先驗證不受信任文件的結構化結果 → 將核准範圍內的資料交接給另一 Agent → 將模板轉成可部署的角色契約 → 獨立驗收實際成果",
+      "output": "差異資料、受控交接、待主管核准的例外清單（規劃產物）。",
+      "destination": "自有財務流程的證據化審查與人工簽核之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-validate",
+        "use-handoff",
+        "use-deploy"
+      ],
+      "steps": [
+        {
+          "id": "validate",
+          "title": "先驗證不受信任文件的結構化結果",
+          "capabilityRefs": [
+            "validate"
+          ]
+        },
+        {
+          "id": "handoff",
+          "title": "將核准範圍內的資料交接給另一 Agent",
+          "capabilityRefs": [
+            "handoff"
+          ]
+        },
+        {
+          "id": "deploy",
+          "title": "將模板轉成可部署的角色契約",
+          "capabilityRefs": [
+            "deploy"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成總帳、明細帳、外部報表及對帳規則。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "作者明確聲明內容不構成投資、法律、稅務或會計建議，產物須專業審查。",
+      "第三方金融資料服務需另取得權限；示範 Agent 不等於符合內部監理與合規規範。",
+      "Schema 通過只驗證形狀；對帳數值須由獨立 reviewer 比對可信來源。",
+      "允許清單與 Schema 不能取代權限驗證；不可讓外部文件直接接觸寫入工具或系統紀錄。",
+      "dry-run 與真實部署分開；帳務入帳、投資決策、KYC 審核仍需專業人員決定，不能由 Agent 自行批准。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "提供金融業的參考 Agent 與技能模板，協助準備對帳、財務報告、投資研究與客戶審查的待覆核產物。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；模型、資料供應商與金融資料條款另查"
+      },
+      {
+        "label": "版本",
+        "value": "3e32c2287dcb637c184c01cc0ad82d6af7e9bb0f"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "先驗證不受信任文件的結構化結果",
+        "detail": "外部文件可能包含錯誤與非授權指令。 輸入：Reader 產出的 JSON 及輸出 Schema；輸出：結構驗證結果或拒絕原因",
+        "source": "scripts/validate.py"
+      },
+      {
+        "title": "將核准範圍內的資料交接給另一 Agent",
+        "detail": "多角色交接可能被不可信資料誘導到錯誤目標。 輸入：來源輸出、允許的 Agent slug 與 handoff payload；輸出：通過 allowlist、Schema 的交接請求",
+        "source": "scripts/orchestrate.py"
+      },
+      {
+        "title": "將模板轉成可部署的角色契約",
+        "detail": "各專業 Agent 的工具與權限需固定。 輸入：Agent slug、模板設定及已核准的部署環境；輸出：Resolved agent body、子角色與部署規格",
+        "source": "scripts/deploy-managed-agent.sh"
+      }
+    ],
+    "architecture": {
+      "summary": "先驗證不受信任文件的結構化結果 → 將核准範圍內的資料交接給另一 Agent → 將模板轉成可部署的角色契約 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "先驗證不受信任文件的結構化結果",
+          "detail": "Reader 產出的 JSON 及輸出 Schema → 結構驗證結果或拒絕原因",
+          "files": [
+            "scripts/validate.py",
+            "README.md",
+            "managed-agent-cookbooks/gl-reconciler/README.md"
+          ]
+        },
+        {
+          "title": "將核准範圍內的資料交接給另一 Agent",
+          "detail": "來源輸出、允許的 Agent slug 與 handoff payload → 通過 allowlist、Schema 的交接請求",
+          "files": [
+            "scripts/orchestrate.py",
+            "README.md",
+            "managed-agent-cookbooks/gl-reconciler/README.md"
+          ]
+        },
+        {
+          "title": "將模板轉成可部署的角色契約",
+          "detail": "Agent slug、模板設定及已核准的部署環境 → Resolved agent body、子角色與部署規格",
+          "files": [
+            "scripts/deploy-managed-agent.sh",
+            "README.md",
+            "managed-agent-cookbooks/statement-auditor/README.md",
+            "managed-agent-cookbooks/kyc-screener/README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "先驗證不受信任文件的結構化結果",
+        "rule": "Schema 通過只驗證形狀；對帳數值須由獨立 reviewer 比對可信來源。",
+        "source": "scripts/validate.py"
+      },
+      {
+        "name": "將核准範圍內的資料交接給另一 Agent",
+        "rule": "允許清單與 Schema 不能取代權限驗證；不可讓外部文件直接接觸寫入工具或系統紀錄。",
+        "source": "scripts/orchestrate.py"
+      },
+      {
+        "name": "將模板轉成可部署的角色契約",
+        "rule": "dry-run 與真實部署分開；帳務入帳、投資決策、KYC 審核仍需專業人員決定，不能由 Agent 自行批准。",
+        "source": "scripts/deploy-managed-agent.sh"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、scripts/validate.py、scripts/orchestrate.py、scripts/deploy-managed-agent.sh、managed-agent-cookbooks/gl-reconciler/README.md、managed-agent-cookbooks/statement-auditor/README.md、managed-agent-cookbooks/kyc-screener/README.md 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "scripts/validate.py",
+          "scripts/orchestrate.py",
+          "scripts/deploy-managed-agent.sh",
+          "managed-agent-cookbooks/gl-reconciler/README.md",
+          "managed-agent-cookbooks/statement-auditor/README.md",
+          "managed-agent-cookbooks/kyc-screener/README.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成總帳、明細帳、外部報表及對帳規則。 依需求選用對應項目並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "scripts/validate.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有財務流程的證據化審查與人工簽核另行驗收實際成果及限制。",
+        "file": "scripts/validate.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "validate",
+        "name": "先驗證不受信任文件的結構化結果",
+        "problem": "外部文件可能包含錯誤與非授權指令。",
+        "input": "Reader 產出的 JSON 及輸出 Schema",
+        "output": "結構驗證結果或拒絕原因",
+        "source": "scripts/validate.py",
+        "sourceFiles": [
+          "scripts/validate.py",
+          "README.md",
+          "managed-agent-cookbooks/gl-reconciler/README.md"
+        ],
+        "symbols": [
+          "main",
+          "_load",
+          "jsonschema.validate"
+        ],
+        "gate": "Schema 通過只驗證形狀；對帳數值須由獨立 reviewer 比對可信來源。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "handoff",
+        "name": "將核准範圍內的資料交接給另一 Agent",
+        "problem": "多角色交接可能被不可信資料誘導到錯誤目標。",
+        "input": "來源輸出、允許的 Agent slug 與 handoff payload",
+        "output": "通過 allowlist、Schema 的交接請求",
+        "source": "scripts/orchestrate.py",
+        "sourceFiles": [
+          "scripts/orchestrate.py",
+          "README.md",
+          "managed-agent-cookbooks/gl-reconciler/README.md"
+        ],
+        "symbols": [
+          "extract_handoff",
+          "HANDOFF_PAYLOAD_SCHEMA",
+          "run"
+        ],
+        "gate": "允許清單與 Schema 不能取代權限驗證；不可讓外部文件直接接觸寫入工具或系統紀錄。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "deploy",
+        "name": "將模板轉成可部署的角色契約",
+        "problem": "各專業 Agent 的工具與權限需固定。",
+        "input": "Agent slug、模板設定及已核准的部署環境",
+        "output": "Resolved agent body、子角色與部署規格",
+        "source": "scripts/deploy-managed-agent.sh",
+        "sourceFiles": [
+          "scripts/deploy-managed-agent.sh",
+          "README.md",
+          "managed-agent-cookbooks/statement-auditor/README.md",
+          "managed-agent-cookbooks/kyc-screener/README.md"
+        ],
+        "symbols": [
+          "resolve_manifest",
+          "create_agent",
+          "DRY_RUN"
+        ],
+        "gate": "dry-run 與真實部署分開；帳務入帳、投資決策、KYC 審核仍需專業人員決定，不能由 Agent 自行批准。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃金融對帳差異的分層讀取與覆核（設計示例）",
+      "problem": "合成總帳、明細帳、外部報表及對帳規則",
+      "steps": [
+        {
+          "capability": "validate",
+          "action": "先驗證不受信任文件的結構化結果"
+        },
+        {
+          "capability": "handoff",
+          "action": "將核准範圍內的資料交接給另一 Agent"
+        },
+        {
+          "capability": "deploy",
+          "action": "將模板轉成可部署的角色契約"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "anthropics-financial-services-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成總帳、明細帳、外部報表及對帳規則",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "先驗證不受信任文件的結構化結果 → 將核准範圍內的資料交接給另一 Agent → 將模板轉成可部署的角色契約 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有財務流程的證據化審查與人工簽核之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "作者明確聲明內容不構成投資、法律、稅務或會計建議，產物須專業審查。",
+        "第三方金融資料服務需另取得權限；示範 Agent 不等於符合內部監理與合規規範。",
+        "Schema 通過只驗證形狀；對帳數值須由獨立 reviewer 比對可信來源。",
+        "允許清單與 Schema 不能取代權限驗證；不可讓外部文件直接接觸寫入工具或系統紀錄。",
+        "dry-run 與真實部署分開；帳務入帳、投資決策、KYC 審核仍需專業人員決定，不能由 Agent 自行批准。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "作者明確聲明內容不構成投資、法律、稅務或會計建議，產物須專業審查。 第三方金融資料服務需另取得權限；示範 Agent 不等於符合內部監理與合規規範。 Schema 通過只驗證形狀；對帳數值須由獨立 reviewer 比對可信來源。 允許清單與 Schema 不能取代權限驗證；不可讓外部文件直接接觸寫入工具或系統紀錄。 dry-run 與真實部署分開；帳務入帳、投資決策、KYC 審核仍需專業人員決定，不能由 Agent 自行批准。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、scripts/validate.py、scripts/orchestrate.py、scripts/deploy-managed-agent.sh、managed-agent-cookbooks/gl-reconciler/README.md、managed-agent-cookbooks/statement-auditor/README.md、managed-agent-cookbooks/kyc-screener/README.md 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

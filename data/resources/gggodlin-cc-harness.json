@@ -5,12 +5,12 @@
   "title": "GGGODLIN Claude Code Harness — Agent Governance Reference",
   "category": "Agent Engineering / Governance",
   "resourceType": "Public reference implementation of Claude Code governance harness",
-  "purpose": "參考如何用常駐規則、hooks、skills、commands、agents 與可稽核紀錄治理 coding agent，將人類授權、證據驗證、context compaction 與持續改善從 prompt 自律轉為機制。",
-  "recommendation": "適合選擇性研究 gate-authoring、claim-evidence hooks、compact-guard、trial ledger 與 friction log；不要整套直接安裝，原作者明確說明私人接線已移除，部分腳本存在資料刪除、設定覆蓋或未授權執行風險。",
+  "purpose": "參考如何將 AI 開發的授權、工作規則與驗收證據變成可檢查的 Hooks，而不只是提示詞要求。",
+  "recommendation": "適合研究既有 Claude Code Harness 治理；原作者是個人參考設定而非可保證整套安裝的產品，同 UID Hook 無法阻擋蓄意繞過。",
   "url": "https://github.com/GGGODLIN/gggodlin-cc-harness",
   "status": "active",
   "addedAt": "2026-10-10",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "claude-code",
     "harness",
@@ -80,17 +80,28 @@
     "url": "https://github.com/GGGODLIN/gggodlin-cc-harness",
     "readmeUrl": "https://github.com/GGGODLIN/gggodlin-cc-harness/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、hooks/agent-contract-validator-gate.sh、hooks/contract-test-receipt-gate.sh、hooks/auto-mode-write-guard.py 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "2fbf00ebc862da15456f1fc50423edddbdbb2315",
+    "referenceUrls": [
+      "https://github.com/GGGODLIN/gggodlin-cc-harness/blob/2fbf00ebc862da15456f1fc50423edddbdbb2315/README.md",
+      "https://github.com/GGGODLIN/gggodlin-cc-harness/blob/2fbf00ebc862da15456f1fc50423edddbdbb2315/LICENSE",
+      "https://github.com/GGGODLIN/gggodlin-cc-harness/blob/2fbf00ebc862da15456f1fc50423edddbdbb2315/hooks/agent-contract-validator-gate.sh",
+      "https://github.com/GGGODLIN/gggodlin-cc-harness/blob/2fbf00ebc862da15456f1fc50423edddbdbb2315/hooks/contract-test-receipt-gate.sh",
+      "https://github.com/GGGODLIN/gggodlin-cc-harness/blob/2fbf00ebc862da15456f1fc50423edddbdbb2315/hooks/auto-mode-write-guard.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -106,8 +117,8 @@
     "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、hooks/agent-contract-validator-gate.sh、hooks/contract-test-receipt-gate.sh、hooks/auto-mode-write-guard.py 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -117,10 +128,363 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
     },
-    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "riskNotes": "README 明確說明這是個人治理架構公開參考版，非一鍵安裝產品。；部分內部接線已移除，路徑與依賴無法直接照搬到其他電腦。；同 UID Agent 能繞過未覆蓋入口；此為 drift guard，不是安全邊界，也不保證完整 Shell 語意。；裸測試指令不產生收據；收據仍可能被偽造，且連續阻擋達門檻會放行，不能冒稱硬安全 Gate。；只辨識常見命令形式，不能防蓄意規避；完整權限須依外部安全邊界與人工控制。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "固定版本 README.md、LICENSE、hooks/agent-contract-validator-gate.sh、hooks/contract-test-receipt-gate.sh、hooks/auto-mode-write-guard.py 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、hooks/agent-contract-validator-gate.sh、hooks/contract-test-receipt-gate.sh、hooks/auto-mode-write-guard.py 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "參考如何用常駐規則、hooks、skills、commands、agents 與可稽核紀錄治理 coding agent，將人類授權、證據驗證、context compaction 與持續改善從 prompt 自律轉為機制。",
+      "source": "https://github.com/GGGODLIN/gggodlin-cc-harness",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合選擇性研究 gate-authoring、claim-evidence hooks、compact-guard、trial ledger 與 friction log；不要整套直接安裝，原作者明確說明私人接線已移除，部分腳本存在資料刪除、設定覆蓋或未授權執行風險。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-contract",
+        "title": "保護關鍵規則不被誤改",
+        "detail": "Agent 修改自己的規則可能造成治理漂移。核准綁定、拒絕原因及審計紀錄。",
+        "capabilityRefs": [
+          "contract"
+        ]
+      },
+      {
+        "id": "use-receipt",
+        "title": "在修改契約後要求新的測試證據",
+        "detail": "舊測試可能與最新修改不一致。提示型驗收或缺少新收據的阻擋。",
+        "capabilityRefs": [
+          "receipt"
+        ]
+      },
+      {
+        "id": "use-human",
+        "title": "保護人員控制的自動模式開關",
+        "detail": "Agent 不應自行放寬使用者授權。路徑檢查與誤寫阻擋。",
+        "capabilityRefs": [
+          "human"
+        ]
+      }
+    ],
+    "example": {
+      "id": "gggodlin-cc-harness-example",
+      "title": "規劃 Agent 修改工作規則時的授權與證據閘門",
+      "input": "合成 Agent 規則、測試紀錄、Git staged 變更與人工核准。",
+      "process": "保護關鍵規則不被誤改 → 在修改契約後要求新的測試證據 → 保護人員控制的自動模式開關 → 獨立驗收實際成果",
+      "output": "可查證的准入判斷、版本綁定的核准與測試收據（規劃產物）。",
+      "destination": "自有 AI Cowork 治理與獨立驗收機制之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-contract",
+        "use-receipt",
+        "use-human"
+      ],
+      "steps": [
+        {
+          "id": "contract",
+          "title": "保護關鍵規則不被誤改",
+          "capabilityRefs": [
+            "contract"
+          ]
+        },
+        {
+          "id": "receipt",
+          "title": "在修改契約後要求新的測試證據",
+          "capabilityRefs": [
+            "receipt"
+          ]
+        },
+        {
+          "id": "human",
+          "title": "保護人員控制的自動模式開關",
+          "capabilityRefs": [
+            "human"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成 Agent 規則、測試紀錄、Git staged 變更與人工核准。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "README 明確說明這是個人治理架構公開參考版，非一鍵安裝產品。",
+      "部分內部接線已移除，路徑與依賴無法直接照搬到其他電腦。",
+      "同 UID Agent 能繞過未覆蓋入口；此為 drift guard，不是安全邊界，也不保證完整 Shell 語意。",
+      "裸測試指令不產生收據；收據仍可能被偽造，且連續阻擋達門檻會放行，不能冒稱硬安全 Gate。",
+      "只辨識常見命令形式，不能防蓄意規避；完整權限須依外部安全邊界與人工控制。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "參考如何將 AI 開發的授權、工作規則與驗收證據變成可檢查的 Hooks，而不只是提示詞要求。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；私有接線未公開"
+      },
+      {
+        "label": "版本",
+        "value": "2fbf00ebc862da15456f1fc50423edddbdbb2315"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "保護關鍵規則不被誤改",
+        "detail": "Agent 修改自己的規則可能造成治理漂移。 輸入：受保護路徑、staged entries、人工 permit 與 Session；輸出：核准綁定、拒絕原因及審計紀錄",
+        "source": "hooks/agent-contract-validator-gate.sh"
+      },
+      {
+        "title": "在修改契約後要求新的測試證據",
+        "detail": "舊測試可能與最新修改不一致。 輸入：目標檔案、Session、mtime/size 與測試收據；輸出：提示型驗收或缺少新收據的阻擋",
+        "source": "hooks/contract-test-receipt-gate.sh"
+      },
+      {
+        "title": "保護人員控制的自動模式開關",
+        "detail": "Agent 不應自行放寬使用者授權。 輸入：Hook 輸入、目標路徑及常見寫入命令；輸出：路徑檢查與誤寫阻擋",
+        "source": "hooks/auto-mode-write-guard.py"
+      }
+    ],
+    "architecture": {
+      "summary": "保護關鍵規則不被誤改 → 在修改契約後要求新的測試證據 → 保護人員控制的自動模式開關 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "保護關鍵規則不被誤改",
+          "detail": "受保護路徑、staged entries、人工 permit 與 Session → 核准綁定、拒絕原因及審計紀錄",
+          "files": [
+            "hooks/agent-contract-validator-gate.sh",
+            "README.md"
+          ]
+        },
+        {
+          "title": "在修改契約後要求新的測試證據",
+          "detail": "目標檔案、Session、mtime/size 與測試收據 → 提示型驗收或缺少新收據的阻擋",
+          "files": [
+            "hooks/contract-test-receipt-gate.sh",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保護人員控制的自動模式開關",
+          "detail": "Hook 輸入、目標路徑及常見寫入命令 → 路徑檢查與誤寫阻擋",
+          "files": [
+            "hooks/auto-mode-write-guard.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "保護關鍵規則不被誤改",
+        "rule": "同 UID Agent 能繞過未覆蓋入口；此為 drift guard，不是安全邊界，也不保證完整 Shell 語意。",
+        "source": "hooks/agent-contract-validator-gate.sh"
+      },
+      {
+        "name": "在修改契約後要求新的測試證據",
+        "rule": "裸測試指令不產生收據；收據仍可能被偽造，且連續阻擋達門檻會放行，不能冒稱硬安全 Gate。",
+        "source": "hooks/contract-test-receipt-gate.sh"
+      },
+      {
+        "name": "保護人員控制的自動模式開關",
+        "rule": "只辨識常見命令形式，不能防蓄意規避；完整權限須依外部安全邊界與人工控制。",
+        "source": "hooks/auto-mode-write-guard.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、hooks/agent-contract-validator-gate.sh、hooks/contract-test-receipt-gate.sh、hooks/auto-mode-write-guard.py 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "hooks/agent-contract-validator-gate.sh",
+          "hooks/contract-test-receipt-gate.sh",
+          "hooks/auto-mode-write-guard.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成 Agent 規則、測試紀錄、Git staged 變更與人工核准。 依需求選用對應項目並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "hooks/agent-contract-validator-gate.sh"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 AI Cowork 治理與獨立驗收機制另行驗收實際成果及限制。",
+        "file": "hooks/agent-contract-validator-gate.sh"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "contract",
+        "name": "保護關鍵規則不被誤改",
+        "problem": "Agent 修改自己的規則可能造成治理漂移。",
+        "input": "受保護路徑、staged entries、人工 permit 與 Session",
+        "output": "核准綁定、拒絕原因及審計紀錄",
+        "source": "hooks/agent-contract-validator-gate.sh",
+        "sourceFiles": [
+          "hooks/agent-contract-validator-gate.sh",
+          "README.md"
+        ],
+        "symbols": [
+          "Locked surface lifecycle（程式註解）",
+          "Permit binding（程式註解）"
+        ],
+        "gate": "同 UID Agent 能繞過未覆蓋入口；此為 drift guard，不是安全邊界，也不保證完整 Shell 語意。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "receipt",
+        "name": "在修改契約後要求新的測試證據",
+        "problem": "舊測試可能與最新修改不一致。",
+        "input": "目標檔案、Session、mtime/size 與測試收據",
+        "output": "提示型驗收或缺少新收據的阻擋",
+        "source": "hooks/contract-test-receipt-gate.sh",
+        "sourceFiles": [
+          "hooks/contract-test-receipt-gate.sh",
+          "README.md"
+        ],
+        "symbols": [
+          "CONTRACT_TEST_RUNS_DIR",
+          "CONTRACT_TEST_PENDING_DIR",
+          "PostToolUse"
+        ],
+        "gate": "裸測試指令不產生收據；收據仍可能被偽造，且連續阻擋達門檻會放行，不能冒稱硬安全 Gate。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "human",
+        "name": "保護人員控制的自動模式開關",
+        "problem": "Agent 不應自行放寬使用者授權。",
+        "input": "Hook 輸入、目標路徑及常見寫入命令",
+        "output": "路徑檢查與誤寫阻擋",
+        "source": "hooks/auto-mode-write-guard.py",
+        "sourceFiles": [
+          "hooks/auto-mode-write-guard.py",
+          "README.md"
+        ],
+        "symbols": [
+          "protected",
+          "segments",
+          "require_text"
+        ],
+        "gate": "只辨識常見命令形式，不能防蓄意規避；完整權限須依外部安全邊界與人工控制。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 Agent 修改工作規則時的授權與證據閘門（設計示例）",
+      "problem": "合成 Agent 規則、測試紀錄、Git staged 變更與人工核准",
+      "steps": [
+        {
+          "capability": "contract",
+          "action": "保護關鍵規則不被誤改"
+        },
+        {
+          "capability": "receipt",
+          "action": "在修改契約後要求新的測試證據"
+        },
+        {
+          "capability": "human",
+          "action": "保護人員控制的自動模式開關"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "gggodlin-cc-harness-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成 Agent 規則、測試紀錄、Git staged 變更與人工核准",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "保護關鍵規則不被誤改 → 在修改契約後要求新的測試證據 → 保護人員控制的自動模式開關 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 AI Cowork 治理與獨立驗收機制之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "README 明確說明這是個人治理架構公開參考版，非一鍵安裝產品。",
+        "部分內部接線已移除，路徑與依賴無法直接照搬到其他電腦。",
+        "同 UID Agent 能繞過未覆蓋入口；此為 drift guard，不是安全邊界，也不保證完整 Shell 語意。",
+        "裸測試指令不產生收據；收據仍可能被偽造，且連續阻擋達門檻會放行，不能冒稱硬安全 Gate。",
+        "只辨識常見命令形式，不能防蓄意規避；完整權限須依外部安全邊界與人工控制。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "README 明確說明這是個人治理架構公開參考版，非一鍵安裝產品。 部分內部接線已移除，路徑與依賴無法直接照搬到其他電腦。 同 UID Agent 能繞過未覆蓋入口；此為 drift guard，不是安全邊界，也不保證完整 Shell 語意。 裸測試指令不產生收據；收據仍可能被偽造，且連續阻擋達門檻會放行，不能冒稱硬安全 Gate。 只辨識常見命令形式，不能防蓄意規避；完整權限須依外部安全邊界與人工控制。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、hooks/agent-contract-validator-gate.sh、hooks/contract-test-receipt-gate.sh、hooks/auto-mode-write-guard.py 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

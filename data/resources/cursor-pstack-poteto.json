@@ -6,14 +6,14 @@
   "canonicalName": "cursor/plugins/pstack",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "MIT open-source Cursor/Claude Code Agent Skills plugin with verification, planning, research and software delivery playbooks",
-  "purpose": "由 Lauren Tan（@poteto）開發的 Agent Coding Workflow 套件，以 /poteto-mode 選擇適當的研究、Debugging、Feature、Review、QA、Release Playbooks；核心 Verification Infrastructure 提供 /create-verification-skill 產生專案特定的 App 驅動技能與 Feature Map，以及 /maintain-verification-skill 保持工具和 Feature Map 符合持續變動的 App。",
-  "recommendation": "適合讓 Coding Agent 在修改程式後自行啟動真實 App、操作使用者路徑、收集結果證據並在失敗時重試，降低人工每一輪測試成本。先確認測試帳號、獨立測試資料、端口、資產、環境變數與最小權限，並由使用者提供不變的 Acceptance Criteria；正式導入前檢查會執行的 Helpers、Browser/CDP/PTY/HTTP 工具與讀取資料範圍。與已收錄的 michael-denyer/pstack-claude（跨 Harness 移植）用途相近但為不同 Repo，避免同環境安裝重複/衝突的版本。",
+  "purpose": "以 pstack 的角色化工程指引協助決定何時先做架構設計、用子 Agent 探索或建立實際操作驗收。",
+  "recommendation": "適合建立可選用、非固定全流程的開發指引；此為 Cursor 上游集合，Claude Code harness 是生成版本，與其他移植版本分開查核。",
   "url": "https://github.com/cursor/plugins/tree/main/pstack",
   "repo": "cursor/plugins",
   "notes": "2026-10-24 實際核對 cursor/plugins/pstack/README.md、pstack/LICENSE、兩份 Skills 官方 SKILL.md。上游 pstack 為 MIT（Copyright 2026 Lauren Tan），Cursor 插件安裝指令 /add-plugin pstack；官方 README 另提供 Claude Code 安裝途徑與 /pstack: 命令前綴，部分 Cursor 原生功能在 Claude Code 會略過，並不保證完全等效。建立 Verification Skill 會盤點 Repo、選擇現有測試工具優先，再依 App Surface 產生 .cursor/skills/verify-<app>/SKILL.md，包含 Launch/Doctor/Drive/Evidence/Cleanup/Helpers，並建立 features/README.md 與每個功能的 Feature Map。要求至少實際端到端執行一條功能路徑，驗證 Evidence 在 Cleanup 後仍存在；未執行的生成結果是 Draft。Maintain 流程必須覆蓋所有 Feature 的 Source 和 Live 驗證；輸出 clean/changed/blocked，僅改驗證技能目錄，確認有差異時最多開一筆 PR，不改產品程式碼。運行可能打開 Browser/CDP、啟動服務、寫入隔離測試資料或登入測試帳號，應避免連正式環境或泄漏憑證。CLI 的 todo-tool 命令在用戶提供的文章中只是示例，**不是 pstack 內建 CLI**。此輪只做索引收錄，沒有安裝、執行或建立任何專案驗證 Skill。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "pstack",
     "poteto",
@@ -80,8 +80,16 @@
     "type": "Original official cursor/plugins pstack README, MIT license and SKILL.md plus user-provided long-form explanation",
     "summary": "Read original upstream sources 2026-10-24; no installation or execution.",
     "readmeUrl": "https://github.com/cursor/plugins/blob/main/pstack/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README check only; runtime and security not audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 harness/pstack/README.md、harness/pstack/claude-code/LICENSE、harness/pstack/claude-code/skills/poteto-mode/SKILL.md、harness/pstack/claude-code/skills/architect/SKILL.md、harness/pstack/claude-code/skills/create-verification-skill/SKILL.md 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "41e400932eca14f289e7db717a70455256b6d388",
+    "referenceUrls": [
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/README.md",
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/LICENSE",
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/skills/poteto-mode/SKILL.md",
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/skills/architect/SKILL.md",
+      "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/skills/create-verification-skill/SKILL.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -98,9 +106,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1",
-    "contentFormat": "repository",
+    "contentFormat": "collection",
     "formatEvidenceFields": [
-      "repo"
+      "repo",
+      "source.referenceUrls"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -121,10 +130,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -137,11 +149,11 @@
       "decision": "retain-unmapped",
       "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
     },
-    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。",
+    "classificationReason": "維持既有 Primary Domain ai-agent；未修改任何分類或新增 Tag。；固定來源顯示主要收錄可挑選的技能／角色文件集合，僅 Content Format 由 repository 校正為 collection，Primary Domain、Tags、Category 與 Typed References 不變。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 harness/pstack/README.md、harness/pstack/claude-code/LICENSE、harness/pstack/claude-code/skills/poteto-mode/SKILL.md、harness/pstack/claude-code/skills/architect/SKILL.md、harness/pstack/claude-code/skills/create-verification-skill/SKILL.md 局部查核；未執行第三方程式或測試。；主要收錄可挑選的角色或技能文件集合，非單一程式重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -151,10 +163,176 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
     },
-    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "riskNotes": "多模型流程可能增加成本與延遲，不能以角色或模型數量代替驗收。；Claude Code 等 Host 的指令命名與自動更新方式不同，需檢查適配文件。；Claude Code 生成樹需要對應 adapter，不能假設 Cursor 工具直接可用；任務路由不代表已執行。；每個 state 應有清楚 owner；大型爭議設計需另做比較，不以草圖取代可執行測試。；優先使用既有測試工具，不能雙重驅動共享實例；缺環境時如實報告，不製造成功證據。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "固定版本 harness/pstack/README.md、harness/pstack/claude-code/LICENSE、harness/pstack/claude-code/skills/poteto-mode/SKILL.md、harness/pstack/claude-code/skills/architect/SKILL.md、harness/pstack/claude-code/skills/create-verification-skill/SKILL.md 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 harness/pstack/README.md、harness/pstack/claude-code/LICENSE、harness/pstack/claude-code/skills/poteto-mode/SKILL.md、harness/pstack/claude-code/skills/architect/SKILL.md、harness/pstack/claude-code/skills/create-verification-skill/SKILL.md 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "由 Lauren Tan（@poteto）開發的 Agent Coding Workflow 套件，以 /poteto-mode 選擇適當的研究、Debugging、Feature、Review、QA、Release Playbooks；核心 Verification Infrastructure 提供 /create-verification-skill 產生專案特定的 App 驅動技能與 Feature Map，以及 /maintain-verification-skill 保持工具和 Feature Map 符合持續變動的 App。",
+      "source": "https://github.com/cursor/plugins/tree/main/pstack",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合讓 Coding Agent 在修改程式後自行啟動真實 App、操作使用者路徑、收集結果證據並在失敗時重試，降低人工每一輪測試成本。先確認測試帳號、獨立測試資料、端口、資產、環境變數與最小權限，並由使用者提供不變的 Acceptance Criteria；正式導入前檢查會執行的 Helpers、Browser/CDP/PTY/HTTP 工具與讀取資料範圍。與已收錄的 michael-denyer/pstack-claude（跨 Harness 移植）用途相近但為不同 Repo，避免同環境安裝重複/衝突的版本。",
+    "priorContentFormat": "repository",
+    "documentContracts": [
+      {
+        "id": "route",
+        "input": "任務目標、現有程式與可用 Host",
+        "output": "針對問題選擇的工作 playbook",
+        "rule": "Claude Code 生成樹需要對應 adapter，不能假設 Cursor 工具直接可用；任務路由不代表已執行。",
+        "source": "harness/pstack/claude-code/skills/poteto-mode/SKILL.md",
+        "references": [
+          "harness/pstack/README.md"
+        ]
+      },
+      {
+        "id": "architect",
+        "input": "需求、現有資料形狀與系統邊界",
+        "output": "兩種型別、簽名、模組設計與決策理由",
+        "rule": "每個 state 應有清楚 owner；大型爭議設計需另做比較，不以草圖取代可執行測試。",
+        "source": "harness/pstack/claude-code/skills/architect/SKILL.md",
+        "references": []
+      },
+      {
+        "id": "verify",
+        "input": "啟動指令、介面、可觀察證據與隔離條件",
+        "output": "專案專用 verify Skill 的規格與清理步驟",
+        "rule": "優先使用既有測試工具，不能雙重驅動共享實例；缺環境時如實報告，不製造成功證據。",
+        "source": "harness/pstack/claude-code/skills/create-verification-skill/SKILL.md",
+        "references": []
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-route",
+        "title": "依問題選擇工程指引",
+        "detail": "不同任務不必套同一個大型開發流程。針對問題選擇的工作 playbook。",
+        "evidenceRefs": [
+          "route"
+        ]
+      },
+      {
+        "id": "use-architect",
+        "title": "先比較資料與模組設計",
+        "detail": "直接寫程式可能把錯誤的責任分工固定下來。兩種型別、簽名、模組設計與決策理由。",
+        "evidenceRefs": [
+          "architect"
+        ]
+      },
+      {
+        "id": "use-verify",
+        "title": "以實際應用入口建立驗收",
+        "detail": "程式或 UI 的成功訊息可能無法被獨立重現。專案專用 verify Skill 的規格與清理步驟。",
+        "evidenceRefs": [
+          "verify"
+        ]
+      }
+    ],
+    "example": {
+      "id": "cursor-pstack-poteto-example",
+      "title": "規劃複雜功能的架構選型與實際操作驗收",
+      "input": "合成需求、既有程式資料模型與可測試的應用入口。",
+      "process": "依問題選擇工程指引 → 先比較資料與模組設計 → 以實際應用入口建立驗收 → 獨立驗收實際成果",
+      "output": "兩種設計比較、確認的資料責任邊界與驗收 Skill 規格（規劃產物）。",
+      "destination": "自有開發規格、程式架構與交付驗收之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-route",
+        "use-architect",
+        "use-verify"
+      ],
+      "steps": [
+        {
+          "id": "route",
+          "title": "依問題選擇工程指引",
+          "evidenceRefs": [
+            "route"
+          ]
+        },
+        {
+          "id": "architect",
+          "title": "先比較資料與模組設計",
+          "evidenceRefs": [
+            "architect"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "以實際應用入口建立驗收",
+          "evidenceRefs": [
+            "verify"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成需求、既有程式資料模型與可測試的應用入口。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "多模型流程可能增加成本與延遲，不能以角色或模型數量代替驗收。",
+      "Claude Code 等 Host 的指令命名與自動更新方式不同，需檢查適配文件。",
+      "Claude Code 生成樹需要對應 adapter，不能假設 Cursor 工具直接可用；任務路由不代表已執行。",
+      "每個 state 應有清楚 owner；大型爭議設計需另做比較，不以草圖取代可執行測試。",
+      "優先使用既有測試工具，不能雙重驅動共享實例；缺環境時如實報告，不製造成功證據。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "route",
+      "detail": "不同任務不必套同一個大型開發流程；輸入：任務目標、現有程式與可用 Host；輸出：針對問題選擇的工作 playbook。",
+      "locator": "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/skills/poteto-mode/SKILL.md；https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/README.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "Claude Code 生成樹需要對應 adapter，不能假設 Cursor 工具直接可用；任務路由不代表已執行。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "architect",
+      "detail": "直接寫程式可能把錯誤的責任分工固定下來；輸入：需求、現有資料形狀與系統邊界；輸出：兩種型別、簽名、模組設計與決策理由。",
+      "locator": "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/skills/architect/SKILL.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "每個 state 應有清楚 owner；大型爭議設計需另做比較，不以草圖取代可執行測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "verify",
+      "detail": "程式或 UI 的成功訊息可能無法被獨立重現；輸入：啟動指令、介面、可觀察證據與隔離條件；輸出：專案專用 verify Skill 的規格與清理步驟。",
+      "locator": "https://github.com/cursor/plugins/blob/41e400932eca14f289e7db717a70455256b6d388/harness/pstack/claude-code/skills/create-verification-skill/SKILL.md",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "優先使用既有測試工具，不能雙重驅動共享實例；缺環境時如實報告，不製造成功證據。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }

@@ -5,13 +5,13 @@
   "title": "botskills.sh — Grok Bot / Rakazo Bot Setup Directory",
   "category": "02 Agent Skills & Prompt Libraries",
   "resourceType": "Paste-ready BOT.md directory / open-source Next.js catalog",
-  "purpose": "提供 Grok Bot 與 Rakazo 的可複製 Bot 設定模板，透過 BOT.md Frontmatter、可執行步驟與必填 boundary 定義每個 Bot 的工作範圍及未經人類逐次核准不得執行的不可逆動作。",
-  "recommendation": "適合研究 AI 虛擬員工、Bot 工作室、可審核的自動化設定與多 Bot 安全界線；特別值得借鏡每個 Bot 必須明確聲明 boundary、逐次授權、外部內容只當資料、缺少整合就停止，以及以 Schema Validator 與 CI 守住目錄品質。此為模板與目錄，不是通用 Claude Code Skills 安裝器，也不保證不同 Bot 有憑證隔離。",
+  "purpose": "從現成的 Bot 設定模板選擇任務，並用統一 BOT.md 格式記錄角色、工具、工作步驟及不可越過的操作界線。",
+  "recommendation": "適合設計有明確交付物的 Bot 或知識模板目錄；文字 boundary 與格式檢查不等於執行時安全控制。",
   "url": "https://github.com/PramodDutta/botskills",
   "repo": "PramodDutta/botskills",
   "status": "active",
   "addedAt": "2026-11-01",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "license": "MIT",
   "tags": [
     "botskills",
@@ -65,11 +65,20 @@
       "https://github.com/PramodDutta/botskills/blob/main/BOTSKILLS.md",
       "https://github.com/PramodDutta/botskills/blob/main/BOT-TEMPLATE.md"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official GitHub repository and first-party BOTSKILLS.md/BOT-TEMPLATE.md",
     "summary": "Read-only review; categorized as one Resource, not one Skill per seed bot. No code installed or executed.",
     "readmeUrl": "https://github.com/PramodDutta/botskills/blob/main/README.md",
-    "reviewScope": "Official upstream document only; no runtime/security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、packages/shared/src/index.ts、scripts/validate-bots.mjs、seed-bots/bug-repro-pack-builder/BOT.md、seed-bots/bookkeeping-auditor/BOT.md 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "ed17ebcead177b91dfca57d5df3d7c9872cb77fd",
+    "referenceUrls": [
+      "https://github.com/PramodDutta/botskills/blob/ed17ebcead177b91dfca57d5df3d7c9872cb77fd/README.md",
+      "https://github.com/PramodDutta/botskills/blob/ed17ebcead177b91dfca57d5df3d7c9872cb77fd/LICENSE",
+      "https://github.com/PramodDutta/botskills/blob/ed17ebcead177b91dfca57d5df3d7c9872cb77fd/packages/shared/src/index.ts",
+      "https://github.com/PramodDutta/botskills/blob/ed17ebcead177b91dfca57d5df3d7c9872cb77fd/scripts/validate-bots.mjs",
+      "https://github.com/PramodDutta/botskills/blob/ed17ebcead177b91dfca57d5df3d7c9872cb77fd/seed-bots/bug-repro-pack-builder/BOT.md",
+      "https://github.com/PramodDutta/botskills/blob/ed17ebcead177b91dfca57d5df3d7c9872cb77fd/seed-bots/bookkeeping-auditor/BOT.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -106,10 +115,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -125,8 +137,8 @@
     "classificationReason": "沿用既有 Primary Domain ai-agent，僅改善功能、條件、限制，不更改分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、packages/shared/src/index.ts、scripts/validate-bots.mjs、seed-bots/bug-repro-pack-builder/BOT.md、seed-bots/bookkeeping-auditor/BOT.md 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -136,10 +148,366 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "目錄中的 Bot 設定不代表已在目標環境執行成功；外部 Bot 權限、資料輸入與發布內容仍需個別審查；Frontmatter 必填 boundary 與 runtime；解析成功不代表 Bot 遵守該界線。；檢查 boundary 長度、分類及格式是靜態 Gate；不能證明實際副作用已被阻止。；模板明定不得使用 production 客戶資料；財務範例也禁止入帳。實際執行須另驗證工具權限與拒絕路徑。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、packages/shared/src/index.ts、scripts/validate-bots.mjs、seed-bots/bug-repro-pack-builder/BOT.md、seed-bots/bookkeeping-auditor/BOT.md 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、packages/shared/src/index.ts、scripts/validate-bots.mjs、seed-bots/bug-repro-pack-builder/BOT.md、seed-bots/bookkeeping-auditor/BOT.md 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供 Grok Bot 與 Rakazo 的可複製 Bot 設定模板，透過 BOT.md Frontmatter、可執行步驟與必填 boundary 定義每個 Bot 的工作範圍及未經人類逐次核准不得執行的不可逆動作。",
+      "source": "https://github.com/PramodDutta/botskills",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究 AI 虛擬員工、Bot 工作室、可審核的自動化設定與多 Bot 安全界線；特別值得借鏡每個 Bot 必須明確聲明 boundary、逐次授權、外部內容只當資料、缺少整合就停止，以及以 Schema Validator 與 CI 守住目錄品質。此為模板與目錄，不是通用 Claude Code Skills 安裝器，也不保證不同 Bot 有憑證隔離。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-parse",
+        "title": "建立統一可解析的 Bot 設定",
+        "detail": "任務模板需有明確欄位與角色範圍。結構化模板與分離的授權資訊。",
+        "capabilityRefs": [
+          "parse"
+        ]
+      },
+      {
+        "id": "use-gate",
+        "title": "檢查 Bot 目錄的品質欄位",
+        "detail": "缺漏整合資訊或空泛界線會降低模板可信度。驗收清單、失敗原因與退出碼。",
+        "capabilityRefs": [
+          "gate"
+        ]
+      },
+      {
+        "id": "use-pattern",
+        "title": "以明確界線設計工作案例",
+        "detail": "Bug 重現與財務檢查需要限制真實資料操作。可選用的唯讀或 staging-only 任務模板。",
+        "capabilityRefs": [
+          "pattern"
+        ]
+      }
+    ],
+    "example": {
+      "id": "pramoddutta-botskills-example",
+      "title": "規劃只在測試環境運作的 Bug 重現 Bot",
+      "input": "合成 Bug 報告、測試環境描述及明確不可操作的範圍。",
+      "process": "建立統一可解析的 Bot 設定 → 檢查 Bot 目錄的品質欄位 → 以明確界線設計工作案例 → 獨立驗收實際成果",
+      "output": "BOT.md 設定、格式驗收結果與重現證據清單（規劃產物）。",
+      "destination": "自有 Bot 設計目錄與受控任務流程之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-parse",
+        "use-gate",
+        "use-pattern"
+      ],
+      "steps": [
+        {
+          "id": "parse",
+          "title": "建立統一可解析的 Bot 設定",
+          "capabilityRefs": [
+            "parse"
+          ]
+        },
+        {
+          "id": "gate",
+          "title": "檢查 Bot 目錄的品質欄位",
+          "capabilityRefs": [
+            "gate"
+          ]
+        },
+        {
+          "id": "pattern",
+          "title": "以明確界線設計工作案例",
+          "capabilityRefs": [
+            "pattern"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成 Bug 報告、測試環境描述及明確不可操作的範圍。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "目錄中的 Bot 設定不代表已在目標環境執行成功",
+      "外部 Bot 權限、資料輸入與發布內容仍需個別審查",
+      "Frontmatter 必填 boundary 與 runtime；解析成功不代表 Bot 遵守該界線。",
+      "檢查 boundary 長度、分類及格式是靜態 Gate；不能證明實際副作用已被阻止。",
+      "模板明定不得使用 production 客戶資料；財務範例也禁止入帳。實際執行須另驗證工具權限與拒絕路徑。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "從現成的 Bot 設定模板選擇任務，並用統一 BOT.md 格式記錄角色、工具、工作步驟及不可越過的操作界線。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；個別 BOT 模板的授權欄位另查"
+      },
+      {
+        "label": "版本",
+        "value": "ed17ebcead177b91dfca57d5df3d7c9872cb77fd"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立統一可解析的 Bot 設定",
+        "detail": "任務模板需有明確欄位與角色範圍。 輸入：BOT.md frontmatter、prompt 與 slug；輸出：結構化模板與分離的授權資訊",
+        "source": "packages/shared/src/index.ts"
+      },
+      {
+        "title": "檢查 Bot 目錄的品質欄位",
+        "detail": "缺漏整合資訊或空泛界線會降低模板可信度。 輸入：seed-bots 目錄與 shipping parser；輸出：驗收清單、失敗原因與退出碼",
+        "source": "scripts/validate-bots.mjs"
+      },
+      {
+        "title": "以明確界線設計工作案例",
+        "detail": "Bug 重現與財務檢查需要限制真實資料操作。 輸入：已核准測試資料、任務範圍與證據要求；輸出：可選用的唯讀或 staging-only 任務模板",
+        "source": "seed-bots/bug-repro-pack-builder/BOT.md"
+      }
+    ],
+    "architecture": {
+      "summary": "建立統一可解析的 Bot 設定 → 檢查 Bot 目錄的品質欄位 → 以明確界線設計工作案例 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立統一可解析的 Bot 設定",
+          "detail": "BOT.md frontmatter、prompt 與 slug → 結構化模板與分離的授權資訊",
+          "files": [
+            "packages/shared/src/index.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "檢查 Bot 目錄的品質欄位",
+          "detail": "seed-bots 目錄與 shipping parser → 驗收清單、失敗原因與退出碼",
+          "files": [
+            "scripts/validate-bots.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "以明確界線設計工作案例",
+          "detail": "已核准測試資料、任務範圍與證據要求 → 可選用的唯讀或 staging-only 任務模板",
+          "files": [
+            "seed-bots/bug-repro-pack-builder/BOT.md",
+            "README.md",
+            "seed-bots/bookkeeping-auditor/BOT.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立統一可解析的 Bot 設定",
+        "rule": "Frontmatter 必填 boundary 與 runtime；解析成功不代表 Bot 遵守該界線。",
+        "source": "packages/shared/src/index.ts"
+      },
+      {
+        "name": "檢查 Bot 目錄的品質欄位",
+        "rule": "檢查 boundary 長度、分類及格式是靜態 Gate；不能證明實際副作用已被阻止。",
+        "source": "scripts/validate-bots.mjs"
+      },
+      {
+        "name": "以明確界線設計工作案例",
+        "rule": "模板明定不得使用 production 客戶資料；財務範例也禁止入帳。實際執行須另驗證工具權限與拒絕路徑。",
+        "source": "seed-bots/bug-repro-pack-builder/BOT.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、packages/shared/src/index.ts、scripts/validate-bots.mjs、seed-bots/bug-repro-pack-builder/BOT.md、seed-bots/bookkeeping-auditor/BOT.md 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "packages/shared/src/index.ts",
+          "scripts/validate-bots.mjs",
+          "seed-bots/bug-repro-pack-builder/BOT.md",
+          "seed-bots/bookkeeping-auditor/BOT.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成 Bug 報告、測試環境描述及明確不可操作的範圍。 依需求選用對應項目並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "packages/shared/src/index.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 Bot 設計目錄與受控任務流程另行驗收實際成果及限制。",
+        "file": "packages/shared/src/index.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "parse",
+        "name": "建立統一可解析的 Bot 設定",
+        "problem": "任務模板需有明確欄位與角色範圍。",
+        "input": "BOT.md frontmatter、prompt 與 slug",
+        "output": "結構化模板與分離的授權資訊",
+        "source": "packages/shared/src/index.ts",
+        "sourceFiles": [
+          "packages/shared/src/index.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "parseBotMd",
+          "botFrontmatterSchema",
+          "serializeBotMd"
+        ],
+        "gate": "Frontmatter 必填 boundary 與 runtime；解析成功不代表 Bot 遵守該界線。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "gate",
+        "name": "檢查 Bot 目錄的品質欄位",
+        "problem": "缺漏整合資訊或空泛界線會降低模板可信度。",
+        "input": "seed-bots 目錄與 shipping parser",
+        "output": "驗收清單、失敗原因與退出碼",
+        "source": "scripts/validate-bots.mjs",
+        "sourceFiles": [
+          "scripts/validate-bots.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "parseBotMd",
+          "CATEGORY_IDS",
+          "fails"
+        ],
+        "gate": "檢查 boundary 長度、分類及格式是靜態 Gate；不能證明實際副作用已被阻止。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "pattern",
+        "name": "以明確界線設計工作案例",
+        "problem": "Bug 重現與財務檢查需要限制真實資料操作。",
+        "input": "已核准測試資料、任務範圍與證據要求",
+        "output": "可選用的唯讀或 staging-only 任務模板",
+        "source": "seed-bots/bug-repro-pack-builder/BOT.md",
+        "sourceFiles": [
+          "seed-bots/bug-repro-pack-builder/BOT.md",
+          "README.md",
+          "seed-bots/bookkeeping-auditor/BOT.md"
+        ],
+        "symbols": [
+          "boundary（文件欄位）",
+          "Per report（文件步驟）"
+        ],
+        "gate": "模板明定不得使用 production 客戶資料；財務範例也禁止入帳。實際執行須另驗證工具權限與拒絕路徑。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃只在測試環境運作的 Bug 重現 Bot（設計示例）",
+      "problem": "合成 Bug 報告、測試環境描述及明確不可操作的範圍",
+      "steps": [
+        {
+          "capability": "parse",
+          "action": "建立統一可解析的 Bot 設定"
+        },
+        {
+          "capability": "gate",
+          "action": "檢查 Bot 目錄的品質欄位"
+        },
+        {
+          "capability": "pattern",
+          "action": "以明確界線設計工作案例"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "pramoddutta-botskills-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成 Bug 報告、測試環境描述及明確不可操作的範圍",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立統一可解析的 Bot 設定 → 檢查 Bot 目錄的品質欄位 → 以明確界線設計工作案例 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 Bot 設計目錄與受控任務流程之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "目錄中的 Bot 設定不代表已在目標環境執行成功",
+        "外部 Bot 權限、資料輸入與發布內容仍需個別審查",
+        "Frontmatter 必填 boundary 與 runtime；解析成功不代表 Bot 遵守該界線。",
+        "檢查 boundary 長度、分類及格式是靜態 Gate；不能證明實際副作用已被阻止。",
+        "模板明定不得使用 production 客戶資料；財務範例也禁止入帳。實際執行須另驗證工具權限與拒絕路徑。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "目錄中的 Bot 設定不代表已在目標環境執行成功 外部 Bot 權限、資料輸入與發布內容仍需個別審查 Frontmatter 必填 boundary 與 runtime；解析成功不代表 Bot 遵守該界線。 檢查 boundary 長度、分類及格式是靜態 Gate；不能證明實際副作用已被阻止。 模板明定不得使用 production 客戶資料；財務範例也禁止入帳。實際執行須另驗證工具權限與拒絕路徑。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、packages/shared/src/index.ts、scripts/validate-bots.mjs、seed-bots/bug-repro-pack-builder/BOT.md、seed-bots/bookkeeping-auditor/BOT.md 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
