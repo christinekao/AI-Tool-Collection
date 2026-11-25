@@ -6,14 +6,14 @@
   "canonicalName": "unclecode/crawl4ai",
   "category": "05 Data & Ingestion",
   "resourceType": "Web Crawler",
-  "purpose": "Crawl4AI 提供網頁擷取與內容抽取，能將網頁整理為 Markdown 或結構化資料；另有託管 Cloud API 與可自行部署的開源爬蟲。",
-  "recommendation": "適合建立網站資料擷取、RAG 前處理或結構化擷取流程；應先決定自架爬蟲或使用 Cloud API。",
+  "purpose": "把合法可讀的網頁內容整理成 Markdown 與結構化資料，方便後續搜尋、摘要或建立知識庫。",
+  "recommendation": "適合需要定期整理公開文件或網頁資訊的資料流程；已有官方 API 時優先使用 API，遇到存取限制不得繞過。",
   "url": "https://github.com/unclecode/crawl4ai",
   "repo": "unclecode/crawl4ai",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "web-crawling",
     "markdown",
@@ -73,24 +73,34 @@
     "url": "https://github.com/unclecode/crawl4ai",
     "readmeUrl": "https://github.com/unclecode/crawl4ai/blob/main/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。",
+    "upstreamCommit": "4e4bab5d44a7557eb403f137ec589833368a3e38",
+    "referenceUrls": [
+      "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/README.md",
+      "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/LICENSE",
+      "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/crawl4ai/async_webcrawler.py",
+      "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/crawl4ai/models.py",
+      "https://github.com/unclecode/crawl4ai/blob/4e4bab5d44a7557eb403f137ec589833368a3e38/crawl4ai/async_configs.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -99,8 +109,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain data，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -113,7 +123,352 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Crawl4AI 提供網頁擷取與內容抽取，能將網頁整理為 Markdown 或結構化資料；另有託管 Cloud API 與可自行部署的開源爬蟲。",
+      "source": "https://github.com/unclecode/crawl4ai",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "document-ingest",
+        "title": "整理公開技術文件",
+        "detail": "將少量授權頁面轉為 Markdown，保留來源並人工比對。",
+        "capabilityRefs": [
+          "single-crawl",
+          "markdown-output"
+        ]
+      },
+      {
+        "id": "knowledge-refresh",
+        "title": "更新知識庫的公開參考資料",
+        "detail": "按既定清單與合理頻率處理，逐頁辨識失敗及內容變化。",
+        "capabilityRefs": [
+          "single-crawl",
+          "batch-lifecycle"
+        ]
+      },
+      {
+        "id": "extract-review",
+        "title": "驗收擷取後的文字與引用",
+        "detail": "檢查標題、表格、連結及原文，避免不完整內容直接進入 AI。",
+        "capabilityRefs": [
+          "markdown-output"
+        ]
+      }
+    ],
+    "example": {
+      "id": "public-doc-ingestion",
+      "title": "規劃公開文件的知識庫匯入",
+      "input": "三個合法可擷取的公開測試頁面、來源欄位與預期 Markdown。",
+      "process": "確認權利 → 擷取 → 檢查輸出與失敗 → 清理 → 審查後匯入",
+      "output": "Markdown、來源及錯誤的驗收規格（未擷取）。",
+      "destination": "自有知識庫匯入流程；索引、去重及儲存另行實作。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "document-ingest",
+        "knowledge-refresh",
+        "extract-review"
+      ],
+      "steps": [
+        {
+          "id": "crawl",
+          "title": "設計單頁擷取及錯誤測試",
+          "capabilityRefs": [
+            "single-crawl"
+          ]
+        },
+        {
+          "id": "markdown",
+          "title": "檢查文字及引用欄位",
+          "capabilityRefs": [
+            "markdown-output"
+          ]
+        },
+        {
+          "id": "batch",
+          "title": "限制並行並清理資源",
+          "capabilityRefs": [
+            "batch-lifecycle"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "核對原文與知識庫寫入",
+          "capabilityRefs": [],
+          "externalDependency": "網站條款、robots、頻率、資料保留及實際匯入需另行確認。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先選少量合法公開測試頁面，確認來源及存取條件。",
+      "核對固定版本 arun 與結果契約，設計成功、拒絕及失敗情境。",
+      "獨立檢查 Markdown 完整性、頻率限制與清理後才考慮匯入。"
+    ],
+    "limits": [
+      "雲端 API 的價格、免費額度與資料出站條件可能變動，不能假設永久免費。",
+      "動態網站、驗證碼、反爬機制與內容變更會影響實際擷取結果。",
+      "未安裝、擷取或呼叫 Cloud API；完整 robots 與瀏覽器安全實作未查。",
+      "本機、Docker 與 Cloud 的資料路徑、費用、權限及依賴應分開驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把合法可讀的網頁內容整理成 Markdown 與結構化資料，方便後續搜尋、摘要或建立知識庫。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / Async crawler / Markdown"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Apache 2.0（Repo；Cloud 另計）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "4e4bab5d44a7557eb403f137ec589833368a3e38"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "擷取單一來源",
+        "detail": "需將網頁轉為可處理內容；輸入：URL 或支援來源、CrawlerRunConfig；輸出：CrawlResultContainer，內含 CrawlResult",
+        "source": "crawl4ai/async_webcrawler.py"
+      },
+      {
+        "title": "取得與核對文字結果",
+        "detail": "後續 AI 需要結構化文字；輸入：CrawlResult 與 MarkdownGenerationResult；輸出：raw_markdown、markdown_with_citations、references_markdown、可選 fit_markdown",
+        "source": "crawl4ai/models.py"
+      },
+      {
+        "title": "管理多筆擷取與清理",
+        "detail": "多個文件需控制並行與資源；輸入：urls、config、dispatcher；輸出：RunManyReturn；close 交由 crawler_strategy 清理",
+        "source": "crawl4ai/async_webcrawler.py"
+      }
+    ],
+    "architecture": {
+      "summary": "確認權利 → 擷取 → 檢查輸出與失敗 → 清理 → 審查後匯入",
+      "nodes": [
+        {
+          "title": "擷取單一來源",
+          "detail": "URL 或支援來源、CrawlerRunConfig → CrawlResultContainer，內含 CrawlResult",
+          "files": [
+            "crawl4ai/async_webcrawler.py"
+          ]
+        },
+        {
+          "title": "取得與核對文字結果",
+          "detail": "CrawlResult 與 MarkdownGenerationResult → raw_markdown、markdown_with_citations、references_markdown、可選 fit_markdown",
+          "files": [
+            "crawl4ai/models.py"
+          ]
+        },
+        {
+          "title": "管理多筆擷取與清理",
+          "detail": "urls、config、dispatcher → RunManyReturn；close 交由 crawler_strategy 清理",
+          "files": [
+            "crawl4ai/async_webcrawler.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "輸入",
+        "rule": "arun 接收 url 與 CrawlerRunConfig，回傳 CrawlResultContainer。",
+        "source": "crawl4ai/async_webcrawler.py"
+      },
+      {
+        "name": "輸出",
+        "rule": "MarkdownGenerationResult 區分原始 Markdown、引用版及可選 fit_markdown。",
+        "source": "crawl4ai/models.py"
+      },
+      {
+        "name": "生命週期",
+        "rule": "arun_many 接收 URLs 與 dispatcher；close 呼叫 crawler_strategy.__aexit__。",
+        "source": "crawl4ai/async_webcrawler.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "crawl4ai/async_webcrawler.py",
+          "crawl4ai/models.py",
+          "crawl4ai/async_configs.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先選少量合法公開測試頁面，確認來源及存取條件。 核對固定版本 arun 與結果契約，設計成功、拒絕及失敗情境。 獨立檢查 Markdown 完整性、頻率限制與清理後才考慮匯入。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫匯入流程；索引、去重及儲存另行實作。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "crawl4ai/async_webcrawler.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "single-crawl",
+        "name": "擷取單一來源",
+        "problem": "需將網頁轉為可處理內容",
+        "input": "URL 或支援來源、CrawlerRunConfig",
+        "output": "CrawlResultContainer，內含 CrawlResult",
+        "source": "crawl4ai/async_webcrawler.py",
+        "sourceFiles": [
+          "crawl4ai/async_webcrawler.py"
+        ],
+        "symbols": [
+          "AsyncWebCrawler.arun",
+          "CrawlResultContainer"
+        ],
+        "gate": "確認合法來源與 success；不可假設任意網址都能擷取。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "markdown-output",
+        "name": "取得與核對文字結果",
+        "problem": "後續 AI 需要結構化文字",
+        "input": "CrawlResult 與 MarkdownGenerationResult",
+        "output": "raw_markdown、markdown_with_citations、references_markdown、可選 fit_markdown",
+        "source": "crawl4ai/models.py",
+        "sourceFiles": [
+          "crawl4ai/models.py"
+        ],
+        "symbols": [
+          "CrawlResult",
+          "MarkdownGenerationResult"
+        ],
+        "gate": "檢查來源、內容遺漏、表格與引用；引用提示不是獨立事實驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "batch-lifecycle",
+        "name": "管理多筆擷取與清理",
+        "problem": "多個文件需控制並行與資源",
+        "input": "urls、config、dispatcher",
+        "output": "RunManyReturn；close 交由 crawler_strategy 清理",
+        "source": "crawl4ai/async_webcrawler.py",
+        "sourceFiles": [
+          "crawl4ai/async_webcrawler.py"
+        ],
+        "symbols": [
+          "AsyncWebCrawler.arun_many",
+          "AsyncWebCrawler.close",
+          "AsyncWebCrawler.__aexit__"
+        ],
+        "gate": "限制來源與頻率、逐筆處理失敗並確認資源關閉；不假定關閉會清除已保存資料。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃公開文件的知識庫匯入（設計示例）",
+      "problem": "三個合法可擷取的公開測試頁面、來源欄位與預期 Markdown。",
+      "steps": [
+        {
+          "capability": "single-crawl",
+          "action": "設計單頁擷取及錯誤測試"
+        },
+        {
+          "capability": "markdown-output",
+          "action": "檢查文字及引用欄位"
+        },
+        {
+          "capability": "batch-lifecycle",
+          "action": "限制並行並清理資源"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "public-doc-ingestion"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "三個合法可擷取的公開測試頁面、來源欄位與預期 Markdown。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "確認權利 → 擷取 → 檢查輸出與失敗 → 清理 → 審查後匯入",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有知識庫匯入流程；索引、去重及儲存另行實作。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝、擷取或呼叫 Cloud API；完整 robots 與瀏覽器安全實作未查。",
+        "本機、Docker 與 Cloud 的資料路徑、費用、權限及依賴應分開驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "授權、資料及執行邊界",
+        "severity": "高",
+        "issue": "未安裝、擷取或呼叫 Cloud API；完整 robots 與瀏覽器安全實作未查。 本機、Docker 與 Cloud 的資料路徑、費用、權限及依賴應分開驗證。",
+        "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、AsyncWebCrawler.arun/arun_many/close、CrawlResult/MarkdownGenerationResult、async_configs.py 類別與設定入口；未查完整瀏覽器擷取、robots、Cloud API 或安全驗證。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }

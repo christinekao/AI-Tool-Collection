@@ -2,14 +2,14 @@
   "schemaVersion": 2,
   "entityType": "resource",
   "addedAt": "2026-10-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "id": "open-webui-open-webui",
   "title": "Open WebUI — Self-Hosted Multi-Model AI Chat Workspace",
   "canonicalName": "open-webui/open-webui",
   "category": "10 Reference Applications",
   "resourceType": "Self-hostable multi-model chat and AI workspace frontend",
-  "purpose": "提供可自架的多模型 AI 對話工作區，支援本機推論與 OpenAI 相容 API，以及使用者、知識資料和擴充整合。",
-  "recommendation": "適合想自行管理 AI Chat 入口的團隊；要評估登入與群組權限、模型費用、知識庫資料保護及 Open WebUI 授權。",
+  "purpose": "用一個網頁介面操作本機或雲端 AI 模型，方便集中管理不同模型的連線及使用方式。",
+  "recommendation": "適合想自架模型操作介面的人；如果使用雲端供應商，不能視為完全離線，改品牌與部署規模須查授權。",
   "url": "https://github.com/open-webui/open-webui",
   "repo": "open-webui/open-webui",
   "status": "active",
@@ -83,25 +83,34 @@
   "source": {
     "url": "https://github.com/open-webui/open-webui",
     "readmeUrl": "https://github.com/open-webui/open-webui/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。",
+    "upstreamCommit": "0666e59d26a4d056e0bacee41742486badd71cf8",
+    "referenceUrls": [
+      "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/README.md",
+      "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/LICENSE",
+      "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/backend/open_webui/routers/ollama.py",
+      "https://github.com/open-webui/open-webui/blob/0666e59d26a4d056e0bacee41742486badd71cf8/backend/open_webui/routers/openai.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -110,8 +119,8 @@
     "classificationReason": "沿用既有 Primary Domain cloud；本批僅補來源形式與具證據的閱讀內容。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -124,7 +133,355 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供可自架的多模型 AI 對話工作區，支援本機推論與 OpenAI 相容 API，以及使用者、知識資料和擴充整合。",
+      "source": "https://github.com/open-webui/open-webui",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "local-model-ui",
+        "title": "集中操作自己的本機模型",
+        "detail": "連接已核准的 Ollama，再檢查實際可用模型。",
+        "capabilityRefs": [
+          "ollama-connect",
+          "model-discovery"
+        ]
+      },
+      {
+        "id": "multi-provider",
+        "title": "比較不同模型供應商",
+        "detail": "分開設定合法本機與雲端端點，先確認金鑰與資料政策。",
+        "capabilityRefs": [
+          "provider-config",
+          "model-discovery"
+        ]
+      },
+      {
+        "id": "connection-review",
+        "title": "排查模型介面連線問題",
+        "detail": "區分端點連線、功能啟用、使用者權限與模型可用性。",
+        "capabilityRefs": [
+          "ollama-connect",
+          "provider-config",
+          "model-discovery"
+        ]
+      }
+    ],
+    "example": {
+      "id": "local-chat-evaluation",
+      "title": "規劃本機模型聊天介面",
+      "input": "已核准測試主機、合成對話與模型候選清單。",
+      "process": "確認端點 → 規劃供應商設定 → 檢查模型清單 → 驗收實際對話",
+      "output": "連線、模型清單與聊天驗收規格（未部署）。",
+      "destination": "自有模型操作介面；正式資料及使用者管理另行驗收。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "local-model-ui",
+        "multi-provider",
+        "connection-review"
+      ],
+      "steps": [
+        {
+          "id": "local",
+          "title": "核對本機服務",
+          "capabilityRefs": [
+            "ollama-connect"
+          ]
+        },
+        {
+          "id": "provider",
+          "title": "規劃供應商及金鑰配置",
+          "capabilityRefs": [
+            "provider-config"
+          ]
+        },
+        {
+          "id": "models",
+          "title": "設計模型清單與錯誤測試",
+          "capabilityRefs": [
+            "model-discovery"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "實測對話及資料隔離",
+          "capabilityRefs": [],
+          "externalDependency": "需另核准部署、模型推論、網路、憑證及使用者權限測試。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先列出核准的模型端點及預期使用者。",
+      "確認授權與自架資料目錄，區分本機與雲端路徑。",
+      "驗證管理者設定、普通使用者清單與真實推論，不直接使用正式資料。"
+    ],
+    "limits": [
+      "官方 Open WebUI License 有保留品牌標示等條件，使用前須核對全文。",
+      "介面可用不代表本機模型、知識檢索或多使用者安全設定已正確啟用。",
+      "固定版本 LICENSE 第 4 條限制更改品牌；例外包含任一滾動 30 日直接使用者不超過 50 人、事先書面許可或明確允許的企業授權。這不是使用人數上限。歷史檔案依 LICENSE_HISTORY 另查。",
+      "未部署或呼叫 API；完整聊天、RAG、憑證保存及使用者隔離未查。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "用一個網頁介面操作本機或雲端 AI 模型，方便集中管理不同模型的連線及使用方式。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / FastAPI / Provider routers"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "Open WebUI License；歷史檔案另依原授權"
+      },
+      {
+        "label": "版本錨點",
+        "value": "0666e59d26a4d056e0bacee41742486badd71cf8"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "設定及確認 Ollama 連線",
+        "detail": "需接入已核准的模型服務；輸入：base URL、選用 key/config、管理者身分；輸出：連線驗證與設定保存",
+        "source": "backend/open_webui/routers/ollama.py"
+      },
+      {
+        "title": "設定 OpenAI 相容供應商",
+        "detail": "需管理不同模型 API；輸入：base URLs、keys、configs、enable 與管理者身分；輸出：Config.upsert 與模型快取清理",
+        "source": "backend/open_webui/routers/openai.py"
+      },
+      {
+        "title": "查看可用模型",
+        "detail": "使用者需要知道可選模型；輸入：已驗證使用者、選用 url_idx；輸出：模型清單或 401/503 等錯誤",
+        "source": "backend/open_webui/routers/ollama.py"
+      }
+    ],
+    "architecture": {
+      "summary": "確認端點 → 規劃供應商設定 → 檢查模型清單 → 驗收實際對話",
+      "nodes": [
+        {
+          "title": "設定及確認 Ollama 連線",
+          "detail": "base URL、選用 key/config、管理者身分 → 連線驗證與設定保存",
+          "files": [
+            "backend/open_webui/routers/ollama.py"
+          ]
+        },
+        {
+          "title": "設定 OpenAI 相容供應商",
+          "detail": "base URLs、keys、configs、enable 與管理者身分 → Config.upsert 與模型快取清理",
+          "files": [
+            "backend/open_webui/routers/openai.py"
+          ]
+        },
+        {
+          "title": "查看可用模型",
+          "detail": "已驗證使用者、選用 url_idx → 模型清單或 401/503 等錯誤",
+          "files": [
+            "backend/open_webui/routers/ollama.py",
+            "backend/open_webui/routers/openai.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "連線",
+        "rule": "Ollama verify_connection 由管理者呼叫 /api/version。",
+        "source": "backend/open_webui/routers/ollama.py"
+      },
+      {
+        "name": "設定",
+        "rule": "OpenAI update_config 由管理者更新設定，調整 keys 長度及清理快取。",
+        "source": "backend/open_webui/routers/openai.py"
+      },
+      {
+        "name": "模型清單",
+        "rule": "get_models 與 get_ollama_tags 限制指定 url_idx 的操作為 admin；停用 API 回 503。",
+        "source": "backend/open_webui/routers/openai.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "backend/open_webui/routers/ollama.py",
+          "backend/open_webui/routers/openai.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先列出核准的模型端點及預期使用者。 確認授權與自架資料目錄，區分本機與雲端路徑。 驗證管理者設定、普通使用者清單與真實推論，不直接使用正式資料。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有模型操作介面；正式資料及使用者管理另行驗收。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "backend/open_webui/routers/ollama.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "ollama-connect",
+        "name": "設定及確認 Ollama 連線",
+        "problem": "需接入已核准的模型服務",
+        "input": "base URL、選用 key/config、管理者身分",
+        "output": "連線驗證與設定保存",
+        "source": "backend/open_webui/routers/ollama.py",
+        "sourceFiles": [
+          "backend/open_webui/routers/ollama.py"
+        ],
+        "symbols": [
+          "verify_connection",
+          "update_config",
+          "get_ollama_connection"
+        ],
+        "gate": "verify_connection 查 /api/version；可連線不代表模型推論成功。僅核准的主機可配置。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "provider-config",
+        "name": "設定 OpenAI 相容供應商",
+        "problem": "需管理不同模型 API",
+        "input": "base URLs、keys、configs、enable 與管理者身分",
+        "output": "Config.upsert 與模型快取清理",
+        "source": "backend/open_webui/routers/openai.py",
+        "sourceFiles": [
+          "backend/open_webui/routers/openai.py"
+        ],
+        "symbols": [
+          "update_config",
+          "get_openai_connection"
+        ],
+        "gate": "設定需管理者；金鑰對齊 URL，保存方式與資料出站須另查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "model-discovery",
+        "name": "查看可用模型",
+        "problem": "使用者需要知道可選模型",
+        "input": "已驗證使用者、選用 url_idx",
+        "output": "模型清單或 401/503 等錯誤",
+        "source": "backend/open_webui/routers/ollama.py",
+        "sourceFiles": [
+          "backend/open_webui/routers/ollama.py",
+          "backend/open_webui/routers/openai.py"
+        ],
+        "symbols": [
+          "get_ollama_tags",
+          "get_models"
+        ],
+        "gate": "兩個路由指定 url_idx 需 admin；清單可見不等於推論或完整模型權限已驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃本機模型聊天介面（設計示例）",
+      "problem": "已核准測試主機、合成對話與模型候選清單。",
+      "steps": [
+        {
+          "capability": "ollama-connect",
+          "action": "核對本機服務"
+        },
+        {
+          "capability": "provider-config",
+          "action": "規劃供應商及金鑰配置"
+        },
+        {
+          "capability": "model-discovery",
+          "action": "設計模型清單與錯誤測試"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "local-chat-evaluation"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "已核准測試主機、合成對話與模型候選清單。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "確認端點 → 規劃供應商設定 → 檢查模型清單 → 驗收實際對話",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有模型操作介面；正式資料及使用者管理另行驗收。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "固定版本 LICENSE 第 4 條限制更改品牌；例外包含任一滾動 30 日直接使用者不超過 50 人、事先書面許可或明確允許的企業授權。這不是使用人數上限。歷史檔案依 LICENSE_HISTORY 另查。",
+        "未部署或呼叫 API；完整聊天、RAG、憑證保存及使用者隔離未查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "授權、資料及執行邊界",
+        "severity": "高",
+        "issue": "固定版本 LICENSE 第 4 條限制更改品牌；例外包含任一滾動 30 日直接使用者不超過 50 人、事先書面許可或明確允許的企業授權。這不是使用人數上限。歷史檔案依 LICENSE_HISTORY 另查。 未部署或呼叫 API；完整聊天、RAG、憑證保存及使用者隔離未查。",
+        "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、Ollama verify_connection/update_config/get_ollama_tags/get_ollama_connection；OpenAI update_config/get_models/get_openai_connection。未查完整聊天、RAG、憑證保存或租戶隔離。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
