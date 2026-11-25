@@ -6,14 +6,14 @@
   "canonicalName": "Anime.js",
   "category": "08 UI & Design Engineering",
   "resourceType": "Animation Runtime",
-  "purpose": "Anime.js 是 JavaScript 動畫引擎，可對 DOM、CSS、SVG 與 JavaScript 物件進行時間軸、交錯及屬性動畫控制。",
-  "recommendation": "適合需要自行編排細緻動畫的互動網站；若已使用其他動畫框架，應先比較相依與 API 相容性。",
+  "purpose": "控制網站上的文字、SVG、介面元素或數值變化，將多個動畫按照指定順序播放。",
+  "recommendation": "適合需要自訂網頁動畫時序或原生 JavaScript 動效的專案；簡單淡入或按鈕回饋先考慮 CSS。",
   "url": "https://github.com/juliangarnier/anime",
   "repo": "juliangarnier/anime",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "animation",
     "javascript",
@@ -72,24 +72,34 @@
     "url": "https://github.com/juliangarnier/anime",
     "readmeUrl": "https://github.com/juliangarnier/anime/blob/master/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。",
+    "upstreamCommit": "01b81be1df6843ccfe0a71c0699a746bf740dd77",
+    "referenceUrls": [
+      "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/README.md",
+      "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/LICENSE.md",
+      "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/animation/animation.js",
+      "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/timeline/timeline.js",
+      "https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/scope/scope.js"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用 Canonical ID，補人類用途與限定範圍契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -98,8 +108,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心來源契約，保留完整工具及整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +122,356 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Anime.js 是 JavaScript 動畫引擎，可對 DOM、CSS、SVG 與 JavaScript 物件進行時間軸、交錯及屬性動畫控制。",
+      "source": "https://github.com/juliangarnier/anime",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "reveal",
+        "title": "設計頁面內容逐段出現",
+        "detail": "用淡入與位移呈現標題、卡片及說明，保留靜態閱讀方式。",
+        "capabilityRefs": [
+          "animate-target"
+        ]
+      },
+      {
+        "id": "sequence",
+        "title": "設計產品操作示範動畫",
+        "detail": "用時間軸安排多個畫面元素，核對重疊與完成順序。",
+        "capabilityRefs": [
+          "timeline-sequence",
+          "animate-target"
+        ]
+      },
+      {
+        "id": "cleanup",
+        "title": "管理頁面切換及動態偏好",
+        "detail": "限制動畫範圍，設計還原與減少動態效果的測試。",
+        "capabilityRefs": [
+          "scope-revert"
+        ]
+      }
+    ],
+    "example": {
+      "id": "portfolio-sequence",
+      "title": "規劃作品集功能展示動畫",
+      "input": "自有三張功能卡片、文字與靜態替代需求。",
+      "process": "定義目標 → 設計時間軸 → 建立 Scope → 核對還原及閱讀",
+      "output": "動畫時序及靜態替代驗收規格（未建置）。",
+      "destination": "自有作品集前端；實際裝置與可及性另驗收。",
+      "note": "自訂設計示例；未安裝、執行或驗證第三方工具。",
+      "useCaseRefs": [
+        "reveal",
+        "sequence",
+        "cleanup"
+      ],
+      "steps": [
+        {
+          "id": "targets",
+          "title": "定義目標與初始狀態",
+          "capabilityRefs": [
+            "animate-target"
+          ]
+        },
+        {
+          "id": "sequence",
+          "title": "安排時間軸",
+          "capabilityRefs": [
+            "timeline-sequence"
+          ]
+        },
+        {
+          "id": "cleanup",
+          "title": "設計 Scope 還原",
+          "capabilityRefs": [
+            "scope-revert"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "獨立驗收手機、鍵盤及動態偏好",
+          "capabilityRefs": [],
+          "externalDependency": "需另行安裝與實際瀏覽器驗證，不以動畫完成代替功能成功。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先建立少量自有元素，確認 v4 匯入與動畫目標。",
+      "依時間軸安排動作並定義靜態替代。",
+      "核准後測 scope、卸載、偏好變化及低效能裝置。"
+    ],
+    "limits": [
+      "v3 與 v4 API 有差異，舊範例不可未經調整直接使用。",
+      "大量動畫仍需自行驗證效能、可及性與行動裝置體驗。",
+      "未安裝或渲染；完整渲染器、WAAPI、插值及所有瀏覽器未查。",
+      "Scope root 無法解析時可退回 document，不能視為權限邊界。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "控制網站上的文字、SVG、介面元素或數值變化，將多個動畫按照指定順序播放。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "JavaScript / ESM"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "01b81be1df6843ccfe0a71c0699a746bf740dd77"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "控制單一或多個動畫目標",
+        "detail": "已有畫面需要位置、透明度或數值變化；輸入：targets、AnimationParams、keyframes；輸出：JSAnimation 或 editor hook 結果",
+        "source": "src/animation/animation.js"
+      },
+      {
+        "title": "安排多段動畫",
+        "detail": "不同元素需依時間出現；輸入：TimelineParams、targets、child parameters、position；輸出：Timeline 與依子項更新的 duration",
+        "source": "src/timeline/timeline.js"
+      },
+      {
+        "title": "管理動畫範圍與還原",
+        "detail": "頁面切換或偏好變更需清理；輸入：Scope root、defaults、mediaQueries、constructors；輸出：已註冊動畫及媒體查詢清理",
+        "source": "src/scope/scope.js"
+      }
+    ],
+    "architecture": {
+      "summary": "定義目標 → 設計時間軸 → 建立 Scope → 核對還原及閱讀",
+      "nodes": [
+        {
+          "title": "控制單一或多個動畫目標",
+          "detail": "targets、AnimationParams、keyframes → JSAnimation 或 editor hook 結果",
+          "files": [
+            "src/animation/animation.js"
+          ]
+        },
+        {
+          "title": "安排多段動畫",
+          "detail": "TimelineParams、targets、child parameters、position → Timeline 與依子項更新的 duration",
+          "files": [
+            "src/timeline/timeline.js"
+          ]
+        },
+        {
+          "title": "管理動畫範圍與還原",
+          "detail": "Scope root、defaults、mediaQueries、constructors → 已註冊動畫及媒體查詢清理",
+          "files": [
+            "src/scope/scope.js",
+            "src/animation/animation.js"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "動畫",
+        "rule": "animate 建立並初始化 JSAnimation，editor 模式走另一入口。",
+        "source": "src/animation/animation.js"
+      },
+      {
+        "name": "時間軸",
+        "rule": "Timeline.add 建立子動畫或 Timer；addTlChild 更新 iterationDuration 與總長。",
+        "source": "src/timeline/timeline.js"
+      },
+      {
+        "name": "還原",
+        "rule": "Scope.revert 逆序還原追蹤項目並移除媒體查詢監聽。",
+        "source": "src/scope/scope.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依來源及核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE.md",
+          "src/animation/animation.js",
+          "src/timeline/timeline.js",
+          "src/scope/scope.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先建立少量自有元素，確認 v4 匯入與動畫目標。 依時間軸安排動作並定義靜態替代。 核准後測 scope、卸載、偏好變化及低效能裝置。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有作品集前端；實際裝置與可及性另驗收。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "src/animation/animation.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "animate-target",
+        "name": "控制單一或多個動畫目標",
+        "problem": "已有畫面需要位置、透明度或數值變化",
+        "input": "targets、AnimationParams、keyframes",
+        "output": "JSAnimation 或 editor hook 結果",
+        "source": "src/animation/animation.js",
+        "sourceFiles": [
+          "src/animation/animation.js"
+        ],
+        "symbols": [
+          "animate",
+          "JSAnimation",
+          "generateKeyframes"
+        ],
+        "gate": "先確認 selector、初始值及動畫完成狀態；v3 與 v4 不可直接混用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "timeline-sequence",
+        "name": "安排多段動畫",
+        "problem": "不同元素需依時間出現",
+        "input": "TimelineParams、targets、child parameters、position",
+        "output": "Timeline 與依子項更新的 duration",
+        "source": "src/timeline/timeline.js",
+        "sourceFiles": [
+          "src/timeline/timeline.js"
+        ],
+        "symbols": [
+          "createTimeline",
+          "Timeline.add",
+          "addTlChild"
+        ],
+        "gate": "確認重疊、延遲、總長及停止行為；動畫時間線不是業務事件。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "scope-revert",
+        "name": "管理動畫範圍與還原",
+        "problem": "頁面切換或偏好變更需清理",
+        "input": "Scope root、defaults、mediaQueries、constructors",
+        "output": "已註冊動畫及媒體查詢清理",
+        "source": "src/scope/scope.js",
+        "sourceFiles": [
+          "src/scope/scope.js",
+          "src/animation/animation.js"
+        ],
+        "symbols": [
+          "createScope",
+          "Scope.add",
+          "Scope.revert",
+          "JSAnimation.revert"
+        ],
+        "gate": "Scope.revert 清除已追蹤項目與媒體監聽；root 解析失敗可能退回 document，不當作安全隔離。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃作品集功能展示動畫（設計示例）",
+      "problem": "自有三張功能卡片、文字與靜態替代需求。",
+      "steps": [
+        {
+          "capability": "animate-target",
+          "action": "定義目標與初始狀態"
+        },
+        {
+          "capability": "timeline-sequence",
+          "action": "安排時間軸"
+        },
+        {
+          "capability": "scope-revert",
+          "action": "設計 Scope 還原"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "portfolio-sequence"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有三張功能卡片、文字與靜態替代需求。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義目標 → 設計時間軸 → 建立 Scope → 核對還原及閱讀",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有作品集前端；實際裝置與可及性另驗收。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或渲染；完整渲染器、WAAPI、插值及所有瀏覽器未查。",
+        "Scope root 無法解析時可退回 document，不能視為權限邊界。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "未安裝或渲染；完整渲染器、WAAPI、插值及所有瀏覽器未查。 Scope root 無法解析時可退回 document，不能視為權限邊界。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、資料及實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、LICENSE.md、animation.js 的 animate、JSAnimation.revert、timeline.js 的 Timeline.add/createTimeline、scope.js 的 Scope 建立與 revert；未追查渲染器、WAAPI、完整時間與插值引擎。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、建置或測試第三方工具。"
+      }
+    ]
   }
 }
