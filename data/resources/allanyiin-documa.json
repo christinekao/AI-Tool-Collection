@@ -6,8 +6,8 @@
   "canonicalName": "Documa",
   "category": "AI Agent Document Retrieval & Context Engineering",
   "resourceType": "Local document parser, evidence search, MCP toolkit and dynamic skill loader",
-  "purpose": "將 PDF、Word、Excel、PowerPoint、HTML、Email、Notebook、Markdown 等文件轉成統一 DocumentIR，以 block tree、搜尋、有界讀取和可驗證引用降低 Agent Context 負擔。",
-  "recommendation": "適合建構文件證據檢索、跨文件問答、長文件處理、Agent Harness Skill 動態載入以及本機程式碼關聯分析。",
+  "purpose": "把長文件轉成有章節、段落、表格與頁碼的資料，讓 Agent 先找證據再讀取相關片段。",
+  "recommendation": "適合文件型知識庫與可追溯引用；不應把本機解析不呼叫模型等同整個 Agent 任務零 Token。",
   "url": "https://github.com/AllanYiin/Documa",
   "repo": "AllanYiin/Documa",
   "versionReviewed": "0.9.0",
@@ -71,7 +71,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "documa",
     "document-understanding",
@@ -98,10 +98,18 @@
       "https://github.com/AllanYiin/Documa/blob/main/native/lingxi/ASSETS.md",
       "https://github.com/AllanYiin/Documa/blob/main/pyproject.toml"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official upstream project README, plugin Skills, license and bundled native-component notices",
     "readmeUrl": "https://github.com/AllanYiin/Documa/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README.md、LICENSE、src/documa/core/ir.py、src/documa/core/reading.py、src/documa/interfaces/citation.py 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "a40469484205ef8b0cddee96ee08e59cfa4a5962",
+    "referenceUrls": [
+      "https://github.com/AllanYiin/Documa/blob/a40469484205ef8b0cddee96ee08e59cfa4a5962/README.md",
+      "https://github.com/AllanYiin/Documa/blob/a40469484205ef8b0cddee96ee08e59cfa4a5962/LICENSE",
+      "https://github.com/AllanYiin/Documa/blob/a40469484205ef8b0cddee96ee08e59cfa4a5962/src/documa/core/ir.py",
+      "https://github.com/AllanYiin/Documa/blob/a40469484205ef8b0cddee96ee08e59cfa4a5962/src/documa/core/reading.py",
+      "https://github.com/AllanYiin/Documa/blob/a40469484205ef8b0cddee96ee08e59cfa4a5962/src/documa/interfaces/citation.py"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -131,10 +139,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -150,8 +161,8 @@
     "classificationReason": "保留 Primary Domain data、Category 與原始 Tags；只補來源和使用限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、src/documa/core/ir.py、src/documa/core/reading.py、src/documa/interfaces/citation.py 局部查核；未執行第三方程式或測試。；局部程式與文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -161,10 +172,368 @@
       "decision": "candidate",
       "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
     },
-    "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+    "riskNotes": "0 LLM tokens 僅指工具內部解析與檢索；主模型仍消耗 context/output tokens。；Collection retrieval 主要是詞彙及統計搜尋，不保證同義詞、跨語言或語義檢索。；掃描 PDF 需要選配 OCR；成功產生 IR 不保證掃描圖像已被轉成文字。；README benchmark 為官方示例，不可當作所有文件一定節省相同 tokens。；解析品質及順序因格式而異；須以原文件圖表、頁碼、段落核對，不假定完整。；索引與讀取不呼叫 LLM 不代表主模型零 Token；有界讀取可能漏掉前後條件。；引用存在不等於語意支持結論；另核對原文及表格，不能用存在性驗證替代事實查核。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README.md、LICENSE、src/documa/core/ir.py、src/documa/core/reading.py、src/documa/interfaces/citation.py 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、src/documa/core/ir.py、src/documa/core/reading.py、src/documa/interfaces/citation.py 局部查核；未執行第三方程式或測試。；局部證據與用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將 PDF、Word、Excel、PowerPoint、HTML、Email、Notebook、Markdown 等文件轉成統一 DocumentIR，以 block tree、搜尋、有界讀取和可驗證引用降低 Agent Context 負擔。",
+      "source": "https://github.com/AllanYiin/Documa",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合建構文件證據檢索、跨文件問答、長文件處理、Agent Harness Skill 動態載入以及本機程式碼關聯分析。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-ir",
+        "title": "建立統一文件結構",
+        "detail": "不同格式的文件難以共用閱讀方式。包含頁、段落、表格及關係的 DocumentIR。",
+        "capabilityRefs": [
+          "ir"
+        ]
+      },
+      {
+        "id": "use-bounded",
+        "title": "只讀取問題需要的文件片段",
+        "detail": "整份文件進入 Context 會增加成本。有界內容視窗與可理解的邊界。",
+        "capabilityRefs": [
+          "bounded"
+        ]
+      },
+      {
+        "id": "use-citation",
+        "title": "將答案回溯到文件證據",
+        "detail": "答案需有可驗證的出處。頁碼、bbox、摘要及引用檢查。",
+        "capabilityRefs": [
+          "citation"
+        ]
+      }
+    ],
+    "example": {
+      "id": "allanyiin-documa-example",
+      "title": "規劃長文件知識庫的逐步閱讀與引用",
+      "input": "合成 PDF、Word 與已知證據頁碼及問題。",
+      "process": "建立統一文件結構 → 只讀取問題需要的文件片段 → 將答案回溯到文件證據 → 獨立驗收實際成果",
+      "output": "文件結構、限定內容片段、可回查引用及驗證結果（規劃產物）。",
+      "destination": "自有知識庫與文件問答流程之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-ir",
+        "use-bounded",
+        "use-citation"
+      ],
+      "steps": [
+        {
+          "id": "ir",
+          "title": "建立統一文件結構",
+          "capabilityRefs": [
+            "ir"
+          ]
+        },
+        {
+          "id": "bounded",
+          "title": "只讀取問題需要的文件片段",
+          "capabilityRefs": [
+            "bounded"
+          ]
+        },
+        {
+          "id": "citation",
+          "title": "將答案回溯到文件證據",
+          "capabilityRefs": [
+            "citation"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准測試環境、資料與實際結果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成 PDF、Word 與已知證據頁碼及問題。",
+      "依需求選用對應項目並核對固定版本來源。",
+      "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+    ],
+    "limits": [
+      "0 LLM tokens 僅指工具內部解析與檢索；主模型仍消耗 context/output tokens。",
+      "Collection retrieval 主要是詞彙及統計搜尋，不保證同義詞、跨語言或語義檢索。",
+      "掃描 PDF 需要選配 OCR；成功產生 IR 不保證掃描圖像已被轉成文字。",
+      "README benchmark 為官方示例，不可當作所有文件一定節省相同 tokens。",
+      "解析品質及順序因格式而異；須以原文件圖表、頁碼、段落核對，不假定完整。",
+      "索引與讀取不呼叫 LLM 不代表主模型零 Token；有界讀取可能漏掉前後條件。",
+      "引用存在不等於語意支持結論；另核對原文及表格，不能用存在性驗證替代事實查核。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把長文件轉成有章節、段落、表格與頁碼的資料，讓 Agent 先找證據再讀取相關片段。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；內含原生元件授權另查"
+      },
+      {
+        "label": "版本",
+        "value": "a40469484205ef8b0cddee96ee08e59cfa4a5962"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立統一文件結構",
+        "detail": "不同格式的文件難以共用閱讀方式。 輸入：支援文件的解析結果；輸出：包含頁、段落、表格及關係的 DocumentIR",
+        "source": "src/documa/core/ir.py"
+      },
+      {
+        "title": "只讀取問題需要的文件片段",
+        "detail": "整份文件進入 Context 會增加成本。 輸入：原文、起訖位置、內容類型及讀取上限；輸出：有界內容視窗與可理解的邊界",
+        "source": "src/documa/core/reading.py"
+      },
+      {
+        "title": "將答案回溯到文件證據",
+        "detail": "答案需有可驗證的出處。 輸入：DocumentIR、block 或 chunk ID；輸出：頁碼、bbox、摘要及引用檢查",
+        "source": "src/documa/interfaces/citation.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立統一文件結構 → 只讀取問題需要的文件片段 → 將答案回溯到文件證據 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立統一文件結構",
+          "detail": "支援文件的解析結果 → 包含頁、段落、表格及關係的 DocumentIR",
+          "files": [
+            "src/documa/core/ir.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "只讀取問題需要的文件片段",
+          "detail": "原文、起訖位置、內容類型及讀取上限 → 有界內容視窗與可理解的邊界",
+          "files": [
+            "src/documa/core/reading.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "將答案回溯到文件證據",
+          "detail": "DocumentIR、block 或 chunk ID → 頁碼、bbox、摘要及引用檢查",
+          "files": [
+            "src/documa/interfaces/citation.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立統一文件結構",
+        "rule": "解析品質及順序因格式而異；須以原文件圖表、頁碼、段落核對，不假定完整。",
+        "source": "src/documa/core/ir.py"
+      },
+      {
+        "name": "只讀取問題需要的文件片段",
+        "rule": "索引與讀取不呼叫 LLM 不代表主模型零 Token；有界讀取可能漏掉前後條件。",
+        "source": "src/documa/core/reading.py"
+      },
+      {
+        "name": "將答案回溯到文件證據",
+        "rule": "引用存在不等於語意支持結論；另核對原文及表格，不能用存在性驗證替代事實查核。",
+        "source": "src/documa/interfaces/citation.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、src/documa/core/ir.py、src/documa/core/reading.py、src/documa/interfaces/citation.py 局部查核；未執行第三方程式或測試。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/documa/core/ir.py",
+          "src/documa/core/reading.py",
+          "src/documa/interfaces/citation.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成 PDF、Word 與已知證據頁碼及問題。 依需求選用對應項目並核對固定版本來源。 先核准環境與權限，再用合成案例測試正向及失敗情境。",
+        "files": [
+          "src/documa/core/ir.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有知識庫與文件問答流程另行驗收實際成果及限制。",
+        "file": "src/documa/core/ir.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "ir",
+        "name": "建立統一文件結構",
+        "problem": "不同格式的文件難以共用閱讀方式。",
+        "input": "支援文件的解析結果",
+        "output": "包含頁、段落、表格及關係的 DocumentIR",
+        "source": "src/documa/core/ir.py",
+        "sourceFiles": [
+          "src/documa/core/ir.py",
+          "README.md"
+        ],
+        "symbols": [
+          "DocumentIR",
+          "BlockIR",
+          "PageIR",
+          "RelationIR"
+        ],
+        "gate": "解析品質及順序因格式而異；須以原文件圖表、頁碼、段落核對，不假定完整。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "bounded",
+        "name": "只讀取問題需要的文件片段",
+        "problem": "整份文件進入 Context 會增加成本。",
+        "input": "原文、起訖位置、內容類型及讀取上限",
+        "output": "有界內容視窗與可理解的邊界",
+        "source": "src/documa/core/reading.py",
+        "sourceFiles": [
+          "src/documa/core/reading.py",
+          "README.md"
+        ],
+        "symbols": [
+          "bounded_window",
+          "boundary_end"
+        ],
+        "gate": "索引與讀取不呼叫 LLM 不代表主模型零 Token；有界讀取可能漏掉前後條件。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "citation",
+        "name": "將答案回溯到文件證據",
+        "problem": "答案需有可驗證的出處。",
+        "input": "DocumentIR、block 或 chunk ID",
+        "output": "頁碼、bbox、摘要及引用檢查",
+        "source": "src/documa/interfaces/citation.py",
+        "sourceFiles": [
+          "src/documa/interfaces/citation.py",
+          "README.md"
+        ],
+        "symbols": [
+          "cite_block",
+          "cite_chunk",
+          "verify_citations"
+        ],
+        "gate": "引用存在不等於語意支持結論；另核對原文及表格，不能用存在性驗證替代事實查核。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃長文件知識庫的逐步閱讀與引用（設計示例）",
+      "problem": "合成 PDF、Word 與已知證據頁碼及問題",
+      "steps": [
+        {
+          "capability": "ir",
+          "action": "建立統一文件結構"
+        },
+        {
+          "capability": "bounded",
+          "action": "只讀取問題需要的文件片段"
+        },
+        {
+          "capability": "citation",
+          "action": "將答案回溯到文件證據"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "allanyiin-documa-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成 PDF、Word 與已知證據頁碼及問題",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立統一文件結構 → 只讀取問題需要的文件片段 → 將答案回溯到文件證據 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有知識庫與文件問答流程之規劃與後續驗收。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "0 LLM tokens 僅指工具內部解析與檢索；主模型仍消耗 context/output tokens。",
+        "Collection retrieval 主要是詞彙及統計搜尋，不保證同義詞、跨語言或語義檢索。",
+        "掃描 PDF 需要選配 OCR；成功產生 IR 不保證掃描圖像已被轉成文字。",
+        "README benchmark 為官方示例，不可當作所有文件一定節省相同 tokens。",
+        "解析品質及順序因格式而異；須以原文件圖表、頁碼、段落核對，不假定完整。",
+        "索引與讀取不呼叫 LLM 不代表主模型零 Token；有界讀取可能漏掉前後條件。",
+        "引用存在不等於語意支持結論；另核對原文及表格，不能用存在性驗證替代事實查核。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "0 LLM tokens 僅指工具內部解析與檢索；主模型仍消耗 context/output tokens。 Collection retrieval 主要是詞彙及統計搜尋，不保證同義詞、跨語言或語義檢索。 掃描 PDF 需要選配 OCR；成功產生 IR 不保證掃描圖像已被轉成文字。 README benchmark 為官方示例，不可當作所有文件一定節省相同 tokens。 解析品質及順序因格式而異；須以原文件圖表、頁碼、段落核對，不假定完整。 索引與讀取不呼叫 LLM 不代表主模型零 Token；有界讀取可能漏掉前後條件。 引用存在不等於語意支持結論；另核對原文及表格，不能用存在性驗證替代事實查核。 未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、src/documa/core/ir.py、src/documa/core/reading.py、src/documa/interfaces/citation.py 局部查核；未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
