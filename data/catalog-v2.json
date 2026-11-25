@@ -30852,14 +30852,14 @@
       "canonicalName": "magicuidesign/magicui",
       "category": "08 UI & Design Engineering",
       "resourceType": "Component Library",
-      "purpose": "Magic UI 是面向設計工程師的 UI 元件與動態視覺效果集合，提供可複製、可調整的介面片段。",
-      "recommendation": "適合在現有網站局部加入有辨識度的動態效果與視覺元件；應避免一次堆疊太多動畫影響閱讀。",
+      "purpose": "將現成的動態清單、數字變化及循環展示等 React 視覺元件加入網站，改善產品展示與作品集的呈現。",
+      "recommendation": "適合需要少量視覺亮點的產品展示頁；資料型介面先確保資訊可讀，再決定是否加入動效，避免將裝飾效果當成真實功能。",
       "url": "https://github.com/magicuidesign/magicui",
       "repo": "magicuidesign/magicui",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "react",
         "animation",
@@ -30918,24 +30918,34 @@
         "url": "https://github.com/magicuidesign/magicui",
         "readmeUrl": "https://github.com/magicuidesign/magicui/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。",
+        "upstreamCommit": "d13c6101da1165f7309c6281447c25f121ef0ca9",
+        "referenceUrls": [
+          "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/README.md",
+          "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/LICENSE.md",
+          "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/apps/www/registry/magicui/animated-list.tsx",
+          "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/apps/www/registry/magicui/number-ticker.tsx",
+          "https://github.com/magicuidesign/magicui/blob/d13c6101da1165f7309c6281447c25f121ef0ca9/apps/www/registry/magicui/marquee.tsx"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -30944,8 +30954,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -30958,8 +30968,351 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。；局部能力與前台用途雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Magic UI 是面向設計工程師的 UI 元件與動態視覺效果集合，提供可複製、可調整的介面片段。",
+          "source": "https://github.com/magicuidesign/magicui",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "feature-list",
+            "title": "逐項展示產品功能",
+            "detail": "讓已有的功能說明分段出現，重要內容需能直接閱讀。",
+            "capabilityRefs": [
+              "animated-list"
+            ]
+          },
+          {
+            "id": "metric-display",
+            "title": "為作品集數字加入動效",
+            "detail": "使用已核實的數字與格式做呈現，保留最終正確數值。",
+            "capabilityRefs": [
+              "number-ticker"
+            ]
+          },
+          {
+            "id": "logo-strip",
+            "title": "整理作品或品牌展示列",
+            "detail": "以合法素材安排循環展示，提供停止或靜態替代。",
+            "capabilityRefs": [
+              "marquee"
+            ]
+          }
+        ],
+        "example": {
+          "id": "portfolio-motion-preview",
+          "title": "規劃作品集成果數字與功能展示",
+          "input": "三個合成成果數字、已授權的功能文字與展示素材。",
+          "process": "選擇清單 → 定義數值與格式 → 規劃循環展示 → 檢查可讀性及停止",
+          "output": "少量視覺元件的預期畫面及驗收規格（未建置）。",
+          "destination": "自有作品集；不得把合成數字當真實成果。",
+          "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+          "useCaseRefs": [
+            "feature-list",
+            "metric-display",
+            "logo-strip"
+          ],
+          "steps": [
+            {
+              "id": "list",
+              "title": "規劃逐項展示",
+              "capabilityRefs": [
+                "animated-list"
+              ]
+            },
+            {
+              "id": "number",
+              "title": "定義正確數值與格式",
+              "capabilityRefs": [
+                "number-ticker"
+              ]
+            },
+            {
+              "id": "strip",
+              "title": "規劃展示列與暫停",
+              "capabilityRefs": [
+                "marquee"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "驗收實際資料、動效及可讀性",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准安裝、來源、CSS、效能、鍵盤及 reduced motion。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先選一個確有展示需求的元件。",
+          "閱讀固定版本原始碼與依賴，確認計時單位、格式及內容。",
+          "先在獨立頁面檢查手機、可讀性、動效減量及暫停，再決定是否採用。"
+        ],
+        "limits": [
+          "複製元件後仍由使用者負責維護相依套件與樣式相容性。",
+          "大量視覺效果可能影響載入效能與動態減量偏好。",
+          "未安裝、建置或渲染；完整 registry、其他元件、動畫 CSS 與依賴未查。",
+          "AnimatedList delay 為毫秒，NumberTicker delay 以秒換算；Marquee hover 暫停不等於完整無障礙。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "將現成的動態清單、數字變化及循環展示等 React 視覺元件加入網站，改善產品展示與作品集的呈現。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "React / Motion / Tailwind CSS"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT；外部及付費內容另查"
+          },
+          {
+            "label": "版本錨點",
+            "value": "d13c6101da1165f7309c6281447c25f121ef0ca9"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "依序展示清單",
+            "detail": "已有固定內容需要逐項出現；輸入：children、delay（毫秒）、index；輸出：依 index slice 並 reverse 的 AnimatedListItem、spring 進出",
+            "source": "apps/www/registry/magicui/animated-list.tsx"
+          },
+          {
+            "title": "呈現數字變化",
+            "detail": "KPI 或產品數字需要視覺轉換；輸入：value、startValue、direction、delay（秒）、decimalPlaces；輸出：視窗進入後更新 motionValue，spring 改變 textContent",
+            "source": "apps/www/registry/magicui/number-ticker.tsx"
+          },
+          {
+            "title": "循環展示內容",
+            "detail": "作品或標誌需要連續排列；輸入：children、repeat、vertical、reverse、pauseOnHover；輸出：重複 DOM 子項與 animation class",
+            "source": "apps/www/registry/magicui/marquee.tsx"
+          }
+        ],
+        "architecture": {
+          "summary": "選擇清單 → 定義數值與格式 → 規劃循環展示 → 檢查可讀性及停止",
+          "nodes": [
+            {
+              "title": "依序展示清單",
+              "detail": "children、delay（毫秒）、index → 依 index slice 並 reverse 的 AnimatedListItem、spring 進出",
+              "files": [
+                "apps/www/registry/magicui/animated-list.tsx"
+              ]
+            },
+            {
+              "title": "呈現數字變化",
+              "detail": "value、startValue、direction、delay（秒）、decimalPlaces → 視窗進入後更新 motionValue，spring 改變 textContent",
+              "files": [
+                "apps/www/registry/magicui/number-ticker.tsx"
+              ]
+            },
+            {
+              "title": "循環展示內容",
+              "detail": "children、repeat、vertical、reverse、pauseOnHover → 重複 DOM 子項與 animation class",
+              "files": [
+                "apps/www/registry/magicui/marquee.tsx"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "清單",
+            "rule": "AnimatedList 依 index 顯示 children 子集並 reverse，effect cleanup 清除 timeout。",
+            "source": "apps/www/registry/magicui/animated-list.tsx"
+          },
+          {
+            "name": "數值",
+            "rule": "NumberTicker 在 in-view 後 delay * 1000 更新數值，spring change 更新 en-US 文字。",
+            "source": "apps/www/registry/magicui/number-ticker.tsx"
+          },
+          {
+            "name": "循環",
+            "rule": "Marquee 依 repeat 複製 children，pauseOnHover 預設 false。",
+            "source": "apps/www/registry/magicui/marquee.tsx"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "apps/www/registry/magicui/animated-list.tsx",
+              "apps/www/registry/magicui/number-ticker.tsx",
+              "apps/www/registry/magicui/marquee.tsx"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先選一個確有展示需求的元件。 閱讀固定版本原始碼與依賴，確認計時單位、格式及內容。 先在獨立頁面檢查手機、可讀性、動效減量及暫停，再決定是否採用。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有作品集；不得把合成數字當真實成果。；固定輸入輸出，另驗證失敗及可及性。",
+            "file": "apps/www/registry/magicui/animated-list.tsx"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "animated-list",
+            "name": "依序展示清單",
+            "problem": "已有固定內容需要逐項出現",
+            "input": "children、delay（毫秒）、index",
+            "output": "依 index slice 並 reverse 的 AnimatedListItem、spring 進出",
+            "source": "apps/www/registry/magicui/animated-list.tsx",
+            "sourceFiles": [
+              "apps/www/registry/magicui/animated-list.tsx"
+            ],
+            "symbols": [
+              "AnimatedList",
+              "AnimatedListItem"
+            ],
+            "gate": "計時器依 children 長度推進並在 effect 清理；不代表即時通知資料源，需測新增、移除與 reduced motion。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "number-ticker",
+            "name": "呈現數字變化",
+            "problem": "KPI 或產品數字需要視覺轉換",
+            "input": "value、startValue、direction、delay（秒）、decimalPlaces",
+            "output": "視窗進入後更新 motionValue，spring 改變 textContent",
+            "source": "apps/www/registry/magicui/number-ticker.tsx",
+            "sourceFiles": [
+              "apps/www/registry/magicui/number-ticker.tsx"
+            ],
+            "symbols": [
+              "NumberTicker",
+              "useInView",
+              "useSpring"
+            ],
+            "gate": "格式固定 en-US；動畫數字不是實際 KPI 計算，應確保靜態正確值與減少動態替代。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "marquee",
+            "name": "循環展示內容",
+            "problem": "作品或標誌需要連續排列",
+            "input": "children、repeat、vertical、reverse、pauseOnHover",
+            "output": "重複 DOM 子項與 animation class",
+            "source": "apps/www/registry/magicui/marquee.tsx",
+            "sourceFiles": [
+              "apps/www/registry/magicui/marquee.tsx"
+            ],
+            "symbols": [
+              "Marquee",
+              "MarqueeProps"
+            ],
+            "gate": "預設 repeat=4，hover 暫停須開啟；未內建完整鍵盤暫停或偏好處理，不應重複可操作元素造成混亂。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃作品集成果數字與功能展示（設計示例）",
+          "problem": "三個合成成果數字、已授權的功能文字與展示素材。",
+          "steps": [
+            {
+              "capability": "animated-list",
+              "action": "規劃逐項展示"
+            },
+            {
+              "capability": "number-ticker",
+              "action": "定義正確數值與格式"
+            },
+            {
+              "capability": "marquee",
+              "action": "規劃展示列與暫停"
+            }
+          ],
+          "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+          "readerExampleRef": "portfolio-motion-preview"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "三個合成成果數字、已授權的功能文字與展示素材。",
+              "deliverable": "合成測試資料及預期畫面"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "選擇清單 → 定義數值與格式 → 規劃循環展示 → 檢查可讀性及停止",
+              "deliverable": "行為與畫面驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有作品集；不得把合成數字當真實成果。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝、建置或渲染；完整 registry、其他元件、動畫 CSS 與依賴未查。",
+            "AnimatedList delay 為毫秒，NumberTicker delay 以秒換算；Marquee hover 暫停不等於完整無障礙。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "介面與依賴邊界",
+            "severity": "高",
+            "issue": "未安裝、建置或渲染；完整 registry、其他元件、動畫 CSS 與依賴未查。 AnimatedList delay 為毫秒，NumberTicker delay 以秒換算；Marquee hover 暫停不等於完整無障礙。",
+            "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE.md、apps/www/registry/magicui 的 AnimatedList、NumberTicker、Marquee 原始碼；未查完整元件庫、CSS keyframes、registry installer 與依賴。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Accessibility",
+            "state": "未驗證",
+            "evidence": "未安裝、未建置或測試第三方元件。"
+          }
+        ]
       }
     },
     {
@@ -34066,14 +34419,14 @@
       "canonicalName": "Motion.dev",
       "category": "08 UI & Design Engineering",
       "resourceType": "Animation Runtime",
-      "purpose": "Motion 是支援 React、JavaScript 與 Vue 的互動動畫函式庫，提供手勢、彈簧、排版轉換、捲動與時間軸等效果。",
-      "recommendation": "適合希望將 UI 動態與 React／JS 狀態結合的網站；需要特殊動畫前先測試動態效果、效能與操作可及性。",
+      "purpose": "為網站加入可控制的進場、位移、淡入及多步驟動畫，讓頁面切換與操作回饋更容易理解。",
+      "recommendation": "適合需要互動、時間順序或動畫清理的網頁；只有簡單 hover 或淡入時可先用 CSS，不需要為所有元件加入動畫。",
       "url": "https://github.com/motiondivision/motion",
       "repo": "motiondivision/motion",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "animation",
         "gestures",
@@ -34133,24 +34486,34 @@
         "url": "https://github.com/motiondivision/motion",
         "readmeUrl": "https://github.com/motiondivision/motion/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE.md、createScopedAnimate/animate、useAnimate 與 useReducedMotion；timeline/index.ts 候選路徑 404，未查完整 Timeline、DOM engine、Vue 與付費 Motion+。",
+        "upstreamCommit": "1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc",
+        "referenceUrls": [
+          "https://github.com/motiondivision/motion/blob/1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc/README.md",
+          "https://github.com/motiondivision/motion/blob/1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc/LICENSE.md",
+          "https://github.com/motiondivision/motion/blob/1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc/packages/framer-motion/src/animation/animate/index.ts",
+          "https://github.com/motiondivision/motion/blob/1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc/packages/framer-motion/src/animation/hooks/use-animate.ts",
+          "https://github.com/motiondivision/motion/blob/1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc/packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -34159,8 +34522,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -34173,8 +34536,355 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 README、LICENSE.md、createScopedAnimate/animate、useAnimate 與 useReducedMotion；timeline/index.ts 候選路徑 404，未查完整 Timeline、DOM engine、Vue 與付費 Motion+。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE.md、createScopedAnimate/animate、useAnimate 與 useReducedMotion；timeline/index.ts 候選路徑 404，未查完整 Timeline、DOM engine、Vue 與付費 Motion+。；局部能力與前台用途雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Motion 是支援 React、JavaScript 與 Vue 的互動動畫函式庫，提供手勢、彈簧、排版轉換、捲動與時間軸等效果。",
+          "source": "https://github.com/motiondivision/motion",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "page-transition",
+            "title": "設計頁面進場及段落轉換",
+            "detail": "根據資訊順序安排動效，讓重要內容仍可直接閱讀。",
+            "capabilityRefs": [
+              "animate"
+            ]
+          },
+          {
+            "id": "interaction",
+            "title": "管理介面互動的動畫",
+            "detail": "在指定元件範圍播放，離開頁面後停止動畫。",
+            "capabilityRefs": [
+              "scope-cleanup",
+              "animate"
+            ]
+          },
+          {
+            "id": "accessible-motion",
+            "title": "提供減少動態效果的替代畫面",
+            "detail": "對需要降低動態的情境使用淡入或靜態呈現，驗證設定變動。",
+            "capabilityRefs": [
+              "reduced-motion",
+              "scope-cleanup"
+            ]
+          }
+        ],
+        "example": {
+          "id": "resource-panel-animation",
+          "title": "規劃知識庫詳情面板動效",
+          "input": "一個自有詳情面板、開關狀態與減少動態效果需求。",
+          "process": "定義動畫順序 → 限定 scope → 檢查偏好 → 測試開關與卸載",
+          "output": "面板動效及靜態替代的驗收規格（未建置）。",
+          "destination": "自有知識庫前端；實際鍵盤與資料狀態另驗收。",
+          "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+          "useCaseRefs": [
+            "page-transition",
+            "interaction",
+            "accessible-motion"
+          ],
+          "steps": [
+            {
+              "id": "animate",
+              "title": "設計進場與離場",
+              "capabilityRefs": [
+                "animate"
+              ]
+            },
+            {
+              "id": "scope",
+              "title": "限制動畫目標及清理",
+              "capabilityRefs": [
+                "scope-cleanup"
+              ]
+            },
+            {
+              "id": "preference",
+              "title": "設計減少動態替代",
+              "capabilityRefs": [
+                "reduced-motion"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "驗收實際互動、效能與偏好",
+              "capabilityRefs": [],
+              "externalDependency": "需另核准安裝並測實際裝置、偏好切換、鍵盤與焦點。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先定義哪些資訊需要動效及無動效時的替代。",
+          "依固定版本選 API，避免混用舊 framer-motion 文件。",
+          "在核准環境驗證 scope、卸載、取消、裝置效能及偏好變化。"
+        ],
+        "limits": [
+          "舊 Framer Motion 範例可能需要改成新版 motion/react 匯入。",
+          "部分額外 UI／編輯工具屬 Motion+，不能把付費內容當成免費開源能力。",
+          "未安裝或渲染；Timeline 完整內部、DOM engine、Vue 與 Motion+ 未查。",
+          "useReducedMotion 本版註解與初始 state 實作不一致，不保證即時更新。",
+          "MIT Repo 不代表付費 Motion+ 內容可免費使用。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "為網站加入可控制的進場、位移、淡入及多步驟動畫，讓頁面切換與操作回饋更容易理解。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "TypeScript / JavaScript / React animation"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT；外部及付費內容另查"
+          },
+          {
+            "label": "版本錨點",
+            "value": "1fa0e141f7b3f0a4eea258d5debc7dfbe5af6ffc"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "建立單段或多段動畫",
+            "detail": "畫面需要依順序變化；輸入：element/value/sequence、keyframes、transition、scope；輸出：Timeline 或直接動畫封裝",
+            "source": "packages/framer-motion/src/animation/animate/index.ts"
+          },
+          {
+            "title": "限制動畫範圍並清理",
+            "detail": "元件離開畫面時不能持續播放；輸入：useAnimate scope、reduceMotion、skipAnimations；輸出：[scope, animate]；卸載時 stop 並清空 scope.animations",
+            "source": "packages/framer-motion/src/animation/hooks/use-animate.ts"
+          },
+          {
+            "title": "尊重減少動態效果偏好",
+            "detail": "使用者可能不適合大幅位移或視差；輸入：prefersReducedMotion.current、useState；輸出：shouldReduceMotion 狀態快照",
+            "source": "packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "定義動畫順序 → 限定 scope → 檢查偏好 → 測試開關與卸載",
+          "nodes": [
+            {
+              "title": "建立單段或多段動畫",
+              "detail": "element/value/sequence、keyframes、transition、scope → Timeline 或直接動畫封裝",
+              "files": [
+                "packages/framer-motion/src/animation/animate/index.ts"
+              ]
+            },
+            {
+              "title": "限制動畫範圍並清理",
+              "detail": "useAnimate scope、reduceMotion、skipAnimations → [scope, animate]；卸載時 stop 並清空 scope.animations",
+              "files": [
+                "packages/framer-motion/src/animation/hooks/use-animate.ts"
+              ]
+            },
+            {
+              "title": "尊重減少動態效果偏好",
+              "detail": "prefersReducedMotion.current、useState → shouldReduceMotion 狀態快照",
+              "files": [
+                "packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "動畫入口",
+            "rule": "createScopedAnimate 依 sequence 或單一 subject 建立 Timeline。",
+            "source": "packages/framer-motion/src/animation/animate/index.ts"
+          },
+          {
+            "name": "卸載",
+            "rule": "useAnimate 於卸載時 stop scope.animations 並清空陣列。",
+            "source": "packages/framer-motion/src/animation/hooks/use-animate.ts"
+          },
+          {
+            "name": "減少動態",
+            "rule": "useReducedMotion 初始化監聽後以 useState 讀取 prefersReducedMotion.current；目前未使用 setter。",
+            "source": "packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "packages/framer-motion/src/animation/animate/index.ts",
+              "packages/framer-motion/src/animation/hooks/use-animate.ts",
+              "packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先定義哪些資訊需要動效及無動效時的替代。 依固定版本選 API，避免混用舊 framer-motion 文件。 在核准環境驗證 scope、卸載、取消、裝置效能及偏好變化。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有知識庫前端；實際鍵盤與資料狀態另驗收。；固定輸入輸出，另驗證失敗及可及性。",
+            "file": "packages/framer-motion/src/animation/animate/index.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "animate",
+            "name": "建立單段或多段動畫",
+            "problem": "畫面需要依順序變化",
+            "input": "element/value/sequence、keyframes、transition、scope",
+            "output": "Timeline 或直接動畫封裝",
+            "source": "packages/framer-motion/src/animation/animate/index.ts",
+            "sourceFiles": [
+              "packages/framer-motion/src/animation/animate/index.ts"
+            ],
+            "symbols": [
+              "createScopedAnimate",
+              "scopedAnimate",
+              "animate"
+            ],
+            "gate": "動畫完成事件不等於業務操作完成；實際時間、效能及取消需另驗收。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "scope-cleanup",
+            "name": "限制動畫範圍並清理",
+            "problem": "元件離開畫面時不能持續播放",
+            "input": "useAnimate scope、reduceMotion、skipAnimations",
+            "output": "[scope, animate]；卸載時 stop 並清空 scope.animations",
+            "source": "packages/framer-motion/src/animation/hooks/use-animate.ts",
+            "sourceFiles": [
+              "packages/framer-motion/src/animation/hooks/use-animate.ts"
+            ],
+            "symbols": [
+              "useAnimate",
+              "createScopedAnimate"
+            ],
+            "gate": "只確認 hook 管理的動畫；其他計時器、DOM 與外部資源仍需獨立清理。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "reduced-motion",
+            "name": "尊重減少動態效果偏好",
+            "problem": "使用者可能不適合大幅位移或視差",
+            "input": "prefersReducedMotion.current、useState",
+            "output": "shouldReduceMotion 狀態快照",
+            "source": "packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts",
+            "sourceFiles": [
+              "packages/framer-motion/src/utils/reduced-motion/use-reduced-motion.ts"
+            ],
+            "symbols": [
+              "useReducedMotion",
+              "initPrefersReducedMotion"
+            ],
+            "gate": "此固定版本實作以 useState 讀取初始值，沒有 setter，註解與實作對即時更新的描述不一致；不得保證偏好變動即時反映。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃知識庫詳情面板動效（設計示例）",
+          "problem": "一個自有詳情面板、開關狀態與減少動態效果需求。",
+          "steps": [
+            {
+              "capability": "animate",
+              "action": "設計進場與離場"
+            },
+            {
+              "capability": "scope-cleanup",
+              "action": "限制動畫目標及清理"
+            },
+            {
+              "capability": "reduced-motion",
+              "action": "設計減少動態替代"
+            }
+          ],
+          "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+          "readerExampleRef": "resource-panel-animation"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "一個自有詳情面板、開關狀態與減少動態效果需求。",
+              "deliverable": "合成測試資料及預期畫面"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "定義動畫順序 → 限定 scope → 檢查偏好 → 測試開關與卸載",
+              "deliverable": "行為與畫面驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有知識庫前端；實際鍵盤與資料狀態另驗收。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或渲染；Timeline 完整內部、DOM engine、Vue 與 Motion+ 未查。",
+            "useReducedMotion 本版註解與初始 state 實作不一致，不保證即時更新。",
+            "MIT Repo 不代表付費 Motion+ 內容可免費使用。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "介面與依賴邊界",
+            "severity": "高",
+            "issue": "未安裝或渲染；Timeline 完整內部、DOM engine、Vue 與 Motion+ 未查。 useReducedMotion 本版註解與初始 state 實作不一致，不保證即時更新。 MIT Repo 不代表付費 Motion+ 內容可免費使用。",
+            "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE.md、createScopedAnimate/animate、useAnimate 與 useReducedMotion；timeline/index.ts 候選路徑 404，未查完整 Timeline、DOM engine、Vue 與付費 Motion+。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Accessibility",
+            "state": "未驗證",
+            "evidence": "未安裝、未建置或測試第三方元件。"
+          }
+        ]
       }
     },
     {
@@ -48006,14 +48716,14 @@
       "canonicalName": "shadcn/ui",
       "category": "08 UI & Design Engineering",
       "resourceType": "Component System",
-      "purpose": "shadcn/ui 提供可複製進專案、由團隊自行修改與擁有的元件程式碼，用於建立自己的 React 元件庫。",
-      "recommendation": "適合需要對 UI 原始碼與設計規格保持完整控制權的 React 專案；需承擔元件後續升級與維護。",
+      "purpose": "把可修改的 React 介面元件原始碼加入自己的專案，建立符合產品需求的元件庫，而不只使用套件提供的固定外觀。",
+      "recommendation": "適合想掌握元件原始碼並長期維護自有設計系統的專案；若不想自行維護元件、依賴與升級，先比較一般套件式元件庫。",
       "url": "https://github.com/shadcn-ui/ui",
       "repo": "shadcn-ui/ui",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-25",
       "tags": [
         "react",
         "components",
@@ -48072,24 +48782,33 @@
         "url": "https://github.com/shadcn-ui/ui",
         "readmeUrl": "https://github.com/shadcn-ui/ui/blob/main/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-25",
+        "reviewScope": "固定版本 README、LICENSE.md、add.ts 的選項、初始化、registry resolution 及 dry-run 分流；dry-run.ts 的預覽結果、路徑與依賴。舊 utils/add-components.ts 路徑 404，實際 registry 安裝器及全部元件未查。",
+        "upstreamCommit": "055aa6b7837b1808456a24beb4c97a677864aa82",
+        "referenceUrls": [
+          "https://github.com/shadcn-ui/ui/blob/055aa6b7837b1808456a24beb4c97a677864aa82/README.md",
+          "https://github.com/shadcn-ui/ui/blob/055aa6b7837b1808456a24beb4c97a677864aa82/LICENSE.md",
+          "https://github.com/shadcn-ui/ui/blob/055aa6b7837b1808456a24beb4c97a677864aa82/packages/shadcn/src/commands/add.ts",
+          "https://github.com/shadcn-ui/ui/blob/055aa6b7837b1808456a24beb4c97a677864aa82/packages/shadcn/src/utils/dry-run.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "source.url",
-          "repo"
+          "repo",
+          "source.upstreamCommit",
+          "source.referenceUrls"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-25",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "repo"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
@@ -48098,8 +48817,8 @@
         "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -48112,8 +48831,355 @@
         "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 README、LICENSE.md、add.ts 的選項、初始化、registry resolution 及 dry-run 分流；dry-run.ts 的預覽結果、路徑與依賴。舊 utils/add-components.ts 路徑 404，實際 registry 安裝器及全部元件未查。；未執行。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README、LICENSE.md、add.ts 的選項、初始化、registry resolution 及 dry-run 分流；dry-run.ts 的預覽結果、路徑與依賴。舊 utils/add-components.ts 路徑 404，實際 registry 安裝器及全部元件未查。；局部能力與前台用途雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "shadcn/ui 提供可複製進專案、由團隊自行修改與擁有的元件程式碼，用於建立自己的 React 元件庫。",
+          "source": "https://github.com/shadcn-ui/ui",
+          "reviewedAt": "2026-11-19"
+        }
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "component-library",
+            "title": "建立自有產品元件庫",
+            "detail": "先選按鈕、表單等需要的元件，保留原始碼並制定共用樣式規則。",
+            "capabilityRefs": [
+              "registry-selection",
+              "adoption"
+            ]
+          },
+          {
+            "id": "safe-preview",
+            "title": "導入前審查元件差異",
+            "detail": "核對預期新增檔案、依賴、CSS 與環境變數，避免覆寫既有設計。",
+            "capabilityRefs": [
+              "preview",
+              "registry-selection"
+            ]
+          },
+          {
+            "id": "theme-update",
+            "title": "評估設計系統更新",
+            "detail": "比較新主題及現有元件的差異，保留回復路徑與實際驗收。",
+            "capabilityRefs": [
+              "adoption",
+              "preview"
+            ]
+          }
+        ],
+        "example": {
+          "id": "cv-component-library",
+          "title": "規劃履歷管理系統的共用元件",
+          "input": "已有合法測試 React 專案、components.json、三個候選元件及現有主題。",
+          "process": "核對 registry → 檢查預覽及依賴 → 審查預期差異 → 核准後驗收元件",
+          "output": "元件清單、檔案變更、依賴及驗收規格（未安裝）。",
+          "destination": "自有履歷管理系統的共用元件庫。",
+          "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+          "useCaseRefs": [
+            "component-library",
+            "safe-preview",
+            "theme-update"
+          ],
+          "steps": [
+            {
+              "id": "registry",
+              "title": "確認可信來源及工作目錄",
+              "capabilityRefs": [
+                "registry-selection"
+              ]
+            },
+            {
+              "id": "preview",
+              "title": "規劃檔案與依賴預覽",
+              "capabilityRefs": [
+                "preview"
+              ]
+            },
+            {
+              "id": "adopt",
+              "title": "審查寫入及覆寫範圍",
+              "capabilityRefs": [
+                "adoption"
+              ]
+            },
+            {
+              "id": "test",
+              "title": "驗證樣式、鍵盤及實際功能",
+              "capabilityRefs": [],
+              "externalDependency": "需另核准安裝與寫入，並驗證專案版本、測試及回復。"
+            }
+          ],
+          "verificationStatus": "design-only"
+        },
+        "start": [
+          "先確認既有專案的 config、元件版本及 Git 基準。",
+          "閱讀候選元件與 registry，先檢查將新增或覆寫的檔案。",
+          "僅在核准的隔離專案操作；尤其不對缺 config 或空專案直接依賴 dry-run 的無寫入保證。"
+        ],
+        "limits": [
+          "複製進專案的元件需要自行維護，不能當成完全代管的黑盒元件服務。",
+          "需驗證複製碼與既有設計 Token、表單及套件版本相容。",
+          "未安裝或執行 CLI；實際 registry 安裝器、網路、初始化及各元件可及性未完整查核。",
+          "固定版本 add.ts 在 dry-run 分流之前仍可能觸發初始化；不能以旗標名稱保證整個 CLI 唯讀。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把可修改的 React 介面元件原始碼加入自己的專案，建立符合產品需求的元件庫，而不只使用套件提供的固定外觀。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本限定範圍已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "核心契約設計參考，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "技術",
+            "value": "React / TypeScript / Registry CLI"
+          },
+          {
+            "label": "Repo 授權",
+            "value": "MIT；外部及付費內容另查"
+          },
+          {
+            "label": "版本錨點",
+            "value": "055aa6b7837b1808456a24beb4c97a677864aa82"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "選擇元件及安裝範圍",
+            "detail": "只需導入指定元件而非整個 UI 系統；輸入：components、cwd、path、components.json、registry item；輸出：已解析的 registry item 與專案 config",
+            "source": "packages/shadcn/src/commands/add.ts"
+          },
+          {
+            "title": "預覽檔案及依賴變更",
+            "detail": "需要在導入前審查差異；輸入：components、Config、overwrite、skipFonts；輸出：DryRunResult：files、dependencies、CSS、envVars、fonts、docs",
+            "source": "packages/shadcn/src/utils/dry-run.ts"
+          },
+          {
+            "title": "將元件納入專案維護",
+            "detail": "既有元件或主題可能遭覆寫；輸入：add command、registry type、overwrite、yes、config；輸出：呼叫 addComponents 或取消；後續由專案管理檔案",
+            "source": "packages/shadcn/src/commands/add.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "核對 registry → 檢查預覽及依賴 → 審查預期差異 → 核准後驗收元件",
+          "nodes": [
+            {
+              "title": "選擇元件及安裝範圍",
+              "detail": "components、cwd、path、components.json、registry item → 已解析的 registry item 與專案 config",
+              "files": [
+                "packages/shadcn/src/commands/add.ts"
+              ]
+            },
+            {
+              "title": "預覽檔案及依賴變更",
+              "detail": "components、Config、overwrite、skipFonts → DryRunResult：files、dependencies、CSS、envVars、fonts、docs",
+              "files": [
+                "packages/shadcn/src/utils/dry-run.ts"
+              ]
+            },
+            {
+              "title": "將元件納入專案維護",
+              "detail": "add command、registry type、overwrite、yes、config → 呼叫 addComponents 或取消；後續由專案管理檔案",
+              "files": [
+                "packages/shadcn/src/commands/add.ts"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "預覽分流",
+            "rule": "add.ts 將 --dry-run、--diff、--view 視為預覽；但缺設定與空專案的初始化分支位於其前方。",
+            "source": "packages/shadcn/src/commands/add.ts"
+          },
+          {
+            "name": "預覽結果",
+            "rule": "dryRunComponents 回傳檔案、依賴、CSS、envVars、fonts 等規劃資訊，不等於已完成安裝。",
+            "source": "packages/shadcn/src/utils/dry-run.ts"
+          },
+          {
+            "name": "覆寫",
+            "rule": "registry:style/theme 的非 dry-run 路徑會警告覆寫，--yes 可能略過確認。",
+            "source": "packages/shadcn/src/commands/add.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "依原始碼與核心契約閱讀，不需安裝。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "packages/shadcn/src/commands/add.ts",
+              "packages/shadcn/src/utils/dry-run.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "最小測試",
+            "description": "先確認既有專案的 config、元件版本及 Git 基準。 閱讀候選元件與 registry，先檢查將新增或覆寫的檔案。 僅在核准的隔離專案操作；尤其不對缺 config 或空專案直接依賴 dry-run 的無寫入保證。",
+            "files": [
+              "README.md"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用測試",
+            "detail": "自有履歷管理系統的共用元件庫。；固定輸入輸出，另驗證失敗及可及性。",
+            "file": "packages/shadcn/src/commands/add.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "registry-selection",
+            "name": "選擇元件及安裝範圍",
+            "problem": "只需導入指定元件而非整個 UI 系統",
+            "input": "components、cwd、path、components.json、registry item",
+            "output": "已解析的 registry item 與專案 config",
+            "source": "packages/shadcn/src/commands/add.ts",
+            "sourceFiles": [
+              "packages/shadcn/src/commands/add.ts"
+            ],
+            "symbols": [
+              "addOptionsSchema",
+              "add",
+              "getRegistryItems"
+            ],
+            "gate": "先確認可信 registry、工作目錄與現有 config；解析可涉及網路及環境設定，不能直接執行陌生來源。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "preview",
+            "name": "預覽檔案及依賴變更",
+            "problem": "需要在導入前審查差異",
+            "input": "components、Config、overwrite、skipFonts",
+            "output": "DryRunResult：files、dependencies、CSS、envVars、fonts、docs",
+            "source": "packages/shadcn/src/utils/dry-run.ts",
+            "sourceFiles": [
+              "packages/shadcn/src/utils/dry-run.ts"
+            ],
+            "symbols": [
+              "dryRunComponents",
+              "DryRunResult",
+              "processFiles"
+            ],
+            "gate": "預覽會讀取既有檔案及解析 registry；不得將可能含敏感內容的 diff 傳到外部。CLI 初始化分支仍需另外查。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "adoption",
+            "name": "將元件納入專案維護",
+            "problem": "既有元件或主題可能遭覆寫",
+            "input": "add command、registry type、overwrite、yes、config",
+            "output": "呼叫 addComponents 或取消；後續由專案管理檔案",
+            "source": "packages/shadcn/src/commands/add.ts",
+            "sourceFiles": [
+              "packages/shadcn/src/commands/add.ts"
+            ],
+            "symbols": [
+              "add",
+              "addComponents",
+              "runInit"
+            ],
+            "gate": "registry:style/theme 可覆寫 CSS 變數及元件。dry-run/diff/view 分流在初始化分支之後；缺 config 或空專案可能先進 runInit/createProject，不能假定整個命令無寫入。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃履歷管理系統的共用元件（設計示例）",
+          "problem": "已有合法測試 React 專案、components.json、三個候選元件及現有主題。",
+          "steps": [
+            {
+              "capability": "registry-selection",
+              "action": "確認可信來源及工作目錄"
+            },
+            {
+              "capability": "preview",
+              "action": "規劃檔案與依賴預覽"
+            },
+            {
+              "capability": "adoption",
+              "action": "審查寫入及覆寫範圍"
+            }
+          ],
+          "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+          "readerExampleRef": "cv-component-library"
+        },
+        "rebuild": {
+          "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "已有合法測試 React 專案、components.json、三個候選元件及現有主題。",
+              "deliverable": "合成測試資料及預期畫面"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "核對 registry → 檢查預覽及依賴 → 審查預期差異 → 核准後驗收元件",
+              "deliverable": "行為與畫面驗收紀錄"
+            },
+            {
+              "title": "交付驗收",
+              "detail": "自有履歷管理系統的共用元件庫。",
+              "deliverable": "實際交付與限制紀錄"
+            }
+          ],
+          "gaps": [
+            "未安裝或執行 CLI；實際 registry 安裝器、網路、初始化及各元件可及性未完整查核。",
+            "固定版本 add.ts 在 dry-run 分流之前仍可能觸發初始化；不能以旗標名稱保證整個 CLI 唯讀。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "介面與依賴邊界",
+            "severity": "高",
+            "issue": "未安裝或執行 CLI；實際 registry 安裝器、網路、初始化及各元件可及性未完整查核。 固定版本 add.ts 在 dry-run 分流之前仍可能觸發初始化；不能以旗標名稱保證整個 CLI 唯讀。",
+            "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "固定版本來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README、LICENSE.md、add.ts 的選項、初始化、registry resolution 及 dry-run 分流；dry-run.ts 的預覽結果、路徑與依賴。舊 utils/add-components.ts 路徑 404，實際 registry 安裝器及全部元件未查。"
+          },
+          {
+            "item": "第三方 Build／Runtime／Accessibility",
+            "state": "未驗證",
+            "evidence": "未安裝、未建置或測試第三方元件。"
+          }
+        ]
       }
     },
     {
