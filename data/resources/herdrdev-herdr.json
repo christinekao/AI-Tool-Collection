@@ -6,14 +6,14 @@
   "canonicalName": "Herdr",
   "category": "02 Agent Orchestration",
   "resourceType": "Open-source Rust terminal multiplexer with multi-agent coordination",
-  "purpose": "讓 Claude Code、Codex、Cursor、OpenCode 等 Agent 共享工作區與分割 Pane；追蹤 working/blocked/idle，透過 CLI/Socket API 統一管理終端、遠端 SSH、多機器與 session 協調。",
-  "recommendation": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。",
+  "purpose": "把多個 Coding Agent 的終端集中在同一介面，查看誰正在工作、等待輸入或閒置，並在中斷連線後接回原本的工作。",
+  "recommendation": "適合經常同時使用多個 CLI Agent 或跨 SSH 主機工作的開發者；它管理終端而非取代模型。需要正式任務驗收、權限隔離或持久化資料時仍須另設控制。",
   "url": "https://herdr.dev/",
   "repo": "herdrdev/herdr",
   "notes": "Apache-2.0。GitHub `herdrdev/herdr` 官方 README 確認 detach 後背景 Server 可維持工作；主機／Server 重啟後可恢復 Layout 和有整合支援的 Agent session，但原本 Process 不會因此存活。某些整合安裝會修改 Claude/Codex 的設定及 Hooks，應先對照現有 Harness。Terminal/Socket API 可下命令，不是純唯讀監控。官方提供安裝腳本；未執行。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "herdr",
     "agent-orchestration",
@@ -50,8 +50,17 @@
     "repoUrl": "https://github.com/herdrdev/herdr",
     "docsUrl": "https://herdr.dev/docs/integrations/",
     "readmeUrl": "https://github.com/herdrdev/herdr/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。",
+    "upstreamCommit": "e8d7d9705a7a2c89cef4dd42079379f05685af87",
+    "referenceUrls": [
+      "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/README.md",
+      "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/LICENSE",
+      "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/agent_resume.rs",
+      "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/api/schema/agents.rs",
+      "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/app/api/agents.rs",
+      "https://github.com/herdrdev/herdr/blob/e8d7d9705a7a2c89cef4dd42079379f05685af87/src/remote/attach.rs"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -85,10 +94,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -104,8 +116,8 @@
     "classificationReason": "原有 Domain ai-agent 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。；提供局部來源契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -115,10 +127,364 @@
       "decision": "reused",
       "reason": "沿用既有 Concept 引用，未新增 Graph 關係。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "Agent Session 權限與雲端模型費用需依各 Host 個別檢查；背景 Server 存活與主機重啟後的恢復是不同機制。；Agent 狀態不證明實際成果已通過測試。；SSH、Socket API 及外部 CLI 各有權限和相依條件。；未實測狀態判斷、主機重啟、SSH 或插件。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。；未實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。；前台用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Claude Code、Codex、Cursor、OpenCode 等 Agent 共享工作區與分割 Pane；追蹤 working/blocked/idle，透過 CLI/Socket API 統一管理終端、遠端 SSH、多機器與 session 協調。",
+      "source": "https://herdr.dev/",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "僅收錄供研究與後續比較；正式使用前需審查授權、帳號權限、API 費用、資料處理及安裝指令。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-resume",
+        "title": "中斷連線後接回工作",
+        "detail": "切換裝置或 SSH 中斷時不希望丟掉工作。 可重連的終端或支援的 Agent 恢復計畫。",
+        "capabilityRefs": [
+          "resume"
+        ]
+      },
+      {
+        "id": "use-status",
+        "title": "查看 Agent 狀態並交接",
+        "detail": "多 Agent 同時執行時需要知道哪個等待輸入。 Agent 清單、狀態及提示交接操作。",
+        "capabilityRefs": [
+          "status"
+        ]
+      },
+      {
+        "id": "use-remote",
+        "title": "集中管理跨主機終端",
+        "detail": "不同主機的 CLI 工作需要獨立重連。 可管理的遠端連線及終端入口。",
+        "capabilityRefs": [
+          "remote"
+        ]
+      }
+    ],
+    "example": {
+      "id": "herdrdev-herdr-example",
+      "title": "規劃多主機 Coding Agent 終端與交接監控",
+      "input": "自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+      "process": "中斷連線後接回工作 → 查看 Agent 狀態並交接 → 集中管理跨主機終端 → 獨立驗收實際成果",
+      "output": "終端配置、Agent 狀態、重連與恢復行為的驗收紀錄。",
+      "destination": "用於 AI Cowork 工作台的操作協調、待人工處理提醒與中斷恢復。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-resume",
+        "use-status",
+        "use-remote"
+      ],
+      "steps": [
+        {
+          "id": "resume",
+          "title": "中斷連線後接回工作",
+          "capabilityRefs": [
+            "resume"
+          ]
+        },
+        {
+          "id": "status",
+          "title": "查看 Agent 狀態並交接",
+          "capabilityRefs": [
+            "status"
+          ]
+        },
+        {
+          "id": "remote",
+          "title": "集中管理跨主機終端",
+          "capabilityRefs": [
+            "remote"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "自有測試環境、資料、權限與實際成果測試需另行核准及驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+      "依需求選擇用途，查閱固定版本及限制。",
+      "確認權限及環境，另行執行正向與負向測試。"
+    ],
+    "limits": [
+      "Agent Session 權限與雲端模型費用需依各 Host 個別檢查",
+      "背景 Server 存活與主機重啟後的恢復是不同機制。",
+      "Agent 狀態不證明實際成果已通過測試。",
+      "SSH、Socket API 及外部 CLI 各有權限和相依條件。",
+      "未實測狀態判斷、主機重啟、SSH 或插件。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把多個 Coding Agent 的終端集中在同一介面，查看誰正在工作、等待輸入或閒置，並在中斷連線後接回原本的工作。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0（上游 LICENSE）"
+      },
+      {
+        "label": "版本",
+        "value": "e8d7d9705a7a2c89cef4dd42079379f05685af87"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "中斷連線後接回工作",
+        "detail": "切換裝置或 SSH 中斷時不希望丟掉工作。；輸入：背景 server、Session 識別及已保存的工作配置；輸出：可重連的終端或支援的 Agent 恢復計畫",
+        "source": "src/agent_resume.rs"
+      },
+      {
+        "title": "查看 Agent 狀態並交接",
+        "detail": "多 Agent 同時執行時需要知道哪個等待輸入。；輸入：Agent 識別、狀態資料及經授權的提示；輸出：Agent 清單、狀態及提示交接操作",
+        "source": "src/api/schema/agents.rs"
+      },
+      {
+        "title": "集中管理跨主機終端",
+        "detail": "不同主機的 CLI 工作需要獨立重連。；輸入：已核准的 SSH 主機、遠端執行環境與 Session；輸出：可管理的遠端連線及終端入口",
+        "source": "src/remote/attach.rs"
+      }
+    ],
+    "architecture": {
+      "summary": "中斷連線後接回工作 → 查看 Agent 狀態並交接 → 集中管理跨主機終端 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "中斷連線後接回工作",
+          "detail": "背景 server、Session 識別及已保存的工作配置 → 可重連的終端或支援的 Agent 恢復計畫",
+          "files": [
+            "src/agent_resume.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "查看 Agent 狀態並交接",
+          "detail": "Agent 識別、狀態資料及經授權的提示 → Agent 清單、狀態及提示交接操作",
+          "files": [
+            "src/api/schema/agents.rs",
+            "src/app/api/agents.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "集中管理跨主機終端",
+          "detail": "已核准的 SSH 主機、遠端執行環境與 Session → 可管理的遠端連線及終端入口",
+          "files": [
+            "src/remote/attach.rs",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "中斷連線後接回工作",
+        "rule": "Client detach 不停止背景終端；server 或主機重啟後原程序不會存活，只能依支援情況恢復 Session 與配置。",
+        "source": "src/agent_resume.rs"
+      },
+      {
+        "name": "查看 Agent 狀態並交接",
+        "rule": "working、blocked、idle 不是驗收結果；不可將狀態當成完成證據，交接前核對權限與目標。",
+        "source": "src/api/schema/agents.rs"
+      },
+      {
+        "name": "集中管理跨主機終端",
+        "rule": "先核對遠端主機身分、憑證、Socket 存取與版本；終端多工並非安全沙箱，未核准不得暴露服務。",
+        "source": "src/remote/attach.rs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/agent_resume.rs",
+          "src/api/schema/agents.rs",
+          "src/app/api/agents.rs",
+          "src/remote/attach.rs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。 依需求選擇用途，查閱固定版本及限制。 確認權限及環境，另行執行正向與負向測試。",
+        "files": [
+          "src/agent_resume.rs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "用於 AI Cowork 工作台的操作協調、待人工處理提醒與中斷恢復。 另驗證實際行為及限制。",
+        "file": "src/agent_resume.rs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "resume",
+        "name": "中斷連線後接回工作",
+        "problem": "切換裝置或 SSH 中斷時不希望丟掉工作。",
+        "input": "背景 server、Session 識別及已保存的工作配置",
+        "output": "可重連的終端或支援的 Agent 恢復計畫",
+        "source": "src/agent_resume.rs",
+        "sourceFiles": [
+          "src/agent_resume.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "AgentSessionRef",
+          "AgentResumePlan",
+          "plan"
+        ],
+        "gate": "Client detach 不停止背景終端；server 或主機重啟後原程序不會存活，只能依支援情況恢復 Session 與配置。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "status",
+        "name": "查看 Agent 狀態並交接",
+        "problem": "多 Agent 同時執行時需要知道哪個等待輸入。",
+        "input": "Agent 識別、狀態資料及經授權的提示",
+        "output": "Agent 清單、狀態及提示交接操作",
+        "source": "src/api/schema/agents.rs",
+        "sourceFiles": [
+          "src/api/schema/agents.rs",
+          "src/app/api/agents.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "AgentInfo",
+          "AgentSessionInfo",
+          "validate_agent_prompt"
+        ],
+        "gate": "working、blocked、idle 不是驗收結果；不可將狀態當成完成證據，交接前核對權限與目標。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "remote",
+        "name": "集中管理跨主機終端",
+        "problem": "不同主機的 CLI 工作需要獨立重連。",
+        "input": "已核准的 SSH 主機、遠端執行環境與 Session",
+        "output": "可管理的遠端連線及終端入口",
+        "source": "src/remote/attach.rs",
+        "sourceFiles": [
+          "src/remote/attach.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "RemoteHerdr",
+          "RemoteExecutable",
+          "BRIDGE_SOCKET_PERMISSION_MODE"
+        ],
+        "gate": "先核對遠端主機身分、憑證、Socket 存取與版本；終端多工並非安全沙箱，未核准不得暴露服務。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃多主機 Coding Agent 終端與交接監控（設計示例）",
+      "problem": "自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+      "steps": [
+        {
+          "capability": "resume",
+          "action": "中斷連線後接回工作"
+        },
+        {
+          "capability": "status",
+          "action": "查看 Agent 狀態並交接"
+        },
+        {
+          "capability": "remote",
+          "action": "集中管理跨主機終端"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "herdrdev-herdr-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃使用及驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試主機、兩個已登入的 CLI Agent、獨立任務及核准的 SSH 設定。",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "中斷連線後接回工作 → 查看 Agent 狀態並交接 → 集中管理跨主機終端 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "用於 AI Cowork 工作台的操作協調、待人工處理提醒與中斷恢復。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "背景 Server 存活與主機重啟後的恢復是不同機制。",
+        "Agent 狀態不證明實際成果已通過測試。",
+        "SSH、Socket API 及外部 CLI 各有權限和相依條件。",
+        "未實測狀態判斷、主機重啟、SSH 或插件。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "背景 Server 存活與主機重啟後的恢復是不同機制。 Agent 狀態不證明實際成果已通過測試。 SSH、Socket API 及外部 CLI 各有權限和相依條件。 未實測狀態判斷、主機重啟、SSH 或插件。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE、agent_resume.rs、API agents schema、app agents API 與 remote attach 局部程式；未執行終端與 SSH。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }
