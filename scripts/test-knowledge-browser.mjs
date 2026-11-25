@@ -545,7 +545,10 @@ try{
   ["anomalyco-opencode",".resource-reader-guide","先分析再修正網頁顯示問題"],
   ["langgenius-dify",".resource-reader-guide","規劃每週報表摘要流程"],
   ["open-webui-open-webui",".resource-reader-guide","規劃本機模型聊天介面"],
-  ["unclecode-crawl4ai",".resource-reader-guide","規劃公開文件的知識庫匯入"]
+  ["unclecode-crawl4ai",".resource-reader-guide","規劃公開文件的知識庫匯入"],
+  ["opendatalab-mineru",".resource-reader-guide","規劃研究文件解析與搜尋"],
+  ["openclaw-openclaw",".resource-reader-guide","規劃只讀個人研究助理"],
+  ["r0x0r-pywebview",".resource-reader-guide","規劃本機 HTML 筆記閱讀器"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -572,7 +575,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 sixty-one Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 sixty-four Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

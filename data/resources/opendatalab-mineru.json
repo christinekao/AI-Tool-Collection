@@ -6,14 +6,14 @@
   "canonicalName": "opendatalab/MinerU",
   "category": "05 Data & Ingestion",
   "resourceType": "Parser",
-  "purpose": "MinerU 將 PDF、掃描文件與其他複雜文件轉成較適合 AI 處理的 Markdown 或 JSON，保留表格、公式與版面資訊的結構。",
-  "recommendation": "適合文件擷取、知識庫建置或 RAG 前處理；應用自己的掃描品質與表格範例確認解析準確性。",
+  "purpose": "把 PDF、掃描文件及其他文件轉成可搜尋的文字與結構化內容，方便閱讀、查找段落和建立知識庫。",
+  "recommendation": "適合表格、掃描頁及跨頁內容較多的文件；純文字先用簡單讀取方式。敏感文件需確認本機與遠端路徑，解析結果仍須比對原文。",
   "url": "https://github.com/opendatalab/MinerU",
   "repo": "opendatalab/MinerU",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "pdf",
     "parsing",
@@ -72,24 +72,35 @@
     "url": "https://github.com/opendatalab/MinerU",
     "readmeUrl": "https://github.com/opendatalab/MinerU/blob/master/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。",
+    "upstreamCommit": "097de7f63f54722c9b805ee1c9a14a0c5b02e078",
+    "referenceUrls": [
+      "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/README.md",
+      "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/LICENSE.md",
+      "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/pyproject.toml",
+      "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/mineru/doclib/client.py",
+      "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/mineru/doclib/types.py",
+      "https://github.com/opendatalab/MinerU/blob/097de7f63f54722c9b805ee1c9a14a0c5b02e078/mineru/doclib/__init__.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用原 Canonical ID、Repo 與固定版本，補人類用途及局部程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -98,8 +109,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain data，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍實作契約及來源，完整引擎、整合及實測缺口保留。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +123,361 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。；局部能力與前台情境雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "MinerU 將 PDF、掃描文件與其他複雜文件轉成較適合 AI 處理的 Markdown 或 JSON，保留表格、公式與版面資訊的結構。",
+      "source": "https://github.com/opendatalab/MinerU",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "parse-pdf",
+        "title": "整理含表格的 PDF",
+        "detail": "以指定頁面解析公開測試文件，逐頁確認文字及欄位。",
+        "capabilityRefs": [
+          "parse-request",
+          "read-content"
+        ]
+      },
+      {
+        "id": "document-search",
+        "title": "搜尋多份研究文件",
+        "detail": "先確認解析完成，再查找主題詞及原文段落。",
+        "capabilityRefs": [
+          "parse-request",
+          "search-content"
+        ]
+      },
+      {
+        "id": "long-doc",
+        "title": "分段閱讀長文件",
+        "detail": "利用頁碼、範圍與續讀資訊避免誤把截斷內容當完整文件。",
+        "capabilityRefs": [
+          "read-content",
+          "search-content"
+        ]
+      }
+    ],
+    "example": {
+      "id": "document-ingestion",
+      "title": "規劃研究文件解析與搜尋",
+      "input": "三份合法公開的測試文件，包含掃描頁、表格與文字。",
+      "process": "提交解析 → 查狀態 → 讀取頁面及續讀 → 搜尋並比對原文",
+      "output": "解析、搜尋與原文一致性的驗收規格（未解析）。",
+      "destination": "自有文件知識庫；索引、儲存、權限及引用另行驗收。",
+      "note": "自訂設計示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "parse-pdf",
+        "document-search",
+        "long-doc"
+      ],
+      "steps": [
+        {
+          "id": "submit",
+          "title": "設計文件解析及版本測試",
+          "capabilityRefs": [
+            "parse-request"
+          ]
+        },
+        {
+          "id": "read",
+          "title": "核對頁面內容及續讀",
+          "capabilityRefs": [
+            "read-content"
+          ]
+        },
+        {
+          "id": "search",
+          "title": "設計搜尋與狀態驗收",
+          "capabilityRefs": [
+            "search-content"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立核對原頁與資料使用權",
+          "capabilityRefs": [],
+          "externalDependency": "需核准實際解析、模型下載、資料儲存及外部服務；逐頁比對表格與 OCR。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先用合法公開或合成 PDF 設定頁面驗收。",
+      "核對固定版本 Python 3.11–3.14、Doclib SDK 與授權，避免直接沿用舊 API。",
+      "在核准環境確認 remote、解析狀態、截斷及原頁對應，再考慮正式文件。"
+    ],
+    "limits": [
+      "OCR 與文件結構辨識可能出錯，不能將解析輸出當成已核實事實。",
+      "GPU、模型、作業系統與授權條件需依實際版本另查，不能只靠 README 摘要判定。",
+      "固定版本 LICENSE.md：關聯企業合併口徑每月活躍使用者超過 1 億或每月總營收超過 2,000 萬美元需另取得商業授權；對第三方提供線上服務須明確標示使用 MinerU。",
+      "README 明示 4.1 Tasks API 變更，舊 HTTP API 需遷移；本輪僅確認 Doclib SDK，未驗證新 HTTP Tasks API、解析引擎、遠端及遙測。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把 PDF、掃描文件及其他文件轉成可搜尋的文字與結構化內容，方便閱讀、查找段落和建立知識庫。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍原始碼已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Python / Doclib SDK"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MinerU Open Source License（Apache 2.0 加附加條款）"
+      },
+      {
+        "label": "版本錨點",
+        "value": "097de7f63f54722c9b805ee1c9a14a0c5b02e078"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "提交文件解析",
+        "detail": "需將文件轉成可讀內容；輸入：ParseRequest.path、tier、page_range、force、remote；輸出：ParseResponse 的 status、cache_hit、wait/created/reused parse IDs",
+        "source": "mineru/doclib/client.py"
+      },
+      {
+        "title": "讀取指定頁面與解析結果",
+        "detail": "文件太長或需定位原始頁面；輸入：doc_ref、tier、page_range、after、limit、format；輸出：DocContentResponse.content、content_ranges、truncated、next_request",
+        "source": "mineru/doclib/client.py"
+      },
+      {
+        "title": "搜尋文件庫",
+        "detail": "需從多份解析文件找相關內容；輸入：query、file_type、tier、min_tier、limit、offset；輸出：SearchResponse.results、total、query",
+        "source": "mineru/doclib/client.py"
+      }
+    ],
+    "architecture": {
+      "summary": "提交解析 → 查狀態 → 讀取頁面及續讀 → 搜尋並比對原文",
+      "nodes": [
+        {
+          "title": "提交文件解析",
+          "detail": "ParseRequest.path、tier、page_range、force、remote → ParseResponse 的 status、cache_hit、wait/created/reused parse IDs",
+          "files": [
+            "mineru/doclib/client.py",
+            "mineru/doclib/types.py"
+          ]
+        },
+        {
+          "title": "讀取指定頁面與解析結果",
+          "detail": "doc_ref、tier、page_range、after、limit、format → DocContentResponse.content、content_ranges、truncated、next_request",
+          "files": [
+            "mineru/doclib/client.py",
+            "mineru/doclib/types.py"
+          ]
+        },
+        {
+          "title": "搜尋文件庫",
+          "detail": "query、file_type、tier、min_tier、limit、offset → SearchResponse.results、total、query",
+          "files": [
+            "mineru/doclib/client.py",
+            "mineru/doclib/types.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "解析提交",
+        "rule": "ensure_parse 正規化 page_range 後 POST /parses；ParseResponse 區分建立、重用與等待 IDs。",
+        "source": "mineru/doclib/client.py"
+      },
+      {
+        "name": "內容截斷",
+        "rule": "DocContentResponse 提供 truncated 與 next_request；不得將部分結果視為完整。",
+        "source": "mineru/doclib/types.py"
+      },
+      {
+        "name": "資料路徑",
+        "rule": "ParseRequest.remote 預設 false；實際外部連線仍需獨立查核。",
+        "source": "mineru/doclib/types.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "讀取固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE.md",
+          "pyproject.toml",
+          "mineru/doclib/client.py",
+          "mineru/doclib/types.py",
+          "mineru/doclib/__init__.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先用合法公開或合成 PDF 設定頁面驗收。 核對固定版本 Python 3.11–3.14、Doclib SDK 與授權，避免直接沿用舊 API。 在核准環境確認 remote、解析狀態、截斷及原頁對應，再考慮正式文件。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部服務、費用與資料存取須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有文件知識庫；索引、儲存、權限及引用另行驗收。；固定輸入輸出，另行驗證失敗及權限。",
+        "file": "mineru/doclib/client.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "parse-request",
+        "name": "提交文件解析",
+        "problem": "需將文件轉成可讀內容",
+        "input": "ParseRequest.path、tier、page_range、force、remote",
+        "output": "ParseResponse 的 status、cache_hit、wait/created/reused parse IDs",
+        "source": "mineru/doclib/client.py",
+        "sourceFiles": [
+          "mineru/doclib/client.py",
+          "mineru/doclib/types.py"
+        ],
+        "symbols": [
+          "DoclibClient.ensure_parse",
+          "ParseRequest",
+          "ParseResponse"
+        ],
+        "gate": "remote 預設 false；不代表全部依賴均無網路。提交或 cache hit 不代表解析結果完整，需查 status。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "read-content",
+        "name": "讀取指定頁面與解析結果",
+        "problem": "文件太長或需定位原始頁面",
+        "input": "doc_ref、tier、page_range、after、limit、format",
+        "output": "DocContentResponse.content、content_ranges、truncated、next_request",
+        "source": "mineru/doclib/client.py",
+        "sourceFiles": [
+          "mineru/doclib/client.py",
+          "mineru/doclib/types.py"
+        ],
+        "symbols": [
+          "DoclibClient.get_doc_content",
+          "DocContentResponse"
+        ],
+        "gate": "檢查頁碼、截斷及 next_request；表格、公式、OCR 須與原頁核對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "search-content",
+        "name": "搜尋文件庫",
+        "problem": "需從多份解析文件找相關內容",
+        "input": "query、file_type、tier、min_tier、limit、offset",
+        "output": "SearchResponse.results、total、query",
+        "source": "mineru/doclib/client.py",
+        "sourceFiles": [
+          "mineru/doclib/client.py",
+          "mineru/doclib/types.py"
+        ],
+        "symbols": [
+          "DoclibClient.search",
+          "SearchResponse",
+          "DoclibClient.get_parse"
+        ],
+        "gate": "搜尋結果需核對原文及解析狀態，不將搜尋命中當成事實已驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃研究文件解析與搜尋（設計示例）",
+      "problem": "三份合法公開的測試文件，包含掃描頁、表格與文字。",
+      "steps": [
+        {
+          "capability": "parse-request",
+          "action": "設計文件解析及版本測試"
+        },
+        {
+          "capability": "read-content",
+          "action": "核對頁面內容及續讀"
+        },
+        {
+          "capability": "search-content",
+          "action": "設計搜尋與狀態驗收"
+        }
+      ],
+      "gate": "未執行；實際環境、權限及結果需獨立驗收。",
+      "readerExampleRef": "document-ingestion"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "三份合法公開的測試文件，包含掃描頁、表格與文字。",
+          "deliverable": "合成測試集及預期結果"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "提交解析 → 查狀態 → 讀取頁面及續讀 → 搜尋並比對原文",
+          "deliverable": "行為與錯誤驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有文件知識庫；索引、儲存、權限及引用另行驗收。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "固定版本 LICENSE.md：關聯企業合併口徑每月活躍使用者超過 1 億或每月總營收超過 2,000 萬美元需另取得商業授權；對第三方提供線上服務須明確標示使用 MinerU。",
+        "README 明示 4.1 Tasks API 變更，舊 HTTP API 需遷移；本輪僅確認 Doclib SDK，未驗證新 HTTP Tasks API、解析引擎、遠端及遙測。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "授權、資料及執行邊界",
+        "severity": "高",
+        "issue": "固定版本 LICENSE.md：關聯企業合併口徑每月活躍使用者超過 1 億或每月總營收超過 2,000 萬美元需另取得商業授權；對第三方提供線上服務須明確標示使用 MinerU。 README 明示 4.1 Tasks API 變更，舊 HTTP API 需遷移；本輪僅確認 Doclib SDK，未驗證新 HTTP Tasks API、解析引擎、遠端及遙測。",
+        "control": "固定版本、確認授權、最小權限、使用合成資料；外部連線先核准。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README、LICENSE.md、pyproject.toml 與 DoclibClient 的 ensure_parse/get_parse/get_doc_content/search 及對應 request/response models；舊 common.py、pipeline_analyze.py 路徑 404，未查解析引擎及 HTTP server 內部。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Security",
+        "state": "未驗證",
+        "evidence": "未安裝、未執行、未連接正式資料。"
+      }
+    ]
   }
 }
