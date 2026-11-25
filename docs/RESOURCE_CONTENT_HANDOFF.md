@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 28（2026-11-25）
+
+- main 基線 `7844730d676201d1856a74526a756aabcdbef1a5`；PR #92 四項 CI 通過並合併 `01f6c8e13b9291c82164979a193ae16dabc7d4f5`，Catalog Sync 通過，Pages 查核時尚未完成。117/286 已合併（111 完成對應、6 deferred）。
+- [Batch 28 逐筆報告](RESOURCE_DUAL_LAYER_BATCH28_20261125.md)：paperclip、graft、strelov1-freehire-mcp，3 mapped 候選、9 個用途、9 個局部能力、3 個 design-only 案例。
+- Paperclip 美元預算不限制訂閱額度；Graft 讀取政策非 OS 隔離；Freehire Hosted 現行文件需 OAuth、本機 apply 非真實送件，舊說法保留歷史快照。第三方未實測。
+- 本批合併前 117/286；驗收合併後 120/286（114 完成對應、6 deferred），166 尚未改寫。既有缺口保留。
+- 下一批優先其他 Agent 開發與自動化資源；排程停用，直接執行，重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 27（2026-11-25）
 
 - main 基線 `1013a13ad9d7f37bbd0292b7f507bdd79d0f6249`；PR #91 四項 CI 通過並合併 `a6b8cb72a4ed5bdeacccb8aea6475f2f78d2e9c8`，Catalog Sync 通過，Pages 查核時進行中。114/286 已合併（108 完成對應、6 deferred）。

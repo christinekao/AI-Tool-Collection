@@ -1118,3 +1118,36 @@ test('Dual-layer batch 27: editor permissions, terminal persistence and cost con
  assert.match(load('herdrdev-herdr').repoGuide.capabilities.find(c=>c.id==='resume').gate,/原程序不會存活/);
  assert.match(load('microsoft-tokeneconomizer').repoGuide.capabilities.find(c=>c.id==='loop').gate,/不會自行停止回合/);
 });
+
+test('Dual-layer batch 28: budget scope, context governance and career evidence',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["paperclip","規劃 AI Cowork 團隊的任務派發與預算治理"],["graft","規劃大型專案的結構化讀取與 Context 控制"],["strelov1-freehire-mcp","規劃 JD 搜尋、證據式履歷與求職進度管理"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('paperclip').repoGuide.capabilities.find(c=>c.id==='budget').gate,/billed_cents/);
+ assert.match(load('graft').repoGuide.capabilities.find(c=>c.id==='read').gate,/不能視為檔案沒有符號/);
+ assert.match(load('strelov1-freehire-mcp').repoGuide.capabilities.find(c=>c.id==='tracking').gate,/不代表向雇主送件/);
+ assert.ok(load('strelov1-freehire-mcp').implementationKnowledge.priorSourceClaims);
+});
