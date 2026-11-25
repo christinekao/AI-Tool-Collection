@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 24（2026-11-25）
+
+- main 基線 `9a1c108797185587749558abffa965da6e85633e`；PR #88 四項 CI 通過合併。105/286 已合併（99 完成對應、6 deferred）。
+- [Batch 24 逐筆報告](RESOURCE_DUAL_LAYER_BATCH24_20261125.md)：pingdotgg-t3code、claude-codex-harness-sync、df3011212-codex-local-board。3 mapped 候選，9 個用途、9 個能力及 3 個 design-only 案例。
+- T3 權限及 turn diff 不等於整體分支；Harness Sync 預設 dry-run、禁止搬移憑證；Local Board 非空證據不等於獨立驗收。第三方未實測。
+- 合併前 105/286；驗收合併後 108/286（102 完成對應、6 deferred），178 尚未改寫。既有缺口保留。
+- 下一批優先其他尚未改寫的開發與自動化資源；codex-router 身分尚不明，不擅自連結候選。排程停用，直接執行，重新核對 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 23（2026-11-25）
 
 - main 基線 `8482172c57cf886e04158e63f9ad59bd9e8a20c5`；PR #87 四項 CI 通過合併，Catalog Sync 通過、Pages 查核時進行中。102/286 已合併（96 完成對應、6 deferred）。
