@@ -6,14 +6,14 @@
   "canonicalName": "GenAI_Agents",
   "category": "AI Agent / Framework & Learning",
   "resourceType": "AI Agent 實作 Notebook 合集",
-  "purpose": "蒐集多種 Agent 技巧的教學與實作範例，協助比較單一 Agent、工具使用及多代理設計方法。",
-  "recommendation": "把此集合當成 Agent 設計模式實驗庫。先挑與目前問題對應的 Notebook，建立固定案例及基準，再比較模式是否值得增加複雜度。",
+  "purpose": "透過 Agent 教學與 Notebook 範例，學習如何選擇工具、規劃任務、重試及建立多步 AI 工作流程。",
+  "recommendation": "適合正在學習 Agent 設計模式、需要比較不同架構的人；不要把所有範例直接拼成正式系統，先選一個問題與最簡單的基準。",
   "url": "https://github.com/NirDiamant/GenAI_Agents",
   "repo": "NirDiamant/GenAI_Agents",
   "notes": "版本化索引：https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md 。本次查核範圍見 source.reviewScope。",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "ai-agent",
@@ -68,7 +68,7 @@
         "url",
         "repo"
       ],
-      "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -92,6 +92,124 @@
     "verification": {
       "status": "not-tested",
       "evidence": "Pinned README collection index; named notebooks referenced by index only; no notebook execution."
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "此資源為教學集合，已知證據是固定版本 README 的各類 Notebook 入口；未將索引冒充程式碼深度審查。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "loop-index",
+      "detail": "README 索引列出 agent_while_loop_from_scratch.ipynb，供選讀基本 Agent 迴圈。",
+      "locator": "https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md（Agent loop 範例索引）",
+      "evidenceFields": [
+        "features.0"
+      ],
+      "limitations": "只查閱索引，未核對 Notebook 內部實作。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "router-index",
+      "detail": "README 索引列出 one_step_decision_router.ipynb，供研究單步路由。",
+      "locator": "https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md（Decision router 範例索引）",
+      "evidenceFields": [
+        "features.1"
+      ],
+      "limitations": "未逐份讀取或執行 Notebook。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "pattern-index",
+      "detail": "README 列出規劃、反思、思考預算與技能等教學入口。",
+      "locator": "https://github.com/NirDiamant/GenAI_Agents/blob/1024ee0d4ca47b2fe36eadd669c57ad2353242bb/README.md（進階模式索引）",
+      "evidenceFields": [
+        "features.2",
+        "requirements.1",
+        "requirements.2"
+      ],
+      "limitations": "比較與驗收為策展建議；不代表各模式已證明優於固定流程。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "learn-loop",
+        "title": "理解 Agent 如何連續工作",
+        "detail": "選讀迴圈範例，理解模型如何根據上一步結果決定下一個動作。",
+        "evidenceRefs": [
+          "loop-index"
+        ]
+      },
+      {
+        "id": "choose-routing",
+        "title": "判斷是否需要智慧路由",
+        "detail": "比較單步決策與固定分類規則，避免簡單任務使用過度複雜的 Agent。",
+        "evidenceRefs": [
+          "router-index"
+        ]
+      },
+      {
+        "id": "compare-patterns",
+        "title": "挑選進階 Agent 設計",
+        "detail": "遇到規劃、反思或呼叫成本問題時，再從索引找對應的學習範例。",
+        "evidenceRefs": [
+          "pattern-index"
+        ]
+      }
+    ],
+    "example": {
+      "id": "ticket-routing-study",
+      "title": "比較客服問題的分流方法",
+      "input": "十筆合成客服問題及人工定義的正確分類。",
+      "process": "選讀單步路由 → 設計固定規則基準 → 需要多步處理時比較 Agent 迴圈",
+      "output": "分類正確率、呼叫次數、成本與失敗案例比較表（尚未實驗）。",
+      "destination": "用於選擇客服流程架構，不直接部署。",
+      "note": "獨立學習設計示例，未讀完或執行索引中的 Notebook。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "choose-routing",
+        "learn-loop",
+        "compare-patterns"
+      ],
+      "steps": [
+        {
+          "id": "baseline",
+          "title": "建立假資料與固定規則",
+          "evidenceRefs": [],
+          "externalDependency": "基準資料與正確答案須自行建立。"
+        },
+        {
+          "id": "choose",
+          "title": "選讀單步路由",
+          "evidenceRefs": [
+            "router-index"
+          ]
+        },
+        {
+          "id": "compare",
+          "title": "研究多步迴圈及進階模式",
+          "evidenceRefs": [
+            "loop-index",
+            "pattern-index"
+          ]
+        }
+      ]
+    },
+    "start": [
+      "從 README 索引先找與問題對應的 Notebook。",
+      "閱讀該 Notebook 的模型、依賴、費用與權限後才決定是否執行。",
+      "使用同一組合成資料比較不同方法，保存失敗案例及版本。"
+    ],
+    "limits": [
+      "本輪讀取 README 索引，未逐份核對 Notebook 內容、執行結果或各範例的授權。",
+      "不同範例的 SDK 與 API 可能不同；不能直接拼接為可用的生產流程。"
+    ]
   }
 }

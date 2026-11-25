@@ -6,14 +6,14 @@
   "canonicalName": "Microsoft AI Agents for Beginners",
   "category": "AI Agent / Framework & Learning",
   "resourceType": "Agent 系統性入門課程",
-  "purpose": "從 Agent 核心概念出發，依課程學習工具使用、記憶、檢索增強生成與多代理應用的設計與實作。",
-  "recommendation": "先用 Agent 基礎、Tool Use 與可信任設計三章建立最小可控 Agent，再依需求選讀原課程的 RAG、Planning、Multi-Agent、Context、Memory 與部署安全；不要先從複雜多 Agent 範例開始。",
+  "purpose": "學習如何設計能使用工具、判斷下一步並在權限範圍內完成任務的 AI Agent。",
+  "recommendation": "適合想從基本 Agent、工具呼叫及安全設計開始的人；先學三個已整理章節，進階主題再依原課程選讀，不必先開通 Azure。",
   "url": "https://github.com/microsoft/ai-agents-for-beginners",
   "repo": "microsoft/ai-agents-for-beginners",
   "notes": "",
   "status": "active",
   "addedAt": "2026-11-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [],
   "classification": {
     "primaryDomain": "ai-agent",
@@ -55,7 +55,7 @@
   },
   "intakeReview": {
     "policyVersion": "1.0",
-    "sourceStatus": "source-checked",
+    "sourceStatus": "partial",
     "sourceEvidenceFields": [
       "url",
       "source.url"
@@ -68,7 +68,7 @@
         "url",
         "repo"
       ],
-      "reason": "依既有 Canonical ID、原始 URL 與 Repo 確認同一資源，僅補充閱讀內容，不新增實體或合併收藏。"
+      "reason": "核對既有 Canonical ID 與原始來源，只補人類閱讀及章節證據對應，不建立重複實體。"
     },
     "tagReview": {
       "decision": "all-mapped",
@@ -92,7 +92,14 @@
     "verification": {
       "status": "not-tested",
       "evidence": "Pinned course index and lessons 01, 04, 06 only; partial guided study, not whole-course review."
-    }
+    },
+    "layerReview": {
+      "status": "deferred",
+      "reason": "三個已確認的選讀章節已建立用途及證據對應，整門課程的其他主題仍未逐章查核。",
+      "gap": "剩餘 Agent 設計模式、RAG、規劃、協作、Context、Memory 及部署章節尚未逐章審查。",
+      "nextAction": "依固定版本課程目錄逐章讀取教學及範例，補充重點、練習與來源映射；不宣稱已執行。"
+    },
+    "sourceGap": "本輪只確認課程索引及第 01、04、06 章，其餘課程與 Notebook 尚未深入查核。"
   },
   "learningGuide": {
     "version": 2,
@@ -174,5 +181,129 @@
       "check": "每個可行動步驟都有可檢查的權限與結果；未測試不得標記通過。"
     },
     "caveat": "本頁為三章選讀教材；其餘原課程尚未深入整理。案例與練習是自訂設計，未實測。"
+  },
+  "agentEvidence": [
+    {
+      "id": "agent-intro",
+      "detail": "先比較固定規則與模型決策；只有需要補查資訊或選擇動作時才增加 Agent。",
+      "locator": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/01-intro-to-ai-agents/README.md；何時需要 Agent？",
+      "evidenceFields": [
+        "learningGuide.modules.0.essentials",
+        "learningGuide.modules.0.apply",
+        "learningGuide.modules.0.output"
+      ],
+      "limitations": "僅限本次已查閱的選讀章節；未執行原始範例或驗證整門課程。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "tool-contract",
+      "detail": "學習如何定義工具、驗證參數、處理工具結果及可辨識的失敗。",
+      "locator": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/04-tool-use/README.md；Tool Use 的執行鏈",
+      "evidenceFields": [
+        "learningGuide.modules.1.essentials",
+        "learningGuide.modules.1.apply",
+        "learningGuide.modules.1.output"
+      ],
+      "limitations": "僅限本次已查閱的選讀章節；未執行原始範例或驗證整門課程。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "trust-boundary",
+      "detail": "將權限、停止條件、資料驗證及高風險操作核准落實在應用程式。",
+      "locator": "https://github.com/microsoft/ai-agents-for-beginners/blob/3bee2ddf8e7aab27b17ef9e1d4a3f2c541a1913e/06-building-trustworthy-agents/README.md；可信任 Agent",
+      "evidenceFields": [
+        "learningGuide.modules.2.essentials",
+        "learningGuide.modules.2.apply",
+        "learningGuide.modules.2.output"
+      ],
+      "limitations": "僅限本次已查閱的選讀章節；未執行原始範例或驗證整門課程。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "agent-intro",
+        "title": "判斷何時需要 AI Agent",
+        "detail": "先比較固定規則與模型決策；只有需要補查資訊或選擇動作時才增加 Agent。",
+        "evidenceRefs": [
+          "agent-intro"
+        ]
+      },
+      {
+        "id": "tool-contract",
+        "title": "讓 Agent 使用外部工具",
+        "detail": "學習如何定義工具、驗證參數、處理工具結果及可辨識的失敗。",
+        "evidenceRefs": [
+          "tool-contract"
+        ]
+      },
+      {
+        "id": "trust-boundary",
+        "title": "限制 Agent 可執行的動作",
+        "detail": "將權限、停止條件、資料驗證及高風險操作核准落實在應用程式。",
+        "evidenceRefs": [
+          "trust-boundary"
+        ]
+      }
+    ],
+    "example": {
+      "id": "support-ticket-agent",
+      "title": "設計只讀客服案件查詢 Agent",
+      "input": "合成客服案件、案件編號、兩個只讀查詢工具及權限限制。",
+      "process": "確認是否需要 Agent → 定義工具及錯誤 → 加入權限與停止條件 → 設計反例",
+      "output": "Agent 設計規格、工具輸入輸出、允許及拒絕情境的驗收清單。",
+      "destination": "交給開發者實作及測試，不直接部署正式系統。",
+      "note": "自訂教學設計示例，未執行模型、Notebook 或客服資料查詢。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "agent-intro",
+        "tool-contract",
+        "trust-boundary"
+      ],
+      "steps": [
+        {
+          "id": "decide",
+          "title": "確認 Agent 的必要性",
+          "evidenceRefs": [
+            "agent-intro"
+          ]
+        },
+        {
+          "id": "tools",
+          "title": "定義工具與錯誤",
+          "evidenceRefs": [
+            "tool-contract"
+          ]
+        },
+        {
+          "id": "boundaries",
+          "title": "設計最小權限及停止條件",
+          "evidenceRefs": [
+            "trust-boundary"
+          ]
+        },
+        {
+          "id": "implement",
+          "title": "另行實作與驗收",
+          "evidenceRefs": [],
+          "externalDependency": "應用程式、測試資料、核准的環境及模型配置須另行準備。"
+        }
+      ]
+    },
+    "start": [
+      "先讀本頁三個選讀章節，判斷固定流程與 Agent 的適用情況。",
+      "完成工具契約與權限設計練習，使用合成資料建立測試案例。",
+      "需要執行原始課程時再核對固定版本 Setup、模型及費用。"
+    ],
+    "limits": [
+      "只完成三個選讀章節的教學整理，不宣稱整門課程已逐章查核。",
+      "原始 Notebook、程式執行及整合未測；翻譯可能落後英文主線。"
+    ]
   }
 }

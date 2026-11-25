@@ -487,14 +487,14 @@ try{
  const phase3=[
   ['agent-reach','.resource-reader-guide','整理三篇研究文章'],
   ['arrow-2','.resource-reader-guide','製作一組網站圖示'],
-  ['addyosmani-agent-skills','.detail-panel','選擇方法'],
+  ['addyosmani-agent-skills','.resource-reader-guide','驗收表單儲存功能'],
   ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）'],
   ['pydantic-pydantic-ai','.resource-reader-guide','實際應用：AI 履歷分析'],
   ['huggingface-smolagents','.resource-reader-guide','庫存查詢與缺貨分析'],
   ['microsoft-ai-agents-for-beginners','.learning-guide','主題重點筆記（3 章）'],
-  ['nirdiamant-genai-agents','.detail-panel','比較方式'],
-  ['anthropics-skills','.detail-panel','建立及改善技能'],
-  ['openrouter-ai','.detail-panel','供應商策略'],
+  ['nirdiamant-genai-agents','.resource-reader-guide','比較客服問題的分流方法'],
+  ['anthropics-skills','.resource-reader-guide','建立 Resource 整理 Skill'],
+  ['openrouter-ai','.resource-reader-guide','替摘要應用選擇模型'],
   ['google-pagespeed-insights','.resource-reader-guide','驗收作品集首頁改版']
  ];
  for(const [id,selector,phrase] of phase3){
@@ -510,7 +510,7 @@ try{
     fs.writeFileSync(path.join(screenshotDir,'phase3-'+id+'-'+width+'.png'),Buffer.from(capture.data,'base64'));
    }
   }
-  if(['agent-reach','huggingface-smolagents','arrow-2','google-pagespeed-insights','pydantic-pydantic-ai'].includes(id)){
+  if(phase3.some(row=>row[0]===id)){
    assert.equal(await evaluate('document.querySelectorAll(".repo-guide").length'),0);
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=3'));
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));

@@ -6,12 +6,12 @@
   "canonicalName": "AI 郵報 — AI 程式驗收教學",
   "category": "Software Engineering / Quality Assurance",
   "resourceType": "Article / practical guide",
-  "purpose": "將 AI 產生的程式碼由『看起來能動』提升為有需求對照、變更審查、測試、操作證據與上線回復條件的可驗收交付。",
-  "recommendation": "適合 AI-assisted coding、vibe coding、Agent 開發流程與交付驗收；重點是不要把測試全綠或 Agent 自述等同正式驗收。",
+  "purpose": "學習如何驗收 AI 寫的程式，從需求、程式審查、實際操作到發布與回復，避免只相信 Agent 的完成訊息。",
+  "recommendation": "適合使用 AI Coding Agent 開發產品或工作流程的人；若只有小型本機腳本，可依風險縮減發布流程，但仍須驗證需求與輸出。",
   "url": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/",
   "status": "active",
   "addedAt": "2026-10-13",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ai-coding",
     "acceptance",
@@ -89,7 +89,7 @@
         "id",
         "url"
       ],
-      "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+      "reason": "核對既有 Canonical ID 與原始來源，只補人類閱讀及章節證據對應，不建立重複實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -113,6 +113,10 @@
     "verification": {
       "status": "not-tested",
       "evidence": "已閱讀文章正文；教材示例及練習未執行。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "四個已整理的驗收章節均建立讀者用途與章節證據對應，保留原教材、案例與練習。"
     }
   },
   "learningGuide": {
@@ -217,5 +221,152 @@
     },
     "caveat": "依原作者文章整理的方法論；職缺管理例子與練習是自訂教學情境，非實際測試或部署。",
     "inlineSummary": "需求 → Diff → 測試 → 操作與讀回 → Release Gate"
+  },
+  "agentEvidence": [
+    {
+      "id": "acceptance-contract",
+      "detail": "在開發前定義正常、無效及邊界情境，明訂應保持不變的行為。",
+      "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；01 定義驗收條件",
+      "evidenceFields": [
+        "learningGuide.modules.0.essentials",
+        "learningGuide.modules.0.apply",
+        "learningGuide.modules.0.output"
+      ],
+      "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "review-and-tests",
+      "detail": "對照需求審查程式差異，確認測試能重現原問題及覆蓋受影響的行為。",
+      "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；02 審查與測試",
+      "evidenceFields": [
+        "learningGuide.modules.1.essentials",
+        "learningGuide.modules.1.apply",
+        "learningGuide.modules.1.output"
+      ],
+      "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "user-evidence",
+      "detail": "實際操作表單、重新讀取儲存結果，保留環境及畫面證據。",
+      "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；03 操作與資料驗證",
+      "evidenceFields": [
+        "learningGuide.modules.2.essentials",
+        "learningGuide.modules.2.apply",
+        "learningGuide.modules.2.output"
+      ],
+      "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "release-gate",
+      "detail": "先確認審查、測試、觀察指標、回復條件與負責人，再擴大發布。",
+      "locator": "https://www.aiposthub.com/ai-code-acceptance-review-testing-rollout-guide/；04 發布與回復",
+      "evidenceFields": [
+        "learningGuide.modules.3.essentials",
+        "learningGuide.modules.3.apply",
+        "learningGuide.modules.3.output"
+      ],
+      "limitations": "教學原理與自訂練習，不代表任何專案已執行驗收或發布。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "acceptance-contract",
+        "title": "把需求轉成驗收條件",
+        "detail": "在開發前定義正常、無效及邊界情境，明訂應保持不變的行為。",
+        "evidenceRefs": [
+          "acceptance-contract"
+        ]
+      },
+      {
+        "id": "review-and-tests",
+        "title": "檢查 Agent 修改與測試",
+        "detail": "對照需求審查程式差異，確認測試能重現原問題及覆蓋受影響的行為。",
+        "evidenceRefs": [
+          "review-and-tests"
+        ]
+      },
+      {
+        "id": "user-evidence",
+        "title": "驗證真正的操作與資料",
+        "detail": "實際操作表單、重新讀取儲存結果，保留環境及畫面證據。",
+        "evidenceRefs": [
+          "user-evidence"
+        ]
+      },
+      {
+        "id": "release-gate",
+        "title": "決定是否能安全發布",
+        "detail": "先確認審查、測試、觀察指標、回復條件與負責人，再擴大發布。",
+        "evidenceRefs": [
+          "release-gate"
+        ]
+      }
+    ],
+    "example": {
+      "id": "form-release-check",
+      "title": "驗收 AI 修改的申請表單",
+      "input": "申請表單需求、程式差異及合成的正常與錯誤輸入。",
+      "process": "定義驗收 → 審查與測試 → 實際提交與資料讀回 → 決定發布與回復",
+      "output": "需求對照表、測試與操作證據、發布及回復檢查表（預期產物）。",
+      "destination": "供 PR 審查人員決定是否合併及發布。",
+      "note": "自訂教學案例，未執行表單測試或發布。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "acceptance-contract",
+        "review-and-tests",
+        "user-evidence",
+        "release-gate"
+      ],
+      "steps": [
+        {
+          "id": "acceptance-contract",
+          "title": "把需求轉成驗收條件",
+          "evidenceRefs": [
+            "acceptance-contract"
+          ]
+        },
+        {
+          "id": "review-and-tests",
+          "title": "檢查 Agent 修改與測試",
+          "evidenceRefs": [
+            "review-and-tests"
+          ]
+        },
+        {
+          "id": "user-evidence",
+          "title": "驗證真正的操作與資料",
+          "evidenceRefs": [
+            "user-evidence"
+          ]
+        },
+        {
+          "id": "release-gate",
+          "title": "決定是否能安全發布",
+          "evidenceRefs": [
+            "release-gate"
+          ]
+        }
+      ]
+    },
+    "start": [
+      "先挑一項已完成的 AI 程式修改，寫下預期行為。",
+      "照四個章節逐一設計審查、測試、操作及資料驗收證據。",
+      "依實際風險決定發布條件，確認回復方案與負責人。"
+    ],
+    "limits": [
+      "此為教學文章與案例，不是能自動部署或保證程式正確的驗收工具。",
+      "自動測試、人工審查與部署驗收各有盲點，需依專案風險補安全與資料測試。"
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "OpenRouter",
   "category": "02 Agent Orchestration",
   "resourceType": "Commercial hosted multi-provider LLM API gateway / model marketplace & routing service",
-  "purpose": "以單一 OpenAI-compatible API 及 API Key 存取多家供應商的語言與多模態模型，依模型 ID、供應商與設定執行請求路由、模型／Provider 備援、串流、工具呼叫、結構化輸出及用量／成本管理；支援 Bring Your Own Key (BYOK) 與可選資料政策式路由（含 Zero Data Retention 限制）。",
-  "recommendation": "需要同時比較多個模型、統一 API 或管理供應商備援時採用；若產品只依賴單一固定模型、具有嚴格資料落地要求或需供應商專屬能力，先評估直接串接。",
+  "purpose": "透過同一組 API 介面使用不同 AI 模型，方便比較模型、選擇供應商並設定備援與資料政策。",
+  "recommendation": "適合需要比較模型、避免只依賴單一供應商的應用；若只需一個固定模型或有嚴格的資料落地要求，先評估直接串接供應商。",
   "url": "https://openrouter.ai/",
   "repo": "",
   "notes": "2026-10-24 查核官方開發者入口、Pricing、Support、Privacy Policy、Zero Data Retention 及 Provider 清單：統一端點 https://openrouter.ai/api/v1，可支援不同模型 Provider 與路由／fallback；提供 OpenAI-compatible API，亦有官方 SDK、Agent SDK、MCP Server 和 Cookbook。官方 pricing 有免費模型／免費 API 額度、按使用量計費及可選 BYOK；模型費率、免費額度、加值手續費和 BYOK 費率依最新方案與實際模型變動，不能以單一價格概括所有模型。官方 Support 表示 API 基本 metadata 會記錄，預設不保存 prompts/completions；但可選 prompt logging，而請求內容會送到實際承接的模型供應商。ZDR 可限制符合要求的供應商不保留 inference prompt/response，但不代表資料完全不出站、不經過 OpenRouter，也不涵蓋自己的 Logs、Tools、Plugins 或持久檔案儲存。模型供應商在 retention、訓練及所在地上有所不同，對敏感資料應明確確認 Provider 與 Policy 並閱讀服務條款。雖然官方有 OpenRouterTeam/openrouter-examples 等公開範例 Repo，這不代表 OpenRouter 託管 API 服務本身是完整開源專案；故 Repo 欄位保持空白。需保存 API Key 並管理額度與洩露／濫用風險；如啟用自動路由或 fallback，請求可能改由不同 Provider 處理，應以 policy 過濾與回傳模型資訊核實。僅完成資料收錄，不曾登入、建立或測試 API Key，亦未呼叫付費模型。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "tags": [
     "openrouter",
     "llm-api-gateway",
@@ -120,7 +120,7 @@
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "核對既有 Canonical ID 與原始來源身分，只補人類閱讀及底層來源證據對應，不建立重複資料。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -144,6 +144,153 @@
     "verification": {
       "status": "not-tested",
       "evidence": "Official provider routing and ZDR documentation; no API calls or policy audit."
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "依已查核官方供應商路由與資料政策文件，建立模型比較、備援與資料限制的用途對應；未實測 API。"
     }
+  },
+  "agentEvidence": [
+    {
+      "id": "model-provider",
+      "detail": "model 選擇模型，provider 設定可提供該模型的供應商端點。",
+      "locator": "https://openrouter.ai/docs/guides/routing/provider-selection",
+      "evidenceFields": [
+        "features.0",
+        "requirements.0"
+      ],
+      "limitations": "模型與端點可用性會變動，未實測。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "provider-routing",
+      "detail": "order、only、allow_fallbacks 與 require_parameters 控制供應商偏好、限制、備援與參數相容性。",
+      "locator": "https://openrouter.ai/docs/guides/routing/provider-selection",
+      "evidenceFields": [
+        "features.1",
+        "requirements.1"
+      ],
+      "limitations": "未模擬實際故障；供應商備援不等於 Gateway 容災。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "data-policy",
+      "detail": "data_collection=deny 與 zdr 路由選擇符合條件的端點。",
+      "locator": "https://openrouter.ai/docs/guides/routing/provider-selection；https://openrouter.ai/blog/insights/zero-data-retention/",
+      "evidenceFields": [
+        "features.2",
+        "requirements.2",
+        "limitations.2"
+      ],
+      "limitations": "服務本身政策、企業條款及資料處理未稽核，不能承諾合規。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "compare-models",
+        "title": "用同一介面比較 AI 模型",
+        "detail": "以相同測試題比較模型的輸出品質、延遲與成本，不必為每個模型建立不同介面。",
+        "evidenceRefs": [
+          "model-provider"
+        ]
+      },
+      {
+        "id": "provider-fallback",
+        "title": "設定供應商備援",
+        "detail": "同一模型可能有多個端點，依需求限定可用供應商並檢查故障時的處理。",
+        "evidenceRefs": [
+          "model-provider",
+          "provider-routing"
+        ]
+      },
+      {
+        "id": "restrict-data",
+        "title": "限制模型端點的資料政策",
+        "detail": "指定可接受的供應商與資料保留要求；沒有符合條件的端點時應明確處理失敗。",
+        "evidenceRefs": [
+          "provider-routing",
+          "data-policy"
+        ]
+      }
+    ],
+    "example": {
+      "id": "model-selection-review",
+      "title": "替摘要應用選擇模型",
+      "input": "十筆不含個資的合成摘要題、指定輸出格式與允許的供應商條件。",
+      "process": "選模型 → 設定允許端點 → 比較輸出、延遲及費用 → 模擬端點失敗",
+      "output": "模型與實際供應商、格式通過率、延遲、費用及錯誤處理紀錄（預期產物）。",
+      "destination": "供應商選型及 API 串接規格；正式資料仍須核准。",
+      "note": "自訂測試設計，未呼叫 API、未取得費用或實際測試結果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "compare-models",
+        "provider-fallback",
+        "restrict-data"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "準備合成題目及驗收規格",
+          "evidenceRefs": [],
+          "externalDependency": "應用程式的評分規則、測試資料及核准的費用由專案提供。"
+        },
+        {
+          "id": "select",
+          "title": "選模型及端點",
+          "evidenceRefs": [
+            "model-provider"
+          ]
+        },
+        {
+          "id": "restrict",
+          "title": "設定路由及資料條件",
+          "evidenceRefs": [
+            "provider-routing",
+            "data-policy"
+          ]
+        },
+        {
+          "id": "measure",
+          "title": "評估實際結果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行執行 API 測試與成本、隱私審查。"
+        }
+      ]
+    },
+    "comparison": {
+      "title": "什麼時候選擇統一 API？",
+      "headers": [
+        "直接接模型供應商",
+        "OpenRouter"
+      ],
+      "rows": [
+        [
+          "單一模型及專屬功能較直接",
+          "多模型與供應商比較較方便"
+        ],
+        [
+          "各服務分別管理備援與政策",
+          "可集中設定路由，但增加 Gateway 依賴"
+        ]
+      ],
+      "note": "兩者均須核對費用、政策、實際輸出及相容性。"
+    },
+    "start": [
+      "先列出需要比較的模型、必要參數與資料政策。",
+      "確認官方文件及費用，在核准的伺服器環境使用專案金鑰與合成資料測試。",
+      "確認實際供應商與錯誤處理，再評估是否接正式資料。"
+    ],
+    "limits": [
+      "共用 Gateway 本身可能故障，供應商備援不能替代獨立災難復原。",
+      "模型能力、價格、端點資料政策會變動；不得把單次成功當成各端點相容性證明。",
+      "未呼叫 API、未評估企業條款、未測資料保留或實際帳單。"
+    ]
   }
 }
