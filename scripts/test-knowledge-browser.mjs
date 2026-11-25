@@ -569,7 +569,10 @@ try{
   ["pcottle-learn-git-branching",".resource-reader-guide","練習 Local Git 的分支與合併"],
   ["stitch-skills",".resource-reader-guide","規劃履歷投遞管理畫面的設計迭代"],
   ["cathrynlavery-diagram-design",".resource-reader-guide","規劃資料管線的技術交接圖"],
-  ["yanliudesign-mono-color-skill",".resource-reader-guide","規劃雙色展覽海報的視覺配方"]
+  ["yanliudesign-mono-color-skill",".resource-reader-guide","規劃雙色展覽海報的視覺配方"],
+  ["gzh-design-skill",".resource-reader-guide","規劃技術教學長文的公眾號排版"],
+  ["baoyu-skill",".resource-reader-guide","規劃 AI 教材文章的封面與插圖發布"],
+  ["ui-ux-gold-standard",".resource-reader-guide","規劃資料分析 Dashboard 的共用設計規則"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
@@ -596,7 +599,7 @@ try{
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
  }
- console.log('PASS: Phase 3 eighty-five Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
+ console.log('PASS: Phase 3 eighty-eight Resource pages at 375/430/768/1440px; human-first reader guides and learning exercises');
 
 
  // The intent-first entry synthesizes from the complete collection, not curated Problems alone.

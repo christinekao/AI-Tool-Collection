@@ -6,14 +6,14 @@
   "canonicalName": "gzh-design-skill",
   "category": "09 Content & Artifact Generation",
   "resourceType": "Content Skill",
-  "purpose": "Markdown → 公眾號 HTML",
-  "recommendation": "適合把 Markdown 內容轉成公眾號 HTML。",
+  "purpose": "把已寫好的 Markdown 長文排成可貼入微信公眾號編輯器的文章，保留章節、圖片及程式碼的閱讀層次。",
+  "recommendation": "適合已有文章、需要微信公眾號排版的人；不適合代寫文章、一般網站或簡報。",
   "url": "https://github.com/isjiamu/gzh-design-skill",
-  "repo": "",
+  "repo": "isjiamu/gzh-design-skill",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "markdown",
     "html",
@@ -71,24 +71,35 @@
   ],
   "source": {
     "url": "https://github.com/isjiamu/gzh-design-skill",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Upstream GitHub README"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、SKILL.md 的格式正規化、主題選擇與 HTML 輸出流程，及兩個 Python 檢查腳本的規則與 LICENSE。",
+    "type": "Upstream GitHub README",
+    "upstreamCommit": "750a50dffdc4abb5e853b98136dad13a57e64ce3",
+    "referenceUrls": [
+      "https://github.com/isjiamu/gzh-design-skill/blob/750a50dffdc4abb5e853b98136dad13a57e64ce3/README.md",
+      "https://github.com/isjiamu/gzh-design-skill/blob/750a50dffdc4abb5e853b98136dad13a57e64ce3/SKILL.md",
+      "https://github.com/isjiamu/gzh-design-skill/blob/750a50dffdc4abb5e853b98136dad13a57e64ce3/scripts/component_lint.py",
+      "https://github.com/isjiamu/gzh-design-skill/blob/750a50dffdc4abb5e853b98136dad13a57e64ce3/scripts/validate_gzh_html.py",
+      "https://github.com/isjiamu/gzh-design-skill/blob/750a50dffdc4abb5e853b98136dad13a57e64ce3/LICENSE"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "依原 URL 補齊空白 repo，維持相同 Canonical ID。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -97,8 +108,8 @@
     "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "README、SKILL.md 的格式正規化、主題選擇與 HTML 輸出流程，及兩個 Python 檢查腳本的規則與 LICENSE。；非完整重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -108,10 +119,360 @@
       "decision": "reused",
       "reason": "保留既有 Concept 引用，不推測其他 Graph 邊。"
     },
-    "riskNotes": "平台貼上與樣式限制可能變更。；第三方 Skill 不代表已完成依賴、授權和安全驗證。；未執行第三方程式、讀取機密或傳送憑證。",
+    "riskNotes": "平台貼上與樣式限制可能變更。；第三方 Skill 不代表已完成依賴、授權和安全驗證。；不負責撰寫原始文章，亦非一般網頁產生器。；檢查腳本的退出碼 0 不保證所有警告清除或平台實際貼上成功。；AGPL-3.0 授權義務、第三方圖片權利與平台格式仍需另行核對；未執行腳本。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "README、SKILL.md 的格式正規化、主題選擇與 HTML 輸出流程，及兩個 Python 檢查腳本的規則與 LICENSE。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、SKILL.md 的格式正規化、主題選擇與 HTML 輸出流程，及兩個 Python 檢查腳本的規則與 LICENSE。；局部用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Markdown → 公眾號 HTML",
+      "source": "https://github.com/isjiamu/gzh-design-skill",
+      "reviewedAt": "2026-11-21"
+    },
+    "priorRecommendationSnapshot": "適合把 Markdown 內容轉成公眾號 HTML。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-theme",
+        "title": "依文章選擇一致排版",
+        "detail": "文章已完成，但章節及重點缺乏視覺層次。 主題與元件選擇規格。",
+        "capabilityRefs": [
+          "theme"
+        ]
+      },
+      {
+        "id": "use-lint",
+        "title": "檢查元件與正文格式",
+        "detail": "普通 HTML 樣式可能被編輯器移除。 ERROR 與 WARNING 清單。",
+        "capabilityRefs": [
+          "lint"
+        ]
+      },
+      {
+        "id": "use-preview",
+        "title": "產出供貼上的正文及預覽",
+        "detail": "一般網頁外殼與平台正文需要分開。 正文檔與具複製功能的預覽檔規格。",
+        "capabilityRefs": [
+          "preview"
+        ]
+      }
+    ],
+    "example": {
+      "id": "gzh-design-skill-example",
+      "title": "規劃技術教學長文的公眾號排版",
+      "input": "自有 Markdown 教學文章、已授權圖片及作者署名。",
+      "process": "依文章選擇一致排版 → 檢查元件與正文格式 → 產出供貼上的正文及預覽 → 獨立驗收",
+      "output": "可供校驗的正文 HTML 與複製預覽頁規格，未生成實際檔案。",
+      "destination": "自有技術教學內容的微信公眾號編輯器草稿與發布前人工審查流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-theme",
+        "use-lint",
+        "use-preview"
+      ],
+      "steps": [
+        {
+          "id": "theme",
+          "title": "依文章選擇一致排版",
+          "capabilityRefs": [
+            "theme"
+          ]
+        },
+        {
+          "id": "lint",
+          "title": "檢查元件與正文格式",
+          "capabilityRefs": [
+            "lint"
+          ]
+        },
+        {
+          "id": "preview",
+          "title": "產出供貼上的正文及預覽",
+          "capabilityRefs": [
+            "preview"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、素材授權、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備自有 Markdown 教學文章、已授權圖片及作者署名。",
+      "依需求選擇依文章選擇一致排版、檢查元件與正文格式、產出供貼上的正文及預覽；先閱讀來源及限制。",
+      "確認授權、環境、資料與權限，再另行執行並核對實際輸出。"
+    ],
+    "limits": [
+      "平台貼上與樣式限制可能變更。",
+      "第三方 Skill 不代表已完成依賴、授權和安全驗證。",
+      "不負責撰寫原始文章，亦非一般網頁產生器。",
+      "檢查腳本的退出碼 0 不保證所有警告清除或平台實際貼上成功。",
+      "AGPL-3.0 授權義務、第三方圖片權利與平台格式仍需另行核對；未執行腳本。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把已寫好的 Markdown 長文排成可貼入微信公眾號編輯器的文章，保留章節、圖片及程式碼的閱讀層次。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "AGPL-3.0（修改及提供網路服務前另核對義務）"
+      },
+      {
+        "label": "版本",
+        "value": "750a50dffdc4abb5e853b98136dad13a57e64ce3"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依文章選擇一致排版",
+        "detail": "文章已完成，但章節及重點缺乏視覺層次。；輸入：Markdown、文章類型、主題偏好；輸出：主題與元件選擇規格",
+        "source": "SKILL.md"
+      },
+      {
+        "title": "檢查元件與正文格式",
+        "detail": "普通 HTML 樣式可能被編輯器移除。；輸入：主題元件庫、正文 HTML；輸出：ERROR 與 WARNING 清單",
+        "source": "scripts/validate_gzh_html.py"
+      },
+      {
+        "title": "產出供貼上的正文及預覽",
+        "detail": "一般網頁外殼與平台正文需要分開。；輸入：校驗後的正文 section 片段；輸出：正文檔與具複製功能的預覽檔規格",
+        "source": "SKILL.md"
+      }
+    ],
+    "architecture": {
+      "summary": "依文章選擇一致排版 → 檢查元件與正文格式 → 產出供貼上的正文及預覽 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "依文章選擇一致排版",
+          "detail": "Markdown、文章類型、主題偏好 → 主題與元件選擇規格",
+          "files": [
+            "SKILL.md",
+            "README.md"
+          ]
+        },
+        {
+          "title": "檢查元件與正文格式",
+          "detail": "主題元件庫、正文 HTML → ERROR 與 WARNING 清單",
+          "files": [
+            "scripts/component_lint.py",
+            "scripts/validate_gzh_html.py",
+            "SKILL.md"
+          ]
+        },
+        {
+          "title": "產出供貼上的正文及預覽",
+          "detail": "校驗後的正文 section 片段 → 正文檔與具複製功能的預覽檔規格",
+          "files": [
+            "SKILL.md",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "依文章選擇一致排版",
+        "rule": "非 Markdown 先正規化；主題需確認或由使用者授權自動選擇，不混用不同主題元件。",
+        "source": "SKILL.md"
+      },
+      {
+        "name": "檢查元件與正文格式",
+        "rule": "退出碼 0 不等於 WARNING 為零；技能要求修正半形標點，保留漸層須說明風險，仍需目標編輯器驗收。",
+        "source": "scripts/validate_gzh_html.py"
+      },
+      {
+        "name": "產出供貼上的正文及預覽",
+        "rule": "預覽按鈕及腳本不屬於貼上的正文；未核對預覽腳本實作，未貼上或發布。",
+        "source": "SKILL.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "README、SKILL.md 的格式正規化、主題選擇與 HTML 輸出流程，及兩個 Python 檢查腳本的規則與 LICENSE。",
+        "files": [
+          "README.md",
+          "SKILL.md",
+          "scripts/component_lint.py",
+          "scripts/validate_gzh_html.py",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有 Markdown 教學文章、已授權圖片及作者署名。 依需求選擇依文章選擇一致排版、檢查元件與正文格式、產出供貼上的正文及預覽；先閱讀來源及限制。 確認授權、環境、資料與權限，再另行執行並核對實際輸出。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入與費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有技術教學內容的微信公眾號編輯器草稿與發布前人工審查流程。；另驗證實際行為及限制。",
+        "file": "SKILL.md"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "theme",
+        "name": "依文章選擇一致排版",
+        "problem": "文章已完成，但章節及重點缺乏視覺層次。",
+        "input": "Markdown、文章類型、主題偏好",
+        "output": "主題與元件選擇規格",
+        "source": "SKILL.md",
+        "sourceFiles": [
+          "SKILL.md",
+          "README.md"
+        ],
+        "symbols": [
+          "工作流第 0–4 步（文件）"
+        ],
+        "gate": "非 Markdown 先正規化；主題需確認或由使用者授權自動選擇，不混用不同主題元件。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "lint",
+        "name": "檢查元件與正文格式",
+        "problem": "普通 HTML 樣式可能被編輯器移除。",
+        "input": "主題元件庫、正文 HTML",
+        "output": "ERROR 與 WARNING 清單",
+        "source": "scripts/validate_gzh_html.py",
+        "sourceFiles": [
+          "scripts/component_lint.py",
+          "scripts/validate_gzh_html.py",
+          "SKILL.md"
+        ],
+        "symbols": [
+          "lint_file",
+          "validate",
+          "LeafChecker",
+          "main"
+        ],
+        "gate": "退出碼 0 不等於 WARNING 為零；技能要求修正半形標點，保留漸層須說明風險，仍需目標編輯器驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "preview",
+        "name": "產出供貼上的正文及預覽",
+        "problem": "一般網頁外殼與平台正文需要分開。",
+        "input": "校驗後的正文 section 片段",
+        "output": "正文檔與具複製功能的預覽檔規格",
+        "source": "SKILL.md",
+        "sourceFiles": [
+          "SKILL.md",
+          "README.md"
+        ],
+        "symbols": [
+          "工作流第 6 步（文件）",
+          "wrap_preview.py（文件所述入口）"
+        ],
+        "gate": "預覽按鈕及腳本不屬於貼上的正文；未核對預覽腳本實作，未貼上或發布。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃技術教學長文的公眾號排版（設計示例）",
+      "problem": "自有 Markdown 教學文章、已授權圖片及作者署名。",
+      "steps": [
+        {
+          "capability": "theme",
+          "action": "依文章選擇一致排版"
+        },
+        {
+          "capability": "lint",
+          "action": "檢查元件與正文格式"
+        },
+        {
+          "capability": "preview",
+          "action": "產出供貼上的正文及預覽"
+        }
+      ],
+      "gate": "未執行；實際環境與成果須獨立驗收。",
+      "readerExampleRef": "gzh-design-skill-example"
+    },
+    "rebuild": {
+      "verdict": "可依局部文件與程式契約規劃驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有 Markdown 教學文章、已授權圖片及作者署名。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "依文章選擇一致排版 → 檢查元件與正文格式 → 產出供貼上的正文及預覽 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有技術教學內容的微信公眾號編輯器草稿與發布前人工審查流程。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "不負責撰寫原始文章，亦非一般網頁產生器。",
+        "檢查腳本的退出碼 0 不保證所有警告清除或平台實際貼上成功。",
+        "AGPL-3.0 授權義務、第三方圖片權利與平台格式仍需另行核對；未執行腳本。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與授權邊界",
+        "severity": "高",
+        "issue": "不負責撰寫原始文章，亦非一般網頁產生器。 檢查腳本的退出碼 0 不保證所有警告清除或平台實際貼上成功。 AGPL-3.0 授權義務、第三方圖片權利與平台格式仍需另行核對；未執行腳本。",
+        "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README、SKILL.md 的格式正規化、主題選擇與 HTML 輸出流程，及兩個 Python 檢查腳本的規則與 LICENSE。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "ui-ux-gold-standard",
   "category": "08 UI & Design Engineering",
   "resourceType": "Design Guidance",
-  "purpose": "UI/UX、比例、排版、design rules",
-  "recommendation": "適合做 UI/UX 比例、排版與設計規則的檢查清單參考。",
+  "purpose": "在設計網站或 Dashboard 前，依產品類型查找配色、字型、版面及互動建議，再決定哪些設計規則值得實作。",
+  "recommendation": "適合介面設計選型與審查；不適合將搜尋排名或華麗動效直接當作可用性驗收。",
   "url": "https://github.com/migueljnew-droid/ui-ux-gold-standard",
-  "repo": "",
+  "repo": "migueljnew-droid/ui-ux-gold-standard",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-25",
   "tags": [
     "ui-ux",
     "typography",
@@ -64,24 +64,34 @@
   ],
   "source": {
     "url": "https://github.com/migueljnew-droid/ui-ux-gold-standard",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-    "type": "Upstream GitHub README"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、SKILL.md、scripts/search.py CLI 及 scripts/design_system.py 的設計系統生成與保存入口；未逐項查核 CSV、技法及授權。",
+    "type": "Upstream GitHub README",
+    "upstreamCommit": "d864143780094c5761e9acce5f61399f8b7d81e2",
+    "referenceUrls": [
+      "https://github.com/migueljnew-droid/ui-ux-gold-standard/blob/d864143780094c5761e9acce5f61399f8b7d81e2/README.md",
+      "https://github.com/migueljnew-droid/ui-ux-gold-standard/blob/d864143780094c5761e9acce5f61399f8b7d81e2/SKILL.md",
+      "https://github.com/migueljnew-droid/ui-ux-gold-standard/blob/d864143780094c5761e9acce5f61399f8b7d81e2/scripts/search.py",
+      "https://github.com/migueljnew-droid/ui-ux-gold-standard/blob/d864143780094c5761e9acce5f61399f8b7d81e2/scripts/design_system.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "title"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "依原 URL 補齊空白 repo，維持相同 Canonical ID。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -90,8 +100,8 @@
     "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "README、SKILL.md、scripts/search.py CLI 及 scripts/design_system.py 的設計系統生成與保存入口；未逐項查核 CSV、技法及授權。；非完整重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -101,10 +111,363 @@
       "decision": "reused",
       "reason": "保留既有 Concept 引用，不推測其他 Graph 邊。"
     },
-    "riskNotes": "作者列出的技法數量不是逐項成功驗證證據。；不能取代效能、可存取性與需求驗收。；未執行第三方程式、讀取機密或傳送憑證。",
+    "riskNotes": "作者列出的技法數量不是逐項成功驗證證據。；不能取代效能、可存取性與需求驗收。；搜尋結果與設計建議不是使用者研究或實測結果。；未逐項核查 CSV 規則、動效技法、瀏覽器相容性與依賴。；README 標示 MIT，但未找到獨立 LICENSE；再散布前須核對授權及參考網站素材。；未執行第三方工具。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "README、SKILL.md、scripts/search.py CLI 及 scripts/design_system.py 的設計系統生成與保存入口；未逐項查核 CSV、技法及授權。；未執行第三方工具。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、SKILL.md、scripts/search.py CLI 及 scripts/design_system.py 的設計系統生成與保存入口；未逐項查核 CSV、技法及授權。；局部用途與技能源文件雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "UI/UX、比例、排版、design rules",
+      "source": "https://github.com/migueljnew-droid/ui-ux-gold-standard",
+      "reviewedAt": "2026-11-21"
+    },
+    "priorRecommendationSnapshot": "適合做 UI/UX 比例、排版與設計規則的檢查清單參考。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-search",
+        "title": "搜尋適合產品的介面建議",
+        "detail": "不知道特定產品適合哪種視覺與 UX 規則。 搜尋結果或 JSON 格式的候選建議。",
+        "capabilityRefs": [
+          "search"
+        ]
+      },
+      {
+        "id": "use-system",
+        "title": "整理跨頁共用設計規則",
+        "detail": "多頁產品的配色與版面容易不一致。 設計系統建議與可選 MASTER.md 規格。",
+        "capabilityRefs": [
+          "system"
+        ]
+      },
+      {
+        "id": "use-page",
+        "title": "挑選頁面例外及互動技法",
+        "detail": "單一頁面可能需要不同規則，不能任意改全站。 頁面覆寫候選與適用技法清單。",
+        "capabilityRefs": [
+          "page"
+        ]
+      }
+    ],
+    "example": {
+      "id": "ui-ux-gold-standard-example",
+      "title": "規劃資料分析 Dashboard 的共用設計規則",
+      "input": "合成分析資料、使用者任務、表格與圖表需求及既有前端技術。",
+      "process": "搜尋適合產品的介面建議 → 整理跨頁共用設計規則 → 挑選頁面例外及互動技法 → 獨立驗收",
+      "output": "設計系統候選、頁面覆寫規格與獨立驗收清單，未產生實際介面。",
+      "destination": "自有資料分析 Dashboard 的前端設計規格與可及性及效能驗收流程。",
+      "note": "自訂規劃示例；未安裝、執行第三方工具或產生真實交付成果。",
+      "useCaseRefs": [
+        "use-search",
+        "use-system",
+        "use-page"
+      ],
+      "steps": [
+        {
+          "id": "search",
+          "title": "搜尋適合產品的介面建議",
+          "capabilityRefs": [
+            "search"
+          ]
+        },
+        {
+          "id": "system",
+          "title": "整理跨頁共用設計規則",
+          "capabilityRefs": [
+            "system"
+          ]
+        },
+        {
+          "id": "page",
+          "title": "挑選頁面例外及互動技法",
+          "capabilityRefs": [
+            "page"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "實際環境、素材授權、權限及成果測試需另行核准與驗收。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先準備合成分析資料、使用者任務、表格與圖表需求及既有前端技術。",
+      "依需求選擇搜尋適合產品的介面建議、整理跨頁共用設計規則、挑選頁面例外及互動技法；先閱讀來源及限制。",
+      "確認授權、環境、資料與權限，再另行執行並核對實際輸出。"
+    ],
+    "limits": [
+      "作者列出的技法數量不是逐項成功驗證證據。",
+      "不能取代效能、可存取性與需求驗收。",
+      "搜尋結果與設計建議不是使用者研究或實測結果。",
+      "未逐項核查 CSV 規則、動效技法、瀏覽器相容性與依賴。",
+      "README 標示 MIT，但未找到獨立 LICENSE；再散布前須核對授權及參考網站素材。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在設計網站或 Dashboard 前，依產品類型查找配色、字型、版面及互動建議，再決定哪些設計規則值得實作。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "README 標示 MIT；此次樹狀清單未見獨立 LICENSE，授權範圍待核對"
+      },
+      {
+        "label": "版本",
+        "value": "d864143780094c5761e9acce5f61399f8b7d81e2"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "搜尋適合產品的介面建議",
+        "detail": "不知道特定產品適合哪種視覺與 UX 規則。；輸入：產品查詢詞、domain 或 stack、結果數；輸出：搜尋結果或 JSON 格式的候選建議",
+        "source": "scripts/search.py"
+      },
+      {
+        "title": "整理跨頁共用設計規則",
+        "detail": "多頁產品的配色與版面容易不一致。；輸入：產品查詢詞、專案名稱、輸出格式；輸出：設計系統建議與可選 MASTER.md 規格",
+        "source": "scripts/design_system.py"
+      },
+      {
+        "title": "挑選頁面例外及互動技法",
+        "detail": "單一頁面可能需要不同規則，不能任意改全站。；輸入：頁面名稱、需求、主設計系統及技術限制；輸出：頁面覆寫候選與適用技法清單",
+        "source": "scripts/design_system.py"
+      }
+    ],
+    "architecture": {
+      "summary": "搜尋適合產品的介面建議 → 整理跨頁共用設計規則 → 挑選頁面例外及互動技法 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "搜尋適合產品的介面建議",
+          "detail": "產品查詢詞、domain 或 stack、結果數 → 搜尋結果或 JSON 格式的候選建議",
+          "files": [
+            "scripts/search.py",
+            "SKILL.md"
+          ]
+        },
+        {
+          "title": "整理跨頁共用設計規則",
+          "detail": "產品查詢詞、專案名稱、輸出格式 → 設計系統建議與可選 MASTER.md 規格",
+          "files": [
+            "scripts/design_system.py",
+            "scripts/search.py"
+          ]
+        },
+        {
+          "title": "挑選頁面例外及互動技法",
+          "detail": "頁面名稱、需求、主設計系統及技術限制 → 頁面覆寫候選與適用技法清單",
+          "files": [
+            "scripts/design_system.py",
+            "SKILL.md",
+            "scripts/search.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "搜尋適合產品的介面建議",
+        "rule": "排名不是實際使用者研究；未逐項查核 CSV 與 BM25 核心。",
+        "source": "scripts/search.py"
+      },
+      {
+        "name": "整理跨頁共用設計規則",
+        "rule": "持久化會寫入檔案；須確認目標路徑與現有設計規則，不直接覆蓋。",
+        "source": "scripts/design_system.py"
+      },
+      {
+        "name": "挑選頁面例外及互動技法",
+        "rule": "頁面覆寫與動效仍須測試鍵盤、減少動態效果、效能與瀏覽器相容性；授權未完整確認。",
+        "source": "scripts/design_system.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "README、SKILL.md、scripts/search.py CLI 及 scripts/design_system.py 的設計系統生成與保存入口；未逐項查核 CSV、技法及授權。",
+        "files": [
+          "README.md",
+          "SKILL.md",
+          "scripts/search.py",
+          "scripts/design_system.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成分析資料、使用者任務、表格與圖表需求及既有前端技術。 依需求選擇搜尋適合產品的介面建議、整理跨頁共用設計規則、挑選頁面例外及互動技法；先閱讀來源及限制。 確認授權、環境、資料與權限，再另行執行並核對實際輸出。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入與費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有資料分析 Dashboard 的前端設計規格與可及性及效能驗收流程。；另驗證實際行為及限制。",
+        "file": "scripts/search.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "search",
+        "name": "搜尋適合產品的介面建議",
+        "problem": "不知道特定產品適合哪種視覺與 UX 規則。",
+        "input": "產品查詢詞、domain 或 stack、結果數",
+        "output": "搜尋結果或 JSON 格式的候選建議",
+        "source": "scripts/search.py",
+        "sourceFiles": [
+          "scripts/search.py",
+          "SKILL.md"
+        ],
+        "symbols": [
+          "format_output",
+          "--domain",
+          "--stack",
+          "--json"
+        ],
+        "gate": "排名不是實際使用者研究；未逐項查核 CSV 與 BM25 核心。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "system",
+        "name": "整理跨頁共用設計規則",
+        "problem": "多頁產品的配色與版面容易不一致。",
+        "input": "產品查詢詞、專案名稱、輸出格式",
+        "output": "設計系統建議與可選 MASTER.md 規格",
+        "source": "scripts/design_system.py",
+        "sourceFiles": [
+          "scripts/design_system.py",
+          "scripts/search.py"
+        ],
+        "symbols": [
+          "DesignSystemGenerator",
+          "generate_design_system",
+          "persist_design_system"
+        ],
+        "gate": "持久化會寫入檔案；須確認目標路徑與現有設計規則，不直接覆蓋。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "page",
+        "name": "挑選頁面例外及互動技法",
+        "problem": "單一頁面可能需要不同規則，不能任意改全站。",
+        "input": "頁面名稱、需求、主設計系統及技術限制",
+        "output": "頁面覆寫候選與適用技法清單",
+        "source": "scripts/design_system.py",
+        "sourceFiles": [
+          "scripts/design_system.py",
+          "SKILL.md",
+          "scripts/search.py"
+        ],
+        "symbols": [
+          "format_page_override_md",
+          "_generate_intelligent_overrides",
+          "--page",
+          "Modern CSS Engine（文件）"
+        ],
+        "gate": "頁面覆寫與動效仍須測試鍵盤、減少動態效果、效能與瀏覽器相容性；授權未完整確認。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃資料分析 Dashboard 的共用設計規則（設計示例）",
+      "problem": "合成分析資料、使用者任務、表格與圖表需求及既有前端技術。",
+      "steps": [
+        {
+          "capability": "search",
+          "action": "搜尋適合產品的介面建議"
+        },
+        {
+          "capability": "system",
+          "action": "整理跨頁共用設計規則"
+        },
+        {
+          "capability": "page",
+          "action": "挑選頁面例外及互動技法"
+        }
+      ],
+      "gate": "未執行；實際環境與成果須獨立驗收。",
+      "readerExampleRef": "ui-ux-gold-standard-example"
+    },
+    "rebuild": {
+      "verdict": "可依局部文件與程式契約規劃驗收，非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成分析資料、使用者任務、表格與圖表需求及既有前端技術。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "搜尋適合產品的介面建議 → 整理跨頁共用設計規則 → 挑選頁面例外及互動技法 → 獨立驗收",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有資料分析 Dashboard 的前端設計規格與可及性及效能驗收流程。",
+          "deliverable": "實際成果與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "搜尋結果與設計建議不是使用者研究或實測結果。",
+        "未逐項核查 CSV 規則、動效技法、瀏覽器相容性與依賴。",
+        "README 標示 MIT，但未找到獨立 LICENSE；再散布前須核對授權及參考網站素材。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與授權邊界",
+        "severity": "高",
+        "issue": "搜尋結果與設計建議不是使用者研究或實測結果。 未逐項核查 CSV 規則、動效技法、瀏覽器相容性與依賴。 README 標示 MIT，但未找到獨立 LICENSE；再散布前須核對授權及參考網站素材。",
+        "control": "固定版本、最小權限、素材權利確認與獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "README、SKILL.md、scripts/search.py CLI 及 scripts/design_system.py 的設計系統生成與保存入口；未逐項查核 CSV、技法及授權。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "未安裝、執行第三方工具或產生真實交付成果。"
+      }
+    ]
   }
 }

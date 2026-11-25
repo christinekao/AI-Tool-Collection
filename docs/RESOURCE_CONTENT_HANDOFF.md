@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 18（2026-11-25）
+
+- main 基線 `b76891adace9b98bb6b61f39511028680780b9a5`；PR #82 四項 CI 通過合併 `a26b4c9e1e701391dfc7b384019bdcbc3690fec9`，Catalog Sync 通過；Pages 查核時排隊。87/286 已合併（81 完成對應、6 deferred）。
+- [Batch 18 逐筆報告](RESOURCE_DUAL_LAYER_BATCH18_20261125.md)：gzh-design-skill、baoyu-skill、ui-ux-gold-standard。3 筆 mapped 候選、9 個用途、9 個局部能力與 3 個 design-only 案例。
+- 公眾號檢查退出碼不代表警告清零；Baoyu 僅查三個技能，發布需獨立核准；UI/UX Gold Standard 未找到獨立 LICENSE。第三方未實測。
+- 合併前 87/286；四項 CI 通過合併後 90/286（84 完成對應、6 deferred），196 尚未改寫。既有缺口保留。
+- 下一批按 manifest 選未改寫的設計、開發與教材 Resource；排程停用，直接執行。重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 17（2026-11-25）
 
 - main `ed98df3348ede824af787283b89ff1b21b874ffa`；PR #81 初次 Intake Gate 失敗已修正，四項 CI 通過並合併 `eafd220ded07e943df7ec1ba39bd32c1ed9ad31e`，Catalog Sync 確認。84/286 已合併（78 完成對應、6 deferred）。
