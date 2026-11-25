@@ -547,3 +547,36 @@ test('Dual-layer batch 11: document, assistant and desktop interface contracts',
  assert.match(load('openclaw-openclaw').readerGuide.limits.join(' '),/不是安全邊界|視為安全邊界/);
  assert.match(load('r0x0r-pywebview').repoGuide.capabilities.find(c=>c.id==='python-bridge').gate,/最小能力/);
 });
+
+test('Dual-layer batch 12: frontend component and styling contracts',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ for(const [id,title] of [["ant-design-ant-design","規劃申請審核管理頁"],["chakra-ui-chakra-ui","規劃投遞管理系統的設計規則"],["saadeghi-daisyui","規劃知識庫主題與側邊導覽"],["lucide-icons","規劃知識庫導覽及工具列圖示"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide','repoGuide','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.intakeReview.layerReview.status,'mapped',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of uc.capabilityRefs){
+    const unit=forward.capabilities.find(u=>u.id===ref);
+    assert.ok(unit&&unit.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(unit.sourceUrls?.length&&unit.sourceUrls.every(url=>url.includes(d.source.upstreamCommit)),id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);
+  assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+  assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  assert.ok(d.repoGuide.rebuild.gaps.length);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ assert.match(load('ant-design-ant-design').repoGuide.capabilities.find(c=>c.id==='responsive').gate,/不等於資料權限/);
+ assert.match(load('chakra-ui-chakra-ui').repoGuide.capabilities.find(c=>c.id==='button-state').gate,/後端冪等/);
+ assert.match(load('saadeghi-daisyui').repoGuide.capabilities.find(c=>c.id==='drawer-style').gate,/不是完整 dialog/);
+ assert.match(load('lucide-icons').readerGuide.limits.join(' '),/Feather.*MIT/);
+});

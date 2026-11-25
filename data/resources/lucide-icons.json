@@ -4,8 +4,8 @@
   "canonicalName": "Lucide",
   "category": "Frontend Design & Icon Libraries",
   "resourceType": "Open-source SVG icon toolkit and framework packages",
-  "purpose": "提供一致、輕量、可調整線條粗細與尺寸顏色的 SVG 圖示，供 Web App、介面元件、設計系統與產品使用。",
-  "recommendation": "適合建立 React、Vue 等前端設計系統；採按需引入以控制 bundle，對品牌 Logo 請使用獨立且合法的商標資產。",
+  "purpose": "使用風格一致的 SVG 圖示表示搜尋、編輯、下載等常見介面操作，並依網站設計調整尺寸及線條。",
+  "recommendation": "適合產品導覽、工具列與資料操作圖示；若需要品牌標誌或複雜插畫，另找有授權的素材。",
   "url": "https://lucide.dev/",
   "repo": "lucide-icons/lucide",
   "license": "ISC License (Lucide project/icons); third-party Feathers ancestry notices as applicable",
@@ -52,16 +52,23 @@
       "https://lucide.dev/guide",
       "https://github.com/lucide-icons/lucide"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-25",
     "type": "Official Lucide website, license and upstream repository",
     "readmeUrl": "https://github.com/lucide-icons/lucide/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "README、完整 LICENSE、lucide-react 的 createLucideIcon 與 Icon.ts 的 icon data、context、size/stroke、SVG 與 a11y props；未查 shared builder 內部與其他框架。",
+    "upstreamCommit": "164efbaf879fb29f55d88047efd49fc7725f53ab",
+    "referenceUrls": [
+      "https://github.com/lucide-icons/lucide/blob/164efbaf879fb29f55d88047efd49fc7725f53ab/README.md",
+      "https://github.com/lucide-icons/lucide/blob/164efbaf879fb29f55d88047efd49fc7725f53ab/LICENSE",
+      "https://github.com/lucide-icons/lucide/blob/164efbaf879fb29f55d88047efd49fc7725f53ab/packages/lucide-react/src/createLucideIcon.ts",
+      "https://github.com/lucide-icons/lucide/blob/164efbaf879fb29f55d88047efd49fc7725f53ab/packages/lucide-react/src/Icon.ts"
+    ]
   },
   "schemaVersion": 2,
   "entityType": "resource",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
   "classification": {
@@ -92,16 +99,18 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -110,8 +119,8 @@
     "classificationReason": "原有 Domain design 保持不變，只補強來源與未敘明的使用方式或風險。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -124,7 +133,350 @@
     "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "README、完整 LICENSE、lucide-react 的 createLucideIcon 與 Icon.ts 的 icon data、context、size/stroke、SVG 與 a11y props；未查 shared builder 內部與其他框架。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、完整 LICENSE、lucide-react 的 createLucideIcon 與 Icon.ts 的 icon data、context、size/stroke、SVG 與 a11y props；未查 shared builder 內部與其他框架。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供一致、輕量、可調整線條粗細與尺寸顏色的 SVG 圖示，供 Web App、介面元件、設計系統與產品使用。",
+      "source": "https://lucide.dev/",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "navigation",
+        "title": "建立一致的側邊導覽圖示",
+        "detail": "選擇語意明確的圖示，搭配文字標籤。",
+        "capabilityRefs": [
+          "component",
+          "visual-style"
+        ]
+      },
+      {
+        "id": "toolbar",
+        "title": "統一資料工具列的圖示",
+        "detail": "設定一致尺寸及線條，區分正常與停用狀態。",
+        "capabilityRefs": [
+          "visual-style",
+          "component"
+        ]
+      },
+      {
+        "id": "a11y",
+        "title": "改善純圖示按鈕的可辨識性",
+        "detail": "保留按鈕名稱、鍵盤操作及視覺提示，不只依賴圖形。",
+        "capabilityRefs": [
+          "accessible-icon"
+        ]
+      }
+    ],
+    "example": {
+      "id": "knowledge-icon-system",
+      "title": "規劃知識庫導覽及工具列圖示",
+      "input": "搜尋、收藏、返回與編輯等操作及自有設計規格。",
+      "process": "選語意圖示 → 統一尺寸及線條 → 定義標籤 → 驗收可讀性",
+      "output": "圖示對照表與操作驗收規格（未渲染）。",
+      "destination": "自有知識庫導覽、卡片及工具列。",
+      "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+      "useCaseRefs": [
+        "navigation",
+        "toolbar",
+        "a11y"
+      ],
+      "steps": [
+        {
+          "id": "icons",
+          "title": "選擇固定版本的圖示元件",
+          "capabilityRefs": [
+            "component"
+          ]
+        },
+        {
+          "id": "style",
+          "title": "定義共用視覺設定",
+          "capabilityRefs": [
+            "visual-style"
+          ]
+        },
+        {
+          "id": "a11y",
+          "title": "設計可辨識名稱",
+          "capabilityRefs": [
+            "accessible-icon"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "核對實際畫面及授權",
+          "capabilityRefs": [],
+          "externalDependency": "實際 SVG、打包大小、鍵盤及螢幕閱讀器需另外驗證。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先列出需要表達的操作與文字名稱。",
+      "核對圖示名稱及版本，選擇相容框架套件並記錄授權。",
+      "確認尺寸、線條、對比與按鈕可辨識名稱，再驗收實際介面。"
+    ],
+    "limits": [
+      "不同版本的 Icon 名稱或圖形可能調整，圖示語意與可及性須驗證",
+      "Repo 授權為 ISC；LICENSE 明確列出 Feather 衍生圖示適用 MIT，需保留適用聲明。",
+      "未安裝或渲染；shared builder、其他框架、tree-shaking 及實際無障礙未查。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "使用風格一致的 SVG 圖示表示搜尋、編輯、下載等常見介面操作，並依網站設計調整尺寸及線條。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "SVG / React / TypeScript"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "ISC；LICENSE 列出的 Feather 衍生圖示適用 MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "164efbaf879fb29f55d88047efd49fc7725f53ab"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "將圖示資料轉為 React 元件",
+        "detail": "需要可重用 SVG 圖示；輸入：LucideIconData 或 legacy iconName/iconNode/aliases；輸出：forwardRef 的 React Icon 元件",
+        "source": "packages/lucide-react/src/createLucideIcon.ts"
+      },
+      {
+        "title": "統一尺寸、顏色與線條",
+        "detail": "不同介面需要一致圖示風格；輸入：color、size、width、height、strokeWidth、context；輸出：buildLucideIconForReact 產出的 SVG attributes",
+        "source": "packages/lucide-react/src/Icon.ts"
+      },
+      {
+        "title": "規劃具可讀語意的圖示",
+        "detail": "單靠圖形可能無法理解操作；輸入：children、a11y props、其餘 SVG attributes；輸出：hasA11yProp 檢查結果交給 builder",
+        "source": "packages/lucide-react/src/Icon.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "選語意圖示 → 統一尺寸及線條 → 定義標籤 → 驗收可讀性",
+      "nodes": [
+        {
+          "title": "將圖示資料轉為 React 元件",
+          "detail": "LucideIconData 或 legacy iconName/iconNode/aliases → forwardRef 的 React Icon 元件",
+          "files": [
+            "packages/lucide-react/src/createLucideIcon.ts"
+          ]
+        },
+        {
+          "title": "統一尺寸、顏色與線條",
+          "detail": "color、size、width、height、strokeWidth、context → buildLucideIconForReact 產出的 SVG attributes",
+          "files": [
+            "packages/lucide-react/src/Icon.ts"
+          ]
+        },
+        {
+          "title": "規劃具可讀語意的圖示",
+          "detail": "children、a11y props、其餘 SVG attributes → hasA11yProp 檢查結果交給 builder",
+          "files": [
+            "packages/lucide-react/src/Icon.ts"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "元件",
+        "rule": "createLucideIcon 支援 icon data 及 legacy 參數，使用 forwardRef 建立 Icon。",
+        "source": "packages/lucide-react/src/createLucideIcon.ts"
+      },
+      {
+        "name": "外觀",
+        "rule": "Icon 依個別 props 或 context 決定尺寸、strokeWidth 與 color，再交給 builder。",
+        "source": "packages/lucide-react/src/Icon.ts"
+      },
+      {
+        "name": "可讀性",
+        "rule": "Icon 將 children 或 hasA11yProp 結果傳給 builder；不宣稱整個按鈕可及。",
+        "source": "packages/lucide-react/src/Icon.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "packages/lucide-react/src/createLucideIcon.ts",
+          "packages/lucide-react/src/Icon.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先列出需要表達的操作與文字名稱。 核對圖示名稱及版本，選擇相容框架套件並記錄授權。 確認尺寸、線條、對比與按鈕可辨識名稱，再驗收實際介面。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫導覽、卡片及工具列。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "packages/lucide-react/src/createLucideIcon.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "component",
+        "name": "將圖示資料轉為 React 元件",
+        "problem": "需要可重用 SVG 圖示",
+        "input": "LucideIconData 或 legacy iconName/iconNode/aliases",
+        "output": "forwardRef 的 React Icon 元件",
+        "source": "packages/lucide-react/src/createLucideIcon.ts",
+        "sourceFiles": [
+          "packages/lucide-react/src/createLucideIcon.ts"
+        ],
+        "symbols": [
+          "createLucideIcon",
+          "toLucideIconData"
+        ],
+        "gate": "此為固定版本 React 契約；圖示名稱及其他框架需另查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "visual-style",
+        "name": "統一尺寸、顏色與線條",
+        "problem": "不同介面需要一致圖示風格",
+        "input": "color、size、width、height、strokeWidth、context",
+        "output": "buildLucideIconForReact 產出的 SVG attributes",
+        "source": "packages/lucide-react/src/Icon.ts",
+        "sourceFiles": [
+          "packages/lucide-react/src/Icon.ts"
+        ],
+        "symbols": [
+          "Icon",
+          "useLucideContext",
+          "buildLucideIconForReact"
+        ],
+        "gate": "預設 context size 24、strokeWidth 2；實際對比與不同尺寸需檢查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "accessible-icon",
+        "name": "規劃具可讀語意的圖示",
+        "problem": "單靠圖形可能無法理解操作",
+        "input": "children、a11y props、其餘 SVG attributes",
+        "output": "hasA11yProp 檢查結果交給 builder",
+        "source": "packages/lucide-react/src/Icon.ts",
+        "sourceFiles": [
+          "packages/lucide-react/src/Icon.ts"
+        ],
+        "symbols": [
+          "Icon",
+          "hasA11yProp"
+        ],
+        "gate": "只確認 a11y props 傳遞，未查 builder 行為；圖示按鈕仍須由應用提供可辨識名稱。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃知識庫導覽及工具列圖示（設計示例）",
+      "problem": "搜尋、收藏、返回與編輯等操作及自有設計規格。",
+      "steps": [
+        {
+          "capability": "component",
+          "action": "選擇固定版本的圖示元件"
+        },
+        {
+          "capability": "visual-style",
+          "action": "定義共用視覺設定"
+        },
+        {
+          "capability": "accessible-icon",
+          "action": "設計可辨識名稱"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "knowledge-icon-system"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "搜尋、收藏、返回與編輯等操作及自有設計規格。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "選語意圖示 → 統一尺寸及線條 → 定義標籤 → 驗收可讀性",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有知識庫導覽、卡片及工具列。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Repo 授權為 ISC；LICENSE 明確列出 Feather 衍生圖示適用 MIT，需保留適用聲明。",
+        "未安裝或渲染；shared builder、其他框架、tree-shaking 及實際無障礙未查。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "Repo 授權為 ISC；LICENSE 明確列出 Feather 衍生圖示適用 MIT，需保留適用聲明。 未安裝或渲染；shared builder、其他框架、tree-shaking 及實際無障礙未查。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、完整 LICENSE、lucide-react 的 createLucideIcon 與 Icon.ts 的 icon data、context、size/stroke、SVG 與 a11y props；未查 shared builder 內部與其他框架。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、未建置或測試第三方元件。"
+      }
+    ]
   }
 }

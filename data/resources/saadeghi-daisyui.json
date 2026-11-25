@@ -6,14 +6,14 @@
   "canonicalName": "saadeghi/daisyui",
   "category": "08 UI & Design Engineering",
   "resourceType": "Component System",
-  "purpose": "daisyUI 是建立在 Tailwind CSS 上的 UI 元件與主題樣式庫，提供常見介面的 CSS 類別，協助快速形成一致視覺。",
-  "recommendation": "適合已有 Tailwind 專案、希望少寫元件樣式的網站；若要高度客製的互動行為仍需自行實作與測試。",
+  "purpose": "在 Tailwind CSS 專案中使用現成的按鈕、卡片、表單等樣式及主題，快速建立一致的網頁外觀。",
+  "recommendation": "適合已有 Tailwind CSS 且希望減少重複樣式的人；若需要複雜元件互動，仍須自行實作行為或採用相容的互動元件庫。",
   "url": "https://github.com/saadeghi/daisyui",
   "repo": "saadeghi/daisyui",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "tailwind",
     "components",
@@ -72,24 +72,33 @@
     "url": "https://github.com/saadeghi/daisyui",
     "readmeUrl": "https://github.com/saadeghi/daisyui/blob/master/README.md",
     "type": "Official project GitHub README / repository metadata",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "README、LICENSE、packages/daisyui/index.js 的 plugin.withOptions、shouldIncludeItem、drawer variants，pluginOptionsHandler.js 的 theme、root、prefix、include/exclude；候選 button.css 路徑 404，未查實際個別元件樣式。",
+    "upstreamCommit": "43bc54e9ea25a0f26d85392c169dae6b9839d6e5",
+    "referenceUrls": [
+      "https://github.com/saadeghi/daisyui/blob/43bc54e9ea25a0f26d85392c169dae6b9839d6e5/README.md",
+      "https://github.com/saadeghi/daisyui/blob/43bc54e9ea25a0f26d85392c169dae6b9839d6e5/LICENSE",
+      "https://github.com/saadeghi/daisyui/blob/43bc54e9ea25a0f26d85392c169dae6b9839d6e5/packages/daisyui/index.js",
+      "https://github.com/saadeghi/daisyui/blob/43bc54e9ea25a0f26d85392c169dae6b9839d6e5/packages/daisyui/functions/pluginOptionsHandler.js"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "repo"
+      "repo",
+      "source.upstreamCommit",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "repo"
       ],
-      "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+      "reason": "沿用 Canonical ID，補人類用途與限定範圍程式契約。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -98,8 +107,8 @@
     "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain design，未以工具名稱建立額外分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+      "status": "applied",
+      "reason": "已核對限定範圍核心實作契約，保留完整元件與整合驗證缺口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -112,7 +121,351 @@
     "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+      "evidence": "README、LICENSE、packages/daisyui/index.js 的 plugin.withOptions、shouldIncludeItem、drawer variants，pluginOptionsHandler.js 的 theme、root、prefix、include/exclude；候選 button.css 路徑 404，未查實際個別元件樣式。；未執行。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "README、LICENSE、packages/daisyui/index.js 的 plugin.withOptions、shouldIncludeItem、drawer variants，pluginOptionsHandler.js 的 theme、root、prefix、include/exclude；候選 button.css 路徑 404，未查實際個別元件樣式。；局部能力與前台用途雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "daisyUI 是建立在 Tailwind CSS 上的 UI 元件與主題樣式庫，提供常見介面的 CSS 類別，協助快速形成一致視覺。",
+      "source": "https://github.com/saadeghi/daisyui",
+      "reviewedAt": "2026-11-19"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "quick-layout",
+        "title": "快速建立一致的後台外觀",
+        "detail": "使用有限的元件樣式，避免每一頁重複定義。",
+        "capabilityRefs": [
+          "plugin-scope"
+        ]
+      },
+      {
+        "id": "theme-switch",
+        "title": "規劃深淺色主題",
+        "detail": "設定預設及系統深色偏好，再檢查文字與背景對比。",
+        "capabilityRefs": [
+          "themes"
+        ]
+      },
+      {
+        "id": "drawer-ui",
+        "title": "規劃手機側邊導覽",
+        "detail": "利用樣式狀態建立可收合導覽，另外實作鍵盤及焦點控制。",
+        "capabilityRefs": [
+          "drawer-style",
+          "plugin-scope"
+        ]
+      }
+    ],
+    "example": {
+      "id": "knowledge-theme",
+      "title": "規劃知識庫主題與側邊導覽",
+      "input": "自有 HTML 版面、合成卡片及深淺色與手機導覽需求。",
+      "process": "限制樣式 → 定義主題 → 設計導覽狀態 → 驗收互動與對比",
+      "output": "主題與導覽的 CSS 規格及測試清單（未建置）。",
+      "destination": "自有知識庫前端；應用程式狀態與鍵盤操作需另外實作。",
+      "note": "自訂設計示例；未安裝、建置或驗證第三方元件。",
+      "useCaseRefs": [
+        "quick-layout",
+        "theme-switch",
+        "drawer-ui"
+      ],
+      "steps": [
+        {
+          "id": "scope",
+          "title": "選擇需要的樣式範圍",
+          "capabilityRefs": [
+            "plugin-scope"
+          ]
+        },
+        {
+          "id": "theme",
+          "title": "規劃深淺色與對比",
+          "capabilityRefs": [
+            "themes"
+          ]
+        },
+        {
+          "id": "nav",
+          "title": "定義抽屜導覽外觀",
+          "capabilityRefs": [
+            "drawer-style"
+          ]
+        },
+        {
+          "id": "test",
+          "title": "驗證操作與實際 CSS",
+          "capabilityRefs": [],
+          "externalDependency": "Tailwind build、焦點、鍵盤、捲動、使用者偏好儲存及裝置測試須另外完成。"
+        }
+      ],
+      "verificationStatus": "design-only"
+    },
+    "start": [
+      "先確認 Tailwind 與 daisyUI 版本，列出所需元件樣式。",
+      "核對 include/exclude、主題與 prefix，再設計最小頁面。",
+      "在核准環境建置並檢查 CSS、互動、對比與手機版。"
+    ],
+    "limits": [
+      "daisyUI 提供的是樣式與元件外觀，複雜行為與資料處理仍需應用自行實作。",
+      "不同大版本的 Tailwind 與 daisyUI 設定可能不相容。",
+      "未安裝或建置；button.css 候選路徑 404，本輪只確認 plugin 入口與主題／樣式選擇契約。",
+      "CSS 樣式不代表資料處理、完整互動或無障礙已實作。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在 Tailwind CSS 專案中使用現成的按鈕、卡片、表單等樣式及主題，快速建立一致的網頁外觀。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本限定範圍已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "核心契約設計參考，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "技術",
+        "value": "Tailwind CSS / JavaScript plugin"
+      },
+      {
+        "label": "Repo 授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本錨點",
+        "value": "43bc54e9ea25a0f26d85392c169dae6b9839d6e5"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "控制載入的樣式範圍",
+        "detail": "專案只需要部分元件及工具樣式；輸入：include、exclude、prefix；輸出：經篩選的 base/components/utilities CSS",
+        "source": "packages/daisyui/index.js"
+      },
+      {
+        "title": "統一頁面的色彩主題",
+        "detail": "不同頁面或深淺色模式需共用設定；輸入：themes、root、prefix、--default、--prefersdark；輸出：addBase 主題選擇器與 prefers-color-scheme 規則",
+        "source": "packages/daisyui/functions/pluginOptionsHandler.js"
+      },
+      {
+        "title": "提供抽屜式導覽的樣式狀態",
+        "detail": "側邊導覽需有開關外觀；輸入：prefix、drawer-toggle checked 狀態；輸出：is-drawer-open/close variants",
+        "source": "packages/daisyui/index.js"
+      }
+    ],
+    "architecture": {
+      "summary": "限制樣式 → 定義主題 → 設計導覽狀態 → 驗收互動與對比",
+      "nodes": [
+        {
+          "title": "控制載入的樣式範圍",
+          "detail": "include、exclude、prefix → 經篩選的 base/components/utilities CSS",
+          "files": [
+            "packages/daisyui/index.js",
+            "packages/daisyui/functions/pluginOptionsHandler.js"
+          ]
+        },
+        {
+          "title": "統一頁面的色彩主題",
+          "detail": "themes、root、prefix、--default、--prefersdark → addBase 主題選擇器與 prefers-color-scheme 規則",
+          "files": [
+            "packages/daisyui/functions/pluginOptionsHandler.js"
+          ]
+        },
+        {
+          "title": "提供抽屜式導覽的樣式狀態",
+          "detail": "prefix、drawer-toggle checked 狀態 → is-drawer-open/close variants",
+          "files": [
+            "packages/daisyui/index.js"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "樣式篩選",
+        "rule": "shouldIncludeItem 依 include/exclude 決定各項 CSS 是否註冊。",
+        "source": "packages/daisyui/index.js"
+      },
+      {
+        "name": "主題",
+        "rule": "pluginOptionsHandler 設定 light --default 與 dark --prefersdark 預設，依 root 產生選擇器。",
+        "source": "packages/daisyui/functions/pluginOptionsHandler.js"
+      },
+      {
+        "name": "抽屜",
+        "rule": "index.js 依 prefix 與 drawer-toggle 的 checked 狀態註冊 variants。",
+        "source": "packages/daisyui/index.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "依原始碼與核心契約閱讀，不需安裝。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "packages/daisyui/index.js",
+          "packages/daisyui/functions/pluginOptionsHandler.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "最小測試",
+        "description": "先確認 Tailwind 與 daisyUI 版本，列出所需元件樣式。 核對 include/exclude、主題與 prefix，再設計最小頁面。 在核准環境建置並檢查 CSS、互動、對比與手機版。",
+        "files": [
+          "README.md"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、外部依賴、資料與費用須另取得核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用測試",
+        "detail": "自有知識庫前端；應用程式狀態與鍵盤操作需另外實作。；固定輸入輸出，另驗證失敗及可及性。",
+        "file": "packages/daisyui/index.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "plugin-scope",
+        "name": "控制載入的樣式範圍",
+        "problem": "專案只需要部分元件及工具樣式",
+        "input": "include、exclude、prefix",
+        "output": "經篩選的 base/components/utilities CSS",
+        "source": "packages/daisyui/index.js",
+        "sourceFiles": [
+          "packages/daisyui/index.js",
+          "packages/daisyui/functions/pluginOptionsHandler.js"
+        ],
+        "symbols": [
+          "pluginOptionsHandler",
+          "shouldIncludeItem"
+        ],
+        "gate": "include 與 exclude 同時存在時須符合 include 且未在 exclude；需驗證實際建置 CSS。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "themes",
+        "name": "統一頁面的色彩主題",
+        "problem": "不同頁面或深淺色模式需共用設定",
+        "input": "themes、root、prefix、--default、--prefersdark",
+        "output": "addBase 主題選擇器與 prefers-color-scheme 規則",
+        "source": "packages/daisyui/functions/pluginOptionsHandler.js",
+        "sourceFiles": [
+          "packages/daisyui/functions/pluginOptionsHandler.js"
+        ],
+        "symbols": [
+          "pluginOptionsHandler",
+          "applyTheme"
+        ],
+        "gate": "只核對 CSS 規則建立；對比、實際切換、儲存偏好需另驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "drawer-style",
+        "name": "提供抽屜式導覽的樣式狀態",
+        "problem": "側邊導覽需有開關外觀",
+        "input": "prefix、drawer-toggle checked 狀態",
+        "output": "is-drawer-open/close variants",
+        "source": "packages/daisyui/index.js",
+        "sourceFiles": [
+          "packages/daisyui/index.js"
+        ],
+        "symbols": [
+          "addVariant",
+          "shouldIncludeItem"
+        ],
+        "gate": "CSS checked 狀態不是完整 dialog 行為；鍵盤、焦點、遮罩與捲動須另測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃知識庫主題與側邊導覽（設計示例）",
+      "problem": "自有 HTML 版面、合成卡片及深淺色與手機導覽需求。",
+      "steps": [
+        {
+          "capability": "plugin-scope",
+          "action": "選擇需要的樣式範圍"
+        },
+        {
+          "capability": "themes",
+          "action": "規劃深淺色與對比"
+        },
+        {
+          "capability": "drawer-style",
+          "action": "定義抽屜導覽外觀"
+        }
+      ],
+      "gate": "未執行；實際環境、畫面與行為需獨立驗收。",
+      "readerExampleRef": "knowledge-theme"
+    },
+    "rebuild": {
+      "verdict": "可依限定範圍契約設計最小驗證，不代表重建整套工具。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有 HTML 版面、合成卡片及深淺色與手機導覽需求。",
+          "deliverable": "合成測試資料及預期畫面"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "限制樣式 → 定義主題 → 設計導覽狀態 → 驗收互動與對比",
+          "deliverable": "行為與畫面驗收紀錄"
+        },
+        {
+          "title": "交付驗收",
+          "detail": "自有知識庫前端；應用程式狀態與鍵盤操作需另外實作。",
+          "deliverable": "實際交付與限制紀錄"
+        }
+      ],
+      "gaps": [
+        "未安裝或建置；button.css 候選路徑 404，本輪只確認 plugin 入口與主題／樣式選擇契約。",
+        "CSS 樣式不代表資料處理、完整互動或無障礙已實作。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "介面與依賴邊界",
+        "severity": "高",
+        "issue": "未安裝或建置；button.css 候選路徑 404，本輪只確認 plugin 入口與主題／樣式選擇契約。 CSS 樣式不代表資料處理、完整互動或無障礙已實作。",
+        "control": "固定版本、確認授權、獨立驗收鍵盤、對比、資料與實際互動。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "固定版本來源",
+        "state": "已查閱",
+        "evidence": "README、LICENSE、packages/daisyui/index.js 的 plugin.withOptions、shouldIncludeItem、drawer variants，pluginOptionsHandler.js 的 theme、root、prefix、include/exclude；候選 button.css 路徑 404，未查實際個別元件樣式。"
+      },
+      {
+        "item": "第三方 Build／Runtime／Accessibility",
+        "state": "未驗證",
+        "evidence": "未安裝、未建置或測試第三方元件。"
+      }
+    ]
   }
 }

@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 12（2026-11-25）
+
+- 基線 main `2ede368d48b856502bae27d8e8e1bb2153633266`；PR #76 四項 CI 通過並合併 `59fba076573da201669140a5d7cc784156713b78`，Catalog Sync 確認。66/286 已合併（60 完成對應、6 deferred）。
+- [Batch 12 逐筆報告](RESOURCE_DUAL_LAYER_BATCH12_20261125.md)：ant-design-ant-design、chakra-ui-chakra-ui、saadeghi-daisyui、lucide-icons，四筆 mapped 候選、12 個用途、12 個局部能力、4 個 design-only 案例。
+- 前端欄位、loading、CSS drawer 與圖示不構成業務權限、後端驗收或完整無障礙。Lucide ISC／Feather MIT 授權分別記錄；daisyUI 個別樣式候選路徑 404，保留缺口。第三方未實測。
+- 合併前 66/286；驗收合併後 70/286（64 完成對應、6 deferred），216 尚未改寫。既有來源缺口保留。
+- 下一批優先 shadcn/ui、Motion、Magic UI 等前端資源。排程停用，直接執行；重新確認 PR、CI、main、Catalog Sync/Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 11（2026-11-25）
 
 - 基線 main `a3b1294eaf6b93466eb1886cd0192e42885577a8`；PR #75 四項 CI 通過並合併 `9249e041d7b75490d9ca91810686be3dec3d1d86`，Catalog Sync 確認。63/286 已合併（57 完成對應、6 deferred）。
