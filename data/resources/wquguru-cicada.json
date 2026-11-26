@@ -6,8 +6,8 @@
   "canonicalName": "Cicada",
   "category": "AI Meeting & Live Translation",
   "resourceType": "Open-source desktop live captioning, interpreting and meeting-notes application",
-  "purpose": "直接擷取系統音訊，在本機辨識會議或直播語音，提供即時雙語字幕、同聲傳譯、逐字稿、會議摘要與匯出。",
-  "recommendation": "適合英文技術會議、跨國溝通與學習直播的即時字幕和會後複盤；公司機密會議使用前須確認錄音及第三方雲端資料傳輸政策。",
+  "purpose": "支援會議逐字稿與翻譯；本次查核本機逐字稿搜尋、Markdown 格式及指定資料夾匯出。",
+  "recommendation": "適合經同意的個人會議知識整理；錄音、翻譯服務、敏感資料與同步資料夾須先核對權限。",
   "url": "https://github.com/wquguru/cicada",
   "repo": "wquguru/cicada",
   "license": "Apache-2.0 (project); BlackHole GPL; bundled WeSpeaker voiceprint model CC BY 4.0",
@@ -47,7 +47,7 @@
   "platformNotes": "README 目前列 Apple Silicon macOS 26+；GitHub repo description 另宣稱 Windows/Linux/Android，但 README 路線圖將 Windows/Android 列為未來計畫，故不將跨平台支援視為已驗證。",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "macos",
     "live-captions",
@@ -69,10 +69,17 @@
       "https://github.com/wquguru/cicada/blob/main/README.en.md",
       "https://github.com/wquguru/cicada/blob/main/LICENSE"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README and GitHub metadata",
     "readmeUrl": "https://github.com/wquguru/cicada/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "be9785d562dfcfd22e3d1753a991400c5781f330",
+    "referenceUrls": [
+      "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/README.md",
+      "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/LICENSE",
+      "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/Sources/Cicada/TranscriptSearch.swift",
+      "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/Sources/Cicada/FolderExport.swift"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -103,40 +110,393 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原有 Tags，不新增或調整分類架構。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "原有 Domain content 保持不變，只補強來源與未敘明的使用方式或風險。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
-      "decision": "candidate",
-      "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
+      "decision": "reused",
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "Apache-2.0；語音模型、參與者同意及外部服務另查；音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同；採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。；檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。；以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "直接擷取系統音訊，在本機辨識會議或直播語音，提供即時雙語字幕、同聲傳譯、逐字稿、會議摘要與匯出。",
+      "source": "https://github.com/wquguru/cicada",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合英文技術會議、跨國溝通與學習直播的即時字幕和會後複盤；公司機密會議使用前須確認錄音及第三方雲端資料傳輸政策。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-search",
+        "title": "依逐字稿及已知名稱變體搜尋",
+        "detail": "語音辨識可能出現名稱誤讀，影響回查。 輸出：依原順序命中的逐字稿行識別。",
+        "capabilityRefs": [
+          "search"
+        ]
+      },
+      {
+        "id": "use-format",
+        "title": "將會議整理成可回查的 Markdown",
+        "detail": "知識庫需要穩定的檔名及會議 Metadata。 輸出：安全檔名候選、YAML frontmatter 與 Markdown 文件。",
+        "capabilityRefs": [
+          "format"
+        ]
+      },
+      {
+        "id": "use-write",
+        "title": "驗證指定資料夾的匯出與更新",
+        "detail": "匯出失敗或名稱衝突可能讓紀錄不完整。 輸出：寫入、未變更或停止的處理結果。",
+        "capabilityRefs": [
+          "write"
+        ]
+      }
+    ],
+    "example": {
+      "id": "wquguru-cicada-example",
+      "title": "規劃已授權會議紀錄的搜尋與私人知識庫匯出",
+      "input": "合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+      "process": "依逐字稿及已知名稱變體搜尋 → 將會議整理成可回查的 Markdown → 驗證指定資料夾的匯出與更新 → 獨立驗收實際成果",
+      "output": "搜尋命中、Markdown Metadata 及資料夾匯出驗收規格。",
+      "destination": "私人知識庫的會議紀錄區，經本人與資料擁有者確認。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-search",
+        "use-format",
+        "use-write"
+      ],
+      "steps": [
+        {
+          "id": "search",
+          "title": "依逐字稿及已知名稱變體搜尋",
+          "capabilityRefs": [
+            "search"
+          ]
+        },
+        {
+          "id": "format",
+          "title": "將會議整理成可回查的 Markdown",
+          "capabilityRefs": [
+            "format"
+          ]
+        },
+        {
+          "id": "write",
+          "title": "驗證指定資料夾的匯出與更新",
+          "capabilityRefs": [
+            "write"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同",
+      "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+      "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+      "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "支援會議逐字稿與翻譯；本次查核本機逐字稿搜尋、Markdown 格式及指定資料夾匯出。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；語音模型、參與者同意及外部服務另查"
+      },
+      {
+        "label": "版本",
+        "value": "be9785d562dfcfd22e3d1753a991400c5781f330"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依逐字稿及已知名稱變體搜尋",
+        "detail": "語音辨識可能出現名稱誤讀，影響回查。 輸入：搜尋詞、逐字稿與筆記中的名稱變體；輸出：依原順序命中的逐字稿行識別",
+        "source": "Sources/Cicada/TranscriptSearch.swift"
+      },
+      {
+        "title": "將會議整理成可回查的 Markdown",
+        "detail": "知識庫需要穩定的檔名及會議 Metadata。 輸入：合成 Session、日期、語言及筆記狀態；輸出：安全檔名候選、YAML frontmatter 與 Markdown 文件",
+        "source": "Sources/Cicada/FolderExport.swift"
+      },
+      {
+        "title": "驗證指定資料夾的匯出與更新",
+        "detail": "匯出失敗或名稱衝突可能讓紀錄不完整。 輸入：合成匯出工作、指定資料夾及既有檔名索引；輸出：寫入、未變更或停止的處理結果",
+        "source": "Sources/Cicada/FolderExport.swift"
+      }
+    ],
+    "architecture": {
+      "summary": "依逐字稿及已知名稱變體搜尋 → 將會議整理成可回查的 Markdown → 驗證指定資料夾的匯出與更新 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "依逐字稿及已知名稱變體搜尋",
+          "detail": "搜尋詞、逐字稿與筆記中的名稱變體 → 依原順序命中的逐字稿行識別",
+          "files": [
+            "Sources/Cicada/TranscriptSearch.swift",
+            "README.md"
+          ]
+        },
+        {
+          "title": "將會議整理成可回查的 Markdown",
+          "detail": "合成 Session、日期、語言及筆記狀態 → 安全檔名候選、YAML frontmatter 與 Markdown 文件",
+          "files": [
+            "Sources/Cicada/FolderExport.swift",
+            "README.md"
+          ]
+        },
+        {
+          "title": "驗證指定資料夾的匯出與更新",
+          "detail": "合成匯出工作、指定資料夾及既有檔名索引 → 寫入、未變更或停止的處理結果",
+          "files": [
+            "Sources/Cicada/FolderExport.swift",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "依逐字稿及已知名稱變體搜尋",
+        "rule": "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+        "source": "Sources/Cicada/TranscriptSearch.swift"
+      },
+      {
+        "name": "將會議整理成可回查的 Markdown",
+        "rule": "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+        "source": "Sources/Cicada/FolderExport.swift"
+      },
+      {
+        "name": "驗證指定資料夾的匯出與更新",
+        "rule": "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+        "source": "Sources/Cicada/FolderExport.swift"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "Sources/Cicada/TranscriptSearch.swift",
+          "Sources/Cicada/FolderExport.swift"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成雙語逐字稿、測試會議識別及核准的本機資料夾。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "Sources/Cicada/TranscriptSearch.swift"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "私人知識庫的會議紀錄區，經本人與資料擁有者確認。",
+        "file": "Sources/Cicada/TranscriptSearch.swift"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "search",
+        "name": "依逐字稿及已知名稱變體搜尋",
+        "problem": "語音辨識可能出現名稱誤讀，影響回查。",
+        "input": "搜尋詞、逐字稿與筆記中的名稱變體",
+        "output": "依原順序命中的逐字稿行識別",
+        "source": "Sources/Cicada/TranscriptSearch.swift",
+        "sourceFiles": [
+          "Sources/Cicada/TranscriptSearch.swift",
+          "README.md"
+        ],
+        "symbols": [
+          "TranscriptSearch.terms",
+          "TranscriptSearch.matches"
+        ],
+        "gate": "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "format",
+        "name": "將會議整理成可回查的 Markdown",
+        "problem": "知識庫需要穩定的檔名及會議 Metadata。",
+        "input": "合成 Session、日期、語言及筆記狀態",
+        "output": "安全檔名候選、YAML frontmatter 與 Markdown 文件",
+        "source": "Sources/Cicada/FolderExport.swift",
+        "sourceFiles": [
+          "Sources/Cicada/FolderExport.swift",
+          "README.md"
+        ],
+        "symbols": [
+          "FolderExportFormat.safeName",
+          "FolderExportFormat.frontmatter",
+          "FolderExportFormat.document"
+        ],
+        "gate": "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "write",
+        "name": "驗證指定資料夾的匯出與更新",
+        "problem": "匯出失敗或名稱衝突可能讓紀錄不完整。",
+        "input": "合成匯出工作、指定資料夾及既有檔名索引",
+        "output": "寫入、未變更或停止的處理結果",
+        "source": "Sources/Cicada/FolderExport.swift",
+        "sourceFiles": [
+          "Sources/Cicada/FolderExport.swift",
+          "README.md"
+        ],
+        "symbols": [
+          "write",
+          "ensure",
+          "probe"
+        ],
+        "gate": "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃已授權會議紀錄的搜尋與私人知識庫匯出（設計示例）",
+      "problem": "合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+      "steps": [
+        {
+          "capability": "search",
+          "action": "依逐字稿及已知名稱變體搜尋"
+        },
+        {
+          "capability": "format",
+          "action": "將會議整理成可回查的 Markdown"
+        },
+        {
+          "capability": "write",
+          "action": "驗證指定資料夾的匯出與更新"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "wquguru-cicada-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "依逐字稿及已知名稱變體搜尋 → 將會議整理成可回查的 Markdown → 驗證指定資料夾的匯出與更新 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "私人知識庫的會議紀錄區，經本人與資料擁有者確認。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同",
+        "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+        "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+        "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同；採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。；檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。；以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
