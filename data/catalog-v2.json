@@ -485,14 +485,14 @@
       "canonicalName": "acheAIsuiyimen/ache-life-to-comic-skill",
       "category": "04 Knowledge & Memory",
       "resourceType": "Persistent Content Skill",
-      "purpose": "把持續提供的日常文字、照片、會議筆記與長文整理成可續寫的月份漫畫手帳，保存原始內容並產出分頁、封面及可分享的閱讀成果。",
-      "recommendation": "適合用圖像敘事保存生活或知識素材；先以非敏感內容試跑，確認月冊資料、來源保存與輸出方式，再決定是否納入個人知識庫。",
+      "purpose": "將生活紀錄組織為漫畫手帳；本次聚焦有界上下文、圖片素材契約及原始照片驗收。",
+      "recommendation": "適合研究非商業生活漫畫手帳的素材與原文保真驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill",
       "repo": "acheAIsuiyimen/ache-life-to-comic-skill",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-26",
       "tags": [
         "knowledge",
         "provenance",
@@ -552,49 +552,414 @@
       "source": {
         "url": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill",
         "readmeUrl": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/main/README.md",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-26",
         "type": "Official upstream README / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "bcc35f487a838cf8d86e6a2624553a1c1a59029e",
+        "referenceUrls": [
+          "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/README.md",
+          "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/LICENSE",
+          "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/scripts/context-pack.mjs",
+          "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/scripts/asset-contract.mjs",
+          "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/scripts/validate-entry.mjs"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。；日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。；未執行第三方程式、未取用憑證。",
+        "riskNotes": "PolyForm Noncommercial 1.0.0；素材授權另查；排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。；日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。；字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。；只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。；雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+          "evidence": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "把持續提供的日常文字、照片、會議筆記與長文整理成可續寫的月份漫畫手帳，保存原始內容並產出分頁、封面及可分享的閱讀成果。",
+          "source": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合用圖像敘事保存生活或知識素材；先以非敏感內容試跑，確認月冊資料、來源保存與輸出方式，再決定是否納入個人知識庫。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-context",
+            "title": "限制手帳上下文讀取",
+            "detail": "歷史紀錄不宜全部送入模型。 輸出：有界上下文與省略紀錄。",
+            "capabilityRefs": [
+              "context"
+            ]
+          },
+          {
+            "id": "use-assets",
+            "title": "定義圖片角色及尺寸契約",
+            "detail": "封面、原始照片及裝飾圖片的用途不同。 輸出：圖片尺寸與素材格式檢查規格。",
+            "capabilityRefs": [
+              "assets"
+            ]
+          },
+          {
+            "id": "use-preserve",
+            "title": "比對原始照片與保留版本",
+            "detail": "手帳編排不應默默替換原始照片。 輸出：數量、雜湊與封面差異檢查。",
+            "capabilityRefs": [
+              "preserve"
+            ]
+          }
+        ],
+        "example": {
+          "id": "acheaisuiyimen-ache-life-to-comic-skill-example",
+          "title": "規劃非商業生活漫畫手帳的素材與原文保真驗收",
+          "input": "自有合成紀錄、測試照片與封面資料",
+          "process": "限制手帳上下文讀取 → 定義圖片角色及尺寸契約 → 比對原始照片與保留版本 → 獨立驗收實際成果",
+          "output": "上下文包、素材檢查及照片一致性紀錄",
+          "destination": "非商業個人手帳測試區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-context",
+            "use-assets",
+            "use-preserve"
+          ],
+          "steps": [
+            {
+              "id": "context",
+              "title": "限制手帳上下文讀取",
+              "capabilityRefs": [
+                "context"
+              ]
+            },
+            {
+              "id": "assets",
+              "title": "定義圖片角色及尺寸契約",
+              "capabilityRefs": [
+                "assets"
+              ]
+            },
+            {
+              "id": "preserve",
+              "title": "比對原始照片與保留版本",
+              "capabilityRefs": [
+                "preserve"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有合成紀錄、測試照片與封面資料。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。",
+          "日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。",
+          "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+          "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+          "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "將生活紀錄組織為漫畫手帳；本次聚焦有界上下文、圖片素材契約及原始照片驗收。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "PolyForm Noncommercial 1.0.0；素材授權另查"
+          },
+          {
+            "label": "版本",
+            "value": "bcc35f487a838cf8d86e6a2624553a1c1a59029e"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "限制手帳上下文讀取",
+            "detail": "歷史紀錄不宜全部送入模型。 輸入：合成摘要、置頂及待辦紀錄；輸出：有界上下文與省略紀錄",
+            "source": "scripts/context-pack.mjs"
+          },
+          {
+            "title": "定義圖片角色及尺寸契約",
+            "detail": "封面、原始照片及裝飾圖片的用途不同。 輸入：合成圖片檔及素材角色；輸出：圖片尺寸與素材格式檢查規格",
+            "source": "scripts/asset-contract.mjs"
+          },
+          {
+            "title": "比對原始照片與保留版本",
+            "detail": "手帳編排不應默默替換原始照片。 輸入：自有測試照片及封面檔案；輸出：數量、雜湊與封面差異檢查",
+            "source": "scripts/validate-entry.mjs"
+          }
+        ],
+        "architecture": {
+          "summary": "限制手帳上下文讀取 → 定義圖片角色及尺寸契約 → 比對原始照片與保留版本 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "限制手帳上下文讀取",
+              "detail": "合成摘要、置頂及待辦紀錄 → 有界上下文與省略紀錄",
+              "files": [
+                "scripts/context-pack.mjs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "定義圖片角色及尺寸契約",
+              "detail": "合成圖片檔及素材角色 → 圖片尺寸與素材格式檢查規格",
+              "files": [
+                "scripts/asset-contract.mjs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "比對原始照片與保留版本",
+              "detail": "自有測試照片及封面檔案 → 數量、雜湊與封面差異檢查",
+              "files": [
+                "scripts/validate-entry.mjs",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "限制手帳上下文讀取",
+            "rule": "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+            "source": "scripts/context-pack.mjs"
+          },
+          {
+            "name": "定義圖片角色及尺寸契約",
+            "rule": "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+            "source": "scripts/asset-contract.mjs"
+          },
+          {
+            "name": "比對原始照片與保留版本",
+            "rule": "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+            "source": "scripts/validate-entry.mjs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "scripts/context-pack.mjs",
+              "scripts/asset-contract.mjs",
+              "scripts/validate-entry.mjs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有合成紀錄、測試照片與封面資料。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "scripts/context-pack.mjs"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "非商業個人手帳測試區，經資料權利及人工覆核後使用。",
+            "file": "scripts/context-pack.mjs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "context",
+            "name": "限制手帳上下文讀取",
+            "problem": "歷史紀錄不宜全部送入模型。",
+            "input": "合成摘要、置頂及待辦紀錄",
+            "output": "有界上下文與省略紀錄",
+            "source": "scripts/context-pack.mjs",
+            "sourceFiles": [
+              "scripts/context-pack.mjs",
+              "README.md"
+            ],
+            "symbols": [
+              "buildContextPack",
+              "appendBounded",
+              "DEFAULT_LIMITS"
+            ],
+            "gate": "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "assets",
+            "name": "定義圖片角色及尺寸契約",
+            "problem": "封面、原始照片及裝飾圖片的用途不同。",
+            "input": "合成圖片檔及素材角色",
+            "output": "圖片尺寸與素材格式檢查規格",
+            "source": "scripts/asset-contract.mjs",
+            "sourceFiles": [
+              "scripts/asset-contract.mjs",
+              "README.md"
+            ],
+            "symbols": [
+              "pngSize",
+              "jpegSize",
+              "svgSize",
+              "ASSET_CONTRACT_VERSION"
+            ],
+            "gate": "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "preserve",
+            "name": "比對原始照片與保留版本",
+            "problem": "手帳編排不應默默替換原始照片。",
+            "input": "自有測試照片及封面檔案",
+            "output": "數量、雜湊與封面差異檢查",
+            "source": "scripts/validate-entry.mjs",
+            "sourceFiles": [
+              "scripts/validate-entry.mjs",
+              "README.md"
+            ],
+            "symbols": [
+              "validateEntry",
+              "hashFile"
+            ],
+            "gate": "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃非商業生活漫畫手帳的素材與原文保真驗收（設計示例）",
+          "problem": "自有合成紀錄、測試照片與封面資料",
+          "steps": [
+            {
+              "capability": "context",
+              "action": "限制手帳上下文讀取"
+            },
+            {
+              "capability": "assets",
+              "action": "定義圖片角色及尺寸契約"
+            },
+            {
+              "capability": "preserve",
+              "action": "比對原始照片與保留版本"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "acheaisuiyimen-ache-life-to-comic-skill-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有合成紀錄、測試照片與封面資料",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "限制手帳上下文讀取 → 定義圖片角色及尺寸契約 → 比對原始照片與保留版本 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "非商業個人手帳測試區，經資料權利及人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。",
+            "日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。",
+            "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+            "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+            "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。；日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。；字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。；只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。；雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -7117,14 +7482,14 @@
       "canonicalName": "alchaincy/huashu-design",
       "category": "08 UI & Design Engineering",
       "resourceType": "Design Skill",
-      "purpose": "Huashu Design 是面向 Coding Agent 的 HTML-native 設計 Skill，可依文字需求及品牌素材產出互動網站／App 原型、動畫、圖像化內容與可編輯的簡報；使用前可探索多種設計方向並檢查成品。",
-      "recommendation": "適合研究 HTML 與 UI design 的實作方向。",
+      "purpose": "以 HTML 設計原型、簡報與動效的工作方法；本次查核設計上下文、方向選擇與截圖打磨文件，不把 Skill 當成已實測應用。",
+      "recommendation": "適合研究自有前端原型的設計方向與畫面驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/alchaincyf/huashu-design",
       "repo": "alchaincyf/huashu-design",
       "notes": "Batch 14 身分查核（2026-11-21）：原 ID 將作者拼為 alchaincy；官方 GitHub 帳號為 alchaincyf，補回正確 Repo 入口但保留穩定 ID 與原標題。\n安全／使用範圍：可執行第三方 Skills，安裝前需先檢查腳本與檔案權限。",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-26",
       "tags": [
         "html",
         "ui-design",
@@ -7159,9 +7524,10 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1",
-        "contentFormat": "repository",
+        "contentFormat": "documentation",
         "formatEvidenceFields": [
-          "source.url"
+          "source.referenceUrls",
+          "resourceType"
         ]
       },
       "features": [
@@ -7179,49 +7545,240 @@
       ],
       "source": {
         "url": "https://github.com/alchaincyf/huashu-design",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "Documentation-level review; no third-party runtime/security execution",
-        "type": "上游 GitHub README（主分支 master）"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、references/design-context.md、SKILL.md、references/polish-loop.md 局部查核；未安裝、執行或實測第三方項目。",
+        "type": "上游 GitHub README（主分支 master）",
+        "upstreamCommit": "59065698ad63f87ea1532c126c87f488d4f93fd6",
+        "referenceUrls": [
+          "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/README.md",
+          "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/LICENSE",
+          "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/references/design-context.md",
+          "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/SKILL.md",
+          "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/references/polish-loop.md"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
-          "source.url"
+          "url",
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
-            "title"
+            "url"
           ],
-          "reason": "比對既有 Canonical ID、名稱與來源候選；維持原 Resource 記錄，不新增或自動合併相似項目。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原始未映射 Tags 全數保留，沒有新增或重新分類。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "維持 ID、Title、Category、Raw Tags、Primary Domain 與 Typed References；僅記錄實際來源形式及查核狀態。",
+        "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。本次資源聚焦操作或學習文件，校正 Content Format 為 documentation，留存原分類。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "只進行 README 或候選來源層級查核，不具逐檔可重建與安裝測試契約。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、references/design-context.md、SKILL.md、references/polish-loop.md 局部查核；未安裝、執行或實測第三方項目。 文件契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "沒有經驗證的版本化 I/O 證據，暫不新增正式 Capability。"
+          "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留既有 Concept Typed References，不由描述或 Tags 推論新關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "官方 Repo 聲明主程式採 MIT，但所引用的外部圖片、品牌及部分示範素材仍可能另有權利限制。；README 的展示成果不能視為在本專案環境已成功安裝、效能良好或具備正式商用素材授權。；可執行第三方 Skills，安裝前需先檢查腳本與檔案權限。；本次沒有執行第三方程式、登入服務或存取憑證。",
+        "riskNotes": "MIT；外部素材與字型另查；官方 Repo 聲明主程式採 MIT，但所引用的外部圖片、品牌及部分示範素材仍可能另有權利限制。；README 的展示成果不能視為在本專案環境已成功安裝、效能良好或具備正式商用素材授權。；沒有原始系統時明確標為 fallback；不得冒用品牌資產。；此為 Skill 規範；不保證生成品質，也不適用於需後端的正式產品。；沒有看圖能力時如實揭露；未執行畫面驗收。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅執行文件與來源識別查核；第三方 Build、Runtime、Security、License、Integration 均未實測。"
+          "evidence": "固定版本 README.md、LICENSE、references/design-context.md、SKILL.md、references/polish-loop.md 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "固定版本 README.md、LICENSE、references/design-context.md、SKILL.md、references/polish-loop.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
-      }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Huashu Design 是面向 Coding Agent 的 HTML-native 設計 Skill，可依文字需求及品牌素材產出互動網站／App 原型、動畫、圖像化內容與可編輯的簡報；使用前可探索多種設計方向並檢查成品。",
+          "source": "https://github.com/alchaincyf/huashu-design",
+          "reviewedAt": "2026-11-21"
+        },
+        "priorRecommendationSnapshot": "適合研究 HTML 與 UI design 的實作方向。",
+        "priorClassificationSnapshot": {
+          "primaryDomain": "design",
+          "secondaryDomains": [],
+          "purposeFacets": [],
+          "reviewStatus": "rule-proposed",
+          "evidenceFields": [
+            "purpose",
+            "category"
+          ],
+          "classifiedAt": "2026-11-19",
+          "rulesVersion": "v0.1",
+          "contentFormat": "repository",
+          "formatEvidenceFields": [
+            "source.url"
+          ]
+        },
+        "documentContracts": [
+          {
+            "name": "從既有設計系統提取規格",
+            "input": "自有 UI Kit、程式碼或產品截圖",
+            "output": "色彩、字型、間距及來源紀錄",
+            "source": "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/references/design-context.md",
+            "locator": "Design Context / Step 3 / Step 4",
+            "limitations": "沒有原始系統時明確標為 fallback；不得冒用品牌資產。"
+          },
+          {
+            "name": "先選方向再深入製作",
+            "input": "原型需求及參考資料",
+            "output": "三個方向初稿與選定方向",
+            "source": "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/SKILL.md",
+            "locator": "description / 兩種走法",
+            "limitations": "此為 Skill 規範；不保證生成品質，也不適用於需後端的正式產品。"
+          },
+          {
+            "name": "逐輪截圖定位主要問題",
+            "input": "實際頁面截圖及方向卡",
+            "output": "優先問題與前後比較紀錄",
+            "source": "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/references/polish-loop.md",
+            "locator": "改什么 / 看几轮 / 没有看图能力时",
+            "limitations": "沒有看圖能力時如實揭露；未執行畫面驗收。"
+          }
+        ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "use-context",
+            "title": "從既有設計系統提取規格",
+            "detail": "設計應延續可查證的品牌與元件規格。 輸出：色彩、字型、間距及來源紀錄。",
+            "evidenceRefs": [
+              "context"
+            ]
+          },
+          {
+            "id": "use-direction",
+            "title": "先選方向再深入製作",
+            "detail": "直接完成單一方向可能增加重工。 輸出：三個方向初稿與選定方向。",
+            "evidenceRefs": [
+              "direction"
+            ]
+          },
+          {
+            "id": "use-polish",
+            "title": "逐輪截圖定位主要問題",
+            "detail": "同時修改過多項目會難以確認改善原因。 輸出：優先問題與前後比較紀錄。",
+            "evidenceRefs": [
+              "polish"
+            ]
+          }
+        ],
+        "example": {
+          "id": "alchaincy-huashu-design-example",
+          "title": "規劃自有前端原型的設計方向與畫面驗收",
+          "input": "自有產品需求、設計規範及已授權參考",
+          "process": "從既有設計系統提取規格 → 先選方向再深入製作 → 逐輪截圖定位主要問題 → 獨立驗收實際成果",
+          "output": "設計依據、方向初稿與逐輪畫面驗收紀錄",
+          "destination": "自有設計收藏與產品原型工作區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-context",
+            "use-direction",
+            "use-polish"
+          ],
+          "steps": [
+            {
+              "id": "context",
+              "title": "從既有設計系統提取規格",
+              "evidenceRefs": [
+                "context"
+              ]
+            },
+            {
+              "id": "direction",
+              "title": "先選方向再深入製作",
+              "evidenceRefs": [
+                "direction"
+              ]
+            },
+            {
+              "id": "polish",
+              "title": "逐輪截圖定位主要問題",
+              "evidenceRefs": [
+                "polish"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "evidenceRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有產品需求、設計規範及已授權參考。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "官方 Repo 聲明主程式採 MIT，但所引用的外部圖片、品牌及部分示範素材仍可能另有權利限制。",
+          "README 的展示成果不能視為在本專案環境已成功安裝、效能良好或具備正式商用素材授權。",
+          "沒有原始系統時明確標為 fallback；不得冒用品牌資產。",
+          "此為 Skill 規範；不保證生成品質，也不適用於需後端的正式產品。",
+          "沒有看圖能力時如實揭露；未執行畫面驗收。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "agentEvidence": [
+        {
+          "id": "context",
+          "detail": "設計應延續可查證的品牌與元件規格。 輸入：自有 UI Kit、程式碼或產品截圖；輸出：色彩、字型、間距及來源紀錄",
+          "locator": "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/references/design-context.md — Design Context / Step 3 / Step 4",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.0",
+            "source.referenceUrls"
+          ],
+          "limitations": "沒有原始系統時明確標為 fallback；不得冒用品牌資產。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "direction",
+          "detail": "直接完成單一方向可能增加重工。 輸入：原型需求及參考資料；輸出：三個方向初稿與選定方向",
+          "locator": "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/SKILL.md — description / 兩種走法",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.1",
+            "source.referenceUrls"
+          ],
+          "limitations": "此為 Skill 規範；不保證生成品質，也不適用於需後端的正式產品。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "polish",
+          "detail": "同時修改過多項目會難以確認改善原因。 輸入：實際頁面截圖及方向卡；輸出：優先問題與前後比較紀錄",
+          "locator": "https://github.com/alchaincyf/huashu-design/blob/59065698ad63f87ea1532c126c87f488d4f93fd6/references/polish-loop.md — 改什么 / 看几轮 / 没有看图能力时",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.2",
+            "source.referenceUrls"
+          ],
+          "limitations": "沒有看圖能力時如實揭露；未執行畫面驗收。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ]
     },
     {
       "schemaVersion": 2,
@@ -17203,14 +17760,14 @@
       "canonicalName": "Ayueh0102/Ronnier-skill",
       "category": "06 Skills",
       "resourceType": "Domain Skill",
-      "purpose": "將色彩科學與色度學的系統化筆記封裝為 Claude Code／Codex 可閱讀的 Agent Skill，協助理解 CIE 色彩空間、色差計算、量測與光學色彩概念。",
-      "recommendation": "適合建立色彩科學的查詢與學習脈絡，先閱讀原始筆記再用實際色度值練習驗算；不要將生成答案取代儀器校正或專業色彩量測。",
+      "purpose": "非官方色彩科學學習筆記；本次聚焦課堂與標準說法的區分、名詞歧義及原始論文索引。",
+      "recommendation": "適合研究色彩科學學習筆記的名詞與證據核對；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/Ayueh0102/Ronnier-skill",
       "repo": "Ayueh0102/Ronnier-skill",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-26",
       "tags": [
         "color-science",
         "colorimetry",
@@ -17241,9 +17798,10 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1",
-        "contentFormat": "repository",
+        "contentFormat": "documentation",
         "formatEvidenceFields": [
-          "url"
+          "source.referenceUrls",
+          "resourceType"
         ]
       },
       "features": [
@@ -17262,50 +17820,239 @@
       "source": {
         "url": "https://github.com/Ayueh0102/Ronnier-skill",
         "readmeUrl": "https://github.com/Ayueh0102/Ronnier-skill/blob/main/README.md",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Documentation-level review; existing deeper source code review retained as previously described; no new third-party runtime/security testing",
-        "type": "Official upstream README"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、SKILL.md、references/00-terminology-traps.md、references/00-primary-sources.md 局部查核；未安裝、執行或實測第三方項目。",
+        "type": "Official upstream README",
+        "upstreamCommit": "098782f116d86fdc4ab60ca3ab3ba235a5fce5b5",
+        "referenceUrls": [
+          "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/README.md",
+          "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/SKILL.md",
+          "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/references/00-terminology-traps.md",
+          "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/references/00-primary-sources.md"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "依 Canonical ID、名稱與官方來源比對，本批只補足既有紀錄內容，不新增實體。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原始未映射 Tags，不變更分類與標籤詞彙。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留目前 Primary Domain、Category、Tags 與 Typed References，僅更新來源形式及實用內容。",
+        "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。本次資源聚焦操作或學習文件，校正 Content Format 為 documentation，留存原分類。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "目前只讀官方 README，缺少逐檔實作與可重建執行契約，不宣稱完整 Repo Guide。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "固定版本 README.md、SKILL.md、references/00-terminology-traps.md、references/00-primary-sources.md 局部查核；未安裝、執行或實測第三方項目。 文件契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "尚無足以正式組裝的版本化 I/O 契約，本批不建立 Capability。"
+          "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "現有 Concept 引用保留，不依新描述產生新 Graph 關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "筆記與 AI 解釋不是 CIE 標準原文或正式量測證書，專業用途需核對權威規範。；README 的安裝腳本、依賴及內容更新需審查；本批沒有安裝或驗算作者全部公式。；沒有執行第三方程式或觸及帳號憑證。",
+        "riskNotes": "固定版本根目錄未見授權檔；不重製課程筆記；筆記與 AI 解釋不是 CIE 標準原文或正式量測證書，專業用途需核對權威規範。；README 的安裝腳本、依賴及內容更新需審查；本批沒有安裝或驗算作者全部公式。；學生整理非官方內容；未獨立核對 CIE 標準與所有公式。；教學分類不是完整量測定義；實作需查官方標準。；原始 PDF 未隨附，本次僅閱讀整理筆記，不宣稱已查閱論文全文。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批只檢視官方文件／README；先前如有原始碼檢視另依原記錄；無本次安裝、Runtime、Integration、Security 實測。"
+          "evidence": "固定版本 README.md、SKILL.md、references/00-terminology-traps.md、references/00-primary-sources.md 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "固定版本 README.md、SKILL.md、references/00-terminology-traps.md、references/00-primary-sources.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
-      }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "將色彩科學與色度學的系統化筆記封裝為 Claude Code／Codex 可閱讀的 Agent Skill，協助理解 CIE 色彩空間、色差計算、量測與光學色彩概念。",
+          "source": "https://github.com/Ayueh0102/Ronnier-skill",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合建立色彩科學的查詢與學習脈絡，先閱讀原始筆記再用實際色度值練習驗算；不要將生成答案取代儀器校正或專業色彩量測。",
+        "priorClassificationSnapshot": {
+          "primaryDomain": "design",
+          "secondaryDomains": [],
+          "purposeFacets": [],
+          "reviewStatus": "example-proposed",
+          "evidenceFields": [
+            "purpose",
+            "category"
+          ],
+          "classifiedAt": "2026-11-19",
+          "rulesVersion": "v0.1",
+          "contentFormat": "repository",
+          "formatEvidenceFields": [
+            "url"
+          ]
+        },
+        "documentContracts": [
+          {
+            "name": "區分課堂說法與實務標準",
+            "input": "學習問題及應用情境",
+            "output": "課堂觀點與標準說法的差異清單",
+            "source": "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/SKILL.md",
+            "locator": "回答問題的原則 / 永遠分清",
+            "limitations": "學生整理非官方內容；未獨立核對 CIE 標準與所有公式。"
+          },
+          {
+            "name": "拆解中文色彩詞彙歧義",
+            "input": "模糊色彩術語與使用場景",
+            "output": "英文術語、量類型及區分問題",
+            "source": "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/references/00-terminology-traps.md",
+            "locator": "第一把刀 / 第二把刀",
+            "limitations": "教學分類不是完整量測定義；實作需查官方標準。"
+          },
+          {
+            "name": "追溯色貌模型的研究來源",
+            "input": "模型名稱及待驗證主張",
+            "output": "作者整理的論文索引與待核對清單",
+            "source": "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/references/00-primary-sources.md",
+            "locator": "Li et al. (2017) / CIECAM02",
+            "limitations": "原始 PDF 未隨附，本次僅閱讀整理筆記，不宣稱已查閱論文全文。"
+          }
+        ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "use-standard",
+            "title": "區分課堂說法與實務標準",
+            "detail": "教學簡化可能不適用研究與工程。 輸出：課堂觀點與標準說法的差異清單。",
+            "evidenceRefs": [
+              "standard"
+            ]
+          },
+          {
+            "id": "use-terms",
+            "title": "拆解中文色彩詞彙歧義",
+            "detail": "同一中文詞可能對應不同物理量與知覺量。 輸出：英文術語、量類型及區分問題。",
+            "evidenceRefs": [
+              "terms"
+            ]
+          },
+          {
+            "id": "use-literature",
+            "title": "追溯色貌模型的研究來源",
+            "detail": "二手筆記不能取代原始文獻。 輸出：作者整理的論文索引與待核對清單。",
+            "evidenceRefs": [
+              "literature"
+            ]
+          }
+        ],
+        "example": {
+          "id": "ayueh0102-ronnier-skill-example",
+          "title": "規劃色彩科學學習筆記的名詞與證據核對",
+          "input": "自編色彩學問題、量測情境及文獻索引",
+          "process": "區分課堂說法與實務標準 → 拆解中文色彩詞彙歧義 → 追溯色貌模型的研究來源 → 獨立驗收實際成果",
+          "output": "名詞對照、課堂與標準差異及待查原始文獻",
+          "destination": "私人色彩學習知識庫，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-standard",
+            "use-terms",
+            "use-literature"
+          ],
+          "steps": [
+            {
+              "id": "standard",
+              "title": "區分課堂說法與實務標準",
+              "evidenceRefs": [
+                "standard"
+              ]
+            },
+            {
+              "id": "terms",
+              "title": "拆解中文色彩詞彙歧義",
+              "evidenceRefs": [
+                "terms"
+              ]
+            },
+            {
+              "id": "literature",
+              "title": "追溯色貌模型的研究來源",
+              "evidenceRefs": [
+                "literature"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "evidenceRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自編色彩學問題、量測情境及文獻索引。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "筆記與 AI 解釋不是 CIE 標準原文或正式量測證書，專業用途需核對權威規範。",
+          "README 的安裝腳本、依賴及內容更新需審查；本批沒有安裝或驗算作者全部公式。",
+          "學生整理非官方內容；未獨立核對 CIE 標準與所有公式。",
+          "教學分類不是完整量測定義；實作需查官方標準。",
+          "原始 PDF 未隨附，本次僅閱讀整理筆記，不宣稱已查閱論文全文。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "agentEvidence": [
+        {
+          "id": "standard",
+          "detail": "教學簡化可能不適用研究與工程。 輸入：學習問題及應用情境；輸出：課堂觀點與標準說法的差異清單",
+          "locator": "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/SKILL.md — 回答問題的原則 / 永遠分清",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.0",
+            "source.referenceUrls"
+          ],
+          "limitations": "學生整理非官方內容；未獨立核對 CIE 標準與所有公式。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "terms",
+          "detail": "同一中文詞可能對應不同物理量與知覺量。 輸入：模糊色彩術語與使用場景；輸出：英文術語、量類型及區分問題",
+          "locator": "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/references/00-terminology-traps.md — 第一把刀 / 第二把刀",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.1",
+            "source.referenceUrls"
+          ],
+          "limitations": "教學分類不是完整量測定義；實作需查官方標準。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "literature",
+          "detail": "二手筆記不能取代原始文獻。 輸入：模型名稱及待驗證主張；輸出：作者整理的論文索引與待核對清單",
+          "locator": "https://github.com/Ayueh0102/Ronnier-skill/blob/098782f116d86fdc4ab60ca3ab3ba235a5fce5b5/references/00-primary-sources.md — Li et al. (2017) / CIECAM02",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.2",
+            "source.referenceUrls"
+          ],
+          "limitations": "原始 PDF 未隨附，本次僅閱讀整理筆記，不宣稱已查閱論文全文。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ]
     },
     {
       "schemaVersion": 2,
@@ -20362,14 +21109,14 @@
       "canonicalName": "blogger-distiller",
       "category": "09 Content & Artifact Generation",
       "resourceType": "Research Skill",
-      "purpose": "Blog 拆解／內容分析",
-      "recommendation": "適合拆解 Blog 結構並整理可再利用的內容洞察。",
+      "purpose": "內容研究工具的資料品質分級、評論身分欄位處理及完整性檢查；本次限自有合成資料。",
+      "recommendation": "適合研究內容研究資料的隱私與品質驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/otter1101/blogger-distiller",
-      "repo": "",
+      "repo": "otter1101/blogger-distiller",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-26",
       "tags": [
         "research",
         "blogs",
@@ -20421,48 +21168,412 @@
       ],
       "source": {
         "url": "https://github.com/otter1101/blogger-distiller",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "Documentation-level source review; no third-party runtime or security testing",
-        "type": "Upstream GitHub README"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、scripts/utils/privacy.py、scripts/utils/quality.py、scripts/verify.py 局部查核；未安裝、執行或實測第三方項目。",
+        "type": "Upstream GitHub README",
+        "upstreamCommit": "1d787e721b4518e145dd829e29f1a5af175ed294",
+        "referenceUrls": [
+          "https://github.com/otter1101/blogger-distiller/blob/1d787e721b4518e145dd829e29f1a5af175ed294/README.md",
+          "https://github.com/otter1101/blogger-distiller/blob/1d787e721b4518e145dd829e29f1a5af175ed294/LICENSE",
+          "https://github.com/otter1101/blogger-distiller/blob/1d787e721b4518e145dd829e29f1a5af175ed294/scripts/utils/privacy.py",
+          "https://github.com/otter1101/blogger-distiller/blob/1d787e721b4518e145dd829e29f1a5af175ed294/scripts/utils/quality.py",
+          "https://github.com/otter1101/blogger-distiller/blob/1d787e721b4518e145dd829e29f1a5af175ed294/scripts/verify.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
-          "source.url"
+          "url",
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
-            "title"
+            "url"
           ],
-          "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留既有未匹配的原始 Tags；沒有新增、刪除或重新分類。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。補齊原 URL 對應的已核對 Repo，保留原值快照。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、scripts/utils/privacy.py、scripts/utils/quality.py、scripts/verify.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "尚無可驗證的版本化 I/O 契約，不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留既有 Concept 引用，不推測其他 Graph 邊。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "對創作者思路的歸納是推論，不等於本人認可。；不可繞過登入限制或重製未獲授權的內容。；未執行第三方程式、讀取機密或傳送憑證。",
+        "riskNotes": "MIT；社群內容及個資另有權利；對創作者思路的歸納是推論，不等於本人認可。；不可繞過登入限制或重製未獲授權的內容。；評論正文仍可能含個資，不能視為匿名化保證；僅用合成資料。；資料欄位齊全不證明真實性；不擷取受限內容。；字數門檻不等於內容品質；未驗證平台取得權利或實際分析。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+          "evidence": "固定版本 README.md、LICENSE、scripts/utils/privacy.py、scripts/utils/quality.py、scripts/verify.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、scripts/utils/privacy.py、scripts/utils/quality.py、scripts/verify.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Blog 拆解／內容分析",
+          "source": "https://github.com/otter1101/blogger-distiller",
+          "reviewedAt": "2026-11-21"
+        },
+        "priorRecommendationSnapshot": "適合拆解 Blog 結構並整理可再利用的內容洞察。",
+        "priorRepoSnapshot": ""
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-privacy",
+            "title": "移除評論中的指定身分欄位",
+            "detail": "研究資料可能含直接識別欄位。 輸出：刪除指定欄位與替代說話者識別。",
+            "capabilityRefs": [
+              "privacy"
+            ]
+          },
+          {
+            "id": "use-quality",
+            "title": "依欄位完整性區分資料品質",
+            "detail": "缺漏或受限資料不應當成完整樣本。 輸出：complete／partial／failed 與缺漏清單。",
+            "capabilityRefs": [
+              "quality"
+            ]
+          },
+          {
+            "id": "use-verify",
+            "title": "設定正文完整性的阻斷門檻",
+            "detail": "低完整度樣本會影響研究結論。 輸出：通過或失敗及完整率摘要。",
+            "capabilityRefs": [
+              "verify"
+            ]
+          }
+        ],
+        "example": {
+          "id": "blogger-distiller-example",
+          "title": "規劃內容研究資料的隱私與品質驗收",
+          "input": "自行撰寫合成貼文、評論與缺漏欄位",
+          "process": "移除評論中的指定身分欄位 → 依欄位完整性區分資料品質 → 設定正文完整性的阻斷門檻 → 獨立驗收實際成果",
+          "output": "欄位遮蔽、完整性分級及阻斷紀錄",
+          "destination": "私人內容研究測試區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-privacy",
+            "use-quality",
+            "use-verify"
+          ],
+          "steps": [
+            {
+              "id": "privacy",
+              "title": "移除評論中的指定身分欄位",
+              "capabilityRefs": [
+                "privacy"
+              ]
+            },
+            {
+              "id": "quality",
+              "title": "依欄位完整性區分資料品質",
+              "capabilityRefs": [
+                "quality"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "設定正文完整性的阻斷門檻",
+              "capabilityRefs": [
+                "verify"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自行撰寫合成貼文、評論與缺漏欄位。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "對創作者思路的歸納是推論，不等於本人認可。",
+          "不可繞過登入限制或重製未獲授權的內容。",
+          "評論正文仍可能含個資，不能視為匿名化保證；僅用合成資料。",
+          "資料欄位齊全不證明真實性；不擷取受限內容。",
+          "字數門檻不等於內容品質；未驗證平台取得權利或實際分析。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "內容研究工具的資料品質分級、評論身分欄位處理及完整性檢查；本次限自有合成資料。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；社群內容及個資另有權利"
+          },
+          {
+            "label": "版本",
+            "value": "1d787e721b4518e145dd829e29f1a5af175ed294"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "移除評論中的指定身分欄位",
+            "detail": "研究資料可能含直接識別欄位。 輸入：合成評論及巢狀回覆；輸出：刪除指定欄位與替代說話者識別",
+            "source": "scripts/utils/privacy.py"
+          },
+          {
+            "title": "依欄位完整性區分資料品質",
+            "detail": "缺漏或受限資料不應當成完整樣本。 輸入：合成貼文內容與欄位；輸出：complete／partial／failed 與缺漏清單",
+            "source": "scripts/utils/quality.py"
+          },
+          {
+            "title": "設定正文完整性的阻斷門檻",
+            "detail": "低完整度樣本會影響研究結論。 輸入：合成內容集合與完整率門檻；輸出：通過或失敗及完整率摘要",
+            "source": "scripts/verify.py"
+          }
+        ],
+        "architecture": {
+          "summary": "移除評論中的指定身分欄位 → 依欄位完整性區分資料品質 → 設定正文完整性的阻斷門檻 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "移除評論中的指定身分欄位",
+              "detail": "合成評論及巢狀回覆 → 刪除指定欄位與替代說話者識別",
+              "files": [
+                "scripts/utils/privacy.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "依欄位完整性區分資料品質",
+              "detail": "合成貼文內容與欄位 → complete／partial／failed 與缺漏清單",
+              "files": [
+                "scripts/utils/quality.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "設定正文完整性的阻斷門檻",
+              "detail": "合成內容集合與完整率門檻 → 通過或失敗及完整率摘要",
+              "files": [
+                "scripts/verify.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "移除評論中的指定身分欄位",
+            "rule": "評論正文仍可能含個資，不能視為匿名化保證；僅用合成資料。",
+            "source": "scripts/utils/privacy.py"
+          },
+          {
+            "name": "依欄位完整性區分資料品質",
+            "rule": "資料欄位齊全不證明真實性；不擷取受限內容。",
+            "source": "scripts/utils/quality.py"
+          },
+          {
+            "name": "設定正文完整性的阻斷門檻",
+            "rule": "字數門檻不等於內容品質；未驗證平台取得權利或實際分析。",
+            "source": "scripts/verify.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、scripts/utils/privacy.py、scripts/utils/quality.py、scripts/verify.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "scripts/utils/privacy.py",
+              "scripts/utils/quality.py",
+              "scripts/verify.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自行撰寫合成貼文、評論與缺漏欄位。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "scripts/utils/privacy.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "私人內容研究測試區，經資料權利及人工覆核後使用。",
+            "file": "scripts/utils/privacy.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "privacy",
+            "name": "移除評論中的指定身分欄位",
+            "problem": "研究資料可能含直接識別欄位。",
+            "input": "合成評論及巢狀回覆",
+            "output": "刪除指定欄位與替代說話者識別",
+            "source": "scripts/utils/privacy.py",
+            "sourceFiles": [
+              "scripts/utils/privacy.py",
+              "README.md"
+            ],
+            "symbols": [
+              "anonymize_comments",
+              "_IDENTITY_FIELDS"
+            ],
+            "gate": "評論正文仍可能含個資，不能視為匿名化保證；僅用合成資料。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "quality",
+            "name": "依欄位完整性區分資料品質",
+            "problem": "缺漏或受限資料不應當成完整樣本。",
+            "input": "合成貼文內容與欄位",
+            "output": "complete／partial／failed 與缺漏清單",
+            "source": "scripts/utils/quality.py",
+            "sourceFiles": [
+              "scripts/utils/quality.py",
+              "README.md"
+            ],
+            "symbols": [
+              "check_note_quality",
+              "merge_note_supplement"
+            ],
+            "gate": "資料欄位齊全不證明真實性；不擷取受限內容。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "verify",
+            "name": "設定正文完整性的阻斷門檻",
+            "problem": "低完整度樣本會影響研究結論。",
+            "input": "合成內容集合與完整率門檻",
+            "output": "通過或失敗及完整率摘要",
+            "source": "scripts/verify.py",
+            "sourceFiles": [
+              "scripts/verify.py",
+              "README.md"
+            ],
+            "symbols": [
+              "check_content_completeness",
+              "check_note_count"
+            ],
+            "gate": "字數門檻不等於內容品質；未驗證平台取得權利或實際分析。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃內容研究資料的隱私與品質驗收（設計示例）",
+          "problem": "自行撰寫合成貼文、評論與缺漏欄位",
+          "steps": [
+            {
+              "capability": "privacy",
+              "action": "移除評論中的指定身分欄位"
+            },
+            {
+              "capability": "quality",
+              "action": "依欄位完整性區分資料品質"
+            },
+            {
+              "capability": "verify",
+              "action": "設定正文完整性的阻斷門檻"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "blogger-distiller-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自行撰寫合成貼文、評論與缺漏欄位",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "移除評論中的指定身分欄位 → 依欄位完整性區分資料品質 → 設定正文完整性的阻斷門檻 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "私人內容研究測試區，經資料權利及人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "對創作者思路的歸納是推論，不等於本人認可。",
+            "不可繞過登入限制或重製未獲授權的內容。",
+            "評論正文仍可能含個資，不能視為匿名化保證；僅用合成資料。",
+            "資料欄位齊全不證明真實性；不擷取受限內容。",
+            "字數門檻不等於內容品質；未驗證平台取得權利或實際分析。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "對創作者思路的歸納是推論，不等於本人認可。；不可繞過登入限制或重製未獲授權的內容。；評論正文仍可能含個資，不能視為匿名化保證；僅用合成資料。；資料欄位齊全不證明真實性；不擷取受限內容。；字數門檻不等於內容品質；未驗證平台取得權利或實際分析。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、scripts/utils/privacy.py、scripts/utils/quality.py、scripts/verify.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -20473,14 +21584,14 @@
       "canonicalName": "bobyu89/codex-ppt-style-expanded",
       "category": "09 Content & Artifact Generation",
       "resourceType": "Artifact Skill",
-      "purpose": "SlideWeave 是面向 Codex 的簡報製作 Skill，從受眾與內容敘事開始，選擇風格範例後產出原生文字可編輯的 PowerPoint，並支援流程圖、研究與教學呈現。",
-      "recommendation": "適合將研究、提案或技術交接材料轉成有證據的可編輯簡報；先確定受眾、主張、素材與風格，再驗收文字是否可編輯、流程圖是否正確及 PPTX 實際顯示。",
+      "purpose": "SlideWeave 簡報製作工具的離線風格檢索、版面座標驗證與原生可編輯物件組裝。",
+      "recommendation": "適合研究可編輯技術簡報的風格與版面驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/bobyu89/codex-ppt-style-expanded",
       "repo": "bobyu89/codex-ppt-style-expanded",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-26",
       "tags": [
         "codex",
         "presentations",
@@ -20531,49 +21642,409 @@
       "source": {
         "url": "https://github.com/bobyu89/codex-ppt-style-expanded",
         "readmeUrl": "https://github.com/bobyu89/codex-ppt-style-expanded/blob/main/README.md",
-        "reviewedAt": "2026-11-20",
-        "reviewScope": "Documentation-level review; existing deeper source code review retained as previously described; no new third-party runtime/security testing",
-        "type": "Official upstream README"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。",
+        "type": "Official upstream README",
+        "upstreamCommit": "8d759f5287e631623d6a9c86b2fee218a28804af",
+        "referenceUrls": [
+          "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/README.md",
+          "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/LICENSE",
+          "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/skills/codex-ppt-style-expanded/scripts/search_styles.py",
+          "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "依 Canonical ID、名稱與官方來源比對，本批只補足既有紀錄內容，不新增實體。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原始未映射 Tags，不變更分類與標籤詞彙。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留目前 Primary Domain、Category、Tags 與 Typed References，僅更新來源形式及實用內容。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "目前只讀官方 README，缺少逐檔實作與可重建執行契約，不宣稱完整 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "尚無足以正式組裝的版本化 I/O 契約，本批不建立 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "現有 Concept 引用保留，不依新描述產生新 Graph 關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。；使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。；沒有執行第三方程式或觸及帳號憑證。",
+        "riskNotes": "MIT；第三方範例與素材另查；圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。；使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。；關鍵字匹配非語意最佳化；第三方模板授權須另查。；座標合法不代表沒有文字溢位或重疊；須實際渲染。；僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "本批只檢視官方文件／README；先前如有原始碼檢視另依原記錄；無本次安裝、Runtime、Integration、Security 實測。"
+          "evidence": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "SlideWeave 是面向 Codex 的簡報製作 Skill，從受眾與內容敘事開始，選擇風格範例後產出原生文字可編輯的 PowerPoint，並支援流程圖、研究與教學呈現。",
+          "source": "https://github.com/bobyu89/codex-ppt-style-expanded",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合將研究、提案或技術交接材料轉成有證據的可編輯簡報；先確定受眾、主張、素材與風格，再驗收文字是否可編輯、流程圖是否正確及 PPTX 實際顯示。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-search",
+            "title": "離線檢索風格與模板",
+            "detail": "風格候選應有穩定識別與來源。 輸出：依關鍵字排序的候選。",
+            "capabilityRefs": [
+              "search"
+            ]
+          },
+          {
+            "id": "use-geometry",
+            "title": "檢查投影片版面座標",
+            "detail": "物件越界或比例不一致會破壞簡報。 輸出：轉換後座標或越界錯誤。",
+            "capabilityRefs": [
+              "geometry"
+            ]
+          },
+          {
+            "id": "use-assemble",
+            "title": "區分原生文字與生成背景",
+            "detail": "交付簡報應保有後續編輯能力。 輸出：原生物件與背景組裝規格。",
+            "capabilityRefs": [
+              "assemble"
+            ]
+          }
+        ],
+        "example": {
+          "id": "bobyu89-codex-ppt-style-expanded-example",
+          "title": "規劃可編輯技術簡報的風格與版面驗收",
+          "input": "自編技術簡報內容、樣式資料及授權圖片",
+          "process": "離線檢索風格與模板 → 檢查投影片版面座標 → 區分原生文字與生成背景 → 獨立驗收實際成果",
+          "output": "風格候選、版面錯誤及可編輯簡報規格",
+          "destination": "自有技術交接簡報工作區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-search",
+            "use-geometry",
+            "use-assemble"
+          ],
+          "steps": [
+            {
+              "id": "search",
+              "title": "離線檢索風格與模板",
+              "capabilityRefs": [
+                "search"
+              ]
+            },
+            {
+              "id": "geometry",
+              "title": "檢查投影片版面座標",
+              "capabilityRefs": [
+                "geometry"
+              ]
+            },
+            {
+              "id": "assemble",
+              "title": "區分原生文字與生成背景",
+              "capabilityRefs": [
+                "assemble"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自編技術簡報內容、樣式資料及授權圖片。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。",
+          "使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。",
+          "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+          "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+          "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "SlideWeave 簡報製作工具的離線風格檢索、版面座標驗證與原生可編輯物件組裝。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；第三方範例與素材另查"
+          },
+          {
+            "label": "版本",
+            "value": "8d759f5287e631623d6a9c86b2fee218a28804af"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "離線檢索風格與模板",
+            "detail": "風格候選應有穩定識別與來源。 輸入：關鍵字、風格 JSON 及模板索引；輸出：依關鍵字排序的候選",
+            "source": "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+          },
+          {
+            "title": "檢查投影片版面座標",
+            "detail": "物件越界或比例不一致會破壞簡報。 輸入：正規化座標與投影片尺寸；輸出：轉換後座標或越界錯誤",
+            "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+          },
+          {
+            "title": "區分原生文字與生成背景",
+            "detail": "交付簡報應保有後續編輯能力。 輸入：簡報 JSON、正尺寸及素材路徑；輸出：原生物件與背景組裝規格",
+            "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+          }
+        ],
+        "architecture": {
+          "summary": "離線檢索風格與模板 → 檢查投影片版面座標 → 區分原生文字與生成背景 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "離線檢索風格與模板",
+              "detail": "關鍵字、風格 JSON 及模板索引 → 依關鍵字排序的候選",
+              "files": [
+                "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "檢查投影片版面座標",
+              "detail": "正規化座標與投影片尺寸 → 轉換後座標或越界錯誤",
+              "files": [
+                "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "區分原生文字與生成背景",
+              "detail": "簡報 JSON、正尺寸及素材路徑 → 原生物件與背景組裝規格",
+              "files": [
+                "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "離線檢索風格與模板",
+            "rule": "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+            "source": "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+          },
+          {
+            "name": "檢查投影片版面座標",
+            "rule": "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+            "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+          },
+          {
+            "name": "區分原生文字與生成背景",
+            "rule": "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+            "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+              "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自編技術簡報內容、樣式資料及授權圖片。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有技術交接簡報工作區，經資料權利及人工覆核後使用。",
+            "file": "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "search",
+            "name": "離線檢索風格與模板",
+            "problem": "風格候選應有穩定識別與來源。",
+            "input": "關鍵字、風格 JSON 及模板索引",
+            "output": "依關鍵字排序的候選",
+            "source": "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+            "sourceFiles": [
+              "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+              "README.md"
+            ],
+            "symbols": [
+              "records",
+              "main"
+            ],
+            "gate": "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "geometry",
+            "name": "檢查投影片版面座標",
+            "problem": "物件越界或比例不一致會破壞簡報。",
+            "input": "正規化座標與投影片尺寸",
+            "output": "轉換後座標或越界錯誤",
+            "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+            "sourceFiles": [
+              "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+              "README.md"
+            ],
+            "symbols": [
+              "box_coords",
+              "add_picture"
+            ],
+            "gate": "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "assemble",
+            "name": "區分原生文字與生成背景",
+            "problem": "交付簡報應保有後續編輯能力。",
+            "input": "簡報 JSON、正尺寸及素材路徑",
+            "output": "原生物件與背景組裝規格",
+            "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+            "sourceFiles": [
+              "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+              "README.md"
+            ],
+            "symbols": [
+              "assemble",
+              "add_picture"
+            ],
+            "gate": "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃可編輯技術簡報的風格與版面驗收（設計示例）",
+          "problem": "自編技術簡報內容、樣式資料及授權圖片",
+          "steps": [
+            {
+              "capability": "search",
+              "action": "離線檢索風格與模板"
+            },
+            {
+              "capability": "geometry",
+              "action": "檢查投影片版面座標"
+            },
+            {
+              "capability": "assemble",
+              "action": "區分原生文字與生成背景"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "bobyu89-codex-ppt-style-expanded-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自編技術簡報內容、樣式資料及授權圖片",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "離線檢索風格與模板 → 檢查投影片版面座標 → 區分原生文字與生成背景 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有技術交接簡報工作區，經資料權利及人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。",
+            "使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。",
+            "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+            "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+            "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。；使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。；關鍵字匹配非語意最佳化；第三方模板授權須另查。；座標合法不代表沒有文字溢位或重疊；須實際渲染。；僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -32843,14 +34314,14 @@
       "canonicalName": "ECPay/ECPay-API-Skill",
       "category": "06 Skills",
       "resourceType": "Domain Skill",
-      "purpose": "綠界官方提供給 Coding Agent 的 API 整合知識 Skill，涵蓋金流、物流、電子發票、加解密、Callback 驗證、錯誤排查及上線檢查。",
-      "recommendation": "適合在建立台灣電商串接時用作文件索引與程式碼範本；先鎖定服務與協定、核對即時官方 API 規格、於測試環境驗證，再交由工程／資安人員審查正式金流。",
+      "purpose": "綠界官方 API 整合指引；本次查核服務選擇、規格索引及測試與上線流程文件，非完整 SDK 審查。",
+      "recommendation": "適合研究企業金流與發票整合的測試驗收清單；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/ECPay/ECPay-API-Skill",
       "repo": "ECPay/ECPay-API-Skill",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-26",
       "tags": [
         "api",
         "documentation",
@@ -32884,9 +34355,10 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.2-review",
-        "contentFormat": "repository",
+        "contentFormat": "documentation",
         "formatEvidenceFields": [
-          "url"
+          "source.referenceUrls",
+          "resourceType"
         ]
       },
       "features": [
@@ -32905,50 +34377,242 @@
       "source": {
         "url": "https://github.com/ECPay/ECPay-API-Skill",
         "readmeUrl": "https://github.com/ECPay/ECPay-API-Skill/blob/master/README.md",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-26",
         "type": "Official upstream README / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44",
+        "referenceUrls": [
+          "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/README.md",
+          "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/LICENSE",
+          "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md",
+          "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/references/README.md"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+        "classificationReason": "保留既有 Primary Domain automation、Tags、Category、Typed References。本次資源聚焦操作或學習文件，校正 Content Format 為 documentation，留存原分類。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。 文件契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+          "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。；README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。；未執行第三方程式、未取用憑證。",
+        "riskNotes": "All Rights Reserved；有限閱讀與測試許可，不重製原文；不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。；README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。；不進行付款或正式交易；服務資格及條款須向官方確認。；本次只查索引，未查所有端點與最新規格。；未操作正式帳號、金流、發票或憑證；需獨立安全驗收。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+          "evidence": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
-      }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "綠界官方提供給 Coding Agent 的 API 整合知識 Skill，涵蓋金流、物流、電子發票、加解密、Callback 驗證、錯誤排查及上線檢查。",
+          "source": "https://github.com/ECPay/ECPay-API-Skill",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合在建立台灣電商串接時用作文件索引與程式碼範本；先鎖定服務與協定、核對即時官方 API 規格、於測試環境驗證，再交由工程／資安人員審查正式金流。",
+        "priorClassificationSnapshot": {
+          "primaryDomain": "automation",
+          "secondaryDomains": [
+            "business"
+          ],
+          "purposeFacets": [],
+          "reviewStatus": "ai-description-reviewed",
+          "evidenceFields": [
+            "title",
+            "purpose",
+            "category"
+          ],
+          "classifiedAt": "2026-11-19",
+          "rulesVersion": "v0.2-review",
+          "contentFormat": "repository",
+          "formatEvidenceFields": [
+            "url"
+          ]
+        },
+        "documentContracts": [
+          {
+            "name": "依業務需求選擇整合服務",
+            "input": "虛構業務流程與交易需求",
+            "output": "待選服務與對應文件",
+            "source": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md",
+            "locator": "工作流程 / 步驟 1：需求釐清 / 步驟 2：方案推薦",
+            "limitations": "不進行付款或正式交易；服務資格及條款須向官方確認。"
+          },
+          {
+            "name": "按服務查閱官方規格",
+            "input": "服務類型及開發語言",
+            "output": "對應的官方規格與指南索引",
+            "source": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/references/README.md",
+            "locator": "用途 / Payment / Invoice",
+            "limitations": "本次只查索引，未查所有端點與最新規格。"
+          },
+          {
+            "name": "區分測試驗證與正式上線",
+            "input": "合成訂單及預定驗收環境",
+            "output": "測試與上線檢查項目",
+            "source": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md",
+            "locator": "步驟 4：測試驗證 / 步驟 5：上線檢查",
+            "limitations": "未操作正式帳號、金流、發票或憑證；需獨立安全驗收。"
+          }
+        ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "use-service",
+            "title": "依業務需求選擇整合服務",
+            "detail": "金流、發票與物流有不同的契約。 輸出：待選服務與對應文件。",
+            "evidenceRefs": [
+              "service"
+            ]
+          },
+          {
+            "id": "use-reference",
+            "title": "按服務查閱官方規格",
+            "detail": "文件索引不能替代即時 API 規格。 輸出：對應的官方規格與指南索引。",
+            "evidenceRefs": [
+              "reference"
+            ]
+          },
+          {
+            "id": "use-verify",
+            "title": "區分測試驗證與正式上線",
+            "detail": "能提交測試請求不代表可正式交付。 輸出：測試與上線檢查項目。",
+            "evidenceRefs": [
+              "verify"
+            ]
+          }
+        ],
+        "example": {
+          "id": "ecpay-ecpay-api-skill-example",
+          "title": "規劃企業金流與發票整合的測試驗收清單",
+          "input": "虛構訂單、業務需求與官方規格索引",
+          "process": "依業務需求選擇整合服務 → 按服務查閱官方規格 → 區分測試驗證與正式上線 → 獨立驗收實際成果",
+          "output": "服務選擇、待核對 API 及測試清單",
+          "destination": "隔離的企業整合設計工作區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-service",
+            "use-reference",
+            "use-verify"
+          ],
+          "steps": [
+            {
+              "id": "service",
+              "title": "依業務需求選擇整合服務",
+              "evidenceRefs": [
+                "service"
+              ]
+            },
+            {
+              "id": "reference",
+              "title": "按服務查閱官方規格",
+              "evidenceRefs": [
+                "reference"
+              ]
+            },
+            {
+              "id": "verify",
+              "title": "區分測試驗證與正式上線",
+              "evidenceRefs": [
+                "verify"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "evidenceRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備虛構訂單、業務需求與官方規格索引。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。",
+          "README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。",
+          "不進行付款或正式交易；服務資格及條款須向官方確認。",
+          "本次只查索引，未查所有端點與最新規格。",
+          "未操作正式帳號、金流、發票或憑證；需獨立安全驗收。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "agentEvidence": [
+        {
+          "id": "service",
+          "detail": "金流、發票與物流有不同的契約。 輸入：虛構業務流程與交易需求；輸出：待選服務與對應文件",
+          "locator": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md — 工作流程 / 步驟 1：需求釐清 / 步驟 2：方案推薦",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.0",
+            "source.referenceUrls"
+          ],
+          "limitations": "不進行付款或正式交易；服務資格及條款須向官方確認。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "reference",
+          "detail": "文件索引不能替代即時 API 規格。 輸入：服務類型及開發語言；輸出：對應的官方規格與指南索引",
+          "locator": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/references/README.md — 用途 / Payment / Invoice",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.1",
+            "source.referenceUrls"
+          ],
+          "limitations": "本次只查索引，未查所有端點與最新規格。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "verify",
+          "detail": "能提交測試請求不代表可正式交付。 輸入：合成訂單及預定驗收環境；輸出：測試與上線檢查項目",
+          "locator": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md — 步驟 4：測試驗證 / 步驟 5：上線檢查",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.2",
+            "source.referenceUrls"
+          ],
+          "limitations": "未操作正式帳號、金流、發票或憑證；需獨立安全驗收。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ]
     },
     {
       "schemaVersion": 2,
@@ -36965,14 +38629,14 @@
       "canonicalName": "gbro-collage-broll",
       "category": "09 Content & Artifact Generation",
       "resourceType": "Video Skill",
-      "purpose": "將約 5 秒口播文案轉化為半調紙拼貼風格的直式 B-roll 動畫，透過視覺隱喻、靜幀與影片三道人工核准關卡控制生成。",
-      "recommendation": "適合為有配音的短影音設計具辨識度的片段；先確認視覺隱喻與排版，靜幀合格才啟動需付費的影片生成，最後檢查 MP4 畫面與素材權利。",
+      "purpose": "紙拼貼風 B-roll 製作工具的環境檢查、影片輸入正規化及首尾影格請求契約。",
+      "recommendation": "適合研究自有教學短片的首尾影格生成驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/pyang5166/gbro-collage-broll",
       "repo": "pyang5166/gbro-collage-broll",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-26",
       "tags": [
         "video",
         "b-roll",
@@ -37026,49 +38690,414 @@
       "source": {
         "url": "https://github.com/pyang5166/gbro-collage-broll",
         "readmeUrl": "https://github.com/pyang5166/gbro-collage-broll/blob/main/README.md",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-26",
         "type": "Official upstream README / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91",
+        "referenceUrls": [
+          "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/README.md",
+          "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/LICENSE",
+          "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/scripts/check_setup.sh",
+          "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/scripts/generate_video.py",
+          "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/scripts/generate_veo_first_last.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對既有 Canonical ID 與官方上游，僅更新原紀錄，不新增 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原有分類、Tags、Typed References 保留；本批沒有新增或標準化標籤。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留已通過前階段盤點的 Primary Domain；本批不調整分類結構。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；尚未逐項驗證程式碼路徑、執行契約及深度 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "沒有實測、版本化輸入／輸出契約；不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "沿用現有 Concept 引用，不根據關鍵字建立 Graph 關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。；直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。；第三方程式碼未下載執行，未觸及憑證。",
+        "riskNotes": "MIT；模型費用及素材權利另查；影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。；直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。；不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。；URI 正規化不是權限或來源驗證；不得上傳私密媒體。；腳本有外部服務及寫檔相依；未執行或產生影片。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "來源 README 已閱讀；未執行第三方 Build／Runtime／Security／Integration 測試。"
+          "evidence": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "將約 5 秒口播文案轉化為半調紙拼貼風格的直式 B-roll 動畫，透過視覺隱喻、靜幀與影片三道人工核准關卡控制生成。",
+          "source": "https://github.com/pyang5166/gbro-collage-broll",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合為有配音的短影音設計具辨識度的片段；先確認視覺隱喻與排版，靜幀合格才啟動需付費的影片生成，最後檢查 MP4 畫面與素材權利。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-env",
+            "title": "檢查模型執行環境前提",
+            "detail": "環境與相依缺漏應在生成前辨識。 輸出：相依存在與版本檢查結果。",
+            "capabilityRefs": [
+              "env"
+            ]
+          },
+          {
+            "id": "use-media",
+            "title": "正規化模型媒體參照",
+            "detail": "檔案參照格式需要一致。 輸出：正規化 URI 與影片參數契約。",
+            "capabilityRefs": [
+              "media"
+            ]
+          },
+          {
+            "id": "use-frames",
+            "title": "設定首尾影格與輸出需求",
+            "detail": "影片生成需明確區分輸入與成品時間。 輸出：首尾影格請求及輸出參數。",
+            "capabilityRefs": [
+              "frames"
+            ]
+          }
+        ],
+        "example": {
+          "id": "gbro-collage-broll-example",
+          "title": "規劃自有教學短片的首尾影格生成驗收",
+          "input": "自編旁白、合成首尾影格及測試參數",
+          "process": "檢查模型執行環境前提 → 正規化模型媒體參照 → 設定首尾影格與輸出需求 → 獨立驗收實際成果",
+          "output": "環境檢核、媒體參數及請求驗收規格",
+          "destination": "自有短影音製作測試工作區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-env",
+            "use-media",
+            "use-frames"
+          ],
+          "steps": [
+            {
+              "id": "env",
+              "title": "檢查模型執行環境前提",
+              "capabilityRefs": [
+                "env"
+              ]
+            },
+            {
+              "id": "media",
+              "title": "正規化模型媒體參照",
+              "capabilityRefs": [
+                "media"
+              ]
+            },
+            {
+              "id": "frames",
+              "title": "設定首尾影格與輸出需求",
+              "capabilityRefs": [
+                "frames"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自編旁白、合成首尾影格及測試參數。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。",
+          "直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。",
+          "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+          "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+          "腳本有外部服務及寫檔相依；未執行或產生影片。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "紙拼貼風 B-roll 製作工具的環境檢查、影片輸入正規化及首尾影格請求契約。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；模型費用及素材權利另查"
+          },
+          {
+            "label": "版本",
+            "value": "a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "檢查模型執行環境前提",
+            "detail": "環境與相依缺漏應在生成前辨識。 輸入：隔離測試環境與虛構設定；輸出：相依存在與版本檢查結果",
+            "source": "scripts/check_setup.sh"
+          },
+          {
+            "title": "正規化模型媒體參照",
+            "detail": "檔案參照格式需要一致。 輸入：合成媒體參照及文字提示；輸出：正規化 URI 與影片參數契約",
+            "source": "scripts/generate_video.py"
+          },
+          {
+            "title": "設定首尾影格與輸出需求",
+            "detail": "影片生成需明確區分輸入與成品時間。 輸入：授權測試影格與提示文件；輸出：首尾影格請求及輸出參數",
+            "source": "scripts/generate_veo_first_last.py"
+          }
+        ],
+        "architecture": {
+          "summary": "檢查模型執行環境前提 → 正規化模型媒體參照 → 設定首尾影格與輸出需求 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "檢查模型執行環境前提",
+              "detail": "隔離測試環境與虛構設定 → 相依存在與版本檢查結果",
+              "files": [
+                "scripts/check_setup.sh",
+                "README.md"
+              ]
+            },
+            {
+              "title": "正規化模型媒體參照",
+              "detail": "合成媒體參照及文字提示 → 正規化 URI 與影片參數契約",
+              "files": [
+                "scripts/generate_video.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "設定首尾影格與輸出需求",
+              "detail": "授權測試影格與提示文件 → 首尾影格請求及輸出參數",
+              "files": [
+                "scripts/generate_veo_first_last.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "檢查模型執行環境前提",
+            "rule": "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+            "source": "scripts/check_setup.sh"
+          },
+          {
+            "name": "正規化模型媒體參照",
+            "rule": "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+            "source": "scripts/generate_video.py"
+          },
+          {
+            "name": "設定首尾影格與輸出需求",
+            "rule": "腳本有外部服務及寫檔相依；未執行或產生影片。",
+            "source": "scripts/generate_veo_first_last.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "scripts/check_setup.sh",
+              "scripts/generate_video.py",
+              "scripts/generate_veo_first_last.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自編旁白、合成首尾影格及測試參數。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "scripts/check_setup.sh"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有短影音製作測試工作區，經資料權利及人工覆核後使用。",
+            "file": "scripts/check_setup.sh"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "env",
+            "name": "檢查模型執行環境前提",
+            "problem": "環境與相依缺漏應在生成前辨識。",
+            "input": "隔離測試環境與虛構設定",
+            "output": "相依存在與版本檢查結果",
+            "source": "scripts/check_setup.sh",
+            "sourceFiles": [
+              "scripts/check_setup.sh",
+              "README.md"
+            ],
+            "symbols": [
+              "VENV_PY",
+              "FAIL",
+              "ok",
+              "bad"
+            ],
+            "gate": "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "media",
+            "name": "正規化模型媒體參照",
+            "problem": "檔案參照格式需要一致。",
+            "input": "合成媒體參照及文字提示",
+            "output": "正規化 URI 與影片參數契約",
+            "source": "scripts/generate_video.py",
+            "sourceFiles": [
+              "scripts/generate_video.py",
+              "README.md"
+            ],
+            "symbols": [
+              "is_file_uri",
+              "normalize_file_uri",
+              "slugify"
+            ],
+            "gate": "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "frames",
+            "name": "設定首尾影格與輸出需求",
+            "problem": "影片生成需明確區分輸入與成品時間。",
+            "input": "授權測試影格與提示文件",
+            "output": "首尾影格請求及輸出參數",
+            "source": "scripts/generate_veo_first_last.py",
+            "sourceFiles": [
+              "scripts/generate_veo_first_last.py",
+              "README.md"
+            ],
+            "symbols": [
+              "image_from_path",
+              "main"
+            ],
+            "gate": "腳本有外部服務及寫檔相依；未執行或產生影片。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃自有教學短片的首尾影格生成驗收（設計示例）",
+          "problem": "自編旁白、合成首尾影格及測試參數",
+          "steps": [
+            {
+              "capability": "env",
+              "action": "檢查模型執行環境前提"
+            },
+            {
+              "capability": "media",
+              "action": "正規化模型媒體參照"
+            },
+            {
+              "capability": "frames",
+              "action": "設定首尾影格與輸出需求"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "gbro-collage-broll-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自編旁白、合成首尾影格及測試參數",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "檢查模型執行環境前提 → 正規化模型媒體參照 → 設定首尾影格與輸出需求 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有短影音製作測試工作區，經資料權利及人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。",
+            "直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。",
+            "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+            "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+            "腳本有外部服務及寫檔相依；未執行或產生影片。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。；直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。；不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。；URI 正規化不是權限或來源驗證；不得上傳私密媒體。；腳本有外部服務及寫檔相依；未執行或產生影片。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -37079,14 +39108,14 @@
       "canonicalName": "gbro-cover-design",
       "category": "09 Content & Artifact Generation",
       "resourceType": "Design Skill",
-      "purpose": "Agent Skill 讀取文章後以三輪詢問整理主題、構圖與風格，輸出可複製的 3:4 直式封面生成提示詞與標題建議。",
-      "recommendation": "適合將文章／貼文內容轉成一致的社群視覺 Brief；用三輪問答先確定讀者、視覺焦點與安全區，再把提示詞交給影像工具並人工校對標題。",
+      "purpose": "由文章產出固定直式比例的封面提示詞；本次查核配置、三輪選擇及構圖規格。",
+      "recommendation": "適合研究文章封面提示詞與素材權利驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/pyang5166/gbro-cover-design",
       "repo": "pyang5166/gbro-cover-design",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-26",
       "tags": [
         "social-media",
         "cover-design",
@@ -37117,9 +39146,10 @@
         ],
         "classifiedAt": "2026-11-19",
         "rulesVersion": "v0.1",
-        "contentFormat": "repository",
+        "contentFormat": "documentation",
         "formatEvidenceFields": [
-          "url"
+          "source.referenceUrls",
+          "resourceType"
         ]
       },
       "features": [
@@ -37138,50 +39168,239 @@
       "source": {
         "url": "https://github.com/pyang5166/gbro-cover-design",
         "readmeUrl": "https://github.com/pyang5166/gbro-cover-design/blob/main/README.md",
-        "reviewedAt": "2026-11-20",
+        "reviewedAt": "2026-11-26",
         "type": "Official upstream README / documentation",
-        "reviewScope": "Documentation-level only; no installation, execution or security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、SKILL.md、references/examples.md 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "8d1a0a5487e9ee6539b2b0a471b58469aadfedd6",
+        "referenceUrls": [
+          "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/README.md",
+          "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/LICENSE",
+          "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/SKILL.md",
+          "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/references/examples.md"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-20",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對既有 Canonical ID 與官方上游，僅更新原紀錄，不新增 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原有分類、Tags、Typed References 保留；本批沒有新增或標準化標籤。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留已通過前階段盤點的 Primary Domain；本批不調整分類結構。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。本次資源聚焦操作或學習文件，校正 Content Format 為 documentation，留存原分類。",
         "readingSpec": {
-          "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；尚未逐項驗證程式碼路徑、執行契約及深度 Repo Guide。"
+          "id": "standard",
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、SKILL.md、references/examples.md 局部查核；未安裝、執行或實測第三方項目。 文件契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "沒有實測、版本化輸入／輸出契約；不新增 Capability。"
+          "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "沿用現有 Concept 引用，不根據關鍵字建立 Graph 關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "本 Skill 主要交付提示詞，未必自行完成最終圖片生成或版面美術編輯。；封面圖片與文字可能有錯別字、肖像權及不同平台裁切問題，仍需人工檢查。；第三方程式碼未下載執行，未觸及憑證。",
+        "riskNotes": "MIT；衍生範本來源及人物肖像另查；本 Skill 主要交付提示詞，未必自行完成最終圖片生成或版面美術編輯。；封面圖片與文字可能有錯別字、肖像權及不同平台裁切問題，仍需人工檢查。；配置可能保存照片路徑；需明確同意且不傳送真實肖像。；提示詞方向非實際生成品質，不能保證觀看或轉換成效。；原資源僅輸出提示詞；未執行生成，不複製第三方範例。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "來源 README 已閱讀；未執行第三方 Build／Runtime／Security／Integration 測試。"
+          "evidence": "固定版本 README.md、LICENSE、SKILL.md、references/examples.md 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "evidence-linked",
+          "reason": "固定版本 README.md、LICENSE、SKILL.md、references/examples.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
-      }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Agent Skill 讀取文章後以三輪詢問整理主題、構圖與風格，輸出可複製的 3:4 直式封面生成提示詞與標題建議。",
+          "source": "https://github.com/pyang5166/gbro-cover-design",
+          "reviewedAt": "2026-11-20"
+        },
+        "priorRecommendationSnapshot": "適合將文章／貼文內容轉成一致的社群視覺 Brief；用三輪問答先確定讀者、視覺焦點與安全區，再把提示詞交給影像工具並人工校對標題。",
+        "priorClassificationSnapshot": {
+          "primaryDomain": "content",
+          "secondaryDomains": [],
+          "purposeFacets": [],
+          "reviewStatus": "rule-proposed",
+          "evidenceFields": [
+            "purpose",
+            "category"
+          ],
+          "classifiedAt": "2026-11-19",
+          "rulesVersion": "v0.1",
+          "contentFormat": "repository",
+          "formatEvidenceFields": [
+            "url"
+          ]
+        },
+        "documentContracts": [
+          {
+            "name": "確認參考圖與模型支援",
+            "input": "自有素材或不含真人的描述",
+            "output": "參考資料配置與模型前提",
+            "source": "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/SKILL.md",
+            "locator": "首次使用 / 首次配置",
+            "limitations": "配置可能保存照片路徑；需明確同意且不傳送真實肖像。"
+          },
+          {
+            "name": "先確定標題與構圖",
+            "input": "自有文章與目標平台",
+            "output": "風格及標題候選與本人選擇",
+            "source": "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/SKILL.md",
+            "locator": "第一轮 / 第二轮 / 第三轮",
+            "limitations": "提示詞方向非實際生成品質，不能保證觀看或轉換成效。"
+          },
+          {
+            "name": "依參考範例細化空間關係",
+            "input": "選定構圖與已授權素材",
+            "output": "具體的比例、位置及遮擋規格",
+            "source": "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/references/examples.md",
+            "locator": "示例提示词库 / 示例1 / 示例3",
+            "limitations": "原資源僅輸出提示詞；未執行生成，不複製第三方範例。"
+          }
+        ]
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 2,
+        "useCases": [
+          {
+            "id": "use-setup",
+            "title": "確認參考圖與模型支援",
+            "detail": "多參考圖能力與肖像授權需確認。 輸出：參考資料配置與模型前提。",
+            "evidenceRefs": [
+              "setup"
+            ]
+          },
+          {
+            "id": "use-direction",
+            "title": "先確定標題與構圖",
+            "detail": "封面需與文章主要訊息一致。 輸出：風格及標題候選與本人選擇。",
+            "evidenceRefs": [
+              "direction"
+            ]
+          },
+          {
+            "id": "use-prompt",
+            "title": "依參考範例細化空間關係",
+            "detail": "過於籠統的提示可能失去視覺層級。 輸出：具體的比例、位置及遮擋規格。",
+            "evidenceRefs": [
+              "prompt"
+            ]
+          }
+        ],
+        "example": {
+          "id": "gbro-cover-design-example",
+          "title": "規劃文章封面提示詞與素材權利驗收",
+          "input": "自有文章、虛構人物描述及自有素材",
+          "process": "確認參考圖與模型支援 → 先確定標題與構圖 → 依參考範例細化空間關係 → 獨立驗收實際成果",
+          "output": "標題候選、構圖選擇及封面提示詞",
+          "destination": "自有文章封面設計工作區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-setup",
+            "use-direction",
+            "use-prompt"
+          ],
+          "steps": [
+            {
+              "id": "setup",
+              "title": "確認參考圖與模型支援",
+              "evidenceRefs": [
+                "setup"
+              ]
+            },
+            {
+              "id": "direction",
+              "title": "先確定標題與構圖",
+              "evidenceRefs": [
+                "direction"
+              ]
+            },
+            {
+              "id": "prompt",
+              "title": "依參考範例細化空間關係",
+              "evidenceRefs": [
+                "prompt"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "evidenceRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有文章、虛構人物描述及自有素材。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "本 Skill 主要交付提示詞，未必自行完成最終圖片生成或版面美術編輯。",
+          "封面圖片與文字可能有錯別字、肖像權及不同平台裁切問題，仍需人工檢查。",
+          "配置可能保存照片路徑；需明確同意且不傳送真實肖像。",
+          "提示詞方向非實際生成品質，不能保證觀看或轉換成效。",
+          "原資源僅輸出提示詞；未執行生成，不複製第三方範例。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "agentEvidence": [
+        {
+          "id": "setup",
+          "detail": "多參考圖能力與肖像授權需確認。 輸入：自有素材或不含真人的描述；輸出：參考資料配置與模型前提",
+          "locator": "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/SKILL.md — 首次使用 / 首次配置",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.0",
+            "source.referenceUrls"
+          ],
+          "limitations": "配置可能保存照片路徑；需明確同意且不傳送真實肖像。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "direction",
+          "detail": "封面需與文章主要訊息一致。 輸入：自有文章與目標平台；輸出：風格及標題候選與本人選擇",
+          "locator": "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/SKILL.md — 第一轮 / 第二轮 / 第三轮",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.1",
+            "source.referenceUrls"
+          ],
+          "limitations": "提示詞方向非實際生成品質，不能保證觀看或轉換成效。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "prompt",
+          "detail": "過於籠統的提示可能失去視覺層級。 輸入：選定構圖與已授權素材；輸出：具體的比例、位置及遮擋規格",
+          "locator": "https://github.com/pyang5166/gbro-cover-design/blob/8d1a0a5487e9ee6539b2b0a471b58469aadfedd6/references/examples.md — 示例提示词库 / 示例1 / 示例3",
+          "evidenceFields": [
+            "implementationKnowledge.documentContracts.2",
+            "source.referenceUrls"
+          ],
+          "limitations": "原資源僅輸出提示詞；未執行生成，不複製第三方範例。",
+          "evidenceStatus": "source-reviewed",
+          "runtimeStatus": "not-tested"
+        }
+      ]
     },
     {
       "schemaVersion": 2,
@@ -48331,13 +50550,13 @@
       "canonicalName": "HKUDS/ViMax",
       "category": "11 Media / Video",
       "resourceType": "MIT academic agentic narrative-to-video platform",
-      "purpose": "由 HKUDS 團隊開發的 Agentic Video Generation Framework，提供 Idea2Video（主題發想到影片）、Script2Video（劇本多場景多鏡頭）、Novel2Video（長篇小說拆集改編）、AutoCameo（參考圖人物／寵物）、Agent Loop、終端 TUI 與 Web UI，強調故事構思、角色追蹤、分鏡、多模型生成與 Render Checkpoint。",
-      "recommendation": "如果想針對自己擁有權利的長篇小說建立多集短劇，優先研究 ViMax 的 Novel2Video 與 Agent Loop；程式研究與 Pipeline 客製化價值高，但 Python/uv、模型 API 和影音生成的工程配置與成本不等於零門檻。先用極短原創故事驗證人物一致、跨集狀態、影片成本及具體產出，再擴大分鏡；避免改編未取得授權的熱門小說。",
+      "purpose": "Agentic Video Generation 的媒體後端配置、圖片回應解析及方向檢查契約。",
+      "recommendation": "適合研究影片生成後端的圖片格式與配置驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/HKUDS/ViMax",
       "repo": "HKUDS/ViMax",
       "status": "active",
       "addedAt": "2026-10-22",
-      "updatedAt": "2026-11-21",
+      "updatedAt": "2026-11-26",
       "tags": [
         "vimax",
         "hkuds",
@@ -48410,49 +50629,412 @@
       ],
       "source": {
         "url": "https://github.com/HKUDS/ViMax",
-        "reviewedAt": "2026-11-21",
-        "reviewScope": "First-party website or upstream documentation review only; third-party code, runtime, license compliance and integration not newly tested",
-        "type": "Official upstream GitHub README"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 readme.md、LICENSE、tools/render_backend.py、tools/image_response.py、tools/image_orientation.py 局部查核；未安裝、執行或實測第三方項目。",
+        "type": "Official upstream GitHub README",
+        "upstreamCommit": "fd4b72e7731be6e5f88486206d25ea59849b0285",
+        "referenceUrls": [
+          "https://github.com/HKUDS/ViMax/blob/fd4b72e7731be6e5f88486206d25ea59849b0285/readme.md",
+          "https://github.com/HKUDS/ViMax/blob/fd4b72e7731be6e5f88486206d25ea59849b0285/LICENSE",
+          "https://github.com/HKUDS/ViMax/blob/fd4b72e7731be6e5f88486206d25ea59849b0285/tools/render_backend.py",
+          "https://github.com/HKUDS/ViMax/blob/fd4b72e7731be6e5f88486206d25ea59849b0285/tools/image_response.py",
+          "https://github.com/HKUDS/ViMax/blob/fd4b72e7731be6e5f88486206d25ea59849b0285/tools/image_orientation.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
           "url",
-          "source.url"
+          "source.url",
+          "source.referenceUrls",
+          "source.upstreamCommit",
+          "repo"
         ],
-        "sourceCheckedAt": "2026-11-21",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已比對現有 Resource 的 ID、標題及上游來源，僅更新原有項目的內容。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "既有原始 Tags 完整保留，不新增或重新映射分類詞彙。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "維持現有 Primary Domain、Category、Tags 與 Typed References；僅補上來源形式與使用資訊。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "目前只核對官方 README／文件，缺逐檔可重建與執行契約，不聲稱完整 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 readme.md、LICENSE、tools/render_backend.py、tools/image_response.py、tools/image_orientation.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "尚無額外的版本化 I/O 契約可正式建立新 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "原有 Concept 連結保留，不因新描述新增 Graph 關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "多候選 Keyframe 和多模型生成會增加 API 呼叫成本，且角色一致性不保證。；README 可佐證流程與設定樣式，但本批未安裝、渲染、測速或驗證完整授權。；未安裝第三方程式、未連結真實帳戶或讀取憑證。",
+        "riskNotes": "MIT；外部模型與影音素材另查；多候選 Keyframe 和多模型生成會增加 API 呼叫成本，且角色一致性不保證。；README 可佐證流程與設定樣式，但本批未安裝、渲染、測速或驗證完整授權。；動態載入須限制可信模組；未建立或呼叫任何模型服務。；資料解析可能拋錯；不是惡意檔案或內容安全檢查。；方向驗證不等於影像品質；容忍值和外部生成重試需獨立驗證。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "只查閱官方或原作者網頁／README，未在本次執行第三方 Build、Runtime、Security、License、Integration 測試。"
+          "evidence": "固定版本 readme.md、LICENSE、tools/render_backend.py、tools/image_response.py、tools/image_orientation.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 readme.md、LICENSE、tools/render_backend.py、tools/image_response.py、tools/image_orientation.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "由 HKUDS 團隊開發的 Agentic Video Generation Framework，提供 Idea2Video（主題發想到影片）、Script2Video（劇本多場景多鏡頭）、Novel2Video（長篇小說拆集改編）、AutoCameo（參考圖人物／寵物）、Agent Loop、終端 TUI 與 Web UI，強調故事構思、角色追蹤、分鏡、多模型生成與 Render Checkpoint。",
+          "source": "https://github.com/HKUDS/ViMax",
+          "reviewedAt": "2026-11-21"
+        },
+        "priorRecommendationSnapshot": "如果想針對自己擁有權利的長篇小說建立多集短劇，優先研究 ViMax 的 Novel2Video 與 Agent Loop；程式研究與 Pipeline 客製化價值高，但 Python/uv、模型 API 和影音生成的工程配置與成本不等於零門檻。先用極短原創故事驗證人物一致、跨集狀態、影片成本及具體產出，再擴大分鏡；避免改編未取得授權的熱門小說。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-backend",
+            "title": "以配置選擇影像與影片後端",
+            "detail": "不同模型後端需要獨立配置。 輸出：後端建立規格及可選限制器。",
+            "capabilityRefs": [
+              "backend"
+            ]
+          },
+          {
+            "id": "use-response",
+            "title": "解析模型回傳的圖片資料",
+            "detail": "不同回應形式需正規化為影像。 輸出：RGB 圖片或空值契約。",
+            "capabilityRefs": [
+              "response"
+            ]
+          },
+          {
+            "id": "use-orientation",
+            "title": "核對圖片方向要求",
+            "detail": "比例不符的生成結果應可辨識。 輸出：方向要求及錯誤判定。",
+            "capabilityRefs": [
+              "orientation"
+            ]
+          }
+        ],
+        "example": {
+          "id": "hkuds-vimax-example",
+          "title": "規劃影片生成後端的圖片格式與配置驗收",
+          "input": "合成 YAML 設定、測試圖片及模型回應",
+          "process": "以配置選擇影像與影片後端 → 解析模型回傳的圖片資料 → 核對圖片方向要求 → 獨立驗收實際成果",
+          "output": "後端配置規格、圖片解析及比例判定",
+          "destination": "自有影音生成原型測試區，經資料權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-backend",
+            "use-response",
+            "use-orientation"
+          ],
+          "steps": [
+            {
+              "id": "backend",
+              "title": "以配置選擇影像與影片後端",
+              "capabilityRefs": [
+                "backend"
+              ]
+            },
+            {
+              "id": "response",
+              "title": "解析模型回傳的圖片資料",
+              "capabilityRefs": [
+                "response"
+              ]
+            },
+            {
+              "id": "orientation",
+              "title": "核對圖片方向要求",
+              "capabilityRefs": [
+                "orientation"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成 YAML 設定、測試圖片及模型回應。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "多候選 Keyframe 和多模型生成會增加 API 呼叫成本，且角色一致性不保證。",
+          "README 可佐證流程與設定樣式，但本批未安裝、渲染、測速或驗證完整授權。",
+          "動態載入須限制可信模組；未建立或呼叫任何模型服務。",
+          "資料解析可能拋錯；不是惡意檔案或內容安全檢查。",
+          "方向驗證不等於影像品質；容忍值和外部生成重試需獨立驗證。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "Agentic Video Generation 的媒體後端配置、圖片回應解析及方向檢查契約。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；外部模型與影音素材另查"
+          },
+          {
+            "label": "版本",
+            "value": "fd4b72e7731be6e5f88486206d25ea59849b0285"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "以配置選擇影像與影片後端",
+            "detail": "不同模型後端需要獨立配置。 輸入：合成後端配置及速率限制；輸出：後端建立規格及可選限制器",
+            "source": "tools/render_backend.py"
+          },
+          {
+            "title": "解析模型回傳的圖片資料",
+            "detail": "不同回應形式需正規化為影像。 輸入：合成 inline data 或測試圖片位元組；輸出：RGB 圖片或空值契約",
+            "source": "tools/image_response.py"
+          },
+          {
+            "title": "核對圖片方向要求",
+            "detail": "比例不符的生成結果應可辨識。 輸入：合成圖片尺寸與方向設定；輸出：方向要求及錯誤判定",
+            "source": "tools/image_orientation.py"
+          }
+        ],
+        "architecture": {
+          "summary": "以配置選擇影像與影片後端 → 解析模型回傳的圖片資料 → 核對圖片方向要求 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "以配置選擇影像與影片後端",
+              "detail": "合成後端配置及速率限制 → 後端建立規格及可選限制器",
+              "files": [
+                "tools/render_backend.py",
+                "readme.md"
+              ]
+            },
+            {
+              "title": "解析模型回傳的圖片資料",
+              "detail": "合成 inline data 或測試圖片位元組 → RGB 圖片或空值契約",
+              "files": [
+                "tools/image_response.py",
+                "readme.md"
+              ]
+            },
+            {
+              "title": "核對圖片方向要求",
+              "detail": "合成圖片尺寸與方向設定 → 方向要求及錯誤判定",
+              "files": [
+                "tools/image_orientation.py",
+                "readme.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "以配置選擇影像與影片後端",
+            "rule": "動態載入須限制可信模組；未建立或呼叫任何模型服務。",
+            "source": "tools/render_backend.py"
+          },
+          {
+            "name": "解析模型回傳的圖片資料",
+            "rule": "資料解析可能拋錯；不是惡意檔案或內容安全檢查。",
+            "source": "tools/image_response.py"
+          },
+          {
+            "name": "核對圖片方向要求",
+            "rule": "方向驗證不等於影像品質；容忍值和外部生成重試需獨立驗證。",
+            "source": "tools/image_orientation.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 readme.md、LICENSE、tools/render_backend.py、tools/image_response.py、tools/image_orientation.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "readme.md",
+              "LICENSE",
+              "tools/render_backend.py",
+              "tools/image_response.py",
+              "tools/image_orientation.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成 YAML 設定、測試圖片及模型回應。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "tools/render_backend.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有影音生成原型測試區，經資料權利及人工覆核後使用。",
+            "file": "tools/render_backend.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "backend",
+            "name": "以配置選擇影像與影片後端",
+            "problem": "不同模型後端需要獨立配置。",
+            "input": "合成後端配置及速率限制",
+            "output": "後端建立規格及可選限制器",
+            "source": "tools/render_backend.py",
+            "sourceFiles": [
+              "tools/render_backend.py",
+              "readme.md"
+            ],
+            "symbols": [
+              "RenderBackend.from_config",
+              "_build_rate_limiter"
+            ],
+            "gate": "動態載入須限制可信模組；未建立或呼叫任何模型服務。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "response",
+            "name": "解析模型回傳的圖片資料",
+            "problem": "不同回應形式需正規化為影像。",
+            "input": "合成 inline data 或測試圖片位元組",
+            "output": "RGB 圖片或空值契約",
+            "source": "tools/image_response.py",
+            "sourceFiles": [
+              "tools/image_response.py",
+              "readme.md"
+            ],
+            "symbols": [
+              "image_from_response_part",
+              "_value"
+            ],
+            "gate": "資料解析可能拋錯；不是惡意檔案或內容安全檢查。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "orientation",
+            "name": "核對圖片方向要求",
+            "problem": "比例不符的生成結果應可辨識。",
+            "input": "合成圖片尺寸與方向設定",
+            "output": "方向要求及錯誤判定",
+            "source": "tools/image_orientation.py",
+            "sourceFiles": [
+              "tools/image_orientation.py",
+              "readme.md"
+            ],
+            "symbols": [
+              "landscape_guard_requested",
+              "ensure_not_portrait",
+              "_parse_size"
+            ],
+            "gate": "方向驗證不等於影像品質；容忍值和外部生成重試需獨立驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃影片生成後端的圖片格式與配置驗收（設計示例）",
+          "problem": "合成 YAML 設定、測試圖片及模型回應",
+          "steps": [
+            {
+              "capability": "backend",
+              "action": "以配置選擇影像與影片後端"
+            },
+            {
+              "capability": "response",
+              "action": "解析模型回傳的圖片資料"
+            },
+            {
+              "capability": "orientation",
+              "action": "核對圖片方向要求"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "hkuds-vimax-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成 YAML 設定、測試圖片及模型回應",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "以配置選擇影像與影片後端 → 解析模型回傳的圖片資料 → 核對圖片方向要求 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有影音生成原型測試區，經資料權利及人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "多候選 Keyframe 和多模型生成會增加 API 呼叫成本，且角色一致性不保證。",
+            "README 可佐證流程與設定樣式，但本批未安裝、渲染、測速或驗證完整授權。",
+            "動態載入須限制可信模組；未建立或呼叫任何模型服務。",
+            "資料解析可能拋錯；不是惡意檔案或內容安全檢查。",
+            "方向驗證不等於影像品質；容忍值和外部生成重試需獨立驗證。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "多候選 Keyframe 和多模型生成會增加 API 呼叫成本，且角色一致性不保證。；README 可佐證流程與設定樣式，但本批未安裝、渲染、測速或驗證完整授權。；動態載入須限制可信模組；未建立或呼叫任何模型服務。；資料解析可能拋錯；不是惡意檔案或內容安全檢查。；方向驗證不等於影像品質；容忍值和外部生成重試需獨立驗證。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 readme.md、LICENSE、tools/render_backend.py、tools/image_response.py、tools/image_orientation.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
