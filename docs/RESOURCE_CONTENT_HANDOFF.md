@@ -1,3 +1,13 @@
+# Resource 最新交接｜Batch 82–84（2026-11-26）
+
+- PR #114 四項 CI PASS，已合併 `e17d87a504423753d0d709257d236ca730da22b1`。Catalog Sync PASS，後續 Pages `efc6683a59884a76b2c0aef82be58396ff547965` PASS；PR #112、#113 已關閉為整合取代。正式 278/286（266 已對應、12 deferred）。
+- [Batch 82](RESOURCE_DUAL_LAYER_BATCH82_20261126.md)：reverse-skill-2 局部 mapped；reverse-skill deferred（歷史來源及重複身分）。
+- [Batch 83](RESOURCE_DUAL_LAYER_BATCH83_20261126.md)：irons163-orchestrate-sol-terra-luna、wellmade deferred。兩批共 4 筆候選、12 用途、12 局部能力／證據、4 設計案例；第三方未實測。
+- [Batch 84｜來源阻塞及證據工作佇列](RESOURCE_DUAL_LAYER_BATCH84_20261126.md)：codex-router、viral-hook-title、whisper-ui 最早 V2 均無 URL；HGTV 原 Repo 404，歷史資訊保留。這四筆未改寫，不冒充完成。完整 12 筆已合併 deferred 與本輪 3 筆候選列出缺口。
+- 本批新增真實四尺寸瀏覽器回歸及雙向映射測試，四項 CI 全 PASS 才合併。預計 282/286（267 完成對應、15 deferred），4 筆未改寫。不得自行刪除或遷移原 Resource/Skill ID；待身分核准及證據確認。下一步：驗收本 PR、Catalog Sync／Pages，進行全庫深度品質稽核及逐項補缺。
+
+---
+
 # Resource 最新交接｜Batch 80–81 與整合驗收（2026-11-26）
 
 - 正式 main 264/286（257 已對應、7 deferred）。PR #112、#113 共 9 筆候選，未觸發第四項 Live Pages Smoke；未合併。

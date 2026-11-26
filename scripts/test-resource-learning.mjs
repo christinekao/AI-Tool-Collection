@@ -2626,3 +2626,20 @@ test('Dual-layer batches 77–81: all 14 candidates keep scoped source evidence,
  const stitch=load('stitch-mcp');assert.ok(stitch.source.referenceUrls.some(u=>u.includes('f6aa86cde10c3f490acf09a63cc044582a50821d')), 'SDK evidence must be pinned');assert.ok(!stitch.source.upstreamCommit,'SDK SHA is not the hosted server revision');
  const buzz=load('letswrite-buzz-self-hosted-relay-guide');assert.equal(buzz.url,'https://www.letswrite.tw/buzz-install/');assert.ok(buzz.source.referenceUrls.some(u=>u.startsWith('https://dev.to/letswrite/')));
 });
+
+
+test('Dual-layer closeout batches 82–84: limited source, stable IDs and read-only evidence review',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ const rows=[["reverse-skill-2","規劃自有測試案例的證據完整性驗收",1,"mapped"],["reverse-skill","規劃重複資安工具收藏的引用保留與證據驗收",2,"deferred"],["irons163-orchestrate-sol-terra-luna","規劃三層 Agent 分工的歷史來源與委派契約",2,"deferred"],["wellmade","規劃設計收藏庫的分類與作者來源驗收",2,"deferred"]];
+ for(const [id,title,version,status] of rows){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  for(const key of ['readerGuide',version===1?'repoGuide':'agentEvidence','source','intakeReview','implementationKnowledge'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.equal(d.readerGuide.mappingVersion,version,id);assert.equal(d.intakeReview.layerReview.status,status,id);assert.equal(d.intakeReview.verification.status,'not-tested',id);assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  if(status==='deferred'){assert.equal(d.intakeReview.sourceStatus,'partial',id);assert.ok(d.agentEvidence.every(x=>x.evidenceStatus==='partial'),id);assert.ok(d.intakeReview.layerReview.gap&&d.intakeReview.layerReview.nextAction,id);}
+  for(const uc of d.readerGuide.useCases){const result=resolveResourceLayerLinks(d,{caseId:uc.id});for(const ref of version===1?uc.capabilityRefs:uc.evidenceRefs){assert.ok((version===1?result.capabilities:result.evidence).some(x=>x.id===ref&&x.runtimeStatus==='not-tested'),id);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===uc.id),id);}}
+  const html=context.detail(built);assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ for(const id of ['codex-router','viral-hook-title','whisper-ui','skillgodak-hgtv']){const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));assert.equal(d.intakeReview.sourceStatus,'partial',id);assert.ok(!d.readerGuide?.mappingVersion,id);}
+});

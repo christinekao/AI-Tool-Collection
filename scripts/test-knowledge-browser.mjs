@@ -760,7 +760,11 @@ try{
   ["designed-to-scale",".resource-reader-guide","規劃系統設計課程的自學與應用驗收"],
   ["stitch-mcp",".resource-reader-guide","規劃作品集設計 Agent 的工具與產物驗收"],
   ["land-book-design-inspiration",".resource-reader-guide","規劃作品集首頁的設計參考與採用審查"],
-  ["particles-casberry",".resource-reader-guide","規劃自有網站粒子背景的動效與效能驗收"]
+  ["particles-casberry",".resource-reader-guide","規劃自有網站粒子背景的動效與效能驗收"],
+  ["reverse-skill-2",".resource-reader-guide","規劃自有測試案例的證據完整性驗收"],
+  ["reverse-skill",".resource-reader-guide","規劃重複資安工具收藏的引用保留與證據驗收"],
+  ["irons163-orchestrate-sol-terra-luna",".resource-reader-guide","規劃三層 Agent 分工的歷史來源與委派契約"],
+  ["wellmade",".resource-reader-guide","規劃設計收藏庫的分類與作者來源驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
