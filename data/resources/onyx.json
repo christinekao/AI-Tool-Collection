@@ -157,7 +157,7 @@
       {
         "id": "use-acl",
         "title": "建立使用者可讀取的文件範圍",
-        "detail": "同一索引中的文件不能對所有人開放。ACL 及配對篩選條件。",
+        "detail": "使用兩種合成角色與 Connector 配對，檢查群組、匿名及撤權後的文件可讀範圍。輸出：ACL 及配對篩選條件，不能把 None 視為普遍授權。",
         "capabilityRefs": [
           "acl"
         ]
@@ -165,7 +165,7 @@
       {
         "id": "use-retrieval",
         "title": "依文件集與日期搜尋",
-        "detail": "查詢條件可能試圖放寬原有搜尋範圍。IndexFilters 與範圍內的檢索條件。",
+        "detail": "以有日期與文件集限制的合成查詢檢查範圍是否被不當放寬。輸出：IndexFilters 與檢索條件；不同 DB session 路徑仍須獨立驗收。",
         "capabilityRefs": [
           "retrieval"
         ]
@@ -173,7 +173,7 @@
       {
         "id": "use-citation",
         "title": "將模型回答的引用連回文件",
-        "detail": "回答需要可追溯出處。已知引用文件、引用標記或連結。",
+        "detail": "以合成模型回覆及文件映射比對已知與未知引用編號。輸出：可回查的文件及引用標記，仍需人工確認原文支持結論。",
         "capabilityRefs": [
           "citation"
         ]
@@ -224,9 +224,9 @@
       ]
     },
     "start": [
-      "先準備合成文件、兩種使用者角色、資料集與查詢。",
-      "依需求核對固定版本來源與操作限制。",
-      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+      "先建立兩種合成使用者角色、各自允許的文件集、撤權案例及人工標註答案與引用。",
+      "依固定版本 access_filters、search/pipeline 與 citation_processor 規劃 ACL、日期 floor、文件集範圍及引用映射；不將 None 或缺少 DB session 視為普遍授權。",
+      "取得隔離測試核准後檢查匿名、撤權、跨群組檢索及未知引用，逐題回查原文是否支持答案；其他呼叫路徑、版本授權與真實資料隔離另行驗收。"
     ],
     "limits": [
       "Community Edition 與 Enterprise Edition 的功能和授權不同",

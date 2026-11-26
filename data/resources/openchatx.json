@@ -6,7 +6,7 @@
   "canonicalName": "OpenChatX",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "Local ChatGPT Agent Runtime / Secure MCP Capability Gateway / Cross-Session Workspace",
-  "purpose": "本機 Agent 工作流的載入去重、程序環境過濾及 Session 上下文計量。",
+  "purpose": "研究本機 Agent 如何避免重複載入、限制子程序繼承的指定環境欄位，以及記錄 Session 的上下文警示門檻。",
   "recommendation": "適合研究本機 Agent 的 Session 隔離與資源計量驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/XiaoPuOuO/openchatx-mcp",
   "repo": "WealthyV/openchatx-mcp",
@@ -261,9 +261,9 @@
       ]
     },
     "start": [
-      "先準備合成 Agent 識別、載入鍵、環境變數及計量。",
-      "核對固定版本、授權、資料邊界與操作限制。",
-      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+      "先建立兩個合成 Agent 的識別與載入鍵、虛構環境變數及 Session 計量門檻。",
+      "依固定版本 load-deduper、child-environment 與 context-budget 核對無識別不去重、失敗重試、指定欄位過濾及正整數門檻；不使用真實憑證。",
+      "取得隔離測試核准後檢查跨 Session 混用、缺漏與無效門檻，核對實際計量及復原；應用層過濾與警示不等於 OS 沙箱或模型硬上限。"
     ],
     "limits": [
       "此類高權限本機 Agent 可執行 Shell 與操作桌面，單靠應用層 Project Scope 不能取代 OS 沙箱。",
