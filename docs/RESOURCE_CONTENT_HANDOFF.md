@@ -1,3 +1,35 @@
+# Resource 最新交接｜Batch 80–81 與整合驗收（2026-11-26）
+
+- 正式 main 264/286（257 已對應、7 deferred）。PR #112、#113 共 9 筆候選，未觸發第四項 Live Pages Smoke；未合併。
+- [Batch 80｜協作部署、架構學習及設計整合](RESOURCE_DUAL_LAYER_BATCH80_20261126.md)：letswrite-buzz-self-hosted-relay-guide evidence-linked；designed-to-scale、stitch-mcp deferred。3 筆、9 用途、9 證據、3 設計案例。
+- [Batch 81｜設計參考與粒子動效的有限來源](RESOURCE_DUAL_LAYER_BATCH81_20261126.md)：land-book-design-inspiration、particles-casberry deferred。2 筆、6 用途、6 證據、2 設計案例。原頁 403，僅第一方索引摘要。
+- 接續 #113 的 Head `e8f5d8d08786666401a7b292f043baa5fcb645b2`，保留 Batch 77–79 全部資料與報告。新增 14 筆真實瀏覽器回歸案例（375/430/768/1440 px）及 Canonical/Catalog/正反向引用測試，觸發 Live Pages Smoke；四項 CI 成功才能合併整合 PR。舊 PR 不可重複合併。
+- [收尾來源缺口](RESOURCE_DUAL_LAYER_FINAL_GAPS_20261126.md)：剩餘 8 筆尚未改寫，3 疑似重複紀錄、3 身分不明、1 原 Repo 404、1 首頁逾時；待全庫引用盤點、原始來源及去重核准。
+- 合併後預計 278/286（266 完成對應、12 deferred），8 未改寫；未執行任何第三方工具。下一步核對整合 PR 最新 Head 四項 CI、合併、Catalog Sync／Pages、關閉被取代 PR，再處理來源缺口與最終稽核。
+
+---
+
+# Resource 最新交接｜雙層知識 Batch 79（2026-11-26）
+
+- PR #111 已合併，264/286（257 完成對應、7 deferred）；PR #112 為 Batch 77–78 候選（6 evidence-linked）。本批接續其 Head `8c4cfaa4f7e59a212ccb99d5a88473c5aebaabdc`，不能提前計入 main。
+- [Batch 79｜對話交接、驗收契約與合法來源治理](RESOURCE_DUAL_LAYER_BATCH79_20261126.md)：littlehole2025-token-saver（mapped）、rea（deferred）、alsyundawy-microsoft-office-for-macos（evidence-linked）；9 用途、9 局部能力／文件證據、3 design-only 案例。
+- token-saver 舊 Repo 與 claude-saver 同 Repository ID；更新 Repo 並留舊值。Office 原 Repo 封存，校正來源形式為 collection，保留原分類快照；只採官方合法授權治理文件，不轉載第三方金鑰或下載步驟。REA 核心契約未查核，明示 deferred。
+- [待補證據盤點](RESOURCE_DUAL_LAYER_REMAINING_AUDIT_20261126.md)：原 7 deferred 全數核對；新增 REA deferred；13 筆剩餘未改寫，含來源不明、受限、疑似重複；不得冒充完成。
+- PR #112 與本批均須四項 CI PASS 後依序合併；預計 273/286（265 完成映射、8 deferred），13 筆尚未改寫。下一步 Batch 80～84：以實際可取得來源與去重證據為準。
+
+---
+
+# Resource 最新交接｜雙層知識 Batch 77–78（2026-11-26）
+
+- PR #111 四項 CI PASS，已合併 `0fa625660b335801917abc8d3061bca3522add29`；本輪 main 基線 `811d902af9102ae0319c5f0d3a67320ef73e257d`。264/286（257 對應、7 deferred）。
+- [Batch 77｜互動元件、影片剪輯與語音輸入](RESOURCE_DUAL_LAYER_BATCH77_20261126.md)：bencho、fomofly-ai、sona-orbit-parroting；3 evidence-linked、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 78｜模型治理、工程協作及閱讀策展](RESOURCE_DUAL_LAYER_BATCH78_20261126.md)：anthropic-claude-mythos-cybersecurity、engineering-leadership-adobe-tech-lead-ai、better-me-notes-amie；3 evidence-linked、9 用途、9 局部證據、3 design-only 案例。Mythos 5.1 歷史 Title 不變；現行官方頁 5.2；Better Me Notes 只查目錄與 About，完整學習教材維持 deferred。
+- 新增 6 筆候選，合併後預計 270/286（263 對應、7 deferred）；第三方未實測。待四項 CI PASS 後才合併，之後查 main Catalog Sync 與 Pages。
+- 剩餘 16 筆尚未改寫（不可算完成）：alsyundawy-microsoft-office-for-macos、codex-router、designed-to-scale、irons163-orchestrate-sol-terra-luna、land-book-design-inspiration、letswrite-buzz-self-hosted-relay-guide、littlehole2025-token-saver、particles-casberry、rea、reverse-skill-2、reverse-skill、skillgodak-hgtv、stitch-mcp、viral-hook-title、wellmade、whisper-ui。Land-book、Particles、Wellmade、LetsWrite 本次直接擷取受限，只有公開索引摘要；Designed to Scale 僅讀到 JavaScript 提示；Stitch MCP 官方頁無可讀正文。原始身分、疑似重複、第三方授權風險及固定版本證據不足者保持原紀錄。
+- 下一步：核對本 PR 四項 CI，依實際可讀第一方來源進行 Batch 79～84；另盤點既有 7 筆 deferred，不改分類架構、原 ID 或 Graph 關聯。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 73–76（2026-11-26）
 
 - PR #109 已合併 `dc4081e46ae997f220a64c3256205cf62da6874d`，243/286。PR #110 四項 CI PASS，已合併 `30cd7018af6cd4da30ab1a54385b5b0a31b7d4c8`，252/286。PR #111 首輪 V2 因舊 OmniRoute Repo 引用失敗；修正 Audit 02 來源身分並保存歷史欄位，未更改原測試及關聯。

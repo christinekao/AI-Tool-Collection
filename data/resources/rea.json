@@ -6,13 +6,13 @@
   "canonicalName": "REA",
   "category": "Agent Engineering / Reverse Engineering",
   "resourceType": "Agent-native reverse-engineering toolkit with CLI, MCP and guided investigation skill",
-  "purpose": "讓 AI Agent 以可追溯 Evidence 調查缺乏原始碼的軟體與執行行為，透過本機 CLI、MCP 與官方 reverse-engineer-anything Skill 分析 native binary、JavaScript／Electron、.NET、Android APK、網站、封包、執行環境及其他 artifact，將 static inference 與 runtime observation 分開，再轉成可驗證的功能重建方案。",
-  "recommendation": "適合研究已授權的第三方或自有程式功能、還原 Electron IPC／UI 到 native code 的責任邊界、診斷發佈版執行檔或比較實際行為；先根據問題選擇工具，保存 Evidence 與限制，再規劃在自己的技術棧中重建。安裝 Skill 並不會自行註冊 MCP Server；使用前請確認目標授權、Node.js 版本及所需 Ghidra／Hopper／IDA／JADX 等工具。",
+  "purpose": "參考 REA 的證據完整性、錯誤契約及客戶端驗收文件，規劃自有或明確授權軟體的獨立測試；核心實作仍待查核。",
+  "recommendation": "適合規劃自有軟體的獨立證據驗收；先核對授權、資料邊界與獨立驗收條件，不將來源閱讀當成實測。",
   "url": "https://github.com/morluto/rea",
   "repo": "morluto/rea",
   "status": "active",
   "addedAt": "2026-10-05",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "reverse-engineering",
     "agent-tooling",
@@ -92,18 +92,26 @@
   "source": {
     "url": "https://github.com/morluto/rea",
     "readmeUrl": "https://github.com/morluto/rea/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本三份驗收文件／Schema 局部查核；核心程式及完整授權未查；未安裝、執行或實測。",
+    "upstreamCommit": "0aca049128687828bddc32e8c4c0a39d7544c1ff",
+    "referenceUrls": [
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/reconstruction-readiness.md",
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/client-verification.md",
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/error-contract.schema.json"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.referenceUrls",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -120,7 +128,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "reason": "已讀取固定版本的公開驗收文件及錯誤 Schema，尚未查核其核心實作、全部權限控制或完整授權；不宣稱可重建或可用。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -130,10 +138,179 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。；本批未核對完整授權與相依元件；動態或反編譯結果可能不完整，需要用獨立測試驗證行為；逆向工程應遵守智慧財產、軟體授權與目標平台法律限制；文件描述完整性條件；未執行驗證器，不能以狀態文字替代實際證據。；上游文件中的歷史測試不代表本次測試或所有客戶端相容。；僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本三份驗收文件／Schema 局部查核；核心程式及完整授權未查；未安裝、執行或實測。"
+    },
+    "layerReview": {
+      "status": "deferred",
+      "reason": "固定版本三份驗收文件／Schema 局部查核；核心程式及完整授權未查；未安裝、執行或實測。 僅對應可證明文件內容，尚不算深度完成。",
+      "gap": "已讀取固定版本的公開驗收文件及錯誤 Schema，尚未查核其核心實作、全部權限控制或完整授權；不宣稱可重建或可用。",
+      "nextAction": "針對自有合成測試產物定位錯誤 Schema 驗證器、證據紀錄與客戶端生命週期的實作及測試；確認適用授權及隔離條件後再升級。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 AI Agent 以可追溯 Evidence 調查缺乏原始碼的軟體與執行行為，透過本機 CLI、MCP 與官方 reverse-engineer-anything Skill 分析 native binary、JavaScript／Electron、.NET、Android APK、網站、封包、執行環境及其他 artifact，將 static inference 與 runtime observation 分開，再轉成可驗證的功能重建方案。",
+      "source": "https://github.com/morluto/rea",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究已授權的第三方或自有程式功能、還原 Electron IPC／UI 到 native code 的責任邊界、診斷發佈版執行檔或比較實際行為；先根據問題選擇工具，保存 Evidence 與限制，再規劃在自己的技術棧中重建。安裝 Skill 並不會自行註冊 MCP Server；使用前請確認目標授權、Node.js 版本及所需 Ghidra／Hopper／IDA／JADX 等工具。",
+    "priorSourceReviewSnapshot": {
+      "reviewedAt": "2026-11-19",
+      "reviewScope": "Documentation only, no code executed"
+    },
+    "documentContracts": [
+      {
+        "name": "區分待驗證與已驗證的成果",
+        "input": "自訂交付驗收項目及獨立證據",
+        "output": "未完成義務及證據差異紀錄",
+        "source": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/reconstruction-readiness.md",
+        "locator": "obligation ledger / retained history",
+        "limitations": "文件描述完整性條件；未執行驗證器，不能以狀態文字替代實際證據。"
+      },
+      {
+        "name": "分離客戶端註冊與實際整合驗收",
+        "input": "合成客戶端設定與測試環境條件",
+        "output": "環境、版本、啟動、清理及測試覆蓋矩陣",
+        "source": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/client-verification.md",
+        "locator": "Launch environment verification / End-to-end, integration and golden evidence",
+        "limitations": "上游文件中的歷史測試不代表本次測試或所有客戶端相容。"
+      },
+      {
+        "name": "建立結構化錯誤及重試分類",
+        "input": "合成無效輸入、取消或逾時事件",
+        "output": "錯誤類別、可重試標記與處理規格",
+        "source": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/error-contract.schema.json",
+        "locator": "oneOf / category / retryable / remediation",
+        "limitations": "僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。"
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-ledger",
+        "title": "區分待驗證與已驗證的成果",
+        "detail": "輸入：自訂交付驗收項目及獨立證據；輸出：未完成義務及證據差異紀錄。",
+        "evidenceRefs": [
+          "ledger"
+        ]
+      },
+      {
+        "id": "use-client",
+        "title": "分離客戶端註冊與實際整合驗收",
+        "detail": "輸入：合成客戶端設定與測試環境條件；輸出：環境、版本、啟動、清理及測試覆蓋矩陣。",
+        "evidenceRefs": [
+          "client"
+        ]
+      },
+      {
+        "id": "use-error",
+        "title": "建立結構化錯誤及重試分類",
+        "detail": "輸入：合成無效輸入、取消或逾時事件；輸出：錯誤類別、可重試標記與處理規格。",
+        "evidenceRefs": [
+          "error"
+        ]
+      }
+    ],
+    "example": {
+      "id": "rea-example",
+      "title": "規劃自有軟體的獨立證據驗收",
+      "input": "自有合成測試產物、預期行為及失敗情境",
+      "process": "區分待驗證與已驗證的成果 → 分離客戶端註冊與實際整合驗收 → 建立結構化錯誤及重試分類 → 獨立驗收實際成果",
+      "output": "驗收證據清單、錯誤分類及客戶端測試矩陣",
+      "destination": "自有測試工作區，不接觸未授權軟體或真實敏感資料。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-ledger",
+        "use-client",
+        "use-error"
+      ],
+      "steps": [
+        {
+          "id": "ledger",
+          "title": "區分待驗證與已驗證的成果",
+          "evidenceRefs": [
+            "ledger"
+          ]
+        },
+        {
+          "id": "client",
+          "title": "分離客戶端註冊與實際整合驗收",
+          "evidenceRefs": [
+            "client"
+          ]
+        },
+        {
+          "id": "error",
+          "title": "建立結構化錯誤及重試分類",
+          "evidenceRefs": [
+            "error"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准合成資料、測試環境、權限與操作範圍，並取得人工獨立驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有合成測試產物、預期行為及失敗情境。",
+      "核對固定版本、合法授權、資料邊界及操作限制。",
+      "以合成資料規劃正常、缺漏、拒絕及失敗情境，再取得獨立驗收。"
+    ],
+    "limits": [
+      "動態或反編譯結果可能不完整，需要用獨立測試驗證行為",
+      "逆向工程應遵守智慧財產、軟體授權與目標平台法律限制",
+      "文件描述完整性條件；未執行驗證器，不能以狀態文字替代實際證據。",
+      "上游文件中的歷史測試不代表本次測試或所有客戶端相容。",
+      "僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "ledger",
+      "detail": "輸入：自訂交付驗收項目及獨立證據；輸出：未完成義務及證據差異紀錄。",
+      "locator": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/reconstruction-readiness.md — obligation ledger / retained history",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "文件描述完整性條件；未執行驗證器，不能以狀態文字替代實際證據。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "client",
+      "detail": "輸入：合成客戶端設定與測試環境條件；輸出：環境、版本、啟動、清理及測試覆蓋矩陣。",
+      "locator": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/client-verification.md — Launch environment verification / End-to-end, integration and golden evidence",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "上游文件中的歷史測試不代表本次測試或所有客戶端相容。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "error",
+      "detail": "輸入：合成無效輸入、取消或逾時事件；輸出：錯誤類別、可重試標記與處理規格。",
+      "locator": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/error-contract.schema.json — oneOf / category / retryable / remediation",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }
