@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 01（2026-11-26）
+
+- PR #121 最新 Head a674dce548cee48e024c7921e59db08d4ae6e8ce 四項 CI PASS；合併 fa02aa4f4495455b9dd04bea5ce2d13da288c069；Catalog Sync 45772233575 PASS，生成提交 af660edc5f20dcfc48f1586c711282dc6ed5933d，Pages 45772261992 PASS。正式 deployed Chromium 仍待驗收。
+- [Batch 01｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH01_20261126.md)：固定 ID 順序 abi-screenshot-to-code 至 allanyiin-toolanything，20/20 已讀取、16 候選修正、4 保留。新增單元及 Browser regression；未改 Source／Evidence／案例／ID／分類／Tags／Graph。候選未驗收及合併，不計正式進度。
+- 正式映射 268/286、14 Deferred、4 Source-blocked 不變。下輪自 allanyiin-toolanything 後開始依 main 確認 20 筆 ID；先完成本批 CI、合併及正式部署驗收，不重做本批。
+
+---
+
 # Phase 2｜Resource 內容品質稽核第一輪（2026-11-26）
 
 - PR #120 四項 CI PASS，已合併 `5e45a2b9983ce8dd4e9b43ded370fb7b727b69cb`；Catalog Sync PASS，生成提交 `c6099c50bb6b4fa80311b7c3bdad830c112d9a0a`；Pages 45771155866 PASS。正式部署畫面直接驗收尚未確認。

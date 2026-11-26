@@ -2790,3 +2790,17 @@ test('Resource quality audit 01: current source scope and practical reader start
  }
  for(const id of ["hermes-snyk-plugin","infiniflow-ragflow","stitch-mcp","land-book-design-inspiration","particles-casberry"]){const d=get(id);assert.equal(d.intakeReview.layerReview.status,'deferred',id);assert.equal(d.intakeReview.verification.status,'not-tested',id);assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);assert.deepEqual(validateResourceLayerLinks(d),[],id);}
 });
+
+
+test('Resource quality batch 01: concrete reader starts and preserved evidence mappings',()=>{
+ const expected={"abi-screenshot-to-code":"要重建的元件","acheaisuiyimen-ache-life-to-comic-skill":"非商業用途的合成日記","affaan-m-ecc":"兩個自有測試 Worktree","agency-agents":"銷售資料每日更新","agentic-system-lab-harness-relay":"基準 Commit","agricidaniel-claude-seo":"歷史頁面基準","ai-memory":"不得保存的資料","ai-video-drama-platform":"預期分鏡","akas333-tysa":"SQL JOIN","akseolabs-seo-cinematic-ui":"拒絕等畫面狀態","akto-api-security-akto":"模擬政策與違規統計","alchaincy-huashu-design":"色彩、字型、間距","alchaincyf-huashu-motion":"預期轉場及循環條件","alexyc9381-hiring-panel-skill":"完整 JD","allanyiin-documa":"人工標註的證據","allanyiin-toolanything":"無副作用的合成 Python"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+});

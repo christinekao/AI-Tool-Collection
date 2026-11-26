@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch01Phrases={"abi-screenshot-to-code":"要重建的元件","acheaisuiyimen-ache-life-to-comic-skill":"非商業用途的合成日記","affaan-m-ecc":"兩個自有測試 Worktree","agency-agents":"銷售資料每日更新","agentic-system-lab-harness-relay":"基準 Commit","agricidaniel-claude-seo":"歷史頁面基準","ai-memory":"不得保存的資料","ai-video-drama-platform":"預期分鏡","akas333-tysa":"SQL JOIN","akseolabs-seo-cinematic-ui":"拒絕等畫面狀態","akto-api-security-akto":"模擬政策與違規統計","alchaincy-huashu-design":"色彩、字型、間距","alchaincyf-huashu-motion":"預期轉場及循環條件","alexyc9381-hiring-panel-skill":"完整 JD","allanyiin-documa":"人工標註的證據","allanyiin-toolanything":"無副作用的合成 Python"};
+  if(qualityBatch01Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch01Phrases[id])+')'),id);
+  }
   const qualityAuditPhrases={"hermes-snyk-plugin":"2026-11-26 已局部查核","infiniflow-ragflow":"局部 Go 原始碼及上游測試","stitch-mcp":"自編作品集畫面","land-book-design-inspiration":"品牌方向","particles-casberry":"自有網站的粒子背景"};
   if(qualityAuditPhrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityAuditPhrases[id])+')'),id);
