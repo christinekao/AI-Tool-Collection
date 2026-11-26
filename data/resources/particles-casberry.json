@@ -70,7 +70,7 @@
   "source": {
     "url": "https://particles.casberry.in/",
     "reviewedAt": "2026-11-26",
-    "reviewScope": "2026-11-26 官方首頁與 Changelog 直接擷取 403；僅查閱官方網域搜尋索引摘要，未操作模擬器或匯出程式。",
+    "reviewScope": "沿用既有證據；Batch 102 新增 3 筆日期化文件證據，非固定 Git 版本或直接頁面全文。官方首頁及 Changelog 直連仍 403；本輪取得 v1.5.0（2026-06）與 v2.0.0（2026-10）第一方較完整索引文字，補匯出、特效裁剪、密度及 IndexedDB 契約；未取得實際匯出檔、原始碼、授權或裝置量測。 未執行第三方。",
     "type": "Casberry 官方 AI Particle Simulator 頁與更新紀錄",
     "referenceUrls": [
       "https://particles.casberry.in/",
@@ -114,15 +114,15 @@
     "riskNotes": "官方展示的粒子數量與 FPS 是上游描述，不能當作個人裝置的效能保證。；匯出的程式碼或素材仍需安全、相容與授權審查；本批沒有執行或測量。；使用者貼入的動態公式／第三方程式需在隔離環境檢查。；本次沒有執行第三方程式、登入服務或存取憑證。；官方展示的粒子數量與 FPS 是上游描述，不能當作個人裝置的效能保證。；匯出的程式碼或素材仍需安全、相容與授權審查；本批沒有執行或測量。；只核對產品描述，未驗證任何效果或手勢功能。；官網描述不等同實際幀率或可支援的粒子上限；未量測。；未取得匯出檔或驗證授權，不能宣稱零依賴或可安全部署。；第三方安裝、執行、授權與整合均未實測。",
     "verification": {
       "status": "not-tested",
-      "evidence": "2026-11-26 官方首頁與 Changelog 直接擷取 403；僅查閱官方網域搜尋索引摘要，未操作模擬器或匯出程式。"
+      "evidence": "沿用既有證據；Batch 102 新增 3 筆日期化文件證據，非固定 Git 版本或直接頁面全文。官方首頁及 Changelog 直連仍 403；本輪取得 v1.5.0（2026-06）與 v2.0.0（2026-10）第一方較完整索引文字，補匯出、特效裁剪、密度及 IndexedDB 契約；未取得實際匯出檔、原始碼、授權或裝置量測。 未執行第三方。"
     },
     "layerReview": {
       "status": "deferred",
-      "reason": "2026-11-26 官方首頁與 Changelog 直接擷取 403；僅查閱官方網域搜尋索引摘要，未操作模擬器或匯出程式。",
-      "gap": "原頁及更新紀錄全文 403；完整輸入參數、匯出格式、授權及裝置效能未核對。",
-      "nextAction": "取得官方可讀文件或經核准的互動測試，確認設定、匯出權利、相容性及效能；不得執行未審查程式。"
+      "reason": "已核對第一方索引文件的局部契約，直接來源與實際使用仍未完成驗收，維持 deferred。",
+      "gap": "官方首頁及 Changelog 直連仍 403；本輪取得 v1.5.0（2026-06）與 v2.0.0（2026-10）第一方較完整索引文字，補匯出、特效裁剪、密度及 IndexedDB 契約；未取得實際匯出檔、原始碼、授權或裝置量測。",
+      "nextAction": "以原創測試素材、隔離環境及明確許可驗證匯出、依賴、設定一致性、保存重載及低效能裝置降級；另查授權。"
     },
-    "sourceGap": "原頁及更新紀錄全文 403；完整輸入參數、匯出格式、授權及裝置效能未核對。"
+    "sourceGap": "官方首頁及 Changelog 直連仍 403；本輪取得 v1.5.0（2026-06）與 v2.0.0（2026-10）第一方較完整索引文字，補匯出、特效裁剪、密度及 IndexedDB 契約；未取得實際匯出檔、原始碼、授權或裝置量測。"
   },
   "implementationKnowledge": {
     "priorPurposeSnapshot": {
@@ -165,7 +165,12 @@
         "locator": "搜尋索引摘要：single-file WebGL2 template",
         "limitations": "未取得匯出檔或驗證授權，不能宣稱零依賴或可安全部署。"
       }
-    ]
+    ],
+    "sourceReview": {
+      "standalone_export_contract": "版本紀錄宣稱可匯出 WebGL2 單檔及互動力場；另列出不同程式與 3D 資產匯出方向。",
+      "effect_pruning_contract": "版本紀錄描述 Vanilla HTML、Three.js、React 匯出會排除未啟用的後處理效果。",
+      "density_storage_contract": "版本紀錄宣稱可變更活躍模擬的粒子密度而不重置，並改以 IndexedDB 保存自訂模擬。"
+    }
   },
   "readerGuide": {
     "version": 2,
@@ -194,6 +199,16 @@
         "evidenceRefs": [
           "export"
         ]
+      },
+      {
+        "id": "particle-export-runtime-audit",
+        "title": "驗收粒子設定、匯出一致性與本地保存",
+        "detail": "以自有圖形和合成設定規劃粒子密度、停用特效、不同匯出目標、本地保存及重載測試；檢查產物依賴、瀏覽器相容性、權利及效能。",
+        "evidenceRefs": [
+          "standalone-export-contract",
+          "effect-pruning-contract",
+          "density-storage-contract"
+        ]
       }
     ],
     "example": {
@@ -208,7 +223,8 @@
       "useCaseRefs": [
         "use-visual",
         "use-density",
-        "use-export"
+        "use-export",
+        "particle-export-runtime-audit"
       ],
       "steps": [
         {
@@ -237,6 +253,15 @@
           "title": "獨立驗收實際成果",
           "evidenceRefs": [],
           "externalDependency": "需另行核准操作環境、合成資料、權限及外部服務，並取得獨立驗收證據。"
+        },
+        {
+          "id": "particle-export-runtime-audit",
+          "title": "驗收粒子設定、匯出一致性與本地保存",
+          "evidenceRefs": [
+            "standalone-export-contract",
+            "effect-pruning-contract",
+            "density-storage-contract"
+          ]
         }
       ]
     },
@@ -251,7 +276,8 @@
       "只核對產品描述，未驗證任何效果或手勢功能。",
       "官網描述不等同實際幀率或可支援的粒子上限；未量測。",
       "未取得匯出檔或驗證授權，不能宣稱零依賴或可安全部署。",
-      "第三方安裝、執行、授權與整合均未實測。"
+      "第三方安裝、執行、授權與整合均未實測。",
+      "官方首頁及 Changelog 直連仍 403；本輪取得 v1.5.0（2026-06）與 v2.0.0（2026-10）第一方較完整索引文字，補匯出、特效裁剪、密度及 IndexedDB 契約；未取得實際匯出檔、原始碼、授權或裝置量測。"
     ]
   },
   "agentEvidence": [
@@ -288,6 +314,42 @@
         "source.referenceUrls"
       ],
       "limitations": "未取得匯出檔或驗證授權，不能宣稱零依賴或可安全部署。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "standalone-export-contract",
+      "detail": "版本紀錄宣稱可匯出 WebGL2 單檔及互動力場；另列出不同程式與 3D 資產匯出方向。",
+      "locator": "https://particles.casberry.in/changelog — v1.5.0 June 2026 / WebGL Standalone Export；2026-11-26 第一方搜尋索引文字",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.standalone_export_contract",
+        "source.referenceUrls"
+      ],
+      "limitations": "未取得或執行匯出檔，不能保證零依賴、相容性或再散布授權。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "effect-pruning-contract",
+      "detail": "版本紀錄描述 Vanilla HTML、Three.js、React 匯出會排除未啟用的後處理效果。",
+      "locator": "https://particles.casberry.in/changelog — v2.0.0 October 2026 / Clean Code Exports & Effect Pruning；2026-11-26 第一方搜尋索引文字",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.effect_pruning_contract",
+        "source.referenceUrls"
+      ],
+      "limitations": "未比對實際匯出程式、視覺一致性或效能。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "density-storage-contract",
+      "detail": "版本紀錄宣稱可變更活躍模擬的粒子密度而不重置，並改以 IndexedDB 保存自訂模擬。",
+      "locator": "https://particles.casberry.in/changelog — v2.0.0 October 2026 / Dynamic Real-Time Particle Density；Infinite Simulation Storage；2026-11-26 第一方搜尋索引文字",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.density_storage_contract",
+        "source.referenceUrls"
+      ],
+      "limitations": "未驗證資料遷移、容量限制、儲存持久性、幀率或所有輸入類別。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
     }

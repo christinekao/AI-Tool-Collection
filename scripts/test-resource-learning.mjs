@@ -2722,3 +2722,19 @@ test('Deferred recovery batches 98–100: source authority and SDK boundary',()=
  assert.equal(course.intakeReview.layerReview.status,'deferred');
  assert.equal(course.intakeReview.verification.status,'not-tested');
 });
+
+
+test('Deferred recovery batches 101–103: dated document evidence and source gaps',()=>{
+ const cases=[["land-book-design-inspiration","gallery-provenance-rights-audit",[["submission-authorship","https://land-book.com/terms-of-service"],["gallery-reuse-boundary","https://land-book.com/terms-of-service"],["editorial-review-scope","https://land-book.com/submission-guidelines"]]],["particles-casberry","particle-export-runtime-audit",[["standalone-export-contract","https://particles.casberry.in/changelog"],["effect-pruning-contract","https://particles.casberry.in/changelog"],["density-storage-contract","https://particles.casberry.in/changelog"]]]];
+ for(const [id,caseId,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.match(d.intakeReview.layerReview.gap,/403/,id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const [ref,url] of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.startsWith(url+' — ')&&e.locator.includes('2026-11-26')&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(url),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+ const wellmade=JSON.parse(fs.readFileSync('data/resources/wellmade.json','utf8'));
+ assert.equal(wellmade.intakeReview.layerReview.status,'deferred');
+});

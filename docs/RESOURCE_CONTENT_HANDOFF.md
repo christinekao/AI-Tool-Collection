@@ -1,3 +1,13 @@
+# Resource 最新交接｜Phase 2 Batch 101–103（2026-11-26）
+
+- 依 PR #119 與 Batch 95–100 候選 Head `95de2f3834a90777910e072dc641d07df3f310ec` 疊加；必須依序取得四項 CI PASS 後合併，不提前計入 main。
+- [Batch 101](RESOURCE_DUAL_LAYER_BATCH101_20261126.md)：Land-book 補 3 筆日期化條款／收錄文件及一組用途；直連 403，僅第一方索引文字。
+- [Batch 102](RESOURCE_DUAL_LAYER_BATCH102_20261126.md)：Particles Casberry 補 3 筆日期化版本紀錄及一組用途；直連 403，僅第一方索引文字。
+- [Batch 103](RESOURCE_DUAL_LAYER_BATCH103_20261126.md)：Wellmade 直連逾時，產品分組不等於作者；不修改 Canonical 或增加正式證據。
+- 合計 6 筆局部文件證據、2 組用途、1 筆來源重查；保留 ID、分類、Tags、Graph 及正式完成率。268 對應、14 deferred、4 來源阻塞；第三方未執行。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 98–100（2026-11-26）
 
 - 依 PR #119 與 Batch 95–97 候選 Head `01a07eac3bdfc7327acf2b920eaa566fd3a97099` 疊加；必須依序取得四項 CI PASS 後合併，不提前計入 main。

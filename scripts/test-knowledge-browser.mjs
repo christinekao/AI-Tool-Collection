@@ -795,6 +795,11 @@ try{
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recovery100Titles[id])+')'),id);
   }
+  const recovery103Titles={"land-book-design-inspiration":"驗收設計參考的作者、權利與採用邊界","particles-casberry":"驗收粒子設定、匯出一致性與本地保存"};
+  if(recovery103Titles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recovery103Titles[id])+')'),id);
+  }
   const recoveryTitles={"hindsight":"驗收記憶版本、檢索及租戶授權","anomalyco-opencode":"驗收權限規則與子代理委派","orca":"驗收 Worktree 啟動與執行主機邊界"};
   if(recoveryTitles[id]){
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
