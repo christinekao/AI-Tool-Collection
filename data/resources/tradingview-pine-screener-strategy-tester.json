@@ -6,14 +6,14 @@
   "canonicalName": "TradingView",
   "category": "05 Data & Ingestion",
   "resourceType": "Commercial web charting / market screening / Pine Script indicator and backtest platform",
-  "purpose": "透過 TradingView 圖表及市場資料研究股票與 ETF，使用 Stock Screener 初篩；以 Pine Script 自訂 RSI、量能、均線、突破訊號，並透過 Pine Screener 對 Watchlist／支援的指數成分套用自訂指標掃描，最後在 Strategy Tester 以 strategy() 的 Broker Emulator 模擬進出場、交易成本、滑價和回測績效。",
-  "recommendation": "適合以台股量價及技術條件建立可重複研究流程。先確認台股市場資料、交易時段、資料延遲、可選市場及方案權限；篩選只產生候選而非買賣建議。自訂 Pine 指標與策略分離：Pine Screener 不支援直接掃描 strategy() 策略，而 Strategy Tester 的歷史成交是模擬，需檢查 lookahead、bar close、填單時點、費用、交易稅、滑價和 OOS 時段。",
+  "purpose": "官方文件區分 Pine Screener 的指標掃描與策略模擬，保留回測假設和資料限制。",
+  "recommendation": "適合研究金融研究的篩選與回測證據核對；先核對來源與權限，局部證據不是完整工具實測。",
   "url": "https://www.tradingview.com/",
   "repo": "",
   "notes": "2026-10-24 核對 TradingView 官方 Pine Screener 'key features and requirements'、Pine Script v6 Execution Model、Strategies、Broker Emulator 文件。Pine Screener 支援 Watchlist/指數來源，可使用包含 plot() 或 alertcondition() 的 favorite Pine 指標；不能直接使用 strategy()、不支援自訂任意 timeframe，指標只以最近 500 根 Bar 計算，單次掃描一個指標，最多 40 個獨立 request.*() calls（TradingView 2026-10-23 更新），並有多項輸入／Request 限制。一般 Stock Screener 不能直接套任意 Pine Script；兩者不宜混稱。Strategy Tester 由 Broker Emulator 模擬成交，可能與真實成交不同，策略的 realtime / history 執行行為亦有差別；台股日內訊號應在收盤已確認 bar 評估且不得取用尚未發生的資料。台股不同標的、交易方式的手續費、證交稅、流動性、漲跌停及市場資料權限不能假設一致；需依官方/券商最新規定自行配置或另行核實。來源文字提供 RSI 低於30與爆量作候選條件，並無任何經驗證的勝率或超額報酬。本輪未登入 TradingView、使用 Pine Editor、付費、訂閱行情或執行回測。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-26",
   "tags": [
     "tradingview",
     "pine-script-v6",
@@ -65,8 +65,12 @@
     "type": "Official TradingView guides and user-provided Taiwanese stock strategy article",
     "summary": "Official platform capabilities verified 2026-10-24. Source article is a research workflow, not validated trading advice.",
     "documentationUrl": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
-    "reviewedAt": "2026-11-20",
-    "reviewScope": "Official product documentation review; no new runtime/security testing"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "公開產品或教學頁面於 2026-11-26 查閱；無可核對上游 Git SHA；未安裝、執行、登入、付費或實測第三方項目。",
+    "referenceUrls": [
+      "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
+      "https://www.tradingview.com/pine-script-docs/concepts/strategies/"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -104,39 +108,203 @@
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "以既有 ID 與正式產品來源確認為同一筆內容，僅修訂原紀錄。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始未匹配 Tags 保留，沒有新增標籤與分類調整。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "既有 Domain／Category／Tags／Typed References 保留；只補功能、來源與使用限制。",
+    "classificationReason": "保留既有 Primary Domain business、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "standard",
       "status": "applied",
-      "reason": "依官方產品網站、技術文件、使用限制與服務條款進行一般 Resource 查核。"
+      "reason": "公開產品或教學頁面於 2026-11-26 查閱；無可核對上游 Git SHA；未安裝、執行、登入、付費或實測第三方項目。 文件及目錄證據契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "尚無已測試的版本化 Input/Output 契約，不建立 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留既有 Concept 引用，未新增 Graph 連結。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "Pine Screener 不能直接把 Strategy 當 Indicator 篩選；兩者用途與可用函式不同。；歷史回測的模擬填單、流動性與市場條件未必能在真實交易重現，不構成買賣建議。；未使用私人 API Key、第三方安裝或付費操作。",
+    "riskNotes": "服務方案、行情資料權利及使用條款另查；Pine Screener 不能直接把 Strategy 當 Indicator 篩選；兩者用途與可用函式不同。；歷史回測的模擬填單、流動性與市場條件未必能在真實交易重現，不構成買賣建議。；Screener 不直接執行策略類型腳本；未掃描真實行情。；目前文件說明最近 500 根 K 線；未實測或保證未來不變。；模擬不代表實際績效；未執行交易或提出買賣建議。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批檢視正式產品或文件頁，沒有執行 SaaS、API、第三方程式或完整安全測試。"
+      "evidence": "公開產品或教學頁面於 2026-11-26 查閱；無可核對上游 Git SHA；未安裝、執行、登入、付費或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "公開產品或教學頁面於 2026-11-26 查閱；無可核對上游 Git SHA；未安裝、執行、登入、付費或實測第三方項目。 用途與來源證據雙向對應。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "透過 TradingView 圖表及市場資料研究股票與 ETF，使用 Stock Screener 初篩；以 Pine Script 自訂 RSI、量能、均線、突破訊號，並透過 Pine Screener 對 Watchlist／支援的指數成分套用自訂指標掃描，最後在 Strategy Tester 以 strategy() 的 Broker Emulator 模擬進出場、交易成本、滑價和回測績效。",
+      "source": "https://www.tradingview.com/",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合以台股量價及技術條件建立可重複研究流程。先確認台股市場資料、交易時段、資料延遲、可選市場及方案權限；篩選只產生候選而非買賣建議。自訂 Pine 指標與策略分離：Pine Screener 不支援直接掃描 strategy() 策略，而 Strategy Tester 的歷史成交是模擬，需檢查 lookahead、bar close、填單時點、費用、交易稅、滑價和 OOS 時段。",
+    "documentContracts": [
+      {
+        "name": "區分指標掃描及策略模擬",
+        "input": "研究問題、指標及標的集合",
+        "output": "掃描來源、指標及篩選規格",
+        "source": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
+        "locator": "Selecting a source / Selecting an indicator",
+        "limitations": "Screener 不直接執行策略類型腳本；未掃描真實行情。"
+      },
+      {
+        "name": "保留掃描資料及執行限制",
+        "input": "合成時間週期及指標需求",
+        "output": "支援週期、資料長度及限制清單",
+        "source": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/",
+        "locator": "Pine Screener requirements",
+        "limitations": "目前文件說明最近 500 根 K 線；未實測或保證未來不變。"
+      },
+      {
+        "name": "核對回測成交的模擬假設",
+        "input": "合成價格與待核對回測設定",
+        "output": "模擬與實際成交差異的驗收規格",
+        "source": "https://www.tradingview.com/pine-script-docs/concepts/strategies/",
+        "locator": "Broker emulator / Adjusting historical bar detail",
+        "limitations": "模擬不代表實際績效；未執行交易或提出買賣建議。"
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-screen",
+        "title": "區分指標掃描及策略模擬",
+        "detail": "篩選結果與回測交易紀錄是不同產物。 輸出：掃描來源、指標及篩選規格。",
+        "evidenceRefs": [
+          "screen"
+        ]
+      },
+      {
+        "id": "use-limit",
+        "title": "保留掃描資料及執行限制",
+        "detail": "可用歷史長度會影響指標結果。 輸出：支援週期、資料長度及限制清單。",
+        "evidenceRefs": [
+          "limit"
+        ]
+      },
+      {
+        "id": "use-simulate",
+        "title": "核對回測成交的模擬假設",
+        "detail": "歷史 OHLC 無法完整重現實際成交。 輸出：模擬與實際成交差異的驗收規格。",
+        "evidenceRefs": [
+          "simulate"
+        ]
+      }
+    ],
+    "example": {
+      "id": "tradingview-pine-screener-strategy-tester-example",
+      "title": "規劃金融研究的篩選與回測證據核對",
+      "input": "合成指標條件、觀察清單與歷史價格資料",
+      "process": "區分指標掃描及策略模擬 → 保留掃描資料及執行限制 → 核對回測成交的模擬假設 → 獨立驗收實際成果",
+      "output": "篩選限制、模擬假設及偏差驗收清單",
+      "destination": "離線金融研究規格庫，經人工覆核後採用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-screen",
+        "use-limit",
+        "use-simulate"
+      ],
+      "steps": [
+        {
+          "id": "screen",
+          "title": "區分指標掃描及策略模擬",
+          "evidenceRefs": [
+            "screen"
+          ]
+        },
+        {
+          "id": "limit",
+          "title": "保留掃描資料及執行限制",
+          "evidenceRefs": [
+            "limit"
+          ]
+        },
+        {
+          "id": "simulate",
+          "title": "核對回測成交的模擬假設",
+          "evidenceRefs": [
+            "simulate"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准合成資料、操作環境、權限及外部服務，並取得實際成果的獨立驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成指標條件、觀察清單與歷史價格資料。",
+      "核對來源版本、授權、資料邊界與操作限制。",
+      "以合成資料設計正常、缺漏及失敗情境，再獨立驗收。"
+    ],
+    "limits": [
+      "Pine Screener 不能直接把 Strategy 當 Indicator 篩選；兩者用途與可用函式不同。",
+      "歷史回測的模擬填單、流動性與市場條件未必能在真實交易重現，不構成買賣建議。",
+      "Screener 不直接執行策略類型腳本；未掃描真實行情。",
+      "目前文件說明最近 500 根 K 線；未實測或保證未來不變。",
+      "模擬不代表實際績效；未執行交易或提出買賣建議。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "screen",
+      "detail": "篩選結果與回測交易紀錄是不同產物。 輸入：研究問題、指標及標的集合；輸出：掃描來源、指標及篩選規格",
+      "locator": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/ — Selecting a source / Selecting an indicator",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "Screener 不直接執行策略類型腳本；未掃描真實行情。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "limit",
+      "detail": "可用歷史長度會影響指標結果。 輸入：合成時間週期及指標需求；輸出：支援週期、資料長度及限制清單",
+      "locator": "https://www.tradingview.com/support/solutions/43000742436-tradingview-pine-screener-key-features-and-requirements/ — Pine Screener requirements",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "目前文件說明最近 500 根 K 線；未實測或保證未來不變。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "simulate",
+      "detail": "歷史 OHLC 無法完整重現實際成交。 輸入：合成價格與待核對回測設定；輸出：模擬與實際成交差異的驗收規格",
+      "locator": "https://www.tradingview.com/pine-script-docs/concepts/strategies/ — Broker emulator / Adjusting historical bar detail",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "模擬不代表實際績效；未執行交易或提出買賣建議。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }

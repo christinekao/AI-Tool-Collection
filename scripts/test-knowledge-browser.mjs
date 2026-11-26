@@ -734,7 +734,19 @@ try{
   ["strelov1-freehire",".resource-reader-guide","規劃自有職缺追蹤系統的搜尋與資料正規化"],
   ["citypulso-pulsoicon",".resource-reader-guide","規劃動態圖示的播放狀態與無障礙驗收"],
   ["punk-skill",".resource-reader-guide","規劃非商業視覺提示詞庫的規格驗收"],
-  ["openmontage",".resource-reader-guide","規劃影音工作流的產物與付費請求驗收"]
+  ["openmontage",".resource-reader-guide","規劃影音工作流的產物與付費請求驗收"],
+  ["omniroute",".resource-reader-guide","規劃模型路由目錄的新鮮度與快取驗收"],
+  ["minimax-m3-1-flash",".resource-reader-guide","規劃多模態模型的離線評估與部署前提"],
+  ["minimax-code",".resource-reader-guide","規劃 Coding Agent 的變更範圍與交付驗收"],
+  ["april-zhu-minicharts",".resource-reader-guide","規劃自有數據的主題式圖表與比例驗收"],
+  ["brandonhimpfen-awesome-finance",".resource-reader-guide","規劃金融研究資源目錄的分類與連結治理"],
+  ["herdr-mods-gallery",".resource-reader-guide","規劃自有工作台擴充的配方與發布驗收"],
+  ["typesafe-ai-jev",".resource-reader-guide","規劃型別化客服決策的輸入與獨立驗收"],
+  ["zeabur-oss-ai-agent-installer-guide",".resource-reader-guide","規劃自有伺服器的安裝前檢查與授權閘道"],
+  ["tradingview-pine-screener-strategy-tester",".resource-reader-guide","規劃金融研究的篩選與回測證據核對"],
+  ["skillry-web-design-template-skills",".resource-reader-guide","規劃自有作品集的版型採用與畫面驗收"],
+  ["skillry-opus-5-5-video-pattern-library",".resource-reader-guide","規劃自有動效影片的參考模式與重製驗收"],
+  ["zenbuapps",".resource-reader-guide","規劃小型服務業網站的預約與客服驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

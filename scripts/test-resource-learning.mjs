@@ -2342,12 +2342,130 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  73,
+  "模型目錄、模型評估與 Agent 開發",
+  [
+    [
+      "omniroute",
+      "規劃模型路由目錄的新鮮度與快取驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "minimax-m3-1-flash",
+      "規劃多模態模型的離線評估與部署前提",
+      2,
+      "evidence-linked",
+      "model",
+      "web"
+    ],
+    [
+      "minimax-code",
+      "規劃 Coding Agent 的變更範圍與交付驗收",
+      2,
+      "evidence-linked",
+      "application",
+      "web"
+    ]
+  ]
+],
+  [
+  74,
+  "資料視覺化、知識目錄及工作台擴充",
+  [
+    [
+      "april-zhu-minicharts",
+      "規劃自有數據的主題式圖表與比例驗收",
+      2,
+      "evidence-linked",
+      "documentation",
+      "web"
+    ],
+    [
+      "brandonhimpfen-awesome-finance",
+      "規劃金融研究資源目錄的分類與連結治理",
+      2,
+      "evidence-linked",
+      "collection"
+    ],
+    [
+      "herdr-mods-gallery",
+      "規劃自有工作台擴充的配方與發布驗收",
+      2,
+      "evidence-linked",
+      "collection",
+      "web"
+    ]
+  ]
+],
+  [
+  75,
+  "決策模型、基礎設施與回測契約",
+  [
+    [
+      "typesafe-ai-jev",
+      "規劃型別化客服決策的輸入與獨立驗收",
+      2,
+      "evidence-linked",
+      "model",
+      "web"
+    ],
+    [
+      "zeabur-oss-ai-agent-installer-guide",
+      "規劃自有伺服器的安裝前檢查與授權閘道",
+      2,
+      "evidence-linked",
+      "documentation",
+      "web"
+    ],
+    [
+      "tradingview-pine-screener-strategy-tester",
+      "規劃金融研究的篩選與回測證據核對",
+      2,
+      "evidence-linked",
+      "service",
+      "web"
+    ]
+  ]
+],
+  [
+  76,
+  "設計範本、影片參考及企業網站服務",
+  [
+    [
+      "skillry-web-design-template-skills",
+      "規劃自有作品集的版型採用與畫面驗收",
+      2,
+      "evidence-linked",
+      "collection",
+      "web"
+    ],
+    [
+      "skillry-opus-5-5-video-pattern-library",
+      "規劃自有動效影片的參考模式與重製驗收",
+      2,
+      "evidence-linked",
+      "collection",
+      "web"
+    ],
+    [
+      "zenbuapps",
+      "規劃小型服務業網站的預約與客服驗收",
+      2,
+      "evidence-linked",
+      "service",
+      "web"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
   const context=vm.createContext({URL});
   vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
-  for(const [id,title,version,status,format] of rows){
+  for(const [id,title,version,status,format,sourceKind] of rows){
    const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
    assert.ok(built,id);
    for(const key of ['readerGuide',version===1?'repoGuide':'agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
@@ -2357,7 +2475,7 @@ for(const [batch,topic,rows] of [
    assert.equal(d.classification.contentFormat,format,id);
    assert.equal(d.intakeReview.verification.status,'not-tested',id);
    assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
-   assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+   if(sourceKind==='web'){assert.equal(version,2,id);assert.match(d.source.reviewedAt,/^\d{4}-\d\d-\d\d$/);assert.ok(d.source.referenceUrls.length>0&&d.source.referenceUrls.every(url=>/^https:\/\//.test(url)),id);assert.ok(!d.source.upstreamCommit,id+' must not invent upstream SHA');}else assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
    assert.equal(d.readerGuide.useCases.length,3,id);
    for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
    for(const uc of d.readerGuide.useCases){

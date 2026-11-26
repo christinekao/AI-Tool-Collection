@@ -1,3 +1,15 @@
+# Resource 最新交接｜雙層知識 Batch 73–76（2026-11-26）
+
+- PR #109 已合併 `dc4081e46ae997f220a64c3256205cf62da6874d`，243/286。PR #110 四項 CI PASS，已合併 `30cd7018af6cd4da30ab1a54385b5b0a31b7d4c8`，252/286。PR #111 首輪 V2 因舊 OmniRoute Repo 引用失敗；修正 Audit 02 來源身分並保存歷史欄位，未更改原測試及關聯。
+- [Batch 73｜模型目錄、模型評估與 Agent 開發](RESOURCE_DUAL_LAYER_BATCH73_20261126.md)：omniroute、minimax-m3-1-flash、minimax-code；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 74｜資料視覺化、知識目錄及工作台擴充](RESOURCE_DUAL_LAYER_BATCH74_20261126.md)：april-zhu-minicharts、brandonhimpfen-awesome-finance、herdr-mods-gallery；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 75｜決策模型、基礎設施與回測契約](RESOURCE_DUAL_LAYER_BATCH75_20261126.md)：typesafe-ai-jev、zeabur-oss-ai-agent-installer-guide、tradingview-pine-screener-strategy-tester；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 76｜設計範本、影片參考及企業網站服務](RESOURCE_DUAL_LAYER_BATCH76_20261126.md)：skillry-web-design-template-skills、skillry-opus-5-5-video-pattern-library、zenbuapps；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- 新增 12 筆（1 mapped、11 evidence-linked）；36 用途、36 局部證據、12 design-only 案例。2 筆固定 Git SHA、10 筆公開頁面日期化查核，不捏造 SHA。OmniRoute 與 Awesome Finance 依同一 GitHub Repository ID 確認轉移；格式修正留存原分類。第三方未實測。
+- 三組合併後預計 264/286（257 對應、7 deferred），22 尚未改寫。先確認四項 CI 與依序合併。來源受限、404、無 URL、重複或無法確認轉移項目不冒充完成。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 70–72（2026-11-26）
 
 - PR #108 已合併，234/286。PR #109 基線 `e9fa297c1482b5c4b6edde19573ce0d0e353833b`，尚待完整 CI 與合併。
