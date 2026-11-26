@@ -1,3 +1,15 @@
+# Resource 最新交接｜雙層知識 Batch 63–66（2026-11-26）
+
+- PR #105 已合併，204/286。PR #106 四項 CI PASS 且合併 `04dd94a40e5cb1d4f749f94258173338cdd6df78`，213/286。PR #107 四項 CI PASS 且合併 `5c14bbc3e4330050dff5acbb216454314bf1a263`，222/286。PR #108 首次 Intake Gate 發現 3 筆欄位問題：兩筆原限制描述不足 12 字、一筆文件子技能 repo 原本空白。修正 Reader Guide 限制描述及實際來源證據欄位，維持原始資料與驗收規則；待新提交四項 CI。
+- [Batch 63｜金融研究的資料品質、成本與證據](RESOURCE_DUAL_LAYER_BATCH63_20261126.md)：blave-agent、kerr20801-taiwan-stock-ai-analyzer、zhulinsen-daily-stock-analysis；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 64｜風險閘道與工具執行邊界](RESOURCE_DUAL_LAYER_BATCH64_20261126.md)：anti-gambling-trader-tw、jakeschincariol-day-trader-skill、pomerado-pomerado；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 65｜影音處理與生成素材索引](RESOURCE_DUAL_LAYER_BATCH65_20261126.md)：onetake、jub0t-concat、awesome-gpt-image-2；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 66｜視覺設計與文字交付](RESOURCE_DUAL_LAYER_BATCH66_20261126.md)：photo-riso-poster、copywriting-skill、akseolabs-seo-cinematic-ui；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- 合計新增 12 筆（10 mapped、2 evidence-linked）、36 用途、36 局部證據、12 design-only 案例；第三方未實測。onetake 非商業授權；Concat AGPL；金融資源僅研究與風險檢核，台股分析器新聞情緒分數為模擬，非市場證據。
+- Batch 57–66 共 30 筆；三組全部合併後預計 234/286（227 完成對應、7 deferred），52 尚未改寫。先確認四項 CI、依序合併與 Catalog Sync／Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 60–62（2026-11-26）
 
 - PR #105 已合併，204/286（197 完成對應、7 deferred）。PR #106 為 Batch 57–59，基線 `1f158bec948348e5279375091febe7662fdd2d2e`，尚待確認完整 CI 與合併。

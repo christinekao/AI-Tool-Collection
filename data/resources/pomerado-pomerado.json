@@ -6,8 +6,8 @@
   "canonicalName": "Pomerado",
   "category": "03 MCP / Tool Integration",
   "resourceType": "Open-source MIT local MCP integration minter / native Playwright browser exploration / deterministic generated operation modules",
-  "purpose": "將缺乏公開 API、需要瀏覽器登入／二階段驗證的網站操作轉換為可重複執行的 MCP Tools：用自然語言描述網站與工作，Mint Agent 透過真實 Chromium／Playwright 瀏覽探索及建立 `src/` 操作模組；Guardian 在建立期間審核工具呼叫、操作及輸出程式，最後讓 Agent 經本機 MCP Server 調用生成的確定性程式，避免每一輪都重新以模型視覺操作網頁。",
-  "recommendation": "適合研究 Website → Tool → MCP 的 Agent 工具化方式，尤其只有 Web UI、沒有穩定公開 API 的服務。先選唯讀、低敏感度、可檢查的操作建立 Proof of Concept，檢查產出的程式、輸出 Schema 與網站權限，再逐步考慮修改流程。對付款、提交表單、編修、刪除等寫入操作，額外加上每次調用的使用者授權、Dry Run、冪等鍵／防重、操作日誌與實際結果核對，不可只依靠 Mint 時 Guardian 審查。",
+  "purpose": "網站 MCP 整合的執行環境說明、敏感資訊遮蔽政策及工具輸入驗證。",
+  "recommendation": "適合研究已授權網站整合的安全邊界驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Pomerado/pomerado",
   "repo": "Pomerado/pomerado",
   "notes": "2026-10-28 核對官方 README、docs/how-it-works.md、docs/getting-started.md、docs/agent-setup.md、根目錄 LICENSE、package.json。官方主分支 package.json 版本 0.4.0，MIT 授權；README 註明 0.1.2 或更舊版為 AGPL-3.0-only、third-party adapted code 仍依各自條款。支援 Mac/Linux、Node 24.21+ 且低於 25、需 Playwright Chromium 與可用 OpenAI API key（建立和審核整合時使用 OpenAI 模型，與操控 Pomerado 的 Claude/Codex/其他 Agent 可不同）；啟動服務和列工具不會使用模型，Mint 呼叫才涉及費用／真實瀏覽。流程 Mint Agent → Chromium／Native Playwright 探索和完成一個範例 → 整理成 src/* 確定性 operation modules → Guardian 行為與 Publication Review、read 筆案例驗證 → 輸出 pomerado.json/schema、deployment.json、MCP 啟動程式、部署／驗證紀錄，讓每次後續 Tool Run 執行生成程式、不需再呼叫模型。Minter 的 `mint/get_job/provide_input/cancel_job` 分別啟動、追進度、答疑和停止工作；官方 Read／Write Authority 在 Mint 時選擇，Write Mint 會實際操作一次，可能對真實網站產生效果，Cancel 亦不保證已送出的動作可撤回；Read Mint 若認為必須寫入會請求升級。重要限制（官方 README 直述）：『A run doesn't check authority or intent, and edits to src/ or deployment.json aren't reviewed』；日後 Run 若是可寫 Tool，並不會再次強制使用者批准，每次高後果操作應由外部 Host／Human-in-the-Loop 控制；自架 MCP 整合可能因網站改版、權限、驗證碼、bot protection 而失效。登入資料由使用者在網站上提供，官網表示不儲存值，但不檢查網站本身 script 將所輸入內容送往何處；只檢查登入表單／提交 Origin，故使用前應評估 phishing、網站腳本與不可信頁面注入。完整 MIT 原始核心包含 Minter、Guardian、runtime、local host；Pomerado Cloud 另提供託管、OAuth／儲存登入、Access Control、Bot Protection、Repair 等服務，不能把 Cloud 功能誤認為免費本機版內建。作者的『deterministic / faster / more reliable than computer use』是官方設計主張，本輪未執行基準測試或安全審計。勿隨便把 Pomerado 連到內部 HR、財務等敏感系統，需依組織政策與合約核准。沒有安裝、執行 CLI、連接網站、登入、讀取金鑰或操作外部系統。",
@@ -86,7 +86,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "pomerado",
     "mcp",
@@ -121,8 +121,16 @@
     "licenseUrl": "https://github.com/Pomerado/pomerado/blob/main/LICENSE",
     "type": "Official README, architecture docs, getting-started docs, package.json and MIT LICENSE",
     "summary": "First-party reviewed 2026-10-28; version 0.4.0 in package.json. Not installed or executed.",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime/security audit"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、typescript/src/guardian/execution-policy.ts、typescript/src/privacy/credential-policy.ts、typescript/src/mcp/schema.ts 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "a4dfda15b151eb05c905255ccf77a69541df2957",
+    "referenceUrls": [
+      "https://github.com/Pomerado/pomerado/blob/a4dfda15b151eb05c905255ccf77a69541df2957/README.md",
+      "https://github.com/Pomerado/pomerado/blob/a4dfda15b151eb05c905255ccf77a69541df2957/LICENSE",
+      "https://github.com/Pomerado/pomerado/blob/a4dfda15b151eb05c905255ccf77a69541df2957/typescript/src/guardian/execution-policy.ts",
+      "https://github.com/Pomerado/pomerado/blob/a4dfda15b151eb05c905255ccf77a69541df2957/typescript/src/privacy/credential-policy.ts",
+      "https://github.com/Pomerado/pomerado/blob/a4dfda15b151eb05c905255ccf77a69541df2957/typescript/src/mcp/schema.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -159,40 +167,393 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain ai-agent，僅改善功能、條件、限制，不更改分類。",
+    "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、typescript/src/guardian/execution-policy.ts、typescript/src/privacy/credential-policy.ts、typescript/src/mcp/schema.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "MIT；第三方元件另有條款；README 指出 Integration Run 不會自動重新審核 Authority 和原始碼修改；登入憑證及跨站操作可能有外送、條款及重大副作用風險；本機 worker 非隔離安全沙箱；政策文字不是強制隔離證明；僅限已授權站點。；規則可能漏辨識，不能保證完全去識別；不用真實憑證測試。；結構驗證不等同權限審查；不執行網站或寫入操作。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、typescript/src/guardian/execution-policy.ts、typescript/src/privacy/credential-policy.ts、typescript/src/mcp/schema.ts 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、typescript/src/guardian/execution-policy.ts、typescript/src/privacy/credential-policy.ts、typescript/src/mcp/schema.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將缺乏公開 API、需要瀏覽器登入／二階段驗證的網站操作轉換為可重複執行的 MCP Tools：用自然語言描述網站與工作，Mint Agent 透過真實 Chromium／Playwright 瀏覽探索及建立 `src/` 操作模組；Guardian 在建立期間審核工具呼叫、操作及輸出程式，最後讓 Agent 經本機 MCP Server 調用生成的確定性程式，避免每一輪都重新以模型視覺操作網頁。",
+      "source": "https://github.com/Pomerado/pomerado",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究 Website → Tool → MCP 的 Agent 工具化方式，尤其只有 Web UI、沒有穩定公開 API 的服務。先選唯讀、低敏感度、可檢查的操作建立 Proof of Concept，檢查產出的程式、輸出 Schema 與網站權限，再逐步考慮修改流程。對付款、提交表單、編修、刪除等寫入操作，額外加上每次調用的使用者授權、Dry Run、冪等鍵／防重、操作日誌與實際結果核對，不可只依靠 Mint 時 Guardian 審查。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-environment",
+        "title": "辨識執行環境的權限邊界",
+        "detail": "本機操作未必具有安全沙箱 輸出：需檢查的執行限制。",
+        "capabilityRefs": [
+          "environment"
+        ]
+      },
+      {
+        "id": "use-privacy",
+        "title": "核對敏感值遮蔽政策",
+        "detail": "一般字詞及真實憑證須區分 輸出：遮蔽規則與辨識結果。",
+        "capabilityRefs": [
+          "privacy"
+        ]
+      },
+      {
+        "id": "use-schema",
+        "title": "驗證工具輸入的結構",
+        "detail": "不合規參數應在執行前拒絕 輸出：解析結果或錯誤資訊。",
+        "capabilityRefs": [
+          "schema"
+        ]
+      }
+    ],
+    "example": {
+      "id": "pomerado-pomerado-example",
+      "title": "規劃已授權網站整合的安全邊界驗收",
+      "input": "自有測試站點、合成工具參數及虛構敏感值",
+      "process": "辨識執行環境的權限邊界 → 核對敏感值遮蔽政策 → 驗證工具輸入的結構 → 獨立驗收實際成果",
+      "output": "環境限制、遮蔽檢核及參數驗證規格",
+      "destination": "隔離的網站整合測試環境，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-environment",
+        "use-privacy",
+        "use-schema"
+      ],
+      "steps": [
+        {
+          "id": "environment",
+          "title": "辨識執行環境的權限邊界",
+          "capabilityRefs": [
+            "environment"
+          ]
+        },
+        {
+          "id": "privacy",
+          "title": "核對敏感值遮蔽政策",
+          "capabilityRefs": [
+            "privacy"
+          ]
+        },
+        {
+          "id": "schema",
+          "title": "驗證工具輸入的結構",
+          "capabilityRefs": [
+            "schema"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有測試站點、合成工具參數及虛構敏感值。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "README 指出 Integration Run 不會自動重新審核 Authority 和原始碼修改",
+      "登入憑證及跨站操作可能有外送、條款及重大副作用風險",
+      "本機 worker 非隔離安全沙箱；政策文字不是強制隔離證明；僅限已授權站點。",
+      "規則可能漏辨識，不能保證完全去識別；不用真實憑證測試。",
+      "結構驗證不等同權限審查；不執行網站或寫入操作。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "網站 MCP 整合的執行環境說明、敏感資訊遮蔽政策及工具輸入驗證。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；第三方元件另有條款"
+      },
+      {
+        "label": "版本",
+        "value": "a4dfda15b151eb05c905255ccf77a69541df2957"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "辨識執行環境的權限邊界",
+        "detail": "本機操作未必具有安全沙箱 輸入：執行環境描述與授權範圍；輸出：需檢查的執行限制",
+        "source": "typescript/src/guardian/execution-policy.ts"
+      },
+      {
+        "title": "核對敏感值遮蔽政策",
+        "detail": "一般字詞及真實憑證須區分 輸入：合成欄位與虛構憑證；輸出：遮蔽規則與辨識結果",
+        "source": "typescript/src/privacy/credential-policy.ts"
+      },
+      {
+        "title": "驗證工具輸入的結構",
+        "detail": "不合規參數應在執行前拒絕 輸入：合成 Schema 及合法或額外欄位；輸出：解析結果或錯誤資訊",
+        "source": "typescript/src/mcp/schema.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "辨識執行環境的權限邊界 → 核對敏感值遮蔽政策 → 驗證工具輸入的結構 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "辨識執行環境的權限邊界",
+          "detail": "執行環境描述與授權範圍 → 需檢查的執行限制",
+          "files": [
+            "typescript/src/guardian/execution-policy.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "核對敏感值遮蔽政策",
+          "detail": "合成欄位與虛構憑證 → 遮蔽規則與辨識結果",
+          "files": [
+            "typescript/src/privacy/credential-policy.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "驗證工具輸入的結構",
+          "detail": "合成 Schema 及合法或額外欄位 → 解析結果或錯誤資訊",
+          "files": [
+            "typescript/src/mcp/schema.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "辨識執行環境的權限邊界",
+        "rule": "本機 worker 非隔離安全沙箱；政策文字不是強制隔離證明；僅限已授權站點。",
+        "source": "typescript/src/guardian/execution-policy.ts"
+      },
+      {
+        "name": "核對敏感值遮蔽政策",
+        "rule": "規則可能漏辨識，不能保證完全去識別；不用真實憑證測試。",
+        "source": "typescript/src/privacy/credential-policy.ts"
+      },
+      {
+        "name": "驗證工具輸入的結構",
+        "rule": "結構驗證不等同權限審查；不執行網站或寫入操作。",
+        "source": "typescript/src/mcp/schema.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、typescript/src/guardian/execution-policy.ts、typescript/src/privacy/credential-policy.ts、typescript/src/mcp/schema.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "typescript/src/guardian/execution-policy.ts",
+          "typescript/src/privacy/credential-policy.ts",
+          "typescript/src/mcp/schema.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試站點、合成工具參數及虛構敏感值。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "typescript/src/guardian/execution-policy.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "隔離的網站整合測試環境，經資料權利與人工覆核後使用。",
+        "file": "typescript/src/guardian/execution-policy.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "environment",
+        "name": "辨識執行環境的權限邊界",
+        "problem": "本機操作未必具有安全沙箱",
+        "input": "執行環境描述與授權範圍",
+        "output": "需檢查的執行限制",
+        "source": "typescript/src/guardian/execution-policy.ts",
+        "sourceFiles": [
+          "typescript/src/guardian/execution-policy.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "nativeExecutionEnvironment",
+          "guardianExecutionPolicy"
+        ],
+        "gate": "本機 worker 非隔離安全沙箱；政策文字不是強制隔離證明；僅限已授權站點。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "privacy",
+        "name": "核對敏感值遮蔽政策",
+        "problem": "一般字詞及真實憑證須區分",
+        "input": "合成欄位與虛構憑證",
+        "output": "遮蔽規則與辨識結果",
+        "source": "typescript/src/privacy/credential-policy.ts",
+        "sourceFiles": [
+          "typescript/src/privacy/credential-policy.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "credentialPolicy",
+          "isCredentialAssignmentKey"
+        ],
+        "gate": "規則可能漏辨識，不能保證完全去識別；不用真實憑證測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "schema",
+        "name": "驗證工具輸入的結構",
+        "problem": "不合規參數應在執行前拒絕",
+        "input": "合成 Schema 及合法或額外欄位",
+        "output": "解析結果或錯誤資訊",
+        "source": "typescript/src/mcp/schema.ts",
+        "sourceFiles": [
+          "typescript/src/mcp/schema.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "standard"
+        ],
+        "gate": "結構驗證不等同權限審查；不執行網站或寫入操作。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃已授權網站整合的安全邊界驗收（設計示例）",
+      "problem": "自有測試站點、合成工具參數及虛構敏感值",
+      "steps": [
+        {
+          "capability": "environment",
+          "action": "辨識執行環境的權限邊界"
+        },
+        {
+          "capability": "privacy",
+          "action": "核對敏感值遮蔽政策"
+        },
+        {
+          "capability": "schema",
+          "action": "驗證工具輸入的結構"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "pomerado-pomerado-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試站點、合成工具參數及虛構敏感值",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "辨識執行環境的權限邊界 → 核對敏感值遮蔽政策 → 驗證工具輸入的結構 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "隔離的網站整合測試環境，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "README 指出 Integration Run 不會自動重新審核 Authority 和原始碼修改",
+        "登入憑證及跨站操作可能有外送、條款及重大副作用風險",
+        "本機 worker 非隔離安全沙箱；政策文字不是強制隔離證明；僅限已授權站點。",
+        "規則可能漏辨識，不能保證完全去識別；不用真實憑證測試。",
+        "結構驗證不等同權限審查；不執行網站或寫入操作。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "README 指出 Integration Run 不會自動重新審核 Authority 和原始碼修改；登入憑證及跨站操作可能有外送、條款及重大副作用風險；本機 worker 非隔離安全沙箱；政策文字不是強制隔離證明；僅限已授權站點。；規則可能漏辨識，不能保證完全去識別；不用真實憑證測試。；結構驗證不等同權限審查；不執行網站或寫入操作。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、typescript/src/guardian/execution-policy.ts、typescript/src/privacy/credential-policy.ts、typescript/src/mcp/schema.ts 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
