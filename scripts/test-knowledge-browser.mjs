@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityAuditPhrases={"hermes-snyk-plugin":"2026-11-26 已局部查核","infiniflow-ragflow":"局部 Go 原始碼及上游測試","stitch-mcp":"自編作品集畫面","land-book-design-inspiration":"品牌方向","particles-casberry":"自有網站的粒子背景"};
+  if(qualityAuditPhrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityAuditPhrases[id])+')'),id);
+  }
   const recoveryNewTitles={"infiniflow-ragflow":"驗收 Go 檢索權限、引用及匯入狀態","toeverything-affine":"驗收文件寫入、合併及權限邊界","hermes-snyk-plugin":"驗收掃描插件版本與外送邊界"};
   if(recoveryNewTitles[id]){
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
