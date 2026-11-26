@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 12（2026-11-26）
+
+- [Batch 12｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH12_20261126.md)：qingyuna-answer-me-with-html 至 shubhamsaboo-awesome-llm-apps，20/20 已讀取，12 候選修正、8 保留。更新 purpose/start 與六項 useCase.detail；REA、Reverse Skill 維持 deferred，不合併 Reverse Skill 2。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
+- #132 四項 CI PASS 已合併；本批基於 main 60bce701cbc82a9082392aeaf1f93f204c95d8fd，待四項 CI。#131 Catalog Sync、Pages PASS；正式 deployed Chromium 尚未獨立驗收。
+- 固定順序候選 240/286，映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 shubhamsaboo-needle 起取 20 筆；P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 11（2026-11-26）
 
 - [Batch 11｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH11_20261126.md)：openclaw-openclaw 至 pythonanywhere，20/20 已讀取，11 候選修正、9 保留。更新 purpose/start、六個 useCase.detail，Orca 補既有遠端認證與 Worker 停止回收案例連結；Orca 與 Particles 維持 deferred。來源、證據、分類、Tags、Typed References 與 Graph 關係保留。
