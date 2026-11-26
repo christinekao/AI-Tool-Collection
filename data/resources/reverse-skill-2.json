@@ -6,14 +6,14 @@
   "canonicalName": "Reverse Skill",
   "category": "07 Security & Governance",
   "resourceType": "Cybersecurity Skill Router / Toolchain Orchestrator",
-  "purpose": "替 AI coding agents 提供逆向工程、授權滲透測試與安全研究的任務路由層：先做 scope / authorization gate，再依 APK、binary、JS、mobile、malware、firmware、CTF、API、LLM security 等情境選擇對應 Skill、工具、MCP 與腳本，並保留 evidence、timeline、finding 與 field journal。",
-  "recommendation": "適合研究大量專業 Skills 如何用結構化 routing、tool availability 檢查與 regression benchmark 管理，而不是讓 Agent 每次臨場猜要用哪套工具；安全操作仍應限定在合法授權範圍。",
+  "purpose": "參考 Reverse Skill 的唯讀案例審查模組，為已獲授權的自有測試資料建立證據、引用與檔案完整性驗收。",
+  "recommendation": "適合規劃自有測試案例的證據完整性驗收；先核對來源、權限及適用範圍，依獨立驗收證據判斷成果。",
   "url": "https://github.com/zhaoxuya520/reverse-skill",
   "repo": "zhaoxuya520/reverse-skill",
   "notes": "Official repository confirmed. Reverse Skill is a client-neutral cybersecurity skills router pack. Its documented workflow routes tasks through global rules and a primary routing layer, initializes scope and authorization before target actions, checks local tool availability, dispatches to scenario-specific skills, and records evidence / findings / timeline / field journal. The routing configuration is treated as a source of truth and is covered by cross-platform regression/coherence checks. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "security",
     "reverse-engineering",
@@ -88,25 +88,36 @@
   "source": {
     "url": "https://github.com/zhaoxuya520/reverse-skill",
     "readmeUrl": "https://github.com/zhaoxuya520/reverse-skill/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 case-review 文件、唯讀 Python 審查程式的相關函式、合成案例測試及根 MIT 授權已局部閱讀；只涵蓋此模組，不涵蓋全套資安工具。未執行第三方程式或測試。",
+    "referenceUrls": [
+      "https://github.com/zhaoxuya520/reverse-skill/blob/b972ad0e90f26d8f044828f004da22a4a585da12/skills/case-review/scripts/review_case.py",
+      "https://github.com/zhaoxuya520/reverse-skill/blob/b972ad0e90f26d8f044828f004da22a4a585da12/skills/case-review/SKILL.md",
+      "https://github.com/zhaoxuya520/reverse-skill/blob/b972ad0e90f26d8f044828f004da22a4a585da12/skills/case-review/tests/test_review_case.py",
+      "https://github.com/zhaoxuya520/reverse-skill/blob/b972ad0e90f26d8f044828f004da22a4a585da12/LICENSE",
+      "https://api.github.com/repos/zhaoxuya520/reverse-skill"
+    ],
+    "upstreamCommit": "b972ad0e90f26d8f044828f004da22a4a585da12"
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "source.url",
-      "url"
+      "url",
+      "source.referenceUrls",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "url"
+        "url",
+        "title"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "保留原 ID、分類與關聯；來源身分的去重仍待獨立決策，不新增或刪除實體。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -115,8 +126,8 @@
     "classificationReason": "沿用既有 Primary Domain security，僅改善功能、條件、限制，不更改分類。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 case-review 文件、唯讀 Python 審查程式的相關函式、合成案例測試及根 MIT 授權已局部閱讀；只涵蓋此模組，不涵蓋全套資安工具。未執行第三方程式或測試。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -126,10 +137,382 @@
       "decision": "reused",
       "reason": "保留原有 Concept References，不新增 Graph Edge。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。；資安工具具有高權限與雙重用途，不得用於未授權目標；上游路由測試覆蓋率不是實際滲透測試或安全保證；欄位檢查不代表真實授權有效；須獨立核對實際權限。；只檢查結構與引用，不證明原始結論正確；上游測試未執行。；雜湊只能核對檔案一致性，不代表來源真實、合法或安全。；未執行第三方程式、測試、登入或授權操作。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 case-review 文件、唯讀 Python 審查程式的相關函式、合成案例測試及根 MIT 授權已局部閱讀；只涵蓋此模組，不涵蓋全套資安工具。未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 case-review 文件、唯讀 Python 審查程式的相關函式、合成案例測試及根 MIT 授權已局部閱讀；只涵蓋此模組，不涵蓋全套資安工具。未執行第三方程式或測試。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "替 AI coding agents 提供逆向工程、授權滲透測試與安全研究的任務路由層：先做 scope / authorization gate，再依 APK、binary、JS、mobile、malware、firmware、CTF、API、LLM security 等情境選擇對應 Skill、工具、MCP 與腳本，並保留 evidence、timeline、finding 與 field journal。",
+      "source": "https://github.com/zhaoxuya520/reverse-skill",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究大量專業 Skills 如何用結構化 routing、tool availability 檢查與 regression benchmark 管理，而不是讓 Agent 每次臨場猜要用哪套工具；安全操作仍應限定在合法授權範圍。",
+    "priorSourceReviewSnapshot": {
+      "reviewedAt": "2026-11-19",
+      "reviewScope": "Documentation only, no code executed"
+    },
+    "priorIntakeReviewSnapshot": {
+      "sourceStatus": "source-checked",
+      "sourceGap": ""
+    },
+    "sourceIdentity": {
+      "repositoryId": "1237819660",
+      "relatedExistingResourceId": "reverse-skill",
+      "decision": "保留兩筆 ID，較完整紀錄作主要候選；不改 Graph"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-scope",
+        "title": "核對案例範圍與授權紀錄",
+        "detail": "輸入：自編 scope.md 與資產紀錄；輸出：缺漏、狀態與待人工確認項目。",
+        "capabilityRefs": [
+          "scope"
+        ]
+      },
+      {
+        "id": "use-trace",
+        "title": "驗證證據與報告引用",
+        "detail": "輸入：合成 Evidence、Finding、Work item 與 Timeline；輸出：引用缺失與追溯報告。",
+        "capabilityRefs": [
+          "trace"
+        ]
+      },
+      {
+        "id": "use-fixity",
+        "title": "核對案例檔案完整性",
+        "detail": "輸入：合成案例內檔案與預期 SHA-256；輸出：雜湊相符或不符、檔案範圍與缺漏紀錄。",
+        "capabilityRefs": [
+          "fixity"
+        ]
+      }
+    ],
+    "example": {
+      "id": "reverse-skill-2-example",
+      "title": "規劃自有測試案例的證據完整性驗收",
+      "input": "自編案例資料夾、合成證據與驗收規格",
+      "process": "核對案例範圍與授權紀錄 → 驗證證據與報告引用 → 核對案例檔案完整性 → 獨立驗收",
+      "output": "授權範圍檢查、引用完整性報告與雜湊驗收結果規格",
+      "destination": "自有品質驗收工作區；只使用合成資料，不對第三方目標操作。",
+      "note": "自訂設計案例；未執行第三方工具或產生實際成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-scope",
+        "use-trace",
+        "use-fixity"
+      ],
+      "steps": [
+        {
+          "id": "scope",
+          "title": "核對案例範圍與授權紀錄",
+          "capabilityRefs": [
+            "scope"
+          ]
+        },
+        {
+          "id": "trace",
+          "title": "驗證證據與報告引用",
+          "capabilityRefs": [
+            "trace"
+          ]
+        },
+        {
+          "id": "fixity",
+          "title": "核對案例檔案完整性",
+          "capabilityRefs": [
+            "fixity"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、權限與實際驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自編案例資料夾、合成證據與驗收規格。",
+      "核對來源身分、資料權利與適用限制。",
+      "以合成資料規劃缺漏、拒絕及失敗情境。"
+    ],
+    "limits": [
+      "資安工具具有高權限與雙重用途，不得用於未授權目標",
+      "上游路由測試覆蓋率不是實際滲透測試或安全保證",
+      "欄位檢查不代表真實授權有效；須獨立核對實際權限。",
+      "只檢查結構與引用，不證明原始結論正確；上游測試未執行。",
+      "雜湊只能核對檔案一致性，不代表來源真實、合法或安全。",
+      "未執行第三方程式、測試、登入或授權操作。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "參考 Reverse Skill 的唯讀案例審查模組，為已獲授權的自有測試資料建立證據、引用與檔案完整性驗收。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本 case-review 局部查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "限唯讀案例審查模組"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "根 MIT；其他工具、資料與相依授權另查"
+      },
+      {
+        "label": "版本",
+        "value": "b972ad0e90f26d8f044828f004da22a4a585da12"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "核對案例範圍與授權紀錄",
+        "detail": "自編 scope.md 與資產紀錄 → 缺漏、狀態與待人工確認項目",
+        "source": "skills/case-review/scripts/review_case.py"
+      },
+      {
+        "title": "驗證證據與報告引用",
+        "detail": "合成 Evidence、Finding、Work item 與 Timeline → 引用缺失與追溯報告",
+        "source": "skills/case-review/scripts/review_case.py"
+      },
+      {
+        "title": "核對案例檔案完整性",
+        "detail": "合成案例內檔案與預期 SHA-256 → 雜湊相符或不符、檔案範圍與缺漏紀錄",
+        "source": "skills/case-review/scripts/review_case.py"
+      }
+    ],
+    "architecture": {
+      "summary": "核對案例範圍與授權紀錄 → 驗證證據與報告引用 → 核對案例檔案完整性 → 獨立驗收",
+      "nodes": [
+        {
+          "title": "核對案例範圍與授權紀錄",
+          "detail": "自編 scope.md 與資產紀錄 → 缺漏、狀態與待人工確認項目",
+          "files": [
+            "skills/case-review/scripts/review_case.py",
+            "skills/case-review/SKILL.md",
+            "skills/case-review/tests/test_review_case.py"
+          ]
+        },
+        {
+          "title": "驗證證據與報告引用",
+          "detail": "合成 Evidence、Finding、Work item 與 Timeline → 引用缺失與追溯報告",
+          "files": [
+            "skills/case-review/scripts/review_case.py",
+            "skills/case-review/SKILL.md",
+            "skills/case-review/tests/test_review_case.py"
+          ]
+        },
+        {
+          "title": "核對案例檔案完整性",
+          "detail": "合成案例內檔案與預期 SHA-256 → 雜湊相符或不符、檔案範圍與缺漏紀錄",
+          "files": [
+            "skills/case-review/scripts/review_case.py",
+            "skills/case-review/SKILL.md",
+            "skills/case-review/tests/test_review_case.py"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "核對案例範圍與授權紀錄",
+        "rule": "欄位檢查不代表真實授權有效；須獨立核對實際權限。",
+        "source": "skills/case-review/scripts/review_case.py"
+      },
+      {
+        "name": "驗證證據與報告引用",
+        "rule": "只檢查結構與引用，不證明原始結論正確；上游測試未執行。",
+        "source": "skills/case-review/scripts/review_case.py"
+      },
+      {
+        "name": "核對案例檔案完整性",
+        "rule": "雜湊只能核對檔案一致性，不代表來源真實、合法或安全。",
+        "source": "skills/case-review/scripts/review_case.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 case-review 文件、唯讀 Python 審查程式的相關函式、合成案例測試及根 MIT 授權已局部閱讀；只涵蓋此模組，不涵蓋全套資安工具。未執行第三方程式或測試。",
+        "files": [
+          "skills/case-review/scripts/review_case.py",
+          "skills/case-review/SKILL.md",
+          "skills/case-review/tests/test_review_case.py",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃唯讀測試",
+        "description": "僅使用自有合成資料，獨立核對範圍、引用、檔案一致性；禁止未授權目標操作。",
+        "files": [
+          "skills/case-review/scripts/review_case.py",
+          "skills/case-review/tests/test_review_case.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "需先核准測試資料、環境、執行與授權。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立交付審查",
+        "detail": "自有品質驗收工作區；只使用合成資料，不對第三方目標操作。",
+        "file": "skills/case-review/scripts/review_case.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "scope",
+        "name": "核對案例範圍與授權紀錄",
+        "problem": "核對案例範圍與授權紀錄",
+        "input": "自編 scope.md 與資產紀錄",
+        "output": "缺漏、狀態與待人工確認項目",
+        "source": "skills/case-review/scripts/review_case.py",
+        "sourceFiles": [
+          "skills/case-review/scripts/review_case.py",
+          "skills/case-review/tests/test_review_case.py",
+          "skills/case-review/SKILL.md"
+        ],
+        "symbols": [
+          "parse_scope",
+          "review_case"
+        ],
+        "gate": "欄位檢查不代表真實授權有效；須獨立核對實際權限。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "trace",
+        "name": "驗證證據與報告引用",
+        "problem": "驗證證據與報告引用",
+        "input": "合成 Evidence、Finding、Work item 與 Timeline",
+        "output": "引用缺失與追溯報告",
+        "source": "skills/case-review/scripts/review_case.py",
+        "sourceFiles": [
+          "skills/case-review/scripts/review_case.py",
+          "skills/case-review/tests/test_review_case.py",
+          "skills/case-review/SKILL.md"
+        ],
+        "symbols": [
+          "review_case",
+          "build_traceability",
+          "parse_reports"
+        ],
+        "gate": "只檢查結構與引用，不證明原始結論正確；上游測試未執行。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "fixity",
+        "name": "核對案例檔案完整性",
+        "problem": "核對案例檔案完整性",
+        "input": "合成案例內檔案與預期 SHA-256",
+        "output": "雜湊相符或不符、檔案範圍與缺漏紀錄",
+        "source": "skills/case-review/scripts/review_case.py",
+        "sourceFiles": [
+          "skills/case-review/scripts/review_case.py",
+          "skills/case-review/tests/test_review_case.py",
+          "skills/case-review/SKILL.md"
+        ],
+        "symbols": [
+          "verify_artifact",
+          "sha256_file",
+          "is_within"
+        ],
+        "gate": "雜湊只能核對檔案一致性，不代表來源真實、合法或安全。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃自有測試案例的證據完整性驗收（設計示例）",
+      "problem": "自編案例資料夾、合成證據與驗收規格",
+      "steps": [
+        {
+          "capability": "scope",
+          "action": "核對案例範圍與授權紀錄"
+        },
+        {
+          "capability": "trace",
+          "action": "驗證證據與報告引用"
+        },
+        {
+          "capability": "fixity",
+          "action": "核對案例檔案完整性"
+        }
+      ],
+      "gate": "未執行，須獨立驗收與明確授權。",
+      "readerExampleRef": "reverse-skill-2-example"
+    },
+    "rebuild": {
+      "verdict": "唯讀案例審查模組局部契約；非整套工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自編案例資料夾、合成證據與驗收規格",
+          "deliverable": "合成案例及規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "核對案例範圍與授權紀錄 → 驗證證據與報告引用 → 核對案例檔案完整性 → 獨立驗收",
+          "deliverable": "實際測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有品質驗收工作區；只使用合成資料，不對第三方目標操作。",
+          "deliverable": "結果與限制"
+        }
+      ],
+      "gaps": [
+        "資安工具具有高權限與雙重用途，不得用於未授權目標",
+        "上游路由測試覆蓋率不是實際滲透測試或安全保證",
+        "欄位檢查不代表真實授權有效；須獨立核對實際權限。",
+        "只檢查結構與引用，不證明原始結論正確；上游測試未執行。",
+        "雜湊只能核對檔案一致性，不代表來源真實、合法或安全。",
+        "未執行第三方程式、測試、登入或授權操作。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與授權",
+        "severity": "高",
+        "issue": "資安工具具有高權限與雙重用途，不得用於未授權目標；上游路由測試覆蓋率不是實際滲透測試或安全保證；欄位檢查不代表真實授權有效；須獨立核對實際權限。；只檢查結構與引用，不證明原始結論正確；上游測試未執行。；雜湊只能核對檔案一致性，不代表來源真實、合法或安全。；未執行第三方程式、測試、登入或授權操作。",
+        "control": "僅自有合成案例、最小權限與獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 case-review 文件、唯讀 Python 審查程式的相關函式、合成案例測試及根 MIT 授權已局部閱讀；只涵蓋此模組，不涵蓋全套資安工具。未執行第三方程式或測試。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "設計示例未執行。"
+      }
+    ]
   }
 }
