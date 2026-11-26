@@ -2476,7 +2476,13 @@ for(const [batch,topic,rows] of [
    assert.equal(d.intakeReview.verification.status,'not-tested',id);
    assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
    if(sourceKind==='web'){assert.equal(version,2,id);assert.match(d.source.reviewedAt,/^\d{4}-\d\d-\d\d$/);assert.ok(d.source.referenceUrls.length>0&&d.source.referenceUrls.every(url=>/^https:\/\//.test(url)),id);assert.ok(!d.source.upstreamCommit,id+' must not invent upstream SHA');}else assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
-   assert.equal(d.readerGuide.useCases.length,3,id);
+    // Batch 97 supplements the original three Snyk cases without replacing them.
+    if(id==='hermes-snyk-plugin'){
+     assert.deepEqual(d.readerGuide.useCases.map(c=>c.id),['use-config','use-choose','use-review','migrated-scan-contract-audit'],id);
+     for(const [caseId,ref] of [['use-config','config'],['use-choose','choose'],['use-review','review']]){
+      assert.deepEqual(d.readerGuide.useCases.find(c=>c.id===caseId).evidenceRefs,[ref],id+' '+caseId);
+     }
+    }else assert.equal(d.readerGuide.useCases.length,3,id);
    for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
    for(const uc of d.readerGuide.useCases){
     const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
@@ -2691,5 +2697,81 @@ test('Deferred recovery batches 92–94: pinned evidence, historical provenance 
   assert.deepEqual(validateResourceLayerLinks(d),[],id);
   const forward=resolveResourceLayerLinks(d,{caseId});
   for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
+
+
+test('Deferred recovery batches 95–97: pinned source gaps and bidirectional links',()=>{
+ const cases=[["infiniflow-ragflow","go-rag-contract-audit","37b63fc3979365ea70f267f290c2f12d93fdbf50",["ingestion-task-state","retrieval-dependency-permission","citation-marker-filter"]],["toeverything-affine","document-sync-permission-audit","81da59d63d535d72ba677a097d9a0cc9a5871ade",["markdown-doc-write","native-update-merge","workspace-doc-permission"]],["hermes-snyk-plugin","migrated-scan-contract-audit","8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed",["migrated-manifest-pin","migrated-network-boundary","migrated-scan-procedure"]]];
+ for(const [id,caseId,pin,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
+
+
+test('Deferred recovery batches 98–100: source authority and SDK boundary',()=>{
+ const cases=[["rea","closure-authority-audit","0aca049128687828bddc32e8c4c0a39d7544c1ff",["ledger-derived-status","ledger-proof-authority","license-inventory-boundary"]],["stitch-mcp","sdk-auth-result-download-audit","f6aa86cde10c3f490acf09a63cc044582a50821d",["sdk-auth-header","sdk-tool-envelope","sdk-expired-download-test"]]];
+ for(const [id,caseId,pin,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+ const course=JSON.parse(fs.readFileSync('data/resources/designed-to-scale.json','utf8'));
+ assert.equal(course.intakeReview.layerReview.status,'deferred');
+ assert.equal(course.intakeReview.verification.status,'not-tested');
+});
+
+
+test('Deferred recovery batches 101–103: dated document evidence and source gaps',()=>{
+ const cases=[["land-book-design-inspiration","gallery-provenance-rights-audit",[["submission-authorship","https://land-book.com/terms-of-service"],["gallery-reuse-boundary","https://land-book.com/terms-of-service"],["editorial-review-scope","https://land-book.com/submission-guidelines"]]],["particles-casberry","particle-export-runtime-audit",[["standalone-export-contract","https://particles.casberry.in/changelog"],["effect-pruning-contract","https://particles.casberry.in/changelog"],["density-storage-contract","https://particles.casberry.in/changelog"]]]];
+ for(const [id,caseId,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.match(d.intakeReview.layerReview.gap,/403/,id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const [ref,url] of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.startsWith(url+' — ')&&e.locator.includes('2026-11-26')&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(url),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+ const wellmade=JSON.parse(fs.readFileSync('data/resources/wellmade.json','utf8'));
+ assert.equal(wellmade.intakeReview.layerReview.status,'deferred');
+});
+
+
+test('Deferred recovery batches 104–105: candidate evidence is not historical identity',()=>{
+ const cases=[["reverse-skill","reverse-skill-2","candidate-trust-provenance-audit","b972ad0e90f26d8f044828f004da22a4a585da12",["candidate-trust-boundary","candidate-readonly-scope"]],["irons163-orchestrate-sol-terra-luna","irons163-three-tier-agent-orchestrator","candidate-delegation-provenance-audit","86108395a5df3743b9e2b7d0499ef4319bc7494a",["candidate-explicit-invocation","candidate-isolated-delegation","candidate-coordinator-acceptance"]]];
+ for(const [id,candidate,caseId,pin,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  const current=JSON.parse(fs.readFileSync('data/resources/'+candidate+'.json','utf8'));
+  assert.equal(d.id,id);assert.equal(current.id,candidate);
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.sourceStatus,'partial',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.match(d.intakeReview.layerReview.gap,/原始 V2 無 URL/,id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
+
+
+test('Deferred recovery 95–105: supplemental example step precedes independent acceptance',()=>{
+ for(const [id,caseId,gateId] of [["infiniflow-ragflow","go-rag-contract-audit","verify"],["toeverything-affine","document-sync-permission-audit","verify"],["hermes-snyk-plugin","migrated-scan-contract-audit","verify-output"],["rea","closure-authority-audit","verify-output"],["stitch-mcp","sdk-auth-result-download-audit","verify-output"],["land-book-design-inspiration","gallery-provenance-rights-audit","verify-output"],["particles-casberry","particle-export-runtime-audit","verify-output"],["reverse-skill","candidate-trust-provenance-audit","verify-output"],["irons163-orchestrate-sol-terra-luna","candidate-delegation-provenance-audit","verify-output"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  const ex=d.readerGuide.example;
+  assert.equal(ex.steps.at(-1).id,gateId,id);
+  assert.ok(ex.steps.at(-1).externalDependency,id);
+  assert.equal(ex.steps.at(-2).id,caseId,id);
+  assert.ok(ex.process.includes(ex.steps.at(-2).title),id);
+  assert.ok(ex.useCaseRefs.includes(caseId),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
  }
 });

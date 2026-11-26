@@ -83,15 +83,18 @@
     "url": "https://github.com/NousResearch/hermes-plugin-snyk",
     "readmeUrl": "https://github.com/NousResearch/hermes-plugin-snyk/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-25",
-    "reviewScope": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。",
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "沿用既有文件與證據；Batch 97 新增 3 筆固定版本局部查核。原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。 未執行第三方。",
     "upstreamCommit": "43b8efe6258312456faf57b78124a8395b866303",
     "referenceUrls": [
       "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/README.md",
       "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/LICENSE",
       "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/mcp.json",
       "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/references/tools.md",
-      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/SKILL.md"
+      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/SKILL.md",
+      "https://github.com/NousResearch/hermes-official-plugins/blob/8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed/snyk/mcp.json",
+      "https://github.com/NousResearch/hermes-official-plugins/blob/8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed/snyk/README.md",
+      "https://github.com/NousResearch/hermes-official-plugins/blob/8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed/snyk/skills/snyk-security-scan/SKILL.md"
     ]
   },
   "intakeReview": {
@@ -104,7 +107,7 @@
       "repo",
       "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-25",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -121,7 +124,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。；僅歷史插件配置和操作文件，Snyk 外部核心實作與新版未查核。"
+      "reason": "原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -134,14 +137,15 @@
     "riskNotes": "工具執行會涉及外部掃描服務及可能敏感程式庫資料。；安全掃描結果需要人工分類與版本核實，不能保證不存在其他漏洞。；封存 manifest 固定 1.1306.0；初次 npx 會下載 CLI，非已安裝或已驗證。新版官方插件未查核。；參數表由作者從歷史 CLI 產生，本次未執行 handshake；雲端掃描涉及資料傳輸，需核准。；關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。"
+      "evidence": "沿用既有文件與證據；Batch 97 新增 3 筆固定版本局部查核。原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。 未執行第三方。"
     },
     "layerReview": {
       "status": "deferred",
-      "reason": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。；已知插件契約可對應用途，但外部核心不在此庫。",
-      "gap": "原 Repo 已封存遷移；新庫及外部 Snyk 掃描器核心實作未查核，不能宣稱可重建。",
-      "nextAction": "核對官方新插件庫固定版本與 Snyk CLI 契約，取得核准後再用合成資料驗收。"
-    }
+      "reason": "已核對局部來源及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。",
+      "nextAction": "另查官方 CLI 版本及資料處理條款；取得核准後以合成資料執行 handshake、掃描及拒絕外送驗收。"
+    },
+    "sourceGap": "原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。"
   },
   "implementationKnowledge": {
     "priorPurposeSnapshot": {
@@ -181,7 +185,13 @@
         "locator": "When to Use / How to Run",
         "rule": "關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。"
       }
-    ]
+    ],
+    "sourceReview": {
+      "migrationHistory": "原 upstreamMigration 欄位及舊證據為 2026-11-25 歷史快照；本批另固定新庫版本 8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed，已做局部文件查核，外部 CLI 未實測。",
+      "migrated_manifest_pin": "新庫 manifest 仍固定 snyk@1.1306.0，透過 npx 以 stdio、full profile 啟動，並設定停用 analytics 的參數及環境變數。",
+      "migrated_network_boundary": "新庫文件指出 SAST 會上傳程式碼、SCA 會傳送依賴圖；feedback 須選擇加入，folder trust 僅限指定目標，版本更新走審查流程。",
+      "migrated_scan_procedure": "新版 Skill 文件要求絕對路徑、指定資料夾信任、私有 Repo 先詢問、避免秘密檔案、核對版本與合成 fixture 的掃描前後差異。"
+    }
   },
   "readerGuide": {
     "version": 2,
@@ -210,13 +220,23 @@
         "evidenceRefs": [
           "review"
         ]
+      },
+      {
+        "id": "migrated-scan-contract-audit",
+        "title": "驗收掃描插件版本與外送邊界",
+        "detail": "比較舊庫與新庫 manifest、驗證固定版本及工具 schema；僅設計合成 fixture 的授權、信任路徑、掃描與重掃，正式外送須另核准。",
+        "evidenceRefs": [
+          "migrated-manifest-pin",
+          "migrated-network-boundary",
+          "migrated-scan-procedure"
+        ]
       }
     ],
     "example": {
       "id": "hermes-snyk-plugin-example",
       "title": "規劃開發專案的依賴與程式碼掃描驗收",
       "input": "合成程式庫、依賴清單、核准的測試範圍及版本。",
-      "process": "辨識固定掃描器版本與配置 → 依掃描對象選擇工具 → 檢視發現並安排修復與重掃 → 獨立驗收實際成果",
+      "process": "辨識固定掃描器版本與配置 → 依掃描對象選擇工具 → 檢視發現並安排修復與重掃 → 驗收掃描插件版本與外送邊界 → 獨立驗收實際成果",
       "output": "掃描選型、授權清單與修復前後的驗收規格（規劃產物）。",
       "destination": "自有軟體交付的安全審查流程之規劃與後續驗收。",
       "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
@@ -224,7 +244,8 @@
       "useCaseRefs": [
         "use-config",
         "use-choose",
-        "use-review"
+        "use-review",
+        "migrated-scan-contract-audit"
       ],
       "steps": [
         {
@@ -249,6 +270,15 @@
           ]
         },
         {
+          "id": "migrated-scan-contract-audit",
+          "title": "驗收掃描插件版本與外送邊界",
+          "evidenceRefs": [
+            "migrated-manifest-pin",
+            "migrated-network-boundary",
+            "migrated-scan-procedure"
+          ]
+        },
+        {
           "id": "verify-output",
           "title": "獨立驗收實際成果",
           "evidenceRefs": [],
@@ -267,7 +297,8 @@
       "封存 manifest 固定 1.1306.0；初次 npx 會下載 CLI，非已安裝或已驗證。新版官方插件未查核。",
       "參數表由作者從歷史 CLI 產生，本次未執行 handshake；雲端掃描涉及資料傳輸，需核准。",
       "關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。",
-      "未實測相依、權限、整合與實際成果。"
+      "未實測相依、權限、整合與實際成果。",
+      "原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。"
     ]
   },
   "agentEvidence": [
@@ -305,6 +336,42 @@
       ],
       "limitations": "關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。",
       "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "migrated-manifest-pin",
+      "detail": "新庫 manifest 仍固定 snyk@1.1306.0，透過 npx 以 stdio、full profile 啟動，並設定停用 analytics 的參數及環境變數。",
+      "locator": "https://github.com/NousResearch/hermes-official-plugins/blob/8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed/snyk/mcp.json#L1-L22",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.migrated_manifest_pin",
+        "source.referenceUrls"
+      ],
+      "limitations": "此為配置而非實際安裝結果；固定版本不等於驗證套件內容或所有網路傳輸。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "migrated-network-boundary",
+      "detail": "新庫文件指出 SAST 會上傳程式碼、SCA 會傳送依賴圖；feedback 須選擇加入，folder trust 僅限指定目標，版本更新走審查流程。",
+      "locator": "https://github.com/NousResearch/hermes-official-plugins/blob/8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed/snyk/README.md#L63-L80",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.migrated_network_boundary",
+        "source.referenceUrls"
+      ],
+      "limitations": "僅文件聲明；停用 analytics 不代表掃描離線，未實測資料範圍、保留或傳輸。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "migrated-scan-procedure",
+      "detail": "新版 Skill 文件要求絕對路徑、指定資料夾信任、私有 Repo 先詢問、避免秘密檔案、核對版本與合成 fixture 的掃描前後差異。",
+      "locator": "https://github.com/NousResearch/hermes-official-plugins/blob/8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed/snyk/skills/snyk-security-scan/SKILL.md#L100-L121",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.migrated_scan_procedure",
+        "source.referenceUrls"
+      ],
+      "limitations": "這些是給 Agent 的流程指引，不是強制隔離機制；尚未驗證實際工具 schema、拒絕與掃描結果。",
+      "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
     }
   ]

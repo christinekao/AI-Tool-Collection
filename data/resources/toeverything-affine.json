@@ -45,13 +45,16 @@
   "source": {
     "url": "https://github.com/toeverything/AFFiNE",
     "type": "Official GitHub repository metadata and README",
-    "reviewedAt": "2026-11-25",
-    "reviewScope": "固定版本 README、根目錄 LICENSE 與 packages/backend/server/LICENSE；只確認產品功能、依賴專案與授權分區，未查閱編輯器、同步、儲存及權限核心實作",
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "沿用既有文件與證據；Batch 96 新增 3 筆固定版本局部查核。已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。 未執行第三方。",
     "upstreamCommit": "81da59d63d535d72ba677a097d9a0cc9a5871ade",
     "referenceUrls": [
       "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/README.md",
       "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/LICENSE",
-      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/LICENSE"
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/LICENSE",
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/src/core/doc/writer.ts",
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/src/core/doc/merge-updates.ts",
+      "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/src/core/permission/service.ts"
     ]
   },
   "intakeReview": {
@@ -63,7 +66,7 @@
       "source.upstreamCommit",
       "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-25",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -81,7 +84,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。"
+      "reason": "已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -94,14 +97,14 @@
     "riskNotes": "第三方文件與程式碼僅用於資訊審查；未安裝、執行、存取金鑰或提供輸出素材的授權結論。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README、根目錄 LICENSE 與 packages/backend/server/LICENSE；只確認產品功能、依賴專案與授權分區，未查閱編輯器、同步、儲存及權限核心實作；未安裝或執行。"
+      "evidence": "沿用既有文件與證據；Batch 96 新增 3 筆固定版本局部查核。已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。 未執行第三方。"
     },
-    "sourceGap": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。",
+    "sourceGap": "已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。",
     "layerReview": {
       "status": "deferred",
-      "reason": "已確認固定版本的文件及授權範圍，已知用途與文件證據可雙向對應；原始碼完整契約仍待查。",
-      "gap": "尚未逐檔核對 BlockSuite 整合、CRDT 同步、儲存、權限與匯出契約；根授權對後端與 native 目錄另有 EE 條件，未確認所需自架功能與適用協議。",
-      "nextAction": "定位固定版本的工作區編輯器、local storage、sync、權限與匯出實作，檢視實際模組授權及可用功能，取得明確 I/O 後再建立 mapped 指南。"
+      "reason": "已核對局部來源及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。",
+      "nextAction": "追蹤 client BlockSuite、同步 gateway 與 native 授權規則；另查備份還原、匯出及具體部署授權。"
     }
   },
   "implementationKnowledge": {
@@ -109,7 +112,10 @@
       "blocks": "README 描述文件與 edgeless 畫布共用文字、便利貼、連結頁、資料表等 blocks；BlockSuite 為相關編輯器專案。",
       "sync": "README 宣稱 local-first 及即時同步協作，列 y-octo、OctoBase 等相關專案；實際 client/server 資料流程與衝突處理未查核。",
       "license": "根 LICENSE 明示 packages/backend、packages/common/native 目錄（若存在）適用 packages/backend/server/LICENSE。後者為 EE License，正式使用條件涉及有效 EE 訂閱或其他適用協議；其餘內容原則依 MIT，第三方元件另計。README 的 CE 自架宣稱不能覆蓋實際目錄授權。",
-      "deployment": "README 指向自架文件；尚未核對實際版本的備份、匯出、工作區隔離、資料保留或可商用範圍。"
+      "deployment": "README 指向自架文件；尚未核對實際版本的備份、匯出、工作區隔離、資料保留或可商用範圍。",
+      "markdown_doc_write": "將 Markdown、標題及 actor 轉為 y-octo 二進位更新，寫入 storage 並發布事件；其後更新文件屬性及必要的 root doc 註冊，失敗回報 DocCreateIncompleteError。",
+      "native_update_merge": "合併介面將 Uint8Array 更新轉 Buffer 後交給 native codec；記錄成功／失敗耗時，失敗重新拋出，慢速呼叫另有計數。",
+      "workspace_doc_permission": "工作區與文件操作分別交給 authorize；can 方法依第一筆 decision.allowed 判定，缺該判定時預設 false，assert 方法拒絕時拋出對應例外。"
     }
   },
   "agentEvidence": [
@@ -150,6 +156,42 @@
       "limitations": "不能將所有程式碼、功能或自架服務一律視為 MIT 或免費。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "markdown-doc-write",
+      "detail": "將 Markdown、標題及 actor 轉為 y-octo 二進位更新，寫入 storage 並發布事件；其後更新文件屬性及必要的 root doc 註冊，失敗回報 DocCreateIncompleteError。",
+      "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/src/core/doc/writer.ts#L97-L147",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.markdown_doc_write",
+        "source.referenceUrls"
+      ],
+      "limitations": "文件已寫入與工作區註冊完成是不同階段；未證明重試入口、權限或失敗補償完整。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "native-update-merge",
+      "detail": "合併介面將 Uint8Array 更新轉 Buffer 後交給 native codec；記錄成功／失敗耗時，失敗重新拋出，慢速呼叫另有計數。",
+      "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/src/core/doc/merge-updates.ts#L51-L97",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.native_update_merge",
+        "source.referenceUrls"
+      ],
+      "limitations": "只確認 wrapper；未證明 native 合併演算法、離線衝突收斂、保存或傳輸契約。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "workspace-doc-permission",
+      "detail": "工作區與文件操作分別交給 authorize；can 方法依第一筆 decision.allowed 判定，缺該判定時預設 false，assert 方法拒絕時拋出對應例外。",
+      "locator": "https://github.com/toeverything/AFFiNE/blob/81da59d63d535d72ba677a097d9a0cc9a5871ade/packages/backend/server/src/core/permission/service.ts#L32-L114",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.workspace_doc_permission",
+        "source.referenceUrls"
+      ],
+      "limitations": "未核對底層 native 權限規則與各呼叫端覆蓋；程式閱讀不代表可依 MIT 使用 EE 目錄。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -180,20 +222,31 @@
           "local-collaboration",
           "hosting-license"
         ]
+      },
+      {
+        "id": "document-sync-permission-audit",
+        "title": "驗收文件寫入、合併及權限邊界",
+        "detail": "以合成工作區測試 Markdown 建立、部分註冊失敗、二進位更新合併、工作區與文件權限拒絕；另驗證離線、還原及適用授權。",
+        "evidenceRefs": [
+          "markdown-doc-write",
+          "native-update-merge",
+          "workspace-doc-permission"
+        ]
       }
     ],
     "example": {
       "id": "personal-research-workspace",
       "title": "整理個人 AI 工具研究工作區",
       "input": "五篇公開研究筆記、三個主題及已確認可保存的來源連結。",
-      "process": "建立測試文件與畫布 → 整理主題和關聯 → 檢查本地使用與同步 → 核對匯出及授權",
+      "process": "建立測試文件與畫布 → 整理主題和關聯 → 檢查本地使用與同步 → 驗收文件寫入、合併及權限邊界 → 核對匯出及授權",
       "output": "可瀏覽的研究文件、主題畫布與資料保留驗收清單（預期產物）。",
       "destination": "個人知識管理評估；工作機密不得與個人資料混放。",
       "note": "設計示例，尚未安裝、測試離線／同步、匯出或實際工作區隔離。",
       "useCaseRefs": [
         "visual-research",
         "document-workspace",
-        "workspace-evaluation"
+        "workspace-evaluation",
+        "document-sync-permission-audit"
       ],
       "steps": [
         {
@@ -218,6 +271,15 @@
           ]
         },
         {
+          "id": "document-sync-permission-audit",
+          "title": "驗收文件寫入、合併及權限邊界",
+          "evidenceRefs": [
+            "markdown-doc-write",
+            "native-update-merge",
+            "workspace-doc-permission"
+          ]
+        },
+        {
           "id": "verify",
           "title": "測匯出、還原及工作區隔離",
           "evidenceRefs": [],
@@ -234,7 +296,8 @@
     "limits": [
       "本地優先不代表所有功能完全離線或免費；AI、同步、協作和商用條款應依方案確認。",
       "根 LICENSE 有目錄分區，不能把全部 Repo 視為 MIT；使用或改作 EE 目錄前需核對適用協議。",
-      "未驗證真正離線範圍、同步衝突、資料匯出及備份還原。"
+      "未驗證真正離線範圍、同步衝突、資料匯出及備份還原。",
+      "已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。"
     ],
     "comparison": {
       "title": "是否需要文件與白板整合？",

@@ -1,3 +1,51 @@
+# Phase 2｜Deferred 升級資格初審與回歸修正（2026-11-26）
+
+- PR #119 4/4 PASS 已合併 `1610467451d2b34a08c446048f62876355322422`；PR #120 已改基底 main，舊測試失敗已針對 Snyk 原三個與新第四個案例修正。
+- [14 筆升級資格初審](RESOURCE_DEFERRED_FINAL_AUDIT_20261126.md)：映射皆可解析，仍有各自深度及來源缺口，不升級。
+- 9 筆示範流程將新增證據步驟移至獨立驗收前，並同步摘要及新增精確斷言。待 CI；不改分類／Graph／ID。
+
+---
+
+# Resource 最新交接｜Phase 2 Batch 104–105（2026-11-26）
+
+- 依 PR #119 與 Batch 95–103 候選 Head `039865d16cc56c252a59a18baaca327b0ce165d7` 疊加；四項 CI 通過後依序合併。
+- [Batch 104](RESOURCE_DUAL_LAYER_BATCH104_20261126.md)：Reverse Skill，兩筆同 URL 不證明原收藏；補兩筆候選信任／唯讀文件證據與一組用途。
+- [Batch 105](RESOURCE_DUAL_LAYER_BATCH105_20261126.md)：Orchestrate Sol Terra Luna，舊路徑重導向 1321139753；另一同名候選 ID 1320148269；補三筆候選委派文件證據與一組用途。
+- 本階段 14 筆 deferred 均已進行至少一輪補強或來源重查：10 筆原始或現行可識別來源補強，2 筆候選文件補強但原始身分未解，2 筆來源重查而未改 Canonical；均未升級。正式基準 268/286、14 deferred、4 source-blocked。不得將候選文件當成原始身分。
+- 本批 5 筆候選證據、2 組用途；無 Graph、分類、Tag、ID 或引用遷移。第三方與上游測試未執行。
+
+---
+
+# Resource 最新交接｜Phase 2 Batch 101–103（2026-11-26）
+
+- 依 PR #119 與 Batch 95–100 候選 Head `95de2f3834a90777910e072dc641d07df3f310ec` 疊加；必須依序取得四項 CI PASS 後合併，不提前計入 main。
+- [Batch 101](RESOURCE_DUAL_LAYER_BATCH101_20261126.md)：Land-book 補 3 筆日期化條款／收錄文件及一組用途；直連 403，僅第一方索引文字。
+- [Batch 102](RESOURCE_DUAL_LAYER_BATCH102_20261126.md)：Particles Casberry 補 3 筆日期化版本紀錄及一組用途；直連 403，僅第一方索引文字。
+- [Batch 103](RESOURCE_DUAL_LAYER_BATCH103_20261126.md)：Wellmade 直連逾時，產品分組不等於作者；不修改 Canonical 或增加正式證據。
+- 合計 6 筆局部文件證據、2 組用途、1 筆來源重查；保留 ID、分類、Tags、Graph 及正式完成率。268 對應、14 deferred、4 來源阻塞；第三方未執行。
+
+---
+
+# Resource 最新交接｜Phase 2 Batch 98–100（2026-11-26）
+
+- 依 PR #119 與 Batch 95–97 候選 Head `01a07eac3bdfc7327acf2b920eaa566fd3a97099` 疊加；必須依序取得四項 CI PASS 後合併，不提前計入 main。
+- [Batch 98](RESOURCE_DUAL_LAYER_BATCH98_20261126.md)：REA 新增 3 筆局部證據及一組用途；核對義務結案狀態、證據權威與授權清冊邊界，仍 deferred。
+- [Batch 99](RESOURCE_DUAL_LAYER_BATCH99_20261126.md)：Designed to Scale 原頁仍僅 JavaScript 提示；第三方介紹與技術分析僅為線索，不改 Canonical 或增加正式證據。
+- [Batch 100](RESOURCE_DUAL_LAYER_BATCH100_20261126.md)：Stitch MCP 新增 3 筆局部 SDK 證據與一組用途；核對認證、回應及部分下載，不代表服務端版本或實測。
+- 合計 6 筆證據、2 組用途、1 筆來源重查；保留 ID、分類、Tags、Graph、既有證據及正式完成率。268 對應、14 deferred、4 來源阻塞。第三方與上游測試未執行。
+
+---
+
+# Resource 最新交接｜Phase 2 Batch 95–97（2026-11-26）
+
+- PR #118 四項 CI PASS，合併 `124e3217248f7f7aaf0644ef0da63123d7c09b86`。PR #119 Batch 92–94 候選 Head `26940926c8eca23169a6484c61f588ce9c7217b0`；須四項 CI PASS 後依序合併。
+- [Batch 95](RESOURCE_DUAL_LAYER_BATCH95_20261126.md)：infiniflow-ragflow 新增 3 筆局部證據、一組用途；舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。
+- [Batch 96](RESOURCE_DUAL_LAYER_BATCH96_20261126.md)：toeverything-affine 新增 3 筆局部證據、一組用途；已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。
+- [Batch 97](RESOURCE_DUAL_LAYER_BATCH97_20261126.md)：hermes-snyk-plugin 新增 3 筆局部證據、一組用途；原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。
+- 合計 9 筆證據、3 組用途；不修改 ID、分類、Tags、Graph 或正式完成率。268 對應、14 deferred、4 來源阻塞；第三方未執行。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 92–94（2026-11-26）
 
 - 本分支以 PR #118 修正 Commit `31dfc2a125946c3d290027a78700c4f574cc8026` 為基準；PR #118 四項 CI 完整通過並合併後，才將本批納入 main 的驗收流程。

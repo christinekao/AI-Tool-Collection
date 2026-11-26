@@ -94,12 +94,15 @@
     "readmeUrl": "https://github.com/morluto/rea/blob/main/README.md",
     "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "固定版本三份驗收文件／Schema 局部查核；核心程式及完整授權未查；未安裝、執行或實測。",
+    "reviewScope": "沿用既有文件與證據；Batch 98 新增 3 筆固定版本局部查核。已核對義務結案狀態推導、上游證據權威測試及授權清冊說明；仍缺錯誤 Schema 對各執行入口的實作、客戶端生命週期、完整授權及端到端驗收。 未執行第三方。",
     "upstreamCommit": "0aca049128687828bddc32e8c4c0a39d7544c1ff",
     "referenceUrls": [
       "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/reconstruction-readiness.md",
       "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/development/client-verification.md",
-      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/error-contract.schema.json"
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/docs/error-contract.schema.json",
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/src/domain/reconstructionObligationLedgerIntegrity.ts",
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/src/application/ReconstructionObligationLedger.closure.test.ts",
+      "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/licenses/README.md"
     ]
   },
   "intakeReview": {
@@ -128,7 +131,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "已讀取固定版本的公開驗收文件及錯誤 Schema，尚未查核其核心實作、全部權限控制或完整授權；不宣稱可重建或可用。"
+      "reason": "已核對義務結案狀態推導、上游證據權威測試及授權清冊說明；仍缺錯誤 Schema 對各執行入口的實作、客戶端生命週期、完整授權及端到端驗收。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -141,14 +144,15 @@
     "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。；本批未核對完整授權與相依元件；動態或反編譯結果可能不完整，需要用獨立測試驗證行為；逆向工程應遵守智慧財產、軟體授權與目標平台法律限制；文件描述完整性條件；未執行驗證器，不能以狀態文字替代實際證據。；上游文件中的歷史測試不代表本次測試或所有客戶端相容。；僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本三份驗收文件／Schema 局部查核；核心程式及完整授權未查；未安裝、執行或實測。"
+      "evidence": "沿用既有文件與證據；Batch 98 新增 3 筆固定版本局部查核。已核對義務結案狀態推導、上游證據權威測試及授權清冊說明；仍缺錯誤 Schema 對各執行入口的實作、客戶端生命週期、完整授權及端到端驗收。 未執行第三方。"
     },
     "layerReview": {
       "status": "deferred",
-      "reason": "固定版本三份驗收文件／Schema 局部查核；核心程式及完整授權未查；未安裝、執行或實測。 僅對應可證明文件內容，尚不算深度完成。",
-      "gap": "已讀取固定版本的公開驗收文件及錯誤 Schema，尚未查核其核心實作、全部權限控制或完整授權；不宣稱可重建或可用。",
-      "nextAction": "針對自有合成測試產物定位錯誤 Schema 驗證器、證據紀錄與客戶端生命週期的實作及測試；確認適用授權及隔離條件後再升級。"
-    }
+      "reason": "已核對局部來源及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "已核對義務結案狀態推導、上游證據權威測試及授權清冊說明；仍缺錯誤 Schema 對各執行入口的實作、客戶端生命週期、完整授權及端到端驗收。",
+      "nextAction": "追蹤錯誤回應驗證、客戶端啟停及獨立證據驗收；另核對根 LICENSE、第三方 notices 與適用條件。"
+    },
+    "sourceGap": "已核對義務結案狀態推導、上游證據權威測試及授權清冊說明；仍缺錯誤 Schema 對各執行入口的實作、客戶端生命週期、完整授權及端到端驗收。"
   },
   "implementationKnowledge": {
     "priorPurposeSnapshot": {
@@ -186,7 +190,12 @@
         "locator": "oneOf / category / retryable / remediation",
         "limitations": "僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。"
       }
-    ]
+    ],
+    "sourceReview": {
+      "ledger_derived_status": "由義務事實推導統計與狀態：空集合為 unknown；必須義務出現矛盾或 verifier/fixture 失敗時為 failed；存在限制或未知必須義務時為 unknown；否則依未驗證必須義務數判斷 ready/open。",
+      "ledger_proof_authority": "上游測試以 packaged-process 義務配置通過的 unit verifier 與 unit fixture，預期仍為 implemented，診斷權威不足，總體維持 open。",
+      "license_inventory_boundary": "授權清冊文件區分鎖定 npm 封裝的 notices、缺失原始歸屬及外部元件條件；檢查工具比較版本、完整性及指紋，但不保證法律完整性。"
+    }
   },
   "readerGuide": {
     "version": 2,
@@ -215,13 +224,23 @@
         "evidenceRefs": [
           "error"
         ]
+      },
+      {
+        "id": "closure-authority-audit",
+        "title": "驗收義務結案與證據權威",
+        "detail": "以自有合成驗收資料比較空集合、必須義務未驗證、矛盾、證據權威不足及相依授權清冊；不以單元測試綠燈代替端到端證據。",
+        "evidenceRefs": [
+          "ledger-derived-status",
+          "ledger-proof-authority",
+          "license-inventory-boundary"
+        ]
       }
     ],
     "example": {
       "id": "rea-example",
       "title": "規劃自有軟體的獨立證據驗收",
       "input": "自有合成測試產物、預期行為及失敗情境",
-      "process": "區分待驗證與已驗證的成果 → 分離客戶端註冊與實際整合驗收 → 建立結構化錯誤及重試分類 → 獨立驗收實際成果",
+      "process": "區分待驗證與已驗證的成果 → 分離客戶端註冊與實際整合驗收 → 建立結構化錯誤及重試分類 → 驗收義務結案與證據權威 → 獨立驗收實際成果",
       "output": "驗收證據清單、錯誤分類及客戶端測試矩陣",
       "destination": "自有測試工作區，不接觸未授權軟體或真實敏感資料。",
       "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
@@ -229,7 +248,8 @@
       "useCaseRefs": [
         "use-ledger",
         "use-client",
-        "use-error"
+        "use-error",
+        "closure-authority-audit"
       ],
       "steps": [
         {
@@ -254,6 +274,15 @@
           ]
         },
         {
+          "id": "closure-authority-audit",
+          "title": "驗收義務結案與證據權威",
+          "evidenceRefs": [
+            "ledger-derived-status",
+            "ledger-proof-authority",
+            "license-inventory-boundary"
+          ]
+        },
+        {
           "id": "verify-output",
           "title": "獨立驗收實際成果",
           "evidenceRefs": [],
@@ -272,7 +301,8 @@
       "文件描述完整性條件；未執行驗證器，不能以狀態文字替代實際證據。",
       "上游文件中的歷史測試不代表本次測試或所有客戶端相容。",
       "僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。",
-      "授權、權限、相依、整合及實際成果未驗證。"
+      "授權、權限、相依、整合及實際成果未驗證。",
+      "已核對義務結案狀態推導、上游證據權威測試及授權清冊說明；仍缺錯誤 Schema 對各執行入口的實作、客戶端生命週期、完整授權及端到端驗收。"
     ]
   },
   "agentEvidence": [
@@ -310,6 +340,42 @@
       ],
       "limitations": "僅讀取 Schema 局部契約，未核對每個實作錯誤路徑或實際回應。",
       "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "ledger-derived-status",
+      "detail": "由義務事實推導統計與狀態：空集合為 unknown；必須義務出現矛盾或 verifier/fixture 失敗時為 failed；存在限制或未知必須義務時為 unknown；否則依未驗證必須義務數判斷 ready/open。",
+      "locator": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/src/domain/reconstructionObligationLedgerIntegrity.ts#L13-L75",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.ledger_derived_status",
+        "source.referenceUrls"
+      ],
+      "limitations": "僅核對狀態推導，未證明輸入事實真實、義務枚舉完整或驗證器實際執行。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "ledger-proof-authority",
+      "detail": "上游測試以 packaged-process 義務配置通過的 unit verifier 與 unit fixture，預期仍為 implemented，診斷權威不足，總體維持 open。",
+      "locator": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/src/application/ReconstructionObligationLedger.closure.test.ts#L83-L137",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.ledger_proof_authority",
+        "source.referenceUrls"
+      ],
+      "limitations": "僅閱讀上游測試；未執行或查核所有權威類別。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "license-inventory-boundary",
+      "detail": "授權清冊文件區分鎖定 npm 封裝的 notices、缺失原始歸屬及外部元件條件；檢查工具比較版本、完整性及指紋，但不保證法律完整性。",
+      "locator": "https://github.com/morluto/rea/blob/0aca049128687828bddc32e8c4c0a39d7544c1ff/licenses/README.md#L29-L74",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.license_inventory_boundary",
+        "source.referenceUrls"
+      ],
+      "limitations": "僅文件層查核，未逐項核對原授權、封裝或再散布條件。",
+      "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
     }
   ]
