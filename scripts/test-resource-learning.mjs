@@ -2476,7 +2476,13 @@ for(const [batch,topic,rows] of [
    assert.equal(d.intakeReview.verification.status,'not-tested',id);
    assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
    if(sourceKind==='web'){assert.equal(version,2,id);assert.match(d.source.reviewedAt,/^\d{4}-\d\d-\d\d$/);assert.ok(d.source.referenceUrls.length>0&&d.source.referenceUrls.every(url=>/^https:\/\//.test(url)),id);assert.ok(!d.source.upstreamCommit,id+' must not invent upstream SHA');}else assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
-   assert.equal(d.readerGuide.useCases.length,3,id);
+    // Batch 97 supplements the original three Snyk cases without replacing them.
+    if(id==='hermes-snyk-plugin'){
+     assert.deepEqual(d.readerGuide.useCases.map(c=>c.id),['use-config','use-choose','use-review','migrated-scan-contract-audit'],id);
+     for(const [caseId,ref] of [['use-config','config'],['use-choose','choose'],['use-review','review']]){
+      assert.deepEqual(d.readerGuide.useCases.find(c=>c.id===caseId).evidenceRefs,[ref],id+' '+caseId);
+     }
+    }else assert.equal(d.readerGuide.useCases.length,3,id);
    for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
    for(const uc of d.readerGuide.useCases){
     const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
