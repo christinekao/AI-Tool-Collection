@@ -785,6 +785,13 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch02Phrases={"alsyundawy-microsoft-office-for-macos":"Office 產品及組織的合法授權類型","amp-agent-memory-protocol":"兩個自有測試專案","anomalyco-opencode":"可重現網頁問題","anthropic-claude-mythos-cybersecurity":"虛構企業的防禦研究需求","anthropic-solving-code-review-at-anthropic":"自有表單修復案例","anthropics-financial-services":"對帳差異案例","anthropics-knowledge-work-plugins":"自有資料分析任務","anthropics-sandbox-runtime":"合成敏感檔案","anthropics-single-agent-loop-kit":"自有多 Agent 客服工作流","anti-gambling-trader-tw":"勝、負、打平","april-zhu-minicharts":"各類支出占比","arumwu-agentrelay":"兩個合成 Agent 身分","ath-maas-pixelle-video":"三個分鏡及旁白","awesome-agentic-ai-zh":"Stage 0–2 的缺口","awesome-gpt-image-2":"自撰影像提示詞"};
+  if(qualityBatch02Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch02Phrases[id])+')'),id);
+  }
+  if(id==='anomalyco-opencode'){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes("驗收子代理繼承與工具邊界 → 獨立驗收")'),id);
+  }
   const qualityBatch01Phrases={"abi-screenshot-to-code":"要重建的元件","acheaisuiyimen-ache-life-to-comic-skill":"非商業用途的合成日記","affaan-m-ecc":"兩個自有測試 Worktree","agency-agents":"銷售資料每日更新","agentic-system-lab-harness-relay":"基準 Commit","agricidaniel-claude-seo":"歷史頁面基準","ai-memory":"不得保存的資料","ai-video-drama-platform":"預期分鏡","akas333-tysa":"SQL JOIN","akseolabs-seo-cinematic-ui":"拒絕等畫面狀態","akto-api-security-akto":"模擬政策與違規統計","alchaincy-huashu-design":"色彩、字型、間距","alchaincyf-huashu-motion":"預期轉場及循環條件","alexyc9381-hiring-panel-skill":"完整 JD","allanyiin-documa":"人工標註的證據","allanyiin-toolanything":"無副作用的合成 Python"};
   if(qualityBatch01Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch01Phrases[id])+')'),id);
