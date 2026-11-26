@@ -2706,3 +2706,19 @@ test('Deferred recovery batches 95–97: pinned source gaps and bidirectional li
   for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
  }
 });
+
+
+test('Deferred recovery batches 98–100: source authority and SDK boundary',()=>{
+ const cases=[["rea","closure-authority-audit","0aca049128687828bddc32e8c4c0a39d7544c1ff",["ledger-derived-status","ledger-proof-authority","license-inventory-boundary"]],["stitch-mcp","sdk-auth-result-download-audit","f6aa86cde10c3f490acf09a63cc044582a50821d",["sdk-auth-header","sdk-tool-envelope","sdk-expired-download-test"]]];
+ for(const [id,caseId,pin,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+ const course=JSON.parse(fs.readFileSync('data/resources/designed-to-scale.json','utf8'));
+ assert.equal(course.intakeReview.layerReview.status,'deferred');
+ assert.equal(course.intakeReview.verification.status,'not-tested');
+});

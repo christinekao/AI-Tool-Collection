@@ -790,6 +790,11 @@ try{
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recoveryNewTitles[id])+')'),id);
   }
+  const recovery100Titles={"rea":"驗收義務結案與證據權威","stitch-mcp":"驗收 SDK 認證、回應與部分下載"};
+  if(recovery100Titles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recovery100Titles[id])+')'),id);
+  }
   const recoveryTitles={"hindsight":"驗收記憶版本、檢索及租戶授權","anomalyco-opencode":"驗收權限規則與子代理委派","orca":"驗收 Worktree 啟動與執行主機邊界"};
   if(recoveryTitles[id]){
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);

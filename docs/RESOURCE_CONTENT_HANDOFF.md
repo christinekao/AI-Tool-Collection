@@ -1,3 +1,13 @@
+# Resource 最新交接｜Phase 2 Batch 98–100（2026-11-26）
+
+- 依 PR #119 與 Batch 95–97 候選 Head `01a07eac3bdfc7327acf2b920eaa566fd3a97099` 疊加；必須依序取得四項 CI PASS 後合併，不提前計入 main。
+- [Batch 98](RESOURCE_DUAL_LAYER_BATCH98_20261126.md)：REA 新增 3 筆局部證據及一組用途；核對義務結案狀態、證據權威與授權清冊邊界，仍 deferred。
+- [Batch 99](RESOURCE_DUAL_LAYER_BATCH99_20261126.md)：Designed to Scale 原頁仍僅 JavaScript 提示；第三方介紹與技術分析僅為線索，不改 Canonical 或增加正式證據。
+- [Batch 100](RESOURCE_DUAL_LAYER_BATCH100_20261126.md)：Stitch MCP 新增 3 筆局部 SDK 證據與一組用途；核對認證、回應及部分下載，不代表服務端版本或實測。
+- 合計 6 筆證據、2 組用途、1 筆來源重查；保留 ID、分類、Tags、Graph、既有證據及正式完成率。268 對應、14 deferred、4 來源阻塞。第三方與上游測試未執行。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 95–97（2026-11-26）
 
 - PR #118 四項 CI PASS，合併 `124e3217248f7f7aaf0644ef0da63123d7c09b86`。PR #119 Batch 92–94 候選 Head `26940926c8eca23169a6484c61f588ce9c7217b0`；須四項 CI PASS 後依序合併。

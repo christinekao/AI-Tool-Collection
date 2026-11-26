@@ -69,11 +69,14 @@
   "source": {
     "url": "https://stitch.google.com/docs/mcp/setup",
     "reviewedAt": "2026-11-26",
-    "reviewScope": "2026-11-26 官方 Setup 頁無可讀正文；Google Labs 官方公告確認 MCP／SDK 關聯，另查 Google Labs SDK 固定版本 README f6aa86cde10c3f490acf09a63cc044582a50821d。固定版本只屬 SDK 文件，不代表 MCP 服務端版本；SDK README 聲明非正式支援產品。未連線。",
+    "reviewScope": "沿用既有文件與證據；Batch 100 新增 3 筆固定版本局部查核。原 MCP Setup 頁無可讀正文；已查固定版本 SDK 認證 header、工具回應解析及下載失敗的上游測試；仍未查核正式服務端版本、即時 schema、OAuth 核准流程、配額及真實產物。 未執行第三方。",
     "type": "Official product or original article",
     "referenceUrls": [
       "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md",
-      "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/"
+      "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/",
+      "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/packages/sdk/src/auth.ts",
+      "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/packages/sdk/src/client.ts",
+      "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/packages/sdk/test/unit/download-hardening.test.ts"
     ]
   },
   "intakeReview": {
@@ -83,7 +86,7 @@
       "source.url",
       "source.referenceUrls"
     ],
-    "sourceGap": "原 Setup 頁無正文；即時工具 Schema、正式授權流程、方案限制及服務端版本未核對。",
+    "sourceGap": "原 MCP Setup 頁無可讀正文；已查固定版本 SDK 認證 header、工具回應解析及下載失敗的上游測試；仍未查核正式服務端版本、即時 schema、OAuth 核准流程、配額及真實產物。",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -113,14 +116,14 @@
     "riskNotes": "MCP 端點及身分驗證方式可能隨版本變更。；本批未實際連線，且官方頁缺少可完整擷取正文。；未執行第三方程式、讀取機密或傳送憑證。；MCP 端點及身分驗證方式可能隨版本變更。；本批未實際連線，且官方頁缺少可完整擷取正文。；SDK 記錄 listTools 與 callTool；未查即時服務端工具，API 金鑰及 OAuth 必須隔離。；文件說明 getHtml 與 getImage 回傳下載 URL，而非可直接執行或已驗證的產品；未建立畫面。；僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。；第三方安裝、執行、授權與整合均未實測。",
     "verification": {
       "status": "not-tested",
-      "evidence": "2026-11-26 官方 Setup 頁無可讀正文；Google Labs 官方公告確認 MCP／SDK 關聯，另查 Google Labs SDK 固定版本 README f6aa86cde10c3f490acf09a63cc044582a50821d。固定版本只屬 SDK 文件，不代表 MCP 服務端版本；SDK README 聲明非正式支援產品。未連線。"
+      "evidence": "沿用既有文件與證據；Batch 100 新增 3 筆固定版本局部查核。原 MCP Setup 頁無可讀正文；已查固定版本 SDK 認證 header、工具回應解析及下載失敗的上游測試；仍未查核正式服務端版本、即時 schema、OAuth 核准流程、配額及真實產物。 未執行第三方。"
     },
     "sourceCheckedAt": "2026-11-26",
     "layerReview": {
       "status": "deferred",
-      "reason": "2026-11-26 官方 Setup 頁無可讀正文；Google Labs 官方公告確認 MCP／SDK 關聯，另查 Google Labs SDK 固定版本 README f6aa86cde10c3f490acf09a63cc044582a50821d。固定版本只屬 SDK 文件，不代表 MCP 服務端版本；SDK README 聲明非正式支援產品。未連線。",
-      "gap": "原 Setup 頁無正文；即時工具 Schema、正式授權流程、方案限制及服務端版本未核對。",
-      "nextAction": "取得可讀正式 Setup 文件後，在明確核准測試環境比對即時工具清單與權限，再以合成畫面驗收。"
+      "reason": "已核對局部來源及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "原 MCP Setup 頁無可讀正文；已查固定版本 SDK 認證 header、工具回應解析及下載失敗的上游測試；仍未查核正式服務端版本、即時 schema、OAuth 核准流程、配額及真實產物。",
+      "nextAction": "取得正式 Setup 文件，經核准後以合成專案查即時工具 schema、服務端授權與輸出完整性；不可將 SDK commit 當成服務端版本。"
     }
   },
   "implementationKnowledge": {
@@ -164,7 +167,12 @@
         "locator": "Error Handling／Answering a clarifying question",
         "limitations": "僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。"
       }
-    ]
+    ],
+    "sourceReview": {
+      "sdk_auth_header": "SDK header helper 優先採 API key，其次 Bearer token，可附 quota project；兩者皆無則拋錯。",
+      "sdk_tool_envelope": "工具回應 isError 時分類並拋 StitchError；非錯誤時優先 structuredContent，再嘗試解析文字 JSON，失敗可回傳原文字。另宣告 get/list 為可重試模式。",
+      "sdk_expired_download_test": "上游 mock 測試模擬 HTML 簽署 URL 回傳 403，預期總體 success 仍為 true，但下載畫面數為零並回傳警告，錯誤正文不得保存成 HTML 產物。"
+    }
   },
   "readerGuide": {
     "version": 2,
@@ -193,6 +201,16 @@
         "evidenceRefs": [
           "review"
         ]
+      },
+      {
+        "id": "sdk-auth-result-download-audit",
+        "title": "驗收 SDK 認證、回應與部分下載",
+        "detail": "以合成資料設計缺少憑證、不同認證類別、錯誤封套、非 JSON 回應、逾時及下載 URL 失效等測試；另驗證實際服務端授權與產物完整性。",
+        "evidenceRefs": [
+          "sdk-auth-header",
+          "sdk-tool-envelope",
+          "sdk-expired-download-test"
+        ]
       }
     ],
     "example": {
@@ -207,7 +225,8 @@
       "useCaseRefs": [
         "use-tools",
         "use-screen",
-        "use-review"
+        "use-review",
+        "sdk-auth-result-download-audit"
       ],
       "steps": [
         {
@@ -236,6 +255,15 @@
           "title": "獨立驗收實際成果",
           "evidenceRefs": [],
           "externalDependency": "需另行核准操作環境、合成資料、權限及外部服務，並取得獨立驗收證據。"
+        },
+        {
+          "id": "sdk-auth-result-download-audit",
+          "title": "驗收 SDK 認證、回應與部分下載",
+          "evidenceRefs": [
+            "sdk-auth-header",
+            "sdk-tool-envelope",
+            "sdk-expired-download-test"
+          ]
         }
       ]
     },
@@ -250,7 +278,8 @@
       "SDK 記錄 listTools 與 callTool；未查即時服務端工具，API 金鑰及 OAuth 必須隔離。",
       "文件說明 getHtml 與 getImage 回傳下載 URL，而非可直接執行或已驗證的產品；未建立畫面。",
       "僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。",
-      "第三方安裝、執行、授權與整合均未實測。"
+      "第三方安裝、執行、授權與整合均未實測。",
+      "原 MCP Setup 頁無可讀正文；已查固定版本 SDK 認證 header、工具回應解析及下載失敗的上游測試；仍未查核正式服務端版本、即時 schema、OAuth 核准流程、配額及真實產物。"
     ]
   },
   "agentEvidence": [
@@ -287,6 +316,42 @@
         "source.referenceUrls"
       ],
       "limitations": "僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "sdk-auth-header",
+      "detail": "SDK header helper 優先採 API key，其次 Bearer token，可附 quota project；兩者皆無則拋錯。",
+      "locator": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/packages/sdk/src/auth.ts#L75-L101",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.sdk_auth_header",
+        "source.referenceUrls"
+      ],
+      "limitations": "只證明 SDK helper 行為，不代表服務端授權、OAuth scope 或所有呼叫端的 header 合併安全。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "sdk-tool-envelope",
+      "detail": "工具回應 isError 時分類並拋 StitchError；非錯誤時優先 structuredContent，再嘗試解析文字 JSON，失敗可回傳原文字。另宣告 get/list 為可重試模式。",
+      "locator": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/packages/sdk/src/client.ts#L100-L147",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.sdk_tool_envelope",
+        "source.referenceUrls"
+      ],
+      "limitations": "型別轉換非實際 schema 驗證；本段未查完整 retry 呼叫鏈或服務端是否冪等。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "sdk-expired-download-test",
+      "detail": "上游 mock 測試模擬 HTML 簽署 URL 回傳 403，預期總體 success 仍為 true，但下載畫面數為零並回傳警告，錯誤正文不得保存成 HTML 產物。",
+      "locator": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/packages/sdk/test/unit/download-hardening.test.ts#L101-L132",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.sdk_expired_download_test",
+        "source.referenceUrls"
+      ],
+      "limitations": "只閱讀 mock 測試，未執行；成功旗標不代表所有畫面下載完整或正式服務可用。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
     }
