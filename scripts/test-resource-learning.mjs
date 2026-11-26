@@ -1721,6 +1721,33 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  50,
+  "個人反思、工程紀律與技術教材",
+  [
+    [
+      "kepano-40-questions",
+      "規劃年度與十年個人反思紀錄的長期比較",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "unclebob-ub-mode",
+      "規劃既有專案的最小修正與工程品質驗收",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "qingyuna-answer-me-with-html",
+      "規劃可離線技術教材的引用與安全驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
