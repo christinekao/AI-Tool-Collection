@@ -6,14 +6,14 @@
   "canonicalName": "zhouxiaoka/autoclip",
   "category": "11 Media / Video",
   "resourceType": "Open-source desktop, CLI and MCP AI video clip repurposing and content export toolkit",
-  "purpose": "將使用者擁有權利的 YouTube/B 站影片連結或本地長影片（訪談、Podcast、課程）轉為平台格式的成片，自動分析精華段落、字幕、封面、發文文案與 ZIP 發布包，支援抖音、小紅書、TikTok、Instagram Reels、YouTube Shorts 等。",
-  "recommendation": "適合作為工具功能和技術選型參考；使用前依官方文件確認適用環境、隱私資料流、商業授權、費用及風險，不在本次收錄中安裝或實測。",
+  "purpose": "將已授權長影片轉成短影音；本次查核生成工作時間預算、取消控制與日誌敏感資料處理。",
+  "recommendation": "適合研究影音工作流的可靠性與隱私管理；不自動下載、發布或重製未取得權利的影片。",
   "url": "https://github.com/zhouxiaoka/autoclip",
   "repo": "zhouxiaoka/autoclip",
   "notes": "2026-10-25 核對 GitHub Repository Metadata、官方 README、Repo 目錄及相關 SKILL.md。Repository 授權：MIT。桌面剪輯/渲染可本機執行，但挑選段落和部分 AI 功能可能透過第三方雲端模型按量計費，是否能用本機模型替代依實際功能與設定核對。官方要求來源影片著作權屬原作者，重製、公開傳播和商業使用應取得授權，使用自己的直播/課程較易確保權利。截圖於 2026-10-18 記載約 9,509 stars，2026-10-25 GitHub 查核時為約 9,713 stars，會變動。Repo 自帶 `skills/autoclip/SKILL.md`（剪片到發布包）與 `skills/product-board/SKILL.md`（社群功能看板，屬 Repo 維護，不是剪片功能），兩者明確分開。Skill 的 CLI 或 MCP 可能讀取本地影片、呼叫模型 API 或寫檔，未經授權不執行。未下載影片、執行剪輯或發布。",
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "autoclip",
     "long-to-short",
@@ -55,8 +55,16 @@
     "type": "Official GitHub README, repository metadata, license information and named Skill files (where present)",
     "summary": "Verified public official repository sources 2026-10-25. Not installed, executed or independently tested.",
     "readmeUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream website/README; no third-party executable validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "2f511907a72cbfbb8d86639f6441967b826acb6a",
+    "referenceUrls": [
+      "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/README.md",
+      "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/LICENSE",
+      "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/backend/core/job_budget.py",
+      "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/backend/core/project_cancellation.py",
+      "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/backend/core/log_redaction.py"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -103,10 +111,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -119,24 +130,377 @@
       "decision": "retain-unmapped",
       "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
       "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
+    "riskNotes": "MIT；來源影音及外部服務另查；若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料；Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI；本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。；取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。；依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。；素材授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將使用者擁有權利的 YouTube/B 站影片連結或本地長影片（訪談、Podcast、課程）轉為平台格式的成片，自動分析精華段落、字幕、封面、發文文案與 ZIP 發布包，支援抖音、小紅書、TikTok、Instagram Reels、YouTube Shorts 等。",
+      "source": "https://github.com/zhouxiaoka/autoclip",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合作為工具功能和技術選型參考；使用前依官方文件確認適用環境、隱私資料流、商業授權、費用及風險，不在本次收錄中安裝或實測。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-budget",
+        "title": "限制生成工作累積等待時間",
+        "detail": "單次請求逾時與多層重試可能讓工作長期卡住。 輸出：剩餘預算限制後的讀取逾時或逾時例外。",
+        "capabilityRefs": [
+          "budget"
+        ]
+      },
+      {
+        "id": "use-cancel",
+        "title": "區分取消生成與刪除專案",
+        "detail": "取消操作可能意外清除已完成成片或讓背景工作繼續。 輸出：停止標記、程序處理與取消狀態。",
+        "capabilityRefs": [
+          "cancel"
+        ]
+      },
+      {
+        "id": "use-redact",
+        "title": "遮罩工作日誌中的敏感資訊",
+        "detail": "外部模型呼叫錯誤可能將憑證寫入日誌。 輸出：遮罩後的文字及日誌紀錄。",
+        "capabilityRefs": [
+          "redact"
+        ]
+      }
+    ],
+    "example": {
+      "id": "zhouxiaoka-autoclip-example",
+      "title": "規劃短影音生成工作的逾時取消與日誌安全驗收",
+      "input": "自有合成影音、模擬模型請求及測試工作識別。",
+      "process": "限制生成工作累積等待時間 → 區分取消生成與刪除專案 → 遮罩工作日誌中的敏感資訊 → 獨立驗收實際成果",
+      "output": "逾時與取消狀態、保留成片規格及敏感資訊遮罩驗收清單。",
+      "destination": "自有影音處理服務，在隔離環境驗證後整合。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-budget",
+        "use-cancel",
+        "use-redact"
+      ],
+      "steps": [
+        {
+          "id": "budget",
+          "title": "限制生成工作累積等待時間",
+          "capabilityRefs": [
+            "budget"
+          ]
+        },
+        {
+          "id": "cancel",
+          "title": "區分取消生成與刪除專案",
+          "capabilityRefs": [
+            "cancel"
+          ]
+        },
+        {
+          "id": "redact",
+          "title": "遮罩工作日誌中的敏感資訊",
+          "capabilityRefs": [
+            "redact"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、素材權利、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有合成影音、模擬模型請求及測試工作識別。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料",
+      "Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI",
+      "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+      "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+      "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+      "素材授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "將已授權長影片轉成短影音；本次查核生成工作時間預算、取消控制與日誌敏感資料處理。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；來源影音及外部服務另查"
+      },
+      {
+        "label": "版本",
+        "value": "2f511907a72cbfbb8d86639f6441967b826acb6a"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "限制生成工作累積等待時間",
+        "detail": "單次請求逾時與多層重試可能讓工作長期卡住。 輸入：工作時間預算與單次模型讀取逾時；輸出：剩餘預算限制後的讀取逾時或逾時例外",
+        "source": "backend/core/job_budget.py"
+      },
+      {
+        "title": "區分取消生成與刪除專案",
+        "detail": "取消操作可能意外清除已完成成片或讓背景工作繼續。 輸入：工作專案識別、取消或刪除事件及受追蹤程序；輸出：停止標記、程序處理與取消狀態",
+        "source": "backend/core/project_cancellation.py"
+      },
+      {
+        "title": "遮罩工作日誌中的敏感資訊",
+        "detail": "外部模型呼叫錯誤可能將憑證寫入日誌。 輸入：合成日誌文字與請求欄位；輸出：遮罩後的文字及日誌紀錄",
+        "source": "backend/core/log_redaction.py"
+      }
+    ],
+    "architecture": {
+      "summary": "限制生成工作累積等待時間 → 區分取消生成與刪除專案 → 遮罩工作日誌中的敏感資訊 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "限制生成工作累積等待時間",
+          "detail": "工作時間預算與單次模型讀取逾時 → 剩餘預算限制後的讀取逾時或逾時例外",
+          "files": [
+            "backend/core/job_budget.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "區分取消生成與刪除專案",
+          "detail": "工作專案識別、取消或刪除事件及受追蹤程序 → 停止標記、程序處理與取消狀態",
+          "files": [
+            "backend/core/project_cancellation.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "遮罩工作日誌中的敏感資訊",
+          "detail": "合成日誌文字與請求欄位 → 遮罩後的文字及日誌紀錄",
+          "files": [
+            "backend/core/log_redaction.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "限制生成工作累積等待時間",
+        "rule": "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+        "source": "backend/core/job_budget.py"
+      },
+      {
+        "name": "區分取消生成與刪除專案",
+        "rule": "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+        "source": "backend/core/project_cancellation.py"
+      },
+      {
+        "name": "遮罩工作日誌中的敏感資訊",
+        "rule": "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+        "source": "backend/core/log_redaction.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "backend/core/job_budget.py",
+          "backend/core/project_cancellation.py",
+          "backend/core/log_redaction.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有合成影音、模擬模型請求及測試工作識別。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "backend/core/job_budget.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有影音處理服務，在隔離環境驗證後整合。",
+        "file": "backend/core/job_budget.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "budget",
+        "name": "限制生成工作累積等待時間",
+        "problem": "單次請求逾時與多層重試可能讓工作長期卡住。",
+        "input": "工作時間預算與單次模型讀取逾時",
+        "output": "剩餘預算限制後的讀取逾時或逾時例外",
+        "source": "backend/core/job_budget.py",
+        "sourceFiles": [
+          "backend/core/job_budget.py",
+          "README.md"
+        ],
+        "symbols": [
+          "clip_job_read_timeout",
+          "bound_clip_job",
+          "clip_step_budget"
+        ],
+        "gate": "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "cancel",
+        "name": "區分取消生成與刪除專案",
+        "problem": "取消操作可能意外清除已完成成片或讓背景工作繼續。",
+        "input": "工作專案識別、取消或刪除事件及受追蹤程序",
+        "output": "停止標記、程序處理與取消狀態",
+        "source": "backend/core/project_cancellation.py",
+        "sourceFiles": [
+          "backend/core/project_cancellation.py",
+          "README.md"
+        ],
+        "symbols": [
+          "cancel",
+          "stop",
+          "restore"
+        ],
+        "gate": "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "redact",
+        "name": "遮罩工作日誌中的敏感資訊",
+        "problem": "外部模型呼叫錯誤可能將憑證寫入日誌。",
+        "input": "合成日誌文字與請求欄位",
+        "output": "遮罩後的文字及日誌紀錄",
+        "source": "backend/core/log_redaction.py",
+        "sourceFiles": [
+          "backend/core/log_redaction.py",
+          "README.md"
+        ],
+        "symbols": [
+          "redact_text",
+          "RedactingFilter"
+        ],
+        "gate": "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃短影音生成工作的逾時取消與日誌安全驗收（設計示例）",
+      "problem": "自有合成影音、模擬模型請求及測試工作識別。",
+      "steps": [
+        {
+          "capability": "budget",
+          "action": "限制生成工作累積等待時間"
+        },
+        {
+          "capability": "cancel",
+          "action": "區分取消生成與刪除專案"
+        },
+        {
+          "capability": "redact",
+          "action": "遮罩工作日誌中的敏感資訊"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "zhouxiaoka-autoclip-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有合成影音、模擬模型請求及測試工作識別。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "限制生成工作累積等待時間 → 區分取消生成與刪除專案 → 遮罩工作日誌中的敏感資訊 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有影音處理服務，在隔離環境驗證後整合。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料",
+        "Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI",
+        "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+        "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+        "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+        "素材授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料；Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI；本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。；取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。；依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。；素材授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

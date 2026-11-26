@@ -1829,6 +1829,33 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  54,
+  "影音製作、任務可靠性與逐鏡分析",
+  [
+    [
+      "guizang-product-video-skill",
+      "規劃自有產品更新影片的影音同步與交付驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "zhouxiaoka-autoclip",
+      "規劃短影音生成工作的逾時取消與日誌安全驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "juneyaooo-rea-video",
+      "規劃自有影片的素材分析與原創分鏡製作規格",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

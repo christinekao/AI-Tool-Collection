@@ -1,3 +1,11 @@
+# Resource 最新交接｜雙層知識 Batch 54（2026-11-26）
+
+- PR #103 四項 CI PASS，合併 `fa1e6d05e931928d39e0482a3f3455c0dbd00e62`；main 基線 `2c7bfb838c21f65c9f7165a89317c7c15db3984c`。195/286 已合併（188 完成對應、7 deferred）。
+- [Batch 54｜影音製作、任務可靠性與逐鏡分析](RESOURCE_DUAL_LAYER_BATCH54_20261126.md)：guizang-product-video-skill、zhouxiaoka-autoclip、juneyaooo-rea-video；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。第三方未實測。
+- 合併後預計 198/286（191 完成對應、7 deferred）；88 尚未改寫。先確認四項 CI、合併與 Catalog Sync／Pages。Batch 55～56 尚未執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 53（2026-11-26）
 
 - PR #102 四項 CI PASS，合併 `05b85c6f725763c6aa98e5a9c14c0b1b86680718`；main 基線 `98a8bb7e11c357b7b59b8e5a880e9e4636c49474`。192/286 已合併（185 完成對應、7 deferred）。
