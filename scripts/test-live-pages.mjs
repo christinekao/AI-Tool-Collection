@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /** Real GitHub Pages HTTP contract test; separate from local-source CI. */
 const BASE='https://christinekao.github.io/AI-Tool-Collection/';
+// Fixed final batch markers verify that the published data contains the reviewed content.
+const finalResourceStarts={"zeabur-oss-ai-agent-installer-guide":"合成 Linux 伺服器清單","zed-industries-zed":"兩個獨立任務","zenbuapps":"虛構服務、網站內容","zhouxiaoka-autoclip":"自有已授權合成影音","zhulinsen-daily-stock-analysis":"合成行情 API 回應","zichuanlan-freebie-radar":"合成多語資訊標題"};
 const targets=[
  ['catalog-style.css','css',text=>text.includes('.detail{width:100%;max-width:none;margin:28px 0 65px}')],
  ['learning-detail.css','css',text=>text.includes('.learn-decision-check')&&text.includes('.learn-decision-scroll')&&text.includes('.learn-module-inline')],
@@ -15,7 +17,7 @@ const targets=[
  ['knowledge-learning.js','javascript',text=>text.includes('renderProblem')],
  ['workflow-engine.js','javascript',text=>text.includes('WorkflowEngine')],
  ['data/knowledge-graph-v1.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===1&&j.nodes?.length>=568&&j.edges?.length>=1813}],
- ['data/catalog-v2.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===2&&j.resources?.length>=270&&j.resources.some(x=>x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide'&&x.learningGuide?.version===2&&x.learningGuide?.modules?.length===10&&x.learningGuide?.modules?.flatMap(m=>m.essentials||[]).length===30&&x.learningGuide?.modules?.find(m=>m.id==='system-design')?.decisionTable?.length===5&&x.learningGuide?.modules?.find(m=>m.id==='system-design')?.decisionChecks?.length===3&&x.learningGuide?.outcomes?.length===5)&&j.resources.some(x=>x.id==='tip31812-ai-usage-bar')}],
+ ['data/catalog-v2.json','json',text=>{const j=JSON.parse(text);return j.schemaVersion===2&&j.resources?.length>=286&&Object.entries(finalResourceStarts).every(([id,phrase])=>j.resources.some(r=>r.id===id&&r.readerGuide?.start?.[0]?.includes(phrase)))&&j.resources.some(x=>x.id==='aiposthub-awesome-opensource-ai-cheat-sheets-guide'&&x.learningGuide?.version===2&&x.learningGuide?.modules?.length===10&&x.learningGuide?.modules?.flatMap(m=>m.essentials||[]).length===30&&x.learningGuide?.modules?.find(m=>m.id==='system-design')?.decisionTable?.length===5&&x.learningGuide?.modules?.find(m=>m.id==='system-design')?.decisionChecks?.length===3&&x.learningGuide?.outcomes?.length===5)&&j.resources.some(x=>x.id==='tip31812-ai-usage-bar')}],
  ['data/problems/ai-coding-spec-delivery.json','json',text=>{const j=JSON.parse(text);return j.id==='ai-coding-spec-delivery'&&j.learning?.version===1}],
  ['data/resources/aiposthub-awesome-opensource-ai-cheat-sheets-guide.json','json',text=>{const j=JSON.parse(text);return j.url==='https://www.aiposthub.com/sraodev-awesome-opensource-ai-cheat-sheets-guide/'&&j.repo==='sraodev/awesome-opensource-ai-cheat-sheets'&&j.implementationKnowledge?.executionStatus==='NOT_EXECUTED'&&j.learningGuide?.version===2&&j.learningGuide?.modules?.length===10&&j.learningGuide?.modules?.flatMap(m=>m.essentials||[]).length===30&&j.learningGuide?.modules?.find(m=>m.id==='system-design')?.decisionTable?.length===5&&j.learningGuide?.modules?.find(m=>m.id==='system-design')?.decisionChecks?.length===3&&j.learningGuide?.outcomes?.length===5}],
  ['data/resources/tip31812-ai-usage-bar.json','json',text=>{const j=JSON.parse(text);return j.url==='https://github.com/tip31812/ai-usage-bar'&&j.implementationKnowledge?.executionStatus==='NOT_EXECUTED'&&j.source?.upstreamCommit?.length===40}],

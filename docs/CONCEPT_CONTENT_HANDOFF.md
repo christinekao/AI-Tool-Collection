@@ -1,3 +1,10 @@
+# Phase 3｜Concept 語意邊界與 Resource 證據對照（2026-11-26）
+
+- [Review 01](CONCEPT_KNOWLEDGE_REVIEW_01_20261126.md)：盤點 68 ID，讀取 20 定義與八個 Resource 局部證據；記憶、參考模式及驗收 Gate 分組暫保留，列出 Resource 關聯候選與既有證據缺口。未修改 Canonical 或正式 Graph。
+- 舊 Phase 2 的 68/68 內容整理已完成，不重做；下輪對照剩餘 48 定義、全部入向／出向 Typed References，先 Agent architecture / orchestration / skill routing。維持 68 Concept 身分，不擅自整併或新增。來源與 runtime 缺口保留。
+
+---
+
 # Concepts Phase 2｜Session Handoff（2026-11-23）
 
 **全部 68/68 筆 Concept 內容整理完成；Batch 04 最終狀態 PASS WITH GAPS，剩餘 0 筆。**

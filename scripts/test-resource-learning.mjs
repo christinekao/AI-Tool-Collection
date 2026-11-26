@@ -3080,3 +3080,35 @@ test('Resource quality batch 15: final six practical starts and independent veri
  const d=JSON.parse(fs.readFileSync('data/resources/zhulinsen-daily-stock-analysis.json','utf8'));
  assert.match(d.readerGuide.start[2],/不以模擬資料或 AI 評分提出買賣決策/);
 });
+
+
+test('Resource audit 20261126: historical report coverage and current layer reconciliation',()=>{
+ const ids=new Set(fs.readdirSync('data/resources').filter(f=>f.endsWith('.json')).map(f=>f.slice(0,-5)));
+ const reviewed=new Set();
+ for(let n=1;n<=15;n++){
+  const file='docs/RESOURCE_CONTENT_REVIEW_BATCH'+String(n).padStart(2,'0')+'_20261126.md';
+  const rows=fs.readFileSync(file,'utf8').split('\n').filter(l=>l.startsWith('|')).map(l=>l.split('|')[1]?.trim().replace(/\x60/g,'')).filter(id=>ids.has(id));
+  assert.equal(rows.length,n===15?6:20,file);
+  for(const id of rows){assert.ok(!reviewed.has(id),'duplicate review '+id);reviewed.add(id);}
+ }
+ assert.equal(reviewed.size,286);
+ const counts={mapped:0,'evidence-linked':0,deferred:0,'source-blocked':0};
+ const deferred=[],blocked=[];let runtimeTested=0;
+ for(const id of [...reviewed].sort()){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  const state=d.intakeReview?.layerReview?.status;
+  if(state===undefined){
+   assert.equal(d.intakeReview?.sourceStatus,'partial',id);
+   assert.ok(d.intakeReview?.sourceGap&&!d.readerGuide,id);
+   counts['source-blocked']++;blocked.push(id);
+  }else{
+   assert.ok(['mapped','evidence-linked','deferred'].includes(state),id);
+   counts[state]++;
+   assert.ok([1,2].includes(d.readerGuide?.mappingVersion),id);
+   assert.deepEqual(validateResourceLayerLinks(d),[],id);
+   if(state==='deferred'){assert.ok(d.intakeReview.layerReview.gap&&d.intakeReview.layerReview.nextAction,id);deferred.push(id);}
+  }
+  if(d.intakeReview?.verification?.status==='tested')runtimeTested++;
+ }
+ console.log('RESOURCE_AUDIT_RECONCILIATION '+JSON.stringify({reviewed:reviewed.size,totalCurrent:ids.size,notInHistoricalReview:[...ids].filter(id=>!reviewed.has(id)),counts,deferred,blocked,runtimeTested}));
+});
