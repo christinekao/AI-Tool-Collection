@@ -82,7 +82,7 @@
     "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
     "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "固定版本 README、LICENSE 與本輪 4 個局部原始碼或測試證據；原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
+    "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。",
     "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
     "referenceUrls": [
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
@@ -90,7 +90,11 @@
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/ipc/worktrees/create/register-worktree-create-handlers.ts",
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/workspaces/worktree-create-agent-launch.ts",
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/daemon/pty-subprocess/native-pty-spawn.ts",
-      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/worker-launch-handler.ts"
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/worker-launch-handler.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/creation/worktree-add.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/removal/worktree-removal.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/dispatch/rpc-request-admission-prologue.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts"
     ]
   },
   "intakeReview": {
@@ -119,7 +123,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。"
+      "reason": "已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -132,14 +136,14 @@
     "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README、LICENSE 與本輪 4 個局部原始碼或測試證據；原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。；未執行第三方。"
+      "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。"
     },
-    "sourceGap": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
+    "sourceGap": "已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
     "layerReview": {
       "status": "deferred",
       "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-      "gap": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
-      "nextAction": "追蹤 IPC 建立與 Git 執行器下游、remote runtime RPC 權限、worker settlement/cleanup；以合成 Repo 驗證錯誤復原與清理。"
+      "gap": "已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
+      "nextAction": "追蹤 transport callerScope 身分綁定、worker cancellation/cleanup、分支保護及未合併資料保留測試。"
     }
   },
   "implementationKnowledge": {
@@ -151,7 +155,11 @@
       "worktree_ipc": "建立 IPC 先找 repoId，透過 project worktree create 包裝建立流程，並在本機 Git 操作前解析 SSH execution host ownership；不受服務的主機回錯。",
       "launch_capability": "CLI 先檢查 host 能力；較舊 host 可用 worktree.create 啟動，但不支援指定 model/effort 或 surface 時明確回錯；重播要求回原 execution host。",
       "pty_process": "PTY 啟動前檢查取消訊號、WSL distro allowlist、可選 create admission；nodePty.spawn 接收 shell、參數與 cwd。",
-      "worker_launch": "worker-start 拒絕 Agent Server route，檢查 runtime model/effort 能力，呼叫 workerStart mutation；timeout 路徑嘗試 reconciliation 而非盲目重啟。"
+      "worker_launch": "worker-start 拒絕 Agent Server route，檢查 runtime model/effort 能力，呼叫 workerStart mutation；timeout 路徑嘗試 reconciliation 而非盲目重啟。",
+      "git_worktree_add": "建立前檢查未完成刪除的路徑與分支衝突；依是否重用分支組合 git worktree add，新增分支使用 --no-track 與 -b；執行設逾時並在 finally 更新 WSL 路由快取。",
+      "git_worktree_remove": "移除時讀取 worktree 與 branch/head，強制檢查鎖定，進入刪除限流區重新確認；移除 checkout 後依選項決定是否進行序列化分支清理。",
+      "rpc_admission": "RPC handler 前先檢查 caller scope 與 method permission，再檢查來源及遷移 fence、peer admission、caller resolution、參數及 transport 支援。",
+      "worker_settlement": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。"
     }
   },
   "agentEvidence": [
@@ -234,6 +242,50 @@
       "limitations": "僅 CLI 入口；未核對 host 授權實作、程序取消、Git 清理。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "git-worktree-add",
+      "detail": "建立前檢查未完成刪除的路徑與分支衝突；依是否重用分支組合 git worktree add，新增分支使用 --no-track 與 -b；執行設逾時並在 finally 更新 WSL 路由快取。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/creation/worktree-add.ts#L230-L299",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.git_worktree_add"
+      ],
+      "limitations": "此段不是遠端 Git 授權或完整失敗回滾；逾時後的實際工作樹狀態須重新查核。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "git-worktree-remove",
+      "detail": "移除時讀取 worktree 與 branch/head，強制檢查鎖定，進入刪除限流區重新確認；移除 checkout 後依選項決定是否進行序列化分支清理。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/removal/worktree-removal.ts#L69-L150",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.git_worktree_remove"
+      ],
+      "limitations": "不能推論 force 操作無資料遺失；分支保護、Windows/WSL 與 worker 清理須另驗。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "rpc-admission",
+      "detail": "RPC handler 前先檢查 caller scope 與 method permission，再檢查來源及遷移 fence、peer admission、caller resolution、參數及 transport 支援。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/dispatch/rpc-request-admission-prologue.ts#L31-L96",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.rpc_admission"
+      ],
+      "limitations": "callerScope 的 transport 認證與預設 owner scope 安全性不在本段證明範圍。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "worker-settlement",
+      "detail": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts#L4-L48",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.worker_settlement"
+      ],
+      "limitations": "結算回讀不是 worker 程序終止、Git 清理或遠端一致性保證。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -277,6 +329,17 @@
           "pty-process",
           "worker-launch"
         ]
+      },
+      {
+        "id": "worktree-lifecycle-audit",
+        "title": "驗收 Worktree 生命週期與 RPC 結算",
+        "detail": "在合成 Repo 設計路徑衝突、建立逾時、鎖定 worktree、未合併分支、RPC 拒絕及 worker_done 結算不明的案例；分開驗證 Git、程序與遠端認證。",
+        "evidenceRefs": [
+          "git-worktree-add",
+          "git-worktree-remove",
+          "rpc-admission",
+          "worker-settlement"
+        ]
       }
     ],
     "example": {
@@ -292,7 +355,8 @@
         "parallel-tasks",
         "review-diffs",
         "coordination",
-        "worktree-contract-audit"
+        "worktree-contract-audit",
+        "worktree-lifecycle-audit"
       ],
       "steps": [
         {
@@ -327,6 +391,16 @@
           ]
         },
         {
+          "id": "worktree-lifecycle-audit",
+          "title": "驗收 Worktree 生命週期與 RPC 結算",
+          "evidenceRefs": [
+            "git-worktree-add",
+            "git-worktree-remove",
+            "rpc-admission",
+            "worker-settlement"
+          ]
+        },
+        {
           "id": "merge",
           "title": "核對整合結果",
           "evidenceRefs": [],
@@ -344,7 +418,8 @@
       "平行 Agent 會增加權限、模型成本與 Merge 衝突風險",
       "遠端執行、程序與憑證隔離、實際 Git 命令及授權流程未查核。",
       "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
-      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
+      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
+      "已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。"
     ]
   }
 }

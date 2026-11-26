@@ -89,7 +89,7 @@
     "reviewedAt": "2026-11-26",
     "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
     "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-    "reviewScope": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+    "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。",
     "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
     "referenceUrls": [
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
@@ -98,7 +98,10 @@
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission.ts",
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/agent.ts",
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/subagent.ts",
-      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts"
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/plan.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/shell.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts"
     ]
   },
   "researchStatus": "official-source-verified",
@@ -155,7 +158,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。"
+      "reason": "已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -168,14 +171,14 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。；未執行第三方。"
+      "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。"
     },
-    "sourceGap": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+    "sourceGap": "已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
     "layerReview": {
       "status": "deferred",
       "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-      "gap": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
-      "nextAction": "定位 Plan 設定及 child session 權限組裝與 Shell/MCP 執行入口；以合成 Repo 驗證拒絕、取消、持久化核准及越權。"
+      "gap": "已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
+      "nextAction": "追蹤 Session.create 的 child 權限、ShellPermissions.requests 解析與 MCP direct/resource 入口，驗證拒絕與越權反例。"
     }
   },
   "implementationKnowledge": {
@@ -188,7 +191,11 @@
       "saved_approval": "權限服務先評估 agent 與 session 規則，明確拒絕直接阻擋；再以 project 範圍保存的核准作 fallback。",
       "role_defaults": "Build 為 primary；General 為 subagent，預設禁止 question 和 subagent；Explore 為 subagent，預設拒絕萬用規則後列出 Shell、搜尋及讀取等許可。",
       "subagent_gate": "子代理入口檢查深度、拒絕 primary 角色，經 permission.assert 再建立或繼續 child session；模型可依顯式覆寫、角色設定及父 session 決定。",
-      "policy_test": "上游測試含 fallback 不覆蓋明確拒絕、多資源效果排序、restrict 在 override/fallback 下仍拒絕等反例。"
+      "policy_test": "上游測試含 fallback 不覆蓋明確拒絕、多資源效果排序、restrict 在 override/fallback 下仍拒絕等反例。",
+      "plan_role": "Plan plugin 設定 primary 角色、允許 question、拒絕一般 edit，並允許指定 plan 目錄 edit；選中時指令要求不修改其他檔案或委派修改。",
+      "session_policy": "權限服務依呼叫的 sessionID 取得 session，解析指定 agent 或 session agent，組合 agent permissions 與 session permissions，再評估操作。",
+      "shell_gate": "Shell 解析目標工作目錄，依當前 agent/session 組合政策產生權限請求，逐一 assert，並在程序建立前重新檢查目錄。",
+      "mcp_tool_gate": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。"
     }
   },
   "agentEvidence": [
@@ -282,6 +289,50 @@
       "limitations": "僅閱讀測試，不宣稱已執行或實際環境安全。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "plan-role",
+      "detail": "Plan plugin 設定 primary 角色、允許 question、拒絕一般 edit，並允許指定 plan 目錄 edit；選中時指令要求不修改其他檔案或委派修改。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/plan.ts#L22-L48",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.plan_role"
+      ],
+      "limitations": "角色指令及 edit 規則不等於 OS 唯讀沙箱；尚未證明 Shell 或子代理均受同等限制。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "session-policy",
+      "detail": "權限服務依呼叫的 sessionID 取得 session，解析指定 agent 或 session agent，組合 agent permissions 與 session permissions，再評估操作。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission.ts#L190-L233",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.session_policy"
+      ],
+      "limitations": "此處沒有證明父 session 的限制如何傳入新 child session；需另查建立流程。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "shell-gate",
+      "detail": "Shell 解析目標工作目錄，依當前 agent/session 組合政策產生權限請求，逐一 assert，並在程序建立前重新檢查目錄。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/shell.ts#L330-L361",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.shell_gate"
+      ],
+      "limitations": "尚未核對命令解析完整性、所有 shell 語法與 OS 沙箱；不可當作安全隔離保證。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "mcp-tool-gate",
+      "detail": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts#L46-L88",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.mcp_tool_gate"
+      ],
+      "limitations": "此入口採工具層萬用 resource，並非參數級授權；不能推廣至所有 MCP 入口或遠端服務端安全。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -323,6 +374,17 @@
           "subagent-gate",
           "policy-test"
         ]
+      },
+      {
+        "id": "tool-boundary-audit",
+        "title": "驗收 Plan 與工具執行權限",
+        "detail": "在合成 Repo 比較 Plan 目錄內外 edit、child session 的規則、Shell 路徑權限與 MCP tool 核准；另設 OS 層隔離及遠端服務端授權。",
+        "evidenceRefs": [
+          "plan-role",
+          "session-policy",
+          "shell-gate",
+          "mcp-tool-gate"
+        ]
       }
     ],
     "example": {
@@ -338,7 +400,8 @@
         "explore-code",
         "fix-feature",
         "delegate-research",
-        "permission-contract-audit"
+        "permission-contract-audit",
+        "tool-boundary-audit"
       ],
       "steps": [
         {
@@ -374,6 +437,16 @@
           ]
         },
         {
+          "id": "tool-boundary-audit",
+          "title": "驗收 Plan 與工具執行權限",
+          "evidenceRefs": [
+            "plan-role",
+            "session-policy",
+            "shell-gate",
+            "mcp-tool-gate"
+          ]
+        },
+        {
           "id": "test",
           "title": "獨立驗收修改及權限",
           "evidenceRefs": [],
@@ -390,7 +463,8 @@
       "具備讀寫程式碼及執行指令能力，須備份和最小權限",
       "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。",
       "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
-      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
+      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
+      "已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
     ]
   }
 }
