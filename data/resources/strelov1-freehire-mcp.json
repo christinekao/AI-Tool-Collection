@@ -176,7 +176,7 @@
       {
         "id": "use-search",
         "title": "按職缺需求查詢並篩選",
-        "detail": "職稱同義詞、地點及技能條件容易讓搜尋結果偏離需求。 職缺列表、完整描述、總數及忽略條件資訊。",
+        "detail": "以合成職稱、地點、技能及分頁條件核對搜尋結果與 ignored／ignored_values，記錄未生效的篩選。輸出：候選職缺、描述與條件差異；總數不代表全部符合。",
         "capabilityRefs": [
           "search"
         ]
@@ -184,7 +184,7 @@
       {
         "id": "use-cv",
         "title": "建立職缺專屬履歷並保存證據",
-        "detail": "同一履歷需依不同 JD 調整，但不能新增未確認的經驗。 客製 CV ID、fit context、修訂紀錄與 PDF 輸出契約。",
+        "detail": "以合成 JD、履歷及已確認的素材 ID 設計客製版本，將 missing_gap 交本人查證，不補造經歷。輸出：待審 CV ID、fit context、修訂及 PDF 契約；首次建立 credit 另行核准。",
         "capabilityRefs": [
           "cv"
         ]
@@ -192,7 +192,7 @@
       {
         "id": "use-tracking",
         "title": "追蹤收藏、申請與面試階段",
-        "detail": "求職進度容易與實際對雇主送件混淆。 收藏、已申請標記、階段與筆記紀錄。",
+        "detail": "使用合成職缺識別及已確認的階段設計收藏、面試與筆記紀錄，核對保存及讀回。輸出：求職追蹤狀態；本機 apply 不代表已向雇主送件。",
         "capabilityRefs": [
           "tracking"
         ]
@@ -243,9 +243,9 @@
       "verificationStatus": "design-only"
     },
     "start": [
-      "先準備合成職缺描述、匿名履歷素材、候選職缺識別及已確認的追蹤狀態。",
-      "依需求選擇用途，查閱固定版本及限制。",
-      "確認權限及環境，另行執行正向與負向測試。"
+      "先建立合成 JD、匿名履歷證據、候選職缺識別與已確認階段，明列不可新增的經歷及禁止送件範圍。",
+      "依固定版本 tools.ts、client.ts 與 config.ts 核對搜尋忽略條件、地理 OR 群組、CV credit、missing_gap 及 Hosted OAuth；不沿用歷史免登入說明。",
+      "取得隔離測試核准後檢查條件偏離、證據缺漏、版本與實際讀回；本機 apply 只是狀態標記，真實送件、費用及個資傳輸需另行核准。"
     ],
     "limits": [
       "Hosted README 目前明列所有工具需要 OAuth；舊版免登入敘述僅保留為歷史快照，不能當現行能力。",

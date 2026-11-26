@@ -3006,3 +3006,30 @@ test('Resource quality batch 12: practical starts, HTML and resume cases, and de
  const cv=JSON.parse(fs.readFileSync('data/resources/reactive-resume.json','utf8'));
  assert.match(cv.readerGuide.start[1],/match score 會寫入且不是錄取機率/);
 });
+
+
+test('Resource quality batch 13: practical starts, concrete cases and retained source gaps',()=>{
+ const expected={"shubhamsaboo-needle":"合成中英文文件","skillry-opus-5-5-video-pattern-library":"自有教學短片的腳本","skillry-web-design-template-skills":"自有作品集的受眾","social-post":"自撰虛構貼文","sona-orbit-parroting":"自編非敏感繁中及英文朗讀句","storytold-artcraft":"自有合成媒體路徑","storytold-filmcraft":"合成剪輯專案的新舊版本","strelov1-freehire":"虛構公司名稱","strelov1-freehire-mcp":"合成 JD、匿名履歷證據","thu-maic-openmaic":"兩種測試擁有者","toeverything-affine":"兩個隔離的合成知識工作區","tradingview-pine-screener-strategy-tester":"合成觀察清單","twood2024-prelaunch-check-defense":"自有測試網站的一個發布範圍","typesafe-ai-jev":"虛構客服案例狀態"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((id==='toeverything-affine'?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ for(const id of ['social-post','strelov1-freehire-mcp','thu-maic-openmaic']){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.readerGuide.useCases.length,3,id);
+  for(const c of d.readerGuide.useCases)assert.match(c.detail,/輸出：/,id+' '+c.id);
+ }
+ const stitch=JSON.parse(fs.readFileSync('data/resources/stitch-mcp.json','utf8'));
+ assert.equal(stitch.intakeReview.layerReview.status,'deferred');
+ const h=JSON.parse(fs.readFileSync('data/resources/skillgodak-hgtv.json','utf8'));
+ assert.equal(h.intakeReview.sourceStatus,'partial');assert.match(h.intakeReview.sourceGap,/404/);assert.ok(!h.readerGuide);
+ const f=JSON.parse(fs.readFileSync('data/resources/strelov1-freehire-mcp.json','utf8'));
+ assert.match(f.readerGuide.start[2],/本機 apply 只是狀態標記/);
+ const m=JSON.parse(fs.readFileSync('data/resources/thu-maic-openmaic.json','utf8'));
+ assert.match(m.readerGuide.start[1],/相容入口自動確認與 generation-run 人工審查/);
+});

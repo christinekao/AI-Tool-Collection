@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch13Phrases={"shubhamsaboo-needle":"合成中英文文件","skillry-opus-5-5-video-pattern-library":"自有教學短片的腳本","skillry-web-design-template-skills":"自有作品集的受眾","social-post":"自撰虛構貼文","sona-orbit-parroting":"自編非敏感繁中及英文朗讀句","storytold-artcraft":"自有合成媒體路徑","storytold-filmcraft":"合成剪輯專案的新舊版本","strelov1-freehire":"虛構公司名稱","strelov1-freehire-mcp":"合成 JD、匿名履歷證據","thu-maic-openmaic":"兩種測試擁有者","toeverything-affine":"兩個隔離的合成知識工作區","tradingview-pine-screener-strategy-tester":"合成觀察清單","twood2024-prelaunch-check-defense":"自有測試網站的一個發布範圍","typesafe-ai-jev":"虛構客服案例狀態"};
+  if(qualityBatch13Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch13Phrases[id])+')'),id);
+  }
   const qualityBatch12Phrases={"qingyuna-answer-me-with-html":"自撰 Markdown 技術教材","rankupgames-spectra":"合成 Python Repo","rea":"必須驗收的義務","react-frontend-backend-for-beginners":"合成履歷管理網站需求","reactive-resume":"合成母版履歷","research-to-diagram":"一項公開技術問題","reverse-skill":"兩筆既有 Resource ID","reverse-skill-2":"自有合成案例資料夾","rociiu-talorys":"合成記憶的新舊版本","rtk":"固定一組命令","ryanhanwu-how-to-ask-questions-the-smart-way":"可重現的合成表單儲存問題","seokwoooo-lucian-uxui-prompt":"自有表單的一個介面問題"};
   if(qualityBatch12Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch12Phrases[id])+')'),id);
