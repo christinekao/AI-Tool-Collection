@@ -408,17 +408,18 @@
       "id": "research-memory-test",
       "title": "設計跨任務研究記憶測試",
       "input": "兩個合成專案、各三則公開或合成記錄與已知正確答案。",
-      "process": "定義 bank → 保存核准資料 → 查詢與整理 → 驗證隔離及刪除",
+      "process": "定義 bank → 保存核准資料 → 設計檢索與反思 → 驗收記憶版本、檢索及租戶授權 → 驗收 Reflect 回答與操作授權 → 驗收 Bank 拒絕、引用及刪除例外 → 測隔離、刪除與來源",
       "output": "記憶查詢、引用、錯誤及權限測試規格（未建立實際記憶）。",
       "destination": "自有知識庫 Agent 的架構選型與資料治理。",
-      "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
+      "note": "自訂設計示例；已靜態閱讀固定版本局部原始碼及上游測試，未執行第三方或驗證整合；直接引擎授權、跨 tenant/bank 隔離、所有引用輸出分支及完整刪除仍待查核。",
       "verificationStatus": "design-only",
       "useCaseRefs": [
         "project-memory",
         "memory-retrieval",
         "memory-isolation",
         "memory-contract-audit",
-        "reflect-authorization-audit"
+        "reflect-authorization-audit",
+        "bank-citation-deletion-audit"
       ],
       "steps": [
         {
@@ -463,6 +464,15 @@
           ]
         },
         {
+          "id": "bank-citation-deletion-audit",
+          "title": "驗收 Bank 拒絕、引用與刪除例外",
+          "evidenceRefs": [
+            "bank-validator-coverage",
+            "reflect-cited-id-filter",
+            "missing-bank-delete-test"
+          ]
+        },
+        {
           "id": "test",
           "title": "測隔離、刪除與來源",
           "evidenceRefs": [],
@@ -471,9 +481,9 @@
       ]
     },
     "start": [
-      "先區分需要保存的事實、短期對話及不可保存的資料。",
-      "核對固定版本 SDK 說明，以合成資料定義 retain、recall 與 reflect 的期望結果。",
-      "在核准環境測錯誤記憶、跨 bank、刪除及引用，再考慮接入正式資料。"
+      "先建立兩個合成專案的記憶 bank，各放入新舊版本事實、禁止保存的資料及已知正確答案。",
+      "依固定版本 retain、recall、reflect、Bank 拒絕及引用過濾的既有證據設計版本更新、檢索與拒絕案例；仍缺直接引擎授權、跨 tenant/bank 隔離及完整刪除契約。",
+      "取得隔離測試核准後逐項核對檢索來源、生成答案、跨 bank 拒絕、錯誤引用及刪除殘留；上游測試僅靜態閱讀，不代表實際隔離或完整刪除。"
     ],
     "limits": [
       "README Benchmark 是作者測量，非自身環境保證",

@@ -785,6 +785,13 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch07Phrases={"hindsight":"兩個合成專案的記憶 bank","hirakujira-pokeep":"虛構收藏清單","hkuds-vimax":"圖片及影片後端 YAML","humanlayer":"前端與 API 測試 Repo","ice1187-tw-security-and-ctf-resource":"合法隔離的練習環境","impeccable":"一項介面問題","infiniflow-ragflow":"五份合成規章","irons163-orchestrate-sol-terra-luna":"舊收藏名稱與 Canonical ID","irons163-three-tier-agent-orchestrator":"相互獨立的任務","jakeschincariol-day-trader-skill":"虛構交易計畫","jit-learning-loop":"學習者需自行回答的檢查點","jub0t-concat":"事件先於工作 ID","juneyaooo-rea-video":"人工標註鏡頭","k-dense-ai-scientific-agent-skills":"一個合成研究問題","kepano-40-questions":"年度或十年回顧"};
+  if(qualityBatch07Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch07Phrases[id])+')'),id);
+  }
+  if(id==='hindsight'){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes("驗收 Bank 拒絕、引用與刪除例外")'),id);
+  }
   const qualityBatch06Phrases={"googlechrome-modern-web-guidance":"手機導覽與桌面側欄需求","graft":"兩個自有測試 Repo","graphify-labs-graphify":"固定 v3","guizang-product-video-skill":"預期開場畫面","gzh-design-skill":"自有 Markdown 教學文章","hao0321-editkin":"合成渲染圖","harry0703-moneyprinterturbo":"素材方向異常案例","hbai-ltd-toonflow-app":"兩個隔離測試工作區","herdr-mods-gallery":"待人工處理提醒","herdrdev-herdr":"兩個自有測試 CLI Agent","hermes-backsearch":"明確截止日","hermes-memory-wiki":"兩個合成 profile","hermes-snyk-plugin":"禁止外送的內容","hesreallyhim-awesome-claude-code":"跨 Session 記憶或 PR 回歸驗收","heydamir-unslop":"一個設計問題"};
   if(qualityBatch06Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch06Phrases[id])+')'),id);

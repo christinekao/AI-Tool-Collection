@@ -2884,3 +2884,22 @@ test('Resource quality batch 06: concrete starts and retained evidence boundary'
  const snyk=JSON.parse(fs.readFileSync('data/resources/hermes-snyk-plugin.json','utf8'));
  assert.match(snyk.readerGuide.start[1],/仍待驗證即時工具 schema/);assert.match(snyk.readerGuide.start[2],/停用 analytics 不代表離線/);
 });
+
+
+test('Resource quality batch 07: practical starts, deferred boundaries and Hindsight case coverage',()=>{
+ const expected={"hindsight":"兩個合成專案的記憶 bank","hirakujira-pokeep":"虛構收藏清單","hkuds-vimax":"圖片及影片後端 YAML","humanlayer":"前端與 API 測試 Repo","ice1187-tw-security-and-ctf-resource":"合法隔離的練習環境","impeccable":"一項介面問題","infiniflow-ragflow":"五份合成規章","irons163-orchestrate-sol-terra-luna":"舊收藏名稱與 Canonical ID","irons163-three-tier-agent-orchestrator":"相互獨立的任務","jakeschincariol-day-trader-skill":"虛構交易計畫","jit-learning-loop":"學習者需自行回答的檢查點","jub0t-concat":"事件先於工作 ID","juneyaooo-rea-video":"人工標註鏡頭","k-dense-ai-scientific-agent-skills":"一個合成研究問題","kepano-40-questions":"年度或十年回顧"};
+ const deferred=['hindsight','infiniflow-ragflow','irons163-orchestrate-sol-terra-luna'];
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((deferred.includes(id)?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const d=JSON.parse(fs.readFileSync('data/resources/hindsight.json','utf8')),e=d.readerGuide.example;
+ const c=d.readerGuide.useCases.find(x=>x.id==='bank-citation-deletion-audit');
+ assert.ok(e.useCaseRefs.includes(c.id));assert.deepEqual(e.steps.find(x=>x.id===c.id).evidenceRefs,c.evidenceRefs);
+ assert.equal(e.steps.at(-1).id,'test');assert.match(e.note,/未執行第三方/);
+});
