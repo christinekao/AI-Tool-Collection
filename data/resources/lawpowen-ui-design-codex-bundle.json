@@ -5,7 +5,7 @@
   "title": "Codex UI Design Bundle — Standards, UI/UX Search, Feedback & Desktop Interactions",
   "status": "active",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "ui-design",
     "agent-skills",
@@ -26,8 +26,8 @@
   "canonicalName": "lawpowen/agent-skills — codex/bundles/ui-design.md",
   "category": "06 Skills",
   "resourceType": "Codex UI Agent Skills installation bundle (five independently installable skills, one already cataloged)",
-  "purpose": "提供跨電腦複製 Codex UI 設計工作方式的指引：將 ui-design-standards 設為共同入口，按需載入 ui-ux-pro-max、ui-feedback-patterns、ui-chat-desktop-interactions 及 frontend-design。整合既有 UI 風格偏好、可檢索設計資料、模態／回饋元件選型、聊天／桌面工作台交互與新視覺方向。",
-  "recommendation": "適合作為 UI 改善時的技能選用架構參考；先描述現有問題、清楚限定影響範圍，分析後再動程式。Repo 的『我們的 UI 規範』屬來源作者當前專案偏好，不應自動套用到別的產品。安裝指引會改變目標 Codex 的 Skill 目錄，須由使用者在目標電腦明確批准，遇同名先比較差異。",
+  "purpose": "整合 Codex 設計技能與設計資料搜尋；本次聚焦檢索輸出、資料完整性及非可執行決策規則。",
+  "recommendation": "適合研究設計知識庫的資料契約與決策規則驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/lawpowen/agent-skills/blob/main/codex/bundles/ui-design.md",
   "repo": "lawpowen/agent-skills",
   "notes": "2026-10-28 經官方 GitHub main README、codex/bundles/ui-design.md（快照日期 2026-10-24）、五個獨立 SKILL.md、LICENSE 與 codex/THIRD-PARTY-NOTICES.md 核對。套件包含 5 個獨立 Skill，非 5 個新發明模型：ui-design-standards／ui-ux-pro-max／ui-feedback-patterns／ui-chat-desktop-interactions／frontend-design。最後一個已在本 Catalog 的 frontend-design Resource/Skill 收錄，此次只做關聯。Repo 自製內容根目錄 MIT；ui-ux-pro-max 保留上游 MIT 與 Snapshots，包內 frontend-design 另保留 Apache-2.0 授權，不可僅憑 Repo MIT 就抹除第三方條件。bundle.md 只是安裝指引，不是 SKILL.md；不使用外掛執行任何 `$skill-installer` 或 Python 查詢。其『avoid unnecessary secondary labels and descriptions. Let the layout do the explaining』是作者 UI 偏好，而不是通用 UX 標準；保留必要欄位標籤、無障礙名稱及警告、單位、日期等。安裝來源應保留相關 agents/references/scripts/data/license，僅限目標 Repo 本人授權的環境。不得傳輸私有 config.toml、auth.json、API Key、登入狀態。",
@@ -89,8 +89,16 @@
     "type": "Official Codex bundle/README, five SKILL.md, third-party notices and license",
     "summary": "Bundle snapshot explicitly 2026-10-24; reviewed 2026-10-28. No installation or UI rendering.",
     "readmeUrl": "https://github.com/lawpowen/agent-skills/blob/main/codex/bundles/ui-design.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime or security validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、codex/skills/ui-ux-pro-max/scripts/search.py、codex/skills/ui-ux-pro-max/scripts/validate_data.py、codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "b690c1b52f5809fa999fa8c3e085132fa4bcd3d4",
+    "referenceUrls": [
+      "https://github.com/lawpowen/agent-skills/blob/b690c1b52f5809fa999fa8c3e085132fa4bcd3d4/README.md",
+      "https://github.com/lawpowen/agent-skills/blob/b690c1b52f5809fa999fa8c3e085132fa4bcd3d4/LICENSE",
+      "https://github.com/lawpowen/agent-skills/blob/b690c1b52f5809fa999fa8c3e085132fa4bcd3d4/codex/skills/ui-ux-pro-max/scripts/search.py",
+      "https://github.com/lawpowen/agent-skills/blob/b690c1b52f5809fa999fa8c3e085132fa4bcd3d4/codex/skills/ui-ux-pro-max/scripts/validate_data.py",
+      "https://github.com/lawpowen/agent-skills/blob/b690c1b52f5809fa999fa8c3e085132fa4bcd3d4/codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -127,40 +135,394 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain design，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、codex/skills/ui-ux-pro-max/scripts/search.py、codex/skills/ui-ux-pro-max/scripts/validate_data.py、codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "根 MIT；第三方 Skills 另有授權；不會也不應複製另一台電腦的 Token 與設定；多技能同時載入可能產生規則重複與互相衝突；本次只查局部輸出程式與 CLI 文件，未驗證 BM25 相關性及建議品質。；僅在有 No 欄位時檢查該識別的重複；不代表所有資料值正確。；使用允許條件與前綴，規則輸出仍須人工確認，不能替代實際 UI 測試。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README.md、LICENSE、codex/skills/ui-ux-pro-max/scripts/search.py、codex/skills/ui-ux-pro-max/scripts/validate_data.py、codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、codex/skills/ui-ux-pro-max/scripts/search.py、codex/skills/ui-ux-pro-max/scripts/validate_data.py、codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供跨電腦複製 Codex UI 設計工作方式的指引：將 ui-design-standards 設為共同入口，按需載入 ui-ux-pro-max、ui-feedback-patterns、ui-chat-desktop-interactions 及 frontend-design。整合既有 UI 風格偏好、可檢索設計資料、模態／回饋元件選型、聊天／桌面工作台交互與新視覺方向。",
+      "source": "https://github.com/lawpowen/agent-skills/blob/main/codex/bundles/ui-design.md",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合作為 UI 改善時的技能選用架構參考；先描述現有問題、清楚限定影響範圍，分析後再動程式。Repo 的『我們的 UI 規範』屬來源作者當前專案偏好，不應自動套用到別的產品。安裝指引會改變目標 Codex 的 Skill 目錄，須由使用者在目標電腦明確批准，遇同名先比較差異。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-search",
+        "title": "整理設計檢索結果",
+        "detail": "設計建議需要可依領域與技術分類檢索。 輸出：格式化的設計搜尋結果。",
+        "capabilityRefs": [
+          "search"
+        ]
+      },
+      {
+        "id": "use-integrity",
+        "title": "核對設計資料的欄位與識別",
+        "detail": "資料欄位改動可能破壞搜尋或引用。 輸出：缺檔、解析、欄位及重複識別問題。",
+        "capabilityRefs": [
+          "integrity"
+        ]
+      },
+      {
+        "id": "use-rules",
+        "title": "限制設計規則的可接受語法",
+        "detail": "知識庫中的規則不應直接成為可執行程式。 輸出：驗證後規則或拒絕原因。",
+        "capabilityRefs": [
+          "rules"
+        ]
+      }
+    ],
+    "example": {
+      "id": "lawpowen-ui-design-codex-bundle-example",
+      "title": "規劃設計知識庫的資料契約與決策規則驗收",
+      "input": "合成設計需求、測試 CSV 及規則 JSON",
+      "process": "整理設計檢索結果 → 核對設計資料的欄位與識別 → 限制設計規則的可接受語法 → 獨立驗收實際成果",
+      "output": "檢索輸出、資料錯誤及規則判定",
+      "destination": "自有設計知識庫，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-search",
+        "use-integrity",
+        "use-rules"
+      ],
+      "steps": [
+        {
+          "id": "search",
+          "title": "整理設計檢索結果",
+          "capabilityRefs": [
+            "search"
+          ]
+        },
+        {
+          "id": "integrity",
+          "title": "核對設計資料的欄位與識別",
+          "capabilityRefs": [
+            "integrity"
+          ]
+        },
+        {
+          "id": "rules",
+          "title": "限制設計規則的可接受語法",
+          "capabilityRefs": [
+            "rules"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成設計需求、測試 CSV 及規則 JSON。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "不會也不應複製另一台電腦的 Token 與設定",
+      "多技能同時載入可能產生規則重複與互相衝突",
+      "本次只查局部輸出程式與 CLI 文件，未驗證 BM25 相關性及建議品質。",
+      "僅在有 No 欄位時檢查該識別的重複；不代表所有資料值正確。",
+      "使用允許條件與前綴，規則輸出仍須人工確認，不能替代實際 UI 測試。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "整合 Codex 設計技能與設計資料搜尋；本次聚焦檢索輸出、資料完整性及非可執行決策規則。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "根 MIT；第三方 Skills 另有授權"
+      },
+      {
+        "label": "版本",
+        "value": "b690c1b52f5809fa999fa8c3e085132fa4bcd3d4"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "整理設計檢索結果",
+        "detail": "設計建議需要可依領域與技術分類檢索。 輸入：查詢結果與輸出設定；輸出：格式化的設計搜尋結果",
+        "source": "codex/skills/ui-ux-pro-max/scripts/search.py"
+      },
+      {
+        "title": "核對設計資料的欄位與識別",
+        "detail": "資料欄位改動可能破壞搜尋或引用。 輸入：CSV 檔案及必要欄位清單；輸出：缺檔、解析、欄位及重複識別問題",
+        "source": "codex/skills/ui-ux-pro-max/scripts/validate_data.py"
+      },
+      {
+        "title": "限制設計規則的可接受語法",
+        "detail": "知識庫中的規則不應直接成為可執行程式。 輸入：條件到動作陣列的 JSON；輸出：驗證後規則或拒絕原因",
+        "source": "codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py"
+      }
+    ],
+    "architecture": {
+      "summary": "整理設計檢索結果 → 核對設計資料的欄位與識別 → 限制設計規則的可接受語法 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "整理設計檢索結果",
+          "detail": "查詢結果與輸出設定 → 格式化的設計搜尋結果",
+          "files": [
+            "codex/skills/ui-ux-pro-max/scripts/search.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "核對設計資料的欄位與識別",
+          "detail": "CSV 檔案及必要欄位清單 → 缺檔、解析、欄位及重複識別問題",
+          "files": [
+            "codex/skills/ui-ux-pro-max/scripts/validate_data.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "限制設計規則的可接受語法",
+          "detail": "條件到動作陣列的 JSON → 驗證後規則或拒絕原因",
+          "files": [
+            "codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "整理設計檢索結果",
+        "rule": "本次只查局部輸出程式與 CLI 文件，未驗證 BM25 相關性及建議品質。",
+        "source": "codex/skills/ui-ux-pro-max/scripts/search.py"
+      },
+      {
+        "name": "核對設計資料的欄位與識別",
+        "rule": "僅在有 No 欄位時檢查該識別的重複；不代表所有資料值正確。",
+        "source": "codex/skills/ui-ux-pro-max/scripts/validate_data.py"
+      },
+      {
+        "name": "限制設計規則的可接受語法",
+        "rule": "使用允許條件與前綴，規則輸出仍須人工確認，不能替代實際 UI 測試。",
+        "source": "codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、codex/skills/ui-ux-pro-max/scripts/search.py、codex/skills/ui-ux-pro-max/scripts/validate_data.py、codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "codex/skills/ui-ux-pro-max/scripts/search.py",
+          "codex/skills/ui-ux-pro-max/scripts/validate_data.py",
+          "codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成設計需求、測試 CSV 及規則 JSON。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "codex/skills/ui-ux-pro-max/scripts/search.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有設計知識庫，經資料權利與人工覆核後使用。",
+        "file": "codex/skills/ui-ux-pro-max/scripts/search.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "search",
+        "name": "整理設計檢索結果",
+        "problem": "設計建議需要可依領域與技術分類檢索。",
+        "input": "查詢結果與輸出設定",
+        "output": "格式化的設計搜尋結果",
+        "source": "codex/skills/ui-ux-pro-max/scripts/search.py",
+        "sourceFiles": [
+          "codex/skills/ui-ux-pro-max/scripts/search.py",
+          "README.md"
+        ],
+        "symbols": [
+          "format_output"
+        ],
+        "gate": "本次只查局部輸出程式與 CLI 文件，未驗證 BM25 相關性及建議品質。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "integrity",
+        "name": "核對設計資料的欄位與識別",
+        "problem": "資料欄位改動可能破壞搜尋或引用。",
+        "input": "CSV 檔案及必要欄位清單",
+        "output": "缺檔、解析、欄位及重複識別問題",
+        "source": "codex/skills/ui-ux-pro-max/scripts/validate_data.py",
+        "sourceFiles": [
+          "codex/skills/ui-ux-pro-max/scripts/validate_data.py",
+          "README.md"
+        ],
+        "symbols": [
+          "_check_file",
+          "_read_rows"
+        ],
+        "gate": "僅在有 No 欄位時檢查該識別的重複；不代表所有資料值正確。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "rules",
+        "name": "限制設計規則的可接受語法",
+        "problem": "知識庫中的規則不應直接成為可執行程式。",
+        "input": "條件到動作陣列的 JSON",
+        "output": "驗證後規則或拒絕原因",
+        "source": "codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+        "sourceFiles": [
+          "codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+          "README.md"
+        ],
+        "symbols": [
+          "parse_decision_rules",
+          "_validate_action",
+          "apply_decision_rules"
+        ],
+        "gate": "使用允許條件與前綴，規則輸出仍須人工確認，不能替代實際 UI 測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃設計知識庫的資料契約與決策規則驗收（設計示例）",
+      "problem": "合成設計需求、測試 CSV 及規則 JSON",
+      "steps": [
+        {
+          "capability": "search",
+          "action": "整理設計檢索結果"
+        },
+        {
+          "capability": "integrity",
+          "action": "核對設計資料的欄位與識別"
+        },
+        {
+          "capability": "rules",
+          "action": "限制設計規則的可接受語法"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "lawpowen-ui-design-codex-bundle-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成設計需求、測試 CSV 及規則 JSON",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "整理設計檢索結果 → 核對設計資料的欄位與識別 → 限制設計規則的可接受語法 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有設計知識庫，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "不會也不應複製另一台電腦的 Token 與設定",
+        "多技能同時載入可能產生規則重複與互相衝突",
+        "本次只查局部輸出程式與 CLI 文件，未驗證 BM25 相關性及建議品質。",
+        "僅在有 No 欄位時檢查該識別的重複；不代表所有資料值正確。",
+        "使用允許條件與前綴，規則輸出仍須人工確認，不能替代實際 UI 測試。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "不會也不應複製另一台電腦的 Token 與設定；多技能同時載入可能產生規則重複與互相衝突；本次只查局部輸出程式與 CLI 文件，未驗證 BM25 相關性及建議品質。；僅在有 No 欄位時檢查該識別的重複；不代表所有資料值正確。；使用允許條件與前綴，規則輸出仍須人工確認，不能替代實際 UI 測試。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、codex/skills/ui-ux-pro-max/scripts/search.py、codex/skills/ui-ux-pro-max/scripts/validate_data.py、codex/skills/ui-ux-pro-max/scripts/reasoning_contract.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

@@ -1,3 +1,14 @@
+# Resource 最新交接｜雙層知識 Batch 57–59（2026-11-26）
+
+- PR #105 四項 CI PASS，合併 `d8943a820a57273da8bc99ee010e23bf5ea32875`；main 基線 `e71cd3a41bf0b5c04ee418e625381ff087dd03ca`。204/286 已合併（197 完成對應、7 deferred）。
+- [Batch 57｜前端設計、元件與本機協作](RESOURCE_DUAL_LAYER_BATCH57_20261126.md)：madebypan-figcc、lawpowen-ui-design-codex-bundle、seokwoooo-lucian-uxui-prompt；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- [Batch 58｜Agent 記憶、工作模式與內容治理](RESOURCE_DUAL_LAYER_BATCH58_20261126.md)：rociiu-talorys、danyuchn-claude-work-mode、social-post；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- [Batch 59｜影音素材、剪輯可靠性與字幕驗收](RESOURCE_DUAL_LAYER_BATCH59_20261126.md)：storytold-artcraft、storytold-filmcraft、lemomo-ai-lemo-opuscar；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- 合計 9 mapped 候選、27 用途、27 局部能力、9 design-only 案例；第三方未實測。Lemo-Opuscar 文件與素材授權不同於程式 MIT。
+- 合併後預計 213/286（206 完成對應、7 deferred）；73 尚未改寫。Batch 60～66 尚未提交。先確認四項 CI、合併與 Catalog Sync／Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 55–56（2026-11-26）
 
 - PR #104 四項 CI PASS，合併 `2df348732156e04bde3c23c954da2284fbd38c7a`；main 基線 `bfe04ae2d35dca19ea91f4524b91e3262a107e91`。198/286 已合併（191 完成對應、7 deferred）。

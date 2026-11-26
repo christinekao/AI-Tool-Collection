@@ -6,14 +6,14 @@
   "canonicalName": "Social Post",
   "category": "06 Skills",
   "resourceType": "Cross-platform Social Content Agent Skill / Closed-loop Content System",
-  "purpose": "讓 Codex、Claude Code 或精簡 ChatGPT Chat 流程依使用者真實貼文與成效學習聲線，規劃內容、撰寫平台化貼文，經人工確認後發布，並把 FB／IG／Threads／X 等平台的成效與互動 evidence 保存成可驗證的結構化資料，供下一輪內容決策使用。",
-  "recommendation": "適合想把社群內容從一次性 prompt 升級成持續學習系統：保留自己的 voice、內容規劃、平台化改寫、人工核准、發布、成效記錄與 pattern optimization，同時避免把私人貼文與帳號資料放進公開 repo。",
+  "purpose": "支援社群內容規劃與證據管理；本次聚焦規則索引、授權資料及瀏覽器回覆收據的來源契約。",
+  "recommendation": "適合研究社群內容工作流的授權與證據驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Hao0321/claude-skill-social-post",
   "repo": "Hao0321/claude-skill-social-post",
   "notes": "Official repository verified. Stable tag documented as v2.5.0 while main contains unreleased candidates. The skill separates planning, voice learning, drafting/publishing, outcome logging, pattern optimization and comment operations. Private voice, real posts, account performance and comments remain local. Live browser actuation is intentionally capability-gated and current README warns that full three-platform live comment automation is not yet proven; target-only evidence must not be generalized to full-thread capability. MIT licensed.",
   "status": "active",
   "addedAt": "2026-10-02",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "agent-skill",
     "social-media",
@@ -91,18 +91,29 @@
   "source": {
     "url": "https://github.com/Hao0321/claude-skill-social-post",
     "readmeUrl": "https://github.com/Hao0321/claude-skill-social-post/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official GitHub README",
-    "reviewScope": "Documentation only, no runtime/security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、social-post/scripts/build_rule_registry.py、social-post/scripts/comment_authorization.py、social-post/scripts/comment_browser_provenance.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "a4832ae06ed82e59d40e8859a086c21ec23512f9",
+    "referenceUrls": [
+      "https://github.com/Hao0321/claude-skill-social-post/blob/a4832ae06ed82e59d40e8859a086c21ec23512f9/README.md",
+      "https://github.com/Hao0321/claude-skill-social-post/blob/a4832ae06ed82e59d40e8859a086c21ec23512f9/LICENSE",
+      "https://github.com/Hao0321/claude-skill-social-post/blob/a4832ae06ed82e59d40e8859a086c21ec23512f9/social-post/scripts/build_rule_registry.py",
+      "https://github.com/Hao0321/claude-skill-social-post/blob/a4832ae06ed82e59d40e8859a086c21ec23512f9/social-post/scripts/comment_authorization.py",
+      "https://github.com/Hao0321/claude-skill-social-post/blob/a4832ae06ed82e59d40e8859a086c21ec23512f9/social-post/scripts/comment_browser_provenance.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -115,24 +126,374 @@
       "decision": "retain-unmapped",
       "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、social-post/scripts/build_rule_registry.py、social-post/scripts/comment_authorization.py、social-post/scripts/comment_browser_provenance.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
       "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
+    "riskNotes": "MIT；平台規則與內容權利另查；README 標示本機 Workbench 不是已部署的商用多租戶 SaaS；不會預設 24 小時監聽，Cookie、Session 與 Token 必須排除於記錄及匯出；樣本提及數不是實驗有效性證明；重複識別及缺 Metadata 拒絕。；資料格式通過不等於真正授權；未連線、未讀取、未發送任何真實留言。；局部綁定欄位不能證明平台真實送達；正式送出與人工驗收另行核准。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "固定版本 README.md、LICENSE、social-post/scripts/build_rule_registry.py、social-post/scripts/comment_authorization.py、social-post/scripts/comment_browser_provenance.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、social-post/scripts/build_rule_registry.py、social-post/scripts/comment_authorization.py、social-post/scripts/comment_browser_provenance.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Codex、Claude Code 或精簡 ChatGPT Chat 流程依使用者真實貼文與成效學習聲線，規劃內容、撰寫平台化貼文，經人工確認後發布，並把 FB／IG／Threads／X 等平台的成效與互動 evidence 保存成可驗證的結構化資料，供下一輪內容決策使用。",
+      "source": "https://github.com/Hao0321/claude-skill-social-post",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合想把社群內容從一次性 prompt 升級成持續學習系統：保留自己的 voice、內容規劃、平台化改寫、人工核准、發布、成效記錄與 pattern optimization，同時避免把私人貼文與帳號資料放進公開 repo。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-registry",
+        "title": "建立可追溯的內容規則索引",
+        "detail": "聲線規則與成效觀察需要可回查來源。 輸出：規則識別、狀態、來源行及樣本標記。",
+        "capabilityRefs": [
+          "registry"
+        ]
+      },
+      {
+        "id": "use-scope",
+        "title": "核對社群互動的授權資料",
+        "detail": "已核准的操作範圍不能自動擴張。 輸出：範圍、期限與格式問題。",
+        "capabilityRefs": [
+          "scope"
+        ]
+      },
+      {
+        "id": "use-receipt",
+        "title": "綁定回覆結果與原始授權紀錄",
+        "detail": "回覆結果必須對應特定操作而非任意宣稱成功。 輸出：收據綁定資料或拒絕原因。",
+        "capabilityRefs": [
+          "receipt"
+        ]
+      }
+    ],
+    "example": {
+      "id": "social-post-example",
+      "title": "規劃社群內容工作流的授權與證據驗收",
+      "input": "虛構內容、規則文件、合成核准與回覆紀錄",
+      "process": "建立可追溯的內容規則索引 → 核對社群互動的授權資料 → 綁定回覆結果與原始授權紀錄 → 獨立驗收實際成果",
+      "output": "規則索引、範圍驗證及收據綁定規格",
+      "destination": "自有社群內容工作區，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-registry",
+        "use-scope",
+        "use-receipt"
+      ],
+      "steps": [
+        {
+          "id": "registry",
+          "title": "建立可追溯的內容規則索引",
+          "capabilityRefs": [
+            "registry"
+          ]
+        },
+        {
+          "id": "scope",
+          "title": "核對社群互動的授權資料",
+          "capabilityRefs": [
+            "scope"
+          ]
+        },
+        {
+          "id": "receipt",
+          "title": "綁定回覆結果與原始授權紀錄",
+          "capabilityRefs": [
+            "receipt"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備虛構內容、規則文件、合成核准與回覆紀錄。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "README 標示本機 Workbench 不是已部署的商用多租戶 SaaS",
+      "不會預設 24 小時監聽，Cookie、Session 與 Token 必須排除於記錄及匯出",
+      "樣本提及數不是實驗有效性證明；重複識別及缺 Metadata 拒絕。",
+      "資料格式通過不等於真正授權；未連線、未讀取、未發送任何真實留言。",
+      "局部綁定欄位不能證明平台真實送達；正式送出與人工驗收另行核准。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "支援社群內容規劃與證據管理；本次聚焦規則索引、授權資料及瀏覽器回覆收據的來源契約。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；平台規則與內容權利另查"
+      },
+      {
+        "label": "版本",
+        "value": "a4832ae06ed82e59d40e8859a086c21ec23512f9"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立可追溯的內容規則索引",
+        "detail": "聲線規則與成效觀察需要可回查來源。 輸入：規則 Markdown 與 canonical Metadata；輸出：規則識別、狀態、來源行及樣本標記",
+        "source": "social-post/scripts/build_rule_registry.py"
+      },
+      {
+        "title": "核對社群互動的授權資料",
+        "detail": "已核准的操作範圍不能自動擴張。 輸入：合成平台、帳號、貼文及留言識別與時間；輸出：範圍、期限與格式問題",
+        "source": "social-post/scripts/comment_authorization.py"
+      },
+      {
+        "title": "綁定回覆結果與原始授權紀錄",
+        "detail": "回覆結果必須對應特定操作而非任意宣稱成功。 輸入：合成操作類型及權威送出紀錄；輸出：收據綁定資料或拒絕原因",
+        "source": "social-post/scripts/comment_browser_provenance.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立可追溯的內容規則索引 → 核對社群互動的授權資料 → 綁定回覆結果與原始授權紀錄 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立可追溯的內容規則索引",
+          "detail": "規則 Markdown 與 canonical Metadata → 規則識別、狀態、來源行及樣本標記",
+          "files": [
+            "social-post/scripts/build_rule_registry.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "核對社群互動的授權資料",
+          "detail": "合成平台、帳號、貼文及留言識別與時間 → 範圍、期限與格式問題",
+          "files": [
+            "social-post/scripts/comment_authorization.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "綁定回覆結果與原始授權紀錄",
+          "detail": "合成操作類型及權威送出紀錄 → 收據綁定資料或拒絕原因",
+          "files": [
+            "social-post/scripts/comment_browser_provenance.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立可追溯的內容規則索引",
+        "rule": "樣本提及數不是實驗有效性證明；重複識別及缺 Metadata 拒絕。",
+        "source": "social-post/scripts/build_rule_registry.py"
+      },
+      {
+        "name": "核對社群互動的授權資料",
+        "rule": "資料格式通過不等於真正授權；未連線、未讀取、未發送任何真實留言。",
+        "source": "social-post/scripts/comment_authorization.py"
+      },
+      {
+        "name": "綁定回覆結果與原始授權紀錄",
+        "rule": "局部綁定欄位不能證明平台真實送達；正式送出與人工驗收另行核准。",
+        "source": "social-post/scripts/comment_browser_provenance.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、social-post/scripts/build_rule_registry.py、social-post/scripts/comment_authorization.py、social-post/scripts/comment_browser_provenance.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "social-post/scripts/build_rule_registry.py",
+          "social-post/scripts/comment_authorization.py",
+          "social-post/scripts/comment_browser_provenance.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備虛構內容、規則文件、合成核准與回覆紀錄。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "social-post/scripts/build_rule_registry.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有社群內容工作區，經資料權利與人工覆核後使用。",
+        "file": "social-post/scripts/build_rule_registry.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "registry",
+        "name": "建立可追溯的內容規則索引",
+        "problem": "聲線規則與成效觀察需要可回查來源。",
+        "input": "規則 Markdown 與 canonical Metadata",
+        "output": "規則識別、狀態、來源行及樣本標記",
+        "source": "social-post/scripts/build_rule_registry.py",
+        "sourceFiles": [
+          "social-post/scripts/build_rule_registry.py",
+          "README.md"
+        ],
+        "symbols": [
+          "build"
+        ],
+        "gate": "樣本提及數不是實驗有效性證明；重複識別及缺 Metadata 拒絕。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "scope",
+        "name": "核對社群互動的授權資料",
+        "problem": "已核准的操作範圍不能自動擴張。",
+        "input": "合成平台、帳號、貼文及留言識別與時間",
+        "output": "範圍、期限與格式問題",
+        "source": "social-post/scripts/comment_authorization.py",
+        "sourceFiles": [
+          "social-post/scripts/comment_authorization.py",
+          "README.md"
+        ],
+        "symbols": [
+          "validate_scope",
+          "validate_expiry",
+          "event_time_is_monotonic"
+        ],
+        "gate": "資料格式通過不等於真正授權；未連線、未讀取、未發送任何真實留言。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "receipt",
+        "name": "綁定回覆結果與原始授權紀錄",
+        "problem": "回覆結果必須對應特定操作而非任意宣稱成功。",
+        "input": "合成操作類型及權威送出紀錄",
+        "output": "收據綁定資料或拒絕原因",
+        "source": "social-post/scripts/comment_browser_provenance.py",
+        "sourceFiles": [
+          "social-post/scripts/comment_browser_provenance.py",
+          "README.md"
+        ],
+        "symbols": [
+          "build_receipt_binding"
+        ],
+        "gate": "局部綁定欄位不能證明平台真實送達；正式送出與人工驗收另行核准。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃社群內容工作流的授權與證據驗收（設計示例）",
+      "problem": "虛構內容、規則文件、合成核准與回覆紀錄",
+      "steps": [
+        {
+          "capability": "registry",
+          "action": "建立可追溯的內容規則索引"
+        },
+        {
+          "capability": "scope",
+          "action": "核對社群互動的授權資料"
+        },
+        {
+          "capability": "receipt",
+          "action": "綁定回覆結果與原始授權紀錄"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "social-post-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "虛構內容、規則文件、合成核准與回覆紀錄",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立可追溯的內容規則索引 → 核對社群互動的授權資料 → 綁定回覆結果與原始授權紀錄 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有社群內容工作區，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "README 標示本機 Workbench 不是已部署的商用多租戶 SaaS",
+        "不會預設 24 小時監聽，Cookie、Session 與 Token 必須排除於記錄及匯出",
+        "樣本提及數不是實驗有效性證明；重複識別及缺 Metadata 拒絕。",
+        "資料格式通過不等於真正授權；未連線、未讀取、未發送任何真實留言。",
+        "局部綁定欄位不能證明平台真實送達；正式送出與人工驗收另行核准。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "README 標示本機 Workbench 不是已部署的商用多租戶 SaaS；不會預設 24 小時監聽，Cookie、Session 與 Token 必須排除於記錄及匯出；樣本提及數不是實驗有效性證明；重複識別及缺 Metadata 拒絕。；資料格式通過不等於真正授權；未連線、未讀取、未發送任何真實留言。；局部綁定欄位不能證明平台真實送達；正式送出與人工驗收另行核准。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、social-post/scripts/build_rule_registry.py、social-post/scripts/comment_authorization.py、social-post/scripts/comment_browser_provenance.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

@@ -686,7 +686,16 @@ try{
   ["lucasmarkes-hairline",".resource-reader-guide","規劃互動線條圖形的參數與動效驗收"],
   ["nutlope-hallmark",".resource-reader-guide","規劃前端設計主題選擇與規則檢查驗收"],
   ["akas333-tysa",".resource-reader-guide","規劃個人學習平台的課程進度與題庫驗收"],
-  ["minchenlee-loadsketch",".resource-reader-guide","規劃架構模擬的公平比較與延遲驗收"]
+  ["minchenlee-loadsketch",".resource-reader-guide","規劃架構模擬的公平比較與延遲驗收"],
+  ["madebypan-figcc",".resource-reader-guide","規劃自有設計畫布的選取內容與權限驗收"],
+  ["lawpowen-ui-design-codex-bundle",".resource-reader-guide","規劃設計知識庫的資料契約與決策規則驗收"],
+  ["seokwoooo-lucian-uxui-prompt",".resource-reader-guide","規劃互動元件收藏庫的建置與操作驗收"],
+  ["rociiu-talorys",".resource-reader-guide","規劃私人 Agent 記憶版本與待核准動作驗收"],
+  ["danyuchn-claude-work-mode",".resource-reader-guide","規劃 Coding Agent 工作模式與決策邊界驗收"],
+  ["social-post",".resource-reader-guide","規劃社群內容工作流的授權與證據驗收"],
+  ["storytold-artcraft",".resource-reader-guide","規劃影音創作工作台的素材與生成狀態驗收"],
+  ["storytold-filmcraft",".resource-reader-guide","規劃影片剪輯專案的復原與匯出可靠性驗收"],
+  ["lemomo-ai-lemo-opuscar",".resource-reader-guide","規劃程式影片的文字可讀性與字幕時間驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
