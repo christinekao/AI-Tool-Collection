@@ -453,17 +453,18 @@
       "id": "plan-build-review",
       "title": "先分析再修正網頁顯示問題",
       "input": "合成測試 Repo、可重現的網頁問題及允許修改範圍。",
-      "process": "分析問題 → 必要時拆分研究 → 核准修改 → 審查差異與測試",
+      "process": "規劃程式探索 → 評估獨立研究任務 → 核准後規劃修改 → 驗收權限規則與子代理委派 → 驗收 Plan 與工具執行權限 → 驗收子代理繼承與工具邊界 → 獨立驗收修改及權限",
       "output": "問題分析、修改計畫及測試驗收規格（未執行）。",
       "destination": "自有專案 PR 流程；實際程式與資料驗收另行實作。",
-      "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
+      "note": "自訂設計示例；已取得固定版本局部原始碼及上游測試的靜態證據，未執行第三方、上游測試或驗證整合。子 session 建立時的預設規則繼承不等於父角色限制持續有效；實際工具與 OS 邊界仍待驗收。",
       "verificationStatus": "design-only",
       "useCaseRefs": [
         "explore-code",
         "fix-feature",
         "delegate-research",
         "permission-contract-audit",
-        "tool-boundary-audit"
+        "tool-boundary-audit",
+        "child-shell-mcp-audit"
       ],
       "steps": [
         {
@@ -509,6 +510,16 @@
           ]
         },
         {
+          "id": "child-shell-mcp-audit",
+          "title": "驗收子代理繼承與工具邊界",
+          "evidenceRefs": [
+            "child-session-admission",
+            "child-permission-inheritance",
+            "shell-unverifiable-policy",
+            "mcp-direct-service-boundary"
+          ]
+        },
+        {
           "id": "test",
           "title": "獨立驗收修改及權限",
           "evidenceRefs": [],
@@ -517,16 +528,16 @@
       ]
     },
     "start": [
-      "先確認固定版本與適用角色文件，在測試 Repo 定義讀寫範圍。",
-      "以合成需求比較 plan 與 build 的預期行為，確認角色切換前後的權限。",
-      "另取得實作證據後才考慮安裝，驗證核准、拒絕及測試結果。"
+      "先選自有測試 Repo 的可重現網頁問題，列出允許讀寫的檔案、操作、停止條件及預期修復行為。",
+      "依固定版本 Plan、Build 與子代理的角色文件和既有局部權限證據設計測試；不得將角色名稱或核准流程當作唯讀沙箱。",
+      "取得隔離環境及操作核准後，才驗證角色切換、子代理委派、Shell 與 MCP 的拒絕案例，另以 Git Diff、回歸測試及 OS 隔離證據驗收。"
     ],
     "limits": [
       "具備讀寫程式碼及執行指令能力，須備份和最小權限",
       "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。",
-      "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+      "早期查核階段：原 404 路徑已更正；已取得政策、持久化與子代理入口，當時仍需核對 Plan 角色、子 session、Shell 與 MCP。後續局部查核見下列限制與 Source Review。",
       "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
-      "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
+      "後續已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口，以及 Batch 93 子 session 建立時的預設規則繼承、Shell 無法解析時的拒絕或額外核准及 MCP 直接服務入口；仍未證明父角色限制持續有效、所有呼叫者授權或 OS 沙箱。"
     ]
   }
 }

@@ -2804,3 +2804,21 @@ test('Resource quality batch 01: concrete reader starts and preserved evidence m
   assert.deepEqual(validateResourceLayerLinks(d),[],id);
  }
 });
+
+
+test('Resource quality batch 02: concrete starts, evidence scope and example alignment',()=>{
+ const expected={"alsyundawy-microsoft-office-for-macos":"Office 產品及組織的合法授權類型","amp-agent-memory-protocol":"兩個自有測試專案","anomalyco-opencode":"可重現網頁問題","anthropic-claude-mythos-cybersecurity":"虛構企業的防禦研究需求","anthropic-solving-code-review-at-anthropic":"自有表單修復案例","anthropics-financial-services":"對帳差異案例","anthropics-knowledge-work-plugins":"自有資料分析任務","anthropics-sandbox-runtime":"合成敏感檔案","anthropics-single-agent-loop-kit":"自有多 Agent 客服工作流","anti-gambling-trader-tw":"勝、負、打平","april-zhu-minicharts":"各類支出占比","arumwu-agentrelay":"兩個合成 Agent 身分","ath-maas-pixelle-video":"三個分鏡及旁白","awesome-agentic-ai-zh":"Stage 0–2 的缺口","awesome-gpt-image-2":"自撰影像提示詞"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((id==='anomalyco-opencode'?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const op=JSON.parse(fs.readFileSync('data/resources/anomalyco-opencode.json','utf8'));
+ const e=op.readerGuide.example,c=op.readerGuide.useCases.find(v=>v.id==='child-shell-mcp-audit');
+ assert.ok(e.useCaseRefs.includes(c.id));assert.equal(e.steps.at(-2).id,c.id);assert.deepEqual(e.steps.at(-2).evidenceRefs,c.evidenceRefs);assert.equal(e.steps.at(-1).id,'test');assert.match(e.process,/驗收子代理繼承與工具邊界 → 獨立驗收/);assert.match(e.note,/未執行第三方、上游測試/);assert.match(op.readerGuide.limits.join(' '),/仍未證明父角色限制持續有效/);
+ const route=JSON.parse(fs.readFileSync('data/resources/awesome-agentic-ai-zh.json','utf8'));assert.match(route.readerGuide.example.process,/擇一路線/);assert.match(route.readerGuide.example.note,/非必須依序完成/);
+});
