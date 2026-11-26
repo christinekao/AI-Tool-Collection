@@ -6,13 +6,13 @@
   "canonicalName": "ATH-MaaS/Pixelle-Video",
   "category": "11 Media / Video",
   "resourceType": "Open-source automated AI short-video pipeline",
-  "purpose": "主題／文本到短影音的模組化 Python/Streamlit 工具：由 LLM 生成腳本、圖片與影片、TTS 配音、BGM、分鏡鏡頭剪輯合成，可配置 ComfyUI、RunningHub、本機或多家付費雲端圖片／影片 API；包含數位人、動作轉移、圖片轉影片、批次和多種視覺模板。",
-  "recommendation": "若要低成本驗證 AI YouTube Shorts 的選題與量產，六者先試這個：聚焦一段 30–60 秒、單主題無人物敘事的短影音，記錄一次生成時長、模型費、失敗重生率、品質與平台留存，再判斷是否有必要建立連續劇人物資產庫。自動化影片組裝不是免費 AI 模型；本地 ComfyUI 等路線受硬體限制，遠端圖片／影片 API、RunningHub 與 TTS 可能計費。",
+  "purpose": "把主題或自備文案轉成分鏡旁白、配圖規劃、語音與影片，能替換媒體生成工作流和版型。",
+  "recommendation": "適合先用少量自有素材驗證短影音製作流程；雲端模型、費用、授權及發布均需獨立核准。",
   "url": "https://github.com/ATH-MaaS/Pixelle-Video",
   "repo": "ATH-MaaS/Pixelle-Video",
   "status": "active",
   "addedAt": "2026-10-22",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "pixelle-video",
     "youtube-shorts",
@@ -89,47 +89,407 @@
     "url": "https://github.com/ATH-MaaS/Pixelle-Video",
     "readmeUrl": "https://github.com/ATH-MaaS/Pixelle-Video/blob/main/README.md",
     "type": "Upstream official GitHub README/SKILL.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Source reviewed, not code-executed or installation-tested"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、api/routers/content.py、api/routers/tts.py、api/routers/video.py 局部程式查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "848b054e4fae40dabc62ec58e960b573e83793ac",
+    "referenceUrls": [
+      "https://github.com/ATH-MaaS/Pixelle-Video/blob/848b054e4fae40dabc62ec58e960b573e83793ac/README.md",
+      "https://github.com/ATH-MaaS/Pixelle-Video/blob/848b054e4fae40dabc62ec58e960b573e83793ac/LICENSE",
+      "https://github.com/ATH-MaaS/Pixelle-Video/blob/848b054e4fae40dabc62ec58e960b573e83793ac/api/routers/content.py",
+      "https://github.com/ATH-MaaS/Pixelle-Video/blob/848b054e4fae40dabc62ec58e960b573e83793ac/api/routers/tts.py",
+      "https://github.com/ATH-MaaS/Pixelle-Video/blob/848b054e4fae40dabc62ec58e960b573e83793ac/api/routers/video.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 content Domain，補足來源內容與使用限制，不變動分類。",
+    "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、api/routers/content.py、api/routers/tts.py、api/routers/video.py 局部程式查核；未安裝、執行或實測第三方項目。；局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "雲端圖片、影片與語音服務可能有顯著成本和費率變動。；輸入素材、聲音、音樂與生成內容仍需確認授權、平台條款和品質。；委派 LLM 生成，字數和分鏡內容仍須驗證；外部模型可能收到文字並產生費用。；voice_id 已標記 deprecated；程式記錄文字前 50 字，需注意日誌隱私與工作流可能外送資料。；同步流程要求 frame_template 並從模板取得媒體尺寸；長影片可能逾時；檔案 URL 不代表已完成權限或發布驗收。；音色、模型權重與素材授權、硬體相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、api/routers/content.py、api/routers/tts.py、api/routers/video.py 局部程式查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、api/routers/content.py、api/routers/tts.py、api/routers/video.py 局部程式查核；未安裝、執行或實測第三方項目。；用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "主題／文本到短影音的模組化 Python/Streamlit 工具：由 LLM 生成腳本、圖片與影片、TTS 配音、BGM、分鏡鏡頭剪輯合成，可配置 ComfyUI、RunningHub、本機或多家付費雲端圖片／影片 API；包含數位人、動作轉移、圖片轉影片、批次和多種視覺模板。",
+      "source": "https://github.com/ATH-MaaS/Pixelle-Video",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "若要低成本驗證 AI YouTube Shorts 的選題與量產，六者先試這個：聚焦一段 30–60 秒、單主題無人物敘事的短影音，記錄一次生成時長、模型費、失敗重生率、品質與平台留存，再判斷是否有必要建立連續劇人物資產庫。自動化影片組裝不是免費 AI 模型；本地 ComfyUI 等路線受硬體限制，遠端圖片／影片 API、RunningHub 與 TTS 可能計費。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-narration",
+        "title": "從主題生成分鏡旁白",
+        "detail": "長篇內容需要拆成可獨立配音的分鏡。 輸出：旁白字串清單或 HTTP 500。",
+        "capabilityRefs": [
+          "narration"
+        ]
+      },
+      {
+        "id": "use-tts",
+        "title": "將旁白轉成音檔並取得時長",
+        "detail": "影片合成需要旁白檔案及其播放時間。 輸出：audio_path、duration 或 HTTP 500。",
+        "capabilityRefs": [
+          "tts"
+        ]
+      },
+      {
+        "id": "use-video",
+        "title": "依模板合成完整影片",
+        "detail": "媒體尺寸與長任務的等待方式會影響影片合成。 輸出：同步影片生成結果與可存取檔案 URL，或錯誤。",
+        "capabilityRefs": [
+          "video"
+        ]
+      }
+    ],
+    "example": {
+      "id": "ath-maas-pixelle-video-example",
+      "title": "規劃自有知識短影音的分鏡與合成驗收",
+      "input": "自撰知識短文、三個分鏡、授權素材及已核准的語音與媒體工作流。",
+      "process": "從主題生成分鏡旁白 → 將旁白轉成音檔並取得時長 → 依模板合成完整影片 → 人工驗收實際成果",
+      "output": "旁白清單、語音檔時長及影片尺寸、檔案與人工品質驗收規格。",
+      "destination": "自有短影音製作流程，發布前由人工核對內容及權利。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-narration",
+        "use-tts",
+        "use-video"
+      ],
+      "steps": [
+        {
+          "id": "narration",
+          "title": "從主題生成分鏡旁白",
+          "capabilityRefs": [
+            "narration"
+          ]
+        },
+        {
+          "id": "tts",
+          "title": "將旁白轉成音檔並取得時長",
+          "capabilityRefs": [
+            "tts"
+          ]
+        },
+        {
+          "id": "video",
+          "title": "依模板合成完整影片",
+          "capabilityRefs": [
+            "video"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "另行核准合成資料、模型、素材權利、環境及人工成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自撰知識短文、三個分鏡、授權素材及已核准的語音與媒體工作流。",
+      "依需求核對固定版本、模型與素材授權以及操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、取消及失敗情境。"
+    ],
+    "limits": [
+      "雲端圖片、影片與語音服務可能有顯著成本和費率變動。",
+      "輸入素材、聲音、音樂與生成內容仍需確認授權、平台條款和品質。",
+      "委派 LLM 生成，字數和分鏡內容仍須驗證；外部模型可能收到文字並產生費用。",
+      "voice_id 已標記 deprecated；程式記錄文字前 50 字，需注意日誌隱私與工作流可能外送資料。",
+      "同步流程要求 frame_template 並從模板取得媒體尺寸；長影片可能逾時；檔案 URL 不代表已完成權限或發布驗收。",
+      "音色、模型權重與素材授權、硬體相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "把主題或自備文案轉成分鏡旁白、配圖規劃、語音與影片，能替換媒體生成工作流和版型。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；模型、素材及外部服務條款另查"
+      },
+      {
+        "label": "版本",
+        "value": "848b054e4fae40dabc62ec58e960b573e83793ac"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "從主題生成分鏡旁白",
+        "detail": "長篇內容需要拆成可獨立配音的分鏡。 輸入：來源文字、分鏡數與每段字數範圍；輸出：旁白字串清單或 HTTP 500",
+        "source": "api/routers/content.py"
+      },
+      {
+        "title": "將旁白轉成音檔並取得時長",
+        "detail": "影片合成需要旁白檔案及其播放時間。 輸入：文字、可選 TTS workflow 與授權參考音訊；輸出：audio_path、duration 或 HTTP 500",
+        "source": "api/routers/tts.py"
+      },
+      {
+        "title": "依模板合成完整影片",
+        "detail": "媒體尺寸與長任務的等待方式會影響影片合成。 輸入：文字、分鏡、媒體工作流、版型、FPS 與背景音設定；輸出：同步影片生成結果與可存取檔案 URL，或錯誤",
+        "source": "api/routers/video.py"
+      }
+    ],
+    "architecture": {
+      "summary": "從主題生成分鏡旁白 → 將旁白轉成音檔並取得時長 → 依模板合成完整影片 → 人工驗收實際成果",
+      "nodes": [
+        {
+          "title": "從主題生成分鏡旁白",
+          "detail": "來源文字、分鏡數與每段字數範圍 → 旁白字串清單或 HTTP 500",
+          "files": [
+            "api/routers/content.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "將旁白轉成音檔並取得時長",
+          "detail": "文字、可選 TTS workflow 與授權參考音訊 → audio_path、duration 或 HTTP 500",
+          "files": [
+            "api/routers/tts.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "依模板合成完整影片",
+          "detail": "文字、分鏡、媒體工作流、版型、FPS 與背景音設定 → 同步影片生成結果與可存取檔案 URL，或錯誤",
+          "files": [
+            "api/routers/video.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "從主題生成分鏡旁白",
+        "rule": "委派 LLM 生成，字數和分鏡內容仍須驗證；外部模型可能收到文字並產生費用。",
+        "source": "api/routers/content.py"
+      },
+      {
+        "name": "將旁白轉成音檔並取得時長",
+        "rule": "voice_id 已標記 deprecated；程式記錄文字前 50 字，需注意日誌隱私與工作流可能外送資料。",
+        "source": "api/routers/tts.py"
+      },
+      {
+        "name": "依模板合成完整影片",
+        "rule": "同步流程要求 frame_template 並從模板取得媒體尺寸；長影片可能逾時；檔案 URL 不代表已完成權限或發布驗收。",
+        "source": "api/routers/video.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、api/routers/content.py、api/routers/tts.py、api/routers/video.py 局部程式查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "api/routers/content.py",
+          "api/routers/tts.py",
+          "api/routers/video.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自撰知識短文、三個分鏡、授權素材及已核准的語音與媒體工作流。 依需求核對固定版本、模型與素材授權以及操作限制。 先核准環境與權限，再以合成資料測試正常、取消及失敗情境。",
+        "files": [
+          "api/routers/content.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、模型下載、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有短影音製作流程，發布前由人工核對內容及權利。",
+        "file": "api/routers/content.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "narration",
+        "name": "從主題生成分鏡旁白",
+        "problem": "長篇內容需要拆成可獨立配音的分鏡。",
+        "input": "來源文字、分鏡數與每段字數範圍",
+        "output": "旁白字串清單或 HTTP 500",
+        "source": "api/routers/content.py",
+        "sourceFiles": [
+          "api/routers/content.py",
+          "README.md"
+        ],
+        "symbols": [
+          "generate_narration"
+        ],
+        "gate": "委派 LLM 生成，字數和分鏡內容仍須驗證；外部模型可能收到文字並產生費用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "tts",
+        "name": "將旁白轉成音檔並取得時長",
+        "problem": "影片合成需要旁白檔案及其播放時間。",
+        "input": "文字、可選 TTS workflow 與授權參考音訊",
+        "output": "audio_path、duration 或 HTTP 500",
+        "source": "api/routers/tts.py",
+        "sourceFiles": [
+          "api/routers/tts.py",
+          "README.md"
+        ],
+        "symbols": [
+          "tts_synthesize"
+        ],
+        "gate": "voice_id 已標記 deprecated；程式記錄文字前 50 字，需注意日誌隱私與工作流可能外送資料。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "video",
+        "name": "依模板合成完整影片",
+        "problem": "媒體尺寸與長任務的等待方式會影響影片合成。",
+        "input": "文字、分鏡、媒體工作流、版型、FPS 與背景音設定",
+        "output": "同步影片生成結果與可存取檔案 URL，或錯誤",
+        "source": "api/routers/video.py",
+        "sourceFiles": [
+          "api/routers/video.py",
+          "README.md"
+        ],
+        "symbols": [
+          "generate_video_sync",
+          "path_to_url"
+        ],
+        "gate": "同步流程要求 frame_template 並從模板取得媒體尺寸；長影片可能逾時；檔案 URL 不代表已完成權限或發布驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃自有知識短影音的分鏡與合成驗收（設計示例）",
+      "problem": "自撰知識短文、三個分鏡、授權素材及已核准的語音與媒體工作流。",
+      "steps": [
+        {
+          "capability": "narration",
+          "action": "從主題生成分鏡旁白"
+        },
+        {
+          "capability": "tts",
+          "action": "將旁白轉成音檔並取得時長"
+        },
+        {
+          "capability": "video",
+          "action": "依模板合成完整影片"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "ath-maas-pixelle-video-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自撰知識短文、三個分鏡、授權素材及已核准的語音與媒體工作流。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "從主題生成分鏡旁白 → 將旁白轉成音檔並取得時長 → 依模板合成完整影片 → 人工驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有短影音製作流程，發布前由人工核對內容及權利。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "雲端圖片、影片與語音服務可能有顯著成本和費率變動。",
+        "輸入素材、聲音、音樂與生成內容仍需確認授權、平台條款和品質。",
+        "委派 LLM 生成，字數和分鏡內容仍須驗證；外部模型可能收到文字並產生費用。",
+        "voice_id 已標記 deprecated；程式記錄文字前 50 字，需注意日誌隱私與工作流可能外送資料。",
+        "同步流程要求 frame_template 並從模板取得媒體尺寸；長影片可能逾時；檔案 URL 不代表已完成權限或發布驗收。",
+        "音色、模型權重與素材授權、硬體相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "雲端圖片、影片與語音服務可能有顯著成本和費率變動。；輸入素材、聲音、音樂與生成內容仍需確認授權、平台條款和品質。；委派 LLM 生成，字數和分鏡內容仍須驗證；外部模型可能收到文字並產生費用。；voice_id 已標記 deprecated；程式記錄文字前 50 字，需注意日誌隱私與工作流可能外送資料。；同步流程要求 frame_template 並從模板取得媒體尺寸；長影片可能逾時；檔案 URL 不代表已完成權限或發布驗收。；音色、模型權重與素材授權、硬體相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、api/routers/content.py、api/routers/tts.py、api/routers/video.py 局部程式查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

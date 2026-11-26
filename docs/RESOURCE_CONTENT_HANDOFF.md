@@ -1,3 +1,12 @@
+# Resource 最新交接｜雙層知識 Batch 47（2026-11-26）
+
+- PR #96 四項 CI 通過，合併 `ca79e403a38a23078d724f9d31fa5d9e80b0274c`；Catalog Sync PASS，main 基線 `fde3343879119b5d5259e0f177af052982b0241c`。174/286 已合併（167 完成對應、7 deferred）。
+- [Batch 47｜語音與影音製作](RESOURCE_DUAL_LAYER_BATCH47_20261126.md)：debpalash-voicestudio、leemysw-yovoice、ath-maas-pixelle-video；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。第三方未實測。
+- 本批合併前 174/286；四項 CI 通過後才可合併，合併後 177/286（170 完成對應、7 deferred），109 尚未改寫。Batch 48～56 尚未執行。
+- 下一步：核對本批 CI、合併與 Catalog Sync／Pages；接續 Batch 48。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 37～46（2026-11-25）
 
 - main 基線 `eb904646a4b86aaef129a133113fe2a859121021`；PR #95 四項 CI PASS，合併 `12aad07f8bf311c0c3bb7bd3fc8e4a5e2bb256fd`；Catalog Sync 與 Pages PASS。144/286 已合併（138 完成對應、6 deferred）。
