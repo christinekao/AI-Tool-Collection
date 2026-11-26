@@ -785,6 +785,11 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const recoveryTitles={"hindsight":"驗收記憶版本、檢索及租戶授權","anomalyco-opencode":"驗收權限規則與子代理委派","orca":"驗收 Worktree 啟動與執行主機邊界"};
+  if(recoveryTitles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recoveryTitles[id])+')'),id);
+  }
   if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners',"react-frontend-backend-for-beginners","ryanhanwu-how-to-ask-questions-the-smart-way","dslab-lessons","claude-svg-animation-logo-loading-chart-tutorial","anthropic-solving-code-review-at-anthropic"].includes(id)){
    const expected=id==='microsoft-ai-agents-for-beginners'?18:id==='ai-code-acceptance-review-testing-rollout-guide'?4:3;
    assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),expected);
