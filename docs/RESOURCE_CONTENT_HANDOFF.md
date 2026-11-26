@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 11（2026-11-26）
+
+- [Batch 11｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH11_20261126.md)：openclaw-openclaw 至 pythonanywhere，20/20 已讀取，11 候選修正、9 保留。更新 purpose/start、六個 useCase.detail，Orca 補既有遠端認證與 Worker 停止回收案例連結；Orca 與 Particles 維持 deferred。來源、證據、分類、Tags、Typed References 與 Graph 關係保留。
+- #131 四項 CI PASS 已合併；本批基於 main be57c87c0f06fa72c0cd08319a2a58a9170abd6c，待四項 CI。#130 Catalog Sync、Pages PASS；正式 deployed Chromium 未獨立驗收。
+- 固定順序候選 220/286；映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 qingyuna-answer-me-with-html 起取 20 筆；P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 10（2026-11-26）
 
 - [Batch 10｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH10_20261126.md)：motion-dev-animations-skill 至 openchatx，20/20 已讀取，10 候選修正、10 保留。更新 purpose/start，另具體化 Auto Ontology、SkillSpector、Onyx 共九個既有 useCase.detail，保留所有 IDs、refs、example、來源、分類、Tags 與 Graph 關係。
