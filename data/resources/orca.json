@@ -409,17 +409,18 @@
       "id": "parallel-feature-work",
       "title": "分開開發網頁與回歸測試",
       "input": "同一測試 Repo 的前端修改與獨立測試任務，指定基準 commit。",
-      "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異及合併順序",
+      "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異 → 驗收 Worktree 啟動、生命週期及 RPC 結算 → 驗收遠端認證與 Worker 停止回收 → 核對整合結果",
       "output": "兩個分支及差異審查規格（未建立實際 Worktree）。",
       "destination": "自有專案的開發與 PR 流程。",
-      "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
+      "note": "自訂設計示例；已靜態閱讀固定版本局部原始碼及上游測試，未執行第三方或驗證整合；各 transport 到 RPC caller 的完整綁定、程序停止及 Git 清理端到端契約仍待查。",
       "verificationStatus": "design-only",
       "useCaseRefs": [
         "parallel-tasks",
         "review-diffs",
         "coordination",
         "worktree-contract-audit",
-        "worktree-lifecycle-audit"
+        "worktree-lifecycle-audit",
+        "remote-worker-stop-audit"
       ],
       "steps": [
         {
@@ -464,6 +465,16 @@
           ]
         },
         {
+          "id": "remote-worker-stop-audit",
+          "title": "驗收遠端認證與 Worker 停止回收",
+          "evidenceRefs": [
+            "mobile-e2ee-auth",
+            "paired-device-scope",
+            "worker-stop-transaction",
+            "exited-terminal-release"
+          ]
+        },
+        {
           "id": "merge",
           "title": "核對整合結果",
           "evidenceRefs": [],
@@ -472,9 +483,9 @@
       ]
     },
     "start": [
-      "先確認安裝套件名稱及版本；macOS stable 文件使用完整 cask 名稱。",
-      "先在測試 Repo 定義基準 commit、任務範圍及各自的 Worktree。",
-      "完成各自驗收後審查差異與合併順序，不把 Worktree 當資安沙箱。"
+      "先以合成 Repo 建立兩個獨立任務、基準 commit、Worktree 與預期交付差異；核對固定版本及正確套件識別。",
+      "依既有 Git、RPC、mobile E2EE、paired-device scope 與 worker-stop 證據規劃逾時、撤權、重複停止及未合併分支保護；完整 transport 授權與清理鏈仍待查。",
+      "取得隔離測試核准後分別驗收 Git 狀態、程序是否真的停止、遠端授權與實際交付；Worktree 不是資安沙箱，不把停止狀態視為已清理。"
     ],
     "limits": [
       "README 提醒 macOS Homebrew 必須使用完整套件名稱，裸 orca 指向另一軟體",

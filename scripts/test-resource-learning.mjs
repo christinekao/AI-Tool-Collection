@@ -2960,3 +2960,27 @@ test('Resource quality batch 10: practical starts and evidence-linked case detai
  const s=JSON.parse(fs.readFileSync('data/resources/nvidia-skillspector.json','utf8'));
  assert.match(s.readerGuide.start[2],/零 findings 不等於安全/);
 });
+
+
+test('Resource quality batch 11: practical starts, case detail and Orca deferred coverage',()=>{
+ const expected={"openhands-agent-canvas":"兩種合成 ACP Agent 設定","openmontage":"合成影音分鏡產物","orca":"兩個獨立任務","paperclip":"自有合成 AI Cowork 專案","pcottle-learn-git-branching":"兩個分支的合成 Commit Tree","photo-riso-poster":"自有或已授權照片","pii-guard":"繁體中文測試文件","pingdotgg-t3code":"兩個獨立 Thread","pomerado-pomerado":"自有隔離測試站點","pramoddutta-botskills":"一則合成 Bug 報告","punk-skill":"決定要製作封面或頭像"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((id==='orca'?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ for(const id of ['paperclip','pii-guard']){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  for(const c of d.readerGuide.useCases)assert.match(c.detail,/輸出：/,id+' '+c.id);
+ }
+ const d=JSON.parse(fs.readFileSync('data/resources/orca.json','utf8')),e=d.readerGuide.example;
+ const c=d.readerGuide.useCases.find(x=>x.id==='remote-worker-stop-audit');
+ assert.ok(e.useCaseRefs.includes(c.id));assert.deepEqual(e.steps.find(x=>x.id===c.id).evidenceRefs,c.evidenceRefs);
+ assert.equal(e.steps.at(-1).id,'merge');assert.match(e.note,/未執行第三方/);
+ const p=JSON.parse(fs.readFileSync('data/resources/particles-casberry.json','utf8'));
+ assert.equal(p.intakeReview.layerReview.status,'deferred');
+});

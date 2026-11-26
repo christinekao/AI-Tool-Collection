@@ -176,7 +176,7 @@
       {
         "id": "use-heartbeat",
         "title": "派發任務及追蹤執行",
-        "detail": "多 Agent 容易重複領取任務或無法持續交接。 可追蹤的工作領取、進度及狀態紀錄。",
+        "detail": "以兩個合成 Agent 嘗試領取任務，核對 checkout 衝突、喚醒及 Run 狀態。輸出：可追蹤的任務領取、執行及交接紀錄；不以 Run 結束推定成果完成。",
         "capabilityRefs": [
           "heartbeat"
         ]
@@ -184,7 +184,7 @@
       {
         "id": "use-budget",
         "title": "設定分層成本及預算限制",
-        "detail": "多個 Agent 的模型成本可能累積超出預算。 成本摘要、警示及依政策執行的停止條件。",
+        "detail": "以合成公司、專案及 Agent 的預算事件，比較 billed_cents、警示與停止政策，分開記錄訂閱用量。輸出：成本摘要及預算條件，實際停止仍需測試。",
         "capabilityRefs": [
           "budget"
         ]
@@ -192,7 +192,7 @@
       {
         "id": "use-approval",
         "title": "讓重要決策留下核准紀錄",
-        "detail": "Agent 的規劃與實際操作不應混為同一種授權。 核准、要求修訂或取消等狀態及相關評論。",
+        "detail": "以待核准計畫及修訂版本確認公司範圍、核准、修訂或取消。輸出：可回查的決策狀態與評論；核准不是實作完成證據。",
         "capabilityRefs": [
           "approval"
         ]
@@ -243,9 +243,9 @@
       "verificationStatus": "design-only"
     },
     "start": [
-      "先準備自有測試專案、兩個 Agent 角色、明確任務與合成成本事件。",
-      "依需求選擇用途，查閱固定版本及限制。",
-      "確認權限及環境，另行執行正向與負向測試。"
+      "先建立自有合成 AI Cowork 專案、兩個 Agent 角色、任務依賴、驗收條件及預算事件，分開記錄 Run 與 Issue 狀態。",
+      "依固定版本 heartbeat、budgets 與 approvals 契約規劃 checkout 衝突、最新計畫核准及 billed_cents 成本；訂閱內零元不等於沒有 Token 或額度消耗。",
+      "取得隔離測試核准後檢查重複領取、逾期核准、超預算及權限拒絕，對照實際交付與供應商帳單；執行中或任務結束都不能代替成果驗收。"
     ],
     "limits": [
       "Agent 可自動呼叫第三方工具與工作排程，需防止越權及無止境循環",

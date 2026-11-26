@@ -785,6 +785,11 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch11Phrases={"openhands-agent-canvas":"兩種合成 ACP Agent 設定","openmontage":"合成影音分鏡產物","orca":"兩個獨立任務","paperclip":"自有合成 AI Cowork 專案","pcottle-learn-git-branching":"兩個分支的合成 Commit Tree","photo-riso-poster":"自有或已授權照片","pii-guard":"繁體中文測試文件","pingdotgg-t3code":"兩個獨立 Thread","pomerado-pomerado":"自有隔離測試站點","pramoddutta-botskills":"一則合成 Bug 報告","punk-skill":"決定要製作封面或頭像"};
+  if(qualityBatch11Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch11Phrases[id])+')'),id);
+  }
+  if(id==='orca')assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes("驗收遠端認證與 Worker 停止回收")'),id);
   const qualityBatch10Phrases={"mukul975-anthropic-cybersecurity-skills":"一項防禦問題","nanako0129-syrtis":"合成額度週期","nutlope-hallmark":"自有網站的一個設計需求","nvidia-auto-ontology":"兩個合成資料表","nvidia-skillspector":"合成正常及可疑 Skill","oh-my-mermaid":"一個交接問題","omniroute":"合成模型目錄","onetake":"兩版自製合成構圖","onyx":"兩種合成使用者角色","openchatx":"兩個合成 Agent"};
   if(qualityBatch10Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch10Phrases[id])+')'),id);

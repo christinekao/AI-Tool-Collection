@@ -6,7 +6,7 @@
   "canonicalName": "Pomerado",
   "category": "03 MCP / Tool Integration",
   "resourceType": "Open-source MIT local MCP integration minter / native Playwright browser exploration / deterministic generated operation modules",
-  "purpose": "網站 MCP 整合的執行環境說明、敏感資訊遮蔽政策及工具輸入驗證。",
+  "purpose": "研究如何將已授權網站接入 MCP 工具，檢查執行環境、敏感欄位遮蔽與參數結構，避免將格式驗證當作操作授權。",
   "recommendation": "適合研究已授權網站整合的安全邊界驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Pomerado/pomerado",
   "repo": "Pomerado/pomerado",
@@ -292,9 +292,9 @@
       ]
     },
     "start": [
-      "先準備自有測試站點、合成工具參數及虛構敏感值。",
-      "核對固定版本、授權、資料邊界與操作限制。",
-      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+      "先建立自有隔離測試站點、合成 MCP 參數及虛構敏感值，列出允許讀取的資源與禁止寫入的操作。",
+      "依固定版本 execution-policy、credential-policy 與 schema 契約核對本機 worker、遮蔽規則及額外欄位；Integration Run 不會自動重審 Authority 與原始碼變更。",
+      "取得隔離測試核准後檢查錯誤欄位、虛構秘密漏遮蔽及未授權操作拒絕；另核對 OS 隔離及實際副作用，不使用真實憑證。"
     ],
     "limits": [
       "README 指出 Integration Run 不會自動重新審核 Authority 和原始碼修改",
