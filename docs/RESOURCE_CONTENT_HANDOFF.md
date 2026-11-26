@@ -1,3 +1,12 @@
+# Resource 最新交接｜Phase 2 Batch 85（2026-11-26）
+
+- PR #115 四項 CI PASS，已合併 `e2f9f85ea50685a9dfaddaf2579ecbb269e3e8fc`。正式 282/286（267 完成對應、15 deferred、4 來源阻塞）。
+- [Batch 85](RESOURCE_DUAL_LAYER_BATCH85_20261126.md)：Microsoft Agent 課程 01–18 章固定 README 知識對應與練習（新增 15 章，保留 3 章），候選 evidence-linked；不是 Notebook 實測。
+- Hindsight、OpenCode、Orca 固定版本目錄已查到候選實際路徑，仍未升級。下一步讀程式、授權與測試，依來源證據補強。
+- 合併後預計 268 完成對應、14 deferred、4 來源阻塞；審查覆蓋率仍 282/286。需本 PR 四項 CI PASS、Catalog Sync、Pages；不變更分類、ID 或 Graph Edge。
+
+---
+
 # Resource 最新交接｜Batch 82–84（2026-11-26）
 
 - PR #114 四項 CI PASS，已合併 `e17d87a504423753d0d709257d236ca730da22b1`。Catalog Sync PASS，後續 Pages `efc6683a59884a76b2c0aef82be58396ff547965` PASS；PR #112、#113 已關閉為整合取代。正式 278/286（266 已對應、12 deferred）。
