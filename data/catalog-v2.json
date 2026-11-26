@@ -88771,9 +88771,9 @@
           ]
         },
         "start": [
-          "先準備合成 Agent 設定、測試後端與受信任擴充模組。",
-          "依需求核對固定版本來源與操作限制。",
-          "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+          "先建立兩種合成 ACP Agent 設定及隔離測試後端，定義登入狀態、可用命令、工作目錄與受信任擴充。",
+          "依固定版本 acp-service、agent-server-runtime-service 與 extension loader 核對未知登入、退出碼、逾時及 activate 入口；動態 import 會執行程式，不載入未審查來源。",
+          "取得隔離測試核准後檢查未知登入、命令失敗及拒絕、擴充缺入口；未啟用 Sandbox 的本機權限及遠端隔離須另驗，不讀真實金鑰。"
         ],
         "limits": [
           "README 警告不使用 Sandbox 時 Agent 可完整存取本機檔案系統",
@@ -89045,7 +89045,7 @@
       "canonicalName": "OpenMontage",
       "category": "11 Media / Video",
       "resourceType": "Agentic Video Production System",
-      "purpose": "影音工作流的產物 Schema、媒體請求報價與非同步工作收據契約。",
+      "purpose": "為多階段影音製作驗證產物格式、確認付費媒體請求的報價，並追蹤非同步生成工作，避免逾時後重複付費提交。",
       "recommendation": "適合研究影音工作流的產物與付費請求驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/calesthio/OpenMontage",
       "repo": "OpenMontageInc/OpenMontage",
@@ -89260,9 +89260,9 @@
           ]
         },
         "start": [
-          "先準備合成產物、媒體請求與模擬工作狀態。",
-          "核對固定版本、授權、資料邊界與操作限制。",
-          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+          "先設計自有合成影音分鏡產物、媒體請求與模擬工作收據，列出預期 Schema、成本上限及可接受的工作狀態。",
+          "依固定版本 artifacts、schema_media 與 provider_jobs 契約核對命名產物、報價需求、輪詢及恢復；缺報價不能視為免費，逾時不能推定生成已失敗。",
+          "取得環境、費用及素材授權核准後測試缺欄位、報價缺漏與待恢復工作，核對實際檔案及帳單；不自動重送付費請求，格式通過不代表影音品質。"
         ],
         "limits": [
           "README 的 Pipeline 與工具數量是上游宣告，不能等同本批逐一建置或成功渲染。",
@@ -90729,17 +90729,18 @@
           "id": "parallel-feature-work",
           "title": "分開開發網頁與回歸測試",
           "input": "同一測試 Repo 的前端修改與獨立測試任務，指定基準 commit。",
-          "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異及合併順序",
+          "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異 → 驗收 Worktree 啟動、生命週期及 RPC 結算 → 驗收遠端認證與 Worker 停止回收 → 核對整合結果",
           "output": "兩個分支及差異審查規格（未建立實際 Worktree）。",
           "destination": "自有專案的開發與 PR 流程。",
-          "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
+          "note": "自訂設計示例；已靜態閱讀固定版本局部原始碼及上游測試，未執行第三方或驗證整合；各 transport 到 RPC caller 的完整綁定、程序停止及 Git 清理端到端契約仍待查。",
           "verificationStatus": "design-only",
           "useCaseRefs": [
             "parallel-tasks",
             "review-diffs",
             "coordination",
             "worktree-contract-audit",
-            "worktree-lifecycle-audit"
+            "worktree-lifecycle-audit",
+            "remote-worker-stop-audit"
           ],
           "steps": [
             {
@@ -90784,6 +90785,16 @@
               ]
             },
             {
+              "id": "remote-worker-stop-audit",
+              "title": "驗收遠端認證與 Worker 停止回收",
+              "evidenceRefs": [
+                "mobile-e2ee-auth",
+                "paired-device-scope",
+                "worker-stop-transaction",
+                "exited-terminal-release"
+              ]
+            },
+            {
               "id": "merge",
               "title": "核對整合結果",
               "evidenceRefs": [],
@@ -90792,9 +90803,9 @@
           ]
         },
         "start": [
-          "先確認安裝套件名稱及版本；macOS stable 文件使用完整 cask 名稱。",
-          "先在測試 Repo 定義基準 commit、任務範圍及各自的 Worktree。",
-          "完成各自驗收後審查差異與合併順序，不把 Worktree 當資安沙箱。"
+          "先以合成 Repo 建立兩個獨立任務、基準 commit、Worktree 與預期交付差異；核對固定版本及正確套件識別。",
+          "依既有 Git、RPC、mobile E2EE、paired-device scope 與 worker-stop 證據規劃逾時、撤權、重複停止及未合併分支保護；完整 transport 授權與清理鏈仍待查。",
+          "取得隔離測試核准後分別驗收 Git 狀態、程序是否真的停止、遠端授權與實際交付；Worktree 不是資安沙箱，不把停止狀態視為已清理。"
         ],
         "limits": [
           "README 提醒 macOS Homebrew 必須使用完整套件名稱，裸 orca 指向另一軟體",
@@ -90984,7 +90995,7 @@
           {
             "id": "use-heartbeat",
             "title": "派發任務及追蹤執行",
-            "detail": "多 Agent 容易重複領取任務或無法持續交接。 可追蹤的工作領取、進度及狀態紀錄。",
+            "detail": "以兩個合成 Agent 嘗試領取任務，核對 checkout 衝突、喚醒及 Run 狀態。輸出：可追蹤的任務領取、執行及交接紀錄；不以 Run 結束推定成果完成。",
             "capabilityRefs": [
               "heartbeat"
             ]
@@ -90992,7 +91003,7 @@
           {
             "id": "use-budget",
             "title": "設定分層成本及預算限制",
-            "detail": "多個 Agent 的模型成本可能累積超出預算。 成本摘要、警示及依政策執行的停止條件。",
+            "detail": "以合成公司、專案及 Agent 的預算事件，比較 billed_cents、警示與停止政策，分開記錄訂閱用量。輸出：成本摘要及預算條件，實際停止仍需測試。",
             "capabilityRefs": [
               "budget"
             ]
@@ -91000,7 +91011,7 @@
           {
             "id": "use-approval",
             "title": "讓重要決策留下核准紀錄",
-            "detail": "Agent 的規劃與實際操作不應混為同一種授權。 核准、要求修訂或取消等狀態及相關評論。",
+            "detail": "以待核准計畫及修訂版本確認公司範圍、核准、修訂或取消。輸出：可回查的決策狀態與評論；核准不是實作完成證據。",
             "capabilityRefs": [
               "approval"
             ]
@@ -91051,9 +91062,9 @@
           "verificationStatus": "design-only"
         },
         "start": [
-          "先準備自有測試專案、兩個 Agent 角色、明確任務與合成成本事件。",
-          "依需求選擇用途，查閱固定版本及限制。",
-          "確認權限及環境，另行執行正向與負向測試。"
+          "先建立自有合成 AI Cowork 專案、兩個 Agent 角色、任務依賴、驗收條件及預算事件，分開記錄 Run 與 Issue 狀態。",
+          "依固定版本 heartbeat、budgets 與 approvals 契約規劃 checkout 衝突、最新計畫核准及 billed_cents 成本；訂閱內零元不等於沒有 Token 或額度消耗。",
+          "取得隔離測試核准後檢查重複領取、逾期核准、超預算及權限拒絕，對照實際交付與供應商帳單；執行中或任務結束都不能代替成果驗收。"
         ],
         "limits": [
           "Agent 可自動呼叫第三方工具與工作排程，需防止越權及無止境循環",
@@ -91899,9 +91910,9 @@
           "verificationStatus": "design-only"
         },
         "start": [
-          "先定義測試目標及輸入：教學沙盒的初始 Commit Tree、兩個分支與合併目標。",
-          "核對固定版本來源：src/js/git/index.js。",
-          "先建立預期行為與失敗情境；核准後再實際操作並保留驗收證據。"
+          "先畫出兩個分支的合成 Commit Tree，標記 HEAD，預測切換分支及新增 commit 後的指向。",
+          "依固定版本 git/index.js 的 branch、merge 與 stage 契約比較 fast-forward、分叉歷史及 Rebase；暫存區只在啟用 workingChanges 的關卡練習。",
+          "取得核准後在教學沙盒核對預期歷史，再於獨立測試 Repo 練習實際檔案、衝突及 PR；不要把模擬 undo/reset 當真實 Git 指令。"
         ],
         "limits": [
           "互動沙盒是教學模擬，不包含真實協作 PR、權限與衝突處理全貌",
@@ -92160,7 +92171,7 @@
       "canonicalName": "Photo Riso Poster",
       "category": "06 Skills",
       "resourceType": "Evidence-first Image Generation Skill / Riso Poster",
-      "purpose": "以可觀察照片事實或自訂文字主題轉為少色孔版印刷風海報的操作規格。",
+      "purpose": "將自有照片或虛構主題轉成少色孔版印刷風的海報設計，先記錄可觀察的事實，再映射構圖、符號及色層。",
       "recommendation": "適合研究自有照片的證據式抽象海報設計；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/luckdvr/photo-riso-poster",
       "repo": "luckdvr/photo-riso-poster",
@@ -92429,9 +92440,9 @@
           ]
         },
         "start": [
-          "先準備自有照片或明確虛構主題及抽象程度。",
-          "核對固定版本、授權、資料邊界與操作限制。",
-          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+          "先選自有或已授權照片，或明確標為虛構的主題，記錄構圖、數量、位置與希望的抽象程度。",
+          "依固定版本 SKILL.md 的 observe、map 與 generate 指引整理可觀察事實、未知欄位、符號、色層及文字；無日期或地點證據就省略。",
+          "取得素材權利及生成核准後才使用可用影像工具，人工核對來源、構圖、文字及輸出；僅有文字提示時不得宣稱已生成海報。"
         ],
         "limits": [
           "生成海報不保證與原圖完全一致",
@@ -92626,7 +92637,7 @@
           {
             "id": "use-detect",
             "title": "辨識並補正個資遮蔽範圍",
-            "detail": "繁體中文專有名稱與本地格式可能漏報。辨識結果與可還原代號。",
+            "detail": "以人工標註的虛構繁中個資及明確機構白名單比對辨識與遮蔽結果。輸出：待覆核的辨識範圍與可還原代號，記錄漏報與誤報。",
             "capabilityRefs": [
               "detect"
             ]
@@ -92634,7 +92645,7 @@
           {
             "id": "use-job",
             "title": "隔離原始文件與對照表",
-            "detail": "Agent 不應讀到可還原的個資。代號副本及私有 mapping 的契約。",
+            "detail": "將合成原文、代號副本與私有 mapping 分開保存，核對實際平台的目錄及檔案權限。輸出：受控副本及對照表契約，不將可還原資料視為匿名。",
             "capabilityRefs": [
               "job"
             ]
@@ -92642,7 +92653,7 @@
           {
             "id": "use-policy",
             "title": "限制還原值流向不受控入口",
-            "detail": "將原始值還原到工具命令可能造成資料外送。受控允許、拒絕或輸出扣留。",
+            "detail": "以合成工具操作及本機 Hook 政策檢查還原值流向已接入的入口。輸出：允許、拒絕或扣留結果；未接入入口與 OS 隔離另驗。",
             "capabilityRefs": [
               "policy"
             ]
@@ -92693,9 +92704,9 @@
           ]
         },
         "start": [
-          "先準備合成含人名、電話與機構名稱的文件及預期遮蔽範圍。",
-          "依需求核對固定版本來源與操作限制。",
-          "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+          "先建立含虛構人名、電話與機構名稱的繁體中文測試文件，人工標註應遮蔽、不應遮蔽及未知項目。",
+          "依固定版本 engine、local_workflow 與 hookd/policy 契約核對機構白名單、可還原代號、私有 mapping 與允許／拒絕入口；可還原資料仍屬敏感資訊。",
+          "取得隔離測試核准後檢查漏報、誤報、檔案權限、還原與輸出扣留；人工逐項覆核，不以 Hook 或代號副本保證匿名或完整防外洩。"
         ],
         "limits": [
           "自動個資偵測有漏報風險，人工檢查不能省略",
@@ -93209,9 +93220,9 @@
           "verificationStatus": "design-only"
         },
         "start": [
-          "先準備自有測試專案、兩個獨立修改任務及明確的權限政策。",
-          "依需求選擇上述用途，閱讀固定版本來源及限制。",
-          "確認環境及權限，再另行實作與核對成果。"
+          "先建立自有測試 Repo 的兩個獨立 Thread、基準分支及允許的操作清單，先調整文件所述 Full access 預設。",
+          "依固定版本 permission-modes、source-control 與 remote-access 文件規劃各 provider 權限、Worktree、完整分支差異與遠端撤銷；單一 turn diff 不包含全部 Git 變更。",
+          "取得隔離測試核准後檢查未授權操作、完整 branch diff、實際測試及遠端撤銷；外部 MCP 可能涵蓋多個專案，另核對授權範圍，不直接對外暴露服務。"
         ],
         "limits": [
           "協作介面並不保證每種 Agent 的工具、模型與權限等價",
@@ -94239,7 +94250,7 @@
       "canonicalName": "Pomerado",
       "category": "03 MCP / Tool Integration",
       "resourceType": "Open-source MIT local MCP integration minter / native Playwright browser exploration / deterministic generated operation modules",
-      "purpose": "網站 MCP 整合的執行環境說明、敏感資訊遮蔽政策及工具輸入驗證。",
+      "purpose": "研究如何將已授權網站接入 MCP 工具，檢查執行環境、敏感欄位遮蔽與參數結構，避免將格式驗證當作操作授權。",
       "recommendation": "適合研究已授權網站整合的安全邊界驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/Pomerado/pomerado",
       "repo": "Pomerado/pomerado",
@@ -94525,9 +94536,9 @@
           ]
         },
         "start": [
-          "先準備自有測試站點、合成工具參數及虛構敏感值。",
-          "核對固定版本、授權、資料邊界與操作限制。",
-          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+          "先建立自有隔離測試站點、合成 MCP 參數及虛構敏感值，列出允許讀取的資源與禁止寫入的操作。",
+          "依固定版本 execution-policy、credential-policy 與 schema 契約核對本機 worker、遮蔽規則及額外欄位；Integration Run 不會自動重審 Authority 與原始碼變更。",
+          "取得隔離測試核准後檢查錯誤欄位、虛構秘密漏遮蔽及未授權操作拒絕；另核對 OS 隔離及實際副作用，不使用真實憑證。"
         ],
         "limits": [
           "README 指出 Integration Run 不會自動重新審核 Authority 和原始碼修改",
@@ -95032,9 +95043,9 @@
           ]
         },
         "start": [
-          "先準備合成 Bug 報告、測試環境描述及明確不可操作的範圍。",
-          "依需求選用對應項目並核對固定版本來源。",
-          "先核准環境與權限，再用合成案例測試正向及失敗情境。"
+          "先選自有測試專案的一則合成 Bug 報告，列出重現條件、可用工具、證據與禁止操作；其他 Bot 按需求另選。",
+          "依固定版本 shared parser、validate-bots 與 bug-repro-pack-builder 模板規劃 BOT.md 的角色、boundary、runtime 和驗收規則；財務模板為獨立用途且不得入帳。",
+          "取得隔離測試核准後檢查缺欄位、無效格式、越權拒絕及實際重現結果；靜態 Gate 通過不代表副作用被阻止，不使用正式客戶資料。"
         ],
         "limits": [
           "目錄中的 Bot 設定不代表已在目標環境執行成功",
@@ -95311,7 +95322,7 @@
       "canonicalName": "Punk-skill",
       "category": "09 Content & Artifact Generation",
       "resourceType": "Content Skill",
-      "purpose": "視覺生成 Skill 的靜態封面與頭像契約檢查，並區分平台要求及模型生成比例。",
+      "purpose": "為個人非商業視覺練習選擇封面或頭像風格，檢查必要規格檔、風格識別與平台需求和模型比例的差異。",
       "recommendation": "適合研究非商業視覺提示詞庫的規格驗收；先核對來源與權限，局部契約不是完整工具實測。",
       "url": "https://github.com/adrianpunk/Punk-Posters",
       "repo": "adrianpunk/Punk-Posters",
@@ -95514,9 +95525,9 @@
           ]
         },
         "start": [
-          "先準備自有虛構主題、風格索引與比例需求。",
-          "核對固定版本、授權、資料邊界與操作限制。",
-          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+          "先選自有虛構主題，決定要製作封面或頭像，列出目標平台、風格候選及比例需求。",
+          "依固定版本 validate-punk-cover、validate-punk-avatar 與 platform-catalog 核對必填檔案、風格識別及生成比例；現行平台要求另查，保留非商用授權限制。",
+          "取得素材與生成核准後以虛構素材檢查缺檔、無效風格及比例不符，人工驗收文字、裁切與構圖；靜態檢查不代表已生成或品質合格。"
         ],
         "limits": [
           "官方 v2.0.0 以後的免費範圍限個人非商用；不能將公開原始碼直接等同 MIT 商用授權。",
