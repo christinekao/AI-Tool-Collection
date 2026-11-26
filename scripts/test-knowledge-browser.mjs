@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch14Phrases={"ui-ux-gold-standard":"自有分析 Dashboard","unclebob-ub-mode":"一個可重現缺陷","usestrix-strix":"自有合成安全發現","voltagent-awesome-agent-skills":"一項重複任務","voltagent-awesome-openclaw-skills":"最小允許工具集合","vulture-s-whisper-guard":"人工標註的合成轉錄片段","waooai-waoowaoo":"合成模型能力設定","wellmade":"自有作品集的設計需求","wilsonfreitas-awesome-quant":"離線量化研究問題","wquguru-cicada":"自編雙語逐字稿","wrenai":"合成銷售資料","yusufkaraaslan-skill-seekers":"少量有擷取權的公開技術文件"};
+  if(qualityBatch14Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch14Phrases[id])+')'),id);
+  }
   const qualityBatch13Phrases={"shubhamsaboo-needle":"合成中英文文件","skillry-opus-5-5-video-pattern-library":"自有教學短片的腳本","skillry-web-design-template-skills":"自有作品集的受眾","social-post":"自撰虛構貼文","sona-orbit-parroting":"自編非敏感繁中及英文朗讀句","storytold-artcraft":"自有合成媒體路徑","storytold-filmcraft":"合成剪輯專案的新舊版本","strelov1-freehire":"虛構公司名稱","strelov1-freehire-mcp":"合成 JD、匿名履歷證據","thu-maic-openmaic":"兩種測試擁有者","toeverything-affine":"兩個隔離的合成知識工作區","tradingview-pine-screener-strategy-tester":"合成觀察清單","twood2024-prelaunch-check-defense":"自有測試網站的一個發布範圍","typesafe-ai-jev":"虛構客服案例狀態"};
   if(qualityBatch13Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch13Phrases[id])+')'),id);
