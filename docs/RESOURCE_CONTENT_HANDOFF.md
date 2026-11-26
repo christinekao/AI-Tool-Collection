@@ -1,3 +1,23 @@
+# Resource 最新交接｜雙層知識 Batch 37～46（2026-11-25）
+
+- main 基線 `eb904646a4b86aaef129a133113fe2a859121021`；PR #95 四項 CI PASS，合併 `12aad07f8bf311c0c3bb7bd3fc8e4a5e2bb256fd`；Catalog Sync 與 Pages PASS。144/286 已合併（138 完成對應、6 deferred）。
+- 本次 30 筆候選：13 mapped、16 evidence-linked、1 deferred；90 個用途、39 個局部程式能力、51 個文件證據、30 個 design-only 案例。固定版本局部來源查核，未安裝或執行第三方項目。
+- [Batch 37｜記憶與時點檢索](RESOURCE_DUAL_LAYER_BATCH37_20261125.md)：garrytan-gbrain、claude-mem、hermes-backsearch。
+- [Batch 38｜企業知識與資料語意](RESOURCE_DUAL_LAYER_BATCH38_20261125.md)：onyx、nvidia-auto-ontology、wrenai。
+- [Batch 39｜技能安全與個資保護](RESOURCE_DUAL_LAYER_BATCH39_20261125.md)：nvidia-skillspector、pii-guard、hermes-snyk-plugin。
+- [Batch 40｜技能索引與安全選型](RESOURCE_DUAL_LAYER_BATCH40_20261125.md)：composiohq-awesome-claude-skills、voltagent-awesome-agent-skills、voltagent-awesome-openclaw-skills。
+- [Batch 41｜開發工具與應用索引](RESOURCE_DUAL_LAYER_BATCH41_20261125.md)：hesreallyhim-awesome-claude-code、shubhamsaboo-awesome-llm-apps、cursor-plugins。
+- [Batch 42｜學習與研究路線](RESOURCE_DUAL_LAYER_BATCH42_20261125.md)：awesome-agentic-ai-zh、ice1187-tw-security-and-ctf-resource、wilsonfreitas-awesome-quant。
+- [Batch 43｜專業技能集合](RESOURCE_DUAL_LAYER_BATCH43_20261125.md)：mukul975-anthropic-cybersecurity-skills、k-dense-ai-scientific-agent-skills、coreyhaines31-marketingskills。
+- [Batch 44｜防禦、SEO 與工作技能](RESOURCE_DUAL_LAYER_BATCH44_20261125.md)：twood2024-prelaunch-check-defense、agricidaniel-claude-seo、kkkkhazix-khazix-skills。
+- [Batch 45｜個人知識庫](RESOURCE_DUAL_LAYER_BATCH45_20261125.md)：bruiandy-claude-obsidian、kepano-obsidian-vault-template、kepano-obsidian-minimal。
+- [Batch 46｜轉錄、文件檢索及 Agent 介面](RESOURCE_DUAL_LAYER_BATCH46_20261125.md)：vulture-s-whisper-guard、shubhamsaboo-needle、openhands-agent-canvas。
+- 合集及純防禦文件按來源形式校正 Content Format；保留原分類領域、Tag、關聯及舊值。不新增 Graph Edge。Hermes Snyk 歷史插件為 deferred；新插件及外部掃描器核心尚未驗證。Composio 授權檔不可取得，依 README 聲明記錄；Awesome Quant 根授權未找到。Twood 自訂防禦授權，不含執行掃描器。
+- 合併前 144/286；本批 CI 全通過後方可合併，合併後 174/286（167 完成對應、7 deferred），112 尚未改寫。瀏覽器回歸新增 30 筆與四種 viewport。
+- 下一步：核對本批 PR 四項 CI、合併、Catalog Sync／Pages；再從 Batch 47 繼續未改寫資源，保留 deferred 缺口。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 36（2026-11-25）
 
 - main 基線 `a6287904d570519ea7642a361b97e1a272d7e8ff`；PR #94 四項 CI 全部通過，合併 `f4a406ff7b3b3030465e41a672255aa69f25252b`；Catalog Sync 及最新 Pages 部署 PASS，merge commit 的 P1 Graph Unit Tests 查核時仍進行中。141/286 已合併（135 完成對應、6 deferred）。

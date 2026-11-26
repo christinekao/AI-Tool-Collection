@@ -6,14 +6,14 @@
   "canonicalName": "Hermes Snyk Plugin",
   "category": "07 Security & Governance",
   "resourceType": "Agent Security Scan / MCP Plugin",
-  "purpose": "把 Snyk 官方 MCP server 接進 Hermes Agent workflow，讓 Agent 能掃描 code、dependencies、container、IaC、SBOM，並依 workflow skill 執行 auth、trust、scan、fix 流程。",
-  "recommendation": "適合把供應鏈安全、SAST/SCA、container 與 IaC scanning 直接納入 Agent 開發流程與驗收 gate。",
+  "purpose": "從 Hermes 的工作流程選擇 Snyk 掃描原始碼、依賴或部署設定，整理修復與重新掃描所需資訊。原插件庫已封存遷移。",
+  "recommendation": "適合研究受控掃描與修復流程；不應直接安裝封存版或掃描私人 Repo，須先查新插件與 Snyk 的資料傳輸政策。",
   "url": "https://github.com/NousResearch/hermes-plugin-snyk",
   "repo": "NousResearch/hermes-plugin-snyk",
   "notes": "Official repository confirmed. Snyk scans are network calls; source/dependency data may be uploaded to Snyk cloud. The plugin guidance requires asking before scanning private repositories.",
   "status": "active",
   "addedAt": "2026-09-18",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "tags": [
     "security",
     "snyk",
@@ -83,17 +83,28 @@
     "url": "https://github.com/NousResearch/hermes-plugin-snyk",
     "readmeUrl": "https://github.com/NousResearch/hermes-plugin-snyk/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-25",
+    "reviewScope": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。",
+    "upstreamCommit": "43b8efe6258312456faf57b78124a8395b866303",
+    "referenceUrls": [
+      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/README.md",
+      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/LICENSE",
+      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/mcp.json",
+      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/references/tools.md",
+      "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/SKILL.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-25",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -110,7 +121,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "reason": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。；僅歷史插件配置和操作文件，Snyk 外部核心實作與新版未查核。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -120,10 +131,181 @@
       "decision": "reused",
       "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
     },
-    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "riskNotes": "工具執行會涉及外部掃描服務及可能敏感程式庫資料。；安全掃描結果需要人工分類與版本核實，不能保證不存在其他漏洞。；封存 manifest 固定 1.1306.0；初次 npx 會下載 CLI，非已安裝或已驗證。新版官方插件未查核。；參數表由作者從歷史 CLI 產生，本次未執行 handshake；雲端掃描涉及資料傳輸，需核准。；關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。"
+    },
+    "layerReview": {
+      "status": "deferred",
+      "reason": "固定版本 README.md、LICENSE、mcp.json、skills/snyk-security-scan/references/tools.md、skills/snyk-security-scan/SKILL.md 局部查核；未執行第三方程式或測試。；已知插件契約可對應用途，但外部核心不在此庫。",
+      "gap": "原 Repo 已封存遷移；新庫及外部 Snyk 掃描器核心實作未查核，不能宣稱可重建。",
+      "nextAction": "核對官方新插件庫固定版本與 Snyk CLI 契約，取得核准後再用合成資料驗收。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把 Snyk 官方 MCP server 接進 Hermes Agent workflow，讓 Agent 能掃描 code、dependencies、container、IaC、SBOM，並依 workflow skill 執行 auth、trust、scan、fix 流程。",
+      "source": "https://github.com/NousResearch/hermes-plugin-snyk",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合把供應鏈安全、SAST/SCA、container 與 IaC scanning 直接納入 Agent 開發流程與驗收 gate。",
+    "upstreamMigration": {
+      "status": "archived-and-moved",
+      "newLocation": "https://github.com/NousResearch/hermes-official-plugins/tree/main/snyk",
+      "newSourceStatus": "not-reviewed",
+      "newRuntimeStatus": "not-tested"
+    },
+    "documentContracts": [
+      {
+        "id": "config",
+        "input": "插件 manifest 與 Host 需求",
+        "output": "Snyk MCP stdio 版本及設定",
+        "source": "mcp.json",
+        "locator": "mcpServers.sn",
+        "rule": "封存 manifest 固定 1.1306.0；初次 npx 會下載 CLI，非已安裝或已驗證。新版官方插件未查核。"
+      },
+      {
+        "id": "choose",
+        "input": "合成目標類型、範圍與已允許的操作",
+        "output": "掃描選型與參數需求",
+        "source": "skills/snyk-security-scan/references/tools.md",
+        "locator": "snyk_code_scan / snyk_sca_scan",
+        "rule": "參數表由作者從歷史 CLI 產生，本次未執行 handshake；雲端掃描涉及資料傳輸，需核准。"
+      },
+      {
+        "id": "review",
+        "input": "掃描結果、來源版本與修復候選",
+        "output": "待覆核問題與重新掃描規格",
+        "source": "skills/snyk-security-scan/SKILL.md",
+        "locator": "When to Use / How to Run",
+        "rule": "關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。"
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-config",
+        "title": "辨識固定掃描器版本與配置",
+        "detail": "不同 CLI 版本可能有不同契約。Snyk MCP stdio 版本及設定。",
+        "evidenceRefs": [
+          "config"
+        ]
+      },
+      {
+        "id": "use-choose",
+        "title": "依掃描對象選擇工具",
+        "detail": "原始碼、依賴與 IaC 需要不同掃描器。掃描選型與參數需求。",
+        "evidenceRefs": [
+          "choose"
+        ]
+      },
+      {
+        "id": "use-review",
+        "title": "檢視發現並安排修復與重掃",
+        "detail": "掃描報告不等於安全結論。待覆核問題與重新掃描規格。",
+        "evidenceRefs": [
+          "review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "hermes-snyk-plugin-example",
+      "title": "規劃開發專案的依賴與程式碼掃描驗收",
+      "input": "合成程式庫、依賴清單、核准的測試範圍及版本。",
+      "process": "辨識固定掃描器版本與配置 → 依掃描對象選擇工具 → 檢視發現並安排修復與重掃 → 獨立驗收實際成果",
+      "output": "掃描選型、授權清單與修復前後的驗收規格（規劃產物）。",
+      "destination": "自有軟體交付的安全審查流程之規劃與後續驗收。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-config",
+        "use-choose",
+        "use-review"
+      ],
+      "steps": [
+        {
+          "id": "config",
+          "title": "辨識固定掃描器版本與配置",
+          "evidenceRefs": [
+            "config"
+          ]
+        },
+        {
+          "id": "choose",
+          "title": "依掃描對象選擇工具",
+          "evidenceRefs": [
+            "choose"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "檢視發現並安排修復與重掃",
+          "evidenceRefs": [
+            "review"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准合成測試環境、資料、權限與實際成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成程式庫、依賴清單、核准的測試範圍及版本。",
+      "依需求核對固定版本來源與操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+    ],
+    "limits": [
+      "工具執行會涉及外部掃描服務及可能敏感程式庫資料。",
+      "安全掃描結果需要人工分類與版本核實，不能保證不存在其他漏洞。",
+      "封存 manifest 固定 1.1306.0；初次 npx 會下載 CLI，非已安裝或已驗證。新版官方插件未查核。",
+      "參數表由作者從歷史 CLI 產生，本次未執行 handshake；雲端掃描涉及資料傳輸，需核准。",
+      "關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "config",
+      "detail": "不同 CLI 版本可能有不同契約；輸入：插件 manifest 與 Host 需求；輸出：Snyk MCP stdio 版本及設定。",
+      "locator": "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/mcp.json — mcpServers.sn",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "封存 manifest 固定 1.1306.0；初次 npx 會下載 CLI，非已安裝或已驗證。新版官方插件未查核。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "choose",
+      "detail": "原始碼、依賴與 IaC 需要不同掃描器；輸入：合成目標類型、範圍與已允許的操作；輸出：掃描選型與參數需求。",
+      "locator": "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/references/tools.md — snyk_code_scan / snyk_sca_scan",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "參數表由作者從歷史 CLI 產生，本次未執行 handshake；雲端掃描涉及資料傳輸，需核准。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "review",
+      "detail": "掃描報告不等於安全結論；輸入：掃描結果、來源版本與修復候選；輸出：待覆核問題與重新掃描規格。",
+      "locator": "https://github.com/NousResearch/hermes-plugin-snyk/blob/43b8efe6258312456faf57b78124a8395b866303/skills/snyk-security-scan/SKILL.md — When to Use / How to Run",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "關閉 analytics 不會使掃描離線；私有程式碼、依賴資料可能送往供應商，僅在核准範圍進行。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }

@@ -1368,3 +1368,309 @@ test('Dual-layer batch 36: memory capture, scoped retrieval and historical sourc
  assert.equal(load('hermes-memory-wiki').implementationKnowledge.upstreamMigration.newSourceStatus,'not-reviewed');
  assert.match(load('hermes-memory-wiki').repoGuide.capabilities.find(c=>c.id==='read').gate,/不代表能防止資料洩漏/);
 });
+
+// Batches 37–46: one acceptance PR, ten independently documented groups.
+for(const [batch,topic,rows] of [
+  [
+    37,
+    "記憶與時點檢索",
+    [
+      [
+        "garrytan-gbrain",
+        "規劃跨 Agent 的專案決策記憶與修正",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "claude-mem",
+        "規劃跨開發 Session 的分層記憶檢索",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "hermes-backsearch",
+        "規劃歷史研究的時點資料檢索與驗收",
+        1,
+        "mapped",
+        "repository"
+      ]
+    ]
+  ],
+  [
+    38,
+    "企業知識與資料語意",
+    [
+      [
+        "onyx",
+        "規劃企業文件搜尋的權限與引用驗收",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "nvidia-auto-ontology",
+        "規劃跨資料庫的商業資料語意與 Lineage",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "wrenai",
+        "規劃有商業指標定義的自然語言 BI 查詢",
+        1,
+        "mapped",
+        "repository"
+      ]
+    ]
+  ],
+  [
+    39,
+    "技能安全與個資保護",
+    [
+      [
+        "nvidia-skillspector",
+        "規劃第三方 Skill 安裝前的安全審查",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "pii-guard",
+        "規劃繁體中文文件送入模型前的去識別化",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "hermes-snyk-plugin",
+        "規劃開發專案的依賴與程式碼掃描驗收",
+        2,
+        "deferred",
+        "repository"
+      ]
+    ]
+  ],
+  [
+    40,
+    "技能索引與安全選型",
+    [
+      [
+        "composiohq-awesome-claude-skills",
+        "規劃文件分析與 CRM 自動化的技能候選清單",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "voltagent-awesome-agent-skills",
+        "規劃跨 Agent 的技能選用與安裝前審查",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "voltagent-awesome-openclaw-skills",
+        "規劃 OpenClaw 個人知識管理技能選型",
+        2,
+        "evidence-linked",
+        "collection"
+      ]
+    ]
+  ],
+  [
+    41,
+    "開發工具與應用索引",
+    [
+      [
+        "hesreallyhim-awesome-claude-code",
+        "規劃 Claude Code 專案的記憶與驗收工具選型",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "shubhamsaboo-awesome-llm-apps",
+        "規劃從 CSV 問答到有引用與記憶的 AI 應用原型",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "cursor-plugins",
+        "規劃開發團隊的 Cursor 插件選用與治理",
+        2,
+        "evidence-linked",
+        "collection"
+      ]
+    ]
+  ],
+  [
+    42,
+    "學習與研究路線",
+    [
+      [
+        "awesome-agentic-ai-zh",
+        "規劃 Agent 開發與工作應用的個人學習路線",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "ice1187-tw-security-and-ctf-resource",
+        "規劃 AI 專案開發者的資安基礎與合法練習",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "wilsonfreitas-awesome-quant",
+        "規劃可重現的歷史市場資料與風險研究",
+        2,
+        "evidence-linked",
+        "collection"
+      ]
+    ]
+  ],
+  [
+    43,
+    "專業技能集合",
+    [
+      [
+        "mukul975-anthropic-cybersecurity-skills",
+        "規劃企業 Agent 的安全治理與事件審查技能選型",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "k-dense-ai-scientific-agent-skills",
+        "規劃公開研究資料的查詢與分析技能",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "coreyhaines31-marketingskills",
+        "規劃產品頁的定位、文案與轉換實驗",
+        2,
+        "evidence-linked",
+        "collection"
+      ]
+    ]
+  ],
+  [
+    44,
+    "防禦、SEO 與工作技能",
+    [
+      [
+        "twood2024-prelaunch-check-defense",
+        "規劃網站與 AI 應用的上線前防禦檢查",
+        2,
+        "evidence-linked",
+        "documentation"
+      ],
+      [
+        "agricidaniel-claude-seo",
+        "規劃網站內容與 SEO 變更驗收",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "kkkkhazix-khazix-skills",
+        "規劃個人工作協作、磁碟盤點與文章整理",
+        2,
+        "evidence-linked",
+        "collection"
+      ]
+    ]
+  ],
+  [
+    45,
+    "個人知識庫",
+    [
+      [
+        "bruiandy-claude-obsidian",
+        "規劃有來源紀錄的 Obsidian 知識整理流程",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "kepano-obsidian-vault-template",
+        "規劃日誌、來源剪藏與專案追蹤範本",
+        2,
+        "evidence-linked",
+        "collection"
+      ],
+      [
+        "kepano-obsidian-minimal",
+        "規劃知識庫專注閱讀與卡片瀏覽介面",
+        1,
+        "mapped",
+        "repository"
+      ]
+    ]
+  ],
+  [
+    46,
+    "轉錄、文件檢索及 Agent 介面",
+    [
+      [
+        "vulture-s-whisper-guard",
+        "規劃中文轉錄幻覺過濾與誤刪驗收",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "shubhamsaboo-needle",
+        "規劃長文件語意定位及原句回查",
+        1,
+        "mapped",
+        "repository"
+      ],
+      [
+        "openhands-agent-canvas",
+        "規劃多 Agent 執行環境與擴充介面治理",
+        1,
+        "mapped",
+        "repository"
+      ]
+    ]
+  ]
+]){
+ test('Dual-layer batch '+batch+': '+topic,()=>{
+  const context=vm.createContext({URL});
+  vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+  for(const [id,title,version,status,format] of rows){
+   const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+   assert.ok(built,id);
+   for(const key of ['readerGuide',version===1?'repoGuide':'agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+   assert.deepEqual(validateResourceLayerLinks(d),[],id);
+   assert.equal(d.readerGuide.mappingVersion,version,id);
+   assert.equal(d.intakeReview.layerReview.status,status,id);
+   assert.equal(d.classification.contentFormat,format,id);
+   assert.equal(d.intakeReview.verification.status,'not-tested',id);
+   assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+   assert.match(d.source.upstreamCommit,/^[a-f0-9]{40}$/);
+   assert.equal(d.readerGuide.useCases.length,3,id);
+   for(const key of ['title','input','process','output','destination','note'])assert.ok(d.readerGuide.example[key].trim().length>=12,id+' '+key);
+   for(const uc of d.readerGuide.useCases){
+    const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+    for(const ref of version===1?uc.capabilityRefs:uc.evidenceRefs){
+     const item=(version===1?forward.capabilities:forward.evidence).find(u=>u.id===ref);
+     assert.ok(item&&item.runtimeStatus==='not-tested',id+' '+ref);
+     if(version===1)assert.ok(item.sourceUrls?.length&&item.sourceUrls.every(url=>url.includes(d.repo+'/blob/'+d.source.upstreamCommit)),id+' '+ref);
+     else assert.ok(item.locator&&Object.keys(item.fields).length,id+' '+ref);
+     assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+    }
+   }
+   const html=context.detail(built);
+   assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);
+   assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+  }
+ });
+}
