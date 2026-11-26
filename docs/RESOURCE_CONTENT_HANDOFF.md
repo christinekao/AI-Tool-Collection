@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 08（2026-11-26）
+
+- [Batch 08｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH08_20261126.md)：kepano-obsidian-minimal 至 llm，20/20 已讀取，15 候選修正、5 保留（含 Land-book deferred）。僅修改 purpose/start，保留案例、來源、證據、分類、Tags、Typed References 與 Graph 關係。
+- 基於 #128 Head fa0ae2bc5880928bbc6234963c4c34b60f88e0de 準備；#128 三項 CI PASS，P1 Browser 尚執行。先合併 #128，再將本批指向 main 並驗收四項 CI。#127 Catalog Sync、Pages PASS；正式 deployed Chromium 未驗收。
+- 固定順序候選累計 160/286，映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 loopagentteams 起取 20 筆；P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 07（2026-11-26）
 
 - [Batch 07｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH07_20261126.md)：heygen-com-hyperframes 至 kepano-40-questions，20/20 已讀取，15 候選修正、5 保留。Hindsight 補連結既有 Bank 拒絕、引用及刪除例外的案例步驟，未新增證據；三筆 deferred 維持。其他欄位及 Graph 關係保留。

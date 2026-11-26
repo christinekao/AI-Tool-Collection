@@ -2903,3 +2903,21 @@ test('Resource quality batch 07: practical starts, deferred boundaries and Hinds
  assert.ok(e.useCaseRefs.includes(c.id));assert.deepEqual(e.steps.find(x=>x.id===c.id).evidenceRefs,c.evidenceRefs);
  assert.equal(e.steps.at(-1).id,'test');assert.match(e.note,/未執行第三方/);
 });
+
+
+test('Resource quality batch 08: practical starts and retained source constraints',()=>{
+ const expected={"kepano-obsidian-minimal":"合成筆記、資料表","kepano-obsidian-vault-template":"一則合成日誌","kerr20801-taiwan-stock-ai-analyzer":"合成價格序列","kieiken-project-hub":"兩個合成專案及獨立工作目錄","kkkkhazix-khazix-skills":"一項個人工作需求","kubai087-kubai-icons":"自有履歷管理介面的導航","lakris2407-herdr-agent-quota":"合成供應商額度資料","lawpowen-ui-design-codex-bundle":"一個設計問題","laya":"合成分類器","leemysw-yovoice":"自撰兩段繁體中文教學旁白","lemomo-ai-lemo-opuscar":"自有教學短片","leonxlnx-taste-skill":"自有企業首頁的真實產品內容","letswrite-buzz-self-hosted-relay-guide":"隔離 Relay 測試環境","lieflat-less-ai-tone":"自撰繁體中文技術文章","littlehole2025-token-saver":"合成長對話 transcript"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const land=JSON.parse(fs.readFileSync('data/resources/land-book-design-inspiration.json','utf8'));
+ assert.equal(land.intakeReview.layerReview.status,'deferred');assert.match(land.intakeReview.layerReview.gap,/403/);
+ const stock=JSON.parse(fs.readFileSync('data/resources/kerr20801-taiwan-stock-ai-analyzer.json','utf8'));
+ assert.match(stock.readerGuide.start[1],/隨機新聞分數/);assert.match(stock.readerGuide.start[1],/不可把回退或模擬值視為市場證據/);
+});

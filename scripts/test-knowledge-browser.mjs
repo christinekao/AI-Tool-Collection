@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch08Phrases={"kepano-obsidian-minimal":"合成筆記、資料表","kepano-obsidian-vault-template":"一則合成日誌","kerr20801-taiwan-stock-ai-analyzer":"合成價格序列","kieiken-project-hub":"兩個合成專案及獨立工作目錄","kkkkhazix-khazix-skills":"一項個人工作需求","kubai087-kubai-icons":"自有履歷管理介面的導航","lakris2407-herdr-agent-quota":"合成供應商額度資料","lawpowen-ui-design-codex-bundle":"一個設計問題","laya":"合成分類器","leemysw-yovoice":"自撰兩段繁體中文教學旁白","lemomo-ai-lemo-opuscar":"自有教學短片","leonxlnx-taste-skill":"自有企業首頁的真實產品內容","letswrite-buzz-self-hosted-relay-guide":"隔離 Relay 測試環境","lieflat-less-ai-tone":"自撰繁體中文技術文章","littlehole2025-token-saver":"合成長對話 transcript"};
+  if(qualityBatch08Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch08Phrases[id])+')'),id);
+  }
   const qualityBatch07Phrases={"hindsight":"兩個合成專案的記憶 bank","hirakujira-pokeep":"虛構收藏清單","hkuds-vimax":"圖片及影片後端 YAML","humanlayer":"前端與 API 測試 Repo","ice1187-tw-security-and-ctf-resource":"合法隔離的練習環境","impeccable":"一項介面問題","infiniflow-ragflow":"五份合成規章","irons163-orchestrate-sol-terra-luna":"舊收藏名稱與 Canonical ID","irons163-three-tier-agent-orchestrator":"相互獨立的任務","jakeschincariol-day-trader-skill":"虛構交易計畫","jit-learning-loop":"學習者需自行回答的檢查點","jub0t-concat":"事件先於工作 ID","juneyaooo-rea-video":"人工標註鏡頭","k-dense-ai-scientific-agent-skills":"一個合成研究問題","kepano-40-questions":"年度或十年回顧"};
   if(qualityBatch07Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch07Phrases[id])+')'),id);
