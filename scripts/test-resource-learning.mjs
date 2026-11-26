@@ -2868,3 +2868,19 @@ test('Resource quality batch 05: practical starts and unchanged deferred boundar
  const d=JSON.parse(fs.readFileSync('data/resources/designed-to-scale.json','utf8'));
  assert.match(d.readerGuide.start[1],/實際互動章節尚未讀取/);assert.match(d.intakeReview.layerReview.gap,/互動內容未能擷取/);
 });
+
+
+test('Resource quality batch 06: concrete starts and retained evidence boundary',()=>{
+ const expected={"googlechrome-modern-web-guidance":"手機導覽與桌面側欄需求","graft":"兩個自有測試 Repo","graphify-labs-graphify":"固定 v3","guizang-product-video-skill":"預期開場畫面","gzh-design-skill":"自有 Markdown 教學文章","hao0321-editkin":"合成渲染圖","harry0703-moneyprinterturbo":"素材方向異常案例","hbai-ltd-toonflow-app":"兩個隔離測試工作區","herdr-mods-gallery":"待人工處理提醒","herdrdev-herdr":"兩個自有測試 CLI Agent","hermes-backsearch":"明確截止日","hermes-memory-wiki":"兩個合成 profile","hermes-snyk-plugin":"禁止外送的內容","hesreallyhim-awesome-claude-code":"跨 Session 記憶或 PR 回歸驗收","heydamir-unslop":"一個設計問題"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((id==='hermes-snyk-plugin'?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const snyk=JSON.parse(fs.readFileSync('data/resources/hermes-snyk-plugin.json','utf8'));
+ assert.match(snyk.readerGuide.start[1],/仍待驗證即時工具 schema/);assert.match(snyk.readerGuide.start[2],/停用 analytics 不代表離線/);
+});

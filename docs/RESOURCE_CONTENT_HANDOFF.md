@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 06（2026-11-26）
+
+- [Batch 06｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH06_20261126.md)：google-flow 至 heydamir-unslop，20/20 已讀取，15 候選修正、5 保留。僅修改 purpose/start，保留來源、證據、案例、分類、Tags、Typed References 與 Graph 關係；Hermes Snyk 維持 deferred。
+- 基於 #126 Head 745348b7a47d304a0eafa5d74c4e1298943feb7f 準備；當時 #126 三項 CI PASS、P1 Browser 尚執行。先合併 #126，再將本批指向 main 並驗收四項 CI。#125 Catalog Sync 與 Pages 已 PASS；正式 deployed Chromium 未驗收。
+- 固定順序候選累計 120/286，映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 heygen-com-hyperframes 起取 20 筆。P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 05（2026-11-26）
 
 - [Batch 05｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH05_20261126.md)：deepseek-dsh-superagent-prototype 至 github-agentic-workflows，20/20 已讀取，19 候選修正、1 保留。完整 JSON 比對僅修改 purpose/start，保留來源、證據、案例、分類、Tags、Typed References 與 Graph 關係；Designed to Scale 維持 deferred。
