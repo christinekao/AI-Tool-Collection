@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch04Phrases={"citypulso-pulsoicon":"自有 Kotlin Compose 測試頁","claude-codex-harness-sync":"兩套合成專案設定","claude-mem":"兩個合成專案","claude-svg-animation-logo-loading-chart-tutorial":"合成長條圖","cloudflare-cloudflare-os":"合成企業知識庫","codebase-index":"共用表單欄位變更","codebase-memory-mcp":"一項 API 變更","composiohq-awesome-claude-skills":"整理合成 CSV","copywriting-skill":"一頁自有作品集或產品頁","coreyhaines31-marketingskills":"各技能共用的產品背景","cursor-plugins":"學習架構或驗收 PR","cursor-pstack-poteto":"可操作的驗收入口","cyyeh-agent-loop-visualizer":"一組合成 Agent 事件","danyuchn-claude-work-mode":"需人工決策的事項","debpalash-voicestudio":"自撰雙語教學腳本"};
+  if(qualityBatch04Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch04Phrases[id])+')'),id);
+  }
   const qualityBatch03Phrases={"aws-samples-sample-agent-cost-bench":"固定 Git 基線","ayueh0102-ronnier-skill":"物理量與知覺量","baoyu-skill":"需要圖解的段落","bencho":"可調整的雙欄面板","better-me-notes-amie":"將學到的知識轉為實際行動","bi0h4z4rd88-pi-sidebar-tui":"合成 Pi Session 用量","blader-humanizer":"不可變動的數字","blave-agent":"不同市場的交易成本假設","block-buzz":"兩個合成協作頻道","blogger-distiller":"合成貼文及巢狀評論","bobyu89-codex-ppt-style-expanded":"必須保持可編輯","brandonhimpfen-awesome-finance":"歷史價格資料的來源與欄位","bruiandy-claude-obsidian":"獨立的合成 Obsidian Vault","charonyuu-whatsmyagentdoing":"匿名合成的本機 Session 日誌","chatfire-ai-huobao-drama":"哪些提示詞應重用或重新生成"};
   if(qualityBatch03Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch03Phrases[id])+')'),id);

@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 04（2026-11-26）
+
+- PR #124 四項 CI PASS，合併 c9c5cc9eae89519b5edf01afe38520bd0b42783e；Catalog Sync 45776100838 PASS，生成提交 e8024628cd9e3fc27ab531da359b59642ded7856；Pages 45776135334 PASS，main P1 尚執行；正式 deployed Chromium 未驗收。
+- [Batch 04｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH04_20261126.md)：citypulso-pulsoicon 至 debpalash-voicestudio，20/20 已讀取，15 候選修正、4 原內容保留、1 Source-blocked 保留；codex-router 不以同名候選取代。僅修改 purpose/start，保留證據、案例、分類、Tags、Typed References 與 Graph 關係。新增單元及 Browser Regression。
+- 固定順序正式審查 60/286，候選累計 80/286；映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 deepseek-dsh-superagent-prototype 起取 20 筆，P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 03（2026-11-26）
 
 - [Batch 03｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH03_20261126.md)：aws-samples-sample-agent-cost-bench 至 chatfire-ai-huobao-drama，20/20 已讀取，15 候選修正、5 保留；新增單元與 Browser Regression。完整 JSON 比對確認僅修改 purpose 與 start，不改來源、證據、案例、ID、分類、Tags 或 Graph 關係。
