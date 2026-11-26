@@ -6,7 +6,7 @@
   "canonicalName": "alexyc9381/hiring-panel-skill",
   "category": "04 Career & Productivity",
   "resourceType": "Claude Code resume review agent skill",
-  "purpose": "對指定履歷與職缺進行 ATS 可讀性／關鍵字模擬、主管面試判斷及五位獨立角色的履歷評估，合併拒絕理由、依嚴重度排序、依既有事實重寫並重新模擬 ATS 結果。",
+  "purpose": "提供多角色履歷審查與重寫流程，依職缺模擬文字可讀性、主管判斷及獨立讀者觀點，最後重新檢查改寫結果。",
   "url": "https://github.com/alexyc9381/hiring-panel-skill",
   "repo": "alexyc9381/hiring-panel-skill",
   "versionReviewed": "1.0.0",
@@ -70,7 +70,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-12",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "hiring-panel",
     "claude-code",
@@ -94,10 +94,16 @@
       "https://github.com/alexyc9381/hiring-panel-skill/blob/main/skills/hiring-panel/SKILL.md",
       "https://github.com/alexyc9381/hiring-panel-skill/blob/main/LICENSE"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official GitHub README, Skill source and LICENSE; no execution",
     "readmeUrl": "https://github.com/alexyc9381/hiring-panel-skill/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README.md、LICENSE、skills/hiring-panel/SKILL.md 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a",
+    "referenceUrls": [
+      "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/README.md",
+      "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/LICENSE",
+      "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md"
+    ]
   },
   "classification": {
     "primaryDomain": "career",
@@ -110,9 +116,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1",
-    "contentFormat": "repository",
+    "contentFormat": "documentation",
     "formatEvidenceFields": [
-      "url"
+      "source.referenceUrls",
+      "resourceType"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -120,40 +127,225 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始 Tags 保留原樣；本批沒有新標籤或分類架構變更。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留 Primary Domain career、Category 與原始 Tags；只補來源和使用限制。",
+    "classificationReason": "保留既有 Primary Domain career、Tags、Category、Typed References。來源為單一 Skill 操作文件與驗證測試，Content Format 校正為 documentation，原分類留存。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、skills/hiring-panel/SKILL.md 局部查核；未安裝、執行或實測第三方項目。 文件規則，非程式重建。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "尚無實際整合與 I/O 驗證，不新增 Capability。"
+      "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
     },
     "conceptReview": {
-      "decision": "candidate",
-      "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
+      "decision": "reused",
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+    "riskNotes": "MIT；履歷資料使用須另行核准；七位審查者是 AI 模擬角色，不是真實企業 ATS 或 HR，也不保證面試。；同一模型生成的多視角評估不代表真正獨立的人類共識。；不應把關鍵字匹配當成所有 ATS 的通用演算法。；若只有履歷沒有完整 JD，關鍵字缺漏評估會較不準確。；模型模擬不是企業真正的 ATS；缺少職缺時先確認角色，不捏造資訊。；來源要求獨立審查、不可互見筆記；需要執行環境真的支援子 Agent，且模型判斷仍有主觀性。；缺資料須留待補標記；指定目錄寫入須經授權，模擬通過不保證面試或錄取。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README.md、LICENSE、skills/hiring-panel/SKILL.md 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、skills/hiring-panel/SKILL.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "對指定履歷與職缺進行 ATS 可讀性／關鍵字模擬、主管面試判斷及五位獨立角色的履歷評估，合併拒絕理由、依嚴重度排序、依既有事實重寫並重新模擬 ATS 結果。",
+      "source": "https://github.com/alexyc9381/hiring-panel-skill",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorClassificationSnapshot": {
+      "primaryDomain": "career",
+      "secondaryDomains": [],
+      "purposeFacets": [],
+      "reviewStatus": "pilot-proposed",
+      "evidenceFields": [
+        "purpose",
+        "category"
+      ],
+      "classifiedAt": "2026-11-19",
+      "rulesVersion": "v0.1",
+      "contentFormat": "repository",
+      "formatEvidenceFields": [
+        "url"
+      ],
+      "taxonomyVersion": "1.0"
+    },
+    "documentContracts": [
+      {
+        "name": "模擬履歷文字與職缺關鍵字檢查",
+        "input": "履歷及目標職缺",
+        "output": "模擬通過或拒絕及最多五項具原文的理由",
+        "source": "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md",
+        "locator": "1. Get the resume and the job / 2. The automated screen",
+        "limitations": "模型模擬不是企業真正的 ATS；缺少職缺時先確認角色，不捏造資訊。"
+      },
+      {
+        "name": "從獨立角色收集履歷問題",
+        "input": "同一履歷與職缺、分開提供角色指示",
+        "output": "主管與五個獨立讀者的判斷及去重問題",
+        "source": "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md",
+        "locator": "3. The hiring manager / 4. Five readers, alone / 5. What is wrong",
+        "limitations": "來源要求獨立審查、不可互見筆記；需要執行環境真的支援子 Agent，且模型判斷仍有主觀性。"
+      },
+      {
+        "name": "保真改寫與再次模擬檢查",
+        "input": "已排序問題、原始履歷及本人提供的補充事實",
+        "output": "改寫稿、待補欄位、前後模擬判斷及審查報告",
+        "source": "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md",
+        "locator": "6. Rebuild it / 7. Write the result / Rules",
+        "limitations": "缺資料須留待補標記；指定目錄寫入須經授權，模擬通過不保證面試或錄取。"
+      }
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "screen",
+      "detail": "排版或關鍵字缺漏可能降低履歷可讀性。 輸入：履歷及目標職缺；輸出：模擬通過或拒絕及最多五項具原文的理由",
+      "locator": "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md — 1. Get the resume and the job / 2. The automated screen",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "模型模擬不是企業真正的 ATS；缺少職缺時先確認角色，不捏造資訊。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "panel",
+      "detail": "單一審查觀點可能忽略成果、職務或協作證據。 輸入：同一履歷與職缺、分開提供角色指示；輸出：主管與五個獨立讀者的判斷及去重問題",
+      "locator": "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md — 3. The hiring manager / 4. Five readers, alone / 5. What is wrong",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "來源要求獨立審查、不可互見筆記；需要執行環境真的支援子 Agent，且模型判斷仍有主觀性。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "rewrite",
+      "detail": "為了提高履歷吸引力可能引入虛構事實。 輸入：已排序問題、原始履歷及本人提供的補充事實；輸出：改寫稿、待補欄位、前後模擬判斷及審查報告",
+      "locator": "https://github.com/alexyc9381/hiring-panel-skill/blob/3ec597eb85a904efd17f9171e18f1b8d9dfe4e1a/skills/hiring-panel/SKILL.md — 6. Rebuild it / 7. Write the result / Rules",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "缺資料須留待補標記；指定目錄寫入須經授權，模擬通過不保證面試或錄取。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "recommendation": "適合自有履歷與 JD 的結構化第二意見；不得新增未確認的經歷、數字或技能，不視為真正 ATS 或面試結果。",
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-screen",
+        "title": "模擬履歷文字與職缺關鍵字檢查",
+        "detail": "排版或關鍵字缺漏可能降低履歷可讀性。 輸出：模擬通過或拒絕及最多五項具原文的理由。",
+        "evidenceRefs": [
+          "screen"
+        ]
+      },
+      {
+        "id": "use-panel",
+        "title": "從獨立角色收集履歷問題",
+        "detail": "單一審查觀點可能忽略成果、職務或協作證據。 輸出：主管與五個獨立讀者的判斷及去重問題。",
+        "evidenceRefs": [
+          "panel"
+        ]
+      },
+      {
+        "id": "use-rewrite",
+        "title": "保真改寫與再次模擬檢查",
+        "detail": "為了提高履歷吸引力可能引入虛構事實。 輸出：改寫稿、待補欄位、前後模擬判斷及審查報告。",
+        "evidenceRefs": [
+          "rewrite"
+        ]
+      }
+    ],
+    "example": {
+      "id": "alexyc9381-hiring-panel-skill-example",
+      "title": "規劃職缺客製履歷的多角色審查與事實驗收",
+      "input": "本人授權的履歷、職缺內容及已確認的工作經歷。",
+      "process": "模擬履歷文字與職缺關鍵字檢查 → 從獨立角色收集履歷問題 → 保真改寫與再次模擬檢查 → 獨立驗收實際成果",
+      "output": "多角色審查摘要、問題清單、保真改寫稿及前後模擬結果。",
+      "destination": "自有履歷與投遞管理系統，經本人確認後才投遞。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-screen",
+        "use-panel",
+        "use-rewrite"
+      ],
+      "steps": [
+        {
+          "id": "screen",
+          "title": "模擬履歷文字與職缺關鍵字檢查",
+          "evidenceRefs": [
+            "screen"
+          ]
+        },
+        {
+          "id": "panel",
+          "title": "從獨立角色收集履歷問題",
+          "evidenceRefs": [
+            "panel"
+          ]
+        },
+        {
+          "id": "rewrite",
+          "title": "保真改寫與再次模擬檢查",
+          "evidenceRefs": [
+            "rewrite"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准資料、授權、環境、修改權限與人工成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備本人授權的履歷、職缺內容及已確認的工作經歷。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准測試環境後，以合成資料驗證正常與失敗情境。"
+    ],
+    "limits": [
+      "七位審查者是 AI 模擬角色，不是真實企業 ATS 或 HR，也不保證面試。",
+      "同一模型生成的多視角評估不代表真正獨立的人類共識。",
+      "不應把關鍵字匹配當成所有 ATS 的通用演算法。",
+      "若只有履歷沒有完整 JD，關鍵字缺漏評估會較不準確。",
+      "模型模擬不是企業真正的 ATS；缺少職缺時先確認角色，不捏造資訊。",
+      "來源要求獨立審查、不可互見筆記；需要執行環境真的支援子 Agent，且模型判斷仍有主觀性。",
+      "缺資料須留待補標記；指定目錄寫入須經授權，模擬通過不保證面試或錄取。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
   }
 }

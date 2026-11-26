@@ -1,3 +1,11 @@
+# Resource 最新交接｜雙層知識 Batch 51（2026-11-26）
+
+- PR #100 四項 CI PASS，合併 `de9243a5f436ee47c8fa47b93d3db896eba00ab1`；main 基線 `5f576571bf96e09daf38f208bb106a3df2d39781`。186/286 已合併（179 完成對應、7 deferred）。
+- [Batch 51｜教學 Agent、工程學習與履歷審查](RESOURCE_DUAL_LAYER_BATCH51_20261126.md)：thu-maic-openmaic、jit-learning-loop、alexyc9381-hiring-panel-skill；2 mapped、1 evidence-linked 候選、9 用途、6 局部能力、3 文件證據、3 design-only 案例。第三方未實測。
+- 合併後預計 189/286（182 完成對應、7 deferred）；97 尚未改寫。先確認四項 CI、合併與 Catalog Sync／Pages。Batch 52～56 尚未執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 50（2026-11-26）
 
 - PR #99 四項 CI PASS，合併 `0c4a350c21d5ad20e19b90e9015212beb747da02`。183/286 已合併（176 完成對應、7 deferred）。

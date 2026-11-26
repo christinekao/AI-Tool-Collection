@@ -6,15 +6,15 @@
   "canonicalName": "OpenMAIC",
   "category": "AI Learning & Multi-Agent Applications",
   "resourceType": "Open-source multi-agent interactive classroom platform",
-  "purpose": "將主題或文件轉換為 AI 教師與 AI 同學參與的互動教室，產生投影片、測驗、互動 HTML 模擬、專題式學習、白板講解與語音內容。",
-  "recommendation": "適合研究多代理教學協作、互動學習內容生成、課程持久化、可重用 Agent Skill 與 Communication Gym 類型產品的技術設計；不代表內建特定的職場表達訓練或客製化評分能力。",
+  "purpose": "以需求與教材建立 AI 互動教室，支援非同步生成、按擁有者查詢進度與人工確認課程大綱。",
+  "recommendation": "適合設計可審閱的大綱與教材生成流程；不要將生成完成當成教材正確或適教。",
   "url": "https://github.com/THU-MAIC/OpenMAIC",
   "repo": "THU-MAIC/OpenMAIC",
   "website": "https://open.maic.chat",
   "license": "MIT",
   "status": "active",
   "addedAt": "2026-11-03",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "multi-agent",
     "interactive-learning",
@@ -61,10 +61,18 @@
       "https://github.com/THU-MAIC/OpenMAIC/blob/main/README.md",
       "https://github.com/THU-MAIC/OpenMAIC/blob/main/skills/openmaic/SKILL.md"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream GitHub README and SKILL.md",
     "readmeUrl": "https://github.com/THU-MAIC/OpenMAIC/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README.md、LICENSE、app/api/generate-classroom/route.ts、app/api/generate-classroom/[jobId]/route.ts、app/api/generation-runs/[id]/confirm-outline/route.ts 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c",
+    "referenceUrls": [
+      "https://github.com/THU-MAIC/OpenMAIC/blob/a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c/README.md",
+      "https://github.com/THU-MAIC/OpenMAIC/blob/a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c/LICENSE",
+      "https://github.com/THU-MAIC/OpenMAIC/blob/a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c/app/api/generate-classroom/route.ts",
+      "https://github.com/THU-MAIC/OpenMAIC/blob/a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c/app/api/generate-classroom/[jobId]/route.ts",
+      "https://github.com/THU-MAIC/OpenMAIC/blob/a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c/app/api/generation-runs/[id]/confirm-outline/route.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -97,40 +105,395 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始 Tags 保留原樣；本批沒有新標籤或分類架構變更。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留 Primary Domain ai-agent、Category 與原始 Tags；只補來源和使用限制。",
+    "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、app/api/generate-classroom/route.ts、app/api/generate-classroom/[jobId]/route.ts、app/api/generation-runs/[id]/confirm-outline/route.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "尚無實際整合與 I/O 驗證，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
-      "decision": "candidate",
-      "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
+      "decision": "reused",
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+    "riskNotes": "MIT；模型及教材授權另查；生成教學內容可能出錯；部署時需管控費用和使用者資料；此相容入口自動確認大綱；需人工大綱審查時使用不同的 generation-run 流程；202 不是完成。；依擁有者查詢；未知或不屬於擁有者的工作同為 404；資料隔離仍須實測。；路由檢查模型授權、擁有者、版本及配額；註解規定命令識別冪等，實際重送行為仍須測試。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README.md、LICENSE、app/api/generate-classroom/route.ts、app/api/generate-classroom/[jobId]/route.ts、app/api/generation-runs/[id]/confirm-outline/route.ts 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、app/api/generate-classroom/route.ts、app/api/generate-classroom/[jobId]/route.ts、app/api/generation-runs/[id]/confirm-outline/route.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將主題或文件轉換為 AI 教師與 AI 同學參與的互動教室，產生投影片、測驗、互動 HTML 模擬、專題式學習、白板講解與語音內容。",
+      "source": "https://github.com/THU-MAIC/OpenMAIC",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究多代理教學協作、互動學習內容生成、課程持久化、可重用 Agent Skill 與 Communication Gym 類型產品的技術設計；不代表內建特定的職場表達訓練或客製化評分能力。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-start",
+        "title": "建立教室生成工作",
+        "detail": "教材生成需要隔離使用者資料並確認模型可用。 輸出：202 工作檢視或輸入、模型、配額拒絕回應。",
+        "capabilityRefs": [
+          "start"
+        ]
+      },
+      {
+        "id": "use-poll",
+        "title": "回查教室及媒體進度",
+        "detail": "非同步生成不能用請求成功判定產物完成。 輸出：教室工作與媒體狀態檢視或 404。",
+        "capabilityRefs": [
+          "poll"
+        ]
+      },
+      {
+        "id": "use-outline",
+        "title": "以版本及命令識別確認大綱",
+        "detail": "人工修改大綱時須避免覆蓋其他版本。 輸出：確認結果或 409 狀態衝突、429 配額拒絕。",
+        "capabilityRefs": [
+          "outline"
+        ]
+      }
+    ],
+    "example": {
+      "id": "thu-maic-openmaic-example",
+      "title": "規劃 AI 互動教室的教材生成與大綱確認",
+      "input": "自撰課程需求、合成教材與已授權測試模型。",
+      "process": "建立教室生成工作 → 回查教室及媒體進度 → 以版本及命令識別確認大綱 → 獨立驗收實際成果",
+      "output": "教室任務識別、大綱確認紀錄、生成狀態與教材驗收規格。",
+      "destination": "自有學習平台，經人工教學及事實覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-start",
+        "use-poll",
+        "use-outline"
+      ],
+      "steps": [
+        {
+          "id": "start",
+          "title": "建立教室生成工作",
+          "capabilityRefs": [
+            "start"
+          ]
+        },
+        {
+          "id": "poll",
+          "title": "回查教室及媒體進度",
+          "capabilityRefs": [
+            "poll"
+          ]
+        },
+        {
+          "id": "outline",
+          "title": "以版本及命令識別確認大綱",
+          "capabilityRefs": [
+            "outline"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准資料、授權、環境、修改權限與人工成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自撰課程需求、合成教材與已授權測試模型。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准測試環境後，以合成資料驗證正常與失敗情境。"
+    ],
+    "limits": [
+      "生成教學內容可能出錯；部署時需管控費用和使用者資料",
+      "此相容入口自動確認大綱；需人工大綱審查時使用不同的 generation-run 流程；202 不是完成。",
+      "依擁有者查詢；未知或不屬於擁有者的工作同為 404；資料隔離仍須實測。",
+      "路由檢查模型授權、擁有者、版本及配額；註解規定命令識別冪等，實際重送行為仍須測試。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以需求與教材建立 AI 互動教室，支援非同步生成、按擁有者查詢進度與人工確認課程大綱。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；模型及教材授權另查"
+      },
+      {
+        "label": "版本",
+        "value": "a2aa17e9afdb281debb0d2d5ddc33fad0a2cfe2c"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立教室生成工作",
+        "detail": "教材生成需要隔離使用者資料並確認模型可用。 輸入：需求文字、可選教材 ID 與請求身分；輸出：202 工作檢視或輸入、模型、配額拒絕回應",
+        "source": "app/api/generate-classroom/route.ts"
+      },
+      {
+        "title": "回查教室及媒體進度",
+        "detail": "非同步生成不能用請求成功判定產物完成。 輸入：工作 ID 與請求擁有者；輸出：教室工作與媒體狀態檢視或 404",
+        "source": "app/api/generate-classroom/[jobId]/route.ts"
+      },
+      {
+        "title": "以版本及命令識別確認大綱",
+        "detail": "人工修改大綱時須避免覆蓋其他版本。 輸入：等待大綱的 run ID、大綱 revision、可選修改內容及 commandId；輸出：確認結果或 409 狀態衝突、429 配額拒絕",
+        "source": "app/api/generation-runs/[id]/confirm-outline/route.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "建立教室生成工作 → 回查教室及媒體進度 → 以版本及命令識別確認大綱 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立教室生成工作",
+          "detail": "需求文字、可選教材 ID 與請求身分 → 202 工作檢視或輸入、模型、配額拒絕回應",
+          "files": [
+            "app/api/generate-classroom/route.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "回查教室及媒體進度",
+          "detail": "工作 ID 與請求擁有者 → 教室工作與媒體狀態檢視或 404",
+          "files": [
+            "app/api/generate-classroom/[jobId]/route.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "以版本及命令識別確認大綱",
+          "detail": "等待大綱的 run ID、大綱 revision、可選修改內容及 commandId → 確認結果或 409 狀態衝突、429 配額拒絕",
+          "files": [
+            "app/api/generation-runs/[id]/confirm-outline/route.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立教室生成工作",
+        "rule": "此相容入口自動確認大綱；需人工大綱審查時使用不同的 generation-run 流程；202 不是完成。",
+        "source": "app/api/generate-classroom/route.ts"
+      },
+      {
+        "name": "回查教室及媒體進度",
+        "rule": "依擁有者查詢；未知或不屬於擁有者的工作同為 404；資料隔離仍須實測。",
+        "source": "app/api/generate-classroom/[jobId]/route.ts"
+      },
+      {
+        "name": "以版本及命令識別確認大綱",
+        "rule": "路由檢查模型授權、擁有者、版本及配額；註解規定命令識別冪等，實際重送行為仍須測試。",
+        "source": "app/api/generation-runs/[id]/confirm-outline/route.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、app/api/generate-classroom/route.ts、app/api/generate-classroom/[jobId]/route.ts、app/api/generation-runs/[id]/confirm-outline/route.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "app/api/generate-classroom/route.ts",
+          "app/api/generate-classroom/[jobId]/route.ts",
+          "app/api/generation-runs/[id]/confirm-outline/route.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自撰課程需求、合成教材與已授權測試模型。 核對固定版本、授權、資料邊界與操作限制。 核准測試環境後，以合成資料驗證正常與失敗情境。",
+        "files": [
+          "app/api/generate-classroom/route.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有學習平台，經人工教學及事實覆核後使用。",
+        "file": "app/api/generate-classroom/route.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "start",
+        "name": "建立教室生成工作",
+        "problem": "教材生成需要隔離使用者資料並確認模型可用。",
+        "input": "需求文字、可選教材 ID 與請求身分",
+        "output": "202 工作檢視或輸入、模型、配額拒絕回應",
+        "source": "app/api/generate-classroom/route.ts",
+        "sourceFiles": [
+          "app/api/generate-classroom/route.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "POST",
+          "parseClassroomJobBody",
+          "startGenerationRun"
+        ],
+        "gate": "此相容入口自動確認大綱；需人工大綱審查時使用不同的 generation-run 流程；202 不是完成。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "poll",
+        "name": "回查教室及媒體進度",
+        "problem": "非同步生成不能用請求成功判定產物完成。",
+        "input": "工作 ID 與請求擁有者",
+        "output": "教室工作與媒體狀態檢視或 404",
+        "source": "app/api/generate-classroom/[jobId]/route.ts",
+        "sourceFiles": [
+          "app/api/generate-classroom/[jobId]/route.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "GET",
+          "readGenerationRunWithMedia",
+          "classroomJobView"
+        ],
+        "gate": "依擁有者查詢；未知或不屬於擁有者的工作同為 404；資料隔離仍須實測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "outline",
+        "name": "以版本及命令識別確認大綱",
+        "problem": "人工修改大綱時須避免覆蓋其他版本。",
+        "input": "等待大綱的 run ID、大綱 revision、可選修改內容及 commandId",
+        "output": "確認結果或 409 狀態衝突、429 配額拒絕",
+        "source": "app/api/generation-runs/[id]/confirm-outline/route.ts",
+        "sourceFiles": [
+          "app/api/generation-runs/[id]/confirm-outline/route.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "POST",
+          "parseConfirmOutline",
+          "confirmGenerationRunOutline"
+        ],
+        "gate": "路由檢查模型授權、擁有者、版本及配額；註解規定命令識別冪等，實際重送行為仍須測試。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 AI 互動教室的教材生成與大綱確認（設計示例）",
+      "problem": "自撰課程需求、合成教材與已授權測試模型。",
+      "steps": [
+        {
+          "capability": "start",
+          "action": "建立教室生成工作"
+        },
+        {
+          "capability": "poll",
+          "action": "回查教室及媒體進度"
+        },
+        {
+          "capability": "outline",
+          "action": "以版本及命令識別確認大綱"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "thu-maic-openmaic-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自撰課程需求、合成教材與已授權測試模型。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立教室生成工作 → 回查教室及媒體進度 → 以版本及命令識別確認大綱 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有學習平台，經人工教學及事實覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "生成教學內容可能出錯；部署時需管控費用和使用者資料",
+        "此相容入口自動確認大綱；需人工大綱審查時使用不同的 generation-run 流程；202 不是完成。",
+        "依擁有者查詢；未知或不屬於擁有者的工作同為 404；資料隔離仍須實測。",
+        "路由檢查模型授權、擁有者、版本及配額；註解規定命令識別冪等，實際重送行為仍須測試。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "生成教學內容可能出錯；部署時需管控費用和使用者資料；此相容入口自動確認大綱；需人工大綱審查時使用不同的 generation-run 流程；202 不是完成。；依擁有者查詢；未知或不屬於擁有者的工作同為 404；資料隔離仍須實測。；路由檢查模型授權、擁有者、版本及配額；註解規定命令識別冪等，實際重送行為仍須測試。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、app/api/generate-classroom/route.ts、app/api/generate-classroom/[jobId]/route.ts、app/api/generation-runs/[id]/confirm-outline/route.ts 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
