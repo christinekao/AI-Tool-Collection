@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch09Phrases={"loopagentteams":"已核准 Spec","lucasmarkes-hairline":"裝飾性線條圖形","madebypan-figcc":"合成 Figma 畫布","makecindy-cindy":"兩種合成 Harness 能力登記","mars-tw-freedom-erp-crm":"合成 ERP／CRM 工作區","mattpocock-skills":"一個模糊需求或可重現的錯誤","michael-denyer-pstack-claude":"兩種 Host 的可用工具","microsoft-ai-agents-for-beginners":"合成客服查詢案例","microsoft-tokeneconomizer":"合成歷史 Session 與固定開發任務","minchenlee-loadsketch":"兩個架構方案","minimax-code":"合成專案的一項小功能","minimax-m3-1-flash":"圖片理解題"};
+  if(qualityBatch09Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch09Phrases[id])+')'),id);
+  }
   const qualityBatch08Phrases={"kepano-obsidian-minimal":"合成筆記、資料表","kepano-obsidian-vault-template":"一則合成日誌","kerr20801-taiwan-stock-ai-analyzer":"合成價格序列","kieiken-project-hub":"兩個合成專案及獨立工作目錄","kkkkhazix-khazix-skills":"一項個人工作需求","kubai087-kubai-icons":"自有履歷管理介面的導航","lakris2407-herdr-agent-quota":"合成供應商額度資料","lawpowen-ui-design-codex-bundle":"一個設計問題","laya":"合成分類器","leemysw-yovoice":"自撰兩段繁體中文教學旁白","lemomo-ai-lemo-opuscar":"自有教學短片","leonxlnx-taste-skill":"自有企業首頁的真實產品內容","letswrite-buzz-self-hosted-relay-guide":"隔離 Relay 測試環境","lieflat-less-ai-tone":"自撰繁體中文技術文章","littlehole2025-token-saver":"合成長對話 transcript"};
   if(qualityBatch08Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch08Phrases[id])+')'),id);

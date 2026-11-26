@@ -2921,3 +2921,21 @@ test('Resource quality batch 08: practical starts and retained source constraint
  const stock=JSON.parse(fs.readFileSync('data/resources/kerr20801-taiwan-stock-ai-analyzer.json','utf8'));
  assert.match(stock.readerGuide.start[1],/隨機新聞分數/);assert.match(stock.readerGuide.start[1],/不可把回退或模擬值視為市場證據/);
 });
+
+
+test('Resource quality batch 09: practical starts and evaluation boundaries',()=>{
+ const expected={"loopagentteams":"已核准 Spec","lucasmarkes-hairline":"裝飾性線條圖形","madebypan-figcc":"合成 Figma 畫布","makecindy-cindy":"兩種合成 Harness 能力登記","mars-tw-freedom-erp-crm":"合成 ERP／CRM 工作區","mattpocock-skills":"一個模糊需求或可重現的錯誤","michael-denyer-pstack-claude":"兩種 Host 的可用工具","microsoft-ai-agents-for-beginners":"合成客服查詢案例","microsoft-tokeneconomizer":"合成歷史 Session 與固定開發任務","minchenlee-loadsketch":"兩個架構方案","minimax-code":"合成專案的一項小功能","minimax-m3-1-flash":"圖片理解題"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const load=JSON.parse(fs.readFileSync('data/resources/minchenlee-loadsketch.json','utf8'));
+ assert.match(load.readerGuide.start[2],/不把模擬判定當實際 SLA/);
+ const token=JSON.parse(fs.readFileSync('data/resources/microsoft-tokeneconomizer.json','utf8'));
+ assert.match(token.readerGuide.start[2],/提醒不等於強制停止/);
+});
