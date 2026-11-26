@@ -1,3 +1,11 @@
+# Resource 最新交接｜雙層知識 Batch 48（2026-11-26）
+
+- Batch 47 已提交 PR #97，待四項 CI 全數通過後合併；本次基於其候選 commit `7d6e8ec30a9a24743f325ae19fa5033d3a3a5d43` 接續。
+- [Batch 48｜文字與介面品質](RESOURCE_DUAL_LAYER_BATCH48_20261126.md)：blader-humanizer、heydamir-unslop、lieflat-less-ai-tone；2 mapped、1 evidence-linked 候選、9 用途、6 局部程式能力、3 文件證據、3 design-only 案例。Humanizer 依實際內容校正 Content Format，原分類領域、Tags 和關聯不變。
+- Batch 47～48 共 6 候選，合併前須確認所有 CI；兩批合併後 180/286（173 完成對應、7 deferred），106 尚未改寫。Batch 49～56 尚未執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 47（2026-11-26）
 
 - PR #96 四項 CI 通過，合併 `ca79e403a38a23078d724f9d31fa5d9e80b0274c`；Catalog Sync PASS，main 基線 `fde3343879119b5d5259e0f177af052982b0241c`。174/286 已合併（167 完成對應、7 deferred）。

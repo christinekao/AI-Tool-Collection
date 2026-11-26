@@ -1667,6 +1667,33 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  48,
+  "文字與介面品質",
+  [
+    [
+      "blader-humanizer",
+      "規劃技術文件與工作訊息的保真文字編輯",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "heydamir-unslop",
+      "規劃儀表板視覺改善與前後對照驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "lieflat-less-ai-tone",
+      "規劃中文技術文章的分級審查與保真改寫",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

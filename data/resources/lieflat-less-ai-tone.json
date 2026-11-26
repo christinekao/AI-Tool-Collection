@@ -6,14 +6,14 @@
   "canonicalName": "lieflat-less-ai-tone",
   "category": "06 Skills",
   "resourceType": "Rule-Bounded AI-Tone Cleanup Skill",
-  "purpose": "在成稿後用明確 whitelist 規則辨識與改寫常見 AI writing tells，只處理命中的模式；沒有命中規則的文字必須保留，也不能任意重組整篇文章，以降低『去 AI 味』過度改寫原意與作者聲音的風險。",
-  "recommendation": "適合把 humanize / 去 AI 味從模糊的風格要求改成可檢查的 editing pass；尤其適合希望保留原文結構與內容，只清理特定 AI 套話或語氣模式的情境。",
+  "purpose": "先量化並定位文章中的制式表達，再由人工確認修改範圍，保留原有事實和結構並產生改寫前後對照。",
+  "recommendation": "適合需要留痕的自有中文文稿編輯；不適合作者身分鑑定、全篇無界限重寫或未授權的商業交付。",
   "url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone",
   "repo": "larashero3-dotcom/lieflat-less-ai-tone",
   "notes": "Official SKILL.md confirmed. The skill explicitly uses a whitelist of detectable AI-writing patterns and requires unmatched text to remain untouched; it is intended as a post-draft cleanup pass rather than a full rewrite. This makes the transformation boundary explicit and auditable.",
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "writing",
     "editing",
@@ -86,48 +86,409 @@
   "source": {
     "url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone",
     "readmeUrl": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "Documentation only; not runtime-tested"
+    "reviewScope": "固定版本 LICENSE、SKILL.md、scripts/detect.py、scripts/report.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "fe77df00a27cf94428632ad449a4aecdcb83db41",
+    "referenceUrls": [
+      "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/fe77df00a27cf94428632ad449a4aecdcb83db41/LICENSE",
+      "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/fe77df00a27cf94428632ad449a4aecdcb83db41/SKILL.md",
+      "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/fe77df00a27cf94428632ad449a4aecdcb83db41/scripts/detect.py",
+      "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/fe77df00a27cf94428632ad449a4aecdcb83db41/scripts/report.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain content，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "維持原 Primary Domain content 與 Tags、Category、Typed References；本批補局部程式契約。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 LICENSE、SKILL.md、scripts/detect.py、scripts/report.py 局部查核；未安裝、執行或實測第三方項目。；局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "README 標示 CC BY-NC 4.0，商用前需另行授權；文字特徵不能可靠鑑別所有 AI 生成內容；僅偵測不改稿；已否決 X 類仍列入報告且不修改，閾值需針對語料重標；命中不能證明作者為 AI。；候選須由另行語意判讀確認；不可把正則候選等同有效命中；修改須先得到作者同意。；報告的指標方向並不保證語意品質；使用者核准後才能改稿，繁中語料適用性及統計研究尚未獨立驗證。；未實測相依、權限、整合與實際成果。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 LICENSE、SKILL.md、scripts/detect.py、scripts/report.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 LICENSE、SKILL.md、scripts/detect.py、scripts/report.py 局部查核；未安裝、執行或實測第三方項目。；用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在成稿後用明確 whitelist 規則辨識與改寫常見 AI writing tells，只處理命中的模式；沒有命中規則的文字必須保留，也不能任意重組整篇文章，以降低『去 AI 味』過度改寫原意與作者聲音的風險。",
+      "source": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合把 humanize / 去 AI 味從模糊的風格要求改成可檢查的 editing pass；尤其適合希望保留原文結構與內容，只清理特定 AI 套話或語氣模式的情境。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-detect",
+        "title": "保留可回查的文字特徵統計",
+        "detail": "全文印象不足以定位哪些句子需要改善。 輸出：分級命中、統計與可存檔的 JSON。",
+        "capabilityRefs": [
+          "detect"
+        ]
+      },
+      {
+        "id": "use-candidates",
+        "title": "抽取需要語意判斷的候選",
+        "detail": "字面特徵未必代表語意不清楚。 輸出：供封閉判據人工或模型標記的候選。",
+        "capabilityRefs": [
+          "candidates"
+        ]
+      },
+      {
+        "id": "use-report",
+        "title": "產生改寫前後的對照報告",
+        "detail": "改稿需要保留可稽核的指標與文字變更。 輸出：Markdown 或 HTML 指標及文字差異報告。",
+        "capabilityRefs": [
+          "report"
+        ]
+      }
+    ],
+    "example": {
+      "id": "lieflat-less-ai-tone-example",
+      "title": "規劃中文技術文章的分級審查與保真改寫",
+      "input": "自行撰寫的中文 Markdown 文章、事實清單與可選寫作風格規範。",
+      "process": "保留可回查的文字特徵統計 → 抽取需要語意判斷的候選 → 產生改寫前後的對照報告 → 獨立驗收實際成果",
+      "output": "改前命中報告、人工確認範圍及前後對比文件的驗收規格。",
+      "destination": "自有中文技術知識庫的文章編輯與內容品質審查。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-detect",
+        "use-candidates",
+        "use-report"
+      ],
+      "steps": [
+        {
+          "id": "detect",
+          "title": "保留可回查的文字特徵統計",
+          "capabilityRefs": [
+            "detect"
+          ]
+        },
+        {
+          "id": "candidates",
+          "title": "抽取需要語意判斷的候選",
+          "capabilityRefs": [
+            "candidates"
+          ]
+        },
+        {
+          "id": "report",
+          "title": "產生改寫前後的對照報告",
+          "capabilityRefs": [
+            "report"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准資料、環境、修改範圍與人工驗收實際成果。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自行撰寫的中文 Markdown 文章、事實清單與可選寫作風格規範。",
+      "依需求核對固定版本來源、授權與操作限制。",
+      "先核准環境與權限，再以合成資料測試正常、保留與失敗情境。"
+    ],
+    "limits": [
+      "README 標示 CC BY-NC 4.0，商用前需另行授權",
+      "文字特徵不能可靠鑑別所有 AI 生成內容",
+      "僅偵測不改稿；已否決 X 類仍列入報告且不修改，閾值需針對語料重標；命中不能證明作者為 AI。",
+      "候選須由另行語意判讀確認；不可把正則候選等同有效命中；修改須先得到作者同意。",
+      "報告的指標方向並不保證語意品質；使用者核准後才能改稿，繁中語料適用性及統計研究尚未獨立驗證。",
+      "未實測相依、權限、整合與實際成果。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "先量化並定位文章中的制式表達，再由人工確認修改範圍，保留原有事實和結構並產生改寫前後對照。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "CC BY-NC 4.0；商業使用須另取得授權"
+      },
+      {
+        "label": "版本",
+        "value": "fe77df00a27cf94428632ad449a4aecdcb83db41"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "保留可回查的文字特徵統計",
+        "detail": "全文印象不足以定位哪些句子需要改善。 輸入：Markdown 或文字檔案及檢測參數；輸出：分級命中、統計與可存檔的 JSON",
+        "source": "scripts/detect.py"
+      },
+      {
+        "title": "抽取需要語意判斷的候選",
+        "detail": "字面特徵未必代表語意不清楚。 輸入：文章與候選抽取模式；輸出：供封閉判據人工或模型標記的候選",
+        "source": "scripts/detect.py"
+      },
+      {
+        "title": "產生改寫前後的對照報告",
+        "detail": "改稿需要保留可稽核的指標與文字變更。 輸入：原文、改稿、前後 JSON 與可選語意判讀 JSON；輸出：Markdown 或 HTML 指標及文字差異報告",
+        "source": "scripts/report.py"
+      }
+    ],
+    "architecture": {
+      "summary": "保留可回查的文字特徵統計 → 抽取需要語意判斷的候選 → 產生改寫前後的對照報告 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "保留可回查的文字特徵統計",
+          "detail": "Markdown 或文字檔案及檢測參數 → 分級命中、統計與可存檔的 JSON",
+          "files": [
+            "scripts/detect.py",
+            "SKILL.md"
+          ]
+        },
+        {
+          "title": "抽取需要語意判斷的候選",
+          "detail": "文章與候選抽取模式 → 供封閉判據人工或模型標記的候選",
+          "files": [
+            "scripts/detect.py",
+            "SKILL.md"
+          ]
+        },
+        {
+          "title": "產生改寫前後的對照報告",
+          "detail": "原文、改稿、前後 JSON 與可選語意判讀 JSON → Markdown 或 HTML 指標及文字差異報告",
+          "files": [
+            "scripts/report.py",
+            "SKILL.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "保留可回查的文字特徵統計",
+        "rule": "僅偵測不改稿；已否決 X 類仍列入報告且不修改，閾值需針對語料重標；命中不能證明作者為 AI。",
+        "source": "scripts/detect.py"
+      },
+      {
+        "name": "抽取需要語意判斷的候選",
+        "rule": "候選須由另行語意判讀確認；不可把正則候選等同有效命中；修改須先得到作者同意。",
+        "source": "scripts/detect.py"
+      },
+      {
+        "name": "產生改寫前後的對照報告",
+        "rule": "報告的指標方向並不保證語意品質；使用者核准後才能改稿，繁中語料適用性及統計研究尚未獨立驗證。",
+        "source": "scripts/report.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 LICENSE、SKILL.md、scripts/detect.py、scripts/report.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "LICENSE",
+          "SKILL.md",
+          "scripts/detect.py",
+          "scripts/report.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自行撰寫的中文 Markdown 文章、事實清單與可選寫作風格規範。 依需求核對固定版本來源、授權與操作限制。 先核准環境與權限，再以合成資料測試正常、保留與失敗情境。",
+        "files": [
+          "scripts/detect.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有中文技術知識庫的文章編輯與內容品質審查。",
+        "file": "scripts/detect.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "detect",
+        "name": "保留可回查的文字特徵統計",
+        "problem": "全文印象不足以定位哪些句子需要改善。",
+        "input": "Markdown 或文字檔案及檢測參數",
+        "output": "分級命中、統計與可存檔的 JSON",
+        "source": "scripts/detect.py",
+        "sourceFiles": [
+          "scripts/detect.py",
+          "SKILL.md"
+        ],
+        "symbols": [
+          "REGEX_HITS",
+          "measure_docs",
+          "main"
+        ],
+        "gate": "僅偵測不改稿；已否決 X 類仍列入報告且不修改，閾值需針對語料重標；命中不能證明作者為 AI。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "candidates",
+        "name": "抽取需要語意判斷的候選",
+        "problem": "字面特徵未必代表語意不清楚。",
+        "input": "文章與候選抽取模式",
+        "output": "供封閉判據人工或模型標記的候選",
+        "source": "scripts/detect.py",
+        "sourceFiles": [
+          "scripts/detect.py",
+          "SKILL.md"
+        ],
+        "symbols": [
+          "extract_candidates"
+        ],
+        "gate": "候選須由另行語意判讀確認；不可把正則候選等同有效命中；修改須先得到作者同意。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "report",
+        "name": "產生改寫前後的對照報告",
+        "problem": "改稿需要保留可稽核的指標與文字變更。",
+        "input": "原文、改稿、前後 JSON 與可選語意判讀 JSON",
+        "output": "Markdown 或 HTML 指標及文字差異報告",
+        "source": "scripts/report.py",
+        "sourceFiles": [
+          "scripts/report.py",
+          "SKILL.md"
+        ],
+        "symbols": [
+          "metric_table",
+          "build_report",
+          "build_report_md"
+        ],
+        "gate": "報告的指標方向並不保證語意品質；使用者核准後才能改稿，繁中語料適用性及統計研究尚未獨立驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃中文技術文章的分級審查與保真改寫（設計示例）",
+      "problem": "自行撰寫的中文 Markdown 文章、事實清單與可選寫作風格規範。",
+      "steps": [
+        {
+          "capability": "detect",
+          "action": "保留可回查的文字特徵統計"
+        },
+        {
+          "capability": "candidates",
+          "action": "抽取需要語意判斷的候選"
+        },
+        {
+          "capability": "report",
+          "action": "產生改寫前後的對照報告"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "lieflat-less-ai-tone-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自行撰寫的中文 Markdown 文章、事實清單與可選寫作風格規範。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "保留可回查的文字特徵統計 → 抽取需要語意判斷的候選 → 產生改寫前後的對照報告 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有中文技術知識庫的文章編輯與內容品質審查。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "README 標示 CC BY-NC 4.0，商用前需另行授權",
+        "文字特徵不能可靠鑑別所有 AI 生成內容",
+        "僅偵測不改稿；已否決 X 類仍列入報告且不修改，閾值需針對語料重標；命中不能證明作者為 AI。",
+        "候選須由另行語意判讀確認；不可把正則候選等同有效命中；修改須先得到作者同意。",
+        "報告的指標方向並不保證語意品質；使用者核准後才能改稿，繁中語料適用性及統計研究尚未獨立驗證。",
+        "未實測相依、權限、整合與實際成果。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料與權限邊界",
+        "severity": "高",
+        "issue": "README 標示 CC BY-NC 4.0，商用前需另行授權；文字特徵不能可靠鑑別所有 AI 生成內容；僅偵測不改稿；已否決 X 類仍列入報告且不修改，閾值需針對語料重標；命中不能證明作者為 AI。；候選須由另行語意判讀確認；不可把正則候選等同有效命中；修改須先得到作者同意。；報告的指標方向並不保證語意品質；使用者核准後才能改稿，繁中語料適用性及統計研究尚未獨立驗證。；未實測相依、權限、整合與實際成果。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 LICENSE、SKILL.md、scripts/detect.py、scripts/report.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
