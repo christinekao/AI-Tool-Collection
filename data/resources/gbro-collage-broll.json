@@ -6,14 +6,14 @@
   "canonicalName": "gbro-collage-broll",
   "category": "09 Content & Artifact Generation",
   "resourceType": "Video Skill",
-  "purpose": "將約 5 秒口播文案轉化為半調紙拼貼風格的直式 B-roll 動畫，透過視覺隱喻、靜幀與影片三道人工核准關卡控制生成。",
-  "recommendation": "適合為有配音的短影音設計具辨識度的片段；先確認視覺隱喻與排版，靜幀合格才啟動需付費的影片生成，最後檢查 MP4 畫面與素材權利。",
+  "purpose": "紙拼貼風 B-roll 製作工具的環境檢查、影片輸入正規化及首尾影格請求契約。",
+  "recommendation": "適合研究自有教學短片的首尾影格生成驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/pyang5166/gbro-collage-broll",
   "repo": "pyang5166/gbro-collage-broll",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-26",
   "tags": [
     "video",
     "b-roll",
@@ -67,48 +67,413 @@
   "source": {
     "url": "https://github.com/pyang5166/gbro-collage-broll",
     "readmeUrl": "https://github.com/pyang5166/gbro-collage-broll/blob/main/README.md",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README / documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91",
+    "referenceUrls": [
+      "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/README.md",
+      "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/LICENSE",
+      "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/scripts/check_setup.sh",
+      "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/scripts/generate_video.py",
+      "https://github.com/pyang5166/gbro-collage-broll/blob/a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91/scripts/generate_veo_first_last.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls",
+      "source.upstreamCommit",
+      "repo"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 Canonical ID 與官方上游，僅更新原紀錄，不新增 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原有分類、Tags、Typed References 保留；本批沒有新增或標準化標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留已通過前階段盤點的 Primary Domain；本批不調整分類結構。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；尚未逐項驗證程式碼路徑、執行契約及深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "沒有實測、版本化輸入／輸出契約；不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "沿用現有 Concept 引用，不根據關鍵字建立 Graph 關聯。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。；直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。；第三方程式碼未下載執行，未觸及憑證。",
+    "riskNotes": "MIT；模型費用及素材權利另查；影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。；直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。；不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。；URI 正規化不是權限或來源驗證；不得上傳私密媒體。；腳本有外部服務及寫檔相依；未執行或產生影片。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "來源 README 已閱讀；未執行第三方 Build／Runtime／Security／Integration 測試。"
+      "evidence": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將約 5 秒口播文案轉化為半調紙拼貼風格的直式 B-roll 動畫，透過視覺隱喻、靜幀與影片三道人工核准關卡控制生成。",
+      "source": "https://github.com/pyang5166/gbro-collage-broll",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合為有配音的短影音設計具辨識度的片段；先確認視覺隱喻與排版，靜幀合格才啟動需付費的影片生成，最後檢查 MP4 畫面與素材權利。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-env",
+        "title": "檢查模型執行環境前提",
+        "detail": "環境與相依缺漏應在生成前辨識。 輸出：相依存在與版本檢查結果。",
+        "capabilityRefs": [
+          "env"
+        ]
+      },
+      {
+        "id": "use-media",
+        "title": "正規化模型媒體參照",
+        "detail": "檔案參照格式需要一致。 輸出：正規化 URI 與影片參數契約。",
+        "capabilityRefs": [
+          "media"
+        ]
+      },
+      {
+        "id": "use-frames",
+        "title": "設定首尾影格與輸出需求",
+        "detail": "影片生成需明確區分輸入與成品時間。 輸出：首尾影格請求及輸出參數。",
+        "capabilityRefs": [
+          "frames"
+        ]
+      }
+    ],
+    "example": {
+      "id": "gbro-collage-broll-example",
+      "title": "規劃自有教學短片的首尾影格生成驗收",
+      "input": "自編旁白、合成首尾影格及測試參數",
+      "process": "檢查模型執行環境前提 → 正規化模型媒體參照 → 設定首尾影格與輸出需求 → 獨立驗收實際成果",
+      "output": "環境檢核、媒體參數及請求驗收規格",
+      "destination": "自有短影音製作測試工作區，經資料權利及人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-env",
+        "use-media",
+        "use-frames"
+      ],
+      "steps": [
+        {
+          "id": "env",
+          "title": "檢查模型執行環境前提",
+          "capabilityRefs": [
+            "env"
+          ]
+        },
+        {
+          "id": "media",
+          "title": "正規化模型媒體參照",
+          "capabilityRefs": [
+            "media"
+          ]
+        },
+        {
+          "id": "frames",
+          "title": "設定首尾影格與輸出需求",
+          "capabilityRefs": [
+            "frames"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自編旁白、合成首尾影格及測試參數。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。",
+      "直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。",
+      "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+      "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+      "腳本有外部服務及寫檔相依；未執行或產生影片。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "紙拼貼風 B-roll 製作工具的環境檢查、影片輸入正規化及首尾影格請求契約。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；模型費用及素材權利另查"
+      },
+      {
+        "label": "版本",
+        "value": "a1a4ee2e2abf7d44e460026b706d0c72c2cf8a91"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "檢查模型執行環境前提",
+        "detail": "環境與相依缺漏應在生成前辨識。 輸入：隔離測試環境與虛構設定；輸出：相依存在與版本檢查結果",
+        "source": "scripts/check_setup.sh"
+      },
+      {
+        "title": "正規化模型媒體參照",
+        "detail": "檔案參照格式需要一致。 輸入：合成媒體參照及文字提示；輸出：正規化 URI 與影片參數契約",
+        "source": "scripts/generate_video.py"
+      },
+      {
+        "title": "設定首尾影格與輸出需求",
+        "detail": "影片生成需明確區分輸入與成品時間。 輸入：授權測試影格與提示文件；輸出：首尾影格請求及輸出參數",
+        "source": "scripts/generate_veo_first_last.py"
+      }
+    ],
+    "architecture": {
+      "summary": "檢查模型執行環境前提 → 正規化模型媒體參照 → 設定首尾影格與輸出需求 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "檢查模型執行環境前提",
+          "detail": "隔離測試環境與虛構設定 → 相依存在與版本檢查結果",
+          "files": [
+            "scripts/check_setup.sh",
+            "README.md"
+          ]
+        },
+        {
+          "title": "正規化模型媒體參照",
+          "detail": "合成媒體參照及文字提示 → 正規化 URI 與影片參數契約",
+          "files": [
+            "scripts/generate_video.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "設定首尾影格與輸出需求",
+          "detail": "授權測試影格與提示文件 → 首尾影格請求及輸出參數",
+          "files": [
+            "scripts/generate_veo_first_last.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "檢查模型執行環境前提",
+        "rule": "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+        "source": "scripts/check_setup.sh"
+      },
+      {
+        "name": "正規化模型媒體參照",
+        "rule": "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+        "source": "scripts/generate_video.py"
+      },
+      {
+        "name": "設定首尾影格與輸出需求",
+        "rule": "腳本有外部服務及寫檔相依；未執行或產生影片。",
+        "source": "scripts/generate_veo_first_last.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "scripts/check_setup.sh",
+          "scripts/generate_video.py",
+          "scripts/generate_veo_first_last.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自編旁白、合成首尾影格及測試參數。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "scripts/check_setup.sh"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有短影音製作測試工作區，經資料權利及人工覆核後使用。",
+        "file": "scripts/check_setup.sh"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "env",
+        "name": "檢查模型執行環境前提",
+        "problem": "環境與相依缺漏應在生成前辨識。",
+        "input": "隔離測試環境與虛構設定",
+        "output": "相依存在與版本檢查結果",
+        "source": "scripts/check_setup.sh",
+        "sourceFiles": [
+          "scripts/check_setup.sh",
+          "README.md"
+        ],
+        "symbols": [
+          "VENV_PY",
+          "FAIL",
+          "ok",
+          "bad"
+        ],
+        "gate": "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "media",
+        "name": "正規化模型媒體參照",
+        "problem": "檔案參照格式需要一致。",
+        "input": "合成媒體參照及文字提示",
+        "output": "正規化 URI 與影片參數契約",
+        "source": "scripts/generate_video.py",
+        "sourceFiles": [
+          "scripts/generate_video.py",
+          "README.md"
+        ],
+        "symbols": [
+          "is_file_uri",
+          "normalize_file_uri",
+          "slugify"
+        ],
+        "gate": "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "frames",
+        "name": "設定首尾影格與輸出需求",
+        "problem": "影片生成需明確區分輸入與成品時間。",
+        "input": "授權測試影格與提示文件",
+        "output": "首尾影格請求及輸出參數",
+        "source": "scripts/generate_veo_first_last.py",
+        "sourceFiles": [
+          "scripts/generate_veo_first_last.py",
+          "README.md"
+        ],
+        "symbols": [
+          "image_from_path",
+          "main"
+        ],
+        "gate": "腳本有外部服務及寫檔相依；未執行或產生影片。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃自有教學短片的首尾影格生成驗收（設計示例）",
+      "problem": "自編旁白、合成首尾影格及測試參數",
+      "steps": [
+        {
+          "capability": "env",
+          "action": "檢查模型執行環境前提"
+        },
+        {
+          "capability": "media",
+          "action": "正規化模型媒體參照"
+        },
+        {
+          "capability": "frames",
+          "action": "設定首尾影格與輸出需求"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "gbro-collage-broll-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自編旁白、合成首尾影格及測試參數",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "檢查模型執行環境前提 → 正規化模型媒體參照 → 設定首尾影格與輸出需求 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有短影音製作測試工作區，經資料權利及人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。",
+        "直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。",
+        "不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。",
+        "URI 正規化不是權限或來源驗證；不得上傳私密媒體。",
+        "腳本有外部服務及寫檔相依；未執行或產生影片。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "影像和影片生成有服務費用、模型版本及失敗重試成本，不能保證每次同質。；直式、短片、無聲是 README 預設工作流；最終配音、剪輯及商用素材授權須另行處理。；不執行安裝、不讀取真實 API Key；存在檢查不等於服務可用。；URI 正規化不是權限或來源驗證；不得上傳私密媒體。；腳本有外部服務及寫檔相依；未執行或產生影片。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、scripts/check_setup.sh、scripts/generate_video.py、scripts/generate_veo_first_last.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

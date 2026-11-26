@@ -6,14 +6,14 @@
   "canonicalName": "ECPay/ECPay-API-Skill",
   "category": "06 Skills",
   "resourceType": "Domain Skill",
-  "purpose": "綠界官方提供給 Coding Agent 的 API 整合知識 Skill，涵蓋金流、物流、電子發票、加解密、Callback 驗證、錯誤排查及上線檢查。",
-  "recommendation": "適合在建立台灣電商串接時用作文件索引與程式碼範本；先鎖定服務與協定、核對即時官方 API 規格、於測試環境驗證，再交由工程／資安人員審查正式金流。",
+  "purpose": "綠界官方 API 整合指引；本次查核服務選擇、規格索引及測試與上線流程文件，非完整 SDK 審查。",
+  "recommendation": "適合研究企業金流與發票整合的測試驗收清單；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/ECPay/ECPay-API-Skill",
   "repo": "ECPay/ECPay-API-Skill",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-26",
   "tags": [
     "api",
     "documentation",
@@ -47,9 +47,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review",
-    "contentFormat": "repository",
+    "contentFormat": "documentation",
     "formatEvidenceFields": [
-      "url"
+      "source.referenceUrls",
+      "resourceType"
     ]
   },
   "features": [
@@ -68,48 +69,240 @@
   "source": {
     "url": "https://github.com/ECPay/ECPay-API-Skill",
     "readmeUrl": "https://github.com/ECPay/ECPay-API-Skill/blob/master/README.md",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README / documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44",
+    "referenceUrls": [
+      "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/README.md",
+      "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/LICENSE",
+      "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md",
+      "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/references/README.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls",
+      "source.upstreamCommit",
+      "repo"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+    "classificationReason": "保留既有 Primary Domain automation、Tags、Category、Typed References。本次資源聚焦操作或學習文件，校正 Content Format 為 documentation，留存原分類。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。 文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+      "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。；README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。；未執行第三方程式、未取用憑證。",
+    "riskNotes": "All Rights Reserved；有限閱讀與測試許可，不重製原文；不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。；README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。；不進行付款或正式交易；服務資格及條款須向官方確認。；本次只查索引，未查所有端點與最新規格。；未操作正式帳號、金流、發票或憑證；需獨立安全驗收。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+      "evidence": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、SKILL.md、references/README.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "綠界官方提供給 Coding Agent 的 API 整合知識 Skill，涵蓋金流、物流、電子發票、加解密、Callback 驗證、錯誤排查及上線檢查。",
+      "source": "https://github.com/ECPay/ECPay-API-Skill",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合在建立台灣電商串接時用作文件索引與程式碼範本；先鎖定服務與協定、核對即時官方 API 規格、於測試環境驗證，再交由工程／資安人員審查正式金流。",
+    "priorClassificationSnapshot": {
+      "primaryDomain": "automation",
+      "secondaryDomains": [
+        "business"
+      ],
+      "purposeFacets": [],
+      "reviewStatus": "ai-description-reviewed",
+      "evidenceFields": [
+        "title",
+        "purpose",
+        "category"
+      ],
+      "classifiedAt": "2026-11-19",
+      "rulesVersion": "v0.2-review",
+      "contentFormat": "repository",
+      "formatEvidenceFields": [
+        "url"
+      ]
+    },
+    "documentContracts": [
+      {
+        "name": "依業務需求選擇整合服務",
+        "input": "虛構業務流程與交易需求",
+        "output": "待選服務與對應文件",
+        "source": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md",
+        "locator": "工作流程 / 步驟 1：需求釐清 / 步驟 2：方案推薦",
+        "limitations": "不進行付款或正式交易；服務資格及條款須向官方確認。"
+      },
+      {
+        "name": "按服務查閱官方規格",
+        "input": "服務類型及開發語言",
+        "output": "對應的官方規格與指南索引",
+        "source": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/references/README.md",
+        "locator": "用途 / Payment / Invoice",
+        "limitations": "本次只查索引，未查所有端點與最新規格。"
+      },
+      {
+        "name": "區分測試驗證與正式上線",
+        "input": "合成訂單及預定驗收環境",
+        "output": "測試與上線檢查項目",
+        "source": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md",
+        "locator": "步驟 4：測試驗證 / 步驟 5：上線檢查",
+        "limitations": "未操作正式帳號、金流、發票或憑證；需獨立安全驗收。"
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-service",
+        "title": "依業務需求選擇整合服務",
+        "detail": "金流、發票與物流有不同的契約。 輸出：待選服務與對應文件。",
+        "evidenceRefs": [
+          "service"
+        ]
+      },
+      {
+        "id": "use-reference",
+        "title": "按服務查閱官方規格",
+        "detail": "文件索引不能替代即時 API 規格。 輸出：對應的官方規格與指南索引。",
+        "evidenceRefs": [
+          "reference"
+        ]
+      },
+      {
+        "id": "use-verify",
+        "title": "區分測試驗證與正式上線",
+        "detail": "能提交測試請求不代表可正式交付。 輸出：測試與上線檢查項目。",
+        "evidenceRefs": [
+          "verify"
+        ]
+      }
+    ],
+    "example": {
+      "id": "ecpay-ecpay-api-skill-example",
+      "title": "規劃企業金流與發票整合的測試驗收清單",
+      "input": "虛構訂單、業務需求與官方規格索引",
+      "process": "依業務需求選擇整合服務 → 按服務查閱官方規格 → 區分測試驗證與正式上線 → 獨立驗收實際成果",
+      "output": "服務選擇、待核對 API 及測試清單",
+      "destination": "隔離的企業整合設計工作區，經資料權利及人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-service",
+        "use-reference",
+        "use-verify"
+      ],
+      "steps": [
+        {
+          "id": "service",
+          "title": "依業務需求選擇整合服務",
+          "evidenceRefs": [
+            "service"
+          ]
+        },
+        {
+          "id": "reference",
+          "title": "按服務查閱官方規格",
+          "evidenceRefs": [
+            "reference"
+          ]
+        },
+        {
+          "id": "verify",
+          "title": "區分測試驗證與正式上線",
+          "evidenceRefs": [
+            "verify"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備虛構訂單、業務需求與官方規格索引。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "不同 ECPay 服務與協定的簽章或加密規則不通用，AI 產生的程式碼不得直接用於真實收款。",
+      "README 的範例與 Snapshot 可能落後最新 API；送出交易前必須核對官方即時規格並測試 callback、金鑰與交易異常。",
+      "不進行付款或正式交易；服務資格及條款須向官方確認。",
+      "本次只查索引，未查所有端點與最新規格。",
+      "未操作正式帳號、金流、發票或憑證；需獨立安全驗收。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "service",
+      "detail": "金流、發票與物流有不同的契約。 輸入：虛構業務流程與交易需求；輸出：待選服務與對應文件",
+      "locator": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md — 工作流程 / 步驟 1：需求釐清 / 步驟 2：方案推薦",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "不進行付款或正式交易；服務資格及條款須向官方確認。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "reference",
+      "detail": "文件索引不能替代即時 API 規格。 輸入：服務類型及開發語言；輸出：對應的官方規格與指南索引",
+      "locator": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/references/README.md — 用途 / Payment / Invoice",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "本次只查索引，未查所有端點與最新規格。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "verify",
+      "detail": "能提交測試請求不代表可正式交付。 輸入：合成訂單及預定驗收環境；輸出：測試與上線檢查項目",
+      "locator": "https://github.com/ECPay/ECPay-API-Skill/blob/e8cc595d7ca40b54ba8ccd4799f9fd3b0fe11f44/SKILL.md — 步驟 4：測試驗證 / 步驟 5：上線檢查",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "未操作正式帳號、金流、發票或憑證；需獨立安全驗收。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }

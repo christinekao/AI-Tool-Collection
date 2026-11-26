@@ -716,7 +716,16 @@ try{
   ["awesome-gpt-image-2",".resource-reader-guide","規劃自有提示詞收藏目錄的多語索引"],
   ["photo-riso-poster",".resource-reader-guide","規劃自有照片的證據式抽象海報設計"],
   ["copywriting-skill",".resource-reader-guide","規劃自有產品頁文案的主張與保真驗收"],
-  ["akseolabs-seo-cinematic-ui",".resource-reader-guide","規劃自有網站與工作台的動效及狀態驗收"]
+  ["akseolabs-seo-cinematic-ui",".resource-reader-guide","規劃自有網站與工作台的動效及狀態驗收"],
+  ["acheaisuiyimen-ache-life-to-comic-skill",".resource-reader-guide","規劃非商業生活漫畫手帳的素材與原文保真驗收"],
+  ["alchaincy-huashu-design",".resource-reader-guide","規劃自有前端原型的設計方向與畫面驗收"],
+  ["ayueh0102-ronnier-skill",".resource-reader-guide","規劃色彩科學學習筆記的名詞與證據核對"],
+  ["blogger-distiller",".resource-reader-guide","規劃內容研究資料的隱私與品質驗收"],
+  ["bobyu89-codex-ppt-style-expanded",".resource-reader-guide","規劃可編輯技術簡報的風格與版面驗收"],
+  ["ecpay-ecpay-api-skill",".resource-reader-guide","規劃企業金流與發票整合的測試驗收清單"],
+  ["gbro-collage-broll",".resource-reader-guide","規劃自有教學短片的首尾影格生成驗收"],
+  ["gbro-cover-design",".resource-reader-guide","規劃文章封面提示詞與素材權利驗收"],
+  ["hkuds-vimax",".resource-reader-guide","規劃影片生成後端的圖片格式與配置驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
