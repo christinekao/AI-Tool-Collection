@@ -1802,6 +1802,33 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  53,
+  "安全治理、報告證據與會議資料",
+  [
+    [
+      "akto-api-security-akto",
+      "規劃企業 AI 工具盤點與安全政策覆蓋驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "usestrix-strix",
+      "規劃安全報告的覆蓋證據與匯出品質驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "wquguru-cicada",
+      "規劃已授權會議紀錄的搜尋與私人知識庫匯出",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
