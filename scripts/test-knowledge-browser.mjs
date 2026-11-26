@@ -671,7 +671,10 @@ try{
   ["qingyuna-answer-me-with-html",".resource-reader-guide","規劃可離線技術教材的引用與安全驗收"],
   ["thu-maic-openmaic",".resource-reader-guide","規劃 AI 互動教室的教材生成與大綱確認"],
   ["jit-learning-loop",".resource-reader-guide","規劃工程任務的學習檢查與可轉移知識紀錄"],
-  ["alexyc9381-hiring-panel-skill",".resource-reader-guide","規劃職缺客製履歷的多角色審查與事實驗收"]
+  ["alexyc9381-hiring-panel-skill",".resource-reader-guide","規劃職缺客製履歷的多角色審查與事實驗收"],
+  ["loopagentteams",".resource-reader-guide","規劃多 Agent 任務的進度保存與主控恢復驗收"],
+  ["deepseek-dsh-superagent-prototype",".resource-reader-guide","規劃事件驅動 Agent 的准入與回覆可靠性驗收"],
+  ["dominicrico-jev-router",".resource-reader-guide","規劃 Coding Agent 的模型路由與快取策略驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

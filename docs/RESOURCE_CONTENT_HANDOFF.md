@@ -1,3 +1,11 @@
+# Resource 最新交接｜雙層知識 Batch 52（2026-11-26）
+
+- PR #101 四項 CI PASS，合併 `9882312a6ebf0ebd6c593986a2b3311d992dcdeb`；main 基線 `e412fe17270fd0424b7ef1d5599edbe3ef31d79c`。189/286 已合併（182 完成對應、7 deferred）。
+- [Batch 52｜Agent 協作、事件與模型路由](RESOURCE_DUAL_LAYER_BATCH52_20261126.md)：loopagentteams、deepseek-dsh-superagent-prototype、dominicrico-jev-router；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。第三方未實測。
+- 合併後預計 192/286（185 完成對應、7 deferred）；94 尚未改寫。先確認四項 CI、合併與 Catalog Sync／Pages。Batch 53～56 尚未執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 51（2026-11-26）
 
 - PR #100 四項 CI PASS，合併 `de9243a5f436ee47c8fa47b93d3db896eba00ab1`；main 基線 `5f576571bf96e09daf38f208bb106a3df2d39781`。186/286 已合併（179 完成對應、7 deferred）。

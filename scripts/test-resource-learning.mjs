@@ -1775,6 +1775,33 @@ for(const [batch,topic,rows] of [
       "documentation"
     ]
   ]
+],
+  [
+  52,
+  "Agent 協作、事件與模型路由",
+  [
+    [
+      "loopagentteams",
+      "規劃多 Agent 任務的進度保存與主控恢復驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "deepseek-dsh-superagent-prototype",
+      "規劃事件驅動 Agent 的准入與回覆可靠性驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "dominicrico-jev-router",
+      "規劃 Coding Agent 的模型路由與快取策略驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

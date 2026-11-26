@@ -6,14 +6,14 @@
   "canonicalName": "LoopAgentTeams",
   "category": "02 Agent Orchestration",
   "resourceType": "Multi-Agent Delivery Orchestration Skill Pack / Evidence-Gated SDLC",
-  "purpose": "把需求釐清、Spec、Ticket 拆分、跨模型派工、獨立 Code Review、整合驗證與 QA 驗收串成可自主推進的多 Agent 交付流程。使用者確認 Spec 後，Orchestrator 在既定授權範圍內持續推進，只在需求／授權邊界改變或缺少僅使用者能提供的資訊時回頭詢問。",
-  "recommendation": "適合希望 Claude Code、Codex 等不同 Agent／模型在同一套工程流程中分工，並把『完成』建立在 Git commit、實際測試與 QA evidence，而不是 Agent 自我回報上的專案。",
+  "purpose": "以已核准的 Spec 串接多 Agent 派工、獨立審查、整合與 QA，並以本機 Session 紀錄協助主控恢復工作。",
+  "recommendation": "適合研究可恢復的 Agent 協作流程；不將文件規則當成已執行的獨立驗收，不授權刪除、派工或推送。",
   "url": "https://github.com/ouob-tw/LoopAgentTeams",
   "repo": "ouob-tw/LoopAgentTeams",
   "notes": "Official repository and LAT skill confirmed. LoopAgentTeams packages orchestration as Agent Skills rather than a separate service and builds on Matt Pocock's skills for requirement clarification, spec, tickets, implementation and review. LAT defines Orchestrator / Designer / Implementer / QA roles, supports independent worktrees and cross-client delegation through native subagents or HCOM, uses one formal user confirmation point at Spec, and requires evidence-based integration plus QA states PASS / FAIL / UNPROVEN / NOT_EXECUTED. The repository explicitly notes that user-decision boundaries are skill-layer constraints rather than tool-enforced security controls. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-30",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "multi-agent",
     "orchestration",
@@ -102,48 +102,411 @@
   "source": {
     "url": "https://github.com/ouob-tw/LoopAgentTeams",
     "readmeUrl": "https://github.com/ouob-tw/LoopAgentTeams/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "Documentation only; not runtime-tested"
+    "reviewScope": "固定版本 README.md、LICENSE、skills/local/lat/scripts/codex-lat-session.py、skills/local/lat/SKILL.md、skills/local/lat/references/task-cards.md 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "5c90894b682868d2ed99c063b7e5faf1fba91054",
+    "referenceUrls": [
+      "https://github.com/ouob-tw/LoopAgentTeams/blob/5c90894b682868d2ed99c063b7e5faf1fba91054/README.md",
+      "https://github.com/ouob-tw/LoopAgentTeams/blob/5c90894b682868d2ed99c063b7e5faf1fba91054/LICENSE",
+      "https://github.com/ouob-tw/LoopAgentTeams/blob/5c90894b682868d2ed99c063b7e5faf1fba91054/skills/local/lat/scripts/codex-lat-session.py",
+      "https://github.com/ouob-tw/LoopAgentTeams/blob/5c90894b682868d2ed99c063b7e5faf1fba91054/skills/local/lat/SKILL.md",
+      "https://github.com/ouob-tw/LoopAgentTeams/blob/5c90894b682868d2ed99c063b7e5faf1fba91054/skills/local/lat/references/task-cards.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain ai-agent，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、skills/local/lat/scripts/codex-lat-session.py、skills/local/lat/SKILL.md、skills/local/lat/references/task-cards.md 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "MIT；外部 Skills 與協作工具另查；Repo 含改造過的上游 Skills 副本，不能無差別替換；跨模型自動派工仍有成本、權限與回歸風險；限定格式的 Session ID 與 Git 根目錄；既有不同紀錄拒絕重綁，寫入前須有使用者授權。；要求絕對路徑、必要檔案及決策目錄存在；pointer 要求重讀與核對授權，不自行證明 tracker 狀態正確。；寫入暫存檔、同步及比較原始位元組後替換；檢查到替換之間仍可能有競爭，不宣稱跨程序交易安全。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README.md、LICENSE、skills/local/lat/scripts/codex-lat-session.py、skills/local/lat/SKILL.md、skills/local/lat/references/task-cards.md 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、skills/local/lat/scripts/codex-lat-session.py、skills/local/lat/SKILL.md、skills/local/lat/references/task-cards.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把需求釐清、Spec、Ticket 拆分、跨模型派工、獨立 Code Review、整合驗證與 QA 驗收串成可自主推進的多 Agent 交付流程。使用者確認 Spec 後，Orchestrator 在既定授權範圍內持續推進，只在需求／授權邊界改變或缺少僅使用者能提供的資訊時回頭詢問。",
+      "source": "https://github.com/ouob-tw/LoopAgentTeams",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合希望 Claude Code、Codex 等不同 Agent／模型在同一套工程流程中分工，並把『完成』建立在 Git commit、實際測試與 QA evidence，而不是 Agent 自我回報上的專案。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-activate",
+        "title": "建立主控 Session 恢復紀錄",
+        "detail": "長任務跨對話恢復時不能推測身分與已確認進度。 輸出：具有主控身分及必要路徑的本機 JSON 紀錄。",
+        "capabilityRefs": [
+          "activate"
+        ]
+      },
+      {
+        "id": "use-dependencies",
+        "title": "核對恢復所需的實際檔案",
+        "detail": "恢復流程缺少來源資料時不應推測工作進度。 輸出：必要路徑及檔案檢查結果或例外。",
+        "capabilityRefs": [
+          "dependencies"
+        ]
+      },
+      {
+        "id": "use-write",
+        "title": "保存紀錄並偵測部分並行修改",
+        "detail": "多個程序修改本機紀錄可能造成進度遺失。 輸出：暫存後替換的紀錄或並行修改拒絕。",
+        "capabilityRefs": [
+          "write"
+        ]
+      }
+    ],
+    "example": {
+      "id": "loopagentteams-example",
+      "title": "規劃多 Agent 任務的進度保存與主控恢復驗收",
+      "input": "自有測試 Git worktree、已確認的 Spec、進度與待決紀錄。",
+      "process": "建立主控 Session 恢復紀錄 → 核對恢復所需的實際檔案 → 保存紀錄並偵測部分並行修改 → 獨立驗收實際成果",
+      "output": "Session 記錄、必要檔案查核、恢復指引及進度一致性驗收規格。",
+      "destination": "自有 Agent 協作流程，經主控與獨立 QA 覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-activate",
+        "use-dependencies",
+        "use-write"
+      ],
+      "steps": [
+        {
+          "id": "activate",
+          "title": "建立主控 Session 恢復紀錄",
+          "capabilityRefs": [
+            "activate"
+          ]
+        },
+        {
+          "id": "dependencies",
+          "title": "核對恢復所需的實際檔案",
+          "capabilityRefs": [
+            "dependencies"
+          ]
+        },
+        {
+          "id": "write",
+          "title": "保存紀錄並偵測部分並行修改",
+          "capabilityRefs": [
+            "write"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有測試 Git worktree、已確認的 Spec、進度與待決紀錄。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、衝突及失敗情境。"
+    ],
+    "limits": [
+      "Repo 含改造過的上游 Skills 副本，不能無差別替換",
+      "跨模型自動派工仍有成本、權限與回歸風險",
+      "限定格式的 Session ID 與 Git 根目錄；既有不同紀錄拒絕重綁，寫入前須有使用者授權。",
+      "要求絕對路徑、必要檔案及決策目錄存在；pointer 要求重讀與核對授權，不自行證明 tracker 狀態正確。",
+      "寫入暫存檔、同步及比較原始位元組後替換；檢查到替換之間仍可能有競爭，不宣稱跨程序交易安全。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以已核准的 Spec 串接多 Agent 派工、獨立審查、整合與 QA，並以本機 Session 紀錄協助主控恢復工作。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；外部 Skills 與協作工具另查"
+      },
+      {
+        "label": "版本",
+        "value": "5c90894b682868d2ed99c063b7e5faf1fba91054"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "建立主控 Session 恢復紀錄",
+        "detail": "長任務跨對話恢復時不能推測身分與已確認進度。 輸入：Git worktree 根目錄、CODEX_THREAD_ID、進度與決策路徑；輸出：具有主控身分及必要路徑的本機 JSON 紀錄",
+        "source": "skills/local/lat/scripts/codex-lat-session.py"
+      },
+      {
+        "title": "核對恢復所需的實際檔案",
+        "detail": "恢復流程缺少來源資料時不應推測工作進度。 輸入：Session 紀錄中的技能、進度與決策路徑；輸出：必要路徑及檔案檢查結果或例外",
+        "source": "skills/local/lat/scripts/codex-lat-session.py"
+      },
+      {
+        "title": "保存紀錄並偵測部分並行修改",
+        "detail": "多個程序修改本機紀錄可能造成進度遺失。 輸入：目標 JSON、預期原始位元組與更新內容；輸出：暫存後替換的紀錄或並行修改拒絕",
+        "source": "skills/local/lat/scripts/codex-lat-session.py"
+      }
+    ],
+    "architecture": {
+      "summary": "建立主控 Session 恢復紀錄 → 核對恢復所需的實際檔案 → 保存紀錄並偵測部分並行修改 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "建立主控 Session 恢復紀錄",
+          "detail": "Git worktree 根目錄、CODEX_THREAD_ID、進度與決策路徑 → 具有主控身分及必要路徑的本機 JSON 紀錄",
+          "files": [
+            "skills/local/lat/scripts/codex-lat-session.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "核對恢復所需的實際檔案",
+          "detail": "Session 紀錄中的技能、進度與決策路徑 → 必要路徑及檔案檢查結果或例外",
+          "files": [
+            "skills/local/lat/scripts/codex-lat-session.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保存紀錄並偵測部分並行修改",
+          "detail": "目標 JSON、預期原始位元組與更新內容 → 暫存後替換的紀錄或並行修改拒絕",
+          "files": [
+            "skills/local/lat/scripts/codex-lat-session.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "建立主控 Session 恢復紀錄",
+        "rule": "限定格式的 Session ID 與 Git 根目錄；既有不同紀錄拒絕重綁，寫入前須有使用者授權。",
+        "source": "skills/local/lat/scripts/codex-lat-session.py"
+      },
+      {
+        "name": "核對恢復所需的實際檔案",
+        "rule": "要求絕對路徑、必要檔案及決策目錄存在；pointer 要求重讀與核對授權，不自行證明 tracker 狀態正確。",
+        "source": "skills/local/lat/scripts/codex-lat-session.py"
+      },
+      {
+        "name": "保存紀錄並偵測部分並行修改",
+        "rule": "寫入暫存檔、同步及比較原始位元組後替換；檢查到替換之間仍可能有競爭，不宣稱跨程序交易安全。",
+        "source": "skills/local/lat/scripts/codex-lat-session.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、skills/local/lat/scripts/codex-lat-session.py、skills/local/lat/SKILL.md、skills/local/lat/references/task-cards.md 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/local/lat/scripts/codex-lat-session.py",
+          "skills/local/lat/SKILL.md",
+          "skills/local/lat/references/task-cards.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有測試 Git worktree、已確認的 Spec、進度與待決紀錄。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、衝突及失敗情境。",
+        "files": [
+          "skills/local/lat/scripts/codex-lat-session.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 Agent 協作流程，經主控與獨立 QA 覆核後使用。",
+        "file": "skills/local/lat/scripts/codex-lat-session.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "activate",
+        "name": "建立主控 Session 恢復紀錄",
+        "problem": "長任務跨對話恢復時不能推測身分與已確認進度。",
+        "input": "Git worktree 根目錄、CODEX_THREAD_ID、進度與決策路徑",
+        "output": "具有主控身分及必要路徑的本機 JSON 紀錄",
+        "source": "skills/local/lat/scripts/codex-lat-session.py",
+        "sourceFiles": [
+          "skills/local/lat/scripts/codex-lat-session.py",
+          "README.md"
+        ],
+        "symbols": [
+          "session_id",
+          "workspace_root",
+          "activate"
+        ],
+        "gate": "限定格式的 Session ID 與 Git 根目錄；既有不同紀錄拒絕重綁，寫入前須有使用者授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "dependencies",
+        "name": "核對恢復所需的實際檔案",
+        "problem": "恢復流程缺少來源資料時不應推測工作進度。",
+        "input": "Session 紀錄中的技能、進度與決策路徑",
+        "output": "必要路徑及檔案檢查結果或例外",
+        "source": "skills/local/lat/scripts/codex-lat-session.py",
+        "sourceFiles": [
+          "skills/local/lat/scripts/codex-lat-session.py",
+          "README.md"
+        ],
+        "symbols": [
+          "dependencies",
+          "pointer"
+        ],
+        "gate": "要求絕對路徑、必要檔案及決策目錄存在；pointer 要求重讀與核對授權，不自行證明 tracker 狀態正確。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "write",
+        "name": "保存紀錄並偵測部分並行修改",
+        "problem": "多個程序修改本機紀錄可能造成進度遺失。",
+        "input": "目標 JSON、預期原始位元組與更新內容",
+        "output": "暫存後替換的紀錄或並行修改拒絕",
+        "source": "skills/local/lat/scripts/codex-lat-session.py",
+        "sourceFiles": [
+          "skills/local/lat/scripts/codex-lat-session.py",
+          "README.md"
+        ],
+        "symbols": [
+          "current_bytes",
+          "write_json"
+        ],
+        "gate": "寫入暫存檔、同步及比較原始位元組後替換；檢查到替換之間仍可能有競爭，不宣稱跨程序交易安全。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃多 Agent 任務的進度保存與主控恢復驗收（設計示例）",
+      "problem": "自有測試 Git worktree、已確認的 Spec、進度與待決紀錄。",
+      "steps": [
+        {
+          "capability": "activate",
+          "action": "建立主控 Session 恢復紀錄"
+        },
+        {
+          "capability": "dependencies",
+          "action": "核對恢復所需的實際檔案"
+        },
+        {
+          "capability": "write",
+          "action": "保存紀錄並偵測部分並行修改"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "loopagentteams-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有測試 Git worktree、已確認的 Spec、進度與待決紀錄。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "建立主控 Session 恢復紀錄 → 核對恢復所需的實際檔案 → 保存紀錄並偵測部分並行修改 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 Agent 協作流程，經主控與獨立 QA 覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Repo 含改造過的上游 Skills 副本，不能無差別替換",
+        "跨模型自動派工仍有成本、權限與回歸風險",
+        "限定格式的 Session ID 與 Git 根目錄；既有不同紀錄拒絕重綁，寫入前須有使用者授權。",
+        "要求絕對路徑、必要檔案及決策目錄存在；pointer 要求重讀與核對授權，不自行證明 tracker 狀態正確。",
+        "寫入暫存檔、同步及比較原始位元組後替換；檢查到替換之間仍可能有競爭，不宣稱跨程序交易安全。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "Repo 含改造過的上游 Skills 副本，不能無差別替換；跨模型自動派工仍有成本、權限與回歸風險；限定格式的 Session ID 與 Git 根目錄；既有不同紀錄拒絕重綁，寫入前須有使用者授權。；要求絕對路徑、必要檔案及決策目錄存在；pointer 要求重讀與核對授權，不自行證明 tracker 狀態正確。；寫入暫存檔、同步及比較原始位元組後替換；檢查到替換之間仍可能有競爭，不宣稱跨程序交易安全。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、skills/local/lat/scripts/codex-lat-session.py、skills/local/lat/SKILL.md、skills/local/lat/references/task-cards.md 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
