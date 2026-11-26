@@ -2836,3 +2836,19 @@ test('Resource quality batch 03: concrete reader starts preserve mapping and run
   assert.deepEqual(validateResourceLayerLinks(d),[],id);
  }
 });
+
+
+test('Resource quality batch 04: concrete starts, unchanged mapping and source identity boundary',()=>{
+ const expected={"citypulso-pulsoicon":"自有 Kotlin Compose 測試頁","claude-codex-harness-sync":"兩套合成專案設定","claude-mem":"兩個合成專案","claude-svg-animation-logo-loading-chart-tutorial":"合成長條圖","cloudflare-cloudflare-os":"合成企業知識庫","codebase-index":"共用表單欄位變更","codebase-memory-mcp":"一項 API 變更","composiohq-awesome-claude-skills":"整理合成 CSV","copywriting-skill":"一頁自有作品集或產品頁","coreyhaines31-marketingskills":"各技能共用的產品背景","cursor-plugins":"學習架構或驗收 PR","cursor-pstack-poteto":"可操作的驗收入口","cyyeh-agent-loop-visualizer":"一組合成 Agent 事件","danyuchn-claude-work-mode":"需人工決策的事項","debpalash-voicestudio":"自撰雙語教學腳本"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const blocked=JSON.parse(fs.readFileSync('data/resources/codex-router.json','utf8'));
+ assert.equal(blocked.intakeReview.sourceStatus,'partial');assert.equal(blocked.intakeReview.readingSpec.status,'deferred');assert.equal(blocked.intakeReview.capabilityReview.decision,'none');assert.equal(blocked.url,'');assert.ok(!blocked.readerGuide&&!blocked.agentEvidence);assert.match(blocked.intakeReview.sourceGap,/尚不能判定/);
+});
