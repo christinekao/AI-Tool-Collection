@@ -2761,3 +2761,17 @@ test('Deferred recovery batches 104–105: candidate evidence is not historical 
   for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
  }
 });
+
+
+test('Deferred recovery 95–105: supplemental example step precedes independent acceptance',()=>{
+ for(const [id,caseId,gateId] of [["infiniflow-ragflow","go-rag-contract-audit","verify"],["toeverything-affine","document-sync-permission-audit","verify"],["hermes-snyk-plugin","migrated-scan-contract-audit","verify-output"],["rea","closure-authority-audit","verify-output"],["stitch-mcp","sdk-auth-result-download-audit","verify-output"],["land-book-design-inspiration","gallery-provenance-rights-audit","verify-output"],["particles-casberry","particle-export-runtime-audit","verify-output"],["reverse-skill","candidate-trust-provenance-audit","verify-output"],["irons163-orchestrate-sol-terra-luna","candidate-delegation-provenance-audit","verify-output"]]){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  const ex=d.readerGuide.example;
+  assert.equal(ex.steps.at(-1).id,gateId,id);
+  assert.ok(ex.steps.at(-1).externalDependency,id);
+  assert.equal(ex.steps.at(-2).id,caseId,id);
+  assert.ok(ex.process.includes(ex.steps.at(-2).title),id);
+  assert.ok(ex.useCaseRefs.includes(caseId),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+});
