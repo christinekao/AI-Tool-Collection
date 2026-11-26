@@ -5,7 +5,7 @@
   "title": "Lemo-Opuscar — 59 Code-Rendered Film Styles & Claude Director Skill",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "video",
     "film-styles",
@@ -22,8 +22,8 @@
   "canonicalName": "lemomo-ai/lemo-opuscar",
   "category": "11 Media / Video",
   "resourceType": "Programmatic film style library and Claude agent directing/production skill",
-  "purpose": "提供 59 種影片風格與可自訂風格，由 Coding Agent 根據 DIRECTOR.md、TECHNIQUE.md、STYLE.md 形成 Treatment、分鏡、影格與影音時間軸，使用 Canvas/WebGL 逐格渲染、TTS、配樂與 FFmpeg 混音輸出。另有 Evidence Films 與 Edit/Documentary 風格供資料敘事。",
-  "recommendation": "適合想控制鏡頭節奏、品牌字體與音訊的程式化短影音製作，不是純粹的文字生成影片模型；官方樣品針對 Claude Opus 5.5，其他模型的輸出不保證一致。注意真實資料、影像、語音、音樂授權與下載的工具安全。",
+  "purpose": "以程式碼製作影片；固定版本 README 列 99 種風格，本次僅查影音事件、閱讀時間與字幕匯出。",
+  "recommendation": "適合研究程式影片的文字可讀性與字幕時間驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/lemomo-ai/lemo-opuscar",
   "repo": "lemomo-ai/lemo-opuscar",
   "notes": "2026-10-27 官方 README、styles/README.md、DIRECTOR.md、TECHNIQUE.md、plugin/skills/lemo-opuscar/SKILL.md、LICENSE 核對。程式與文件 MIT；Repo Demo Films／Stills CC BY 4.0，轉載須註明 LemoLab、連結與修改；各 Demo 的第三方來源保留原授權。官方特別排除 Game Show Flat、Paper-cut Lightbox、Broadcast News Package 的三段語音於 CC BY 授權之外，不可直接重用。自製影片權利也不涵蓋未經授權的第三方素材。前置工具 Node 20+、Python 3.11+、FFmpeg，setup.sh 會下載／更新程式庫與 npm、Python、Browser／語音／樣本，可能使用外部 TTS，需先審查並獲允許。59 種 Style 不等於 59 個 Skill。未安裝、未執行影片渲染或 QA。",
@@ -66,8 +66,16 @@
     "type": "Official README, film production guides, style index and licensing",
     "summary": "Checked 2026-10-27; no execution.",
     "readmeUrl": "https://github.com/lemomo-ai/lemo-opuscar/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime or security validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、core/render/events.mjs、core/render/readcheck.mjs、core/render/srt.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "8ca0dd805e214bcc1d30714cd5b9d21cc02a454b",
+    "referenceUrls": [
+      "https://github.com/lemomo-ai/lemo-opuscar/blob/8ca0dd805e214bcc1d30714cd5b9d21cc02a454b/README.md",
+      "https://github.com/lemomo-ai/lemo-opuscar/blob/8ca0dd805e214bcc1d30714cd5b9d21cc02a454b/LICENSE",
+      "https://github.com/lemomo-ai/lemo-opuscar/blob/8ca0dd805e214bcc1d30714cd5b9d21cc02a454b/core/render/events.mjs",
+      "https://github.com/lemomo-ai/lemo-opuscar/blob/8ca0dd805e214bcc1d30714cd5b9d21cc02a454b/core/render/readcheck.mjs",
+      "https://github.com/lemomo-ai/lemo-opuscar/blob/8ca0dd805e214bcc1d30714cd5b9d21cc02a454b/core/render/srt.py"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -104,40 +112,395 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain content，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、core/render/events.mjs、core/render/readcheck.mjs、core/render/srt.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "程式 MIT；文件 CC BY-NC 4.0 與額外有限許可；示範影片 CC BY 4.0，第三方例外；創作可能消耗大量 Agent Token 與時間；各種外部素材可能採不同授權，不能只看 Repo LICENSE；腳本開啟頁面並寫檔，未測實際音效同步，執行須隔離及核准。；本次查閱腳本所定義的閱讀時間契約；採樣與閱讀速度假設不取代真人觀賞。；縮短前一段重疊時間，不保證所有非法時間被拒絕；需核對實際畫面與語音。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README.md、LICENSE、core/render/events.mjs、core/render/readcheck.mjs、core/render/srt.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、core/render/events.mjs、core/render/readcheck.mjs、core/render/srt.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供 59 種影片風格與可自訂風格，由 Coding Agent 根據 DIRECTOR.md、TECHNIQUE.md、STYLE.md 形成 Treatment、分鏡、影格與影音時間軸，使用 Canvas/WebGL 逐格渲染、TTS、配樂與 FFmpeg 混音輸出。另有 Evidence Films 與 Edit/Documentary 風格供資料敘事。",
+      "source": "https://github.com/lemomo-ai/lemo-opuscar",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合想控制鏡頭節奏、品牌字體與音訊的程式化短影音製作，不是純粹的文字生成影片模型；官方樣品針對 Claude Opus 5.5，其他模型的輸出不保證一致。注意真實資料、影像、語音、音樂授權與下載的工具安全。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-events",
+        "title": "匯出頁面中的音效事件",
+        "detail": "聲音時間軸需要與畫面程式共享時間資料。 輸出：含時長與音效事件的 JSON。",
+        "capabilityRefs": [
+          "events"
+        ]
+      },
+      {
+        "id": "use-reading",
+        "title": "設定文字在畫面上的閱讀時間契約",
+        "detail": "文字出現不等於觀眾來得及閱讀。 輸出：閱讀時間通過、失敗或不可執行的判定規格。",
+        "capabilityRefs": [
+          "reading"
+        ]
+      },
+      {
+        "id": "use-srt",
+        "title": "由字幕時間軸匯出 SRT",
+        "detail": "重疊字幕及時間進位需要一致處理。 輸出：依時間排序的 SRT 檔。",
+        "capabilityRefs": [
+          "srt"
+        ]
+      }
+    ],
+    "example": {
+      "id": "lemomo-ai-lemo-opuscar-example",
+      "title": "規劃程式影片的文字可讀性與字幕時間驗收",
+      "input": "合成文字區塊、音效事件及字幕時間資料",
+      "process": "匯出頁面中的音效事件 → 設定文字在畫面上的閱讀時間契約 → 由字幕時間軸匯出 SRT → 獨立驗收實際成果",
+      "output": "事件 JSON、文字可讀性檢查規格及 SRT",
+      "destination": "自有影片製作工作區，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-events",
+        "use-reading",
+        "use-srt"
+      ],
+      "steps": [
+        {
+          "id": "events",
+          "title": "匯出頁面中的音效事件",
+          "capabilityRefs": [
+            "events"
+          ]
+        },
+        {
+          "id": "reading",
+          "title": "設定文字在畫面上的閱讀時間契約",
+          "capabilityRefs": [
+            "reading"
+          ]
+        },
+        {
+          "id": "srt",
+          "title": "由字幕時間軸匯出 SRT",
+          "capabilityRefs": [
+            "srt"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成文字區塊、音效事件及字幕時間資料。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "創作可能消耗大量 Agent Token 與時間",
+      "各種外部素材可能採不同授權，不能只看 Repo LICENSE",
+      "腳本開啟頁面並寫檔，未測實際音效同步，執行須隔離及核准。",
+      "本次查閱腳本所定義的閱讀時間契約；採樣與閱讀速度假設不取代真人觀賞。",
+      "縮短前一段重疊時間，不保證所有非法時間被拒絕；需核對實際畫面與語音。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以程式碼製作影片；固定版本 README 列 99 種風格，本次僅查影音事件、閱讀時間與字幕匯出。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "程式 MIT；文件 CC BY-NC 4.0 與額外有限許可；示範影片 CC BY 4.0，第三方例外"
+      },
+      {
+        "label": "版本",
+        "value": "8ca0dd805e214bcc1d30714cd5b9d21cc02a454b"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "匯出頁面中的音效事件",
+        "detail": "聲音時間軸需要與畫面程式共享時間資料。 輸入：自有影片頁面與事件時間軸；輸出：含時長與音效事件的 JSON",
+        "source": "core/render/events.mjs"
+      },
+      {
+        "title": "設定文字在畫面上的閱讀時間契約",
+        "detail": "文字出現不等於觀眾來得及閱讀。 輸入：合成文字與可視區域時間資料；輸出：閱讀時間通過、失敗或不可執行的判定規格",
+        "source": "core/render/readcheck.mjs"
+      },
+      {
+        "title": "由字幕時間軸匯出 SRT",
+        "detail": "重疊字幕及時間進位需要一致處理。 輸入：合成字幕起迄時間與文字；輸出：依時間排序的 SRT 檔",
+        "source": "core/render/srt.py"
+      }
+    ],
+    "architecture": {
+      "summary": "匯出頁面中的音效事件 → 設定文字在畫面上的閱讀時間契約 → 由字幕時間軸匯出 SRT → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "匯出頁面中的音效事件",
+          "detail": "自有影片頁面與事件時間軸 → 含時長與音效事件的 JSON",
+          "files": [
+            "core/render/events.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "設定文字在畫面上的閱讀時間契約",
+          "detail": "合成文字與可視區域時間資料 → 閱讀時間通過、失敗或不可執行的判定規格",
+          "files": [
+            "core/render/readcheck.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "由字幕時間軸匯出 SRT",
+          "detail": "合成字幕起迄時間與文字 → 依時間排序的 SRT 檔",
+          "files": [
+            "core/render/srt.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "匯出頁面中的音效事件",
+        "rule": "腳本開啟頁面並寫檔，未測實際音效同步，執行須隔離及核准。",
+        "source": "core/render/events.mjs"
+      },
+      {
+        "name": "設定文字在畫面上的閱讀時間契約",
+        "rule": "本次查閱腳本所定義的閱讀時間契約；採樣與閱讀速度假設不取代真人觀賞。",
+        "source": "core/render/readcheck.mjs"
+      },
+      {
+        "name": "由字幕時間軸匯出 SRT",
+        "rule": "縮短前一段重疊時間，不保證所有非法時間被拒絕；需核對實際畫面與語音。",
+        "source": "core/render/srt.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、core/render/events.mjs、core/render/readcheck.mjs、core/render/srt.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "core/render/events.mjs",
+          "core/render/readcheck.mjs",
+          "core/render/srt.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成文字區塊、音效事件及字幕時間資料。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "core/render/events.mjs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有影片製作工作區，經資料權利與人工覆核後使用。",
+        "file": "core/render/events.mjs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "events",
+        "name": "匯出頁面中的音效事件",
+        "problem": "聲音時間軸需要與畫面程式共享時間資料。",
+        "input": "自有影片頁面與事件時間軸",
+        "output": "含時長與音效事件的 JSON",
+        "source": "core/render/events.mjs",
+        "sourceFiles": [
+          "core/render/events.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "window.DUR",
+          "window.EV",
+          "openDemo"
+        ],
+        "gate": "腳本開啟頁面並寫檔，未測實際音效同步，執行須隔離及核准。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "reading",
+        "name": "設定文字在畫面上的閱讀時間契約",
+        "problem": "文字出現不等於觀眾來得及閱讀。",
+        "input": "合成文字與可視區域時間資料",
+        "output": "閱讀時間通過、失敗或不可執行的判定規格",
+        "source": "core/render/readcheck.mjs",
+        "sourceFiles": [
+          "core/render/readcheck.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "window.TEXTS(t)",
+          "Reading-time self-check"
+        ],
+        "gate": "本次查閱腳本所定義的閱讀時間契約；採樣與閱讀速度假設不取代真人觀賞。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "srt",
+        "name": "由字幕時間軸匯出 SRT",
+        "problem": "重疊字幕及時間進位需要一致處理。",
+        "input": "合成字幕起迄時間與文字",
+        "output": "依時間排序的 SRT 檔",
+        "source": "core/render/srt.py",
+        "sourceFiles": [
+          "core/render/srt.py",
+          "README.md"
+        ],
+        "symbols": [
+          "fmt",
+          "cues"
+        ],
+        "gate": "縮短前一段重疊時間，不保證所有非法時間被拒絕；需核對實際畫面與語音。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃程式影片的文字可讀性與字幕時間驗收（設計示例）",
+      "problem": "合成文字區塊、音效事件及字幕時間資料",
+      "steps": [
+        {
+          "capability": "events",
+          "action": "匯出頁面中的音效事件"
+        },
+        {
+          "capability": "reading",
+          "action": "設定文字在畫面上的閱讀時間契約"
+        },
+        {
+          "capability": "srt",
+          "action": "由字幕時間軸匯出 SRT"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "lemomo-ai-lemo-opuscar-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成文字區塊、音效事件及字幕時間資料",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "匯出頁面中的音效事件 → 設定文字在畫面上的閱讀時間契約 → 由字幕時間軸匯出 SRT → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有影片製作工作區，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "創作可能消耗大量 Agent Token 與時間",
+        "各種外部素材可能採不同授權，不能只看 Repo LICENSE",
+        "腳本開啟頁面並寫檔，未測實際音效同步，執行須隔離及核准。",
+        "本次查閱腳本所定義的閱讀時間契約；採樣與閱讀速度假設不取代真人觀賞。",
+        "縮短前一段重疊時間，不保證所有非法時間被拒絕；需核對實際畫面與語音。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "創作可能消耗大量 Agent Token 與時間；各種外部素材可能採不同授權，不能只看 Repo LICENSE；腳本開啟頁面並寫檔，未測實際音效同步，執行須隔離及核准。；本次查閱腳本所定義的閱讀時間契約；採樣與閱讀速度假設不取代真人觀賞。；縮短前一段重疊時間，不保證所有非法時間被拒絕；需核對實際畫面與語音。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、core/render/events.mjs、core/render/readcheck.mjs、core/render/srt.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

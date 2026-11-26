@@ -1910,6 +1910,87 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  57,
+  "前端設計、元件與本機協作",
+  [
+    [
+      "madebypan-figcc",
+      "規劃自有設計畫布的選取內容與權限驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "lawpowen-ui-design-codex-bundle",
+      "規劃設計知識庫的資料契約與決策規則驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "seokwoooo-lucian-uxui-prompt",
+      "規劃互動元件收藏庫的建置與操作驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  58,
+  "Agent 記憶、工作模式與內容治理",
+  [
+    [
+      "rociiu-talorys",
+      "規劃私人 Agent 記憶版本與待核准動作驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "danyuchn-claude-work-mode",
+      "規劃 Coding Agent 工作模式與決策邊界驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "social-post",
+      "規劃社群內容工作流的授權與證據驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  59,
+  "影音素材、剪輯可靠性與字幕驗收",
+  [
+    [
+      "storytold-artcraft",
+      "規劃影音創作工作台的素材與生成狀態驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "storytold-filmcraft",
+      "規劃影片剪輯專案的復原與匯出可靠性驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "lemomo-ai-lemo-opuscar",
+      "規劃程式影片的文字可讀性與字幕時間驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
