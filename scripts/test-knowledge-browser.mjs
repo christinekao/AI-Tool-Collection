@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch06Phrases={"googlechrome-modern-web-guidance":"手機導覽與桌面側欄需求","graft":"兩個自有測試 Repo","graphify-labs-graphify":"固定 v3","guizang-product-video-skill":"預期開場畫面","gzh-design-skill":"自有 Markdown 教學文章","hao0321-editkin":"合成渲染圖","harry0703-moneyprinterturbo":"素材方向異常案例","hbai-ltd-toonflow-app":"兩個隔離測試工作區","herdr-mods-gallery":"待人工處理提醒","herdrdev-herdr":"兩個自有測試 CLI Agent","hermes-backsearch":"明確截止日","hermes-memory-wiki":"兩個合成 profile","hermes-snyk-plugin":"禁止外送的內容","hesreallyhim-awesome-claude-code":"跨 Session 記憶或 PR 回歸驗收","heydamir-unslop":"一個設計問題"};
+  if(qualityBatch06Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch06Phrases[id])+')'),id);
+  }
   const qualityBatch05Phrases={"deepseek-dsh-superagent-prototype":"合成 GitHub 事件與對話","designed-to-scale":"自訂短網址或聊天服務需求","df3011212-codex-local-board":"兩個合成工作對話","dominicrico-jev-router":"合成簡單與複雜任務","dslab-lessons":"自有短影音學習目標","ecpay-ecpay-api-skill":"虛構訂單及業務需求","elayadesign-ai-design-skills":"自有產品首頁的設計需求","electron":"自有 HTML 知識庫的最小桌面功能","engineering-leadership-adobe-tech-lead-ai":"自有團隊的一項模糊需求","fomofly-ai":"有權使用的合成長教學影片","forget-c-jellyfish":"合成短劇專案","frontend-design":"自有作品集首頁的一組真實作品","gagansd-herdr-insights":"合成 Pi、Codex、Claude Code 用量日誌","garrytan-gbrain":"一則需撤回的過時事實","garrytan-gstack":"自有測試 Repo 的一項功能需求","gbro-collage-broll":"合成紙拼貼風首尾影格","gbro-cover-design":"目標直式封面","gggodlin-cc-harness":"自有測試 Repo 的 Agent 規則","github-agentic-workflows":"一項合成 CI 失敗分析"};
   if(qualityBatch05Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch05Phrases[id])+')'),id);
