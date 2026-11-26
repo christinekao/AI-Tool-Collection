@@ -11152,7 +11152,7 @@
         "reviewedAt": "2026-11-26",
         "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
         "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-        "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。",
+        "reviewScope": "沿用既有固定版本證據；Batch 93 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。 未執行第三方。",
         "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
         "referenceUrls": [
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
@@ -11164,7 +11164,10 @@
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts",
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/plan.ts",
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/shell.ts",
-          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts"
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/session.ts",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/shell/permissions.ts",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/mcp/index.ts"
         ]
       },
       "researchStatus": "official-source-verified",
@@ -11221,7 +11224,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
+          "reason": "原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -11234,14 +11237,14 @@
         "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
         "verification": {
           "status": "not-tested",
-          "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。"
+          "evidence": "沿用既有固定版本證據；Batch 93 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。 未執行第三方。"
         },
-        "sourceGap": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
+        "sourceGap": "原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。",
         "layerReview": {
           "status": "deferred",
           "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-          "gap": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
-          "nextAction": "追蹤 Session.create 的 child 權限、ShellPermissions.requests 解析與 MCP direct/resource 入口，驗證拒絕與越權反例。"
+          "gap": "原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。",
+          "nextAction": "追蹤 agent 切換、顯式 permissions 覆寫、MCP callTool/readResource 的所有呼叫者及 ShellParse 支援語法；以合成 Repo 測試拒絕及越權反例。"
         }
       },
       "implementationKnowledge": {
@@ -11258,7 +11261,11 @@
           "plan_role": "Plan plugin 設定 primary 角色、允許 question、拒絕一般 edit，並允許指定 plan 目錄 edit；選中時指令要求不修改其他檔案或委派修改。",
           "session_policy": "權限服務依呼叫的 sessionID 取得 session，解析指定 agent 或 session agent，組合 agent permissions 與 session permissions，再評估操作。",
           "shell_gate": "Shell 解析目標工作目錄，依當前 agent/session 組合政策產生權限請求，逐一 assert，並在程序建立前重新檢查目錄。",
-          "mcp_tool_gate": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。"
+          "mcp_tool_gate": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。",
+          "child_session_admission": "子代理先檢查角色及 permission.assert；重用既有 session 時要求 parentID 等於目前 session，建立子 session 時傳 parentID、agent 與 model，未顯式傳 permissions。",
+          "child_permission_inheritance": "Session.create 查找父 session 並繼承位置；metadata 與 permissions 採 input 值優先、未提供時使用父 session 值。",
+          "shell_unverifiable_policy": "ShellPermissions.requests 使用 ShellParse.scan；無法解析且政策有 shell deny 時回 UnverifiableError，否則要求萬用 external_directory 與完整命令核准，不保存核准模式；成功時解析目錄與命令資源。",
+          "mcp_direct_service_boundary": "MCP.callTool 選擇 attached client 或 configured server 並轉發；MCP.prompt、resources、readResource 走連線及對應讀取方法，這些服務方法本段未見 permission.assert。"
         }
       },
       "agentEvidence": [
@@ -11396,6 +11403,50 @@
           "limitations": "此入口採工具層萬用 resource，並非參數級授權；不能推廣至所有 MCP 入口或遠端服務端安全。",
           "evidenceStatus": "partial",
           "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "child-session-admission",
+          "detail": "子代理先檢查角色及 permission.assert；重用既有 session 時要求 parentID 等於目前 session，建立子 session 時傳 parentID、agent 與 model，未顯式傳 permissions。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/subagent.ts#L125-L190",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.child_session_admission"
+          ],
+          "limitations": "既有 child 可切換 agent；未證明原父角色規則、後續更新或所有其他建立入口均維持相同限制。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "child-permission-inheritance",
+          "detail": "Session.create 查找父 session 並繼承位置；metadata 與 permissions 採 input 值優先、未提供時使用父 session 值。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/session.ts#L303-L353",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.child_permission_inheritance"
+          ],
+          "limitations": "這是建立時的預設繼承而非強制父子政策交集；不能推論父 agent 的所有規則自動繼承或後續變更同步。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "shell-unverifiable-policy",
+          "detail": "ShellPermissions.requests 使用 ShellParse.scan；無法解析且政策有 shell deny 時回 UnverifiableError，否則要求萬用 external_directory 與完整命令核准，不保存核准模式；成功時解析目錄與命令資源。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/shell/permissions.ts#L17-L57",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.shell_unverifiable_policy"
+          ],
+          "limitations": "仍須核對 ShellParse 支援語法及實際作業系統行為；非通用沙箱保證。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "mcp-direct-service-boundary",
+          "detail": "MCP.callTool 選擇 attached client 或 configured server 並轉發；MCP.prompt、resources、readResource 走連線及對應讀取方法，這些服務方法本段未見 permission.assert。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/mcp/index.ts#L1096-L1185",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.mcp_direct_service_boundary"
+          ],
+          "limitations": "不能僅據此認定可繞過授權；需查所有外部呼叫入口、上游檢查與遠端 server 的授權。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
         }
       ],
       "readerGuide": {
@@ -11447,6 +11498,17 @@
               "session-policy",
               "shell-gate",
               "mcp-tool-gate"
+            ]
+          },
+          {
+            "id": "child-shell-mcp-audit",
+            "title": "驗收子代理繼承與工具邊界",
+            "detail": "測試指定子 session 是否屬於父 session、未指定與顯式設定 permissions、切換 agent、無法解析的 Shell 指令，以及 MCP 直接呼叫與 resource 讀取；以 OS 層限制補強。",
+            "evidenceRefs": [
+              "child-session-admission",
+              "child-permission-inheritance",
+              "shell-unverifiable-policy",
+              "mcp-direct-service-boundary"
             ]
           }
         ],
@@ -52456,7 +52518,7 @@
         "readmeUrl": "https://github.com/vectorize-io/hindsight/blob/main/README.md",
         "reviewedAt": "2026-11-26",
         "type": "Official upstream README or bundle document",
-        "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 89 新增 3 筆原始碼證據。已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。 未執行第三方。",
+        "reviewScope": "沿用既有固定版本證據；Batch 92 新增 3 筆局部原始碼或上游測試證據。原 404 路徑已更正；已補上 Bank 路由拒絕測試、Reflect 引用集合過濾與不存在 Bank 的刪除測試；仍須核對引擎直接呼叫的授權、跨 tenant/bank 隔離、所有輸出分支與完整資料保留／刪除契約。 未執行第三方。",
         "upstreamCommit": "550ef5e304623be2a456913acbac1b1a834fb2c3",
         "referenceUrls": [
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md",
@@ -52466,7 +52528,9 @@
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/extensions/builtin/tenant.py",
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py",
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py",
-          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py"
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py",
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_bank_validator_coverage.py",
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_missing_bank_store_owned.py"
         ]
       },
       "intakeReview": {
@@ -52495,7 +52559,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。"
+          "reason": "原 404 路徑已更正；已補上 Bank 路由拒絕測試、Reflect 引用集合過濾與不存在 Bank 的刪除測試；仍須核對引擎直接呼叫的授權、跨 tenant/bank 隔離、所有輸出分支與完整資料保留／刪除契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -52508,14 +52572,14 @@
         "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
         "verification": {
           "status": "not-tested",
-          "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 89 新增 3 筆原始碼證據。已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。 未執行第三方。"
+          "evidence": "沿用既有固定版本證據；Batch 92 新增 3 筆局部原始碼或上游測試證據。原 404 路徑已更正；已補上 Bank 路由拒絕測試、Reflect 引用集合過濾與不存在 Bank 的刪除測試；仍須核對引擎直接呼叫的授權、跨 tenant/bank 隔離、所有輸出分支與完整資料保留／刪除契約。 未執行第三方。"
         },
-        "sourceGap": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。",
+        "sourceGap": "原 404 路徑已更正；已補上 Bank 路由拒絕測試、Reflect 引用集合過濾與不存在 Bank 的刪除測試；仍須核對引擎直接呼叫的授權、跨 tenant/bank 隔離、所有輸出分支與完整資料保留／刪除契約。",
         "layerReview": {
           "status": "deferred",
           "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-          "gap": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。",
-          "nextAction": "追蹤引擎 tenant/schema 與 bank 授權、_process_done_tool 的引用驗證及刪除保留例外，再以隔離環境驗證。"
+          "gap": "原 404 路徑已更正；已補上 Bank 路由拒絕測試、Reflect 引用集合過濾與不存在 Bank 的刪除測試；仍須核對引擎直接呼叫的授權、跨 tenant/bank 隔離、所有輸出分支與完整資料保留／刪除契約。",
+          "nextAction": "核對引擎直接呼叫的 tenant/schema 與 Bank 授權、強制 synthesis 引用路徑、附件及備份刪除；以合成資料實測。"
         }
       },
       "implementationKnowledge": {
@@ -52531,7 +52595,10 @@
           "bank_delete_test": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。",
           "http_precheck": "有配置 OperationValidator 時，HTTP precheck 先認證 tenant，再帶 bank_id、operation、request context 與內容長度呼叫驗證器；拒絕轉 HTTP 錯誤。",
           "reflect_http": "Reflect API 透過 precheck 與 admission 依賴，把 bank、查詢、預算、tags 等傳入 reflect_async；斷線取消執行，按請求回傳 based_on、trace、結構化輸出與使用量。",
-          "reflect_finish": "停止檢索後透過 done 取得回答；空回答可重問，沒有 done 時可轉獨立 synthesis；已拒絕的結構化文件不可靜默改成自由文字，超過重試上限會失敗。"
+          "reflect_finish": "停止檢索後透過 done 取得回答；空回答可重問，沒有 done 時可轉獨立 synthesis；已拒絕的結構化文件不可靜默改成自由文字，超過重試上限會失敗。",
+          "bank_validator_coverage": "上游測試將拒絕驗證器注入引擎，遍歷 OpenAPI 含 bank_id 的路由並要求 4xx；空 retain 的 200 被視為無寫入例外。",
+          "reflect_cited_id_filter": "done 的引用欄位不是 list 時回空集合，僅保留實際檢索集合中的字串 ID；長度重寫後另移除回答與文件中未見過的 ID。",
+          "missing_bank_delete_test": "上游測試要求不存在的 Bank 在刪除、清空或按類型清空時回零計數且不呼叫未建立 namespace 的 store；現存 Bank 的正控制要求計數與刪除 storage。"
         }
       },
       "agentEvidence": [
@@ -52660,6 +52727,39 @@
           "limitations": "尚未核對完整檢索迴圈、引用驗證函式與所有 fallback 分支；未執行。",
           "evidenceStatus": "partial",
           "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "bank-validator-coverage",
+          "detail": "上游測試將拒絕驗證器注入引擎，遍歷 OpenAPI 含 bank_id 的路由並要求 4xx；空 retain 的 200 被視為無寫入例外。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_bank_validator_coverage.py#L71-L109",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.bank_validator_coverage"
+          ],
+          "limitations": "這是未執行的上游測試，非預設 Bank RBAC 證明；4xx 不必然表示命中驗證器，也不涵蓋非 HTTP 入口。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "reflect-cited-id-filter",
+          "detail": "done 的引用欄位不是 list 時回空集合，僅保留實際檢索集合中的字串 ID；長度重寫後另移除回答與文件中未見過的 ID。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py#L2477-L2595",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.reflect_cited_id_filter"
+          ],
+          "limitations": "ID 存在不代表語意支持結論；結構化輸出及其他 synthesis 分支須另外核對。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "missing-bank-delete-test",
+          "detail": "上游測試要求不存在的 Bank 在刪除、清空或按類型清空時回零計數且不呼叫未建立 namespace 的 store；現存 Bank 的正控制要求計數與刪除 storage。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_missing_bank_store_owned.py#L98-L137",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.missing_bank_delete_test"
+          ],
+          "limitations": "測試未執行；不代表所有後端、附件、備份或保留期限皆已刪除。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
         }
       ],
       "readerGuide": {
@@ -52711,6 +52811,16 @@
               "http-precheck",
               "reflect-http",
               "reflect-finish"
+            ]
+          },
+          {
+            "id": "bank-citation-deletion-audit",
+            "title": "驗收 Bank 拒絕、引用與刪除例外",
+            "detail": "設計拒絕驗證器、未檢索 ID、格式錯誤 ID 欄位、空 retain、缺失 Bank 與現存 Bank 的正反例，另驗證直接引擎呼叫及資料隔離。",
+            "evidenceRefs": [
+              "bank-validator-coverage",
+              "reflect-cited-id-filter",
+              "missing-bank-delete-test"
             ]
           }
         ],
@@ -90014,7 +90124,7 @@
         "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
         "reviewedAt": "2026-11-26",
         "type": "Official upstream README",
-        "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。",
+        "reviewScope": "沿用既有固定版本證據；Batch 94 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。 未執行第三方。",
         "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
         "referenceUrls": [
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
@@ -90026,7 +90136,11 @@
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/creation/worktree-add.ts",
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/removal/worktree-removal.ts",
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/dispatch/rpc-request-admission-prologue.ts",
-          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts"
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/mobile/e2ee/mobile-e2ee-auth-validation.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/server/pairing/device-principal.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stop.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/terminal-authority/release/stopped-worker-terminal-release.ts"
         ]
       },
       "intakeReview": {
@@ -90055,7 +90169,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。"
+          "reason": "原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -90068,14 +90182,14 @@
         "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
         "verification": {
           "status": "not-tested",
-          "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。"
+          "evidence": "沿用既有固定版本證據；Batch 94 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。 未執行第三方。"
         },
-        "sourceGap": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
+        "sourceGap": "原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。",
         "layerReview": {
           "status": "deferred",
           "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-          "gap": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
-          "nextAction": "追蹤 transport callerScope 身分綁定、worker cancellation/cleanup、分支保護及未合併資料保留測試。"
+          "gap": "原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。",
+          "nextAction": "追蹤配對裝置解析、撤銷與 RPC scope 注入、worker-stop RPC 到程序終止、工作樹及未合併分支保護；以隔離 Repo 驗證。"
         }
       },
       "implementationKnowledge": {
@@ -90091,7 +90205,11 @@
           "git_worktree_add": "建立前檢查未完成刪除的路徑與分支衝突；依是否重用分支組合 git worktree add，新增分支使用 --no-track 與 -b；執行設逾時並在 finally 更新 WSL 路由快取。",
           "git_worktree_remove": "移除時讀取 worktree 與 branch/head，強制檢查鎖定，進入刪除限流區重新確認；移除 checkout 後依選項決定是否進行序列化分支清理。",
           "rpc_admission": "RPC handler 前先檢查 caller scope 與 method permission，再檢查來源及遷移 fence、peer admission、caller resolution、參數及 transport 支援。",
-          "worker_settlement": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。"
+          "worker_settlement": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。",
+          "mobile_e2ee_auth": "認證入口分流 token 與 device-key；token 需與解析裝置相符，key 需可用 v2 session、裝置 registry 結果及綁定 transcript 的 proof；失敗以明確代碼回傳。",
+          "paired_device_scope": "裝置 principal 含 ID、scope、client ID、credential fingerprint 與 revision；callerScopeOf 區分 mobile delegated 與 runtime-paired grants。",
+          "worker_stop_transaction": "beginWorkerStop 在交易中處理不存在、context-only、已結算及不允許停止情況；更新 worker 為 stopping、撤銷 dispatch capability、重新結算 task 並關閉問題，錯誤時回滾。",
+          "exited_terminal_release": "terminal 清理逐一檢查 process incarnation 的存活性；只接受 exited，無法確認或仍存活則保留；記錄 output 後批次結算並重新核對 owner、incarnation 及 archive。"
         }
       },
       "agentEvidence": [
@@ -90218,6 +90336,50 @@
           "limitations": "結算回讀不是 worker 程序終止、Git 清理或遠端一致性保證。",
           "evidenceStatus": "partial",
           "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "mobile-e2ee-auth",
+          "detail": "認證入口分流 token 與 device-key；token 需與解析裝置相符，key 需可用 v2 session、裝置 registry 結果及綁定 transcript 的 proof；失敗以明確代碼回傳。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/mobile/e2ee/mobile-e2ee-auth-validation.ts#L100-L143",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.mobile_e2ee_auth"
+          ],
+          "limitations": "這是 mobile E2EE 入口，尚未證明所有 relay、websocket、unix transport 或 RPC scope 注入都使用相同授權。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "paired-device-scope",
+          "detail": "裝置 principal 含 ID、scope、client ID、credential fingerprint 與 revision；callerScopeOf 區分 mobile delegated 與 runtime-paired grants。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/server/pairing/device-principal.ts#L15-L34",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.paired_device_scope"
+          ],
+          "limitations": "轉換本身不驗證憑證；需核對 transport 何時傳入已驗證 DeviceEntry 與撤銷檢查。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "worker-stop-transaction",
+          "detail": "beginWorkerStop 在交易中處理不存在、context-only、已結算及不允許停止情況；更新 worker 為 stopping、撤銷 dispatch capability、重新結算 task 並關閉問題，錯誤時回滾。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stop.ts#L60-L125",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.worker_stop_transaction"
+          ],
+          "limitations": "狀態標記與權限撤銷不代表實際程序已結束或 Git worktree 已清理。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "exited-terminal-release",
+          "detail": "terminal 清理逐一檢查 process incarnation 的存活性；只接受 exited，無法確認或仍存活則保留；記錄 output 後批次結算並重新核對 owner、incarnation 及 archive。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/terminal-authority/release/stopped-worker-terminal-release.ts#L105-L148",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.exited_terminal_release"
+          ],
+          "limitations": "這是已退出程序的資源回收，不保證所有程序會被終止，也不證明 Git 分支或工作樹刪除。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
         }
       ],
       "readerGuide": {
@@ -90271,6 +90433,17 @@
               "git-worktree-remove",
               "rpc-admission",
               "worker-settlement"
+            ]
+          },
+          {
+            "id": "remote-worker-stop-audit",
+            "title": "驗收遠端認證與 Worker 停止回收",
+            "detail": "設計無效 credential、撤銷裝置、不同 caller scope、重複 stop、保留開啟中的 worker、程序仍存活或不可驗證的反例；另外檢查 Git 資源清理。",
+            "evidenceRefs": [
+              "mobile-e2ee-auth",
+              "paired-device-scope",
+              "worker-stop-transaction",
+              "exited-terminal-release"
             ]
           }
         ],
