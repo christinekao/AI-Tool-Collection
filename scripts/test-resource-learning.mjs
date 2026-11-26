@@ -2852,3 +2852,19 @@ test('Resource quality batch 04: concrete starts, unchanged mapping and source i
  const blocked=JSON.parse(fs.readFileSync('data/resources/codex-router.json','utf8'));
  assert.equal(blocked.intakeReview.sourceStatus,'partial');assert.equal(blocked.intakeReview.readingSpec.status,'deferred');assert.equal(blocked.intakeReview.capabilityReview.decision,'none');assert.equal(blocked.url,'');assert.ok(!blocked.readerGuide&&!blocked.agentEvidence);assert.match(blocked.intakeReview.sourceGap,/尚不能判定/);
 });
+
+
+test('Resource quality batch 05: practical starts and unchanged deferred boundary',()=>{
+ const expected={"deepseek-dsh-superagent-prototype":"合成 GitHub 事件與對話","designed-to-scale":"自訂短網址或聊天服務需求","df3011212-codex-local-board":"兩個合成工作對話","dominicrico-jev-router":"合成簡單與複雜任務","dslab-lessons":"自有短影音學習目標","ecpay-ecpay-api-skill":"虛構訂單及業務需求","elayadesign-ai-design-skills":"自有產品首頁的設計需求","electron":"自有 HTML 知識庫的最小桌面功能","engineering-leadership-adobe-tech-lead-ai":"自有團隊的一項模糊需求","fomofly-ai":"有權使用的合成長教學影片","forget-c-jellyfish":"合成短劇專案","frontend-design":"自有作品集首頁的一組真實作品","gagansd-herdr-insights":"合成 Pi、Codex、Claude Code 用量日誌","garrytan-gbrain":"一則需撤回的過時事實","garrytan-gstack":"自有測試 Repo 的一項功能需求","gbro-collage-broll":"合成紙拼貼風首尾影格","gbro-cover-design":"目標直式封面","gggodlin-cc-harness":"自有測試 Repo 的 Agent 規則","github-agentic-workflows":"一項合成 CI 失敗分析"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((id==='designed-to-scale'?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const d=JSON.parse(fs.readFileSync('data/resources/designed-to-scale.json','utf8'));
+ assert.match(d.readerGuide.start[1],/實際互動章節尚未讀取/);assert.match(d.intakeReview.layerReview.gap,/互動內容未能擷取/);
+});

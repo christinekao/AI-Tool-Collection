@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch05Phrases={"deepseek-dsh-superagent-prototype":"合成 GitHub 事件與對話","designed-to-scale":"自訂短網址或聊天服務需求","df3011212-codex-local-board":"兩個合成工作對話","dominicrico-jev-router":"合成簡單與複雜任務","dslab-lessons":"自有短影音學習目標","ecpay-ecpay-api-skill":"虛構訂單及業務需求","elayadesign-ai-design-skills":"自有產品首頁的設計需求","electron":"自有 HTML 知識庫的最小桌面功能","engineering-leadership-adobe-tech-lead-ai":"自有團隊的一項模糊需求","fomofly-ai":"有權使用的合成長教學影片","forget-c-jellyfish":"合成短劇專案","frontend-design":"自有作品集首頁的一組真實作品","gagansd-herdr-insights":"合成 Pi、Codex、Claude Code 用量日誌","garrytan-gbrain":"一則需撤回的過時事實","garrytan-gstack":"自有測試 Repo 的一項功能需求","gbro-collage-broll":"合成紙拼貼風首尾影格","gbro-cover-design":"目標直式封面","gggodlin-cc-harness":"自有測試 Repo 的 Agent 規則","github-agentic-workflows":"一項合成 CI 失敗分析"};
+  if(qualityBatch05Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch05Phrases[id])+')'),id);
+  }
   const qualityBatch04Phrases={"citypulso-pulsoicon":"自有 Kotlin Compose 測試頁","claude-codex-harness-sync":"兩套合成專案設定","claude-mem":"兩個合成專案","claude-svg-animation-logo-loading-chart-tutorial":"合成長條圖","cloudflare-cloudflare-os":"合成企業知識庫","codebase-index":"共用表單欄位變更","codebase-memory-mcp":"一項 API 變更","composiohq-awesome-claude-skills":"整理合成 CSV","copywriting-skill":"一頁自有作品集或產品頁","coreyhaines31-marketingskills":"各技能共用的產品背景","cursor-plugins":"學習架構或驗收 PR","cursor-pstack-poteto":"可操作的驗收入口","cyyeh-agent-loop-visualizer":"一組合成 Agent 事件","danyuchn-claude-work-mode":"需人工決策的事項","debpalash-voicestudio":"自撰雙語教學腳本"};
   if(qualityBatch04Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch04Phrases[id])+')'),id);
