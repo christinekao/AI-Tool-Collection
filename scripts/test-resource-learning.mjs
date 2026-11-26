@@ -128,9 +128,9 @@ test('Phase 3 batch 02: catalog, guide routes and review boundaries',()=>{
    assert.ok(d.repoGuide.architecture.nodes.every(n=>n.files?.length));
    assert.ok(d.repoGuide.rebuild.gaps.length);
   }else if(id==='microsoft-ai-agents-for-beginners'){
-   assert.match(html,/主題重點筆記（3 章）/);
-   assert.equal(d.learningGuide.modules.length,3);
-   assert.equal(d.intakeReview.readingSpec.status,'deferred');
+   assert.match(html,/主題重點筆記（18 章）/);
+   assert.equal(d.learningGuide.modules.length,18);
+   assert.equal(d.intakeReview.readingSpec.status,'applied');
    assert.ok(d.learningGuide.modules.every(m=>m.sourceUrl.includes(d.source.upstreamCommit)&&m.essentials.length===3&&m.apply&&m.output));
   }else{
    assert.equal(d.intakeReview.readingSpec.id,'standard');
@@ -216,7 +216,7 @@ test('Dual-layer batch 02: six reader pages preserve evidence and human learning
   ['anthropics-skills','建立 Resource 整理 Skill','evidence-linked',0],
   ['openrouter-ai','替摘要應用選擇模型','evidence-linked',0],
   ['ai-code-acceptance-review-testing-rollout-guide','驗收 AI 修改的申請表單','evidence-linked',4],
-  ['microsoft-ai-agents-for-beginners','設計只讀客服案件查詢 Agent','deferred',3]
+  ['microsoft-ai-agents-for-beginners','設計只讀客服案件查詢 Agent','evidence-linked',18]
  ]){
   const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
   assert.ok(built,id);
@@ -2642,4 +2642,16 @@ test('Dual-layer closeout batches 82–84: limited source, stable IDs and read-o
   const html=context.detail(built);assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
  }
  for(const id of ['codex-router','viral-hook-title','whisper-ui','skillgodak-hgtv']){const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));assert.equal(d.intakeReview.sourceStatus,'partial',id);assert.ok(!d.readerGuide?.mappingVersion,id);}
+});
+
+
+test('Batch 85: Microsoft Agent course covers all 18 pinned README chapters without runtime claims',()=>{
+ const d=JSON.parse(fs.readFileSync('data/resources/microsoft-ai-agents-for-beginners.json','utf8'));
+ const chapters=d.learningGuide.modules.map(m=>Number(m.sourceUrl.match(/\/([0-9]{2})-[^/]+\/README\.md$/)[1])).sort((a,b)=>a-b);
+ assert.deepEqual(chapters,Array.from({length:18},(_,i)=>i+1));
+ assert.equal(d.agentEvidence.length,18);assert.equal(d.learningGuide.practice.tasks.length,18);assert.equal(d.intakeReview.layerReview.status,'evidence-linked');assert.equal(d.intakeReview.verification.status,'not-tested');
+ assert.ok(d.agentEvidence.every(e=>e.runtimeStatus==='not-tested'&&e.evidenceStatus==='source-reviewed'&&e.locator.includes(d.source.upstreamCommit)));
+ assert.deepEqual(validateResourceLayerLinks(d),[]);
+ for(const e of d.agentEvidence){assert.ok(resolveResourceLayerLinks(d,{capabilityId:e.id}).useCases.length>0,e.id);}
+ assert.ok(d.learningGuide.caveat.includes('未逐行審查或執行 Notebook'));
 });

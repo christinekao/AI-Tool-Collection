@@ -491,7 +491,7 @@ try{
   ['ai-code-acceptance-review-testing-rollout-guide','.learning-guide','主題重點筆記（4 章）'],
   ['pydantic-pydantic-ai','.resource-reader-guide','實際應用：AI 履歷分析'],
   ['huggingface-smolagents','.resource-reader-guide','庫存查詢與缺貨分析'],
-  ['microsoft-ai-agents-for-beginners','.learning-guide','主題重點筆記（3 章）'],
+  ['microsoft-ai-agents-for-beginners','.learning-guide','主題重點筆記（18 章）'],
   ['nirdiamant-genai-agents','.resource-reader-guide','比較客服問題的分流方法'],
   ['anthropics-skills','.resource-reader-guide','建立 Resource 整理 Skill'],
   ['openrouter-ai','.resource-reader-guide','替摘要應用選擇模型'],
@@ -786,7 +786,7 @@ try{
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
   if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners',"react-frontend-backend-for-beginners","ryanhanwu-how-to-ask-questions-the-smart-way","dslab-lessons","claude-svg-animation-logo-loading-chart-tutorial","anthropic-solving-code-review-at-anthropic"].includes(id)){
-   const expected=id==='ai-code-acceptance-review-testing-rollout-guide'?4:3;
+   const expected=id==='microsoft-ai-agents-for-beginners'?18:id==='ai-code-acceptance-review-testing-rollout-guide'?4:3;
    assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),expected);
    assert.equal(await evaluate('document.querySelectorAll(".learn-apply").length'),expected);
   }
