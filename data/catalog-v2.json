@@ -19795,13 +19795,13 @@
       "canonicalName": "chatfire-AI/huobao-drama",
       "category": "11 Media / Video",
       "resourceType": "Noncommercial-source AI drama creator with Electron desktop and end-to-end agents",
-      "purpose": "一站式 TypeScript/Nuxt 3 + Hono + SQLite/Electron 短劇產生器：用四個 Mastra Agents 處理小說改劇本、角色／場景／道具萃取、鏡頭分解和圖片／影片提示，接多種文圖視模型批次出片，FFmpeg 合成、加入字幕與輸出整集。",
-      "recommendation": "適合研究短劇一條龍流程、快速比對劇本→分鏡→角色→AI 影片→FFmpeg 的整合。若用途是 YouTube 廣告、付費短劇或其他商業變現，官方 LICENSE 是含 NonCommercial 限制的 CC BY-NC-SA 4.0，必須先取得授權或法律確認，不要直接用於營利。桌面安裝包未簽署且官方文件建議移除 macOS quarantine／略過 Windows SmartScreen 警告，安全優先應避免繞過系統防護，改驗證來源與隔離試用。API key 及模型設定儲存於 SQLite，需保護資料目錄與備份。",
+      "purpose": "把自有劇本拆成角色、場景、道具與分鏡，保存媒體提示詞及生成任務的診斷資訊。",
+      "recommendation": "適合非商業短劇原型的流程研究；商業使用、素材權利與第三方服務須另核對。",
       "url": "https://github.com/chatfire-AI/huobao-drama",
       "repo": "chatfire-AI/huobao-drama",
       "status": "active",
       "addedAt": "2026-10-22",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "huobao-drama",
         "short-drama",
@@ -19879,48 +19879,411 @@
         "url": "https://github.com/chatfire-AI/huobao-drama",
         "readmeUrl": "https://github.com/chatfire-AI/huobao-drama/blob/main/README.md",
         "type": "Upstream official GitHub README/SKILL.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Source reviewed, not code-executed or installation-tested"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、backend/src/services/final-prompt.ts、backend/src/services/video-prompts.ts、backend/src/routes/tasks.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "24d4c17612e71cf10c8eeb1a8b6439afa73e2c07",
+        "referenceUrls": [
+          "https://github.com/chatfire-AI/huobao-drama/blob/24d4c17612e71cf10c8eeb1a8b6439afa73e2c07/README.md",
+          "https://github.com/chatfire-AI/huobao-drama/blob/24d4c17612e71cf10c8eeb1a8b6439afa73e2c07/LICENSE",
+          "https://github.com/chatfire-AI/huobao-drama/blob/24d4c17612e71cf10c8eeb1a8b6439afa73e2c07/backend/src/services/final-prompt.ts",
+          "https://github.com/chatfire-AI/huobao-drama/blob/24d4c17612e71cf10c8eeb1a8b6439afa73e2c07/backend/src/services/video-prompts.ts",
+          "https://github.com/chatfire-AI/huobao-drama/blob/24d4c17612e71cf10c8eeb1a8b6439afa73e2c07/backend/src/routes/tasks.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "沿用既有 content Domain，補足來源內容與使用限制，不變動分類。",
+        "classificationReason": "保留既有 Primary Domain content，原分類、Tags 與關聯不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、backend/src/services/final-prompt.ts、backend/src/services/video-prompts.ts、backend/src/routes/tasks.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+        "riskNotes": "授權標示 CC BY-NC-SA 4.0，商業使用不可直接視為允許。；輸出品質與模型費用依供應商而異，不宜因範例宣稱可直接量產。；預設重用既有值；force 才重做；Agent 上限 12 步，重新查資料庫，失敗回空字串，不能當成已成功生成圖片。；執行中不重啟；指定 ID 可重新生成；每鏡以資料庫非空提示詞計成功，並不驗證品質；程序重啟後狀態消失。；回應只標示結果 URL 或本機路徑是否存在於資料列，不驗證檔案可讀或內容正確；錯誤處理與權限需獨立驗收。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+          "evidence": "固定版本 README.md、LICENSE、backend/src/services/final-prompt.ts、backend/src/services/video-prompts.ts、backend/src/routes/tasks.ts 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、backend/src/services/final-prompt.ts、backend/src/services/video-prompts.ts、backend/src/routes/tasks.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "一站式 TypeScript/Nuxt 3 + Hono + SQLite/Electron 短劇產生器：用四個 Mastra Agents 處理小說改劇本、角色／場景／道具萃取、鏡頭分解和圖片／影片提示，接多種文圖視模型批次出片，FFmpeg 合成、加入字幕與輸出整集。",
+          "source": "https://github.com/chatfire-AI/huobao-drama",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合研究短劇一條龍流程、快速比對劇本→分鏡→角色→AI 影片→FFmpeg 的整合。若用途是 YouTube 廣告、付費短劇或其他商業變現，官方 LICENSE 是含 NonCommercial 限制的 CC BY-NC-SA 4.0，必須先取得授權或法律確認，不要直接用於營利。桌面安裝包未簽署且官方文件建議移除 macOS quarantine／略過 Windows SmartScreen 警告，安全優先應避免繞過系統防護，改驗證來源與隔離試用。API key 及模型設定儲存於 SQLite，需保護資料目錄與備份。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-asset-prompt",
+            "title": "保存角色、場景與道具的提示詞",
+            "detail": "同一故事的素材需要一致且可回查的描述。 輸出：既有或重新生成的 finalPrompt，失敗時空字串。",
+            "capabilityRefs": [
+              "asset-prompt"
+            ]
+          },
+          {
+            "id": "use-batch-prompt",
+            "title": "批次補充分鏡影片提示詞",
+            "detail": "逐鏡操作耗時，需要辨識缺漏及失敗。 輸出：是否啟動、總數及可查詢的批次進度。",
+            "capabilityRefs": [
+              "batch-prompt"
+            ]
+          },
+          {
+            "id": "use-diagnostics",
+            "title": "回查生成任務的診斷資訊",
+            "detail": "供應商回應失敗時需要辨識階段及產物缺漏。 輸出：供應商、模型、狀態、錯誤及結果存在旗標。",
+            "capabilityRefs": [
+              "diagnostics"
+            ]
+          }
+        ],
+        "example": {
+          "id": "chatfire-ai-huobao-drama-example",
+          "title": "規劃自有短劇的角色資產與分鏡提示詞驗收",
+          "input": "自撰劇本、虛構角色與場景資料、核准的測試模型。",
+          "process": "保存角色、場景與道具的提示詞 → 批次補充分鏡影片提示詞 → 回查生成任務的診斷資訊 → 獨立驗收實際成果",
+          "output": "角色與場景提示詞清單、分鏡任務狀態和診斷驗收規格。",
+          "destination": "自有短劇原型工作區，供人工逐鏡覆核及權利審查。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-asset-prompt",
+            "use-batch-prompt",
+            "use-diagnostics"
+          ],
+          "steps": [
+            {
+              "id": "asset-prompt",
+              "title": "保存角色、場景與道具的提示詞",
+              "capabilityRefs": [
+                "asset-prompt"
+              ]
+            },
+            {
+              "id": "batch-prompt",
+              "title": "批次補充分鏡影片提示詞",
+              "capabilityRefs": [
+                "batch-prompt"
+              ]
+            },
+            {
+              "id": "diagnostics",
+              "title": "回查生成任務的診斷資訊",
+              "capabilityRefs": [
+                "diagnostics"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准資料、素材授權、模型服務、環境與人工成果驗收。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自撰劇本、虛構角色與場景資料、核准的測試模型。",
+          "核對固定版本、模型與素材授權、費用及工作區權限。",
+          "核准測試環境後，以合成資料驗證正常、失敗及取消情境。"
+        ],
+        "limits": [
+          "授權標示 CC BY-NC-SA 4.0，商業使用不可直接視為允許。",
+          "輸出品質與模型費用依供應商而異，不宜因範例宣稱可直接量產。",
+          "預設重用既有值；force 才重做；Agent 上限 12 步，重新查資料庫，失敗回空字串，不能當成已成功生成圖片。",
+          "執行中不重啟；指定 ID 可重新生成；每鏡以資料庫非空提示詞計成功，並不驗證品質；程序重啟後狀態消失。",
+          "回應只標示結果 URL 或本機路徑是否存在於資料列，不驗證檔案可讀或內容正確；錯誤處理與權限需獨立驗收。",
+          "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "把自有劇本拆成角色、場景、道具與分鏡，保存媒體提示詞及生成任務的診斷資訊。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "CC BY-NC-SA 4.0；商業使用須另取得授權"
+          },
+          {
+            "label": "版本",
+            "value": "24d4c17612e71cf10c8eeb1a8b6439afa73e2c07"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "保存角色、場景與道具的提示詞",
+            "detail": "同一故事的素材需要一致且可回查的描述。 輸入：角色、場景或道具資料、集數及可選模型設定；輸出：既有或重新生成的 finalPrompt，失敗時空字串",
+            "source": "backend/src/services/final-prompt.ts"
+          },
+          {
+            "title": "批次補充分鏡影片提示詞",
+            "detail": "逐鏡操作耗時，需要辨識缺漏及失敗。 輸入：集數 ID、劇集 ID、模型設定與可選分鏡 ID 清單；輸出：是否啟動、總數及可查詢的批次進度",
+            "source": "backend/src/services/video-prompts.ts"
+          },
+          {
+            "title": "回查生成任務的診斷資訊",
+            "detail": "供應商回應失敗時需要辨識階段及產物缺漏。 輸入：任務 ID；輸出：供應商、模型、狀態、錯誤及結果存在旗標",
+            "source": "backend/src/routes/tasks.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "保存角色、場景與道具的提示詞 → 批次補充分鏡影片提示詞 → 回查生成任務的診斷資訊 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "保存角色、場景與道具的提示詞",
+              "detail": "角色、場景或道具資料、集數及可選模型設定 → 既有或重新生成的 finalPrompt，失敗時空字串",
+              "files": [
+                "backend/src/services/final-prompt.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "批次補充分鏡影片提示詞",
+              "detail": "集數 ID、劇集 ID、模型設定與可選分鏡 ID 清單 → 是否啟動、總數及可查詢的批次進度",
+              "files": [
+                "backend/src/services/video-prompts.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "回查生成任務的診斷資訊",
+              "detail": "任務 ID → 供應商、模型、狀態、錯誤及結果存在旗標",
+              "files": [
+                "backend/src/routes/tasks.ts",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "保存角色、場景與道具的提示詞",
+            "rule": "預設重用既有值；force 才重做；Agent 上限 12 步，重新查資料庫，失敗回空字串，不能當成已成功生成圖片。",
+            "source": "backend/src/services/final-prompt.ts"
+          },
+          {
+            "name": "批次補充分鏡影片提示詞",
+            "rule": "執行中不重啟；指定 ID 可重新生成；每鏡以資料庫非空提示詞計成功，並不驗證品質；程序重啟後狀態消失。",
+            "source": "backend/src/services/video-prompts.ts"
+          },
+          {
+            "name": "回查生成任務的診斷資訊",
+            "rule": "回應只標示結果 URL 或本機路徑是否存在於資料列，不驗證檔案可讀或內容正確；錯誤處理與權限需獨立驗收。",
+            "source": "backend/src/routes/tasks.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、backend/src/services/final-prompt.ts、backend/src/services/video-prompts.ts、backend/src/routes/tasks.ts 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "backend/src/services/final-prompt.ts",
+              "backend/src/services/video-prompts.ts",
+              "backend/src/routes/tasks.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自撰劇本、虛構角色與場景資料、核准的測試模型。 核對固定版本、模型與素材授權、費用及工作區權限。 核准測試環境後，以合成資料驗證正常、失敗及取消情境。",
+            "files": [
+              "backend/src/services/final-prompt.ts"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有短劇原型工作區，供人工逐鏡覆核及權利審查。",
+            "file": "backend/src/services/final-prompt.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "asset-prompt",
+            "name": "保存角色、場景與道具的提示詞",
+            "problem": "同一故事的素材需要一致且可回查的描述。",
+            "input": "角色、場景或道具資料、集數及可選模型設定",
+            "output": "既有或重新生成的 finalPrompt，失敗時空字串",
+            "source": "backend/src/services/final-prompt.ts",
+            "sourceFiles": [
+              "backend/src/services/final-prompt.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "ensureCharacterFinalPrompt",
+              "ensureSceneFinalPrompt",
+              "ensurePropFinalPrompt"
+            ],
+            "gate": "預設重用既有值；force 才重做；Agent 上限 12 步，重新查資料庫，失敗回空字串，不能當成已成功生成圖片。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "batch-prompt",
+            "name": "批次補充分鏡影片提示詞",
+            "problem": "逐鏡操作耗時，需要辨識缺漏及失敗。",
+            "input": "集數 ID、劇集 ID、模型設定與可選分鏡 ID 清單",
+            "output": "是否啟動、總數及可查詢的批次進度",
+            "source": "backend/src/services/video-prompts.ts",
+            "sourceFiles": [
+              "backend/src/services/video-prompts.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "startVideoPromptBatch",
+              "getVideoPromptBatchStatus"
+            ],
+            "gate": "執行中不重啟；指定 ID 可重新生成；每鏡以資料庫非空提示詞計成功，並不驗證品質；程序重啟後狀態消失。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "diagnostics",
+            "name": "回查生成任務的診斷資訊",
+            "problem": "供應商回應失敗時需要辨識階段及產物缺漏。",
+            "input": "任務 ID",
+            "output": "供應商、模型、狀態、錯誤及結果存在旗標",
+            "source": "backend/src/routes/tasks.ts",
+            "sourceFiles": [
+              "backend/src/routes/tasks.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "/:id/diagnostics",
+              "safeTaskError"
+            ],
+            "gate": "回應只標示結果 URL 或本機路徑是否存在於資料列，不驗證檔案可讀或內容正確；錯誤處理與權限需獨立驗收。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃自有短劇的角色資產與分鏡提示詞驗收（設計示例）",
+          "problem": "自撰劇本、虛構角色與場景資料、核准的測試模型。",
+          "steps": [
+            {
+              "capability": "asset-prompt",
+              "action": "保存角色、場景與道具的提示詞"
+            },
+            {
+              "capability": "batch-prompt",
+              "action": "批次補充分鏡影片提示詞"
+            },
+            {
+              "capability": "diagnostics",
+              "action": "回查生成任務的診斷資訊"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "chatfire-ai-huobao-drama-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自撰劇本、虛構角色與場景資料、核准的測試模型。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "保存角色、場景與道具的提示詞 → 批次補充分鏡影片提示詞 → 回查生成任務的診斷資訊 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有短劇原型工作區，供人工逐鏡覆核及權利審查。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "授權標示 CC BY-NC-SA 4.0，商業使用不可直接視為允許。",
+            "輸出品質與模型費用依供應商而異，不宜因範例宣稱可直接量產。",
+            "預設重用既有值；force 才重做；Agent 上限 12 步，重新查資料庫，失敗回空字串，不能當成已成功生成圖片。",
+            "執行中不重啟；指定 ID 可重新生成；每鏡以資料庫非空提示詞計成功，並不驗證品質；程序重啟後狀態消失。",
+            "回應只標示結果 URL 或本機路徑是否存在於資料列，不驗證檔案可讀或內容正確；錯誤處理與權限需獨立驗收。",
+            "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "授權標示 CC BY-NC-SA 4.0，商業使用不可直接視為允許。；輸出品質與模型費用依供應商而異，不宜因範例宣稱可直接量產。；預設重用既有值；force 才重做；Agent 上限 12 步，重新查資料庫，失敗回空字串，不能當成已成功生成圖片。；執行中不重啟；指定 ID 可重新生成；每鏡以資料庫非空提示詞計成功，並不驗證品質；程序重啟後狀態消失。；回應只標示結果 URL 或本機路徑是否存在於資料列，不驗證檔案可讀或內容正確；錯誤處理與權限需獨立驗收。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、backend/src/services/final-prompt.ts、backend/src/services/video-prompts.ts、backend/src/routes/tasks.ts 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -36755,14 +37118,14 @@
       "canonicalName": "harry0703/MoneyPrinterTurbo",
       "category": "11 Media / Video",
       "resourceType": "Python automated short-video creation toolkit with Web UI and API",
-      "purpose": "依主題產生 AI 短影音腳本，結合模型、素材、語音、字幕與背景音樂合成直橫式影片，提供介面、套件及容器部署。",
-      "recommendation": "適合探索端到端短影音製作；需要自行準備模型服務、素材來源與合法授權並檢查生成成本。",
+      "purpose": "將自有主題或腳本轉為短影音，管理任務資料、素材與輸出，並可檢查部分影片方向異常。",
+      "recommendation": "適合先用少量自有素材驗證影音自動化；不將生成成功視為素材合法、可公開發布或可獲利。",
       "url": "https://github.com/harry0703/MoneyPrinterTurbo",
       "repo": "harry0703/MoneyPrinterTurbo",
       "notes": "2026-10-25 核對 GitHub Repository Metadata、官方 README、Repo 目錄及相關 SKILL.md。Repository 授權：MIT。README 含大量 API 平台聯盟廣告、優惠與廠商宣稱，這些不是獨立驗證的功能和經濟效益；『MoneyPrinter』命名不代表會自動產生收入。第三方大模型、素材影片／圖片來源、TTS 和音樂可能涉及額外 API 金額、商業權利、人物肖像、再發布版權；應以各 Provider、素材授權為準。網路 API 與本機渲染方式依實際設定，不能說免費全離線。程式庫授權 MIT，但輸入素材與模型輸出不因此成為自由商用。未執行、未驗證成片品質或變現數字。",
       "status": "active",
       "addedAt": "2026-10-25",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "moneyprinterturbo",
         "short-video",
@@ -36800,8 +37163,16 @@
         "type": "Official GitHub README, repository metadata, license information and named Skill files (where present)",
         "summary": "Verified public official repository sources 2026-10-25. Not installed, executed or independently tested.",
         "readmeUrl": "https://github.com/harry0703/MoneyPrinterTurbo/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README or source SKILL.md only; no code execution, install, dependency, license or integration audit"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、app/services/task_artifacts.py、app/services/video_orientation.py、app/controllers/v1/video.py 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "2dc10e850d78c61264a64ea180def2b7f1f334d8",
+        "referenceUrls": [
+          "https://github.com/harry0703/MoneyPrinterTurbo/blob/2dc10e850d78c61264a64ea180def2b7f1f334d8/README.md",
+          "https://github.com/harry0703/MoneyPrinterTurbo/blob/2dc10e850d78c61264a64ea180def2b7f1f334d8/LICENSE",
+          "https://github.com/harry0703/MoneyPrinterTurbo/blob/2dc10e850d78c61264a64ea180def2b7f1f334d8/app/services/task_artifacts.py",
+          "https://github.com/harry0703/MoneyPrinterTurbo/blob/2dc10e850d78c61264a64ea180def2b7f1f334d8/app/services/video_orientation.py",
+          "https://github.com/harry0703/MoneyPrinterTurbo/blob/2dc10e850d78c61264a64ea180def2b7f1f334d8/app/controllers/v1/video.py"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -36840,41 +37211,397 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "沿用既有 Primary Domain content；本批僅補來源形式與具證據的閱讀內容。",
+        "classificationReason": "保留既有 Primary Domain content，原分類、Tags 與關聯不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、app/services/task_artifacts.py、app/services/video_orientation.py、app/controllers/v1/video.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+        "riskNotes": "產出品質受素材匹配、配音、模型與渲染環境影響。；素材著作權、音樂及肖像權不能由工具的生成能力替代授權確認。；同目錄暫存後以 os.replace 替換；補寫失敗回 False，不阻斷主流程；程序內鎖不等於跨程序交易。；至少三幀同方向才判定，衝突或例外回 False；模型下載驗證大小與 SHA-256，False 不代表所有畫面方向正確。；已是 HTTP(S) 的值原樣返回；不安全本機路徑保留原值而不組 URL；路由驗證在 API key 未配置時可免認證，須另驗證權限。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+          "evidence": "固定版本 README.md、LICENSE、app/services/task_artifacts.py、app/services/video_orientation.py、app/controllers/v1/video.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、app/services/task_artifacts.py、app/services/video_orientation.py、app/controllers/v1/video.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "依主題產生 AI 短影音腳本，結合模型、素材、語音、字幕與背景音樂合成直橫式影片，提供介面、套件及容器部署。",
+          "source": "https://github.com/harry0703/MoneyPrinterTurbo",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合探索端到端短影音製作；需要自行準備模型服務、素材來源與合法授權並檢查生成成本。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-manifest",
+            "title": "保存可回查的任務清單",
+            "detail": "影片生成中斷時，需要避免留下不完整的 JSON。 輸出：原子替換的 script.json 或補寫失敗狀態。",
+            "capabilityRefs": [
+              "manifest"
+            ]
+          },
+          {
+            "id": "use-orientation",
+            "title": "辨識方向異常的素材",
+            "detail": "直式影片可能混入橫倒畫面。 輸出：是否確認為橫倒方向的布林值。",
+            "capabilityRefs": [
+              "orientation"
+            ]
+          },
+          {
+            "id": "use-delivery",
+            "title": "將任務產物整理成可回查連結",
+            "detail": "工作流程需要能辨識輸出檔案且不把任意路徑當成合法網址。 輸出：移除內部協調欄位的任務資料與產物連結。",
+            "capabilityRefs": [
+              "delivery"
+            ]
+          }
+        ],
+        "example": {
+          "id": "harry0703-moneyprinterturbo-example",
+          "title": "規劃知識短影音的任務清單與素材品質驗收",
+          "input": "自撰教學稿、已授權的測試影片與輸出規格。",
+          "process": "保存可回查的任務清單 → 辨識方向異常的素材 → 將任務產物整理成可回查連結 → 獨立驗收實際成果",
+          "output": "任務清單、素材方向檢查結果及輸出連結驗收規格。",
+          "destination": "自有影音製作流程，由人工檢查內容與授權後交付。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-manifest",
+            "use-orientation",
+            "use-delivery"
+          ],
+          "steps": [
+            {
+              "id": "manifest",
+              "title": "保存可回查的任務清單",
+              "capabilityRefs": [
+                "manifest"
+              ]
+            },
+            {
+              "id": "orientation",
+              "title": "辨識方向異常的素材",
+              "capabilityRefs": [
+                "orientation"
+              ]
+            },
+            {
+              "id": "delivery",
+              "title": "將任務產物整理成可回查連結",
+              "capabilityRefs": [
+                "delivery"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准資料、素材授權、模型服務、環境與人工成果驗收。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自撰教學稿、已授權的測試影片與輸出規格。",
+          "核對固定版本、模型與素材授權、費用及工作區權限。",
+          "核准測試環境後，以合成資料驗證正常、失敗及取消情境。"
+        ],
+        "limits": [
+          "產出品質受素材匹配、配音、模型與渲染環境影響。",
+          "素材著作權、音樂及肖像權不能由工具的生成能力替代授權確認。",
+          "同目錄暫存後以 os.replace 替換；補寫失敗回 False，不阻斷主流程；程序內鎖不等於跨程序交易。",
+          "至少三幀同方向才判定，衝突或例外回 False；模型下載驗證大小與 SHA-256，False 不代表所有畫面方向正確。",
+          "已是 HTTP(S) 的值原樣返回；不安全本機路徑保留原值而不組 URL；路由驗證在 API key 未配置時可免認證，須另驗證權限。",
+          "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "將自有主題或腳本轉為短影音，管理任務資料、素材與輸出，並可檢查部分影片方向異常。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；素材及模型授權另查"
+          },
+          {
+            "label": "版本",
+            "value": "2dc10e850d78c61264a64ea180def2b7f1f334d8"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "保存可回查的任務清單",
+            "detail": "影片生成中斷時，需要避免留下不完整的 JSON。 輸入：任務 ID、腳本與素材欄位；輸出：原子替換的 script.json 或補寫失敗狀態",
+            "source": "app/services/task_artifacts.py"
+          },
+          {
+            "title": "辨識方向異常的素材",
+            "detail": "直式影片可能混入橫倒畫面。 輸入：抽樣影片畫面及固定版本 ONNX 模型；輸出：是否確認為橫倒方向的布林值",
+            "source": "app/services/video_orientation.py"
+          },
+          {
+            "title": "將任務產物整理成可回查連結",
+            "detail": "工作流程需要能辨識輸出檔案且不把任意路徑當成合法網址。 輸入：任務資料、任務目錄及服務網址；輸出：移除內部協調欄位的任務資料與產物連結",
+            "source": "app/controllers/v1/video.py"
+          }
+        ],
+        "architecture": {
+          "summary": "保存可回查的任務清單 → 辨識方向異常的素材 → 將任務產物整理成可回查連結 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "保存可回查的任務清單",
+              "detail": "任務 ID、腳本與素材欄位 → 原子替換的 script.json 或補寫失敗狀態",
+              "files": [
+                "app/services/task_artifacts.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "辨識方向異常的素材",
+              "detail": "抽樣影片畫面及固定版本 ONNX 模型 → 是否確認為橫倒方向的布林值",
+              "files": [
+                "app/services/video_orientation.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "將任務產物整理成可回查連結",
+              "detail": "任務資料、任務目錄及服務網址 → 移除內部協調欄位的任務資料與產物連結",
+              "files": [
+                "app/controllers/v1/video.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "保存可回查的任務清單",
+            "rule": "同目錄暫存後以 os.replace 替換；補寫失敗回 False，不阻斷主流程；程序內鎖不等於跨程序交易。",
+            "source": "app/services/task_artifacts.py"
+          },
+          {
+            "name": "辨識方向異常的素材",
+            "rule": "至少三幀同方向才判定，衝突或例外回 False；模型下載驗證大小與 SHA-256，False 不代表所有畫面方向正確。",
+            "source": "app/services/video_orientation.py"
+          },
+          {
+            "name": "將任務產物整理成可回查連結",
+            "rule": "已是 HTTP(S) 的值原樣返回；不安全本機路徑保留原值而不組 URL；路由驗證在 API key 未配置時可免認證，須另驗證權限。",
+            "source": "app/controllers/v1/video.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、app/services/task_artifacts.py、app/services/video_orientation.py、app/controllers/v1/video.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "app/services/task_artifacts.py",
+              "app/services/video_orientation.py",
+              "app/controllers/v1/video.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自撰教學稿、已授權的測試影片與輸出規格。 核對固定版本、模型與素材授權、費用及工作區權限。 核准測試環境後，以合成資料驗證正常、失敗及取消情境。",
+            "files": [
+              "app/services/task_artifacts.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有影音製作流程，由人工檢查內容與授權後交付。",
+            "file": "app/services/task_artifacts.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "manifest",
+            "name": "保存可回查的任務清單",
+            "problem": "影片生成中斷時，需要避免留下不完整的 JSON。",
+            "input": "任務 ID、腳本與素材欄位",
+            "output": "原子替換的 script.json 或補寫失敗狀態",
+            "source": "app/services/task_artifacts.py",
+            "sourceFiles": [
+              "app/services/task_artifacts.py",
+              "README.md"
+            ],
+            "symbols": [
+              "write_script_data",
+              "patch_script_data",
+              "_write_json_atomic"
+            ],
+            "gate": "同目錄暫存後以 os.replace 替換；補寫失敗回 False，不阻斷主流程；程序內鎖不等於跨程序交易。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "orientation",
+            "name": "辨識方向異常的素材",
+            "problem": "直式影片可能混入橫倒畫面。",
+            "input": "抽樣影片畫面及固定版本 ONNX 模型",
+            "output": "是否確認為橫倒方向的布林值",
+            "source": "app/services/video_orientation.py",
+            "sourceFiles": [
+              "app/services/video_orientation.py",
+              "README.md"
+            ],
+            "symbols": [
+              "SidewaysDetector.is_sideways",
+              "SidewaysDetector.is_sideways_video",
+              "_fetch_model"
+            ],
+            "gate": "至少三幀同方向才判定，衝突或例外回 False；模型下載驗證大小與 SHA-256，False 不代表所有畫面方向正確。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "delivery",
+            "name": "將任務產物整理成可回查連結",
+            "problem": "工作流程需要能辨識輸出檔案且不把任意路徑當成合法網址。",
+            "input": "任務資料、任務目錄及服務網址",
+            "output": "移除內部協調欄位的任務資料與產物連結",
+            "source": "app/controllers/v1/video.py",
+            "sourceFiles": [
+              "app/controllers/v1/video.py",
+              "README.md"
+            ],
+            "symbols": [
+              "_public_task_data",
+              "_task_file_to_uri"
+            ],
+            "gate": "已是 HTTP(S) 的值原樣返回；不安全本機路徑保留原值而不組 URL；路由驗證在 API key 未配置時可免認證，須另驗證權限。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃知識短影音的任務清單與素材品質驗收（設計示例）",
+          "problem": "自撰教學稿、已授權的測試影片與輸出規格。",
+          "steps": [
+            {
+              "capability": "manifest",
+              "action": "保存可回查的任務清單"
+            },
+            {
+              "capability": "orientation",
+              "action": "辨識方向異常的素材"
+            },
+            {
+              "capability": "delivery",
+              "action": "將任務產物整理成可回查連結"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "harry0703-moneyprinterturbo-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自撰教學稿、已授權的測試影片與輸出規格。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "保存可回查的任務清單 → 辨識方向異常的素材 → 將任務產物整理成可回查連結 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有影音製作流程，由人工檢查內容與授權後交付。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "產出品質受素材匹配、配音、模型與渲染環境影響。",
+            "素材著作權、音樂及肖像權不能由工具的生成能力替代授權確認。",
+            "同目錄暫存後以 os.replace 替換；補寫失敗回 False，不阻斷主流程；程序內鎖不等於跨程序交易。",
+            "至少三幀同方向才判定，衝突或例外回 False；模型下載驗證大小與 SHA-256，False 不代表所有畫面方向正確。",
+            "已是 HTTP(S) 的值原樣返回；不安全本機路徑保留原值而不組 URL；路由驗證在 API key 未配置時可免認證，須另驗證權限。",
+            "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "產出品質受素材匹配、配音、模型與渲染環境影響。；素材著作權、音樂及肖像權不能由工具的生成能力替代授權確認。；同目錄暫存後以 os.replace 替換；補寫失敗回 False，不阻斷主流程；程序內鎖不等於跨程序交易。；至少三幀同方向才判定，衝突或例外回 False；模型下載驗證大小與 SHA-256，False 不代表所有畫面方向正確。；已是 HTTP(S) 的值原樣返回；不安全本機路徑保留原值而不組 URL；路由驗證在 API key 未配置時可免認證，須另驗證權限。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、app/services/task_artifacts.py、app/services/video_orientation.py、app/controllers/v1/video.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -36885,13 +37612,13 @@
       "canonicalName": "HBAI-Ltd/Toonflow-app",
       "category": "11 Media / Video",
       "resourceType": "MIT visual AI short-drama storyboard/canvas authoring platform",
-      "purpose": "面向 AI 短劇、漫劇與短影音的可視化工作區：在無限畫布組合劇本、角色與場景資產、分鏡、圖片和影片；支援 Agent、MCP、插件、自由接入第三方模型或本地 ComfyUI，提供桌面、Android ARM64、Docker 與伺服器部署。",
-      "recommendation": "想真正製作連續劇或小說改編，優先試用 Toonflow：MIT 較適合探索商業內容工作流，但產出素材／模型／小說仍需獨立授權。先拿原創 30–60 秒樣片用最少角色建立作品並計算所有生成與重試費用。伺服器 README 明確說 Port 3000 的業務畫面與 API 無獨立登入驗證；不可直接暴露至公網，需防火牆、SSH Tunnel 或具有驗證的反向代理。",
+      "purpose": "在視覺化工作區安排劇本、分鏡與媒體生成，讓圖片、影片及音訊工作可查詢與取消。",
+      "recommendation": "適合需要追蹤分鏡媒體生成狀態的專案；不把取消 API 成功視為供應商已停止計費。",
       "url": "https://github.com/HBAI-Ltd/Toonflow-app",
       "repo": "HBAI-Ltd/Toonflow-app",
       "status": "active",
       "addedAt": "2026-10-22",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "toonflow",
         "ai-comic",
@@ -36968,48 +37695,411 @@
         "url": "https://github.com/HBAI-Ltd/Toonflow-app",
         "readmeUrl": "https://github.com/HBAI-Ltd/Toonflow-app/blob/main/README.md",
         "type": "Official README / repository",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Documentation only; no execution tests"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "eecf51547af47eb504822186bd3f2dee369125ff",
+        "referenceUrls": [
+          "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/README.md",
+          "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/LICENSE",
+          "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/apps/server/src/routes/ai/media/generate.ts",
+          "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/apps/server/src/routes/ai/media/tasks/status.ts",
+          "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/apps/server/src/routes/ai/media/tasks/cancel.ts"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "維持既有 Primary Domain content；未修改任何分類或新增 Tag。",
+        "classificationReason": "保留既有 Primary Domain content，原分類、Tags 與關聯不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "README 功能尚不足以證明版本化 Input／Output 契約可供跨工具組合，不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+        "riskNotes": "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。；展示素材與生成影片的商用權利取決於來源及第三方模型條款。；依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。；resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。；路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+          "evidence": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "面向 AI 短劇、漫劇與短影音的可視化工作區：在無限畫布組合劇本、角色與場景資產、分鏡、圖片和影片；支援 Agent、MCP、插件、自由接入第三方模型或本地 ComfyUI，提供桌面、Android ARM64、Docker 與伺服器部署。",
+          "source": "https://github.com/HBAI-Ltd/Toonflow-app",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "想真正製作連續劇或小說改編，優先試用 Toonflow：MIT 較適合探索商業內容工作流，但產出素材／模型／小說仍需獨立授權。先拿原創 30–60 秒樣片用最少角色建立作品並計算所有生成與重試費用。伺服器 README 明確說 Port 3000 的業務畫面與 API 無獨立登入驗證；不可直接暴露至公網，需防火牆、SSH Tunnel 或具有驗證的反向代理。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-generate",
+            "title": "啟動指定類型的媒體任務",
+            "detail": "圖片、影片與音訊需要不同參數驗證。 輸出：任務 ID、生成檔案或參數錯誤。",
+            "capabilityRefs": [
+              "generate"
+            ]
+          },
+          {
+            "id": "use-status",
+            "title": "查詢多筆媒體任務狀態",
+            "detail": "長時間生成需要追蹤進度，避免把提交視為完成。 輸出：依請求身分取得的任務狀態回應。",
+            "capabilityRefs": [
+              "status"
+            ]
+          },
+          {
+            "id": "use-cancel",
+            "title": "提出一批媒體任務取消要求",
+            "detail": "選錯模型或分鏡時需要停止未完成工作。 輸出：取消服務呼叫後的成功回應或錯誤。",
+            "capabilityRefs": [
+              "cancel"
+            ]
+          }
+        ],
+        "example": {
+          "id": "hbai-ltd-toonflow-app-example",
+          "title": "規劃分鏡工作區的媒體生成與取消驗收",
+          "input": "自有分鏡、合成圖片與已核准的測試工作區。",
+          "process": "啟動指定類型的媒體任務 → 查詢多筆媒體任務狀態 → 提出一批媒體任務取消要求 → 獨立驗收實際成果",
+          "output": "媒體任務 ID、狀態紀錄、取消及重試驗收規格。",
+          "destination": "自有影音工作台，產物與費用由使用者獨立覆核。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-generate",
+            "use-status",
+            "use-cancel"
+          ],
+          "steps": [
+            {
+              "id": "generate",
+              "title": "啟動指定類型的媒體任務",
+              "capabilityRefs": [
+                "generate"
+              ]
+            },
+            {
+              "id": "status",
+              "title": "查詢多筆媒體任務狀態",
+              "capabilityRefs": [
+                "status"
+              ]
+            },
+            {
+              "id": "cancel",
+              "title": "提出一批媒體任務取消要求",
+              "capabilityRefs": [
+                "cancel"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准資料、素材授權、模型服務、環境與人工成果驗收。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有分鏡、合成圖片與已核准的測試工作區。",
+          "核對固定版本、模型與素材授權、費用及工作區權限。",
+          "核准測試環境後，以合成資料驗證正常、失敗及取消情境。"
+        ],
+        "limits": [
+          "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。",
+          "展示素材與生成影片的商用權利取決於來源及第三方模型條款。",
+          "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+          "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+          "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+          "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "在視覺化工作區安排劇本、分鏡與媒體生成，讓圖片、影片及音訊工作可查詢與取消。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；外部模型、素材及服務條款另查"
+          },
+          {
+            "label": "版本",
+            "value": "eecf51547af47eb504822186bd3f2dee369125ff"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "啟動指定類型的媒體任務",
+            "detail": "圖片、影片與音訊需要不同參數驗證。 輸入：工作區、媒體類型、模型參數及可選任務 UUID；輸出：任務 ID、生成檔案或參數錯誤",
+            "source": "apps/server/src/routes/ai/media/generate.ts"
+          },
+          {
+            "title": "查詢多筆媒體任務狀態",
+            "detail": "長時間生成需要追蹤進度，避免把提交視為完成。 輸入：工作區、一至一百個 UUID 與可選 resume；輸出：依請求身分取得的任務狀態回應",
+            "source": "apps/server/src/routes/ai/media/tasks/status.ts"
+          },
+          {
+            "title": "提出一批媒體任務取消要求",
+            "detail": "選錯模型或分鏡時需要停止未完成工作。 輸入：工作區及一至一百個任務 UUID；輸出：取消服務呼叫後的成功回應或錯誤",
+            "source": "apps/server/src/routes/ai/media/tasks/cancel.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "啟動指定類型的媒體任務 → 查詢多筆媒體任務狀態 → 提出一批媒體任務取消要求 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "啟動指定類型的媒體任務",
+              "detail": "工作區、媒體類型、模型參數及可選任務 UUID → 任務 ID、生成檔案或參數錯誤",
+              "files": [
+                "apps/server/src/routes/ai/media/generate.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "查詢多筆媒體任務狀態",
+              "detail": "工作區、一至一百個 UUID 與可選 resume → 依請求身分取得的任務狀態回應",
+              "files": [
+                "apps/server/src/routes/ai/media/tasks/status.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "提出一批媒體任務取消要求",
+              "detail": "工作區及一至一百個任務 UUID → 取消服務呼叫後的成功回應或錯誤",
+              "files": [
+                "apps/server/src/routes/ai/media/tasks/cancel.ts",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "啟動指定類型的媒體任務",
+            "rule": "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+            "source": "apps/server/src/routes/ai/media/generate.ts"
+          },
+          {
+            "name": "查詢多筆媒體任務狀態",
+            "rule": "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+            "source": "apps/server/src/routes/ai/media/tasks/status.ts"
+          },
+          {
+            "name": "提出一批媒體任務取消要求",
+            "rule": "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+            "source": "apps/server/src/routes/ai/media/tasks/cancel.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "apps/server/src/routes/ai/media/generate.ts",
+              "apps/server/src/routes/ai/media/tasks/status.ts",
+              "apps/server/src/routes/ai/media/tasks/cancel.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有分鏡、合成圖片與已核准的測試工作區。 核對固定版本、模型與素材授權、費用及工作區權限。 核准測試環境後，以合成資料驗證正常、失敗及取消情境。",
+            "files": [
+              "apps/server/src/routes/ai/media/generate.ts"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有影音工作台，產物與費用由使用者獨立覆核。",
+            "file": "apps/server/src/routes/ai/media/generate.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "generate",
+            "name": "啟動指定類型的媒體任務",
+            "problem": "圖片、影片與音訊需要不同參數驗證。",
+            "input": "工作區、媒體類型、模型參數及可選任務 UUID",
+            "output": "任務 ID、生成檔案或參數錯誤",
+            "source": "apps/server/src/routes/ai/media/generate.ts",
+            "sourceFiles": [
+              "apps/server/src/routes/ai/media/generate.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "mediaGeneration.generateMedia",
+              "mediaTasks.start",
+              "mediaSchemas"
+            ],
+            "gate": "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "status",
+            "name": "查詢多筆媒體任務狀態",
+            "problem": "長時間生成需要追蹤進度，避免把提交視為完成。",
+            "input": "工作區、一至一百個 UUID 與可選 resume",
+            "output": "依請求身分取得的任務狀態回應",
+            "source": "apps/server/src/routes/ai/media/tasks/status.ts",
+            "sourceFiles": [
+              "apps/server/src/routes/ai/media/tasks/status.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "mediaTasks.status",
+              "resolveWorkspace"
+            ],
+            "gate": "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "cancel",
+            "name": "提出一批媒體任務取消要求",
+            "problem": "選錯模型或分鏡時需要停止未完成工作。",
+            "input": "工作區及一至一百個任務 UUID",
+            "output": "取消服務呼叫後的成功回應或錯誤",
+            "source": "apps/server/src/routes/ai/media/tasks/cancel.ts",
+            "sourceFiles": [
+              "apps/server/src/routes/ai/media/tasks/cancel.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "mediaTasks.cancel",
+              "requestIdentity"
+            ],
+            "gate": "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃分鏡工作區的媒體生成與取消驗收（設計示例）",
+          "problem": "自有分鏡、合成圖片與已核准的測試工作區。",
+          "steps": [
+            {
+              "capability": "generate",
+              "action": "啟動指定類型的媒體任務"
+            },
+            {
+              "capability": "status",
+              "action": "查詢多筆媒體任務狀態"
+            },
+            {
+              "capability": "cancel",
+              "action": "提出一批媒體任務取消要求"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "hbai-ltd-toonflow-app-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有分鏡、合成圖片與已核准的測試工作區。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "啟動指定類型的媒體任務 → 查詢多筆媒體任務狀態 → 提出一批媒體任務取消要求 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有影音工作台，產物與費用由使用者獨立覆核。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。",
+            "展示素材與生成影片的商用權利取決於來源及第三方模型條款。",
+            "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+            "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+            "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+            "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。；展示素材與生成影片的商用權利取決於來源及第三方模型條款。；依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。；resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。；路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
