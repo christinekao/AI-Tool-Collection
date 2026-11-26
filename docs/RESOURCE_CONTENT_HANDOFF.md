@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 03（2026-11-26）
+
+- [Batch 03｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH03_20261126.md)：aws-samples-sample-agent-cost-bench 至 chatfire-ai-huobao-drama，20/20 已讀取，15 候選修正、5 保留；新增單元與 Browser Regression。完整 JSON 比對確認僅修改 purpose 與 start，不改來源、證據、案例、ID、分類、Tags 或 Graph 關係。
+- 本輪基於 PR #123 Head 6358fd859e8c2f12ca063ca02bf85fd9d684a855 疊加，當時 #123 三項 CI PASS、P1 Browser 仍執行；必須先驗收及合併 #123，再將本批指向 main 並驗證四項 CI。不計候選為正式審查完成。
+- 固定順序候選累計 60/286；映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 citypulso-pulsoicon 起取 20 筆。正式 deployed Chromium 未驗收。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 02（2026-11-26）
 
 - PR #122 最新 Head 9dd74be86883806cecd1c5586e6a01a9e7842ab0 四項 CI PASS，合併 91d42d4c8c367eea042ccaf5b6386dcc8324c42f；Catalog Sync 45774603696 PASS，生成提交 1638076455f4dbfbeb41dc8fafa4bbfe3e90c995 僅更新 Catalog 與既有 Graph 節點的描述／搜尋文字，Pages 45774623195 PASS；正式 deployed Chromium 未驗收。

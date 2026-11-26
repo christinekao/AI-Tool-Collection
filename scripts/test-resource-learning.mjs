@@ -2822,3 +2822,17 @@ test('Resource quality batch 02: concrete starts, evidence scope and example ali
  assert.ok(e.useCaseRefs.includes(c.id));assert.equal(e.steps.at(-2).id,c.id);assert.deepEqual(e.steps.at(-2).evidenceRefs,c.evidenceRefs);assert.equal(e.steps.at(-1).id,'test');assert.match(e.process,/驗收子代理繼承與工具邊界 → 獨立驗收/);assert.match(e.note,/未執行第三方、上游測試/);assert.match(op.readerGuide.limits.join(' '),/仍未證明父角色限制持續有效/);
  const route=JSON.parse(fs.readFileSync('data/resources/awesome-agentic-ai-zh.json','utf8'));assert.match(route.readerGuide.example.process,/擇一路線/);assert.match(route.readerGuide.example.note,/非必須依序完成/);
 });
+
+
+test('Resource quality batch 03: concrete reader starts preserve mapping and runtime scope',()=>{
+ const expected={"aws-samples-sample-agent-cost-bench":"固定 Git 基線","ayueh0102-ronnier-skill":"物理量與知覺量","baoyu-skill":"需要圖解的段落","bencho":"可調整的雙欄面板","better-me-notes-amie":"將學到的知識轉為實際行動","bi0h4z4rd88-pi-sidebar-tui":"合成 Pi Session 用量","blader-humanizer":"不可變動的數字","blave-agent":"不同市場的交易成本假設","block-buzz":"兩個合成協作頻道","blogger-distiller":"合成貼文及巢狀評論","bobyu89-codex-ppt-style-expanded":"必須保持可編輯","brandonhimpfen-awesome-finance":"歷史價格資料的來源與欄位","bruiandy-claude-obsidian":"獨立的合成 Obsidian Vault","charonyuu-whatsmyagentdoing":"匿名合成的本機 Session 日誌","chatfire-ai-huobao-drama":"哪些提示詞應重用或重新生成"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+});
