@@ -1,3 +1,14 @@
+# Resource 最新交接｜雙層知識 Batch 77–78（2026-11-26）
+
+- PR #111 四項 CI PASS，已合併 `0fa625660b335801917abc8d3061bca3522add29`；本輪 main 基線 `811d902af9102ae0319c5f0d3a67320ef73e257d`。264/286（257 對應、7 deferred）。
+- [Batch 77｜互動元件、影片剪輯與語音輸入](RESOURCE_DUAL_LAYER_BATCH77_20261126.md)：bencho、fomofly-ai、sona-orbit-parroting；3 evidence-linked、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 78｜模型治理、工程協作及閱讀策展](RESOURCE_DUAL_LAYER_BATCH78_20261126.md)：anthropic-claude-mythos-cybersecurity、engineering-leadership-adobe-tech-lead-ai、better-me-notes-amie；3 evidence-linked、9 用途、9 局部證據、3 design-only 案例。Mythos 5.1 歷史 Title 不變；現行官方頁 5.2；Better Me Notes 只查目錄與 About，完整學習教材維持 deferred。
+- 新增 6 筆候選，合併後預計 270/286（263 對應、7 deferred）；第三方未實測。待四項 CI PASS 後才合併，之後查 main Catalog Sync 與 Pages。
+- 剩餘 16 筆尚未改寫（不可算完成）：alsyundawy-microsoft-office-for-macos、codex-router、designed-to-scale、irons163-orchestrate-sol-terra-luna、land-book-design-inspiration、letswrite-buzz-self-hosted-relay-guide、littlehole2025-token-saver、particles-casberry、rea、reverse-skill-2、reverse-skill、skillgodak-hgtv、stitch-mcp、viral-hook-title、wellmade、whisper-ui。Land-book、Particles、Wellmade、LetsWrite 本次直接擷取受限，只有公開索引摘要；Designed to Scale 僅讀到 JavaScript 提示；Stitch MCP 官方頁無可讀正文。原始身分、疑似重複、第三方授權風險及固定版本證據不足者保持原紀錄。
+- 下一步：核對本 PR 四項 CI，依實際可讀第一方來源進行 Batch 79～84；另盤點既有 7 筆 deferred，不改分類架構、原 ID 或 Graph 關聯。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 73–76（2026-11-26）
 
 - PR #109 已合併 `dc4081e46ae997f220a64c3256205cf62da6874d`，243/286。PR #110 四項 CI PASS，已合併 `30cd7018af6cd4da30ab1a54385b5b0a31b7d4c8`，252/286。PR #111 首輪 V2 因舊 OmniRoute Repo 引用失敗；修正 Audit 02 來源身分並保存歷史欄位，未更改原測試及關聯。
