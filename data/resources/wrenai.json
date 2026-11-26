@@ -151,7 +151,7 @@
       {
         "id": "use-connector",
         "title": "依資料來源選擇查詢介面",
-        "detail": "不同資料庫的驅動及方言不相同。對應 Connector 或相依不足錯誤。",
+        "detail": "以兩種合成資料來源及相依設定核對 Connector 選擇與方言支援。輸出：對應查詢介面或相依不足錯誤；支援清單不代表已連線。",
         "capabilityRefs": [
           "connector"
         ]
@@ -159,7 +159,7 @@
       {
         "id": "use-semantics",
         "title": "辨識查詢是否符合已宣告的語意",
-        "detail": "SQL 別名可能偽裝成正式商業指標。支援查詢的語意證明或 None。",
+        "detail": "以 Manifest 中已確認的指標、維度及人工標註 SQL 比對語意證明，包含不支援結構與別名。輸出：局部語意證明或 None，仍須核對實際指標計算。",
         "capabilityRefs": [
           "semantics"
         ]
@@ -167,7 +167,7 @@
       {
         "id": "use-execution",
         "title": "為查詢設定可取消的執行生命週期",
-        "detail": "長時間查詢可能耗盡資源。本機取消、超時或執行結果。",
+        "detail": "以合成查詢與 deadline 設計正常、逾時及取消情境。輸出：本機 worker 狀態與執行結果；另核對遠端資料庫是否停止、最小權限與資源釋放。",
         "capabilityRefs": [
           "execution"
         ]
@@ -218,9 +218,9 @@
       ]
     },
     "start": [
-      "先準備合成銷售資料、指定指標與維度、資料庫設定。",
-      "依需求核對固定版本來源與操作限制。",
-      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+      "先建立合成銷售資料、兩種資料來源、已確認的指標與維度定義，準備人工標註 SQL 及預期結果。",
+      "依固定版本 connector/factory、query_semantics 與 governed_query 核對方言、Manifest 語意證明及受控 worker；None 不代表 SQL 無效，也不是已驗證指標。",
+      "取得隔離唯讀測試核准後比對實際計算、未支援結構、逾時及資料庫端取消；POSIX 本機 worker 終止不保證遠端查詢停止，權限及 Enterprise 界線另驗。"
     ],
     "limits": [
       "舊版 Docker 聊天 BI 產品使用方式已變動，不能沿用舊部署假設",

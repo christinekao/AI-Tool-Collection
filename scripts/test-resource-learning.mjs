@@ -3033,3 +3033,30 @@ test('Resource quality batch 13: practical starts, concrete cases and retained s
  const m=JSON.parse(fs.readFileSync('data/resources/thu-maic-openmaic.json','utf8'));
  assert.match(m.readerGuide.start[1],/相容入口自動確認與 generation-run 人工審查/);
 });
+
+
+test('Resource quality batch 14: practical starts and independent evidence boundaries',()=>{
+ const expected={"ui-ux-gold-standard":"自有分析 Dashboard","unclebob-ub-mode":"一個可重現缺陷","usestrix-strix":"自有合成安全發現","voltagent-awesome-agent-skills":"一項重複任務","voltagent-awesome-openclaw-skills":"最小允許工具集合","vulture-s-whisper-guard":"人工標註的合成轉錄片段","waooai-waoowaoo":"合成模型能力設定","wellmade":"自有作品集的設計需求","wilsonfreitas-awesome-quant":"離線量化研究問題","wquguru-cicada":"自編雙語逐字稿","wrenai":"合成銷售資料","yusufkaraaslan-skill-seekers":"少量有擷取權的公開技術文件"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((id==='wellmade'?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ for(const id of ['vulture-s-whisper-guard','wrenai','yusufkaraaslan-skill-seekers']){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.readerGuide.useCases.length,3,id);
+  for(const c of d.readerGuide.useCases)assert.match(c.detail,/輸出：/,id+' '+c.id);
+ }
+ for(const id of ['viral-hook-title','whisper-ui']){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.sourceStatus,'partial',id);assert.ok(d.intakeReview.sourceGap,id);assert.ok(!d.readerGuide,id);
+ }
+ const w=JSON.parse(fs.readFileSync('data/resources/wrenai.json','utf8'));
+ assert.match(w.readerGuide.start[2],/本機 worker 終止不保證遠端查詢停止/);
+ const s=JSON.parse(fs.readFileSync('data/resources/yusufkaraaslan-skill-seekers.json','utf8'));
+ assert.match(s.readerGuide.start[2],/封裝成功不代表已上傳或可執行/);
+});

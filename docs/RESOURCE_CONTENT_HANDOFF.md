@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 14（2026-11-26）
+
+- [Batch 14｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261126.md)：ui-ux-gold-standard 至 yusufkaraaslan-skill-seekers，20/20 已讀取，12 候選修正、8 保留（含兩筆 source-blocked）。更新 purpose/start 與九項 useCase.detail；Wellmade 維持 deferred。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
+- #134 四項 CI PASS 已合併；本批基於 main ef021a4f45890d807938594040f3e3d4e56f9b06，待四項 CI。#133 Catalog Sync、Pages PASS；正式 deployed Chromium 尚未獨立驗收。
+- 固定順序候選 280/286，映射 268/286、14 Deferred、4 Source-blocked 不變。最後一批六筆自 zeabur-oss-ai-agent-installer-guide 開始；P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 13（2026-11-26）
 
 - [Batch 13｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261126.md)：shubhamsaboo-needle 至 typesafe-ai-jev，20/20 已讀取，14 候選修正、6 保留（含 HGTV source-blocked）。更新 purpose/start 與九項 useCase.detail；Stitch MCP、AFFiNE 維持 deferred。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
