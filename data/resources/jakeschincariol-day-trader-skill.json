@@ -6,14 +6,14 @@
   "canonicalName": "Jakeschincariol/day-trader-skill",
   "category": "06 Skills",
   "resourceType": "Open-source Claude Skills + stdlib Python utilities for US equity day trading",
-  "purpose": "11 個獨立 Claude Skills 串接美股股票池初篩、財報與新聞、突破觸發時點、停損/目標規劃、歷史情境與 10,000 次蒙地卡羅模擬、部位 sizing、風險閘道、紙上或經明確批准的券商委託及提醒；資料多由 Nasdaq Trader、Yahoo Finance、SEC EDGAR、House Clerk 公開來源取得。",
-  "recommendation": "適合作為工具功能和技術選型參考；使用前依官方文件確認適用環境、隱私資料流、商業授權、費用及風險，不在本次收錄中安裝或實測。",
+  "purpose": "日內交易工具組的離線提案、風險檢查與歷史重播；不作下單或投資推薦。",
+  "recommendation": "適合研究合成交易提案的風險與回放測試；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Jakeschincariol/day-trader-skill",
   "repo": "Jakeschincariol/day-trader-skill",
   "notes": "2026-10-25 核對 GitHub Repository Metadata、官方 README、Repo 目錄及相關 SKILL.md。Repository 授權：MIT。此工具是美國市場日內交易 Skill 套件，並不直接支援台股或保證勝率。作者將預設 Broker 設為 paper trading，但 `trader-broker` 可在使用者批准且已配置 Alpaca MCP/券商服務後提交真實委託；不是純唯讀分析工具。啟用前應檢查帳戶環境、資金風險、交易許可和交易記錄，模型給出的風險 PASS 或模擬概率不能保證實際成交與獲利；10,000 次重抽歷史 K 棒仍可能有分布假設和前視/選樣風險。公共資料可能延遲、頻率受限或有錯，SEC 查詢需合法 User-Agent。官方 README 以 2026-10-19 TSLA 範例說明，不代表獨立回測證實。11 份 `trader-*/SKILL.md` 已逐一核對，本輪沒有安裝、連券商或下單。",
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "day-trading",
     "us-stocks",
@@ -59,8 +59,16 @@
     "type": "Official GitHub README, repository metadata, license information and named Skill files (where present)",
     "summary": "Verified public official repository sources 2026-10-25. Not installed, executed or independently tested.",
     "readmeUrl": "https://github.com/Jakeschincariol/day-trader-skill/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime or security validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、trader-budget/size.py、trader-risk/check.py、trader-timemachine/timemachine.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd",
+    "referenceUrls": [
+      "https://github.com/Jakeschincariol/day-trader-skill/blob/3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd/README.md",
+      "https://github.com/Jakeschincariol/day-trader-skill/blob/3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd/LICENSE",
+      "https://github.com/Jakeschincariol/day-trader-skill/blob/3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd/trader-budget/size.py",
+      "https://github.com/Jakeschincariol/day-trader-skill/blob/3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd/trader-risk/check.py",
+      "https://github.com/Jakeschincariol/day-trader-skill/blob/3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd/trader-timemachine/timemachine.py"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -143,40 +151,394 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain business，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "保留既有 Primary Domain business、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、trader-budget/size.py、trader-risk/check.py、trader-timemachine/timemachine.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "MIT；回測績效不代表未來獲利；市場資料延遲、費用與模型誤判會影響風險；只研究提案與拒絕行為；不產生真實下單，停損不能保證實際損失上限。；審查通過不是獲利保證或交易授權；不連接券商。；排除短時段及缺漏樣本；回放僅模擬，非真實機率或預測。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README.md、LICENSE、trader-budget/size.py、trader-risk/check.py、trader-timemachine/timemachine.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、trader-budget/size.py、trader-risk/check.py、trader-timemachine/timemachine.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "11 個獨立 Claude Skills 串接美股股票池初篩、財報與新聞、突破觸發時點、停損/目標規劃、歷史情境與 10,000 次蒙地卡羅模擬、部位 sizing、風險閘道、紙上或經明確批准的券商委託及提醒；資料多由 Nasdaq Trader、Yahoo Finance、SEC EDGAR、House Clerk 公開來源取得。",
+      "source": "https://github.com/Jakeschincariol/day-trader-skill",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合作為工具功能和技術選型參考；使用前依官方文件確認適用環境、隱私資料流、商業授權、費用及風險，不在本次收錄中安裝或實測。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-proposal",
+        "title": "檢查提案與限制的輸入契約",
+        "detail": "缺少有效計畫或限制不應產生正式操作 輸出：提案計算或拒絕結果。",
+        "capabilityRefs": [
+          "proposal"
+        ]
+      },
+      {
+        "id": "use-risk",
+        "title": "區分風險審查與實際執行",
+        "detail": "審核一筆提案不等於批准所有操作 輸出：PASS／BLOCK 與原因。",
+        "capabilityRefs": [
+          "risk"
+        ]
+      },
+      {
+        "id": "use-replay",
+        "title": "辨識歷史回放的資料篩選",
+        "detail": "樣本選擇與重抽樣不能預測未來 輸出：歷史時段篩選與回放樣本池。",
+        "capabilityRefs": [
+          "replay"
+        ]
+      }
+    ],
+    "example": {
+      "id": "jakeschincariol-day-trader-skill-example",
+      "title": "規劃合成交易提案的風險與回放測試",
+      "input": "虛構計畫、限制與歷史合成資料",
+      "process": "檢查提案與限制的輸入契約 → 區分風險審查與實際執行 → 辨識歷史回放的資料篩選 → 獨立驗收實際成果",
+      "output": "提案拒絕原因、風險檢查及回放限制",
+      "destination": "離線風險控制測試環境，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-proposal",
+        "use-risk",
+        "use-replay"
+      ],
+      "steps": [
+        {
+          "id": "proposal",
+          "title": "檢查提案與限制的輸入契約",
+          "capabilityRefs": [
+            "proposal"
+          ]
+        },
+        {
+          "id": "risk",
+          "title": "區分風險審查與實際執行",
+          "capabilityRefs": [
+            "risk"
+          ]
+        },
+        {
+          "id": "replay",
+          "title": "辨識歷史回放的資料篩選",
+          "capabilityRefs": [
+            "replay"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備虛構計畫、限制與歷史合成資料。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "回測績效不代表未來獲利",
+      "市場資料延遲、費用與模型誤判會影響風險",
+      "只研究提案與拒絕行為；不產生真實下單，停損不能保證實際損失上限。",
+      "審查通過不是獲利保證或交易授權；不連接券商。",
+      "排除短時段及缺漏樣本；回放僅模擬，非真實機率或預測。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "日內交易工具組的離線提案、風險檢查與歷史重播；不作下單或投資推薦。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "3d0f4ef6986f4984b7c6bd46f7ff4f87744c3abd"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "檢查提案與限制的輸入契約",
+        "detail": "缺少有效計畫或限制不應產生正式操作 輸入：合成計畫與限制；輸出：提案計算或拒絕結果",
+        "source": "trader-budget/size.py"
+      },
+      {
+        "title": "區分風險審查與實際執行",
+        "detail": "審核一筆提案不等於批准所有操作 輸入：虛構提案、帳戶狀態與限制；輸出：PASS／BLOCK 與原因",
+        "source": "trader-risk/check.py"
+      },
+      {
+        "title": "辨識歷史回放的資料篩選",
+        "detail": "樣本選擇與重抽樣不能預測未來 輸入：合成完整及缺漏交易時段；輸出：歷史時段篩選與回放樣本池",
+        "source": "trader-timemachine/timemachine.py"
+      }
+    ],
+    "architecture": {
+      "summary": "檢查提案與限制的輸入契約 → 區分風險審查與實際執行 → 辨識歷史回放的資料篩選 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "檢查提案與限制的輸入契約",
+          "detail": "合成計畫與限制 → 提案計算或拒絕結果",
+          "files": [
+            "trader-budget/size.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "區分風險審查與實際執行",
+          "detail": "虛構提案、帳戶狀態與限制 → PASS／BLOCK 與原因",
+          "files": [
+            "trader-risk/check.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "辨識歷史回放的資料篩選",
+          "detail": "合成完整及缺漏交易時段 → 歷史時段篩選與回放樣本池",
+          "files": [
+            "trader-timemachine/timemachine.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "檢查提案與限制的輸入契約",
+        "rule": "只研究提案與拒絕行為；不產生真實下單，停損不能保證實際損失上限。",
+        "source": "trader-budget/size.py"
+      },
+      {
+        "name": "區分風險審查與實際執行",
+        "rule": "審查通過不是獲利保證或交易授權；不連接券商。",
+        "source": "trader-risk/check.py"
+      },
+      {
+        "name": "辨識歷史回放的資料篩選",
+        "rule": "排除短時段及缺漏樣本；回放僅模擬，非真實機率或預測。",
+        "source": "trader-timemachine/timemachine.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、trader-budget/size.py、trader-risk/check.py、trader-timemachine/timemachine.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "trader-budget/size.py",
+          "trader-risk/check.py",
+          "trader-timemachine/timemachine.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備虛構計畫、限制與歷史合成資料。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "trader-budget/size.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "離線風險控制測試環境，經資料權利與人工覆核後使用。",
+        "file": "trader-budget/size.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "proposal",
+        "name": "檢查提案與限制的輸入契約",
+        "problem": "缺少有效計畫或限制不應產生正式操作",
+        "input": "合成計畫與限制",
+        "output": "提案計算或拒絕結果",
+        "source": "trader-budget/size.py",
+        "sourceFiles": [
+          "trader-budget/size.py",
+          "README.md"
+        ],
+        "symbols": [
+          "size_trade",
+          "run_plan"
+        ],
+        "gate": "只研究提案與拒絕行為；不產生真實下單，停損不能保證實際損失上限。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "risk",
+        "name": "區分風險審查與實際執行",
+        "problem": "審核一筆提案不等於批准所有操作",
+        "input": "虛構提案、帳戶狀態與限制",
+        "output": "PASS／BLOCK 與原因",
+        "source": "trader-risk/check.py",
+        "sourceFiles": [
+          "trader-risk/check.py",
+          "README.md"
+        ],
+        "symbols": [
+          "check",
+          "fingerprint"
+        ],
+        "gate": "審查通過不是獲利保證或交易授權；不連接券商。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "replay",
+        "name": "辨識歷史回放的資料篩選",
+        "problem": "樣本選擇與重抽樣不能預測未來",
+        "input": "合成完整及缺漏交易時段",
+        "output": "歷史時段篩選與回放樣本池",
+        "source": "trader-timemachine/timemachine.py",
+        "sourceFiles": [
+          "trader-timemachine/timemachine.py",
+          "README.md"
+        ],
+        "symbols": [
+          "full_sessions",
+          "build_pool"
+        ],
+        "gate": "排除短時段及缺漏樣本；回放僅模擬，非真實機率或預測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃合成交易提案的風險與回放測試（設計示例）",
+      "problem": "虛構計畫、限制與歷史合成資料",
+      "steps": [
+        {
+          "capability": "proposal",
+          "action": "檢查提案與限制的輸入契約"
+        },
+        {
+          "capability": "risk",
+          "action": "區分風險審查與實際執行"
+        },
+        {
+          "capability": "replay",
+          "action": "辨識歷史回放的資料篩選"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "jakeschincariol-day-trader-skill-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "虛構計畫、限制與歷史合成資料",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "檢查提案與限制的輸入契約 → 區分風險審查與實際執行 → 辨識歷史回放的資料篩選 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "離線風險控制測試環境，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "回測績效不代表未來獲利",
+        "市場資料延遲、費用與模型誤判會影響風險",
+        "只研究提案與拒絕行為；不產生真實下單，停損不能保證實際損失上限。",
+        "審查通過不是獲利保證或交易授權；不連接券商。",
+        "排除短時段及缺漏樣本；回放僅模擬，非真實機率或預測。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "回測績效不代表未來獲利；市場資料延遲、費用與模型誤判會影響風險；只研究提案與拒絕行為；不產生真實下單，停損不能保證實際損失上限。；審查通過不是獲利保證或交易授權；不連接券商。；排除短時段及缺漏樣本；回放僅模擬，非真實機率或預測。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、trader-budget/size.py、trader-risk/check.py、trader-timemachine/timemachine.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

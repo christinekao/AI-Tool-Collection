@@ -704,7 +704,19 @@ try{
   ["hirakujira-pokeep",".resource-reader-guide","規劃本機收藏資料的備份與建議可追溯驗收"],
   ["forget-c-jellyfish",".resource-reader-guide","規劃短劇專案的章節與生成任務驗收"],
   ["waooai-waoowaoo",".resource-reader-guide","規劃影音工作區的模型與資料寫入規則驗收"],
-  ["ai-video-drama-platform",".resource-reader-guide","規劃文字故事至分鏡及測試影片的契約驗收"]
+  ["ai-video-drama-platform",".resource-reader-guide","規劃文字故事至分鏡及測試影片的契約驗收"],
+  ["blave-agent",".resource-reader-guide","規劃歷史研究成本與損益證據核對"],
+  ["kerr20801-taiwan-stock-ai-analyzer",".resource-reader-guide","規劃台股分析分數的缺值與模擬資料辨識"],
+  ["zhulinsen-daily-stock-analysis",".resource-reader-guide","規劃分析儀表板的資料來源與歷史追溯"],
+  ["anti-gambling-trader-tw",".resource-reader-guide","規劃交易紀錄可信度與反詐證據稽核"],
+  ["jakeschincariol-day-trader-skill",".resource-reader-guide","規劃合成交易提案的風險與回放測試"],
+  ["pomerado-pomerado",".resource-reader-guide","規劃已授權網站整合的安全邊界驗收"],
+  ["onetake",".resource-reader-guide","規劃非商業產品動效練習的畫面回歸驗收"],
+  ["jub0t-concat",".resource-reader-guide","規劃影片剪輯工作與匯出狀態驗收"],
+  ["awesome-gpt-image-2",".resource-reader-guide","規劃自有提示詞收藏目錄的多語索引"],
+  ["photo-riso-poster",".resource-reader-guide","規劃自有照片的證據式抽象海報設計"],
+  ["copywriting-skill",".resource-reader-guide","規劃自有產品頁文案的主張與保真驗收"],
+  ["akseolabs-seo-cinematic-ui",".resource-reader-guide","規劃自有網站與工作台的動效及狀態驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

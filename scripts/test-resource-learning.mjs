@@ -2072,6 +2072,114 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  63,
+  "金融研究的資料品質、成本與證據",
+  [
+    [
+      "blave-agent",
+      "規劃歷史研究成本與損益證據核對",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "kerr20801-taiwan-stock-ai-analyzer",
+      "規劃台股分析分數的缺值與模擬資料辨識",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "zhulinsen-daily-stock-analysis",
+      "規劃分析儀表板的資料來源與歷史追溯",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  64,
+  "風險閘道與工具執行邊界",
+  [
+    [
+      "anti-gambling-trader-tw",
+      "規劃交易紀錄可信度與反詐證據稽核",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "jakeschincariol-day-trader-skill",
+      "規劃合成交易提案的風險與回放測試",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "pomerado-pomerado",
+      "規劃已授權網站整合的安全邊界驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  65,
+  "影音處理與生成素材索引",
+  [
+    [
+      "onetake",
+      "規劃非商業產品動效練習的畫面回歸驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "jub0t-concat",
+      "規劃影片剪輯工作與匯出狀態驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "awesome-gpt-image-2",
+      "規劃自有提示詞收藏目錄的多語索引",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  66,
+  "視覺設計與文字交付",
+  [
+    [
+      "photo-riso-poster",
+      "規劃自有照片的證據式抽象海報設計",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "copywriting-skill",
+      "規劃自有產品頁文案的主張與保真驗收",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "akseolabs-seo-cinematic-ui",
+      "規劃自有網站與工作台的動效及狀態驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

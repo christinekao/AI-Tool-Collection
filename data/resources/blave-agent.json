@@ -6,14 +6,14 @@
   "canonicalName": "Blave Agent",
   "category": "10 Reference Applications",
   "resourceType": "Agentic Quant Workspace / Research-to-Execution Runtime",
-  "purpose": "開源的 agentic quant workspace，可連接 Claude Code 或 Codex，讓 Agent 將交易想法轉成策略程式、執行回測與研究；實際排程與下單則由 deterministic code / scheduler 執行，而不是把 LLM 放進每次 order loop。專案同時提供 Monte Carlo permutation test、parameter plateau scan、rolling walk-forward、費用檢查、版本一致性標記、kill switch 與 order audit。",
-  "recommendation": "適合研究高風險 Agent 系統如何把『LLM 負責研究與產生程式碼』和『deterministic runtime 負責執行』分離，並用統計驗證、版本追蹤、人工 redline、kill switch 與 verify-before-report 降低自動化風險。",
+  "purpose": "金融研究工作台的成本假設、損益拆解與匯出程式靜態檢查。",
+  "recommendation": "適合研究歷史研究成本與損益證據核對；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Blave-TW/blave-agent",
   "repo": "Blave-TW/blave-agent",
   "notes": "Official repository confirmed. README positions Blave Agent as an Agentic Quant Workspace. Notable architecture patterns include no LLM in the order loop, Monte Carlo permutation testing, parameter plateau scanning, rolling walk-forward testing, non-zero fee checks, strategy-code/version consistency flags, user-controlled funding and resume actions, kill switch support, post-write verification, order read-back verification and audit logging. Live trading carries real financial risk; the project explicitly states backtests do not guarantee future results.",
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "agentic-quant",
     "quant-workspace",
@@ -82,10 +82,18 @@
       "https://github.com/Blave-TW/blave-agent/blob/main/LICENSE",
       "https://github.com/Blave-TW/blave-agent/blob/main/NOTICE"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README and license",
     "readmeUrl": "https://github.com/Blave-TW/blave-agent/blob/main/README.md",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewScope": "固定版本 README.md、LICENSE、lib/costs.py、lib/analysis.py、lib/lint_export.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "2924d0adab1a7c655f9c32e39900116b0c0e4b52",
+    "referenceUrls": [
+      "https://github.com/Blave-TW/blave-agent/blob/2924d0adab1a7c655f9c32e39900116b0c0e4b52/README.md",
+      "https://github.com/Blave-TW/blave-agent/blob/2924d0adab1a7c655f9c32e39900116b0c0e4b52/LICENSE",
+      "https://github.com/Blave-TW/blave-agent/blob/2924d0adab1a7c655f9c32e39900116b0c0e4b52/lib/costs.py",
+      "https://github.com/Blave-TW/blave-agent/blob/2924d0adab1a7c655f9c32e39900116b0c0e4b52/lib/analysis.py",
+      "https://github.com/Blave-TW/blave-agent/blob/2924d0adab1a7c655f9c32e39900116b0c0e4b52/lib/lint_export.py"
+    ]
   },
   "legacyMetadata": {
     "sources": [
@@ -134,40 +142,392 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 business Domain，補足來源內容與使用限制，不變動分類。",
+    "classificationReason": "保留既有 Primary Domain business、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、lib/costs.py、lib/analysis.py、lib/lint_export.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "Apache-2.0；回測與策略模擬不能保證未來獲利，資料品質與過擬合風險需獨立檢驗。；README 提醒 Windows 安裝程式尚未簽署，不宜為方便直接略過系統防護。；預設費率為研究假設，非即時券商報價；來源及實際費用需另核對。；計算契約不證明獲利能力；須核對價格調整、時間與成本。；僅靜態檢查，非編譯器或交易驗證。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、lib/costs.py、lib/analysis.py、lib/lint_export.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、lib/costs.py、lib/analysis.py、lib/lint_export.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "開源的 agentic quant workspace，可連接 Claude Code 或 Codex，讓 Agent 將交易想法轉成策略程式、執行回測與研究；實際排程與下單則由 deterministic code / scheduler 執行，而不是把 LLM 放進每次 order loop。專案同時提供 Monte Carlo permutation test、parameter plateau scan、rolling walk-forward、費用檢查、版本一致性標記、kill switch 與 order audit。",
+      "source": "https://github.com/Blave-TW/blave-agent",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究高風險 Agent 系統如何把『LLM 負責研究與產生程式碼』和『deterministic runtime 負責執行』分離，並用統計驗證、版本追蹤、人工 redline、kill switch 與 verify-before-report 降低自動化風險。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-fees",
+        "title": "區分市場成本假設",
+        "detail": "交易成本不可視為固定實際費率 輸出：預設成本及市場辨識。",
+        "capabilityRefs": [
+          "fees"
+        ]
+      },
+      {
+        "id": "use-pnl",
+        "title": "拆解持倉變動與損益",
+        "detail": "隔夜與日內報酬需分開歸因 輸出：隔夜、日內與交易成本拆解。",
+        "capabilityRefs": [
+          "pnl"
+        ]
+      },
+      {
+        "id": "use-lint",
+        "title": "檢查匯出程式的靜態問題",
+        "detail": "語法檢查不等於可執行或策略正確 輸出：錯誤及警告報告。",
+        "capabilityRefs": [
+          "lint"
+        ]
+      }
+    ],
+    "example": {
+      "id": "blave-agent-example",
+      "title": "規劃歷史研究成本與損益證據核對",
+      "input": "自建合成價格、持倉變動及成本假設",
+      "process": "區分市場成本假設 → 拆解持倉變動與損益 → 檢查匯出程式的靜態問題 → 獨立驗收實際成果",
+      "output": "成本假設、損益拆解及匯出檢查結果",
+      "destination": "離線金融研究資料品質檢查，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-fees",
+        "use-pnl",
+        "use-lint"
+      ],
+      "steps": [
+        {
+          "id": "fees",
+          "title": "區分市場成本假設",
+          "capabilityRefs": [
+            "fees"
+          ]
+        },
+        {
+          "id": "pnl",
+          "title": "拆解持倉變動與損益",
+          "capabilityRefs": [
+            "pnl"
+          ]
+        },
+        {
+          "id": "lint",
+          "title": "檢查匯出程式的靜態問題",
+          "capabilityRefs": [
+            "lint"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自建合成價格、持倉變動及成本假設。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "回測與策略模擬不能保證未來獲利，資料品質與過擬合風險需獨立檢驗。",
+      "README 提醒 Windows 安裝程式尚未簽署，不宜為方便直接略過系統防護。",
+      "預設費率為研究假設，非即時券商報價；來源及實際費用需另核對。",
+      "計算契約不證明獲利能力；須核對價格調整、時間與成本。",
+      "僅靜態檢查，非編譯器或交易驗證。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "金融研究工作台的成本假設、損益拆解與匯出程式靜態檢查。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0"
+      },
+      {
+        "label": "版本",
+        "value": "2924d0adab1a7c655f9c32e39900116b0c0e4b52"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "區分市場成本假設",
+        "detail": "交易成本不可視為固定實際費率 輸入：研究標的與資料來源；輸出：預設成本及市場辨識",
+        "source": "lib/costs.py"
+      },
+      {
+        "title": "拆解持倉變動與損益",
+        "detail": "隔夜與日內報酬需分開歸因 輸入：合成價格與持倉變動；輸出：隔夜、日內與交易成本拆解",
+        "source": "lib/analysis.py"
+      },
+      {
+        "title": "檢查匯出程式的靜態問題",
+        "detail": "語法檢查不等於可執行或策略正確 輸入：匯出程式文字；輸出：錯誤及警告報告",
+        "source": "lib/lint_export.py"
+      }
+    ],
+    "architecture": {
+      "summary": "區分市場成本假設 → 拆解持倉變動與損益 → 檢查匯出程式的靜態問題 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "區分市場成本假設",
+          "detail": "研究標的與資料來源 → 預設成本及市場辨識",
+          "files": [
+            "lib/costs.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "拆解持倉變動與損益",
+          "detail": "合成價格與持倉變動 → 隔夜、日內與交易成本拆解",
+          "files": [
+            "lib/analysis.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "檢查匯出程式的靜態問題",
+          "detail": "匯出程式文字 → 錯誤及警告報告",
+          "files": [
+            "lib/lint_export.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "區分市場成本假設",
+        "rule": "預設費率為研究假設，非即時券商報價；來源及實際費用需另核對。",
+        "source": "lib/costs.py"
+      },
+      {
+        "name": "拆解持倉變動與損益",
+        "rule": "計算契約不證明獲利能力；須核對價格調整、時間與成本。",
+        "source": "lib/analysis.py"
+      },
+      {
+        "name": "檢查匯出程式的靜態問題",
+        "rule": "僅靜態檢查，非編譯器或交易驗證。",
+        "source": "lib/lint_export.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、lib/costs.py、lib/analysis.py、lib/lint_export.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "lib/costs.py",
+          "lib/analysis.py",
+          "lib/lint_export.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自建合成價格、持倉變動及成本假設。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "lib/costs.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "離線金融研究資料品質檢查，經資料權利與人工覆核後使用。",
+        "file": "lib/costs.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "fees",
+        "name": "區分市場成本假設",
+        "problem": "交易成本不可視為固定實際費率",
+        "input": "研究標的與資料來源",
+        "output": "預設成本及市場辨識",
+        "source": "lib/costs.py",
+        "sourceFiles": [
+          "lib/costs.py",
+          "README.md"
+        ],
+        "symbols": [
+          "DEFAULT_FEES",
+          "us_members"
+        ],
+        "gate": "預設費率為研究假設，非即時券商報價；來源及實際費用需另核對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "pnl",
+        "name": "拆解持倉變動與損益",
+        "problem": "隔夜與日內報酬需分開歸因",
+        "input": "合成價格與持倉變動",
+        "output": "隔夜、日內與交易成本拆解",
+        "source": "lib/analysis.py",
+        "sourceFiles": [
+          "lib/analysis.py",
+          "README.md"
+        ],
+        "symbols": [
+          "precise_pnl"
+        ],
+        "gate": "計算契約不證明獲利能力；須核對價格調整、時間與成本。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "lint",
+        "name": "檢查匯出程式的靜態問題",
+        "problem": "語法檢查不等於可執行或策略正確",
+        "input": "匯出程式文字",
+        "output": "錯誤及警告報告",
+        "source": "lib/lint_export.py",
+        "sourceFiles": [
+          "lib/lint_export.py",
+          "README.md"
+        ],
+        "symbols": [
+          "Report"
+        ],
+        "gate": "僅靜態檢查，非編譯器或交易驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃歷史研究成本與損益證據核對（設計示例）",
+      "problem": "自建合成價格、持倉變動及成本假設",
+      "steps": [
+        {
+          "capability": "fees",
+          "action": "區分市場成本假設"
+        },
+        {
+          "capability": "pnl",
+          "action": "拆解持倉變動與損益"
+        },
+        {
+          "capability": "lint",
+          "action": "檢查匯出程式的靜態問題"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "blave-agent-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自建合成價格、持倉變動及成本假設",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "區分市場成本假設 → 拆解持倉變動與損益 → 檢查匯出程式的靜態問題 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "離線金融研究資料品質檢查，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "回測與策略模擬不能保證未來獲利，資料品質與過擬合風險需獨立檢驗。",
+        "README 提醒 Windows 安裝程式尚未簽署，不宜為方便直接略過系統防護。",
+        "預設費率為研究假設，非即時券商報價；來源及實際費用需另核對。",
+        "計算契約不證明獲利能力；須核對價格調整、時間與成本。",
+        "僅靜態檢查，非編譯器或交易驗證。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "回測與策略模擬不能保證未來獲利，資料品質與過擬合風險需獨立檢驗。；README 提醒 Windows 安裝程式尚未簽署，不宜為方便直接略過系統防護。；預設費率為研究假設，非即時券商報價；來源及實際費用需另核對。；計算契約不證明獲利能力；須核對價格調整、時間與成本。；僅靜態檢查，非編譯器或交易驗證。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、lib/costs.py、lib/analysis.py、lib/lint_export.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

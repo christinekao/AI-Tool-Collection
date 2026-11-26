@@ -6,14 +6,14 @@
   "canonicalName": "OneTake",
   "category": "11 Media / Video",
   "resourceType": "Claude Agent Skill / Continuity-driven Motion Film Pipeline",
-  "purpose": "用 Agent 產生一鏡到底的產品發布片、teaser 與 feature demo：把每個 beat 的交界當成主要設計問題，要求畫面元素從上一段持續存在並轉化成下一段，搭配單一連續鏡頭、HTML 重建 UI、deterministic motion、motion blur、聲音事件與自動 continuity oracle 驗收。",
-  "recommendation": "適合產品 launch video、功能展示與 AI 動效影片，尤其是想避免『每一鏡都好看，但串起來像 PPT』的情境；也很適合研究如何把創意原則轉成可量測的 acceptance criteria。",
+  "purpose": "連續動態構圖的畫面差異、節奏與跨段承接檢查。",
+  "recommendation": "適合研究非商業產品動效練習的畫面回歸驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/feitangyuan/onetake",
   "repo": "feitangyuan/onetake",
   "notes": "Official repository confirmed. OneTake is an Agent Skill centered on continuity-driven motion: every boundary must carry something visibly into the next beat, with automated verification before human review. It rebuilds product UI in HTML, uses deterministic motion primitives, motion blur and event-driven sound. License is PolyForm Noncommercial 1.0.0; commercial use is not permitted.",
   "status": "active",
   "addedAt": "2026-09-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "agent-skill",
     "motion-graphics",
@@ -100,48 +100,409 @@
   "source": {
     "url": "https://github.com/feitangyuan/onetake",
     "readmeUrl": "https://github.com/feitangyuan/onetake/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README.md、LICENSE、scripts/frame_diff.py、scripts/verify_promo.py、scripts/probe.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "4e024be4c6c696b260f39a35aee6bd56d303b679",
+    "referenceUrls": [
+      "https://github.com/feitangyuan/onetake/blob/4e024be4c6c696b260f39a35aee6bd56d303b679/README.md",
+      "https://github.com/feitangyuan/onetake/blob/4e024be4c6c696b260f39a35aee6bd56d303b679/LICENSE",
+      "https://github.com/feitangyuan/onetake/blob/4e024be4c6c696b260f39a35aee6bd56d303b679/scripts/frame_diff.py",
+      "https://github.com/feitangyuan/onetake/blob/4e024be4c6c696b260f39a35aee6bd56d303b679/scripts/verify_promo.py",
+      "https://github.com/feitangyuan/onetake/blob/4e024be4c6c696b260f39a35aee6bd56d303b679/scripts/probe.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain content，僅改善功能、條件、限制，不更改分類。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、scripts/frame_diff.py、scripts/verify_promo.py、scripts/probe.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "PolyForm Noncommercial 1.0.0；僅非商業許可；採 PolyForm Noncommercial 1.0.0，未另取得授權不得商用；連續效果與最終影片品質需逐畫格檢查，不是已實測保證；需瀏覽器及相依素材；差異值非視覺品質判定。；門檻為作者規則，可能誤判；未執行影片檢查。；遮罩及裁切存在量測限制；非商業授權不得視為商用許可。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、scripts/frame_diff.py、scripts/verify_promo.py、scripts/probe.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、scripts/frame_diff.py、scripts/verify_promo.py、scripts/probe.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "用 Agent 產生一鏡到底的產品發布片、teaser 與 feature demo：把每個 beat 的交界當成主要設計問題，要求畫面元素從上一段持續存在並轉化成下一段，搭配單一連續鏡頭、HTML 重建 UI、deterministic motion、motion blur、聲音事件與自動 continuity oracle 驗收。",
+      "source": "https://github.com/feitangyuan/onetake",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合產品 launch video、功能展示與 AI 動效影片，尤其是想避免『每一鏡都好看，但串起來像 PPT』的情境；也很適合研究如何把創意原則轉成可量測的 acceptance criteria。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-diff",
+        "title": "比較固定時間的兩版畫面",
+        "detail": "修改後可能意外改變既有構圖 輸出：像素差異與差異影像。",
+        "capabilityRefs": [
+          "diff"
+        ]
+      },
+      {
+        "id": "use-rhythm",
+        "title": "核對節奏與音訊檢查項目",
+        "detail": "節奏量測不能取代實際觀看 輸出：各檢查項目的 PASS／WARN／FAIL 規格。",
+        "capabilityRefs": [
+          "rhythm"
+        ]
+      },
+      {
+        "id": "use-continuity",
+        "title": "檢查畫面承接與運動",
+        "detail": "場景切換須辨識持續存在的元素 輸出：承接、運動與畫面範圍指標。",
+        "capabilityRefs": [
+          "continuity"
+        ]
+      }
+    ],
+    "example": {
+      "id": "onetake-example",
+      "title": "規劃非商業產品動效練習的畫面回歸驗收",
+      "input": "自製合成構圖及已授權比較畫面",
+      "process": "比較固定時間的兩版畫面 → 核對節奏與音訊檢查項目 → 檢查畫面承接與運動 → 獨立驗收實際成果",
+      "output": "指定時間畫面差異、節奏檢核與連續性指標",
+      "destination": "非商業學習與測試流程，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-diff",
+        "use-rhythm",
+        "use-continuity"
+      ],
+      "steps": [
+        {
+          "id": "diff",
+          "title": "比較固定時間的兩版畫面",
+          "capabilityRefs": [
+            "diff"
+          ]
+        },
+        {
+          "id": "rhythm",
+          "title": "核對節奏與音訊檢查項目",
+          "capabilityRefs": [
+            "rhythm"
+          ]
+        },
+        {
+          "id": "continuity",
+          "title": "檢查畫面承接與運動",
+          "capabilityRefs": [
+            "continuity"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自製合成構圖及已授權比較畫面。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "採 PolyForm Noncommercial 1.0.0，未另取得授權不得商用",
+      "連續效果與最終影片品質需逐畫格檢查，不是已實測保證",
+      "需瀏覽器及相依素材；差異值非視覺品質判定。",
+      "門檻為作者規則，可能誤判；未執行影片檢查。",
+      "遮罩及裁切存在量測限制；非商業授權不得視為商用許可。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "連續動態構圖的畫面差異、節奏與跨段承接檢查。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "PolyForm Noncommercial 1.0.0；僅非商業許可"
+      },
+      {
+        "label": "版本",
+        "value": "4e024be4c6c696b260f39a35aee6bd56d303b679"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "比較固定時間的兩版畫面",
+        "detail": "修改後可能意外改變既有構圖 輸入：兩版測試 HTML 及取樣時間；輸出：像素差異與差異影像",
+        "source": "scripts/frame_diff.py"
+      },
+      {
+        "title": "核對節奏與音訊檢查項目",
+        "detail": "節奏量測不能取代實際觀看 輸入：已授權測試影片及構圖描述；輸出：各檢查項目的 PASS／WARN／FAIL 規格",
+        "source": "scripts/verify_promo.py"
+      },
+      {
+        "title": "檢查畫面承接與運動",
+        "detail": "場景切換須辨識持續存在的元素 輸入：自製測試構圖與時間點；輸出：承接、運動與畫面範圍指標",
+        "source": "scripts/probe.py"
+      }
+    ],
+    "architecture": {
+      "summary": "比較固定時間的兩版畫面 → 核對節奏與音訊檢查項目 → 檢查畫面承接與運動 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "比較固定時間的兩版畫面",
+          "detail": "兩版測試 HTML 及取樣時間 → 像素差異與差異影像",
+          "files": [
+            "scripts/frame_diff.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "核對節奏與音訊檢查項目",
+          "detail": "已授權測試影片及構圖描述 → 各檢查項目的 PASS／WARN／FAIL 規格",
+          "files": [
+            "scripts/verify_promo.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "檢查畫面承接與運動",
+          "detail": "自製測試構圖與時間點 → 承接、運動與畫面範圍指標",
+          "files": [
+            "scripts/probe.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "比較固定時間的兩版畫面",
+        "rule": "需瀏覽器及相依素材；差異值非視覺品質判定。",
+        "source": "scripts/frame_diff.py"
+      },
+      {
+        "name": "核對節奏與音訊檢查項目",
+        "rule": "門檻為作者規則，可能誤判；未執行影片檢查。",
+        "source": "scripts/verify_promo.py"
+      },
+      {
+        "name": "檢查畫面承接與運動",
+        "rule": "遮罩及裁切存在量測限制；非商業授權不得視為商用許可。",
+        "source": "scripts/probe.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、scripts/frame_diff.py、scripts/verify_promo.py、scripts/probe.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "scripts/frame_diff.py",
+          "scripts/verify_promo.py",
+          "scripts/probe.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自製合成構圖及已授權比較畫面。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "scripts/frame_diff.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "非商業學習與測試流程，經資料權利與人工覆核後使用。",
+        "file": "scripts/frame_diff.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "diff",
+        "name": "比較固定時間的兩版畫面",
+        "problem": "修改後可能意外改變既有構圖",
+        "input": "兩版測試 HTML 及取樣時間",
+        "output": "像素差異與差異影像",
+        "source": "scripts/frame_diff.py",
+        "sourceFiles": [
+          "scripts/frame_diff.py",
+          "README.md"
+        ],
+        "symbols": [
+          "frames",
+          "url"
+        ],
+        "gate": "需瀏覽器及相依素材；差異值非視覺品質判定。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "rhythm",
+        "name": "核對節奏與音訊檢查項目",
+        "problem": "節奏量測不能取代實際觀看",
+        "input": "已授權測試影片及構圖描述",
+        "output": "各檢查項目的 PASS／WARN／FAIL 規格",
+        "source": "scripts/verify_promo.py",
+        "sourceFiles": [
+          "scripts/verify_promo.py",
+          "README.md"
+        ],
+        "symbols": [
+          "audio_stats",
+          "PEAK_PX"
+        ],
+        "gate": "門檻為作者規則，可能誤判；未執行影片檢查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "continuity",
+        "name": "檢查畫面承接與運動",
+        "problem": "場景切換須辨識持續存在的元素",
+        "input": "自製測試構圖與時間點",
+        "output": "承接、運動與畫面範圍指標",
+        "source": "scripts/probe.py",
+        "sourceFiles": [
+          "scripts/probe.py",
+          "README.md"
+        ],
+        "symbols": [
+          "TRACKER_JS"
+        ],
+        "gate": "遮罩及裁切存在量測限制；非商業授權不得視為商用許可。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃非商業產品動效練習的畫面回歸驗收（設計示例）",
+      "problem": "自製合成構圖及已授權比較畫面",
+      "steps": [
+        {
+          "capability": "diff",
+          "action": "比較固定時間的兩版畫面"
+        },
+        {
+          "capability": "rhythm",
+          "action": "核對節奏與音訊檢查項目"
+        },
+        {
+          "capability": "continuity",
+          "action": "檢查畫面承接與運動"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "onetake-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自製合成構圖及已授權比較畫面",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "比較固定時間的兩版畫面 → 核對節奏與音訊檢查項目 → 檢查畫面承接與運動 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "非商業學習與測試流程，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "採 PolyForm Noncommercial 1.0.0，未另取得授權不得商用",
+        "連續效果與最終影片品質需逐畫格檢查，不是已實測保證",
+        "需瀏覽器及相依素材；差異值非視覺品質判定。",
+        "門檻為作者規則，可能誤判；未執行影片檢查。",
+        "遮罩及裁切存在量測限制；非商業授權不得視為商用許可。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "採 PolyForm Noncommercial 1.0.0，未另取得授權不得商用；連續效果與最終影片品質需逐畫格檢查，不是已實測保證；需瀏覽器及相依素材；差異值非視覺品質判定。；門檻為作者規則，可能誤判；未執行影片檢查。；遮罩及裁切存在量測限制；非商業授權不得視為商用許可。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、scripts/frame_diff.py、scripts/verify_promo.py、scripts/probe.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

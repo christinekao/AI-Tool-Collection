@@ -6,14 +6,14 @@
   "canonicalName": "Photo Riso Poster",
   "category": "06 Skills",
   "resourceType": "Evidence-first Image Generation Skill / Riso Poster",
-  "purpose": "把照片或文字主題轉成安靜的 risograph archive poster。對照片先抽取可觀察事實，例如數量、間距、遮擋、方向、深度與色彩角色，再把這些 evidence 映射成 2–3 色套印、留白、紙張冷暖與排印資訊；生成階段使用文字化 evidence，而不是把原照片直接交給 image generation。",
-  "recommendation": "適合需要從真實照片產生有固定視覺語法、但又不想只是做一般 style transfer 的海報；也適合研究如何把『看圖』拆成 evidence extraction → visual mapping → constrained generation → self-check 的可重用 Skill。",
+  "purpose": "以可觀察照片事實或自訂文字主題轉為少色孔版印刷風海報的操作規格。",
+  "recommendation": "適合研究自有照片的證據式抽象海報設計；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/luckdvr/photo-riso-poster",
   "repo": "luckdvr/photo-riso-poster",
   "notes": "Official repository and SKILL.md confirmed. The skill is a single prompt document with no scripts or bundled assets and requires an image-capable assistant; the Codex install uses its built-in image generation tool. It supports faithful / standard / minimal abstraction levels. Core rules include mapping every output mark to a source fact, preserving relational invariants, using source-derived 2–3 ink roles, matching paper temperature to the source, preserving source aspect orientation, and regenerating once when key output constraints fail. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "agent-skill",
     "image-generation",
@@ -71,9 +71,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.1",
-    "contentFormat": "repository",
+    "contentFormat": "documentation",
     "formatEvidenceFields": [
-      "repo"
+      "source.referenceUrls",
+      "resourceType"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -92,48 +93,237 @@
   "source": {
     "url": "https://github.com/luckdvr/photo-riso-poster",
     "readmeUrl": "https://github.com/luckdvr/photo-riso-poster/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "79564228948fd393ecf58ee9aeb74fbc3c1f1deb",
+    "referenceUrls": [
+      "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/README.md",
+      "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/LICENSE",
+      "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain content，僅改善功能、條件、限制，不更改分類。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。主要為操作文件，校正 Content Format 為 documentation，留存原分類。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。 操作文件契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+      "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "MIT；生成海報不保證與原圖完全一致；原始照片及生成圖片須分別遵循平台政策和肖像／著作權；無日期或地點證據時省略；虛構主題與真實照片須分開。；設計規則不保證生成精準；需人工比較來源與成果。；需可用影像生成工具及使用者授權；本次未生成圖像。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把照片或文字主題轉成安靜的 risograph archive poster。對照片先抽取可觀察事實，例如數量、間距、遮擋、方向、深度與色彩角色，再把這些 evidence 映射成 2–3 色套印、留白、紙張冷暖與排印資訊；生成階段使用文字化 evidence，而不是把原照片直接交給 image generation。",
+      "source": "https://github.com/luckdvr/photo-riso-poster",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合需要從真實照片產生有固定視覺語法、但又不想只是做一般 style transfer 的海報；也適合研究如何把『看圖』拆成 evidence extraction → visual mapping → constrained generation → self-check 的可重用 Skill。",
+    "priorClassificationSnapshot": {
+      "primaryDomain": "content",
+      "secondaryDomains": [],
+      "purposeFacets": [],
+      "reviewStatus": "example-proposed",
+      "evidenceFields": [
+        "purpose",
+        "category"
+      ],
+      "classifiedAt": "2026-11-19",
+      "rulesVersion": "v0.1",
+      "contentFormat": "repository",
+      "formatEvidenceFields": [
+        "repo"
+      ],
+      "taxonomyVersion": "1.0"
+    },
+    "documentContracts": [
+      {
+        "name": "提取可觀察的視覺事實",
+        "input": "自有照片及可讀日期資訊",
+        "output": "觀察事實與未知欄位",
+        "source": "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md",
+        "locator": "Input / Deconstruct",
+        "limitations": "無日期或地點證據時省略；虛構主題與真實照片須分開。"
+      },
+      {
+        "name": "將事實轉成視覺符號",
+        "input": "視覺事實與抽象層級",
+        "output": "符號、色層及文字映射規格",
+        "source": "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md",
+        "locator": "Abstraction level / Map facts to marks and type",
+        "limitations": "設計規則不保證生成精準；需人工比較來源與成果。"
+      },
+      {
+        "name": "建立文字生成規格",
+        "input": "映射規格與畫布比例",
+        "output": "文字提示及外部生成前提",
+        "source": "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md",
+        "locator": "Generate",
+        "limitations": "需可用影像生成工具及使用者授權；本次未生成圖像。"
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-observe",
+        "title": "提取可觀察的視覺事實",
+        "detail": "抽象化需保留數量、位置及關係 輸出：觀察事實與未知欄位。",
+        "evidenceRefs": [
+          "observe"
+        ]
+      },
+      {
+        "id": "use-map",
+        "title": "將事實轉成視覺符號",
+        "detail": "裝飾元素可能失去與原始證據的關係 輸出：符號、色層及文字映射規格。",
+        "evidenceRefs": [
+          "map"
+        ]
+      },
+      {
+        "id": "use-generate",
+        "title": "建立文字生成規格",
+        "detail": "生成工具缺失不能宣稱完成圖像 輸出：文字提示及外部生成前提。",
+        "evidenceRefs": [
+          "generate"
+        ]
+      }
+    ],
+    "example": {
+      "id": "photo-riso-poster-example",
+      "title": "規劃自有照片的證據式抽象海報設計",
+      "input": "自有照片或明確虛構主題及抽象程度",
+      "process": "提取可觀察的視覺事實 → 將事實轉成視覺符號 → 建立文字生成規格 → 獨立驗收實際成果",
+      "output": "視覺證據清單、構圖規格與生成提示",
+      "destination": "個人設計練習；生成需另有工具，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-observe",
+        "use-map",
+        "use-generate"
+      ],
+      "steps": [
+        {
+          "id": "observe",
+          "title": "提取可觀察的視覺事實",
+          "evidenceRefs": [
+            "observe"
+          ]
+        },
+        {
+          "id": "map",
+          "title": "將事實轉成視覺符號",
+          "evidenceRefs": [
+            "map"
+          ]
+        },
+        {
+          "id": "generate",
+          "title": "建立文字生成規格",
+          "evidenceRefs": [
+            "generate"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有照片或明確虛構主題及抽象程度。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "生成海報不保證與原圖完全一致",
+      "原始照片及生成圖片須分別遵循平台政策和肖像／著作權",
+      "無日期或地點證據時省略；虛構主題與真實照片須分開。",
+      "設計規則不保證生成精準；需人工比較來源與成果。",
+      "需可用影像生成工具及使用者授權；本次未生成圖像。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "observe",
+      "detail": "抽象化需保留數量、位置及關係 輸入：自有照片及可讀日期資訊；輸出：觀察事實與未知欄位",
+      "locator": "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md — Input / Deconstruct",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "無日期或地點證據時省略；虛構主題與真實照片須分開。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "map",
+      "detail": "裝飾元素可能失去與原始證據的關係 輸入：視覺事實與抽象層級；輸出：符號、色層及文字映射規格",
+      "locator": "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md — Abstraction level / Map facts to marks and type",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "設計規則不保證生成精準；需人工比較來源與成果。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "generate",
+      "detail": "生成工具缺失不能宣稱完成圖像 輸入：映射規格與畫布比例；輸出：文字提示及外部生成前提",
+      "locator": "https://github.com/luckdvr/photo-riso-poster/blob/79564228948fd393ecf58ee9aeb74fbc3c1f1deb/SKILL.md — Generate",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "需可用影像生成工具及使用者授權；本次未生成圖像。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }
