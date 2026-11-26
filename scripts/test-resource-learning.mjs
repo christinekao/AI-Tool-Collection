@@ -1694,6 +1694,33 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  49,
+  "影音任務與分鏡製作",
+  [
+    [
+      "harry0703-moneyprinterturbo",
+      "規劃知識短影音的任務清單與素材品質驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "hbai-ltd-toonflow-app",
+      "規劃分鏡工作區的媒體生成與取消驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "chatfire-ai-huobao-drama",
+      "規劃自有短劇的角色資產與分鏡提示詞驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

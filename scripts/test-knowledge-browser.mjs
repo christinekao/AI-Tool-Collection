@@ -662,7 +662,10 @@ try{
   ["ath-maas-pixelle-video",".resource-reader-guide","規劃自有知識短影音的分鏡與合成驗收"],
   ["blader-humanizer",".resource-reader-guide","規劃技術文件與工作訊息的保真文字編輯"],
   ["heydamir-unslop",".resource-reader-guide","規劃儀表板視覺改善與前後對照驗收"],
-  ["lieflat-less-ai-tone",".resource-reader-guide","規劃中文技術文章的分級審查與保真改寫"]
+  ["lieflat-less-ai-tone",".resource-reader-guide","規劃中文技術文章的分級審查與保真改寫"],
+  ["harry0703-moneyprinterturbo",".resource-reader-guide","規劃知識短影音的任務清單與素材品質驗收"],
+  ["hbai-ltd-toonflow-app",".resource-reader-guide","規劃分鏡工作區的媒體生成與取消驗收"],
+  ["chatfire-ai-huobao-drama",".resource-reader-guide","規劃自有短劇的角色資產與分鏡提示詞驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

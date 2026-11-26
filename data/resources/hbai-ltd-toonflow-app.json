@@ -6,13 +6,13 @@
   "canonicalName": "HBAI-Ltd/Toonflow-app",
   "category": "11 Media / Video",
   "resourceType": "MIT visual AI short-drama storyboard/canvas authoring platform",
-  "purpose": "面向 AI 短劇、漫劇與短影音的可視化工作區：在無限畫布組合劇本、角色與場景資產、分鏡、圖片和影片；支援 Agent、MCP、插件、自由接入第三方模型或本地 ComfyUI，提供桌面、Android ARM64、Docker 與伺服器部署。",
-  "recommendation": "想真正製作連續劇或小說改編，優先試用 Toonflow：MIT 較適合探索商業內容工作流，但產出素材／模型／小說仍需獨立授權。先拿原創 30–60 秒樣片用最少角色建立作品並計算所有生成與重試費用。伺服器 README 明確說 Port 3000 的業務畫面與 API 無獨立登入驗證；不可直接暴露至公網，需防火牆、SSH Tunnel 或具有驗證的反向代理。",
+  "purpose": "在視覺化工作區安排劇本、分鏡與媒體生成，讓圖片、影片及音訊工作可查詢與取消。",
+  "recommendation": "適合需要追蹤分鏡媒體生成狀態的專案；不把取消 API 成功視為供應商已停止計費。",
   "url": "https://github.com/HBAI-Ltd/Toonflow-app",
   "repo": "HBAI-Ltd/Toonflow-app",
   "status": "active",
   "addedAt": "2026-10-22",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "toonflow",
     "ai-comic",
@@ -89,47 +89,410 @@
     "url": "https://github.com/HBAI-Ltd/Toonflow-app",
     "readmeUrl": "https://github.com/HBAI-Ltd/Toonflow-app/blob/main/README.md",
     "type": "Official README / repository",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Documentation only; no execution tests"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "eecf51547af47eb504822186bd3f2dee369125ff",
+    "referenceUrls": [
+      "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/README.md",
+      "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/LICENSE",
+      "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/apps/server/src/routes/ai/media/generate.ts",
+      "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/apps/server/src/routes/ai/media/tasks/status.ts",
+      "https://github.com/HBAI-Ltd/Toonflow-app/blob/eecf51547af47eb504822186bd3f2dee369125ff/apps/server/src/routes/ai/media/tasks/cancel.ts"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "維持既有 Primary Domain content；未修改任何分類或新增 Tag。",
+    "classificationReason": "保留既有 Primary Domain content，原分類、Tags 與關聯不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "README 功能尚不足以證明版本化 Input／Output 契約可供跨工具組合，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+    "riskNotes": "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。；展示素材與生成影片的商用權利取決於來源及第三方模型條款。；依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。；resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。；路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+      "evidence": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "面向 AI 短劇、漫劇與短影音的可視化工作區：在無限畫布組合劇本、角色與場景資產、分鏡、圖片和影片；支援 Agent、MCP、插件、自由接入第三方模型或本地 ComfyUI，提供桌面、Android ARM64、Docker 與伺服器部署。",
+      "source": "https://github.com/HBAI-Ltd/Toonflow-app",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "想真正製作連續劇或小說改編，優先試用 Toonflow：MIT 較適合探索商業內容工作流，但產出素材／模型／小說仍需獨立授權。先拿原創 30–60 秒樣片用最少角色建立作品並計算所有生成與重試費用。伺服器 README 明確說 Port 3000 的業務畫面與 API 無獨立登入驗證；不可直接暴露至公網，需防火牆、SSH Tunnel 或具有驗證的反向代理。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-generate",
+        "title": "啟動指定類型的媒體任務",
+        "detail": "圖片、影片與音訊需要不同參數驗證。 輸出：任務 ID、生成檔案或參數錯誤。",
+        "capabilityRefs": [
+          "generate"
+        ]
+      },
+      {
+        "id": "use-status",
+        "title": "查詢多筆媒體任務狀態",
+        "detail": "長時間生成需要追蹤進度，避免把提交視為完成。 輸出：依請求身分取得的任務狀態回應。",
+        "capabilityRefs": [
+          "status"
+        ]
+      },
+      {
+        "id": "use-cancel",
+        "title": "提出一批媒體任務取消要求",
+        "detail": "選錯模型或分鏡時需要停止未完成工作。 輸出：取消服務呼叫後的成功回應或錯誤。",
+        "capabilityRefs": [
+          "cancel"
+        ]
+      }
+    ],
+    "example": {
+      "id": "hbai-ltd-toonflow-app-example",
+      "title": "規劃分鏡工作區的媒體生成與取消驗收",
+      "input": "自有分鏡、合成圖片與已核准的測試工作區。",
+      "process": "啟動指定類型的媒體任務 → 查詢多筆媒體任務狀態 → 提出一批媒體任務取消要求 → 獨立驗收實際成果",
+      "output": "媒體任務 ID、狀態紀錄、取消及重試驗收規格。",
+      "destination": "自有影音工作台，產物與費用由使用者獨立覆核。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-generate",
+        "use-status",
+        "use-cancel"
+      ],
+      "steps": [
+        {
+          "id": "generate",
+          "title": "啟動指定類型的媒體任務",
+          "capabilityRefs": [
+            "generate"
+          ]
+        },
+        {
+          "id": "status",
+          "title": "查詢多筆媒體任務狀態",
+          "capabilityRefs": [
+            "status"
+          ]
+        },
+        {
+          "id": "cancel",
+          "title": "提出一批媒體任務取消要求",
+          "capabilityRefs": [
+            "cancel"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准資料、素材授權、模型服務、環境與人工成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有分鏡、合成圖片與已核准的測試工作區。",
+      "核對固定版本、模型與素材授權、費用及工作區權限。",
+      "核准測試環境後，以合成資料驗證正常、失敗及取消情境。"
+    ],
+    "limits": [
+      "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。",
+      "展示素材與生成影片的商用權利取決於來源及第三方模型條款。",
+      "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+      "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+      "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+      "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在視覺化工作區安排劇本、分鏡與媒體生成，讓圖片、影片及音訊工作可查詢與取消。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；外部模型、素材及服務條款另查"
+      },
+      {
+        "label": "版本",
+        "value": "eecf51547af47eb504822186bd3f2dee369125ff"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "啟動指定類型的媒體任務",
+        "detail": "圖片、影片與音訊需要不同參數驗證。 輸入：工作區、媒體類型、模型參數及可選任務 UUID；輸出：任務 ID、生成檔案或參數錯誤",
+        "source": "apps/server/src/routes/ai/media/generate.ts"
+      },
+      {
+        "title": "查詢多筆媒體任務狀態",
+        "detail": "長時間生成需要追蹤進度，避免把提交視為完成。 輸入：工作區、一至一百個 UUID 與可選 resume；輸出：依請求身分取得的任務狀態回應",
+        "source": "apps/server/src/routes/ai/media/tasks/status.ts"
+      },
+      {
+        "title": "提出一批媒體任務取消要求",
+        "detail": "選錯模型或分鏡時需要停止未完成工作。 輸入：工作區及一至一百個任務 UUID；輸出：取消服務呼叫後的成功回應或錯誤",
+        "source": "apps/server/src/routes/ai/media/tasks/cancel.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "啟動指定類型的媒體任務 → 查詢多筆媒體任務狀態 → 提出一批媒體任務取消要求 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "啟動指定類型的媒體任務",
+          "detail": "工作區、媒體類型、模型參數及可選任務 UUID → 任務 ID、生成檔案或參數錯誤",
+          "files": [
+            "apps/server/src/routes/ai/media/generate.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "查詢多筆媒體任務狀態",
+          "detail": "工作區、一至一百個 UUID 與可選 resume → 依請求身分取得的任務狀態回應",
+          "files": [
+            "apps/server/src/routes/ai/media/tasks/status.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "提出一批媒體任務取消要求",
+          "detail": "工作區及一至一百個任務 UUID → 取消服務呼叫後的成功回應或錯誤",
+          "files": [
+            "apps/server/src/routes/ai/media/tasks/cancel.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "啟動指定類型的媒體任務",
+        "rule": "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+        "source": "apps/server/src/routes/ai/media/generate.ts"
+      },
+      {
+        "name": "查詢多筆媒體任務狀態",
+        "rule": "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+        "source": "apps/server/src/routes/ai/media/tasks/status.ts"
+      },
+      {
+        "name": "提出一批媒體任務取消要求",
+        "rule": "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+        "source": "apps/server/src/routes/ai/media/tasks/cancel.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "apps/server/src/routes/ai/media/generate.ts",
+          "apps/server/src/routes/ai/media/tasks/status.ts",
+          "apps/server/src/routes/ai/media/tasks/cancel.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有分鏡、合成圖片與已核准的測試工作區。 核對固定版本、模型與素材授權、費用及工作區權限。 核准測試環境後，以合成資料驗證正常、失敗及取消情境。",
+        "files": [
+          "apps/server/src/routes/ai/media/generate.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有影音工作台，產物與費用由使用者獨立覆核。",
+        "file": "apps/server/src/routes/ai/media/generate.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "generate",
+        "name": "啟動指定類型的媒體任務",
+        "problem": "圖片、影片與音訊需要不同參數驗證。",
+        "input": "工作區、媒體類型、模型參數及可選任務 UUID",
+        "output": "任務 ID、生成檔案或參數錯誤",
+        "source": "apps/server/src/routes/ai/media/generate.ts",
+        "sourceFiles": [
+          "apps/server/src/routes/ai/media/generate.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "mediaGeneration.generateMedia",
+          "mediaTasks.start",
+          "mediaSchemas"
+        ],
+        "gate": "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "status",
+        "name": "查詢多筆媒體任務狀態",
+        "problem": "長時間生成需要追蹤進度，避免把提交視為完成。",
+        "input": "工作區、一至一百個 UUID 與可選 resume",
+        "output": "依請求身分取得的任務狀態回應",
+        "source": "apps/server/src/routes/ai/media/tasks/status.ts",
+        "sourceFiles": [
+          "apps/server/src/routes/ai/media/tasks/status.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "mediaTasks.status",
+          "resolveWorkspace"
+        ],
+        "gate": "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "cancel",
+        "name": "提出一批媒體任務取消要求",
+        "problem": "選錯模型或分鏡時需要停止未完成工作。",
+        "input": "工作區及一至一百個任務 UUID",
+        "output": "取消服務呼叫後的成功回應或錯誤",
+        "source": "apps/server/src/routes/ai/media/tasks/cancel.ts",
+        "sourceFiles": [
+          "apps/server/src/routes/ai/media/tasks/cancel.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "mediaTasks.cancel",
+          "requestIdentity"
+        ],
+        "gate": "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃分鏡工作區的媒體生成與取消驗收（設計示例）",
+      "problem": "自有分鏡、合成圖片與已核准的測試工作區。",
+      "steps": [
+        {
+          "capability": "generate",
+          "action": "啟動指定類型的媒體任務"
+        },
+        {
+          "capability": "status",
+          "action": "查詢多筆媒體任務狀態"
+        },
+        {
+          "capability": "cancel",
+          "action": "提出一批媒體任務取消要求"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "hbai-ltd-toonflow-app-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有分鏡、合成圖片與已核准的測試工作區。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "啟動指定類型的媒體任務 → 查詢多筆媒體任務狀態 → 提出一批媒體任務取消要求 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有影音工作台，產物與費用由使用者獨立覆核。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。",
+        "展示素材與生成影片的商用權利取決於來源及第三方模型條款。",
+        "依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。",
+        "resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。",
+        "路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。",
+        "模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "Docker 刪除資料卷可能遺失工作區，須先備份並避免誤用 down -v。；展示素材與生成影片的商用權利取決於來源及第三方模型條款。；依類型驗證 schema，解析工作區與請求身分；帶任務 ID 時回傳任務識別而非生成完成；斷線處理不等於所有供應商工作已停止。；resume=true 傳入底層服務，不宣稱唯讀；no-store 防止快取，底層恢復與隔離尚未查核。；路由傳遞工作區及身分，回應未逐筆證明外部工作停止；須查詢最終狀態與費用。；模型、素材授權、外部服務費用、權限、相依與實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、apps/server/src/routes/ai/media/generate.ts、apps/server/src/routes/ai/media/tasks/status.ts、apps/server/src/routes/ai/media/tasks/cancel.ts 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
