@@ -11152,7 +11152,7 @@
         "reviewedAt": "2026-11-26",
         "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
         "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-        "reviewScope": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+        "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。",
         "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
         "referenceUrls": [
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
@@ -11161,7 +11161,10 @@
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission.ts",
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/agent.ts",
           "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/subagent.ts",
-          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts"
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/plan.ts",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/shell.ts",
+          "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts"
         ]
       },
       "researchStatus": "official-source-verified",
@@ -11218,7 +11221,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。"
+          "reason": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -11231,14 +11234,14 @@
         "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
         "verification": {
           "status": "not-tested",
-          "evidence": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。；未執行第三方。"
+          "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。"
         },
-        "sourceGap": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+        "sourceGap": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
         "layerReview": {
           "status": "deferred",
           "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-          "gap": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
-          "nextAction": "定位 Plan 設定及 child session 權限組裝與 Shell/MCP 執行入口；以合成 Repo 驗證拒絕、取消、持久化核准及越權。"
+          "gap": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
+          "nextAction": "追蹤 Session.create 的 child 權限、ShellPermissions.requests 解析與 MCP direct/resource 入口，驗證拒絕與越權反例。"
         }
       },
       "implementationKnowledge": {
@@ -11251,7 +11254,11 @@
           "saved_approval": "權限服務先評估 agent 與 session 規則，明確拒絕直接阻擋；再以 project 範圍保存的核准作 fallback。",
           "role_defaults": "Build 為 primary；General 為 subagent，預設禁止 question 和 subagent；Explore 為 subagent，預設拒絕萬用規則後列出 Shell、搜尋及讀取等許可。",
           "subagent_gate": "子代理入口檢查深度、拒絕 primary 角色，經 permission.assert 再建立或繼續 child session；模型可依顯式覆寫、角色設定及父 session 決定。",
-          "policy_test": "上游測試含 fallback 不覆蓋明確拒絕、多資源效果排序、restrict 在 override/fallback 下仍拒絕等反例。"
+          "policy_test": "上游測試含 fallback 不覆蓋明確拒絕、多資源效果排序、restrict 在 override/fallback 下仍拒絕等反例。",
+          "plan_role": "Plan plugin 設定 primary 角色、允許 question、拒絕一般 edit，並允許指定 plan 目錄 edit；選中時指令要求不修改其他檔案或委派修改。",
+          "session_policy": "權限服務依呼叫的 sessionID 取得 session，解析指定 agent 或 session agent，組合 agent permissions 與 session permissions，再評估操作。",
+          "shell_gate": "Shell 解析目標工作目錄，依當前 agent/session 組合政策產生權限請求，逐一 assert，並在程序建立前重新檢查目錄。",
+          "mcp_tool_gate": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。"
         }
       },
       "agentEvidence": [
@@ -11345,6 +11352,50 @@
           "limitations": "僅閱讀測試，不宣稱已執行或實際環境安全。",
           "evidenceStatus": "partial",
           "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "plan-role",
+          "detail": "Plan plugin 設定 primary 角色、允許 question、拒絕一般 edit，並允許指定 plan 目錄 edit；選中時指令要求不修改其他檔案或委派修改。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/plan.ts#L22-L48",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.plan_role"
+          ],
+          "limitations": "角色指令及 edit 規則不等於 OS 唯讀沙箱；尚未證明 Shell 或子代理均受同等限制。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "session-policy",
+          "detail": "權限服務依呼叫的 sessionID 取得 session，解析指定 agent 或 session agent，組合 agent permissions 與 session permissions，再評估操作。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission.ts#L190-L233",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.session_policy"
+          ],
+          "limitations": "此處沒有證明父 session 的限制如何傳入新 child session；需另查建立流程。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "shell-gate",
+          "detail": "Shell 解析目標工作目錄，依當前 agent/session 組合政策產生權限請求，逐一 assert，並在程序建立前重新檢查目錄。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/shell.ts#L330-L361",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.shell_gate"
+          ],
+          "limitations": "尚未核對命令解析完整性、所有 shell 語法與 OS 沙箱；不可當作安全隔離保證。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "mcp-tool-gate",
+          "detail": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。",
+          "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts#L46-L88",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.mcp_tool_gate"
+          ],
+          "limitations": "此入口採工具層萬用 resource，並非參數級授權；不能推廣至所有 MCP 入口或遠端服務端安全。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
         }
       ],
       "readerGuide": {
@@ -11386,6 +11437,17 @@
               "subagent-gate",
               "policy-test"
             ]
+          },
+          {
+            "id": "tool-boundary-audit",
+            "title": "驗收 Plan 與工具執行權限",
+            "detail": "在合成 Repo 比較 Plan 目錄內外 edit、child session 的規則、Shell 路徑權限與 MCP tool 核准；另設 OS 層隔離及遠端服務端授權。",
+            "evidenceRefs": [
+              "plan-role",
+              "session-policy",
+              "shell-gate",
+              "mcp-tool-gate"
+            ]
           }
         ],
         "example": {
@@ -11401,7 +11463,8 @@
             "explore-code",
             "fix-feature",
             "delegate-research",
-            "permission-contract-audit"
+            "permission-contract-audit",
+            "tool-boundary-audit"
           ],
           "steps": [
             {
@@ -11437,6 +11500,16 @@
               ]
             },
             {
+              "id": "tool-boundary-audit",
+              "title": "驗收 Plan 與工具執行權限",
+              "evidenceRefs": [
+                "plan-role",
+                "session-policy",
+                "shell-gate",
+                "mcp-tool-gate"
+              ]
+            },
+            {
               "id": "test",
               "title": "獨立驗收修改及權限",
               "evidenceRefs": [],
@@ -11453,7 +11526,8 @@
           "具備讀寫程式碼及執行指令能力，須備份和最小權限",
           "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。",
           "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
-          "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
+          "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
+          "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
         ]
       }
     },
@@ -52382,7 +52456,7 @@
         "readmeUrl": "https://github.com/vectorize-io/hindsight/blob/main/README.md",
         "reviewedAt": "2026-11-26",
         "type": "Official upstream README or bundle document",
-        "reviewScope": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
+        "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 89 新增 3 筆原始碼證據。已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。 未執行第三方。",
         "upstreamCommit": "550ef5e304623be2a456913acbac1b1a834fb2c3",
         "referenceUrls": [
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md",
@@ -52391,7 +52465,8 @@
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/memories/pg/recall.py",
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/extensions/builtin/tenant.py",
           "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py",
-          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py"
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py",
+          "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py"
         ]
       },
       "intakeReview": {
@@ -52420,7 +52495,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。"
+          "reason": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -52433,14 +52508,14 @@
         "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
         "verification": {
           "status": "not-tested",
-          "evidence": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。；未執行第三方。"
+          "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 89 新增 3 筆原始碼證據。已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。 未執行第三方。"
         },
-        "sourceGap": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
+        "sourceGap": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。",
         "layerReview": {
           "status": "deferred",
           "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-          "gap": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
-          "nextAction": "核對 api/http.py 的端點與 engine/reflect/agent.py 完整迴圈、bank 層級授權及刪除保留例外；在隔離 Postgres 測試資料及跨租戶拒絕。"
+          "gap": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。",
+          "nextAction": "追蹤引擎 tenant/schema 與 bank 授權、_process_done_tool 的引用驗證及刪除保留例外，再以隔離環境驗證。"
         }
       },
       "implementationKnowledge": {
@@ -52453,7 +52528,10 @@
           "hybrid_recall": "語意與 BM25 依 fact type 組合查詢，空詞彙省略 BM25；可套用分數門檻、bank_id 及 tags，返回兩路候選。",
           "tenant_auth": "預設 TenantExtension 不要求認證；ApiKeyTenantExtension 核對配置金鑰並回傳配置 schema，MCP 可選擇略過認證。",
           "reflect_budget": "Reflect 以 retrieval tools 搜尋 mental models、observations 與原始記憶；並行工具請求按剩餘 context 分配 token ceiling，預設迭代上限常數為 10。",
-          "bank_delete_test": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。"
+          "bank_delete_test": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。",
+          "http_precheck": "有配置 OperationValidator 時，HTTP precheck 先認證 tenant，再帶 bank_id、operation、request context 與內容長度呼叫驗證器；拒絕轉 HTTP 錯誤。",
+          "reflect_http": "Reflect API 透過 precheck 與 admission 依賴，把 bank、查詢、預算、tags 等傳入 reflect_async；斷線取消執行，按請求回傳 based_on、trace、結構化輸出與使用量。",
+          "reflect_finish": "停止檢索後透過 done 取得回答；空回答可重問，沒有 done 時可轉獨立 synthesis；已拒絕的結構化文件不可靜默改成自由文字，超過重試上限會失敗。"
         }
       },
       "agentEvidence": [
@@ -52549,6 +52627,39 @@
           "limitations": "測試程式存在不表示已執行；故意保留的資料、備份及外部儲存另驗。",
           "evidenceStatus": "partial",
           "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "http-precheck",
+          "detail": "有配置 OperationValidator 時，HTTP precheck 先認證 tenant，再帶 bank_id、operation、request context 與內容長度呼叫驗證器；拒絕轉 HTTP 錯誤。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py#L4937-L4974",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.http_precheck"
+          ],
+          "limitations": "未配置驗證器會直接返回；這段不是預設 bank RBAC，也未涵蓋所有端點。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "reflect-http",
+          "detail": "Reflect API 透過 precheck 與 admission 依賴，把 bank、查詢、預算、tags 等傳入 reflect_async；斷線取消執行，按請求回傳 based_on、trace、結構化輸出與使用量。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py#L5808-L5939",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.reflect_http"
+          ],
+          "limitations": "HTTP 包裝層不保證證據正確、bank 授權或模型輸出忠於原文。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "reflect-finish",
+          "detail": "停止檢索後透過 done 取得回答；空回答可重問，沒有 done 時可轉獨立 synthesis；已拒絕的結構化文件不可靜默改成自由文字，超過重試上限會失敗。",
+          "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py#L967-L1030",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.reflect_finish"
+          ],
+          "limitations": "尚未核對完整檢索迴圈、引用驗證函式與所有 fallback 分支；未執行。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
         }
       ],
       "readerGuide": {
@@ -52591,6 +52702,16 @@
               "reflect-budget",
               "bank-delete-test"
             ]
+          },
+          {
+            "id": "reflect-authorization-audit",
+            "title": "驗收 Reflect 回答與操作授權",
+            "detail": "以合成記憶驗證操作驗證器拒絕、用戶端斷線取消、空回答重試、結構化輸出拒絕及引用回傳；分開驗證 tenant 與 bank 權限。",
+            "evidenceRefs": [
+              "http-precheck",
+              "reflect-http",
+              "reflect-finish"
+            ]
           }
         ],
         "example": {
@@ -52606,7 +52727,8 @@
             "project-memory",
             "memory-retrieval",
             "memory-isolation",
-            "memory-contract-audit"
+            "memory-contract-audit",
+            "reflect-authorization-audit"
           ],
           "steps": [
             {
@@ -52642,6 +52764,15 @@
               ]
             },
             {
+              "id": "reflect-authorization-audit",
+              "title": "驗收 Reflect 回答與操作授權",
+              "evidenceRefs": [
+                "http-precheck",
+                "reflect-http",
+                "reflect-finish"
+              ]
+            },
+            {
               "id": "test",
               "title": "測隔離、刪除與來源",
               "evidenceRefs": [],
@@ -52659,7 +52790,8 @@
           "記憶內容可能含敏感輸入，須設權限及刪除流程",
           "Benchmark 與 bank 隔離是作者描述，未完成獨立驗證。",
           "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
-          "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
+          "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
+          "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。"
         ]
       }
     },
@@ -89882,7 +90014,7 @@
         "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
         "reviewedAt": "2026-11-26",
         "type": "Official upstream README",
-        "reviewScope": "固定版本 README、LICENSE 與本輪 4 個局部原始碼或測試證據；原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
+        "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。",
         "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
         "referenceUrls": [
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
@@ -89890,7 +90022,11 @@
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/ipc/worktrees/create/register-worktree-create-handlers.ts",
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/workspaces/worktree-create-agent-launch.ts",
           "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/daemon/pty-subprocess/native-pty-spawn.ts",
-          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/worker-launch-handler.ts"
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/worker-launch-handler.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/creation/worktree-add.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/removal/worktree-removal.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/dispatch/rpc-request-admission-prologue.ts",
+          "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts"
         ]
       },
       "intakeReview": {
@@ -89919,7 +90055,7 @@
         "readingSpec": {
           "id": "repo",
           "status": "deferred",
-          "reason": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。"
+          "reason": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。"
         },
         "capabilityReview": {
           "decision": "none",
@@ -89932,14 +90068,14 @@
         "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
         "verification": {
           "status": "not-tested",
-          "evidence": "固定版本 README、LICENSE 與本輪 4 個局部原始碼或測試證據；原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。；未執行第三方。"
+          "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。"
         },
-        "sourceGap": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
+        "sourceGap": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
         "layerReview": {
           "status": "deferred",
           "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-          "gap": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
-          "nextAction": "追蹤 IPC 建立與 Git 執行器下游、remote runtime RPC 權限、worker settlement/cleanup；以合成 Repo 驗證錯誤復原與清理。"
+          "gap": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
+          "nextAction": "追蹤 transport callerScope 身分綁定、worker cancellation/cleanup、分支保護及未合併資料保留測試。"
         }
       },
       "implementationKnowledge": {
@@ -89951,7 +90087,11 @@
           "worktree_ipc": "建立 IPC 先找 repoId，透過 project worktree create 包裝建立流程，並在本機 Git 操作前解析 SSH execution host ownership；不受服務的主機回錯。",
           "launch_capability": "CLI 先檢查 host 能力；較舊 host 可用 worktree.create 啟動，但不支援指定 model/effort 或 surface 時明確回錯；重播要求回原 execution host。",
           "pty_process": "PTY 啟動前檢查取消訊號、WSL distro allowlist、可選 create admission；nodePty.spawn 接收 shell、參數與 cwd。",
-          "worker_launch": "worker-start 拒絕 Agent Server route，檢查 runtime model/effort 能力，呼叫 workerStart mutation；timeout 路徑嘗試 reconciliation 而非盲目重啟。"
+          "worker_launch": "worker-start 拒絕 Agent Server route，檢查 runtime model/effort 能力，呼叫 workerStart mutation；timeout 路徑嘗試 reconciliation 而非盲目重啟。",
+          "git_worktree_add": "建立前檢查未完成刪除的路徑與分支衝突；依是否重用分支組合 git worktree add，新增分支使用 --no-track 與 -b；執行設逾時並在 finally 更新 WSL 路由快取。",
+          "git_worktree_remove": "移除時讀取 worktree 與 branch/head，強制檢查鎖定，進入刪除限流區重新確認；移除 checkout 後依選項決定是否進行序列化分支清理。",
+          "rpc_admission": "RPC handler 前先檢查 caller scope 與 method permission，再檢查來源及遷移 fence、peer admission、caller resolution、參數及 transport 支援。",
+          "worker_settlement": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。"
         }
       },
       "agentEvidence": [
@@ -90034,6 +90174,50 @@
           "limitations": "僅 CLI 入口；未核對 host 授權實作、程序取消、Git 清理。",
           "evidenceStatus": "partial",
           "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "git-worktree-add",
+          "detail": "建立前檢查未完成刪除的路徑與分支衝突；依是否重用分支組合 git worktree add，新增分支使用 --no-track 與 -b；執行設逾時並在 finally 更新 WSL 路由快取。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/creation/worktree-add.ts#L230-L299",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.git_worktree_add"
+          ],
+          "limitations": "此段不是遠端 Git 授權或完整失敗回滾；逾時後的實際工作樹狀態須重新查核。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "git-worktree-remove",
+          "detail": "移除時讀取 worktree 與 branch/head，強制檢查鎖定，進入刪除限流區重新確認；移除 checkout 後依選項決定是否進行序列化分支清理。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/removal/worktree-removal.ts#L69-L150",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.git_worktree_remove"
+          ],
+          "limitations": "不能推論 force 操作無資料遺失；分支保護、Windows/WSL 與 worker 清理須另驗。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "rpc-admission",
+          "detail": "RPC handler 前先檢查 caller scope 與 method permission，再檢查來源及遷移 fence、peer admission、caller resolution、參數及 transport 支援。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/dispatch/rpc-request-admission-prologue.ts#L31-L96",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.rpc_admission"
+          ],
+          "limitations": "callerScope 的 transport 認證與預設 owner scope 安全性不在本段證明範圍。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
+        },
+        {
+          "id": "worker-settlement",
+          "detail": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。",
+          "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts#L4-L48",
+          "evidenceFields": [
+            "implementationKnowledge.sourceReview.worker_settlement"
+          ],
+          "limitations": "結算回讀不是 worker 程序終止、Git 清理或遠端一致性保證。",
+          "evidenceStatus": "partial",
+          "runtimeStatus": "not-tested"
         }
       ],
       "readerGuide": {
@@ -90077,6 +90261,17 @@
               "pty-process",
               "worker-launch"
             ]
+          },
+          {
+            "id": "worktree-lifecycle-audit",
+            "title": "驗收 Worktree 生命週期與 RPC 結算",
+            "detail": "在合成 Repo 設計路徑衝突、建立逾時、鎖定 worktree、未合併分支、RPC 拒絕及 worker_done 結算不明的案例；分開驗證 Git、程序與遠端認證。",
+            "evidenceRefs": [
+              "git-worktree-add",
+              "git-worktree-remove",
+              "rpc-admission",
+              "worker-settlement"
+            ]
           }
         ],
         "example": {
@@ -90092,7 +90287,8 @@
             "parallel-tasks",
             "review-diffs",
             "coordination",
-            "worktree-contract-audit"
+            "worktree-contract-audit",
+            "worktree-lifecycle-audit"
           ],
           "steps": [
             {
@@ -90127,6 +90323,16 @@
               ]
             },
             {
+              "id": "worktree-lifecycle-audit",
+              "title": "驗收 Worktree 生命週期與 RPC 結算",
+              "evidenceRefs": [
+                "git-worktree-add",
+                "git-worktree-remove",
+                "rpc-admission",
+                "worker-settlement"
+              ]
+            },
+            {
               "id": "merge",
               "title": "核對整合結果",
               "evidenceRefs": [],
@@ -90144,7 +90350,8 @@
           "平行 Agent 會增加權限、模型成本與 Merge 衝突風險",
           "遠端執行、程序與憑證隔離、實際 Git 命令及授權流程未查核。",
           "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
-          "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
+          "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
+          "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。"
         ]
       }
     },
