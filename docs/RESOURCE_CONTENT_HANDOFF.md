@@ -1,3 +1,13 @@
+# Resource 最新交接｜Phase 2 Batch 92–94（2026-11-26）
+
+- 本分支以 PR #118 修正 Commit `31dfc2a125946c3d290027a78700c4f574cc8026` 為基準；PR #118 四項 CI 完整通過並合併後，才將本批納入 main 的驗收流程。
+- [Batch 92](RESOURCE_DUAL_LAYER_BATCH92_20261126.md)：hindsight 新增 3 筆局部證據及一組用途；原 404 路徑已更正；已補上 Bank 路由拒絕測試、Reflect 引用集合過濾與不存在 Bank 的刪除測試；仍須核對引擎直接呼叫的授權、跨 tenant/bank 隔離、所有輸出分支與完整資料保留／刪除契約。
+- [Batch 93](RESOURCE_DUAL_LAYER_BATCH93_20261126.md)：anomalyco-opencode 新增 4 筆局部證據及一組用途；原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。
+- [Batch 94](RESOURCE_DUAL_LAYER_BATCH94_20261126.md)：orca 新增 4 筆局部證據及一組用途；原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。
+- 合計 11 筆固定版本原始碼或上游測試證據、3 組讀者用途；保留原始 404 修復紀錄，不改 ID、分類、Tags、Graph 或既有證據。不提高正式完成率；第三方及上游測試未執行。四項 CI PASS 後才合併。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 89–91（2026-11-26）
 
 - PR #117 四項 CI PASS，已合併 `848150cbd6d97924a07f148aa6d55e9130d343ab`。正式 282/286（268 完成對應、14 deferred、4 來源阻塞）。

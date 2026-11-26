@@ -790,6 +790,11 @@ try{
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recoveryTitles[id])+')'),id);
   }
+  const recoveryNextTitles={"hindsight":"驗收 Bank 拒絕、引用與刪除例外","anomalyco-opencode":"驗收子代理繼承與工具邊界","orca":"驗收遠端認證與 Worker 停止回收"};
+  if(recoveryNextTitles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=6'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recoveryNextTitles[id])+')'),id);
+  }
   const contractTitles={"hindsight":"驗收 Reflect 回答與操作授權","anomalyco-opencode":"驗收 Plan 與工具執行權限","orca":"驗收 Worktree 生命週期與 RPC 結算"};
   if(contractTitles[id]){
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=5'),id);

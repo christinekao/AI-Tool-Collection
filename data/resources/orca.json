@@ -82,7 +82,7 @@
     "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
     "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。",
+    "reviewScope": "沿用既有固定版本證據；Batch 94 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。 未執行第三方。",
     "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
     "referenceUrls": [
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
@@ -94,7 +94,11 @@
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/creation/worktree-add.ts",
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/git/worktrees/removal/worktree-removal.ts",
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/dispatch/rpc-request-admission-prologue.ts",
-      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts"
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/orchestration-worker-settlement.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/mobile/e2ee/mobile-e2ee-auth-validation.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/server/pairing/device-principal.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stop.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/terminal-authority/release/stopped-worker-terminal-release.ts"
     ]
   },
   "intakeReview": {
@@ -123,7 +127,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。"
+      "reason": "原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -136,14 +140,14 @@
     "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
     "verification": {
       "status": "not-tested",
-      "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 91 新增 4 筆原始碼證據。已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。 未執行第三方。"
+      "evidence": "沿用既有固定版本證據；Batch 94 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。 未執行第三方。"
     },
-    "sourceGap": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
+    "sourceGap": "原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。",
     "layerReview": {
       "status": "deferred",
       "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-      "gap": "原 404 路徑已更正；已核對 Git add/remove、RPC admission 與 worker_done 結算；仍缺遠端 transport 身分認證、worker 取消到程序及 Git 清理的完整鏈。",
-      "nextAction": "追蹤 transport callerScope 身分綁定、worker cancellation/cleanup、分支保護及未合併資料保留測試。"
+      "gap": "原 404 路徑已更正；已核對 mobile E2EE 認證、配對裝置 scope、worker stop 狀態與 terminal 回收；仍缺各 transport 到 RPC caller 的完整綁定、程序停止及 Git 工作樹清理的端到端契約。",
+      "nextAction": "追蹤配對裝置解析、撤銷與 RPC scope 注入、worker-stop RPC 到程序終止、工作樹及未合併分支保護；以隔離 Repo 驗證。"
     }
   },
   "implementationKnowledge": {
@@ -159,7 +163,11 @@
       "git_worktree_add": "建立前檢查未完成刪除的路徑與分支衝突；依是否重用分支組合 git worktree add，新增分支使用 --no-track 與 -b；執行設逾時並在 finally 更新 WSL 路由快取。",
       "git_worktree_remove": "移除時讀取 worktree 與 branch/head，強制檢查鎖定，進入刪除限流區重新確認；移除 checkout 後依選項決定是否進行序列化分支清理。",
       "rpc_admission": "RPC handler 前先檢查 caller scope 與 method permission，再檢查來源及遷移 fence、peer admission、caller resolution、參數及 transport 支援。",
-      "worker_settlement": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。"
+      "worker_settlement": "worker_done 若無 lifecycle verdict，會核對 dispatch、task 狀態與報告身分；無法確認則回 operation_unknown 並要求保留原 mutation identity。",
+      "mobile_e2ee_auth": "認證入口分流 token 與 device-key；token 需與解析裝置相符，key 需可用 v2 session、裝置 registry 結果及綁定 transcript 的 proof；失敗以明確代碼回傳。",
+      "paired_device_scope": "裝置 principal 含 ID、scope、client ID、credential fingerprint 與 revision；callerScopeOf 區分 mobile delegated 與 runtime-paired grants。",
+      "worker_stop_transaction": "beginWorkerStop 在交易中處理不存在、context-only、已結算及不允許停止情況；更新 worker 為 stopping、撤銷 dispatch capability、重新結算 task 並關閉問題，錯誤時回滾。",
+      "exited_terminal_release": "terminal 清理逐一檢查 process incarnation 的存活性；只接受 exited，無法確認或仍存活則保留；記錄 output 後批次結算並重新核對 owner、incarnation 及 archive。"
     }
   },
   "agentEvidence": [
@@ -286,6 +294,50 @@
       "limitations": "結算回讀不是 worker 程序終止、Git 清理或遠端一致性保證。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "mobile-e2ee-auth",
+      "detail": "認證入口分流 token 與 device-key；token 需與解析裝置相符，key 需可用 v2 session、裝置 registry 結果及綁定 transcript 的 proof；失敗以明確代碼回傳。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/mobile/e2ee/mobile-e2ee-auth-validation.ts#L100-L143",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.mobile_e2ee_auth"
+      ],
+      "limitations": "這是 mobile E2EE 入口，尚未證明所有 relay、websocket、unix transport 或 RPC scope 注入都使用相同授權。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "paired-device-scope",
+      "detail": "裝置 principal 含 ID、scope、client ID、credential fingerprint 與 revision；callerScopeOf 區分 mobile delegated 與 runtime-paired grants。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/rpc/server/pairing/device-principal.ts#L15-L34",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.paired_device_scope"
+      ],
+      "limitations": "轉換本身不驗證憑證；需核對 transport 何時傳入已驗證 DeviceEntry 與撤銷檢查。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "worker-stop-transaction",
+      "detail": "beginWorkerStop 在交易中處理不存在、context-only、已結算及不允許停止情況；更新 worker 為 stopping、撤銷 dispatch capability、重新結算 task 並關閉問題，錯誤時回滾。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/db/worker-dispatch/worker-dispatch-stop.ts#L60-L125",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.worker_stop_transaction"
+      ],
+      "limitations": "狀態標記與權限撤銷不代表實際程序已結束或 Git worktree 已清理。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "exited-terminal-release",
+      "detail": "terminal 清理逐一檢查 process incarnation 的存活性；只接受 exited，無法確認或仍存活則保留；記錄 output 後批次結算並重新核對 owner、incarnation 及 archive。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/runtime/orchestration/terminal-authority/release/stopped-worker-terminal-release.ts#L105-L148",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.exited_terminal_release"
+      ],
+      "limitations": "這是已退出程序的資源回收，不保證所有程序會被終止，也不證明 Git 分支或工作樹刪除。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -339,6 +391,17 @@
           "git-worktree-remove",
           "rpc-admission",
           "worker-settlement"
+        ]
+      },
+      {
+        "id": "remote-worker-stop-audit",
+        "title": "驗收遠端認證與 Worker 停止回收",
+        "detail": "設計無效 credential、撤銷裝置、不同 caller scope、重複 stop、保留開啟中的 worker、程序仍存活或不可驗證的反例；另外檢查 Git 資源清理。",
+        "evidenceRefs": [
+          "mobile-e2ee-auth",
+          "paired-device-scope",
+          "worker-stop-transaction",
+          "exited-terminal-release"
         ]
       }
     ],
