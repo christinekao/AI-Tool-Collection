@@ -1,3 +1,14 @@
+# Resource 最新交接｜雙層知識 Batch 70–72（2026-11-26）
+
+- PR #108 已合併，234/286。PR #109 基線 `e9fa297c1482b5c4b6edde19573ce0d0e353833b`，尚待完整 CI 與合併。
+- [Batch 70｜Agent 委派、型別化決策及事件可視化](RESOURCE_DUAL_LAYER_BATCH70_20261126.md)：irons163-three-tier-agent-orchestrator、laya、cyyeh-agent-loop-visualizer；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 71｜本機 Agent 執行、程式索引與職缺資料](RESOURCE_DUAL_LAYER_BATCH71_20261126.md)：openchatx、rankupgames-spectra、strelov1-freehire；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 72｜動態圖示、視覺規格與媒體產物治理](RESOURCE_DUAL_LAYER_BATCH72_20261126.md)：citypulso-pulsoicon、punk-skill、openmontage；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- 新增 9 筆（8 mapped、1 evidence-linked）；27 用途、27 局部證據、9 design-only 案例。依 GitHub Repository ID 驗證改名並保留 Repo 舊值；Punk 目前非商業／商業需另授權，Three-Tier 未見根授權檔。第三方未實測。
+- 兩組合併後預計 252/286（245 對應、7 deferred），34 尚未改寫。先確認四項 CI 與依序合併；Batch 73–76 尚未提交。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 67–69（2026-11-26）
 
 - PR #108 修正後四項 CI PASS，合併 `6c6e4fa8b0e798f2002e604618e766bd55a0e46e`，234/286（227 對應、7 deferred）。main 基線 `7e5699c8d91ebd8ef80f9ebf714896d7edc4a62f`。

@@ -2261,6 +2261,87 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  70,
+  "Agent 委派、型別化決策及事件可視化",
+  [
+    [
+      "irons163-three-tier-agent-orchestrator",
+      "規劃自有 AI Cowork 的委派與獨立驗收",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "laya",
+      "規劃本機分類器的輸入契約與信心驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "cyyeh-agent-loop-visualizer",
+      "規劃 Agent 迴圈教學的事件與狀態驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  71,
+  "本機 Agent 執行、程式索引與職缺資料",
+  [
+    [
+      "openchatx",
+      "規劃本機 Agent 的 Session 隔離與資源計量驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "rankupgames-spectra",
+      "規劃本機程式碼索引的增量證據與同步驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "strelov1-freehire",
+      "規劃自有職缺追蹤系統的搜尋與資料正規化",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  72,
+  "動態圖示、視覺規格與媒體產物治理",
+  [
+    [
+      "citypulso-pulsoicon",
+      "規劃動態圖示的播放狀態與無障礙驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "punk-skill",
+      "規劃非商業視覺提示詞庫的規格驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "openmontage",
+      "規劃影音工作流的產物與付費請求驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
