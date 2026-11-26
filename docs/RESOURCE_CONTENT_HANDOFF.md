@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 10（2026-11-26）
+
+- [Batch 10｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH10_20261126.md)：motion-dev-animations-skill 至 openchatx，20/20 已讀取，10 候選修正、10 保留。更新 purpose/start，另具體化 Auto Ontology、SkillSpector、Onyx 共九個既有 useCase.detail，保留所有 IDs、refs、example、來源、分類、Tags 與 Graph 關係。
+- #129 已合併；#130 四項 CI PASS，已改 main，待最新基準與 mergeable 確認。先合併 #130，再將本批指向 main。正式 deployed Chromium 未驗收。
+- 固定順序候選累計 200/286；映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 openclaw-openclaw 起取 20 筆；P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 09（2026-11-26）
 
 - [Batch 09｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH09_20261126.md)：loopagentteams 至 motion-dev，20/20 已讀取，12 候選修正、8 保留。僅修改 purpose/start，保留案例、來源、證據、分類、Tags、Typed References 與 Graph 關係。

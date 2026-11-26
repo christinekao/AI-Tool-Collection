@@ -6,7 +6,7 @@
   "canonicalName": "OmniRoute",
   "category": "02 Agent Orchestration",
   "resourceType": "Model / Agent Routing",
-  "purpose": "以本次固定版本程式碼說明模型清單新鮮度、快取與篩選規則，不推定整體服務品質。",
+  "purpose": "研究多模型路由器如何判斷模型清單的新鮮度、快取失效及篩選條件，避免將目錄狀態誤認為模型實際可用。",
   "recommendation": "適合研究模型路由目錄的新鮮度與快取驗收；先核對來源與權限，局部證據不是完整工具實測。",
   "url": "https://omniroute.online/",
   "repo": "cheaper-inference/OmniRoute",
@@ -233,9 +233,9 @@
       ]
     },
     "start": [
-      "先準備合成模型目錄、時間欄位及篩選條件。",
-      "核對來源版本、授權、資料邊界與操作限制。",
-      "以合成資料設計正常、缺漏及失敗情境，再獨立驗收。"
+      "先建立合成模型目錄，包含 release_date、last_updated、過期快照與相近模型 ID。",
+      "依固定版本 catalog-freshness、cache 與 model-filter 核對日期判定、快取失效及精確／尾碼／分支匹配；目錄篩選不代表供應商授權。",
+      "取得隔離測試核准後檢查缺日期、過期及匹配邊界；真正模型可用性、成本、工具相容性及備援須另行驗收。"
     ],
     "limits": [
       "路由器的備援無法消除供應商個別的成本、延遲、功能及資料政策差異。",

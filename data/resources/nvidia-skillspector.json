@@ -152,7 +152,7 @@
       {
         "id": "use-input",
         "title": "限制不可信技能來源的讀取",
-        "detail": "不可信 ZIP 或遠端來源可能耗盡資源。有界輸入或拒絕錯誤。",
+        "detail": "以合成檔案、目錄與不合格輸入測試讀取範圍及大小限制，記錄拒絕原因。輸出：有界輸入或明確錯誤，不把解壓限制當完整執行沙箱。",
         "capabilityRefs": [
           "input"
         ]
@@ -160,7 +160,7 @@
       {
         "id": "use-ledger",
         "title": "分開掃描成功與檢查缺口",
-        "detail": "沒有 findings 可能只是未掃描。completed、partial、skipped、failed 等狀態。",
+        "detail": "逐項核對 analyzer 是否完成、部分完成、跳過或失敗，避免沒有 findings 就誤判安全。輸出：覆蓋狀態及未完成原因。",
         "capabilityRefs": [
           "ledger"
         ]
@@ -168,7 +168,7 @@
       {
         "id": "use-llm",
         "title": "選擇是否加入語意風險檢查",
-        "detail": "純靜態規則可能漏掉文字型誘導。模型 findings 或未完成原因。",
+        "detail": "先決定是否允許對合成片段做模型語意分析，核對預算、外送及人工驗收條件。輸出：待覆核的 findings 或未完成原因。",
         "capabilityRefs": [
           "llm"
         ]
@@ -219,9 +219,9 @@
       ]
     },
     "start": [
-      "先準備合成正常與可疑 Skill、固定來源、掃描政策及預期報告。",
-      "依需求核對固定版本來源與操作限制。",
-      "先核准環境與權限，再以合成資料測試正常、隔離及失敗情境。"
+      "先建立合成正常及可疑 Skill、固定來源與掃描政策，列出預期 findings、拒絕及未完成狀態。",
+      "依固定版本 input_handler、inspection_ledger 與 llm_analyzer_base 契約核對輸入界線、各 analyzer 覆蓋與可選模型分析；未核准不啟用外部模型。",
+      "取得隔離測試核准後檢查缺漏、拒絕、截斷及掃描失敗，保留 ledger 並人工覆核；零 findings 不等於安全或可直接安裝。"
     ],
     "limits": [
       "掃描無法保證 Skill 絕對安全，動態執行與未知攻擊仍需其他防護。",

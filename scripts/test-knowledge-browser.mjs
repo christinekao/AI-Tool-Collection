@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch10Phrases={"mukul975-anthropic-cybersecurity-skills":"一項防禦問題","nanako0129-syrtis":"合成額度週期","nutlope-hallmark":"自有網站的一個設計需求","nvidia-auto-ontology":"兩個合成資料表","nvidia-skillspector":"合成正常及可疑 Skill","oh-my-mermaid":"一個交接問題","omniroute":"合成模型目錄","onetake":"兩版自製合成構圖","onyx":"兩種合成使用者角色","openchatx":"兩個合成 Agent"};
+  if(qualityBatch10Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch10Phrases[id])+')'),id);
+  }
   const qualityBatch09Phrases={"loopagentteams":"已核准 Spec","lucasmarkes-hairline":"裝飾性線條圖形","madebypan-figcc":"合成 Figma 畫布","makecindy-cindy":"兩種合成 Harness 能力登記","mars-tw-freedom-erp-crm":"合成 ERP／CRM 工作區","mattpocock-skills":"一個模糊需求或可重現的錯誤","michael-denyer-pstack-claude":"兩種 Host 的可用工具","microsoft-ai-agents-for-beginners":"合成客服查詢案例","microsoft-tokeneconomizer":"合成歷史 Session 與固定開發任務","minchenlee-loadsketch":"兩個架構方案","minimax-code":"合成專案的一項小功能","minimax-m3-1-flash":"圖片理解題"};
   if(qualityBatch09Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch09Phrases[id])+')'),id);

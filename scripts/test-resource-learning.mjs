@@ -2939,3 +2939,24 @@ test('Resource quality batch 09: practical starts and evaluation boundaries',()=
  const token=JSON.parse(fs.readFileSync('data/resources/microsoft-tokeneconomizer.json','utf8'));
  assert.match(token.readerGuide.start[2],/提醒不等於強制停止/);
 });
+
+
+test('Resource quality batch 10: practical starts and evidence-linked case detail',()=>{
+ const expected={"mukul975-anthropic-cybersecurity-skills":"一項防禦問題","nanako0129-syrtis":"合成額度週期","nutlope-hallmark":"自有網站的一個設計需求","nvidia-auto-ontology":"兩個合成資料表","nvidia-skillspector":"合成正常及可疑 Skill","oh-my-mermaid":"一個交接問題","omniroute":"合成模型目錄","onetake":"兩版自製合成構圖","onyx":"兩種合成使用者角色","openchatx":"兩個合成 Agent"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ for(const id of ['nvidia-auto-ontology','nvidia-skillspector','onyx']){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.readerGuide.useCases.length,3,id);
+  for(const c of d.readerGuide.useCases)assert.match(c.detail,/輸出：/,id+' '+c.id);
+ }
+ const s=JSON.parse(fs.readFileSync('data/resources/nvidia-skillspector.json','utf8'));
+ assert.match(s.readerGuide.start[2],/零 findings 不等於安全/);
+});
