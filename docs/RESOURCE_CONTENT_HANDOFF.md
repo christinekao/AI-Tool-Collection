@@ -1,3 +1,11 @@
+# Resource 最新交接｜雙層知識 Batch 49（2026-11-26）
+
+- PR #98 四項 CI PASS，合併 `01d55c583b5326f8f4cefbfd5c0e0e7691a74511`。180/286 已合併（173 完成對應、7 deferred）。
+- [Batch 49｜影音任務與分鏡製作](RESOURCE_DUAL_LAYER_BATCH49_20261126.md)：harry0703-moneyprinterturbo、hbai-ltd-toonflow-app、chatfire-ai-huobao-drama；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。第三方未實測。
+- 合併後預計 183/286（176 完成對應、7 deferred）；103 尚未改寫。先確認四項 CI、合併與 Catalog Sync／Pages。Batch 50～56 尚未執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 48（2026-11-26）
 
 - Batch 47 已提交 PR #97，待四項 CI 全數通過後合併；本次基於其候選 commit `7d6e8ec30a9a24743f325ae19fa5033d3a3a5d43` 接續。
