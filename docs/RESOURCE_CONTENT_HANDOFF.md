@@ -1,3 +1,11 @@
+# Phase 2｜Resource 最終覆蓋核對（2026-11-26）
+
+- 15/15 批、286/286 已正式合併，202 改善、84 保留；報告與排序 ID 比對無重複或遺漏。#136 已四項 CI PASS 並合併 613b40d6912042bd6f0eceb81ce7cfdc65b3a0c5。
+- [最終覆蓋及發布驗收](RESOURCE_CONTENT_FINAL_RECONCILIATION_20261126.md)：生成 main c2cfd5ed5f1c3aaf48e6a4c87192756104feb1f9；Catalog Sync PASS，正式生成版讀回、部署 Chromium、重新計數 CI 待確認。既有 268/14/4 基準不提升，P2 保留。
+- Concept 68/68 的前次內容整理已完成；改為 [語意關聯 Review 01](CONCEPT_KNOWLEDGE_REVIEW_01_20261126.md)，已盤點 68 ID、對照 20 定義與八個 Resource 局部證據。下輪續剩餘 48 定義及全部 Typed References，不重做舊整理或擅自合併身分。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 15（2026-11-26）
 
 - [Batch 15｜最後六筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH15_20261126.md)：zeabur-oss-ai-agent-installer-guide 至 zichuanlan-freebie-radar，6/6 已讀取且候選修正。更新 purpose/start 與三項 useCase.detail。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
