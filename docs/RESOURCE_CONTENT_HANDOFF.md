@@ -1,3 +1,13 @@
+# Resource 最新交接｜Phase 2 Batch 104–105（2026-11-26）
+
+- 依 PR #119 與 Batch 95–103 候選 Head `039865d16cc56c252a59a18baaca327b0ce165d7` 疊加；四項 CI 通過後依序合併。
+- [Batch 104](RESOURCE_DUAL_LAYER_BATCH104_20261126.md)：Reverse Skill，兩筆同 URL 不證明原收藏；補兩筆候選信任／唯讀文件證據與一組用途。
+- [Batch 105](RESOURCE_DUAL_LAYER_BATCH105_20261126.md)：Orchestrate Sol Terra Luna，舊路徑重導向 1321139753；另一同名候選 ID 1320148269；補三筆候選委派文件證據與一組用途。
+- 本階段 14 筆 deferred 均已進行至少一輪補強或來源重查：10 筆原始或現行可識別來源補強，2 筆候選文件補強但原始身分未解，2 筆來源重查而未改 Canonical；均未升級。正式基準 268/286、14 deferred、4 source-blocked。不得將候選文件當成原始身分。
+- 本批 5 筆候選證據、2 組用途；無 Graph、分類、Tag、ID 或引用遷移。第三方與上游測試未執行。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 101–103（2026-11-26）
 
 - 依 PR #119 與 Batch 95–100 候選 Head `95de2f3834a90777910e072dc641d07df3f310ec` 疊加；必須依序取得四項 CI PASS 後合併，不提前計入 main。

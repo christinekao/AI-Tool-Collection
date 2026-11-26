@@ -800,6 +800,11 @@ try{
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recovery103Titles[id])+')'),id);
   }
+  const recovery105Titles={"reverse-skill":"區分來源身分與候選證據審查邊界","irons163-orchestrate-sol-terra-luna":"驗收候選代理啟用、委派隔離與主線責任"};
+  if(recovery105Titles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recovery105Titles[id])+')'),id);
+  }
   const recoveryTitles={"hindsight":"驗收記憶版本、檢索及租戶授權","anomalyco-opencode":"驗收權限規則與子代理委派","orca":"驗收 Worktree 啟動與執行主機邊界"};
   if(recoveryTitles[id]){
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);

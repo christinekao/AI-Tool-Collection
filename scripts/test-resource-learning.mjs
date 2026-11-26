@@ -2738,3 +2738,20 @@ test('Deferred recovery batches 101–103: dated document evidence and source ga
  const wellmade=JSON.parse(fs.readFileSync('data/resources/wellmade.json','utf8'));
  assert.equal(wellmade.intakeReview.layerReview.status,'deferred');
 });
+
+
+test('Deferred recovery batches 104–105: candidate evidence is not historical identity',()=>{
+ const cases=[["reverse-skill","reverse-skill-2","candidate-trust-provenance-audit","b972ad0e90f26d8f044828f004da22a4a585da12",["candidate-trust-boundary","candidate-readonly-scope"]],["irons163-orchestrate-sol-terra-luna","irons163-three-tier-agent-orchestrator","candidate-delegation-provenance-audit","86108395a5df3743b9e2b7d0499ef4319bc7494a",["candidate-explicit-invocation","candidate-isolated-delegation","candidate-coordinator-acceptance"]]];
+ for(const [id,candidate,caseId,pin,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  const current=JSON.parse(fs.readFileSync('data/resources/'+candidate+'.json','utf8'));
+  assert.equal(d.id,id);assert.equal(current.id,candidate);
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.sourceStatus,'partial',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.match(d.intakeReview.layerReview.gap,/原始 V2 無 URL/,id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
