@@ -56,7 +56,7 @@
   "collectionDecision": "主專案為 Coding Agent 執行平台而非單一獨立 Agent SKILL.md；本次僅收錄 1 Resource，不執行安裝。",
   "status": "active",
   "addedAt": "2026-11-05",
-  "updatedAt": "2026-11-25",
+  "updatedAt": "2026-11-26",
   "tags": [
     "opencode",
     "coding-agent",
@@ -86,14 +86,19 @@
       "https://opencode.ai/v2/docs/permissions/",
       "https://opencode.ai/v2/docs/agents/"
     ],
-    "reviewedAt": "2026-11-25",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
     "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-    "reviewScope": "固定版本 README 的 Agents 與 general subagent 介紹、LICENSE；未取得現行角色及權限核心程式碼。",
+    "reviewScope": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
     "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
     "referenceUrls": [
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
-      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/LICENSE"
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/LICENSE",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission/policy.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/agent.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/subagent.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts"
     ]
   },
   "researchStatus": "official-source-verified",
@@ -133,7 +138,7 @@
       "source.upstreamCommit",
       "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-25",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -150,7 +155,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。"
+      "reason": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -163,14 +168,14 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README 的 Agents 與 general subagent 介紹、LICENSE；未取得現行角色及權限核心程式碼。；未執行。"
+      "evidence": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。；未執行第三方。"
     },
-    "sourceGap": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。",
+    "sourceGap": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
     "layerReview": {
       "status": "deferred",
-      "reason": "只建立已確認的 README 角色用途及來源對應，不宣稱權限實作已驗證。",
-      "gap": "固定版本的 packages/opencode/src/permission/next.ts 與 packages/opencode/src/agent/agent.ts 回傳 404；尚未定位角色設定、工具權限、核准及命令執行的實際契約。",
-      "nextAction": "從固定版本專案結構或官方索引定位角色與工具權限模組，核對設定、核准、命令與子代理的實作及測試，再升級 mapped。"
+      "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+      "nextAction": "定位 Plan 設定及 child session 權限組裝與 Shell/MCP 執行入口；以合成 Repo 驗證拒絕、取消、持久化核准及越權。"
     }
   },
   "implementationKnowledge": {
@@ -178,7 +183,12 @@
       "plan": "README 描述 plan 為分析與探索用角色，執行 bash 前詢問核准；未查實際 permission 邏輯。",
       "build": "README 描述 build 為預設開發角色，具有較完整的操作能力；不可直接套用正式工作區。",
       "general": "README 描述 general subagent 用於複雜搜尋及多步任務；未核對權限繼承及生命週期。",
-      "license": "固定版本 LICENSE 為 MIT；依賴、模型及服務條款另查。"
+      "license": "固定版本 LICENSE 為 MIT；依賴、模型及服務條款另查。",
+      "policy_composition": "普通 rules 採最後匹配，restrict 的拒絕不受 override/fallback 解除；fallback 只處理 ask，多資源合併 deny > ask > allow。",
+      "saved_approval": "權限服務先評估 agent 與 session 規則，明確拒絕直接阻擋；再以 project 範圍保存的核准作 fallback。",
+      "role_defaults": "Build 為 primary；General 為 subagent，預設禁止 question 和 subagent；Explore 為 subagent，預設拒絕萬用規則後列出 Shell、搜尋及讀取等許可。",
+      "subagent_gate": "子代理入口檢查深度、拒絕 primary 角色，經 permission.assert 再建立或繼續 child session；模型可依顯式覆寫、角色設定及父 session 決定。",
+      "policy_test": "上游測試含 fallback 不覆蓋明確拒絕、多資源效果排序、restrict 在 override/fallback 下仍拒絕等反例。"
     }
   },
   "agentEvidence": [
@@ -217,6 +227,61 @@
       "limitations": "未驗證子代理的權限繼承、隔離或工作回收。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "policy-composition",
+      "detail": "普通 rules 採最後匹配，restrict 的拒絕不受 override/fallback 解除；fallback 只處理 ask，多資源合併 deny > ask > allow。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission/policy.ts#L45-L112",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.policy_composition"
+      ],
+      "limitations": "不可把普通規則描述成所有 deny 永遠優先；不是 OS 安全沙箱。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "saved-approval",
+      "detail": "權限服務先評估 agent 與 session 規則，明確拒絕直接阻擋；再以 project 範圍保存的核准作 fallback。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/permission.ts#L178-L233",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.saved_approval"
+      ],
+      "limitations": "尚未驗證所有執行工具皆經相同入口及非互動情境。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "role-defaults",
+      "detail": "Build 為 primary；General 為 subagent，預設禁止 question 和 subagent；Explore 為 subagent，預設拒絕萬用規則後列出 Shell、搜尋及讀取等許可。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/agent.ts#L53-L100",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.role_defaults"
+      ],
+      "limitations": "此處未見 Plan 註冊；Explore 允許 Shell，不可稱為唯讀安全隔離。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "subagent-gate",
+      "detail": "子代理入口檢查深度、拒絕 primary 角色，經 permission.assert 再建立或繼續 child session；模型可依顯式覆寫、角色設定及父 session 決定。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/subagent.ts#L118-L179",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.subagent_gate"
+      ],
+      "limitations": "呼叫核准不等於子 session 每項工具權限繼承；生命週期及隔離仍須驗證。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "policy-test",
+      "detail": "上游測試含 fallback 不覆蓋明確拒絕、多資源效果排序、restrict 在 override/fallback 下仍拒絕等反例。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts#L174-L249",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.policy_test"
+      ],
+      "limitations": "僅閱讀測試，不宣稱已執行或實際環境安全。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -246,6 +311,18 @@
         "evidenceRefs": [
           "general"
         ]
+      },
+      {
+        "id": "permission-contract-audit",
+        "title": "驗收權限規則與子代理委派",
+        "detail": "建立 action/resource/effect 測試矩陣：一般規則覆寫、restrict 拒絕、saved approval 只能補 ask，以及 primary 角色不得當子代理。",
+        "evidenceRefs": [
+          "policy-composition",
+          "saved-approval",
+          "role-defaults",
+          "subagent-gate",
+          "policy-test"
+        ]
       }
     ],
     "example": {
@@ -255,12 +332,13 @@
       "process": "分析問題 → 必要時拆分研究 → 核准修改 → 審查差異與測試",
       "output": "問題分析、修改計畫及測試驗收規格（未執行）。",
       "destination": "自有專案 PR 流程；實際程式與資料驗收另行實作。",
-      "note": "設計示例，未安裝或執行 OpenCode；目前僅文件證據。",
+      "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
       "verificationStatus": "design-only",
       "useCaseRefs": [
         "explore-code",
         "fix-feature",
-        "delegate-research"
+        "delegate-research",
+        "permission-contract-audit"
       ],
       "steps": [
         {
@@ -285,6 +363,17 @@
           ]
         },
         {
+          "id": "permission-contract-audit",
+          "title": "驗收權限規則與子代理委派",
+          "evidenceRefs": [
+            "policy-composition",
+            "saved-approval",
+            "role-defaults",
+            "subagent-gate",
+            "policy-test"
+          ]
+        },
+        {
           "id": "test",
           "title": "獨立驗收修改及權限",
           "evidenceRefs": [],
@@ -299,8 +388,9 @@
     ],
     "limits": [
       "具備讀寫程式碼及執行指令能力，須備份和最小權限",
-      "目前僅查閱 README 與 MIT LICENSE；候選角色及權限核心路徑 404。",
-      "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。"
+      "未驗證實際唯讀、核准、沙盒、子代理權限或 MCP。",
+      "原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。",
+      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
     ]
   }
 }

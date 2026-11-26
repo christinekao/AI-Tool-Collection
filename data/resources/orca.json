@@ -13,7 +13,7 @@
   "notes": "Official Orca repository confirmed for the parallel-agent/worktree product shown in the screenshot topic.",
   "status": "active",
   "addedAt": "2026-09-17",
-  "updatedAt": "2026-11-25",
+  "updatedAt": "2026-11-26",
   "tags": [
     "multi-agent",
     "worktree",
@@ -80,13 +80,17 @@
   "source": {
     "url": "https://github.com/stablyai/orca",
     "readmeUrl": "https://github.com/stablyai/orca/blob/main/README.md",
-    "reviewedAt": "2026-11-25",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "固定版本 README 的 Parallel Worktrees、Orchestrate Agents、Review、Homebrew 安裝及 LICENSE；未定位實際 worktree 實作，嘗試的 src/main/git/worktree.ts 與 src/main/worktree.ts 回傳 404。",
+    "reviewScope": "固定版本 README、LICENSE 與本輪 4 個局部原始碼或測試證據；原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
     "upstreamCommit": "a9ccd3042c4373579d5a48ccf045b0139deeb50d",
     "referenceUrls": [
       "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/README.md",
-      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/LICENSE"
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/LICENSE",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/ipc/worktrees/create/register-worktree-create-handlers.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/workspaces/worktree-create-agent-launch.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/daemon/pty-subprocess/native-pty-spawn.ts",
+      "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/worker-launch-handler.ts"
     ]
   },
   "intakeReview": {
@@ -98,7 +102,7 @@
       "source.upstreamCommit",
       "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-25",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -115,7 +119,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。"
+      "reason": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -128,14 +132,14 @@
     "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README 的 Parallel Worktrees、Orchestrate Agents、Review、Homebrew 安裝及 LICENSE；未定位實際 worktree 實作，嘗試的 src/main/git/worktree.ts 與 src/main/worktree.ts 回傳 404。；未執行。"
+      "evidence": "固定版本 README、LICENSE 與本輪 4 個局部原始碼或測試證據；原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。；未執行第三方。"
     },
-    "sourceGap": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。",
+    "sourceGap": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
     "layerReview": {
       "status": "deferred",
-      "reason": "固定版本 README 與 LICENSE 已查閱，核心實作契約尚未取得；只對應可證明的文件內容。",
-      "gap": "兩個候選 Worktree 原始碼路徑在固定版本回傳 404；尚未定位工作區建立、Agent 啟動、遠端權限、Git 寫入及清理實作。",
-      "nextAction": "從固定版本專案目錄或官方程式碼索引定位 Worktree、Agent orchestration、diff/PR 及程序管理模組，逐檔核對輸入輸出、失敗與權限。"
+      "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
+      "nextAction": "追蹤 IPC 建立與 Git 執行器下游、remote runtime RPC 權限、worker settlement/cleanup；以合成 Repo 驗證錯誤復原與清理。"
     }
   },
   "implementationKnowledge": {
@@ -143,7 +147,11 @@
       "worktrees": "README 描述每個工作區可有自己的 Worktree 與 Agent；不代表程序、網路、憑證或資料皆已隔離。",
       "orchestration": "README 描述 Coordinator 拆工作及啟動獨立 worker、收回結果；未核對執行契約。",
       "review": "README 描述差異註記、commit/PR 草擬及回饋 CI；具體寫入與核准路徑待查。",
-      "install": "README 的 macOS stable 指令為 brew install --cask stablyai/orca/orca；RC 指令另有 @rc，兩者衝突。MIT Repo，依賴與服務條款另計。"
+      "install": "README 的 macOS stable 指令為 brew install --cask stablyai/orca/orca；RC 指令另有 @rc，兩者衝突。MIT Repo，依賴與服務條款另計。",
+      "worktree_ipc": "建立 IPC 先找 repoId，透過 project worktree create 包裝建立流程，並在本機 Git 操作前解析 SSH execution host ownership；不受服務的主機回錯。",
+      "launch_capability": "CLI 先檢查 host 能力；較舊 host 可用 worktree.create 啟動，但不支援指定 model/effort 或 surface 時明確回錯；重播要求回原 execution host。",
+      "pty_process": "PTY 啟動前檢查取消訊號、WSL distro allowlist、可選 create admission；nodePty.spawn 接收 shell、參數與 cwd。",
+      "worker_launch": "worker-start 拒絕 Agent Server route，檢查 runtime model/effort 能力，呼叫 workerStart mutation；timeout 路徑嘗試 reconciliation 而非盲目重啟。"
     }
   },
   "agentEvidence": [
@@ -182,6 +190,50 @@
       "limitations": "不保證變更可直接合併，需 Git 差異與 CI 驗收。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "worktree-ipc",
+      "detail": "建立 IPC 先找 repoId，透過 project worktree create 包裝建立流程，並在本機 Git 操作前解析 SSH execution host ownership；不受服務的主機回錯。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/ipc/worktrees/create/register-worktree-create-handlers.ts#L38-L94",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.worktree_ipc"
+      ],
+      "limitations": "尚未核對實際 git worktree add、刪除及路徑衝突處理。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "launch-capability",
+      "detail": "CLI 先檢查 host 能力；較舊 host 可用 worktree.create 啟動，但不支援指定 model/effort 或 surface 時明確回錯；重播要求回原 execution host。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/workspaces/worktree-create-agent-launch.ts#L42-L108",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.launch_capability"
+      ],
+      "limitations": "客戶端相容性檢查不等於遠端認證或程序隔離。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "pty-process",
+      "detail": "PTY 啟動前檢查取消訊號、WSL distro allowlist、可選 create admission；nodePty.spawn 接收 shell、參數與 cwd。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/main/daemon/pty-subprocess/native-pty-spawn.ts#L47-L95",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.pty_process"
+      ],
+      "limitations": "可選 admission 不是完整安全邊界；環境、秘密及 OS 權限另查。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "worker-launch",
+      "detail": "worker-start 拒絕 Agent Server route，檢查 runtime model/effort 能力，呼叫 workerStart mutation；timeout 路徑嘗試 reconciliation 而非盲目重啟。",
+      "locator": "https://github.com/stablyai/orca/blob/a9ccd3042c4373579d5a48ccf045b0139deeb50d/src/cli/orchestration/workers/worker-launch-handler.ts#L30-L106",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.worker_launch"
+      ],
+      "limitations": "僅 CLI 入口；未核對 host 授權實作、程序取消、Git 清理。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -214,6 +266,17 @@
           "worktree",
           "review"
         ]
+      },
+      {
+        "id": "worktree-contract-audit",
+        "title": "驗收 Worktree 啟動與執行主機邊界",
+        "detail": "以測試 Repo 設計 host 不相容、啟動重播、取消與超時後查詢既有 worker 的驗收；核對分支、程序及清理狀態。",
+        "evidenceRefs": [
+          "worktree-ipc",
+          "launch-capability",
+          "pty-process",
+          "worker-launch"
+        ]
       }
     ],
     "example": {
@@ -223,12 +286,13 @@
       "process": "拆分任務 → 準備不同 Worktree → 分別修改與驗收 → 審查差異及合併順序",
       "output": "兩個分支及差異審查規格（未建立實際 Worktree）。",
       "destination": "自有專案的開發與 PR 流程。",
-      "note": "自訂設計示例；未安裝、執行或驗證真實整合。",
+      "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
       "verificationStatus": "design-only",
       "useCaseRefs": [
         "parallel-tasks",
         "review-diffs",
-        "coordination"
+        "coordination",
+        "worktree-contract-audit"
       ],
       "steps": [
         {
@@ -253,6 +317,16 @@
           ]
         },
         {
+          "id": "worktree-contract-audit",
+          "title": "驗收 Worktree 啟動與執行主機邊界",
+          "evidenceRefs": [
+            "worktree-ipc",
+            "launch-capability",
+            "pty-process",
+            "worker-launch"
+          ]
+        },
+        {
           "id": "merge",
           "title": "核對整合結果",
           "evidenceRefs": [],
@@ -268,8 +342,9 @@
     "limits": [
       "README 提醒 macOS Homebrew 必須使用完整套件名稱，裸 orca 指向另一軟體",
       "平行 Agent 會增加權限、模型成本與 Merge 衝突風險",
-      "未安裝、啟動 Agent 或建立 Worktree；只查閱官方 README 與授權。",
-      "遠端執行、程序與憑證隔離、實際 Git 命令及授權流程未查核。"
+      "遠端執行、程序與憑證隔離、實際 Git 命令及授權流程未查核。",
+      "原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。",
+      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
     ]
   }
 }

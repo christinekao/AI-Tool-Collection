@@ -1,3 +1,13 @@
+# Resource 最新交接｜Phase 2 Batch 86–88（2026-11-26）
+
+- PR #116 四項 CI PASS，已合併 `91cc4a387b07390d5bc27ae7c4dddfd16edffbe2`。正式 282/286（268 對應、14 deferred、4 來源阻塞）。
+- [Batch 86](RESOURCE_DUAL_LAYER_BATCH86_20261126.md)：hindsight 新增 5 筆固定版本局部證據及一組應用，維持 deferred：原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。
+- [Batch 87](RESOURCE_DUAL_LAYER_BATCH87_20261126.md)：anomalyco-opencode 新增 5 筆固定版本局部證據及一組應用，維持 deferred：原 404 路徑已更正；已取得政策、持久化與子代理入口，仍需核對固定版本 Plan 角色來源、子 session 的有效權限、Shell 與 MCP 執行邊界。
+- [Batch 88](RESOURCE_DUAL_LAYER_BATCH88_20261126.md)：orca 新增 4 筆固定版本局部證據及一組應用，維持 deferred：原 404 路徑已更正；已找到 CLI 啟動、IPC 建立及 PTY 程序，仍需核對實際 Git add/remove、遠端主機認證與寫入、worker 取消及清理契約。
+- 合計 14 筆局部證據、3 組讀者用途；不增加完成率、不執行第三方、不改 Graph。四項 CI 驗收後才合併。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 85（2026-11-26）
 
 - PR #115 四項 CI PASS，已合併 `e2f9f85ea50685a9dfaddaf2579ecbb269e3e8fc`。正式 282/286（267 完成對應、15 deferred、4 來源阻塞）。

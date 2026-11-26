@@ -2655,3 +2655,16 @@ test('Batch 85: Microsoft Agent course covers all 18 pinned README chapters with
  for(const e of d.agentEvidence){assert.ok(resolveResourceLayerLinks(d,{capabilityId:e.id}).useCases.length>0,e.id);}
  assert.ok(d.learningGuide.caveat.includes('未逐行審查或執行 Notebook'));
 });
+
+
+test('Deferred recovery batches 86–88: pinned partial source evidence and bidirectional mapping',()=>{
+ const cases=[["hindsight","memory-contract-audit",["document-version","hybrid-recall","tenant-auth","reflect-budget","bank-delete-test"]],["anomalyco-opencode","permission-contract-audit",["policy-composition","saved-approval","role-defaults","subagent-gate","policy-test"]],["orca","worktree-contract-audit",["worktree-ipc","launch-capability","pty-process","worker-launch"]]];
+ for(const [id,caseId,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});

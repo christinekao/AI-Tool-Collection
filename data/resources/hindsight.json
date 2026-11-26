@@ -13,7 +13,7 @@
   "notes": "Official repository confirmed. Hindsight positions itself as a memory system focused on agents that learn over time. It exposes retain / recall / reflect, memory banks, observations, mental models and knowledge pages; supports self-hosted, embedded and managed deployment plus many coding-agent/framework integrations. The README reports state-of-the-art LongMemEval results and says Hindsight's benchmark performance was independently reproduced by Virginia Tech collaborators and The Washington Post; benchmark numbers are project-reported here rather than independently revalidated in this collection. MIT licensed.",
   "status": "active",
   "addedAt": "2026-09-29",
-  "updatedAt": "2026-11-25",
+  "updatedAt": "2026-11-26",
   "tags": [
     "agent-memory",
     "long-term-memory",
@@ -96,13 +96,18 @@
   "source": {
     "url": "https://github.com/vectorize-io/hindsight",
     "readmeUrl": "https://github.com/vectorize-io/hindsight/blob/main/README.md",
-    "reviewedAt": "2026-11-25",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "固定版本 README 的 Retain/Recall/Reflect、Memory Banks、Memory Defense、SDK 示例與 MIT LICENSE；兩個候選 Python 核心檔案路徑 404，未驗證內部引擎。",
+    "reviewScope": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
     "upstreamCommit": "550ef5e304623be2a456913acbac1b1a834fb2c3",
     "referenceUrls": [
       "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md",
-      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/LICENSE"
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/LICENSE",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/memories/pg/retain.py",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/memories/pg/recall.py",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/extensions/builtin/tenant.py",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py"
     ]
   },
   "intakeReview": {
@@ -114,7 +119,7 @@
       "source.upstreamCommit",
       "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-25",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -131,7 +136,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。"
+      "reason": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -144,14 +149,14 @@
     "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README 的 Retain/Recall/Reflect、Memory Banks、Memory Defense、SDK 示例與 MIT LICENSE；兩個候選 Python 核心檔案路徑 404，未驗證內部引擎。；未執行。"
+      "evidence": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。；未執行第三方。"
     },
-    "sourceGap": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。",
+    "sourceGap": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
     "layerReview": {
       "status": "deferred",
-      "reason": "固定版本 README 與 LICENSE 已查閱，核心實作契約尚未取得；只對應可證明的文件內容。",
-      "gap": "hindsight-api/hindsight_api/engine/memory_engine.py 與 hindsight-api/hindsight_api/api/http.py 在固定版本回傳 404；尚未定位實際引擎、授權、檢索、刪除及儲存契約。",
-      "nextAction": "定位固定版本 API、SDK、retain/recall/reflect 實作與 bank 權限及刪除路徑，核對程式碼及測試證據再升級 mapped。"
+      "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
+      "nextAction": "核對 api/http.py 的端點與 engine/reflect/agent.py 完整迴圈、bank 層級授權及刪除保留例外；在隔離 Postgres 測試資料及跨租戶拒絕。"
     }
   },
   "implementationKnowledge": {
@@ -159,7 +164,12 @@
       "retain": "README 示例 client.retain(bank_id,content,context,timestamp)，描述以 LLM 萃取資訊並建索引；未核對實際寫入與刪除。",
       "recall": "README 示例 client.recall(bank_id,query)，描述記憶查詢；未核對排序、引用及過濾契約。",
       "reflect": "README 示例 client.reflect(bank_id,query)，根據記憶整理回答；生成內容仍需驗證，不是原始記錄。",
-      "isolation": "README 宣稱 bank 隔離及選配 Memory Defense；未實測權限、跨 bank 隔離、秘密偵測或資料保留。"
+      "isolation": "README 宣稱 bank 隔離及選配 Memory Defense；未實測權限、跨 bank 隔離、秘密偵測或資料保留。",
+      "document_version": "文件更新依 bank_id 與 document_id 查詢與鎖定；替換先清除舊 memory_units，並以內容雜湊區分版本與重試。",
+      "hybrid_recall": "語意與 BM25 依 fact type 組合查詢，空詞彙省略 BM25；可套用分數門檻、bank_id 及 tags，返回兩路候選。",
+      "tenant_auth": "預設 TenantExtension 不要求認證；ApiKeyTenantExtension 核對配置金鑰並回傳配置 schema，MCP 可選擇略過認證。",
+      "reflect_budget": "Reflect 以 retrieval tools 搜尋 mental models、observations 與原始記憶；並行工具請求按剩餘 context 分配 token ceiling，預設迭代上限常數為 10。",
+      "bank_delete_test": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。"
     }
   },
   "agentEvidence": [
@@ -200,6 +210,61 @@
       "limitations": "廠商描述非安全證據；需測越權、刪除、資料保留與未偵測敏感資訊。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "document-version",
+      "detail": "文件更新依 bank_id 與 document_id 查詢與鎖定；替換先清除舊 memory_units，並以內容雜湊區分版本與重試。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/memories/pg/retain.py#L87-L244",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.document_version"
+      ],
+      "limitations": "僅 Postgres 儲存輔助函式；尚未驗證交易整體原子性及全部失敗恢復。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "hybrid-recall",
+      "detail": "語意與 BM25 依 fact type 組合查詢，空詞彙省略 BM25；可套用分數門檻、bank_id 及 tags，返回兩路候選。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/memories/pg/recall.py#L29-L293",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.hybrid_recall"
+      ],
+      "limitations": "候選產生不等於最終融合排序、回答正確或隔離測試。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "tenant-auth",
+      "detail": "預設 TenantExtension 不要求認證；ApiKeyTenantExtension 核對配置金鑰並回傳配置 schema，MCP 可選擇略過認證。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/extensions/builtin/tenant.py#L8-L90",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.tenant_auth"
+      ],
+      "limitations": "單一 API key 不證明 bank 級 RBAC 或多租戶隔離；不得直接暴露預設部署。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "reflect-budget",
+      "detail": "Reflect 以 retrieval tools 搜尋 mental models、observations 與原始記憶；並行工具請求按剩餘 context 分配 token ceiling，預設迭代上限常數為 10。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py#L71-L172",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.reflect_budget"
+      ],
+      "limitations": "僅預算及工具集合證據；未核對完整生成、引用及終止分支。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "bank-delete-test",
+      "detail": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py#L224-L272",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.bank_delete_test"
+      ],
+      "limitations": "測試程式存在不表示已執行；故意保留的資料、備份及外部儲存另驗。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -230,6 +295,18 @@
         "evidenceRefs": [
           "bank-boundary"
         ]
+      },
+      {
+        "id": "memory-contract-audit",
+        "title": "驗收記憶版本、檢索及租戶授權",
+        "detail": "以合成文件設計新舊版本、語意／關鍵字查詢、無效金鑰及刪除後旁觀 bank 不變的驗收；分開檢查檢索結果與生成答案。",
+        "evidenceRefs": [
+          "document-version",
+          "hybrid-recall",
+          "tenant-auth",
+          "reflect-budget",
+          "bank-delete-test"
+        ]
       }
     ],
     "example": {
@@ -239,12 +316,13 @@
       "process": "定義 bank → 保存核准資料 → 查詢與整理 → 驗證隔離及刪除",
       "output": "記憶查詢、引用、錯誤及權限測試規格（未建立實際記憶）。",
       "destination": "自有知識庫 Agent 的架構選型與資料治理。",
-      "note": "自訂設計示例；未安裝、執行或驗證真實整合。",
+      "note": "自訂設計示例；有固定版本局部原始碼證據，未執行第三方或驗證整合。",
       "verificationStatus": "design-only",
       "useCaseRefs": [
         "project-memory",
         "memory-retrieval",
-        "memory-isolation"
+        "memory-isolation",
+        "memory-contract-audit"
       ],
       "steps": [
         {
@@ -269,6 +347,17 @@
           ]
         },
         {
+          "id": "memory-contract-audit",
+          "title": "驗收記憶版本、檢索及租戶授權",
+          "evidenceRefs": [
+            "document-version",
+            "hybrid-recall",
+            "tenant-auth",
+            "reflect-budget",
+            "bank-delete-test"
+          ]
+        },
+        {
           "id": "test",
           "title": "測隔離、刪除與來源",
           "evidenceRefs": [],
@@ -284,8 +373,9 @@
     "limits": [
       "README Benchmark 是作者測量，非自身環境保證",
       "記憶內容可能含敏感輸入，須設權限及刪除流程",
-      "本次僅查閱 README 與 MIT LICENSE；未執行 SDK、模型或建立 bank。",
-      "Benchmark 與 bank 隔離是作者描述，未完成獨立驗證。"
+      "Benchmark 與 bank 隔離是作者描述，未完成獨立驗證。",
+      "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
+      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
     ]
   }
 }
