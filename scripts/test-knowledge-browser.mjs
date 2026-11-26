@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch03Phrases={"aws-samples-sample-agent-cost-bench":"固定 Git 基線","ayueh0102-ronnier-skill":"物理量與知覺量","baoyu-skill":"需要圖解的段落","bencho":"可調整的雙欄面板","better-me-notes-amie":"將學到的知識轉為實際行動","bi0h4z4rd88-pi-sidebar-tui":"合成 Pi Session 用量","blader-humanizer":"不可變動的數字","blave-agent":"不同市場的交易成本假設","block-buzz":"兩個合成協作頻道","blogger-distiller":"合成貼文及巢狀評論","bobyu89-codex-ppt-style-expanded":"必須保持可編輯","brandonhimpfen-awesome-finance":"歷史價格資料的來源與欄位","bruiandy-claude-obsidian":"獨立的合成 Obsidian Vault","charonyuu-whatsmyagentdoing":"匿名合成的本機 Session 日誌","chatfire-ai-huobao-drama":"哪些提示詞應重用或重新生成"};
+  if(qualityBatch03Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch03Phrases[id])+')'),id);
+  }
   const qualityBatch02Phrases={"alsyundawy-microsoft-office-for-macos":"Office 產品及組織的合法授權類型","amp-agent-memory-protocol":"兩個自有測試專案","anomalyco-opencode":"可重現網頁問題","anthropic-claude-mythos-cybersecurity":"虛構企業的防禦研究需求","anthropic-solving-code-review-at-anthropic":"自有表單修復案例","anthropics-financial-services":"對帳差異案例","anthropics-knowledge-work-plugins":"自有資料分析任務","anthropics-sandbox-runtime":"合成敏感檔案","anthropics-single-agent-loop-kit":"自有多 Agent 客服工作流","anti-gambling-trader-tw":"勝、負、打平","april-zhu-minicharts":"各類支出占比","arumwu-agentrelay":"兩個合成 Agent 身分","ath-maas-pixelle-video":"三個分鏡及旁白","awesome-agentic-ai-zh":"Stage 0–2 的缺口","awesome-gpt-image-2":"自撰影像提示詞"};
   if(qualityBatch02Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch02Phrases[id])+')'),id);
