@@ -6,7 +6,7 @@
   "canonicalName": "Social Post",
   "category": "06 Skills",
   "resourceType": "Cross-platform Social Content Agent Skill / Closed-loop Content System",
-  "purpose": "支援社群內容規劃與證據管理；本次聚焦規則索引、授權資料及瀏覽器回覆收據的來源契約。",
+  "purpose": "為社群內容與互動建立可回查的規則索引、核准範圍及操作收據，避免把內容建議或收據格式當作真實發布成功。",
   "recommendation": "適合研究社群內容工作流的授權與證據驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Hao0321/claude-skill-social-post",
   "repo": "Hao0321/claude-skill-social-post",
@@ -165,7 +165,7 @@
       {
         "id": "use-registry",
         "title": "建立可追溯的內容規則索引",
-        "detail": "聲線規則與成效觀察需要可回查來源。 輸出：規則識別、狀態、來源行及樣本標記。",
+        "detail": "以自撰規則 Markdown 及 Metadata 核對重複識別、來源行、狀態及樣本標記。輸出：可回查的規則索引；樣本提及數不代表實驗有效。",
         "capabilityRefs": [
           "registry"
         ]
@@ -173,7 +173,7 @@
       {
         "id": "use-scope",
         "title": "核對社群互動的授權資料",
-        "detail": "已核准的操作範圍不能自動擴張。 輸出：範圍、期限與格式問題。",
+        "detail": "以虛構平台、帳號、貼文及留言識別比對明確核准的範圍與期限。輸出：範圍及格式問題；格式通過不代表真正取得授權。",
         "capabilityRefs": [
           "scope"
         ]
@@ -181,7 +181,7 @@
       {
         "id": "use-receipt",
         "title": "綁定回覆結果與原始授權紀錄",
-        "detail": "回覆結果必須對應特定操作而非任意宣稱成功。 輸出：收據綁定資料或拒絕原因。",
+        "detail": "以合成回覆收據及原始核准識別核對操作類型和權威送出紀錄。輸出：綁定資料或拒絕原因；平台真實送達仍須獨立驗收。",
         "capabilityRefs": [
           "receipt"
         ]
@@ -232,9 +232,9 @@
       ]
     },
     "start": [
-      "先準備虛構內容、規則文件、合成核准與回覆紀錄。",
-      "核對固定版本、授權、資料邊界與操作限制。",
-      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+      "先建立自撰虛構貼文、規則 Metadata、合成留言識別及具有期限的核准與回覆紀錄，不接入真實帳號。",
+      "依固定版本 build_rule_registry、comment_authorization 與 comment_browser_provenance 核對重複 ID、來源行、操作範圍、期限與收據綁定；樣本提及數不是成效證據。",
+      "取得隔離測試核准後檢查越界、過期、收據不符及失敗狀態；真實發布或回覆須另行授權並確認平台實際結果，不記錄 Cookie、Session 或 Token。"
     ],
     "limits": [
       "README 標示本機 Workbench 不是已部署的商用多租戶 SaaS",

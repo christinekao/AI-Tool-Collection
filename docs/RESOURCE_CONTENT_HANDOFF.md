@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 13（2026-11-26）
+
+- [Batch 13｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH13_20261126.md)：shubhamsaboo-needle 至 typesafe-ai-jev，20/20 已讀取，14 候選修正、6 保留（含 HGTV source-blocked）。更新 purpose/start 與九項 useCase.detail；Stitch MCP、AFFiNE 維持 deferred。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
+- 基於 #133 Head fb1d14e01ae57a87d5cd52c1ecc562f469be594b，三項 CI PASS，P1 Browser 尚執行；先合併 #133 再將本批指向 main。#132 Catalog Sync、Pages PASS；正式 deployed Chromium 尚未獨立驗收。
+- 固定順序候選 260/286，映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 ui-ux-gold-standard 起取 20 筆；P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 12（2026-11-26）
 
 - [Batch 12｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH12_20261126.md)：qingyuna-answer-me-with-html 至 shubhamsaboo-awesome-llm-apps，20/20 已讀取，12 候選修正、8 保留。更新 purpose/start 與六項 useCase.detail；REA、Reverse Skill 維持 deferred，不合併 Reverse Skill 2。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
