@@ -6,14 +6,14 @@
   "canonicalName": "unclebob/ub-mode",
   "category": "06 Skills",
   "resourceType": "Standalone Coding Agent Skill / engineering rules referencing deterministic code quality tools",
-  "purpose": "要求 Coding Agent 對每次程式碼修改遵循 First Make it Work → Then Make it Right → Practice 的三階段工程紀律：先建立可驗證的資料模型與最小修改、以 TDD 確認行為、修正根本原因，再利用 CRAP 複雜度與測試覆蓋率、重複檢測、Mutation Testing、重構及紀錄／小批次 Commit 改善品質。",
-  "recommendation": "適合研究可重複使用的 Coding Agent 品質檢查與實作流程，尤其需要將 TDD、可驗證小單位、複雜度／重複度／Mutation Gate 結合到有證據的交付中。使用前需對照專案現有測試框架、語言與工具可用性；上游示範的門檻（CRAP < 10、相似度 >= 0.8）是此 Skill 的設計要求，不能視為跨所有專案、語言都必須遵守的標準。",
+  "purpose": "提供 Coding Agent 的工程紀律：先完成最小可驗證修改，再修正根因、驗證行為與重構，最後維持可追溯紀錄。",
+  "recommendation": "適合作為有驗收門檻的程式修改規則；外部品質工具與 Git 操作須另經核准，不將文字規則當成已執行的 CI。",
   "url": "https://github.com/unclebob/ub-mode",
   "repo": "unclebob/ub-mode",
   "notes": "2026-10-28 已透過 GitHub 官方 Repo master 的 README.md、SKILL.md 與根目錄清單核對。Repo 目前只有 README.md 與 SKILL.md，沒有明示 LICENSE；因此雖可公開瀏覽，不得宣稱已取得可複製、修改或再發布程式碼的 MIT／Apache 或任何授權；本 Catalog 僅保存事實性摘要和原始連結。README 稱方法部分源於 @poteto 的 poteto-mode/pstack 並縮減成三個階段。SKILL.md frontmatter name=ub-mode，沒有宣告 version。作者文件列出三個獨立配套工具 Repo：unclebob/crapper（計算 Cyclomatic Complexity／Coverage／CRAP Score，建議每函式 CRAP < 10）；unclebob/dryer（找 >= 0.8 similarity 的結構重複）；unclebob/mutator（Mutation Testing、補測試、刪無用程式碼），另有 unclebob/uml-viewer（可視化依賴、覆蓋率等）。這些是外部 Repo，而不是此 Repo 隨附的可直接執行程式；執行前需另行檢查其授權、相容性、安裝命令及使用者權限，不能宣稱已通過各項測試。SKILL.md 包含『Commit and Push: Push to the main line at the end』，只是上游技能內容，並未授權本次對任何軟體專案執行 push；開發時仍須遵守團隊分支及 Code Review 政策。未安裝、未執行 Tool，未驗證測試或操作任何程式碼，保留原始連結供研究。",
   "status": "active",
   "addedAt": "2026-10-28",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "ub-mode",
     "coding-agent",
@@ -99,8 +99,14 @@
     "readmeUrl": "https://github.com/unclebob/ub-mode/blob/main/README.md",
     "type": "Official GitHub master README, standalone SKILL.md and repository root listing",
     "summary": "First-party docs reviewed 2026-10-28, latest inspected master commit 57a8bdd28e45ed41900ace0bafa2ff76dd9ed70f (2026-10-25). No execution, code modification or licensing inference.",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream website/README; no third-party executable validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "3da62bf3fcfd2034de41f30d920d2739e566171f",
+    "referenceUrls": [
+      "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/README.md",
+      "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/LICENSE",
+      "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -118,9 +124,10 @@
     ],
     "classifiedAt": "2026-11-19",
     "rulesVersion": "v0.2-review",
-    "contentFormat": "repository",
+    "contentFormat": "documentation",
     "formatEvidenceFields": [
-      "url"
+      "source.referenceUrls",
+      "resourceType"
     ],
     "taxonomyVersion": "1.0"
   },
@@ -140,10 +147,13 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -156,11 +166,11 @@
       "decision": "retain-unmapped",
       "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain software，本批僅補來源支援的功能、使用前提與限制。",
+    "classificationReason": "保留既有 Primary Domain software、Tags、Category、Typed References。來源為操作或提問文件，Content Format 校正為 documentation，原分類留存。",
     "readingSpec": {
-      "id": "repo",
-      "status": "deferred",
-      "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+      "id": "standard",
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。 文件規則，非程式重建。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -170,10 +180,193 @@
       "decision": "reused",
       "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
+    "riskNotes": "MIT；外部品質工具另行查核；不同語言與專案未必適用同一門檻，品質工具結果須結合實際行為；裝配相關工具需分別核對環境與工具版本，不能把規則當成已執行測試；先確認測試真能重現問題；若誠實測試不可行，不應造假測試；此文件本身不執行測試。；文件要求 CRAP 低於 10、處理相似度至少 0.8 的重複，實際工具位於其他 Repo；指標不可代替行為測試。；清理工作樹須確認未使用且無未決變更；上游建議推主線不應覆蓋本專案的 PR 與 CI 門檻。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+      "evidence": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "evidence-linked",
+      "reason": "固定版本 README.md、LICENSE、SKILL.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "要求 Coding Agent 對每次程式碼修改遵循 First Make it Work → Then Make it Right → Practice 的三階段工程紀律：先建立可驗證的資料模型與最小修改、以 TDD 確認行為、修正根本原因，再利用 CRAP 複雜度與測試覆蓋率、重複檢測、Mutation Testing、重構及紀錄／小批次 Commit 改善品質。",
+      "source": "https://github.com/unclebob/ub-mode",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究可重複使用的 Coding Agent 品質檢查與實作流程，尤其需要將 TDD、可驗證小單位、複雜度／重複度／Mutation Gate 結合到有證據的交付中。使用前需對照專案現有測試框架、語言與工具可用性；上游示範的門檻（CRAP < 10、相似度 >= 0.8）是此 Skill 的設計要求，不能視為跨所有專案、語言都必須遵守的標準。",
+    "priorClassificationSnapshot": {
+      "primaryDomain": "software",
+      "secondaryDomains": [
+        "ai-agent"
+      ],
+      "purposeFacets": [],
+      "reviewStatus": "ai-description-reviewed",
+      "evidenceFields": [
+        "title",
+        "purpose",
+        "category"
+      ],
+      "classifiedAt": "2026-11-19",
+      "rulesVersion": "v0.2-review",
+      "contentFormat": "repository",
+      "formatEvidenceFields": [
+        "url"
+      ],
+      "taxonomyVersion": "1.0"
+    },
+    "documentContracts": [
+      {
+        "name": "先建立可驗證的最小修改",
+        "input": "缺陷描述、資料形狀及預期行為",
+        "output": "失敗測試與最小通過修改的規則",
+        "source": "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md",
+        "locator": "First Make it Work / TDD / Architecture",
+        "limitations": "先確認測試真能重現問題；若誠實測試不可行，不應造假測試；此文件本身不執行測試。"
+      },
+      {
+        "name": "檢查根因與行為品質",
+        "input": "現有修改、行為測試與品質檢查資料",
+        "output": "根因驗收與複雜度、重複、突變測試的品質門檻",
+        "source": "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md",
+        "locator": "Then Make it Right / Crapper / Dryer / Mutator / Refactoring",
+        "limitations": "文件要求 CRAP 低於 10、處理相似度至少 0.8 的重複，實際工具位於其他 Repo；指標不可代替行為測試。"
+      },
+      {
+        "name": "保留可審核的工作紀錄",
+        "input": "修改紀錄、測試證據、工作樹狀態",
+        "output": "有理由及驗證證據的小批次提交設計",
+        "source": "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md",
+        "locator": "Practice / Keep a Log / Worktree Cleanup / Commit and Push",
+        "limitations": "清理工作樹須確認未使用且無未決變更；上游建議推主線不應覆蓋本專案的 PR 與 CI 門檻。"
+      }
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "work",
+      "detail": "修改前需要確認資料模型與失敗原因。 輸入：缺陷描述、資料形狀及預期行為；輸出：失敗測試與最小通過修改的規則",
+      "locator": "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md — First Make it Work / TDD / Architecture",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "先確認測試真能重現問題；若誠實測試不可行，不應造假測試；此文件本身不執行測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "right",
+      "detail": "測試通過不表示沒有結構性問題。 輸入：現有修改、行為測試與品質檢查資料；輸出：根因驗收與複雜度、重複、突變測試的品質門檻",
+      "locator": "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md — Then Make it Right / Crapper / Dryer / Mutator / Refactoring",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "文件要求 CRAP 低於 10、處理相似度至少 0.8 的重複，實際工具位於其他 Repo；指標不可代替行為測試。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "practice",
+      "detail": "多次小修正需要能回查理由與證據。 輸入：修改紀錄、測試證據、工作樹狀態；輸出：有理由及驗證證據的小批次提交設計",
+      "locator": "https://github.com/unclebob/ub-mode/blob/3da62bf3fcfd2034de41f30d920d2739e566171f/SKILL.md — Practice / Keep a Log / Worktree Cleanup / Commit and Push",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "清理工作樹須確認未使用且無未決變更；上游建議推主線不應覆蓋本專案的 PR 與 CI 門檻。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ],
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-work",
+        "title": "先建立可驗證的最小修改",
+        "detail": "修改前需要確認資料模型與失敗原因。 輸出：失敗測試與最小通過修改的規則。",
+        "evidenceRefs": [
+          "work"
+        ]
+      },
+      {
+        "id": "use-right",
+        "title": "檢查根因與行為品質",
+        "detail": "測試通過不表示沒有結構性問題。 輸出：根因驗收與複雜度、重複、突變測試的品質門檻。",
+        "evidenceRefs": [
+          "right"
+        ]
+      },
+      {
+        "id": "use-practice",
+        "title": "保留可審核的工作紀錄",
+        "detail": "多次小修正需要能回查理由與證據。 輸出：有理由及驗證證據的小批次提交設計。",
+        "evidenceRefs": [
+          "practice"
+        ]
+      }
+    ],
+    "example": {
+      "id": "unclebob-ub-mode-example",
+      "title": "規劃既有專案的最小修正與工程品質驗收",
+      "input": "已授權的測試專案、缺陷案例與既有測試規格。",
+      "process": "先建立可驗證的最小修改 → 檢查根因與行為品質 → 保留可審核的工作紀錄 → 獨立驗收實際成果",
+      "output": "失敗重現、最小修正、行為回歸與品質門檻的驗收紀錄設計。",
+      "destination": "自有專案的 PR 審查流程，由維護者核准合併。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-work",
+        "use-right",
+        "use-practice"
+      ],
+      "steps": [
+        {
+          "id": "work",
+          "title": "先建立可驗證的最小修改",
+          "evidenceRefs": [
+            "work"
+          ]
+        },
+        {
+          "id": "right",
+          "title": "檢查根因與行為品質",
+          "evidenceRefs": [
+            "right"
+          ]
+        },
+        {
+          "id": "practice",
+          "title": "保留可審核的工作紀錄",
+          "evidenceRefs": [
+            "practice"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准資料、授權、環境、修改權限與人工成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備已授權的測試專案、缺陷案例與既有測試規格。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准測試環境後，以合成資料驗證正常與失敗情境。"
+    ],
+    "limits": [
+      "不同語言與專案未必適用同一門檻，品質工具結果須結合實際行為",
+      "裝配相關工具需分別核對環境與工具版本，不能把規則當成已執行測試",
+      "先確認測試真能重現問題；若誠實測試不可行，不應造假測試；此文件本身不執行測試。",
+      "文件要求 CRAP 低於 10、處理相似度至少 0.8 的重複，實際工具位於其他 Repo；指標不可代替行為測試。",
+      "清理工作樹須確認未使用且無未決變更；上游建議推主線不應覆蓋本專案的 PR 與 CI 門檻。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
   }
 }

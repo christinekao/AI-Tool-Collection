@@ -1,3 +1,11 @@
+# Resource 最新交接｜雙層知識 Batch 50（2026-11-26）
+
+- PR #99 四項 CI PASS，合併 `0c4a350c21d5ad20e19b90e9015212beb747da02`。183/286 已合併（176 完成對應、7 deferred）。
+- [Batch 50｜個人反思、工程紀律與技術教材](RESOURCE_DUAL_LAYER_BATCH50_20261126.md)：kepano-40-questions、unclebob-ub-mode、qingyuna-answer-me-with-html；1 mapped、2 evidence-linked 候選、9 用途、3 局部能力、6 文件證據、3 design-only 案例。第三方未實測。
+- 合併後預計 186/286（179 完成對應、7 deferred）；100 尚未改寫。先確認四項 CI、合併與 Catalog Sync／Pages。Batch 51～56 尚未執行。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 49（2026-11-26）
 
 - PR #98 四項 CI PASS，合併 `01d55c583b5326f8f4cefbfd5c0e0e7691a74511`。180/286 已合併（173 完成對應、7 deferred）。

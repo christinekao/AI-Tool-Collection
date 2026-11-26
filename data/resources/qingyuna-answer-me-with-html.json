@@ -6,14 +6,14 @@
   "canonicalName": "QingYunA/answer-me-with-html",
   "category": "09 Content & Artifact Generation",
   "resourceType": "MIT open-source agent skill package and bundled Node.js CLI for single-file visual HTML explainers and narrated explainer videos",
-  "purpose": "讓 Claude Code、Codex、Cursor、OpenCode 等 Agent 先生成簡短的 Markdown Draft，再呼叫隨附的 `am` CLI 轉換為單頁、可離線開啟的 HTML 解說。能自動排版多欄、流程/時序/ER/Tree/Timeline/Chart、可引用真實程式碼、支援比較表、互動問答與 Decision、三套主題及淺/深色；也可依使用者需求生成有旁白與章節的解說影片播放頁。模型負責內容，CLI 負責 Layout/CSS/SVG/Diagram Coordinates，減少模型直接輸出大量 HTML 的 Token。",
-  "recommendation": "適合系統架構說明、技術交接、設計取捨、流程圖、資料模型及複雜分析結果整理。先把來源事實和 Markdown Draft 的引用核對清楚，產生的 HTML 視覺美觀不等於內容已驗證。只有使用者要求時才安裝 Skill、修改 AGENTS.md/CLAUDE.md 或啟用 always-on 模式；頁面可能嵌入來源程式碼或保留 Markdown，分享前檢查私有資料。HTML 單頁可離線讀取，不代表原本 LLM 回答、安裝、GitHub 更新檢查或選用的生成模型完全離線。若啟用自動輸出，注意檔案累積與 Chat/Context 成本。",
+  "purpose": "將 Markdown 解說稿轉為單頁 HTML，利用程式化版面與元件呈現內容，並提供部分來源引用檢查及瀏覽器安全政策。",
+  "recommendation": "適合自有技術教材的離線閱讀原型；來源警告、HTML 安全與瀏覽器呈現仍須獨立驗證。",
   "url": "https://github.com/QingYunA/answer-me-with-html",
   "repo": "QingYunA/answer-me-with-html",
   "notes": "2026-10-25 核對官方 GitHub README.md、LICENSE、package.json、INSTALL.md、skills/answer-me-with-html/SKILL.md 及 Root/Plugin 目錄。MIT 授權、package.json 版本 0.5.7、Node.js >=20。這是可供 Claude Code 等多種 Agent 使用的獨立 Agent Skill + 打包 Node CLI，與只能在 Chat UI 中呈現元件的 GenUI 不同：其輸出是獨立 HTML，可作為離線檔案開啟與分享。`am` 根據 Markdown Draft 輸出 HTML + 設計 Theme（blueprint/shadcn/paper）、flow/er/sequence/tree/timeline/chart/annot/ask 等組件；普通案例的輸出保存在 `~/.answer-me-with-html/pages/`（無權限時可寫 temporary folder）；單頁內嵌樣式與生成所需資源，主張不依賴 CDN；部分動畫/語音頁功能和 ffmpeg 輸出有額外環境要求。Skill 支援對 HTML 局部更新、模型讀寫私有檔案片段的 `src= lines=` 引用、控制風格與設定，以及 `always-on` 模式。always-on 預設關閉，若啟用需要對 `CLAUDE.md` 或 `AGENTS.md` 等全域規則寫入並每次產生頁面；不得未經允許安裝或設定。官方 README 宣稱少量自家 Benchmark 中模型輸出約 612 vs 手寫 HTML 4,893 Tokens、產出時間約 12 vs 31 秒，對應約 8 倍少輸出 Token、2.6 倍快；這是作者測試（3 topics × 3 runs，指定模型/環境）且未獨立重現，並非所有模型/用途的普遍結果，實際帳單節省不等於輸出 Token 節省。INSTALL.md 有對 Agent 自動安裝/更新的指令，但本次僅閱讀不執行。Node CLI 產生單頁 HTML 本身可離線打開；模型呼叫、安全/更新檢查、外部檔案引用與影片來源仍需個別核對資料外送及成本。發文與排版不等於已交叉查證內容。尚未在此環境安裝、渲染、驗證效能或產生影片。",
   "status": "active",
   "addedAt": "2026-10-25",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "answer-me-with-html",
     "qingyuna",
@@ -78,8 +78,16 @@
     "type": "Official GitHub README, MIT LICENSE, package manifest, standalone agent SKILL.md and INSTALL.md",
     "summary": "Primary sources inspected on 2026-10-25. Claimed benchmarks are vendor self-reported; no runtime or benchmark performed.",
     "readmeUrl": "https://github.com/QingYunA/answer-me-with-html/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime/security audit"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、src/refs.js、src/raw-html.js、src/csp.js 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "4ad397361bcb59b0791b84783ed99ef91d4b2f07",
+    "referenceUrls": [
+      "https://github.com/QingYunA/answer-me-with-html/blob/4ad397361bcb59b0791b84783ed99ef91d4b2f07/README.md",
+      "https://github.com/QingYunA/answer-me-with-html/blob/4ad397361bcb59b0791b84783ed99ef91d4b2f07/LICENSE",
+      "https://github.com/QingYunA/answer-me-with-html/blob/4ad397361bcb59b0791b84783ed99ef91d4b2f07/src/refs.js",
+      "https://github.com/QingYunA/answer-me-with-html/blob/4ad397361bcb59b0791b84783ed99ef91d4b2f07/src/raw-html.js",
+      "https://github.com/QingYunA/answer-me-with-html/blob/4ad397361bcb59b0791b84783ed99ef91d4b2f07/src/csp.js"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -118,40 +126,396 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain design，僅改善功能、條件、限制，不更改分類。",
+    "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、src/refs.js、src/raw-html.js、src/csp.js 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "MIT；內嵌資產與字型授權另查；作者列出的 Token 節省屬其測試樣本結果，不能保證相同模型都有效；生成的圖文教材仍需校驗事實、引用、互動和行動版可讀性；只檢查符合路徑行號形式的引用；缺漏為警告而非阻止輸出，外部或秘密路徑不檢查，不能宣稱所有引用正確。；依元素類型和上下文判斷；原始 HTML fence 另有處理，不能把此局部過濾當成完整安全保證。；允許 inline style 與 data 資源，connect-src self；安全性仍依瀏覽器與整體渲染流程，不等於所有外部互動皆被阻斷。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、src/refs.js、src/raw-html.js、src/csp.js 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、src/refs.js、src/raw-html.js、src/csp.js 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Claude Code、Codex、Cursor、OpenCode 等 Agent 先生成簡短的 Markdown Draft，再呼叫隨附的 `am` CLI 轉換為單頁、可離線開啟的 HTML 解說。能自動排版多欄、流程/時序/ER/Tree/Timeline/Chart、可引用真實程式碼、支援比較表、互動問答與 Decision、三套主題及淺/深色；也可依使用者需求生成有旁白與章節的解說影片播放頁。模型負責內容，CLI 負責 Layout/CSS/SVG/Diagram Coordinates，減少模型直接輸出大量 HTML 的 Token。",
+      "source": "https://github.com/QingYunA/answer-me-with-html",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合系統架構說明、技術交接、設計取捨、流程圖、資料模型及複雜分析結果整理。先把來源事實和 Markdown Draft 的引用核對清楚，產生的 HTML 視覺美觀不等於內容已驗證。只有使用者要求時才安裝 Skill、修改 AGENTS.md/CLAUDE.md 或啟用 always-on 模式；頁面可能嵌入來源程式碼或保留 Markdown，分享前檢查私有資料。HTML 單頁可離線讀取，不代表原本 LLM 回答、安裝、GitHub 更新檢查或選用的生成模型完全離線。若啟用自動輸出，注意檔案累積與 Chat/Context 成本。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-refs",
+        "title": "檢查教材內的程式碼引用",
+        "detail": "引用不存在的行號會誤導讀者。 輸出：依稿件行號排序的引用警告。",
+        "capabilityRefs": [
+          "refs"
+        ]
+      },
+      {
+        "id": "use-markup",
+        "title": "區分文字與原始 HTML 標記",
+        "detail": "技術稿中的角括號可能被誤當 HTML。 輸出：保留合法元素或轉義後的文字及問題說明。",
+        "capabilityRefs": [
+          "markup"
+        ]
+      },
+      {
+        "id": "use-csp",
+        "title": "限制 HTML 頁面的腳本與外部內容",
+        "detail": "離線教材可能包含不可信標記或外部資源。 輸出：含腳本雜湊與資源限制的 CSP meta 標記。",
+        "capabilityRefs": [
+          "csp"
+        ]
+      }
+    ],
+    "example": {
+      "id": "qingyuna-answer-me-with-html-example",
+      "title": "規劃可離線技術教材的引用與安全驗收",
+      "input": "自撰 Markdown 技術稿、合成程式碼與引用測試案例。",
+      "process": "檢查教材內的程式碼引用 → 區分文字與原始 HTML 標記 → 限制 HTML 頁面的腳本與外部內容 → 獨立驗收實際成果",
+      "output": "來源警告清單、HTML 標記處理與離線安全政策的驗收規格。",
+      "destination": "自有 HTML 教材工作區，經來源與瀏覽器測試後交付。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-refs",
+        "use-markup",
+        "use-csp"
+      ],
+      "steps": [
+        {
+          "id": "refs",
+          "title": "檢查教材內的程式碼引用",
+          "capabilityRefs": [
+            "refs"
+          ]
+        },
+        {
+          "id": "markup",
+          "title": "區分文字與原始 HTML 標記",
+          "capabilityRefs": [
+            "markup"
+          ]
+        },
+        {
+          "id": "csp",
+          "title": "限制 HTML 頁面的腳本與外部內容",
+          "capabilityRefs": [
+            "csp"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准資料、授權、環境、修改權限與人工成果驗收。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自撰 Markdown 技術稿、合成程式碼與引用測試案例。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准測試環境後，以合成資料驗證正常與失敗情境。"
+    ],
+    "limits": [
+      "作者列出的 Token 節省屬其測試樣本結果，不能保證相同模型都有效",
+      "生成的圖文教材仍需校驗事實、引用、互動和行動版可讀性",
+      "只檢查符合路徑行號形式的引用；缺漏為警告而非阻止輸出，外部或秘密路徑不檢查，不能宣稱所有引用正確。",
+      "依元素類型和上下文判斷；原始 HTML fence 另有處理，不能把此局部過濾當成完整安全保證。",
+      "允許 inline style 與 data 資源，connect-src self；安全性仍依瀏覽器與整體渲染流程，不等於所有外部互動皆被阻斷。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "將 Markdown 解說稿轉為單頁 HTML，利用程式化版面與元件呈現內容，並提供部分來源引用檢查及瀏覽器安全政策。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；內嵌資產與字型授權另查"
+      },
+      {
+        "label": "版本",
+        "value": "4ad397361bcb59b0791b84783ed99ef91d4b2f07"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "檢查教材內的程式碼引用",
+        "detail": "引用不存在的行號會誤導讀者。 輸入：解析後的稿件區塊、專案基底資料夾；輸出：依稿件行號排序的引用警告",
+        "source": "src/refs.js"
+      },
+      {
+        "title": "區分文字與原始 HTML 標記",
+        "detail": "技術稿中的角括號可能被誤當 HTML。 輸入：Markdown 原始標記與所在位置；輸出：保留合法元素或轉義後的文字及問題說明",
+        "source": "src/raw-html.js"
+      },
+      {
+        "title": "限制 HTML 頁面的腳本與外部內容",
+        "detail": "離線教材可能包含不可信標記或外部資源。 輸入：允許的內嵌腳本文字及可選 live 模式；輸出：含腳本雜湊與資源限制的 CSP meta 標記",
+        "source": "src/csp.js"
+      }
+    ],
+    "architecture": {
+      "summary": "檢查教材內的程式碼引用 → 區分文字與原始 HTML 標記 → 限制 HTML 頁面的腳本與外部內容 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "檢查教材內的程式碼引用",
+          "detail": "解析後的稿件區塊、專案基底資料夾 → 依稿件行號排序的引用警告",
+          "files": [
+            "src/refs.js",
+            "README.md"
+          ]
+        },
+        {
+          "title": "區分文字與原始 HTML 標記",
+          "detail": "Markdown 原始標記與所在位置 → 保留合法元素或轉義後的文字及問題說明",
+          "files": [
+            "src/raw-html.js",
+            "README.md"
+          ]
+        },
+        {
+          "title": "限制 HTML 頁面的腳本與外部內容",
+          "detail": "允許的內嵌腳本文字及可選 live 模式 → 含腳本雜湊與資源限制的 CSP meta 標記",
+          "files": [
+            "src/csp.js",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "檢查教材內的程式碼引用",
+        "rule": "只檢查符合路徑行號形式的引用；缺漏為警告而非阻止輸出，外部或秘密路徑不檢查，不能宣稱所有引用正確。",
+        "source": "src/refs.js"
+      },
+      {
+        "name": "區分文字與原始 HTML 標記",
+        "rule": "依元素類型和上下文判斷；原始 HTML fence 另有處理，不能把此局部過濾當成完整安全保證。",
+        "source": "src/raw-html.js"
+      },
+      {
+        "name": "限制 HTML 頁面的腳本與外部內容",
+        "rule": "允許 inline style 與 data 資源，connect-src self；安全性仍依瀏覽器與整體渲染流程，不等於所有外部互動皆被阻斷。",
+        "source": "src/csp.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、src/refs.js、src/raw-html.js、src/csp.js 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "src/refs.js",
+          "src/raw-html.js",
+          "src/csp.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自撰 Markdown 技術稿、合成程式碼與引用測試案例。 核對固定版本、授權、資料邊界與操作限制。 核准測試環境後，以合成資料驗證正常與失敗情境。",
+        "files": [
+          "src/refs.js"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 HTML 教材工作區，經來源與瀏覽器測試後交付。",
+        "file": "src/refs.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "refs",
+        "name": "檢查教材內的程式碼引用",
+        "problem": "引用不存在的行號會誤導讀者。",
+        "input": "解析後的稿件區塊、專案基底資料夾",
+        "output": "依稿件行號排序的引用警告",
+        "source": "src/refs.js",
+        "sourceFiles": [
+          "src/refs.js",
+          "README.md"
+        ],
+        "symbols": [
+          "checkRefs",
+          "checkRef"
+        ],
+        "gate": "只檢查符合路徑行號形式的引用；缺漏為警告而非阻止輸出，外部或秘密路徑不檢查，不能宣稱所有引用正確。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "markup",
+        "name": "區分文字與原始 HTML 標記",
+        "problem": "技術稿中的角括號可能被誤當 HTML。",
+        "input": "Markdown 原始標記與所在位置",
+        "output": "保留合法元素或轉義後的文字及問題說明",
+        "source": "src/raw-html.js",
+        "sourceFiles": [
+          "src/raw-html.js",
+          "README.md"
+        ],
+        "symbols": [
+          "kind",
+          "hide",
+          "mapTags"
+        ],
+        "gate": "依元素類型和上下文判斷；原始 HTML fence 另有處理，不能把此局部過濾當成完整安全保證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "csp",
+        "name": "限制 HTML 頁面的腳本與外部內容",
+        "problem": "離線教材可能包含不可信標記或外部資源。",
+        "input": "允許的內嵌腳本文字及可選 live 模式",
+        "output": "含腳本雜湊與資源限制的 CSP meta 標記",
+        "source": "src/csp.js",
+        "sourceFiles": [
+          "src/csp.js",
+          "README.md"
+        ],
+        "symbols": [
+          "cspMeta",
+          "scriptHash",
+          "pinScript"
+        ],
+        "gate": "允許 inline style 與 data 資源，connect-src self；安全性仍依瀏覽器與整體渲染流程，不等於所有外部互動皆被阻斷。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃可離線技術教材的引用與安全驗收（設計示例）",
+      "problem": "自撰 Markdown 技術稿、合成程式碼與引用測試案例。",
+      "steps": [
+        {
+          "capability": "refs",
+          "action": "檢查教材內的程式碼引用"
+        },
+        {
+          "capability": "markup",
+          "action": "區分文字與原始 HTML 標記"
+        },
+        {
+          "capability": "csp",
+          "action": "限制 HTML 頁面的腳本與外部內容"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "qingyuna-answer-me-with-html-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自撰 Markdown 技術稿、合成程式碼與引用測試案例。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "檢查教材內的程式碼引用 → 區分文字與原始 HTML 標記 → 限制 HTML 頁面的腳本與外部內容 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 HTML 教材工作區，經來源與瀏覽器測試後交付。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "作者列出的 Token 節省屬其測試樣本結果，不能保證相同模型都有效",
+        "生成的圖文教材仍需校驗事實、引用、互動和行動版可讀性",
+        "只檢查符合路徑行號形式的引用；缺漏為警告而非阻止輸出，外部或秘密路徑不檢查，不能宣稱所有引用正確。",
+        "依元素類型和上下文判斷；原始 HTML fence 另有處理，不能把此局部過濾當成完整安全保證。",
+        "允許 inline style 與 data 資源，connect-src self；安全性仍依瀏覽器與整體渲染流程，不等於所有外部互動皆被阻斷。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "作者列出的 Token 節省屬其測試樣本結果，不能保證相同模型都有效；生成的圖文教材仍需校驗事實、引用、互動和行動版可讀性；只檢查符合路徑行號形式的引用；缺漏為警告而非阻止輸出，外部或秘密路徑不檢查，不能宣稱所有引用正確。；依元素類型和上下文判斷；原始 HTML fence 另有處理，不能把此局部過濾當成完整安全保證。；允許 inline style 與 data 資源，connect-src self；安全性仍依瀏覽器與整體渲染流程，不等於所有外部互動皆被阻斷。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、src/refs.js、src/raw-html.js、src/csp.js 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

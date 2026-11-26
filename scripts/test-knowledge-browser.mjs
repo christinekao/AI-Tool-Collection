@@ -665,7 +665,10 @@ try{
   ["lieflat-less-ai-tone",".resource-reader-guide","規劃中文技術文章的分級審查與保真改寫"],
   ["harry0703-moneyprinterturbo",".resource-reader-guide","規劃知識短影音的任務清單與素材品質驗收"],
   ["hbai-ltd-toonflow-app",".resource-reader-guide","規劃分鏡工作區的媒體生成與取消驗收"],
-  ["chatfire-ai-huobao-drama",".resource-reader-guide","規劃自有短劇的角色資產與分鏡提示詞驗收"]
+  ["chatfire-ai-huobao-drama",".resource-reader-guide","規劃自有短劇的角色資產與分鏡提示詞驗收"],
+  ["kepano-40-questions",".resource-reader-guide","規劃年度與十年個人反思紀錄的長期比較"],
+  ["unclebob-ub-mode",".resource-reader-guide","規劃既有專案的最小修正與工程品質驗收"],
+  ["qingyuna-answer-me-with-html",".resource-reader-guide","規劃可離線技術教材的引用與安全驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
