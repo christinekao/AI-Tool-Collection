@@ -98,7 +98,7 @@
     "readmeUrl": "https://github.com/vectorize-io/hindsight/blob/main/README.md",
     "reviewedAt": "2026-11-26",
     "type": "Official upstream README or bundle document",
-    "reviewScope": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
+    "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 89 新增 3 筆原始碼證據。已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。 未執行第三方。",
     "upstreamCommit": "550ef5e304623be2a456913acbac1b1a834fb2c3",
     "referenceUrls": [
       "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/README.md",
@@ -107,7 +107,8 @@
       "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/memories/pg/recall.py",
       "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/extensions/builtin/tenant.py",
       "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py",
-      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py"
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/tests/test_delete_bank_leaves_no_rows.py",
+      "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py"
     ]
   },
   "intakeReview": {
@@ -136,7 +137,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。"
+      "reason": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -149,14 +150,14 @@
     "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README、LICENSE 與本輪 5 個局部原始碼或測試證據；原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。；未執行第三方。"
+      "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 89 新增 3 筆原始碼證據。已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。 未執行第三方。"
     },
-    "sourceGap": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
+    "sourceGap": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。",
     "layerReview": {
       "status": "deferred",
       "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-      "gap": "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
-      "nextAction": "核對 api/http.py 的端點與 engine/reflect/agent.py 完整迴圈、bank 層級授權及刪除保留例外；在隔離 Postgres 測試資料及跨租戶拒絕。"
+      "gap": "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。",
+      "nextAction": "追蹤引擎 tenant/schema 與 bank 授權、_process_done_tool 的引用驗證及刪除保留例外，再以隔離環境驗證。"
     }
   },
   "implementationKnowledge": {
@@ -169,7 +170,10 @@
       "hybrid_recall": "語意與 BM25 依 fact type 組合查詢，空詞彙省略 BM25；可套用分數門檻、bank_id 及 tags，返回兩路候選。",
       "tenant_auth": "預設 TenantExtension 不要求認證；ApiKeyTenantExtension 核對配置金鑰並回傳配置 schema，MCP 可選擇略過認證。",
       "reflect_budget": "Reflect 以 retrieval tools 搜尋 mental models、observations 與原始記憶；並行工具請求按剩餘 context 分配 token ceiling，預設迭代上限常數為 10。",
-      "bank_delete_test": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。"
+      "bank_delete_test": "上游測試先在 bank 相關資料表植入資料，再刪除目標 bank 並檢查殘留與旁觀 bank 計數；另測清除但保留 bank profile。",
+      "http_precheck": "有配置 OperationValidator 時，HTTP precheck 先認證 tenant，再帶 bank_id、operation、request context 與內容長度呼叫驗證器；拒絕轉 HTTP 錯誤。",
+      "reflect_http": "Reflect API 透過 precheck 與 admission 依賴，把 bank、查詢、預算、tags 等傳入 reflect_async；斷線取消執行，按請求回傳 based_on、trace、結構化輸出與使用量。",
+      "reflect_finish": "停止檢索後透過 done 取得回答；空回答可重問，沒有 done 時可轉獨立 synthesis；已拒絕的結構化文件不可靜默改成自由文字，超過重試上限會失敗。"
     }
   },
   "agentEvidence": [
@@ -265,6 +269,39 @@
       "limitations": "測試程式存在不表示已執行；故意保留的資料、備份及外部儲存另驗。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "http-precheck",
+      "detail": "有配置 OperationValidator 時，HTTP precheck 先認證 tenant，再帶 bank_id、operation、request context 與內容長度呼叫驗證器；拒絕轉 HTTP 錯誤。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py#L4937-L4974",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.http_precheck"
+      ],
+      "limitations": "未配置驗證器會直接返回；這段不是預設 bank RBAC，也未涵蓋所有端點。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "reflect-http",
+      "detail": "Reflect API 透過 precheck 與 admission 依賴，把 bank、查詢、預算、tags 等傳入 reflect_async；斷線取消執行，按請求回傳 based_on、trace、結構化輸出與使用量。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/api/http.py#L5808-L5939",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.reflect_http"
+      ],
+      "limitations": "HTTP 包裝層不保證證據正確、bank 授權或模型輸出忠於原文。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "reflect-finish",
+      "detail": "停止檢索後透過 done 取得回答；空回答可重問，沒有 done 時可轉獨立 synthesis；已拒絕的結構化文件不可靜默改成自由文字，超過重試上限會失敗。",
+      "locator": "https://github.com/vectorize-io/hindsight/blob/550ef5e304623be2a456913acbac1b1a834fb2c3/hindsight-api-slim/hindsight_api/engine/reflect/agent.py#L967-L1030",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.reflect_finish"
+      ],
+      "limitations": "尚未核對完整檢索迴圈、引用驗證函式與所有 fallback 分支；未執行。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -307,6 +344,16 @@
           "reflect-budget",
           "bank-delete-test"
         ]
+      },
+      {
+        "id": "reflect-authorization-audit",
+        "title": "驗收 Reflect 回答與操作授權",
+        "detail": "以合成記憶驗證操作驗證器拒絕、用戶端斷線取消、空回答重試、結構化輸出拒絕及引用回傳；分開驗證 tenant 與 bank 權限。",
+        "evidenceRefs": [
+          "http-precheck",
+          "reflect-http",
+          "reflect-finish"
+        ]
       }
     ],
     "example": {
@@ -322,7 +369,8 @@
         "project-memory",
         "memory-retrieval",
         "memory-isolation",
-        "memory-contract-audit"
+        "memory-contract-audit",
+        "reflect-authorization-audit"
       ],
       "steps": [
         {
@@ -358,6 +406,15 @@
           ]
         },
         {
+          "id": "reflect-authorization-audit",
+          "title": "驗收 Reflect 回答與操作授權",
+          "evidenceRefs": [
+            "http-precheck",
+            "reflect-http",
+            "reflect-finish"
+          ]
+        },
+        {
           "id": "test",
           "title": "測隔離、刪除與來源",
           "evidenceRefs": [],
@@ -375,7 +432,8 @@
       "記憶內容可能含敏感輸入，須設權限及刪除流程",
       "Benchmark 與 bank 隔離是作者描述，未完成獨立驗證。",
       "原 404 路徑已更正；仍待核對 HTTP 端點至 bank 授權與操作驗證器的完整呼叫鏈、Reflect 最終引用與刪除例外；未實測。",
-      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。"
+      "局部原始碼與上游測試僅靜態閱讀；未安裝、執行或驗證第三方。",
+      "原 404 路徑已更正；已核對 HTTP precheck、Reflect API 與終止分支；仍缺引擎 bank 級授權完整鏈、引用驗證與刪除例外，不能宣稱跨 bank 隔離。"
     ]
   }
 }

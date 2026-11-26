@@ -790,6 +790,11 @@ try{
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recoveryTitles[id])+')'),id);
   }
+  const contractTitles={"hindsight":"驗收 Reflect 回答與操作授權","anomalyco-opencode":"驗收 Plan 與工具執行權限","orca":"驗收 Worktree 生命週期與 RPC 結算"};
+  if(contractTitles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=5'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(contractTitles[id])+')'),id);
+  }
   if(['ai-code-acceptance-review-testing-rollout-guide','microsoft-ai-agents-for-beginners',"react-frontend-backend-for-beginners","ryanhanwu-how-to-ask-questions-the-smart-way","dslab-lessons","claude-svg-animation-logo-loading-chart-tutorial","anthropic-solving-code-review-at-anthropic"].includes(id)){
    const expected=id==='microsoft-ai-agents-for-beginners'?18:id==='ai-code-acceptance-review-testing-rollout-guide'?4:3;
    assert.equal(await evaluate('document.querySelectorAll(".learn-module-inline").length'),expected);

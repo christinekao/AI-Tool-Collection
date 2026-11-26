@@ -2668,3 +2668,15 @@ test('Deferred recovery batches 86–88: pinned partial source evidence and bidi
   for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
  }
 });
+
+test('Deferred recovery batches 89–91: pinned source contract gaps and bidirectional links',()=>{
+ const cases=[["hindsight","reflect-authorization-audit",["http-precheck","reflect-http","reflect-finish"]],["anomalyco-opencode","tool-boundary-audit",["plan-role","session-policy","shell-gate","mcp-tool-gate"]],["orca","worktree-lifecycle-audit",["git-worktree-add","git-worktree-remove","rpc-admission","worker-settlement"]]];
+ for(const [id,caseId,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
