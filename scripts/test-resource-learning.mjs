@@ -1748,6 +1748,33 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  51,
+  "教學 Agent、工程學習與履歷審查",
+  [
+    [
+      "thu-maic-openmaic",
+      "規劃 AI 互動教室的教材生成與大綱確認",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "jit-learning-loop",
+      "規劃工程任務的學習檢查與可轉移知識紀錄",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "alexyc9381-hiring-panel-skill",
+      "規劃職缺客製履歷的多角色審查與事實驗收",
+      2,
+      "evidence-linked",
+      "documentation"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

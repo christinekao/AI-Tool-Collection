@@ -668,7 +668,10 @@ try{
   ["chatfire-ai-huobao-drama",".resource-reader-guide","規劃自有短劇的角色資產與分鏡提示詞驗收"],
   ["kepano-40-questions",".resource-reader-guide","規劃年度與十年個人反思紀錄的長期比較"],
   ["unclebob-ub-mode",".resource-reader-guide","規劃既有專案的最小修正與工程品質驗收"],
-  ["qingyuna-answer-me-with-html",".resource-reader-guide","規劃可離線技術教材的引用與安全驗收"]
+  ["qingyuna-answer-me-with-html",".resource-reader-guide","規劃可離線技術教材的引用與安全驗收"],
+  ["thu-maic-openmaic",".resource-reader-guide","規劃 AI 互動教室的教材生成與大綱確認"],
+  ["jit-learning-loop",".resource-reader-guide","規劃工程任務的學習檢查與可轉移知識紀錄"],
+  ["alexyc9381-hiring-panel-skill",".resource-reader-guide","規劃職缺客製履歷的多角色審查與事實驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
