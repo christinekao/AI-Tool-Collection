@@ -785,6 +785,10 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const qualityBatch12Phrases={"qingyuna-answer-me-with-html":"自撰 Markdown 技術教材","rankupgames-spectra":"合成 Python Repo","rea":"必須驗收的義務","react-frontend-backend-for-beginners":"合成履歷管理網站需求","reactive-resume":"合成母版履歷","research-to-diagram":"一項公開技術問題","reverse-skill":"兩筆既有 Resource ID","reverse-skill-2":"自有合成案例資料夾","rociiu-talorys":"合成記憶的新舊版本","rtk":"固定一組命令","ryanhanwu-how-to-ask-questions-the-smart-way":"可重現的合成表單儲存問題","seokwoooo-lucian-uxui-prompt":"自有表單的一個介面問題"};
+  if(qualityBatch12Phrases[id]){
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch12Phrases[id])+')'),id);
+  }
   const qualityBatch11Phrases={"openhands-agent-canvas":"兩種合成 ACP Agent 設定","openmontage":"合成影音分鏡產物","orca":"兩個獨立任務","paperclip":"自有合成 AI Cowork 專案","pcottle-learn-git-branching":"兩個分支的合成 Commit Tree","photo-riso-poster":"自有或已授權照片","pii-guard":"繁體中文測試文件","pingdotgg-t3code":"兩個獨立 Thread","pomerado-pomerado":"自有隔離測試站點","pramoddutta-botskills":"一則合成 Bug 報告","punk-skill":"決定要製作封面或頭像"};
   if(qualityBatch11Phrases[id]){
    assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(qualityBatch11Phrases[id])+')'),id);

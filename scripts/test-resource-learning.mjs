@@ -2984,3 +2984,25 @@ test('Resource quality batch 11: practical starts, case detail and Orca deferred
  const p=JSON.parse(fs.readFileSync('data/resources/particles-casberry.json','utf8'));
  assert.equal(p.intakeReview.layerReview.status,'deferred');
 });
+
+
+test('Resource quality batch 12: practical starts, HTML and resume cases, and deferred boundaries',()=>{
+ const expected={"qingyuna-answer-me-with-html":"自撰 Markdown 技術教材","rankupgames-spectra":"合成 Python Repo","rea":"必須驗收的義務","react-frontend-backend-for-beginners":"合成履歷管理網站需求","reactive-resume":"合成母版履歷","research-to-diagram":"一項公開技術問題","reverse-skill":"兩筆既有 Resource ID","reverse-skill-2":"自有合成案例資料夾","rociiu-talorys":"合成記憶的新舊版本","rtk":"固定一組命令","ryanhanwu-how-to-ask-questions-the-smart-way":"可重現的合成表單儲存問題","seokwoooo-lucian-uxui-prompt":"自有表單的一個介面問題"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok((['rea','reverse-skill'].includes(id)?['deferred']:['mapped','evidence-linked']).includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ for(const id of ['qingyuna-answer-me-with-html','reactive-resume']){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  for(const c of d.readerGuide.useCases)assert.match(c.detail,/輸出：/,id+' '+c.id);
+ }
+ const h=JSON.parse(fs.readFileSync('data/resources/qingyuna-answer-me-with-html.json','utf8'));
+ assert.match(h.readerGuide.start[1],/警告不阻止輸出/);
+ const cv=JSON.parse(fs.readFileSync('data/resources/reactive-resume.json','utf8'));
+ assert.match(cv.readerGuide.start[1],/match score 會寫入且不是錄取機率/);
+});
