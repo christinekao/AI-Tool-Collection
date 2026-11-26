@@ -6,8 +6,8 @@
   "canonicalName": "huashu-motion",
   "category": "AI Video & Motion Design",
   "resourceType": "Code-driven motion graphics and product launch film toolkit",
-  "purpose": "讓 Coding Agent 以 HTML、GSAP、Canvas、SVG 等可編輯程式碼製作產品宣傳影片、解說動畫與音效配樂，並透過瀏覽器 Studio 針對畫面位置與時間點提供修改回饋。",
-  "recommendation": "適合產品發表影片、作品集 Demo、資料視覺化影片及 Agent 驅動的可編輯影片製作流程。特別可參考逐幀評論、Agent 修正迴圈、影片 QA 與本機渲染。",
+  "purpose": "以可編輯的網頁程式碼製作動效影片，支援渲染前檢查、影片素材時間定位與成片品質量測。",
+  "recommendation": "適合自有產品影片的可重現渲染規劃；程式檢查不能取代視聽品質與素材權利驗收。",
   "url": "https://github.com/alchaincyf/huashu-motion",
   "repo": "alchaincyf/huashu-motion",
   "license": "MIT (project code and docs only; bundled assets have separate licenses)",
@@ -52,7 +52,7 @@
   ],
   "status": "active",
   "addedAt": "2026-11-04",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "agent-skill",
     "motion-graphics",
@@ -76,10 +76,18 @@
       "https://github.com/alchaincyf/huashu-motion/blob/main/THIRD_PARTY.md",
       "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/SKILL.md"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream repository, license, third-party notices and SKILL.md",
     "readmeUrl": "https://github.com/alchaincyf/huashu-motion/blob/main/README.md",
-    "reviewScope": "README only; not installed/runtime tested"
+    "reviewScope": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "f4f38bfe295a3f768753857be9236cc3277c7dad",
+    "referenceUrls": [
+      "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/README.en.md",
+      "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/LICENSE",
+      "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/cli/lib/check.js",
+      "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/cli/lib/frames.js",
+      "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/cli/lib/qa.js"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -113,40 +121,394 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始 Tags 保留原樣；本批沒有新標籤或分類架構變更。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留 Primary Domain content、Category 與原始 Tags；只補來源和使用限制。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "尚無實際整合與 I/O 驗證，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
-      "decision": "candidate",
-      "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
+      "decision": "reused",
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+    "riskNotes": "MIT；音樂、字型與第三方元件另查；影片生成及音樂素材的授權和效能須另外驗證；來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。；依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。；以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+      "evidence": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Coding Agent 以 HTML、GSAP、Canvas、SVG 等可編輯程式碼製作產品宣傳影片、解說動畫與音效配樂，並透過瀏覽器 Studio 針對畫面位置與時間點提供修改回饋。",
+      "source": "https://github.com/alchaincyf/huashu-motion",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合產品發表影片、作品集 Demo、資料視覺化影片及 Agent 驅動的可編輯影片製作流程。特別可參考逐幀評論、Agent 修正迴圈、影片 QA 與本機渲染。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-source",
+        "title": "檢查渲染來源與畫面問題",
+        "detail": "動效工程需要在輸出前識別結構及瀏覽器問題。 輸出：來源與頁面錯誤或警告清單。",
+        "capabilityRefs": [
+          "source"
+        ]
+      },
+      {
+        "id": "use-frames",
+        "title": "依影片時間戳規劃素材畫面",
+        "detail": "可變幀率素材不能只依固定幀率推算。 輸出：時間戳、尺寸、編碼與色彩資訊。",
+        "capabilityRefs": [
+          "frames"
+        ]
+      },
+      {
+        "id": "use-qa",
+        "title": "量測成片的瞬間跳動與靜止",
+        "detail": "渲染成功仍可能存在單幀異常。 輸出：低解析度逐幀變化、跳動及節奏報告。",
+        "capabilityRefs": [
+          "qa"
+        ]
+      }
+    ],
+    "example": {
+      "id": "alchaincyf-huashu-motion-example",
+      "title": "規劃程式動效影片的渲染與品質檢查",
+      "input": "自有合成 HTML 動效、測試影片及分鏡時間規格。",
+      "process": "檢查渲染來源與畫面問題 → 依影片時間戳規劃素材畫面 → 量測成片的瞬間跳動與靜止 → 獨立驗收實際成果",
+      "output": "來源檢查、時間戳資訊與成片異常檢視規格。",
+      "destination": "自有影片製作工作區，經人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-source",
+        "use-frames",
+        "use-qa"
+      ],
+      "steps": [
+        {
+          "id": "source",
+          "title": "檢查渲染來源與畫面問題",
+          "capabilityRefs": [
+            "source"
+          ]
+        },
+        {
+          "id": "frames",
+          "title": "依影片時間戳規劃素材畫面",
+          "capabilityRefs": [
+            "frames"
+          ]
+        },
+        {
+          "id": "qa",
+          "title": "量測成片的瞬間跳動與靜止",
+          "capabilityRefs": [
+            "qa"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有合成 HTML 動效、測試影片及分鏡時間規格。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "影片生成及音樂素材的授權和效能須另外驗證",
+      "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+      "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+      "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以可編輯的網頁程式碼製作動效影片，支援渲染前檢查、影片素材時間定位與成片品質量測。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；音樂、字型與第三方元件另查"
+      },
+      {
+        "label": "版本",
+        "value": "f4f38bfe295a3f768753857be9236cc3277c7dad"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "檢查渲染來源與畫面問題",
+        "detail": "動效工程需要在輸出前識別結構及瀏覽器問題。 輸入：合成影片專案；輸出：來源與頁面錯誤或警告清單",
+        "source": "cli/lib/check.js"
+      },
+      {
+        "title": "依影片時間戳規劃素材畫面",
+        "detail": "可變幀率素材不能只依固定幀率推算。 輸入：已授權本機影片；輸出：時間戳、尺寸、編碼與色彩資訊",
+        "source": "cli/lib/frames.js"
+      },
+      {
+        "title": "量測成片的瞬間跳動與靜止",
+        "detail": "渲染成功仍可能存在單幀異常。 輸入：合成成片與循環選項；輸出：低解析度逐幀變化、跳動及節奏報告",
+        "source": "cli/lib/qa.js"
+      }
+    ],
+    "architecture": {
+      "summary": "檢查渲染來源與畫面問題 → 依影片時間戳規劃素材畫面 → 量測成片的瞬間跳動與靜止 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "檢查渲染來源與畫面問題",
+          "detail": "合成影片專案 → 來源與頁面錯誤或警告清單",
+          "files": [
+            "cli/lib/check.js",
+            "README.en.md"
+          ]
+        },
+        {
+          "title": "依影片時間戳規劃素材畫面",
+          "detail": "已授權本機影片 → 時間戳、尺寸、編碼與色彩資訊",
+          "files": [
+            "cli/lib/frames.js",
+            "README.en.md"
+          ]
+        },
+        {
+          "title": "量測成片的瞬間跳動與靜止",
+          "detail": "合成成片與循環選項 → 低解析度逐幀變化、跳動及節奏報告",
+          "files": [
+            "cli/lib/qa.js",
+            "README.en.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "檢查渲染來源與畫面問題",
+        "rule": "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+        "source": "cli/lib/check.js"
+      },
+      {
+        "name": "依影片時間戳規劃素材畫面",
+        "rule": "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+        "source": "cli/lib/frames.js"
+      },
+      {
+        "name": "量測成片的瞬間跳動與靜止",
+        "rule": "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+        "source": "cli/lib/qa.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.en.md",
+          "LICENSE",
+          "cli/lib/check.js",
+          "cli/lib/frames.js",
+          "cli/lib/qa.js"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有合成 HTML 動效、測試影片及分鏡時間規格。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "cli/lib/check.js"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有影片製作工作區，經人工覆核後使用。",
+        "file": "cli/lib/check.js"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "source",
+        "name": "檢查渲染來源與畫面問題",
+        "problem": "動效工程需要在輸出前識別結構及瀏覽器問題。",
+        "input": "合成影片專案",
+        "output": "來源與頁面錯誤或警告清單",
+        "source": "cli/lib/check.js",
+        "sourceFiles": [
+          "cli/lib/check.js",
+          "README.en.md"
+        ],
+        "symbols": [
+          "checkSource",
+          "checkPage",
+          "check"
+        ],
+        "gate": "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "frames",
+        "name": "依影片時間戳規劃素材畫面",
+        "problem": "可變幀率素材不能只依固定幀率推算。",
+        "input": "已授權本機影片",
+        "output": "時間戳、尺寸、編碼與色彩資訊",
+        "source": "cli/lib/frames.js",
+        "sourceFiles": [
+          "cli/lib/frames.js",
+          "README.en.md"
+        ],
+        "symbols": [
+          "probeVideo",
+          "matrixFor"
+        ],
+        "gate": "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "qa",
+        "name": "量測成片的瞬間跳動與靜止",
+        "problem": "渲染成功仍可能存在單幀異常。",
+        "input": "合成成片與循環選項",
+        "output": "低解析度逐幀變化、跳動及節奏報告",
+        "source": "cli/lib/qa.js",
+        "sourceFiles": [
+          "cli/lib/qa.js",
+          "README.en.md"
+        ],
+        "symbols": [
+          "qa",
+          "probe",
+          "frames"
+        ],
+        "gate": "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃程式動效影片的渲染與品質檢查（設計示例）",
+      "problem": "自有合成 HTML 動效、測試影片及分鏡時間規格。",
+      "steps": [
+        {
+          "capability": "source",
+          "action": "檢查渲染來源與畫面問題"
+        },
+        {
+          "capability": "frames",
+          "action": "依影片時間戳規劃素材畫面"
+        },
+        {
+          "capability": "qa",
+          "action": "量測成片的瞬間跳動與靜止"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "alchaincyf-huashu-motion-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有合成 HTML 動效、測試影片及分鏡時間規格。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "檢查渲染來源與畫面問題 → 依影片時間戳規劃素材畫面 → 量測成片的瞬間跳動與靜止 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有影片製作工作區，經人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "影片生成及音樂素材的授權和效能須另外驗證",
+        "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+        "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+        "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "影片生成及音樂素材的授權和效能須另外驗證；來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。；依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。；以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
