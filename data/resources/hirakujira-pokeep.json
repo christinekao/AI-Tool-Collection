@@ -6,8 +6,8 @@
   "canonicalName": "hirakujira/Pokeep",
   "category": "10 Reference Applications",
   "resourceType": "Local-first Next.js / SQLite app, iPhone Use USB automation, Apple Vision OCR, OpenAI vision-assisted collection analysis",
-  "purpose": "在 Mac 本機的網頁操作介面中，透過 iPhone Use 及 USB 控制 iPhone，分段擷取 Pokémon GO 寶可夢盒子、能力與評價畫面；使用 Apple Vision 本機 OCR、像素 IV 量測與必要裁圖的 AI 視覺核對，結合 PvPoke、Game Master PvE、養成資源、進化／收藏規則，分析值得保留或可放生的寶可夢。提供暫停／續掃、人工核對、證據截圖，以及經使用者勾選及多重安全確認後才嘗試批次放生。",
-  "recommendation": "適合作為本機優先的『裝置 UI 擷取 → 本機文字/像素辨識 → 少量 AI 校對 → 結構化評估 → 人工確認 → 不可逆操作安全閘門』案例，用來研究高風險自動化的授權、身分再驗證、確認點與停止策略。實際用於 Pokémon GO 存在第三方自動操作的服務條款與停權風險；建議先研究架構與模擬測試，不要把示範流程當作官方授權的遊戲自動化工具。",
+  "purpose": "本機 Pokémon GO 收藏整理助手；本次查核備份資料、收藏排序及建議分類，不執行手機操作。",
+  "recommendation": "適合研究本機收藏資料的備份與建議可追溯驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/hirakujira/Pokeep",
   "repo": "hirakujira/Pokeep",
   "notes": "2026-10-27 已直接核對 GitHub master README.md、package.json、THIRD_PARTY_NOTICES.md、src/lib/iphone-safety.ts、iphone-transfer.ts、openai-config.ts，並查看 tests/iphone.test.ts、tests/core.test.ts 的測試案例名稱；未執行任何測試，不能聲稱通過。Repo 無根目錄 LICENSE，package.json private:true 不等於發佈授權，作者未明確對整體原始碼提供 MIT/Apache 等授權；THIRD_PARTY_NOTICES.md 內的 MIT 只屬 PvPoke，遊戲資料、素材與商標另受權利人保護。Mac Node.js 24 LTS、USB iPhone、Apple 開發團隊／Xcode WDA、Python 3.9+、iPhone Use 依賴，以及 OpenAI API Key 或相容 Responses API（圖片及 JSON 格式輸出）為官方條件；API 按實際使用量另計，與 ChatGPT 訂閱無關。使用 SQLite 儲存於未版控 .data/，官方聲稱僅把必要裁切圖送 AI 且 store:false；仍應視 API Provider 及畫面可能含非預期資訊而檢查資料安全，store:false 不保證所有服務端沒有其他留存。PvP 評級來源 PvPoke；PvE 用 Game Master 簡化 DPS，不是完整團體戰模擬；稀有或不明狀態不可自動放生，作者實作了人工確認、前景 App 檢查、搜尋結果唯一 CP 校驗、操作前 durable journal 及結果不明暫停而不重送。掃描和放生仍依賴可變的 iPhone UI，OCR 與座標可能錯配，放生通常不可復原。Pokémon GO 官方遊戲公平政策可能將第三方自動控制、bots 或未授權軟體視為違規，可停權或永久封禁；這不是官方 Pokémon GO 工具。沒有登入、連結設備、使用 API Key、安裝 iPhone Use、執行程式、測試辨識或觸發放生。Repo main branch 不是預設，此原始 Repo default branch 為 master。",
@@ -19,8 +19,15 @@
     "policyUrl": "https://scopelyexplore.helpshift.com/hc/en/5-pokemon-go/faq/1305-gameplay-fairness-policy/",
     "type": "Official project README, code, tests and third-party notices; official Pokémon GO gameplay fairness policy",
     "summary": "Sources inspected 2026-10-27. No root LICENSE; testing and real-world safety unverified.",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime or security validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、src/lib/backup.ts、src/lib/evaluation/collection.ts、src/lib/evaluation/categorize.ts 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "c42ecb05866ac7971e5d0521d77c28f5e537458d",
+    "referenceUrls": [
+      "https://github.com/hirakujira/Pokeep/blob/c42ecb05866ac7971e5d0521d77c28f5e537458d/README.md",
+      "https://github.com/hirakujira/Pokeep/blob/c42ecb05866ac7971e5d0521d77c28f5e537458d/src/lib/backup.ts",
+      "https://github.com/hirakujira/Pokeep/blob/c42ecb05866ac7971e5d0521d77c28f5e537458d/src/lib/evaluation/collection.ts",
+      "https://github.com/hirakujira/Pokeep/blob/c42ecb05866ac7971e5d0521d77c28f5e537458d/src/lib/evaluation/categorize.ts"
+    ]
   },
   "architecture": {
     "provenance": "Source repository README and actual source files reviewed read-only on 2026-10-27.",
@@ -90,7 +97,7 @@
   ],
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "pokeep",
     "pokemon-go",
@@ -153,40 +160,393 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain automation，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "保留既有 Primary Domain automation、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、src/lib/backup.ts、src/lib/evaluation/collection.ts、src/lib/evaluation/categorize.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "未找到根授權檔；不授權複製程式或重用素材；自動化手機操作須遵守遊戲服務條款；本機截圖與設定可含隱私或金鑰，需保護 .data 目錄；影格讀取錯誤可被略過；備份可能不完整且含私人資料，須核對。；權重為作者規則，不是客觀價值；不可據此自動清除收藏。；僅為建議資料；不代表實際遊戲操作授權，未連線或執行任何移除。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README.md、src/lib/backup.ts、src/lib/evaluation/collection.ts、src/lib/evaluation/categorize.ts 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、src/lib/backup.ts、src/lib/evaluation/collection.ts、src/lib/evaluation/categorize.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在 Mac 本機的網頁操作介面中，透過 iPhone Use 及 USB 控制 iPhone，分段擷取 Pokémon GO 寶可夢盒子、能力與評價畫面；使用 Apple Vision 本機 OCR、像素 IV 量測與必要裁圖的 AI 視覺核對，結合 PvPoke、Game Master PvE、養成資源、進化／收藏規則，分析值得保留或可放生的寶可夢。提供暫停／續掃、人工核對、證據截圖，以及經使用者勾選及多重安全確認後才嘗試批次放生。",
+      "source": "https://github.com/hirakujira/Pokeep",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合作為本機優先的『裝置 UI 擷取 → 本機文字/像素辨識 → 少量 AI 校對 → 結構化評估 → 人工確認 → 不可逆操作安全閘門』案例，用來研究高風險自動化的授權、身分再驗證、確認點與停止策略。實際用於 Pokémon GO 存在第三方自動操作的服務條款與停權風險；建議先研究架構與模擬測試，不要把示範流程當作官方授權的遊戲自動化工具。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-backup",
+        "title": "備份收藏紀錄與影格參照",
+        "detail": "收藏資料與其來源影格需要一併追溯。 輸出：版本化備份資料。",
+        "capabilityRefs": [
+          "backup"
+        ]
+      },
+      {
+        "id": "use-rank",
+        "title": "比較收藏代表",
+        "detail": "重複收藏需要可說明的排序原則。 輸出：依條件排序的收藏代表候選。",
+        "capabilityRefs": [
+          "rank"
+        ]
+      },
+      {
+        "id": "use-category",
+        "title": "附加建議理由與比較紀錄",
+        "detail": "分類需要能讓本人回查其依據。 輸出：分類、理由及相關比較狀態。",
+        "capabilityRefs": [
+          "category"
+        ]
+      }
+    ],
+    "example": {
+      "id": "hirakujira-pokeep-example",
+      "title": "規劃本機收藏資料的備份與建議可追溯驗收",
+      "input": "虛構收藏資料、測試圖片參照及分類條件",
+      "process": "備份收藏紀錄與影格參照 → 比較收藏代表 → 附加建議理由與比較紀錄 → 獨立驗收實際成果",
+      "output": "備份格式、排序理由及分類紀錄",
+      "destination": "本機合成收藏資料測試區，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-backup",
+        "use-rank",
+        "use-category"
+      ],
+      "steps": [
+        {
+          "id": "backup",
+          "title": "備份收藏紀錄與影格參照",
+          "capabilityRefs": [
+            "backup"
+          ]
+        },
+        {
+          "id": "rank",
+          "title": "比較收藏代表",
+          "capabilityRefs": [
+            "rank"
+          ]
+        },
+        {
+          "id": "category",
+          "title": "附加建議理由與比較紀錄",
+          "capabilityRefs": [
+            "category"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備虛構收藏資料、測試圖片參照及分類條件。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "自動化手機操作須遵守遊戲服務條款",
+      "本機截圖與設定可含隱私或金鑰，需保護 .data 目錄",
+      "影格讀取錯誤可被略過；備份可能不完整且含私人資料，須核對。",
+      "權重為作者規則，不是客觀價值；不可據此自動清除收藏。",
+      "僅為建議資料；不代表實際遊戲操作授權，未連線或執行任何移除。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "本機 Pokémon GO 收藏整理助手；本次查核備份資料、收藏排序及建議分類，不執行手機操作。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "未找到根授權檔；不授權複製程式或重用素材"
+      },
+      {
+        "label": "版本",
+        "value": "c42ecb05866ac7971e5d0521d77c28f5e537458d"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "備份收藏紀錄與影格參照",
+        "detail": "收藏資料與其來源影格需要一併追溯。 輸入：合成收藏、觀測、設定與有效影格參照；輸出：版本化備份資料",
+        "source": "src/lib/backup.ts"
+      },
+      {
+        "title": "比較收藏代表",
+        "detail": "重複收藏需要可說明的排序原則。 輸入：合成收藏及代表數量設定；輸出：依條件排序的收藏代表候選",
+        "source": "src/lib/evaluation/collection.ts"
+      },
+      {
+        "title": "附加建議理由與比較紀錄",
+        "detail": "分類需要能讓本人回查其依據。 輸入：合成收藏及分析候選；輸出：分類、理由及相關比較狀態",
+        "source": "src/lib/evaluation/categorize.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "備份收藏紀錄與影格參照 → 比較收藏代表 → 附加建議理由與比較紀錄 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "備份收藏紀錄與影格參照",
+          "detail": "合成收藏、觀測、設定與有效影格參照 → 版本化備份資料",
+          "files": [
+            "src/lib/backup.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "比較收藏代表",
+          "detail": "合成收藏及代表數量設定 → 依條件排序的收藏代表候選",
+          "files": [
+            "src/lib/evaluation/collection.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "附加建議理由與比較紀錄",
+          "detail": "合成收藏及分析候選 → 分類、理由及相關比較狀態",
+          "files": [
+            "src/lib/evaluation/categorize.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "備份收藏紀錄與影格參照",
+        "rule": "影格讀取錯誤可被略過；備份可能不完整且含私人資料，須核對。",
+        "source": "src/lib/backup.ts"
+      },
+      {
+        "name": "比較收藏代表",
+        "rule": "權重為作者規則，不是客觀價值；不可據此自動清除收藏。",
+        "source": "src/lib/evaluation/collection.ts"
+      },
+      {
+        "name": "附加建議理由與比較紀錄",
+        "rule": "僅為建議資料；不代表實際遊戲操作授權，未連線或執行任何移除。",
+        "source": "src/lib/evaluation/categorize.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、src/lib/backup.ts、src/lib/evaluation/collection.ts、src/lib/evaluation/categorize.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "src/lib/backup.ts",
+          "src/lib/evaluation/collection.ts",
+          "src/lib/evaluation/categorize.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備虛構收藏資料、測試圖片參照及分類條件。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "src/lib/backup.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "本機合成收藏資料測試區，經資料權利與人工覆核後使用。",
+        "file": "src/lib/backup.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "backup",
+        "name": "備份收藏紀錄與影格參照",
+        "problem": "收藏資料與其來源影格需要一併追溯。",
+        "input": "合成收藏、觀測、設定與有效影格參照",
+        "output": "版本化備份資料",
+        "source": "src/lib/backup.ts",
+        "sourceFiles": [
+          "src/lib/backup.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "backupSchema",
+          "exportBackup"
+        ],
+        "gate": "影格讀取錯誤可被略過；備份可能不完整且含私人資料，須核對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "rank",
+        "name": "比較收藏代表",
+        "problem": "重複收藏需要可說明的排序原則。",
+        "input": "合成收藏及代表數量設定",
+        "output": "依條件排序的收藏代表候選",
+        "source": "src/lib/evaluation/collection.ts",
+        "sourceFiles": [
+          "src/lib/evaluation/collection.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "quality",
+          "pickCollectibles"
+        ],
+        "gate": "權重為作者規則，不是客觀價值；不可據此自動清除收藏。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "category",
+        "name": "附加建議理由與比較紀錄",
+        "problem": "分類需要能讓本人回查其依據。",
+        "input": "合成收藏及分析候選",
+        "output": "分類、理由及相關比較狀態",
+        "source": "src/lib/evaluation/categorize.ts",
+        "sourceFiles": [
+          "src/lib/evaluation/categorize.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "categorize",
+          "keepReasonRank"
+        ],
+        "gate": "僅為建議資料；不代表實際遊戲操作授權，未連線或執行任何移除。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃本機收藏資料的備份與建議可追溯驗收（設計示例）",
+      "problem": "虛構收藏資料、測試圖片參照及分類條件",
+      "steps": [
+        {
+          "capability": "backup",
+          "action": "備份收藏紀錄與影格參照"
+        },
+        {
+          "capability": "rank",
+          "action": "比較收藏代表"
+        },
+        {
+          "capability": "category",
+          "action": "附加建議理由與比較紀錄"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "hirakujira-pokeep-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "虛構收藏資料、測試圖片參照及分類條件",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "備份收藏紀錄與影格參照 → 比較收藏代表 → 附加建議理由與比較紀錄 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "本機合成收藏資料測試區，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "自動化手機操作須遵守遊戲服務條款",
+        "本機截圖與設定可含隱私或金鑰，需保護 .data 目錄",
+        "影格讀取錯誤可被略過；備份可能不完整且含私人資料，須核對。",
+        "權重為作者規則，不是客觀價值；不可據此自動清除收藏。",
+        "僅為建議資料；不代表實際遊戲操作授權，未連線或執行任何移除。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "自動化手機操作須遵守遊戲服務條款；本機截圖與設定可含隱私或金鑰，需保護 .data 目錄；影格讀取錯誤可被略過；備份可能不完整且含私人資料，須核對。；權重為作者規則，不是客觀價值；不可據此自動清除收藏。；僅為建議資料；不代表實際遊戲操作授權，未連線或執行任何移除。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、src/lib/backup.ts、src/lib/evaluation/collection.ts、src/lib/evaluation/categorize.ts 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

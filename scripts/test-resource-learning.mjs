@@ -1991,6 +1991,87 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  60,
+  "Agent 用量與協作基礎設施",
+  [
+    [
+      "nanako0129-syrtis",
+      "規劃 AI 用量監測的週期證據與隱私驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "block-buzz",
+      "規劃多 Agent 頻道事件的路由與佇列驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "makecindy-cindy",
+      "規劃跨 Harness Agent 的能力與 Session 驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  61,
+  "資料工作區、資訊分類與備份",
+  [
+    [
+      "mars-tw-freedom-erp-crm",
+      "規劃模擬 ERP 工作區的資料一致性與備份驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "zichuanlan-freebie-radar",
+      "規劃資訊雷達的去重與分類證據驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "hirakujira-pokeep",
+      "規劃本機收藏資料的備份與建議可追溯驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  62,
+  "短劇生成與影音資料契約",
+  [
+    [
+      "forget-c-jellyfish",
+      "規劃短劇專案的章節與生成任務驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "waooai-waoowaoo",
+      "規劃影音工作區的模型與資料寫入規則驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "ai-video-drama-platform",
+      "規劃文字故事至分鏡及測試影片的契約驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

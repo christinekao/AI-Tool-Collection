@@ -5,12 +5,12 @@
   "title": "AI Video Drama Platform — Structured Storyboard to ComfyUI and FFmpeg",
   "status": "active",
   "addedAt": "2026-10-12",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "url": "https://github.com/dc-tw/ai-video-drama-platform",
   "category": "AI Video / Agentic Media Pipeline",
   "resourceType": "Early-stage Python backend reference implementation",
-  "purpose": "將文字故事轉成具資料驗證的分鏡，呼叫本機 ComfyUI 產生圖片，再透過 FFmpeg 合成影片；提供 CLI、容器與測試路徑。",
-  "recommendation": "適合研究分鏡結構、影像生成與影片合成的本機工作流；需要準備模型金鑰、ComfyUI、FFmpeg 及硬體資源。",
+  "purpose": "短劇後端骨架以結構化分鏡、模型輸出及 FFmpeg 組合圖片；本次核對資料與組裝契約。",
+  "recommendation": "適合研究文字故事至分鏡及測試影片的契約驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "tags": [
     "ai-video",
     "storyboard",
@@ -71,48 +71,409 @@
   "source": {
     "url": "https://github.com/dc-tw/ai-video-drama-platform",
     "readmeUrl": "https://github.com/dc-tw/ai-video-drama-platform/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "Documentation-level review only; no runtime/security audit"
+    "reviewScope": "固定版本 README.md、app/models/storyboard.py、app/services/storyboard_generator.py、app/integrations/ffmpeg/composer.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "c5889ea7130839cbd03eb83bc34e98bad27c560a",
+    "referenceUrls": [
+      "https://github.com/dc-tw/ai-video-drama-platform/blob/c5889ea7130839cbd03eb83bc34e98bad27c560a/README.md",
+      "https://github.com/dc-tw/ai-video-drama-platform/blob/c5889ea7130839cbd03eb83bc34e98bad27c560a/app/models/storyboard.py",
+      "https://github.com/dc-tw/ai-video-drama-platform/blob/c5889ea7130839cbd03eb83bc34e98bad27c560a/app/services/storyboard_generator.py",
+      "https://github.com/dc-tw/ai-video-drama-platform/blob/c5889ea7130839cbd03eb83bc34e98bad27c560a/app/integrations/ffmpeg/composer.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對 Canonical ID 與現有正式上游來源，僅更新既有 Resource；不新增或合併 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原有 Tags 完全保留，沒有新增或重新標準化標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain content；本批僅補來源形式與具證據的閱讀內容。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅核對 README，尚未逐項追溯版本化程式碼、執行契約與完整測試，不可宣稱完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、app/models/storyboard.py、app/services/storyboard_generator.py、app/integrations/ffmpeg/composer.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件說明功能但未核對可用於正式組合的版本化 Input／Output 契約，本批不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept 引用，不根據新關鍵字自動產生新關聯。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
+    "riskNotes": "未找到根授權檔；不授權複製程式；LLM 分鏡可能產生費用，本機影像生成仍受顯示卡、記憶體與模型限制。；測試文件區分假客戶端與 Live LLM，讀取 README 不等於已重現完整影片。；欄位型別與範圍不保證角色參照正確或時長合計一致，須加驗跨欄位規則。；Prompt 的角色一致性要求不是已驗證行為；外部模型須核准且不可傳機密內容。；會寫入檔案且可能覆寫輸出；僅為圖片串接，不代表已完成短劇敘事或音訊品質驗收。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 或 SKILL.md 文件來源已閱讀；Build、Runtime、Security、Integration 未執行。"
+      "evidence": "固定版本 README.md、app/models/storyboard.py、app/services/storyboard_generator.py、app/integrations/ffmpeg/composer.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、app/models/storyboard.py、app/services/storyboard_generator.py、app/integrations/ffmpeg/composer.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "將文字故事轉成具資料驗證的分鏡，呼叫本機 ComfyUI 產生圖片，再透過 FFmpeg 合成影片；提供 CLI、容器與測試路徑。",
+      "source": "https://github.com/dc-tw/ai-video-drama-platform",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究分鏡結構、影像生成與影片合成的本機工作流；需要準備模型金鑰、ComfyUI、FFmpeg 及硬體資源。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-schema",
+        "title": "定義分鏡資料結構",
+        "detail": "生成內容需符合明確的媒體欄位。 輸出：結構化 Storyboard 或欄位驗證錯誤。",
+        "capabilityRefs": [
+          "schema"
+        ]
+      },
+      {
+        "id": "use-generate",
+        "title": "處理模型未回傳可解析分鏡",
+        "detail": "模型輸出缺失不能假裝生成成功。 輸出：已解析分鏡或生成錯誤。",
+        "capabilityRefs": [
+          "generate"
+        ]
+      },
+      {
+        "id": "use-compose",
+        "title": "檢查圖片與影片時長的組合輸入",
+        "detail": "缺少圖片或不合法時間會破壞成片。 輸出：組合影片或輸入錯誤。",
+        "capabilityRefs": [
+          "compose"
+        ]
+      }
+    ],
+    "example": {
+      "id": "ai-video-drama-platform-example",
+      "title": "規劃文字故事至分鏡及測試影片的契約驗收",
+      "input": "自有虛構故事、合成分鏡及測試圖片",
+      "process": "定義分鏡資料結構 → 處理模型未回傳可解析分鏡 → 檢查圖片與影片時長的組合輸入 → 獨立驗收實際成果",
+      "output": "結構化分鏡、生成錯誤及組合影片規格",
+      "destination": "自有短劇原型測試區，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-schema",
+        "use-generate",
+        "use-compose"
+      ],
+      "steps": [
+        {
+          "id": "schema",
+          "title": "定義分鏡資料結構",
+          "capabilityRefs": [
+            "schema"
+          ]
+        },
+        {
+          "id": "generate",
+          "title": "處理模型未回傳可解析分鏡",
+          "capabilityRefs": [
+            "generate"
+          ]
+        },
+        {
+          "id": "compose",
+          "title": "檢查圖片與影片時長的組合輸入",
+          "capabilityRefs": [
+            "compose"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有虛構故事、合成分鏡及測試圖片。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "LLM 分鏡可能產生費用，本機影像生成仍受顯示卡、記憶體與模型限制。",
+      "測試文件區分假客戶端與 Live LLM，讀取 README 不等於已重現完整影片。",
+      "欄位型別與範圍不保證角色參照正確或時長合計一致，須加驗跨欄位規則。",
+      "Prompt 的角色一致性要求不是已驗證行為；外部模型須核准且不可傳機密內容。",
+      "會寫入檔案且可能覆寫輸出；僅為圖片串接，不代表已完成短劇敘事或音訊品質驗收。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "短劇後端骨架以結構化分鏡、模型輸出及 FFmpeg 組合圖片；本次核對資料與組裝契約。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "未找到根授權檔；不授權複製程式"
+      },
+      {
+        "label": "版本",
+        "value": "c5889ea7130839cbd03eb83bc34e98bad27c560a"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "定義分鏡資料結構",
+        "detail": "生成內容需符合明確的媒體欄位。 輸入：合成角色、鏡頭及對話資料；輸出：結構化 Storyboard 或欄位驗證錯誤",
+        "source": "app/models/storyboard.py"
+      },
+      {
+        "title": "處理模型未回傳可解析分鏡",
+        "detail": "模型輸出缺失不能假裝生成成功。 輸入：虛構故事請求與模擬模型服務；輸出：已解析分鏡或生成錯誤",
+        "source": "app/services/storyboard_generator.py"
+      },
+      {
+        "title": "檢查圖片與影片時長的組合輸入",
+        "detail": "缺少圖片或不合法時間會破壞成片。 輸入：已授權測試圖片、時長及輸出路徑；輸出：組合影片或輸入錯誤",
+        "source": "app/integrations/ffmpeg/composer.py"
+      }
+    ],
+    "architecture": {
+      "summary": "定義分鏡資料結構 → 處理模型未回傳可解析分鏡 → 檢查圖片與影片時長的組合輸入 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "定義分鏡資料結構",
+          "detail": "合成角色、鏡頭及對話資料 → 結構化 Storyboard 或欄位驗證錯誤",
+          "files": [
+            "app/models/storyboard.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "處理模型未回傳可解析分鏡",
+          "detail": "虛構故事請求與模擬模型服務 → 已解析分鏡或生成錯誤",
+          "files": [
+            "app/services/storyboard_generator.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "檢查圖片與影片時長的組合輸入",
+          "detail": "已授權測試圖片、時長及輸出路徑 → 組合影片或輸入錯誤",
+          "files": [
+            "app/integrations/ffmpeg/composer.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "定義分鏡資料結構",
+        "rule": "欄位型別與範圍不保證角色參照正確或時長合計一致，須加驗跨欄位規則。",
+        "source": "app/models/storyboard.py"
+      },
+      {
+        "name": "處理模型未回傳可解析分鏡",
+        "rule": "Prompt 的角色一致性要求不是已驗證行為；外部模型須核准且不可傳機密內容。",
+        "source": "app/services/storyboard_generator.py"
+      },
+      {
+        "name": "檢查圖片與影片時長的組合輸入",
+        "rule": "會寫入檔案且可能覆寫輸出；僅為圖片串接，不代表已完成短劇敘事或音訊品質驗收。",
+        "source": "app/integrations/ffmpeg/composer.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、app/models/storyboard.py、app/services/storyboard_generator.py、app/integrations/ffmpeg/composer.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "app/models/storyboard.py",
+          "app/services/storyboard_generator.py",
+          "app/integrations/ffmpeg/composer.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有虛構故事、合成分鏡及測試圖片。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "app/models/storyboard.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有短劇原型測試區，經資料權利與人工覆核後使用。",
+        "file": "app/models/storyboard.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "schema",
+        "name": "定義分鏡資料結構",
+        "problem": "生成內容需符合明確的媒體欄位。",
+        "input": "合成角色、鏡頭及對話資料",
+        "output": "結構化 Storyboard 或欄位驗證錯誤",
+        "source": "app/models/storyboard.py",
+        "sourceFiles": [
+          "app/models/storyboard.py",
+          "README.md"
+        ],
+        "symbols": [
+          "StrictModel",
+          "Scene",
+          "Storyboard",
+          "StoryboardRequest"
+        ],
+        "gate": "欄位型別與範圍不保證角色參照正確或時長合計一致，須加驗跨欄位規則。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "generate",
+        "name": "處理模型未回傳可解析分鏡",
+        "problem": "模型輸出缺失不能假裝生成成功。",
+        "input": "虛構故事請求與模擬模型服務",
+        "output": "已解析分鏡或生成錯誤",
+        "source": "app/services/storyboard_generator.py",
+        "sourceFiles": [
+          "app/services/storyboard_generator.py",
+          "README.md"
+        ],
+        "symbols": [
+          "StoryboardGenerator.generate",
+          "SYSTEM_PROMPT"
+        ],
+        "gate": "Prompt 的角色一致性要求不是已驗證行為；外部模型須核准且不可傳機密內容。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "compose",
+        "name": "檢查圖片與影片時長的組合輸入",
+        "problem": "缺少圖片或不合法時間會破壞成片。",
+        "input": "已授權測試圖片、時長及輸出路徑",
+        "output": "組合影片或輸入錯誤",
+        "source": "app/integrations/ffmpeg/composer.py",
+        "sourceFiles": [
+          "app/integrations/ffmpeg/composer.py",
+          "README.md"
+        ],
+        "symbols": [
+          "FFmpegComposer.compose_slideshow"
+        ],
+        "gate": "會寫入檔案且可能覆寫輸出；僅為圖片串接，不代表已完成短劇敘事或音訊品質驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃文字故事至分鏡及測試影片的契約驗收（設計示例）",
+      "problem": "自有虛構故事、合成分鏡及測試圖片",
+      "steps": [
+        {
+          "capability": "schema",
+          "action": "定義分鏡資料結構"
+        },
+        {
+          "capability": "generate",
+          "action": "處理模型未回傳可解析分鏡"
+        },
+        {
+          "capability": "compose",
+          "action": "檢查圖片與影片時長的組合輸入"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "ai-video-drama-platform-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有虛構故事、合成分鏡及測試圖片",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "定義分鏡資料結構 → 處理模型未回傳可解析分鏡 → 檢查圖片與影片時長的組合輸入 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有短劇原型測試區，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "LLM 分鏡可能產生費用，本機影像生成仍受顯示卡、記憶體與模型限制。",
+        "測試文件區分假客戶端與 Live LLM，讀取 README 不等於已重現完整影片。",
+        "欄位型別與範圍不保證角色參照正確或時長合計一致，須加驗跨欄位規則。",
+        "Prompt 的角色一致性要求不是已驗證行為；外部模型須核准且不可傳機密內容。",
+        "會寫入檔案且可能覆寫輸出；僅為圖片串接，不代表已完成短劇敘事或音訊品質驗收。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "LLM 分鏡可能產生費用，本機影像生成仍受顯示卡、記憶體與模型限制。；測試文件區分假客戶端與 Live LLM，讀取 README 不等於已重現完整影片。；欄位型別與範圍不保證角色參照正確或時長合計一致，須加驗跨欄位規則。；Prompt 的角色一致性要求不是已驗證行為；外部模型須核准且不可傳機密內容。；會寫入檔案且可能覆寫輸出；僅為圖片串接，不代表已完成短劇敘事或音訊品質驗收。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、app/models/storyboard.py、app/services/storyboard_generator.py、app/integrations/ffmpeg/composer.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

@@ -1,3 +1,14 @@
+# Resource 最新交接｜雙層知識 Batch 60–62（2026-11-26）
+
+- PR #105 已合併，204/286（197 完成對應、7 deferred）。PR #106 為 Batch 57–59，基線 `1f158bec948348e5279375091febe7662fdd2d2e`，尚待確認完整 CI 與合併。
+- [Batch 60｜Agent 用量與協作基礎設施](RESOURCE_DUAL_LAYER_BATCH60_20261126.md)：nanako0129-syrtis、block-buzz、makecindy-cindy；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- [Batch 61｜資料工作區、資訊分類與備份](RESOURCE_DUAL_LAYER_BATCH61_20261126.md)：mars-tw-freedom-erp-crm、zichuanlan-freebie-radar、hirakujira-pokeep；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- [Batch 62｜短劇生成與影音資料契約](RESOURCE_DUAL_LAYER_BATCH62_20261126.md)：forget-c-jellyfish、waooai-waoowaoo、ai-video-drama-platform；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- 合計新增 9 mapped 候選、27 用途、27 局部能力、9 design-only 案例；第三方未實測。Pokéep、AI Video Drama Platform 未找到根授權檔，不授權重用程式；waoowaoo 為 Elastic License 2.0。
+- 兩組均合併後預計 222/286（215 完成對應、7 deferred）；64 尚未改寫。Batch 63～66 尚未提交。先確認四項 CI、依序合併與 Catalog Sync／Pages。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 57–59（2026-11-26）
 
 - PR #105 四項 CI PASS，合併 `d8943a820a57273da8bc99ee010e23bf5ea32875`；main 基線 `e71cd3a41bf0b5c04ee418e625381ff087dd03ca`。204/286 已合併（197 完成對應、7 deferred）。
