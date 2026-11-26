@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 55–56（2026-11-26）
+
+- PR #104 四項 CI PASS，合併 `2df348732156e04bde3c23c954da2284fbd38c7a`；main 基線 `bfe04ae2d35dca19ea91f4524b91e3262a107e91`。198/286 已合併（191 完成對應、7 deferred）。
+- [Batch 55｜影片渲染與互動動效](RESOURCE_DUAL_LAYER_BATCH55_20261126.md)：alchaincyf-huashu-motion、hao0321-editkin、lucasmarkes-hairline；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- [Batch 56｜設計驗收、學習管理與架構模擬](RESOURCE_DUAL_LAYER_BATCH56_20261126.md)：nutlope-hallmark、akas333-tysa、minchenlee-loadsketch；3 mapped 候選、9 用途、9 局部能力、3 design-only 案例。
+- 合計 6 mapped 候選、18 用途、18 局部能力、6 design-only 案例；第三方未實測。Editkin 只查公開舊版，不等同新版專有軟體。
+- 合併後預計 204/286（197 完成對應、7 deferred）；82 尚未改寫。先確認四項 CI、合併與 Catalog Sync／Pages，再開始 Batch 57。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 54（2026-11-26）
 
 - PR #103 四項 CI PASS，合併 `fa1e6d05e931928d39e0482a3f3455c0dbd00e62`；main 基線 `2c7bfb838c21f65c9f7165a89317c7c15db3984c`。195/286 已合併（188 完成對應、7 deferred）。

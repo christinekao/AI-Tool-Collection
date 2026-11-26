@@ -2,15 +2,15 @@
   "schemaVersion": 2,
   "status": "active",
   "addedAt": "2026-11-01",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "id": "akas333-tysa",
   "entityType": "resource",
   "title": "TYSA — Teach Yourself Anything 自適應學習 Harness",
   "canonicalName": "TYSA",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "Electron adaptive learning app / agentic teaching harness",
-  "purpose": "先診斷學習者已知與未知的概念，再建立依賴關係學習地圖，逐步教學、檢查理解並修復混淆，最後透過練習與知識圖譜支援跨 Session 學習。",
-  "recommendation": "適合研究個人化 AI 教練與 Communication Gym：參考 Measure → Plan → Teach → Practice、概念依賴圖、使用者推理紀錄、漸進提示與跨 Session 知識圖譜。教學成效未獨立驗證。",
+  "purpose": "依學習者理解程度提供教學輔助；本次查核題庫載入、課程進度彙整及搜尋服務可用性。",
+  "recommendation": "適合自有學習平台的題庫與進度管理；教學有效性須獨立驗收，題目與學習資料須有權使用。",
   "url": "https://github.com/Akas333/TYSA",
   "repo": "Akas333/TYSA",
   "license": "AGPL-3.0",
@@ -64,10 +64,18 @@
       "https://github.com/Akas333/TYSA/blob/main/README.md",
       "https://github.com/Akas333/TYSA/blob/main/skills/axiom-learn/SKILL.md"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official repository README and SKILL.md",
     "readmeUrl": "https://github.com/Akas333/TYSA/blob/main/README.md",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewScope": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "4484105e310d71b061680c34d538b898fa2b756f",
+    "referenceUrls": [
+      "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/README.md",
+      "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/LICENSE",
+      "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/packages/engine/src/server/courses.ts",
+      "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/packages/engine/src/store/question-bank.ts",
+      "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/packages/engine/src/server/search.ts"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -107,40 +115,396 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "AGPL-3.0；題庫與模型授權另查；教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。；README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。；缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。；無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。；指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "先診斷學習者已知與未知的概念，再建立依賴關係學習地圖，逐步教學、檢查理解並修復混淆，最後透過練習與知識圖譜支援跨 Session 學習。",
+      "source": "https://github.com/Akas333/TYSA",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究個人化 AI 教練與 Communication Gym：參考 Measure → Plan → Teach → Practice、概念依賴圖、使用者推理紀錄、漸進提示與跨 Session 知識圖譜。教學成效未獨立驗證。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-course",
+        "title": "彙整概念課程與子課程狀態",
+        "detail": "複合概念的完成度需要反映子課程。 輸出：依教學順序排列的概念與進度。",
+        "capabilityRefs": [
+          "course"
+        ]
+      },
+      {
+        "id": "use-bank",
+        "title": "載入並依來源識別去重題目",
+        "detail": "多個題庫可能包含同一題目。 輸出：依來源識別去重的題庫與可用性。",
+        "capabilityRefs": [
+          "bank"
+        ]
+      },
+      {
+        "id": "use-search",
+        "title": "明確回報搜尋服務是否可用",
+        "detail": "指定服務不可用時不應默默改用其他供應商。 輸出：可用性、選定服務及原因。",
+        "capabilityRefs": [
+          "search"
+        ]
+      }
+    ],
+    "example": {
+      "id": "akas333-tysa-example",
+      "title": "規劃個人學習平台的課程進度與題庫驗收",
+      "input": "合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+      "process": "彙整概念課程與子課程狀態 → 載入並依來源識別去重題目 → 明確回報搜尋服務是否可用 → 獨立驗收實際成果",
+      "output": "課程進度清單、去重題庫及搜尋可用性狀態。",
+      "destination": "自有學習知識庫，經本人覆核及資料授權後整合。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-course",
+        "use-bank",
+        "use-search"
+      ],
+      "steps": [
+        {
+          "id": "course",
+          "title": "彙整概念課程與子課程狀態",
+          "capabilityRefs": [
+            "course"
+          ]
+        },
+        {
+          "id": "bank",
+          "title": "載入並依來源識別去重題目",
+          "capabilityRefs": [
+            "bank"
+          ]
+        },
+        {
+          "id": "search",
+          "title": "明確回報搜尋服務是否可用",
+          "capabilityRefs": [
+            "search"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。",
+      "README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。",
+      "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+      "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+      "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "依學習者理解程度提供教學輔助；本次查核題庫載入、課程進度彙整及搜尋服務可用性。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "AGPL-3.0；題庫與模型授權另查"
+      },
+      {
+        "label": "版本",
+        "value": "4484105e310d71b061680c34d538b898fa2b756f"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "彙整概念課程與子課程狀態",
+        "detail": "複合概念的完成度需要反映子課程。 輸入：課程資料夾識別、概念樹及教學對話；輸出：依教學順序排列的概念與進度",
+        "source": "packages/engine/src/server/courses.ts"
+      },
+      {
+        "title": "載入並依來源識別去重題目",
+        "detail": "多個題庫可能包含同一題目。 輸入：合成 JSONL 題庫檔案；輸出：依來源識別去重的題庫與可用性",
+        "source": "packages/engine/src/store/question-bank.ts"
+      },
+      {
+        "title": "明確回報搜尋服務是否可用",
+        "detail": "指定服務不可用時不應默默改用其他供應商。 輸入：指定搜尋服務與模擬憑證存在狀態；輸出：可用性、選定服務及原因",
+        "source": "packages/engine/src/server/search.ts"
+      }
+    ],
+    "architecture": {
+      "summary": "彙整概念課程與子課程狀態 → 載入並依來源識別去重題目 → 明確回報搜尋服務是否可用 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "彙整概念課程與子課程狀態",
+          "detail": "課程資料夾識別、概念樹及教學對話 → 依教學順序排列的概念與進度",
+          "files": [
+            "packages/engine/src/server/courses.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "載入並依來源識別去重題目",
+          "detail": "合成 JSONL 題庫檔案 → 依來源識別去重的題庫與可用性",
+          "files": [
+            "packages/engine/src/store/question-bank.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "明確回報搜尋服務是否可用",
+          "detail": "指定搜尋服務與模擬憑證存在狀態 → 可用性、選定服務及原因",
+          "files": [
+            "packages/engine/src/server/search.ts",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "彙整概念課程與子課程狀態",
+        "rule": "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+        "source": "packages/engine/src/server/courses.ts"
+      },
+      {
+        "name": "載入並依來源識別去重題目",
+        "rule": "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+        "source": "packages/engine/src/store/question-bank.ts"
+      },
+      {
+        "name": "明確回報搜尋服務是否可用",
+        "rule": "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+        "source": "packages/engine/src/server/search.ts"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "packages/engine/src/server/courses.ts",
+          "packages/engine/src/store/question-bank.ts",
+          "packages/engine/src/server/search.ts"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "packages/engine/src/server/courses.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有學習知識庫，經本人覆核及資料授權後整合。",
+        "file": "packages/engine/src/server/courses.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "course",
+        "name": "彙整概念課程與子課程狀態",
+        "problem": "複合概念的完成度需要反映子課程。",
+        "input": "課程資料夾識別、概念樹及教學對話",
+        "output": "依教學順序排列的概念與進度",
+        "source": "packages/engine/src/server/courses.ts",
+        "sourceFiles": [
+          "packages/engine/src/server/courses.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "courseEntries",
+          "courseOrder",
+          "conceptChatStatus"
+        ],
+        "gate": "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "bank",
+        "name": "載入並依來源識別去重題目",
+        "problem": "多個題庫可能包含同一題目。",
+        "input": "合成 JSONL 題庫檔案",
+        "output": "依來源識別去重的題庫與可用性",
+        "source": "packages/engine/src/store/question-bank.ts",
+        "sourceFiles": [
+          "packages/engine/src/store/question-bank.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "loadQuestionBank",
+          "questionBankAvailable",
+          "bankFiles"
+        ],
+        "gate": "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "search",
+        "name": "明確回報搜尋服務是否可用",
+        "problem": "指定服務不可用時不應默默改用其他供應商。",
+        "input": "指定搜尋服務與模擬憑證存在狀態",
+        "output": "可用性、選定服務及原因",
+        "source": "packages/engine/src/server/search.ts",
+        "sourceFiles": [
+          "packages/engine/src/server/search.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "resolveSearchEngineFor",
+          "searchStatus"
+        ],
+        "gate": "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃個人學習平台的課程進度與題庫驗收（設計示例）",
+      "problem": "合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+      "steps": [
+        {
+          "capability": "course",
+          "action": "彙整概念課程與子課程狀態"
+        },
+        {
+          "capability": "bank",
+          "action": "載入並依來源識別去重題目"
+        },
+        {
+          "capability": "search",
+          "action": "明確回報搜尋服務是否可用"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "akas333-tysa-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "彙整概念課程與子課程狀態 → 載入並依來源識別去重題目 → 明確回報搜尋服務是否可用 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有學習知識庫，經本人覆核及資料授權後整合。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。",
+        "README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。",
+        "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+        "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+        "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。；README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。；缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。；無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。；指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

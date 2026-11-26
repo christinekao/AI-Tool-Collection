@@ -6,14 +6,14 @@
   "canonicalName": "Hairline",
   "category": "08 UI & Design Engineering",
   "resourceType": "MIT-licensed SVG/DOM Interactive Isometric Illustration Library + Two Agent Skills",
-  "purpose": "提供 33 個會回應游標或鍵盤互動的等角線條 SVG 圖形，適用於 React 18+、其他 DOM 前端以及網站 Hero、產品功能展示；統一 API 支援 intensity、theme、label、onRead、play。附兩個獨立的 Agent Skills：建立新圖形（hairline-create）及將現有 SVG 轉譯為相同風格互動圖形（hairline-adopt）。",
-  "recommendation": "適合作為產品首頁與開發者網站互動圖像靈感，或需要可直接嵌入前端、符合 reduced-motion 的視覺展示。若只需現成圖形，直接使用套件；若要重新設計圖形，才評估兩個可執行的 Skill。需自行評估視覺品質、效能、可及性與品牌識別權利。",
+  "purpose": "提供可互動的等角線條 SVG 圖形，並以統一強度參數、動效模型及 React 元件生命週期管理呈現。",
+  "recommendation": "適合產品功能展示與裝飾圖形；仍需可及性、減少動態及實際效能驗收。",
   "url": "https://github.com/lucasmarkes/hairline",
   "repo": "lucasmarkes/hairline",
   "notes": "2026-10-27 官方 README、packages/hairline/package.json、skills/hairline-create/SKILL.md、skills/hairline-adopt/SKILL.md 與 LICENSE 已核對。官方 README 列 33 個互動圖形；套件版本 package.json 為 0.5.1（發布狀態不代表此輪查到 npm 即時更新），ESM only，基礎庫無執行階段依賴；React 18+ 為 optional peer。作者描述互動圖形共享 requestAnimationFrame、在離屏停止、支援 prefers-reduced-motion 與可及性描述；未實際進行瀏覽器測試。官方 Skills 使用 Node、HTML/JavaScript 工具與可選 Playwright-core 檢查；執行前應審查其依賴與檔案寫入，未經授權不要安裝。Root LICENSE 為 MIT；若輸入第三方商標／圖示，產出的改造物仍應自行檢查商標與衍生著作權。此輪僅收錄，未安裝或測試。",
   "status": "active",
   "addedAt": "2026-10-27",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "svg",
     "interactive-illustration",
@@ -67,8 +67,16 @@
     "type": "Official GitHub README, package metadata, two SKILL.md, MIT license",
     "summary": "Reviewed on 2026-10-27; package source and documented behavior examined, not executed.",
     "readmeUrl": "https://github.com/lucasmarkes/hairline/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Official upstream document only; no runtime or security validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "034f4bf9902c6adcf3cf39d82f85e6010cb4e094",
+    "referenceUrls": [
+      "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/README.md",
+      "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/LICENSE",
+      "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/packages/hairline/src/intensity.ts",
+      "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/packages/hairline/src/core/motion.ts",
+      "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/packages/hairline/src/react.tsx"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -105,40 +113,397 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留既有 Primary Domain design，本輪只補足來源支援的使用方法與限制。",
+    "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+    "riskNotes": "MIT；裝飾性圖形不能替代重要資訊文字；過多動態效果可能影響裝置效能及可及性；非法數值回到預設；映射依各圖形設定，不代表感知強度一致。；減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。；依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+      "evidence": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "提供 33 個會回應游標或鍵盤互動的等角線條 SVG 圖形，適用於 React 18+、其他 DOM 前端以及網站 Hero、產品功能展示；統一 API 支援 intensity、theme、label、onRead、play。附兩個獨立的 Agent Skills：建立新圖形（hairline-create）及將現有 SVG 轉譯為相同風格互動圖形（hairline-adopt）。",
+      "source": "https://github.com/lucasmarkes/hairline",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合作為產品首頁與開發者網站互動圖像靈感，或需要可直接嵌入前端、符合 reduced-motion 的視覺展示。若只需現成圖形，直接使用套件；若要重新設計圖形，才評估兩個可執行的 Skill。需自行評估視覺品質、效能、可及性與品牌識別權利。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-intensity",
+        "title": "統一不同圖形的互動強度",
+        "detail": "不同動效的底層單位不同。 輸出：限制於範圍內並映射的圖形參數。",
+        "capabilityRefs": [
+          "intensity"
+        ]
+      },
+      {
+        "id": "use-motion",
+        "title": "依互動類型更新動效",
+        "detail": "連續輸入與離散狀態變化需要不同時間模型。 輸出：更新後的彈簧或補間狀態。",
+        "capabilityRefs": [
+          "motion"
+        ]
+      },
+      {
+        "id": "use-react",
+        "title": "管理互動圖形元件生命週期",
+        "detail": "參數改變不應不必要地重新建立圖形。 輸出：掛載的圖形及卸載清理行為。",
+        "capabilityRefs": [
+          "react"
+        ]
+      }
+    ],
+    "example": {
+      "id": "lucasmarkes-hairline-example",
+      "title": "規劃互動線條圖形的參數與動效驗收",
+      "input": "合成產品頁面、互動強度及減少動態設定。",
+      "process": "統一不同圖形的互動強度 → 依互動類型更新動效 → 管理互動圖形元件生命週期 → 獨立驗收實際成果",
+      "output": "強度映射、動畫狀態與元件更新驗收規格。",
+      "destination": "自有前端展示頁面，保留重要資訊的文字替代。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-intensity",
+        "use-motion",
+        "use-react"
+      ],
+      "steps": [
+        {
+          "id": "intensity",
+          "title": "統一不同圖形的互動強度",
+          "capabilityRefs": [
+            "intensity"
+          ]
+        },
+        {
+          "id": "motion",
+          "title": "依互動類型更新動效",
+          "capabilityRefs": [
+            "motion"
+          ]
+        },
+        {
+          "id": "react",
+          "title": "管理互動圖形元件生命週期",
+          "capabilityRefs": [
+            "react"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成產品頁面、互動強度及減少動態設定。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "裝飾性圖形不能替代重要資訊文字",
+      "過多動態效果可能影響裝置效能及可及性",
+      "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+      "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+      "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "提供可互動的等角線條 SVG 圖形，並以統一強度參數、動效模型及 React 元件生命週期管理呈現。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT"
+      },
+      {
+        "label": "版本",
+        "value": "034f4bf9902c6adcf3cf39d82f85e6010cb4e094"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "統一不同圖形的互動強度",
+        "detail": "不同動效的底層單位不同。 輸入：圖形識別與強度輸入；輸出：限制於範圍內並映射的圖形參數",
+        "source": "packages/hairline/src/intensity.ts"
+      },
+      {
+        "title": "依互動類型更新動效",
+        "detail": "連續輸入與離散狀態變化需要不同時間模型。 輸入：目標狀態、時間步長與減少動態設定；輸出：更新後的彈簧或補間狀態",
+        "source": "packages/hairline/src/core/motion.ts"
+      },
+      {
+        "title": "管理互動圖形元件生命週期",
+        "detail": "參數改變不應不必要地重新建立圖形。 輸入：React 元件、圖形掛載函式及參數；輸出：掛載的圖形及卸載清理行為",
+        "source": "packages/hairline/src/react.tsx"
+      }
+    ],
+    "architecture": {
+      "summary": "統一不同圖形的互動強度 → 依互動類型更新動效 → 管理互動圖形元件生命週期 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "統一不同圖形的互動強度",
+          "detail": "圖形識別與強度輸入 → 限制於範圍內並映射的圖形參數",
+          "files": [
+            "packages/hairline/src/intensity.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "依互動類型更新動效",
+          "detail": "目標狀態、時間步長與減少動態設定 → 更新後的彈簧或補間狀態",
+          "files": [
+            "packages/hairline/src/core/motion.ts",
+            "README.md"
+          ]
+        },
+        {
+          "title": "管理互動圖形元件生命週期",
+          "detail": "React 元件、圖形掛載函式及參數 → 掛載的圖形及卸載清理行為",
+          "files": [
+            "packages/hairline/src/react.tsx",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "統一不同圖形的互動強度",
+        "rule": "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+        "source": "packages/hairline/src/intensity.ts"
+      },
+      {
+        "name": "依互動類型更新動效",
+        "rule": "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+        "source": "packages/hairline/src/core/motion.ts"
+      },
+      {
+        "name": "管理互動圖形元件生命週期",
+        "rule": "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+        "source": "packages/hairline/src/react.tsx"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "packages/hairline/src/intensity.ts",
+          "packages/hairline/src/core/motion.ts",
+          "packages/hairline/src/react.tsx"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成產品頁面、互動強度及減少動態設定。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "packages/hairline/src/intensity.ts"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有前端展示頁面，保留重要資訊的文字替代。",
+        "file": "packages/hairline/src/intensity.ts"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "intensity",
+        "name": "統一不同圖形的互動強度",
+        "problem": "不同動效的底層單位不同。",
+        "input": "圖形識別與強度輸入",
+        "output": "限制於範圍內並映射的圖形參數",
+        "source": "packages/hairline/src/intensity.ts",
+        "sourceFiles": [
+          "packages/hairline/src/intensity.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "intensity",
+          "parameter",
+          "TABLE"
+        ],
+        "gate": "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "motion",
+        "name": "依互動類型更新動效",
+        "problem": "連續輸入與離散狀態變化需要不同時間模型。",
+        "input": "目標狀態、時間步長與減少動態設定",
+        "output": "更新後的彈簧或補間狀態",
+        "source": "packages/hairline/src/core/motion.ts",
+        "sourceFiles": [
+          "packages/hairline/src/core/motion.ts",
+          "README.md"
+        ],
+        "symbols": [
+          "spring",
+          "stepS",
+          "setReducedMotion",
+          "tween"
+        ],
+        "gate": "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "react",
+        "name": "管理互動圖形元件生命週期",
+        "problem": "參數改變不應不必要地重新建立圖形。",
+        "input": "React 元件、圖形掛載函式及參數",
+        "output": "掛載的圖形及卸載清理行為",
+        "source": "packages/hairline/src/react.tsx",
+        "sourceFiles": [
+          "packages/hairline/src/react.tsx",
+          "README.md"
+        ],
+        "symbols": [
+          "make",
+          "useIsoLayoutEffect"
+        ],
+        "gate": "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃互動線條圖形的參數與動效驗收（設計示例）",
+      "problem": "合成產品頁面、互動強度及減少動態設定。",
+      "steps": [
+        {
+          "capability": "intensity",
+          "action": "統一不同圖形的互動強度"
+        },
+        {
+          "capability": "motion",
+          "action": "依互動類型更新動效"
+        },
+        {
+          "capability": "react",
+          "action": "管理互動圖形元件生命週期"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "lucasmarkes-hairline-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成產品頁面、互動強度及減少動態設定。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "統一不同圖形的互動強度 → 依互動類型更新動效 → 管理互動圖形元件生命週期 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有前端展示頁面，保留重要資訊的文字替代。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "裝飾性圖形不能替代重要資訊文字",
+        "過多動態效果可能影響裝置效能及可及性",
+        "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+        "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+        "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "裝飾性圖形不能替代重要資訊文字；過多動態效果可能影響裝置效能及可及性；非法數值回到預設；映射依各圖形設定，不代表感知強度一致。；減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。；依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

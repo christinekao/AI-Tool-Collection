@@ -680,7 +680,13 @@ try{
   ["wquguru-cicada",".resource-reader-guide","規劃已授權會議紀錄的搜尋與私人知識庫匯出"],
   ["guizang-product-video-skill",".resource-reader-guide","規劃自有產品更新影片的影音同步與交付驗收"],
   ["zhouxiaoka-autoclip",".resource-reader-guide","規劃短影音生成工作的逾時取消與日誌安全驗收"],
-  ["juneyaooo-rea-video",".resource-reader-guide","規劃自有影片的素材分析與原創分鏡製作規格"]
+  ["juneyaooo-rea-video",".resource-reader-guide","規劃自有影片的素材分析與原創分鏡製作規格"],
+  ["alchaincyf-huashu-motion",".resource-reader-guide","規劃程式動效影片的渲染與品質檢查"],
+  ["hao0321-editkin",".resource-reader-guide","規劃剪輯渲染圖與色彩處理的契約驗收"],
+  ["lucasmarkes-hairline",".resource-reader-guide","規劃互動線條圖形的參數與動效驗收"],
+  ["nutlope-hallmark",".resource-reader-guide","規劃前端設計主題選擇與規則檢查驗收"],
+  ["akas333-tysa",".resource-reader-guide","規劃個人學習平台的課程進度與題庫驗收"],
+  ["minchenlee-loadsketch",".resource-reader-guide","規劃架構模擬的公平比較與延遲驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

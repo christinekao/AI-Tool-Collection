@@ -1856,6 +1856,60 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  55,
+  "影片渲染與互動動效",
+  [
+    [
+      "alchaincyf-huashu-motion",
+      "規劃程式動效影片的渲染與品質檢查",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "hao0321-editkin",
+      "規劃剪輯渲染圖與色彩處理的契約驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "lucasmarkes-hairline",
+      "規劃互動線條圖形的參數與動效驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
+],
+  [
+  56,
+  "設計驗收、學習管理與架構模擬",
+  [
+    [
+      "nutlope-hallmark",
+      "規劃前端設計主題選擇與規則檢查驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "akas333-tysa",
+      "規劃個人學習平台的課程進度與題庫驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "minchenlee-loadsketch",
+      "規劃架構模擬的公平比較與延遲驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
