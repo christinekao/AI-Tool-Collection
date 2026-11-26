@@ -1,3 +1,14 @@
+# Resource 最新交接｜雙層知識 Batch 67–69（2026-11-26）
+
+- PR #108 修正後四項 CI PASS，合併 `6c6e4fa8b0e798f2002e604618e766bd55a0e46e`，234/286（227 對應、7 deferred）。main 基線 `7e5699c8d91ebd8ef80f9ebf714896d7edc4a62f`。
+- [Batch 67｜生活紀錄、設計方向與色彩知識](RESOURCE_DUAL_LAYER_BATCH67_20261126.md)：acheaisuiyimen-ache-life-to-comic-skill、alchaincy-huashu-design、ayueh0102-ronnier-skill；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 68｜內容研究、簡報與企業整合](RESOURCE_DUAL_LAYER_BATCH68_20261126.md)：blogger-distiller、bobyu89-codex-ppt-style-expanded、ecpay-ecpay-api-skill；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- [Batch 69｜影音生成、封面與媒體契約](RESOURCE_DUAL_LAYER_BATCH69_20261126.md)：gbro-collage-broll、gbro-cover-design、hkuds-vimax；3 筆、9 用途、9 局部證據、3 design-only 案例。
+- 新增 9 筆（5 mapped、4 evidence-linked）；27 用途、27 局部證據、9 design-only 案例。ECPay 有限授權，Ache 非商業，Ronnier 未見根授權檔；僅研究及自行撰寫契約，未重製或實測第三方項目。
+- 合併後預計 243/286（236 對應、7 deferred），43 尚未改寫。先確認四項 CI 與合併；Batch 70–76 尚未提交。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 63–66（2026-11-26）
 
 - PR #105 已合併，204/286。PR #106 四項 CI PASS 且合併 `04dd94a40e5cb1d4f749f94258173338cdd6df78`，213/286。PR #107 四項 CI PASS 且合併 `5c14bbc3e4330050dff5acbb216454314bf1a263`，222/286。PR #108 首次 Intake Gate 發現 3 筆欄位問題：兩筆原限制描述不足 12 字、一筆文件子技能 repo 原本空白。修正 Reader Guide 限制描述及實際來源證據欄位，維持原始資料與驗收規則；待新提交四項 CI。

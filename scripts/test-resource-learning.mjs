@@ -2180,6 +2180,87 @@ for(const [batch,topic,rows] of [
       "repository"
     ]
   ]
+],
+  [
+  67,
+  "生活紀錄、設計方向與色彩知識",
+  [
+    [
+      "acheaisuiyimen-ache-life-to-comic-skill",
+      "規劃非商業生活漫畫手帳的素材與原文保真驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "alchaincy-huashu-design",
+      "規劃自有前端原型的設計方向與畫面驗收",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "ayueh0102-ronnier-skill",
+      "規劃色彩科學學習筆記的名詞與證據核對",
+      2,
+      "evidence-linked",
+      "documentation"
+    ]
+  ]
+],
+  [
+  68,
+  "內容研究、簡報與企業整合",
+  [
+    [
+      "blogger-distiller",
+      "規劃內容研究資料的隱私與品質驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "bobyu89-codex-ppt-style-expanded",
+      "規劃可編輯技術簡報的風格與版面驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "ecpay-ecpay-api-skill",
+      "規劃企業金流與發票整合的測試驗收清單",
+      2,
+      "evidence-linked",
+      "documentation"
+    ]
+  ]
+],
+  [
+  69,
+  "影音生成、封面與媒體契約",
+  [
+    [
+      "gbro-collage-broll",
+      "規劃自有教學短片的首尾影格生成驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "gbro-cover-design",
+      "規劃文章封面提示詞與素材權利驗收",
+      2,
+      "evidence-linked",
+      "documentation"
+    ],
+    [
+      "hkuds-vimax",
+      "規劃影片生成後端的圖片格式與配置驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
+  ]
 ]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{

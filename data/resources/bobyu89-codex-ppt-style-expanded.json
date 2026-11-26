@@ -6,14 +6,14 @@
   "canonicalName": "bobyu89/codex-ppt-style-expanded",
   "category": "09 Content & Artifact Generation",
   "resourceType": "Artifact Skill",
-  "purpose": "SlideWeave 是面向 Codex 的簡報製作 Skill，從受眾與內容敘事開始，選擇風格範例後產出原生文字可編輯的 PowerPoint，並支援流程圖、研究與教學呈現。",
-  "recommendation": "適合將研究、提案或技術交接材料轉成有證據的可編輯簡報；先確定受眾、主張、素材與風格，再驗收文字是否可編輯、流程圖是否正確及 PPTX 實際顯示。",
+  "purpose": "SlideWeave 簡報製作工具的離線風格檢索、版面座標驗證與原生可編輯物件組裝。",
+  "recommendation": "適合研究可編輯技術簡報的風格與版面驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/bobyu89/codex-ppt-style-expanded",
   "repo": "bobyu89/codex-ppt-style-expanded",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-26",
   "tags": [
     "codex",
     "presentations",
@@ -64,48 +64,408 @@
   "source": {
     "url": "https://github.com/bobyu89/codex-ppt-style-expanded",
     "readmeUrl": "https://github.com/bobyu89/codex-ppt-style-expanded/blob/main/README.md",
-    "reviewedAt": "2026-11-20",
-    "reviewScope": "Documentation-level review; existing deeper source code review retained as previously described; no new third-party runtime/security testing",
-    "type": "Official upstream README"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。",
+    "type": "Official upstream README",
+    "upstreamCommit": "8d759f5287e631623d6a9c86b2fee218a28804af",
+    "referenceUrls": [
+      "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/README.md",
+      "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/LICENSE",
+      "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/skills/codex-ppt-style-expanded/scripts/search_styles.py",
+      "https://github.com/bobyu89/codex-ppt-style-expanded/blob/8d759f5287e631623d6a9c86b2fee218a28804af/skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls",
+      "source.upstreamCommit",
+      "repo"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "依 Canonical ID、名稱與官方來源比對，本批只補足既有紀錄內容，不新增實體。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原始未映射 Tags，不變更分類與標籤詞彙。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "保留目前 Primary Domain、Category、Tags 與 Typed References，僅更新來源形式及實用內容。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只讀官方 README，缺少逐檔實作與可重建執行契約，不宣稱完整 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "尚無足以正式組裝的版本化 I/O 契約，本批不建立 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "現有 Concept 引用保留，不依新描述產生新 Graph 關聯。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。；使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。；沒有執行第三方程式或觸及帳號憑證。",
+    "riskNotes": "MIT；第三方範例與素材另查；圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。；使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。；關鍵字匹配非語意最佳化；第三方模板授權須另查。；座標合法不代表沒有文字溢位或重疊；須實際渲染。；僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只檢視官方文件／README；先前如有原始碼檢視另依原記錄；無本次安裝、Runtime、Integration、Security 實測。"
+      "evidence": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "SlideWeave 是面向 Codex 的簡報製作 Skill，從受眾與內容敘事開始，選擇風格範例後產出原生文字可編輯的 PowerPoint，並支援流程圖、研究與教學呈現。",
+      "source": "https://github.com/bobyu89/codex-ppt-style-expanded",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合將研究、提案或技術交接材料轉成有證據的可編輯簡報；先確定受眾、主張、素材與風格，再驗收文字是否可編輯、流程圖是否正確及 PPTX 實際顯示。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-search",
+        "title": "離線檢索風格與模板",
+        "detail": "風格候選應有穩定識別與來源。 輸出：依關鍵字排序的候選。",
+        "capabilityRefs": [
+          "search"
+        ]
+      },
+      {
+        "id": "use-geometry",
+        "title": "檢查投影片版面座標",
+        "detail": "物件越界或比例不一致會破壞簡報。 輸出：轉換後座標或越界錯誤。",
+        "capabilityRefs": [
+          "geometry"
+        ]
+      },
+      {
+        "id": "use-assemble",
+        "title": "區分原生文字與生成背景",
+        "detail": "交付簡報應保有後續編輯能力。 輸出：原生物件與背景組裝規格。",
+        "capabilityRefs": [
+          "assemble"
+        ]
+      }
+    ],
+    "example": {
+      "id": "bobyu89-codex-ppt-style-expanded-example",
+      "title": "規劃可編輯技術簡報的風格與版面驗收",
+      "input": "自編技術簡報內容、樣式資料及授權圖片",
+      "process": "離線檢索風格與模板 → 檢查投影片版面座標 → 區分原生文字與生成背景 → 獨立驗收實際成果",
+      "output": "風格候選、版面錯誤及可編輯簡報規格",
+      "destination": "自有技術交接簡報工作區，經資料權利及人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-search",
+        "use-geometry",
+        "use-assemble"
+      ],
+      "steps": [
+        {
+          "id": "search",
+          "title": "離線檢索風格與模板",
+          "capabilityRefs": [
+            "search"
+          ]
+        },
+        {
+          "id": "geometry",
+          "title": "檢查投影片版面座標",
+          "capabilityRefs": [
+            "geometry"
+          ]
+        },
+        {
+          "id": "assemble",
+          "title": "區分原生文字與生成背景",
+          "capabilityRefs": [
+            "assemble"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自編技術簡報內容、樣式資料及授權圖片。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。",
+      "使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。",
+      "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+      "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+      "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "SlideWeave 簡報製作工具的離線風格檢索、版面座標驗證與原生可編輯物件組裝。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；第三方範例與素材另查"
+      },
+      {
+        "label": "版本",
+        "value": "8d759f5287e631623d6a9c86b2fee218a28804af"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "離線檢索風格與模板",
+        "detail": "風格候選應有穩定識別與來源。 輸入：關鍵字、風格 JSON 及模板索引；輸出：依關鍵字排序的候選",
+        "source": "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+      },
+      {
+        "title": "檢查投影片版面座標",
+        "detail": "物件越界或比例不一致會破壞簡報。 輸入：正規化座標與投影片尺寸；輸出：轉換後座標或越界錯誤",
+        "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+      },
+      {
+        "title": "區分原生文字與生成背景",
+        "detail": "交付簡報應保有後續編輯能力。 輸入：簡報 JSON、正尺寸及素材路徑；輸出：原生物件與背景組裝規格",
+        "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+      }
+    ],
+    "architecture": {
+      "summary": "離線檢索風格與模板 → 檢查投影片版面座標 → 區分原生文字與生成背景 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "離線檢索風格與模板",
+          "detail": "關鍵字、風格 JSON 及模板索引 → 依關鍵字排序的候選",
+          "files": [
+            "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "檢查投影片版面座標",
+          "detail": "正規化座標與投影片尺寸 → 轉換後座標或越界錯誤",
+          "files": [
+            "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "區分原生文字與生成背景",
+          "detail": "簡報 JSON、正尺寸及素材路徑 → 原生物件與背景組裝規格",
+          "files": [
+            "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "離線檢索風格與模板",
+        "rule": "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+        "source": "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+      },
+      {
+        "name": "檢查投影片版面座標",
+        "rule": "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+        "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+      },
+      {
+        "name": "區分原生文字與生成背景",
+        "rule": "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+        "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+          "skills/codex-ppt-style-expanded/scripts/assemble_editable.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自編技術簡報內容、樣式資料及授權圖片。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有技術交接簡報工作區，經資料權利及人工覆核後使用。",
+        "file": "skills/codex-ppt-style-expanded/scripts/search_styles.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "search",
+        "name": "離線檢索風格與模板",
+        "problem": "風格候選應有穩定識別與來源。",
+        "input": "關鍵字、風格 JSON 及模板索引",
+        "output": "依關鍵字排序的候選",
+        "source": "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+        "sourceFiles": [
+          "skills/codex-ppt-style-expanded/scripts/search_styles.py",
+          "README.md"
+        ],
+        "symbols": [
+          "records",
+          "main"
+        ],
+        "gate": "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "geometry",
+        "name": "檢查投影片版面座標",
+        "problem": "物件越界或比例不一致會破壞簡報。",
+        "input": "正規化座標與投影片尺寸",
+        "output": "轉換後座標或越界錯誤",
+        "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+        "sourceFiles": [
+          "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+          "README.md"
+        ],
+        "symbols": [
+          "box_coords",
+          "add_picture"
+        ],
+        "gate": "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "assemble",
+        "name": "區分原生文字與生成背景",
+        "problem": "交付簡報應保有後續編輯能力。",
+        "input": "簡報 JSON、正尺寸及素材路徑",
+        "output": "原生物件與背景組裝規格",
+        "source": "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+        "sourceFiles": [
+          "skills/codex-ppt-style-expanded/scripts/assemble_editable.py",
+          "README.md"
+        ],
+        "symbols": [
+          "assemble",
+          "add_picture"
+        ],
+        "gate": "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃可編輯技術簡報的風格與版面驗收（設計示例）",
+      "problem": "自編技術簡報內容、樣式資料及授權圖片",
+      "steps": [
+        {
+          "capability": "search",
+          "action": "離線檢索風格與模板"
+        },
+        {
+          "capability": "geometry",
+          "action": "檢查投影片版面座標"
+        },
+        {
+          "capability": "assemble",
+          "action": "區分原生文字與生成背景"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "bobyu89-codex-ppt-style-expanded-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自編技術簡報內容、樣式資料及授權圖片",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "離線檢索風格與模板 → 檢查投影片版面座標 → 區分原生文字與生成背景 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有技術交接簡報工作區，經資料權利及人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。",
+        "使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。",
+        "關鍵字匹配非語意最佳化；第三方模板授權須另查。",
+        "座標合法不代表沒有文字溢位或重疊；須實際渲染。",
+        "僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "圖片生成的背景與插畫未必可拆成 PowerPoint 原生圖形，必須逐張檢查可編輯性。；使用 AI 圖像可能涉及額外模型費用、素材授權與資訊正確性，不應直接用於未核對的正式報告。；關鍵字匹配非語意最佳化；第三方模板授權須另查。；座標合法不代表沒有文字溢位或重疊；須實際渲染。；僅局部組裝契約；未建立檔案或確認 PowerPoint 播放。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、skills/codex-ppt-style-expanded/scripts/search_styles.py、skills/codex-ppt-style-expanded/scripts/assemble_editable.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

@@ -6,14 +6,14 @@
   "canonicalName": "acheAIsuiyimen/ache-life-to-comic-skill",
   "category": "04 Knowledge & Memory",
   "resourceType": "Persistent Content Skill",
-  "purpose": "把持續提供的日常文字、照片、會議筆記與長文整理成可續寫的月份漫畫手帳，保存原始內容並產出分頁、封面及可分享的閱讀成果。",
-  "recommendation": "適合用圖像敘事保存生活或知識素材；先以非敏感內容試跑，確認月冊資料、來源保存與輸出方式，再決定是否納入個人知識庫。",
+  "purpose": "將生活紀錄組織為漫畫手帳；本次聚焦有界上下文、圖片素材契約及原始照片驗收。",
+  "recommendation": "適合研究非商業生活漫畫手帳的素材與原文保真驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill",
   "repo": "acheAIsuiyimen/ache-life-to-comic-skill",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-26",
   "tags": [
     "knowledge",
     "provenance",
@@ -73,48 +73,413 @@
   "source": {
     "url": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill",
     "readmeUrl": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/main/README.md",
-    "reviewedAt": "2026-11-20",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README / documentation",
-    "reviewScope": "Documentation-level only; no installation, execution or security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "bcc35f487a838cf8d86e6a2624553a1c1a59029e",
+    "referenceUrls": [
+      "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/README.md",
+      "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/LICENSE",
+      "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/scripts/context-pack.mjs",
+      "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/scripts/asset-contract.mjs",
+      "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill/blob/bcc35f487a838cf8d86e6a2624553a1c1a59029e/scripts/validate-entry.mjs"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
       "url",
-      "source.url"
+      "source.url",
+      "source.referenceUrls",
+      "source.upstreamCommit",
+      "repo"
     ],
-    "sourceCheckedAt": "2026-11-20",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "本批只更新既有 Canonical ID；以官方 Repository 核對名稱與上游，不新建 Entity。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始 Tags、分類與 Typed References 完全保留，不新增詞彙。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain 與 Category；只補內容和已核對來源形式。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅閱讀官方 README；尚未逐檔追蹤實作、驗證 I/O 契約或完成 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "僅查核文件，未驗證可供組裝的版本化 Input/Output，因此不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留既有 Concept 引用，不由描述自動新增 Graph 連結。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。；日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。；未執行第三方程式、未取用憑證。",
+    "riskNotes": "PolyForm Noncommercial 1.0.0；素材授權另查；排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。；日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。；字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。；只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。；雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 文件已閱讀；Build／Runtime／Security／Integration 尚未實測。"
+      "evidence": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "把持續提供的日常文字、照片、會議筆記與長文整理成可續寫的月份漫畫手帳，保存原始內容並產出分頁、封面及可分享的閱讀成果。",
+      "source": "https://github.com/acheAIsuiyimen/ache-life-to-comic-skill",
+      "reviewedAt": "2026-11-20"
+    },
+    "priorRecommendationSnapshot": "適合用圖像敘事保存生活或知識素材；先以非敏感內容試跑，確認月冊資料、來源保存與輸出方式，再決定是否納入個人知識庫。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-context",
+        "title": "限制手帳上下文讀取",
+        "detail": "歷史紀錄不宜全部送入模型。 輸出：有界上下文與省略紀錄。",
+        "capabilityRefs": [
+          "context"
+        ]
+      },
+      {
+        "id": "use-assets",
+        "title": "定義圖片角色及尺寸契約",
+        "detail": "封面、原始照片及裝飾圖片的用途不同。 輸出：圖片尺寸與素材格式檢查規格。",
+        "capabilityRefs": [
+          "assets"
+        ]
+      },
+      {
+        "id": "use-preserve",
+        "title": "比對原始照片與保留版本",
+        "detail": "手帳編排不應默默替換原始照片。 輸出：數量、雜湊與封面差異檢查。",
+        "capabilityRefs": [
+          "preserve"
+        ]
+      }
+    ],
+    "example": {
+      "id": "acheaisuiyimen-ache-life-to-comic-skill-example",
+      "title": "規劃非商業生活漫畫手帳的素材與原文保真驗收",
+      "input": "自有合成紀錄、測試照片與封面資料",
+      "process": "限制手帳上下文讀取 → 定義圖片角色及尺寸契約 → 比對原始照片與保留版本 → 獨立驗收實際成果",
+      "output": "上下文包、素材檢查及照片一致性紀錄",
+      "destination": "非商業個人手帳測試區，經資料權利及人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-context",
+        "use-assets",
+        "use-preserve"
+      ],
+      "steps": [
+        {
+          "id": "context",
+          "title": "限制手帳上下文讀取",
+          "capabilityRefs": [
+            "context"
+          ]
+        },
+        {
+          "id": "assets",
+          "title": "定義圖片角色及尺寸契約",
+          "capabilityRefs": [
+            "assets"
+          ]
+        },
+        {
+          "id": "preserve",
+          "title": "比對原始照片與保留版本",
+          "capabilityRefs": [
+            "preserve"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有合成紀錄、測試照片與封面資料。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。",
+      "日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。",
+      "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+      "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+      "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "將生活紀錄組織為漫畫手帳；本次聚焦有界上下文、圖片素材契約及原始照片驗收。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "PolyForm Noncommercial 1.0.0；素材授權另查"
+      },
+      {
+        "label": "版本",
+        "value": "bcc35f487a838cf8d86e6a2624553a1c1a59029e"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "限制手帳上下文讀取",
+        "detail": "歷史紀錄不宜全部送入模型。 輸入：合成摘要、置頂及待辦紀錄；輸出：有界上下文與省略紀錄",
+        "source": "scripts/context-pack.mjs"
+      },
+      {
+        "title": "定義圖片角色及尺寸契約",
+        "detail": "封面、原始照片及裝飾圖片的用途不同。 輸入：合成圖片檔及素材角色；輸出：圖片尺寸與素材格式檢查規格",
+        "source": "scripts/asset-contract.mjs"
+      },
+      {
+        "title": "比對原始照片與保留版本",
+        "detail": "手帳編排不應默默替換原始照片。 輸入：自有測試照片及封面檔案；輸出：數量、雜湊與封面差異檢查",
+        "source": "scripts/validate-entry.mjs"
+      }
+    ],
+    "architecture": {
+      "summary": "限制手帳上下文讀取 → 定義圖片角色及尺寸契約 → 比對原始照片與保留版本 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "限制手帳上下文讀取",
+          "detail": "合成摘要、置頂及待辦紀錄 → 有界上下文與省略紀錄",
+          "files": [
+            "scripts/context-pack.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "定義圖片角色及尺寸契約",
+          "detail": "合成圖片檔及素材角色 → 圖片尺寸與素材格式檢查規格",
+          "files": [
+            "scripts/asset-contract.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "比對原始照片與保留版本",
+          "detail": "自有測試照片及封面檔案 → 數量、雜湊與封面差異檢查",
+          "files": [
+            "scripts/validate-entry.mjs",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "限制手帳上下文讀取",
+        "rule": "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+        "source": "scripts/context-pack.mjs"
+      },
+      {
+        "name": "定義圖片角色及尺寸契約",
+        "rule": "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+        "source": "scripts/asset-contract.mjs"
+      },
+      {
+        "name": "比對原始照片與保留版本",
+        "rule": "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+        "source": "scripts/validate-entry.mjs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "scripts/context-pack.mjs",
+          "scripts/asset-contract.mjs",
+          "scripts/validate-entry.mjs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有合成紀錄、測試照片與封面資料。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "scripts/context-pack.mjs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "非商業個人手帳測試區，經資料權利及人工覆核後使用。",
+        "file": "scripts/context-pack.mjs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "context",
+        "name": "限制手帳上下文讀取",
+        "problem": "歷史紀錄不宜全部送入模型。",
+        "input": "合成摘要、置頂及待辦紀錄",
+        "output": "有界上下文與省略紀錄",
+        "source": "scripts/context-pack.mjs",
+        "sourceFiles": [
+          "scripts/context-pack.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "buildContextPack",
+          "appendBounded",
+          "DEFAULT_LIMITS"
+        ],
+        "gate": "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "assets",
+        "name": "定義圖片角色及尺寸契約",
+        "problem": "封面、原始照片及裝飾圖片的用途不同。",
+        "input": "合成圖片檔及素材角色",
+        "output": "圖片尺寸與素材格式檢查規格",
+        "source": "scripts/asset-contract.mjs",
+        "sourceFiles": [
+          "scripts/asset-contract.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "pngSize",
+          "jpegSize",
+          "svgSize",
+          "ASSET_CONTRACT_VERSION"
+        ],
+        "gate": "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "preserve",
+        "name": "比對原始照片與保留版本",
+        "problem": "手帳編排不應默默替換原始照片。",
+        "input": "自有測試照片及封面檔案",
+        "output": "數量、雜湊與封面差異檢查",
+        "source": "scripts/validate-entry.mjs",
+        "sourceFiles": [
+          "scripts/validate-entry.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "validateEntry",
+          "hashFile"
+        ],
+        "gate": "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃非商業生活漫畫手帳的素材與原文保真驗收（設計示例）",
+      "problem": "自有合成紀錄、測試照片與封面資料",
+      "steps": [
+        {
+          "capability": "context",
+          "action": "限制手帳上下文讀取"
+        },
+        {
+          "capability": "assets",
+          "action": "定義圖片角色及尺寸契約"
+        },
+        {
+          "capability": "preserve",
+          "action": "比對原始照片與保留版本"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "acheaisuiyimen-ache-life-to-comic-skill-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有合成紀錄、測試照片與封面資料",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "限制手帳上下文讀取 → 定義圖片角色及尺寸契約 → 比對原始照片與保留版本 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "非商業個人手帳測試區，經資料權利及人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。",
+        "日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。",
+        "字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。",
+        "只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。",
+        "雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "排版、角色一致性、原文完整性與輸出品質仍需逐頁人工檢查。；日記、照片與會議紀錄可能涉及個資或公司資料，不應在未審核權限下交給外部模型處理。；字元預算不是模型 Token 保證，也不是隱私遮蔽；須核准外送資料。；只查圖片尺寸辨識與角色常數，不宣稱安全解析所有檔案；未實際產生圖像。；雜湊相同是位元一致，不等於內容適合公開；素材權利另核對。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、scripts/context-pack.mjs、scripts/asset-contract.mjs、scripts/validate-entry.mjs 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
