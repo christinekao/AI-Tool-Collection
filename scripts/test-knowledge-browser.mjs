@@ -725,7 +725,16 @@ try{
   ["ecpay-ecpay-api-skill",".resource-reader-guide","規劃企業金流與發票整合的測試驗收清單"],
   ["gbro-collage-broll",".resource-reader-guide","規劃自有教學短片的首尾影格生成驗收"],
   ["gbro-cover-design",".resource-reader-guide","規劃文章封面提示詞與素材權利驗收"],
-  ["hkuds-vimax",".resource-reader-guide","規劃影片生成後端的圖片格式與配置驗收"]
+  ["hkuds-vimax",".resource-reader-guide","規劃影片生成後端的圖片格式與配置驗收"],
+  ["irons163-three-tier-agent-orchestrator",".resource-reader-guide","規劃自有 AI Cowork 的委派與獨立驗收"],
+  ["laya",".resource-reader-guide","規劃本機分類器的輸入契約與信心驗收"],
+  ["cyyeh-agent-loop-visualizer",".resource-reader-guide","規劃 Agent 迴圈教學的事件與狀態驗收"],
+  ["openchatx",".resource-reader-guide","規劃本機 Agent 的 Session 隔離與資源計量驗收"],
+  ["rankupgames-spectra",".resource-reader-guide","規劃本機程式碼索引的增量證據與同步驗收"],
+  ["strelov1-freehire",".resource-reader-guide","規劃自有職缺追蹤系統的搜尋與資料正規化"],
+  ["citypulso-pulsoicon",".resource-reader-guide","規劃動態圖示的播放狀態與無障礙驗收"],
+  ["punk-skill",".resource-reader-guide","規劃非商業視覺提示詞庫的規格驗收"],
+  ["openmontage",".resource-reader-guide","規劃影音工作流的產物與付費請求驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

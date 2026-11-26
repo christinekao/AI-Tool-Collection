@@ -6,14 +6,14 @@
   "canonicalName": "Punk-skill",
   "category": "09 Content & Artifact Generation",
   "resourceType": "Content Skill",
-  "purpose": "Punk Skill 是 Agent 視覺生成 Skills 合集，涵蓋文章／社群封面、人物與寵物頭像，以及個人品牌影片封面。上游原 Punk-Skill 網址目前對應 adrianpunk/Punk-Posters；不同 Skill 有獨立流程與輸入需求。",
-  "recommendation": "適合把文章內容轉成社群視覺素材。",
+  "purpose": "視覺生成 Skill 的靜態封面與頭像契約檢查，並區分平台要求及模型生成比例。",
+  "recommendation": "適合研究非商業視覺提示詞庫的規格驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/adrianpunk/Punk-Posters",
   "repo": "adrianpunk/Punk-Posters",
   "notes": "Batch 14 身分查核（2026-11-21）：原 adrianpunk/Punk-Skill Repo 已指向目前 Punk-Posters；官方說明涵蓋 punk-cover、punk-avatar、punk-ip-video-cover，商用授權有明確限制。\n安全／使用範圍：商用需額外書面授權；不能以開源形式誤判免費商用。",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-26",
   "tags": [
     "content",
     "social-media",
@@ -68,47 +68,412 @@
   ],
   "source": {
     "url": "https://github.com/adrianpunk/Punk-Posters",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Documentation-level review; no third-party runtime/security execution",
-    "type": "作者 GitHub README 與現行 Dual-track Licensing 說明"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、scripts/validate-punk-cover.mjs、scripts/validate-punk-avatar.mjs、skills/punk-cover/references/platform-catalog.md 局部查核；未安裝、執行或實測第三方項目。",
+    "type": "作者 GitHub README 與現行 Dual-track Licensing 說明",
+    "upstreamCommit": "15b816cea5dcc7a3b028561d34604246369939b0",
+    "referenceUrls": [
+      "https://github.com/adrianpunk/Punk-Posters/blob/15b816cea5dcc7a3b028561d34604246369939b0/README.md",
+      "https://github.com/adrianpunk/Punk-Posters/blob/15b816cea5dcc7a3b028561d34604246369939b0/LICENSE",
+      "https://github.com/adrianpunk/Punk-Posters/blob/15b816cea5dcc7a3b028561d34604246369939b0/scripts/validate-punk-cover.mjs",
+      "https://github.com/adrianpunk/Punk-Posters/blob/15b816cea5dcc7a3b028561d34604246369939b0/scripts/validate-punk-avatar.mjs",
+      "https://github.com/adrianpunk/Punk-Posters/blob/15b816cea5dcc7a3b028561d34604246369939b0/skills/punk-cover/references/platform-catalog.md"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "url",
+      "source.url",
+      "source.referenceUrls",
+      "source.upstreamCommit",
+      "repo"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "title"
+        "url"
       ],
-      "reason": "比對既有 Canonical ID、名稱與來源候選；維持原 Resource 記錄，不新增或自動合併相似項目。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "原始未映射 Tags 全數保留，沒有新增或重新分類。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "維持 ID、Title、Category、Raw Tags、Primary Domain 與 Typed References；僅記錄實際來源形式及查核狀態。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只進行 README 或候選來源層級查核，不具逐檔可重建與安裝測試契約。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、scripts/validate-punk-cover.mjs、scripts/validate-punk-avatar.mjs、skills/punk-cover/references/platform-catalog.md 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "沒有經驗證的版本化 I/O 證據，暫不新增正式 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留既有 Concept Typed References，不由描述或 Tags 推論新關聯。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "官方 v2.0.0 以後的免費範圍限個人非商用；不能將公開原始碼直接等同 MIT 商用授權。；圖像生成支援的比例有限、成品需人工排版驗收，第三方素材權利不由 Skill 授權涵蓋。；商用需額外書面授權；不能以開源形式誤判免費商用。；本次沒有執行第三方程式、登入服務或存取憑證。",
+    "riskNotes": "v2.0+ 個人非商業免費；商業需書面授權及費用，舊版 MIT 不適用目前版本；官方 v2.0.0 以後的免費範圍限個人非商用；不能將公開原始碼直接等同 MIT 商用授權。；圖像生成支援的比例有限、成品需人工排版驗收，第三方素材權利不由 Skill 授權涵蓋。；字串檢查不是生成品質驗證；目前版本不得擅作商業使用。；僅檢查靜態文件，未生成真人或影像；不使用真實肖像。；文件為作者規格，未核對最新平台要求；需以自有素材驗收。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅執行文件與來源識別查核；第三方 Build、Runtime、Security、License、Integration 均未實測。"
+      "evidence": "固定版本 README.md、LICENSE、scripts/validate-punk-cover.mjs、scripts/validate-punk-avatar.mjs、skills/punk-cover/references/platform-catalog.md 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、scripts/validate-punk-cover.mjs、scripts/validate-punk-avatar.mjs、skills/punk-cover/references/platform-catalog.md 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "Punk Skill 是 Agent 視覺生成 Skills 合集，涵蓋文章／社群封面、人物與寵物頭像，以及個人品牌影片封面。上游原 Punk-Skill 網址目前對應 adrianpunk/Punk-Posters；不同 Skill 有獨立流程與輸入需求。",
+      "source": "https://github.com/adrianpunk/Punk-Posters",
+      "reviewedAt": "2026-11-21"
+    },
+    "priorRecommendationSnapshot": "適合把文章內容轉成社群視覺素材。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-cover",
+        "title": "檢查封面規格必要檔案及欄位",
+        "detail": "風格規格缺失可能讓提示詞無法編排。 輸出：缺檔或必要欄位檢查契約。",
+        "capabilityRefs": [
+          "cover"
+        ]
+      },
+      {
+        "id": "use-avatar",
+        "title": "核對頭像風格清單與編譯規則",
+        "detail": "未支援風格及比例不宜默默套用。 輸出：缺少或不允許的識別檢查。",
+        "capabilityRefs": [
+          "avatar"
+        ]
+      },
+      {
+        "id": "use-ratio",
+        "title": "區分封面需求與生成比例",
+        "detail": "工具比例限制不等於平台建議。 輸出：對應比例與不一致提醒。",
+        "capabilityRefs": [
+          "ratio"
+        ]
+      }
+    ],
+    "example": {
+      "id": "punk-skill-example",
+      "title": "規劃非商業視覺提示詞庫的規格驗收",
+      "input": "自有虛構主題、風格索引與比例需求",
+      "process": "檢查封面規格必要檔案及欄位 → 核對頭像風格清單與編譯規則 → 區分封面需求與生成比例 → 獨立驗收實際成果",
+      "output": "風格欄位、頭像規則及比例差異紀錄",
+      "destination": "非商業個人視覺學習工作區，經資料權利及人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-cover",
+        "use-avatar",
+        "use-ratio"
+      ],
+      "steps": [
+        {
+          "id": "cover",
+          "title": "檢查封面規格必要檔案及欄位",
+          "capabilityRefs": [
+            "cover"
+          ]
+        },
+        {
+          "id": "avatar",
+          "title": "核對頭像風格清單與編譯規則",
+          "capabilityRefs": [
+            "avatar"
+          ]
+        },
+        {
+          "id": "ratio",
+          "title": "區分封面需求與生成比例",
+          "capabilityRefs": [
+            "ratio"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改及外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備自有虛構主題、風格索引與比例需求。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "官方 v2.0.0 以後的免費範圍限個人非商用；不能將公開原始碼直接等同 MIT 商用授權。",
+      "圖像生成支援的比例有限、成品需人工排版驗收，第三方素材權利不由 Skill 授權涵蓋。",
+      "字串檢查不是生成品質驗證；目前版本不得擅作商業使用。",
+      "僅檢查靜態文件，未生成真人或影像；不使用真實肖像。",
+      "文件為作者規格，未核對最新平台要求；需以自有素材驗收。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "視覺生成 Skill 的靜態封面與頭像契約檢查，並區分平台要求及模型生成比例。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "v2.0+ 個人非商業免費；商業需書面授權及費用，舊版 MIT 不適用目前版本"
+      },
+      {
+        "label": "版本",
+        "value": "15b816cea5dcc7a3b028561d34604246369939b0"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "檢查封面規格必要檔案及欄位",
+        "detail": "風格規格缺失可能讓提示詞無法編排。 輸入：合成封面規格檔及風格欄位；輸出：缺檔或必要欄位檢查契約",
+        "source": "scripts/validate-punk-cover.mjs"
+      },
+      {
+        "title": "核對頭像風格清單與編譯規則",
+        "detail": "未支援風格及比例不宜默默套用。 輸入：合成頭像風格識別與規格文件；輸出：缺少或不允許的識別檢查",
+        "source": "scripts/validate-punk-avatar.mjs"
+      },
+      {
+        "title": "區分封面需求與生成比例",
+        "detail": "工具比例限制不等於平台建議。 輸入：合成平台及所需比例；輸出：對應比例與不一致提醒",
+        "source": "skills/punk-cover/references/platform-catalog.md"
+      }
+    ],
+    "architecture": {
+      "summary": "檢查封面規格必要檔案及欄位 → 核對頭像風格清單與編譯規則 → 區分封面需求與生成比例 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "檢查封面規格必要檔案及欄位",
+          "detail": "合成封面規格檔及風格欄位 → 缺檔或必要欄位檢查契約",
+          "files": [
+            "scripts/validate-punk-cover.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "核對頭像風格清單與編譯規則",
+          "detail": "合成頭像風格識別與規格文件 → 缺少或不允許的識別檢查",
+          "files": [
+            "scripts/validate-punk-avatar.mjs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "區分封面需求與生成比例",
+          "detail": "合成平台及所需比例 → 對應比例與不一致提醒",
+          "files": [
+            "skills/punk-cover/references/platform-catalog.md",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "檢查封面規格必要檔案及欄位",
+        "rule": "字串檢查不是生成品質驗證；目前版本不得擅作商業使用。",
+        "source": "scripts/validate-punk-cover.mjs"
+      },
+      {
+        "name": "核對頭像風格清單與編譯規則",
+        "rule": "僅檢查靜態文件，未生成真人或影像；不使用真實肖像。",
+        "source": "scripts/validate-punk-avatar.mjs"
+      },
+      {
+        "name": "區分封面需求與生成比例",
+        "rule": "文件為作者規格，未核對最新平台要求；需以自有素材驗收。",
+        "source": "skills/punk-cover/references/platform-catalog.md"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、scripts/validate-punk-cover.mjs、scripts/validate-punk-avatar.mjs、skills/punk-cover/references/platform-catalog.md 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "scripts/validate-punk-cover.mjs",
+          "scripts/validate-punk-avatar.mjs",
+          "skills/punk-cover/references/platform-catalog.md"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備自有虛構主題、風格索引與比例需求。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "scripts/validate-punk-cover.mjs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "非商業個人視覺學習工作區，經資料權利及人工覆核後使用。",
+        "file": "scripts/validate-punk-cover.mjs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "cover",
+        "name": "檢查封面規格必要檔案及欄位",
+        "problem": "風格規格缺失可能讓提示詞無法編排。",
+        "input": "合成封面規格檔及風格欄位",
+        "output": "缺檔或必要欄位檢查契約",
+        "source": "scripts/validate-punk-cover.mjs",
+        "sourceFiles": [
+          "scripts/validate-punk-cover.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "requiredStyleFields",
+          "fencedYaml",
+          "fail"
+        ],
+        "gate": "字串檢查不是生成品質驗證；目前版本不得擅作商業使用。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "avatar",
+        "name": "核對頭像風格清單與編譯規則",
+        "problem": "未支援風格及比例不宜默默套用。",
+        "input": "合成頭像風格識別與規格文件",
+        "output": "缺少或不允許的識別檢查",
+        "source": "scripts/validate-punk-avatar.mjs",
+        "sourceFiles": [
+          "scripts/validate-punk-avatar.mjs",
+          "README.md"
+        ],
+        "symbols": [
+          "allowedStyleIds",
+          "catalogStyleIds",
+          "fail"
+        ],
+        "gate": "僅檢查靜態文件，未生成真人或影像；不使用真實肖像。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "ratio",
+        "name": "區分封面需求與生成比例",
+        "problem": "工具比例限制不等於平台建議。",
+        "input": "合成平台及所需比例",
+        "output": "對應比例與不一致提醒",
+        "source": "skills/punk-cover/references/platform-catalog.md",
+        "sourceFiles": [
+          "skills/punk-cover/references/platform-catalog.md",
+          "README.md"
+        ],
+        "symbols": [
+          "Supported generation ratios",
+          "Platform choices"
+        ],
+        "gate": "文件為作者規格，未核對最新平台要求；需以自有素材驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃非商業視覺提示詞庫的規格驗收（設計示例）",
+      "problem": "自有虛構主題、風格索引與比例需求",
+      "steps": [
+        {
+          "capability": "cover",
+          "action": "檢查封面規格必要檔案及欄位"
+        },
+        {
+          "capability": "avatar",
+          "action": "核對頭像風格清單與編譯規則"
+        },
+        {
+          "capability": "ratio",
+          "action": "區分封面需求與生成比例"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "punk-skill-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "自有虛構主題、風格索引與比例需求",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "檢查封面規格必要檔案及欄位 → 核對頭像風格清單與編譯規則 → 區分封面需求與生成比例 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "非商業個人視覺學習工作區，經資料權利及人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "官方 v2.0.0 以後的免費範圍限個人非商用；不能將公開原始碼直接等同 MIT 商用授權。",
+        "圖像生成支援的比例有限、成品需人工排版驗收，第三方素材權利不由 Skill 授權涵蓋。",
+        "字串檢查不是生成品質驗證；目前版本不得擅作商業使用。",
+        "僅檢查靜態文件，未生成真人或影像；不使用真實肖像。",
+        "文件為作者規格，未核對最新平台要求；需以自有素材驗收。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "官方 v2.0.0 以後的免費範圍限個人非商用；不能將公開原始碼直接等同 MIT 商用授權。；圖像生成支援的比例有限、成品需人工排版驗收，第三方素材權利不由 Skill 授權涵蓋。；字串檢查不是生成品質驗證；目前版本不得擅作商業使用。；僅檢查靜態文件，未生成真人或影像；不使用真實肖像。；文件為作者規格，未核對最新平台要求；需以自有素材驗收。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、scripts/validate-punk-cover.mjs、scripts/validate-punk-avatar.mjs、skills/punk-cover/references/platform-catalog.md 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
