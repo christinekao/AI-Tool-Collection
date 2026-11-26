@@ -1640,7 +1640,34 @@ for(const [batch,topic,rows] of [
         "repository"
       ]
     ]
+  ],
+  [
+  47,
+  "語音與影音製作",
+  [
+    [
+      "debpalash-voicestudio",
+      "規劃雙語教學影片配音與音訊品質驗收",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "leemysw-yovoice",
+      "規劃多版本旁白生成與本機音檔管理",
+      1,
+      "mapped",
+      "repository"
+    ],
+    [
+      "ath-maas-pixelle-video",
+      "規劃自有知識短影音的分鏡與合成驗收",
+      1,
+      "mapped",
+      "repository"
+    ]
   ]
+]
 ]){
  test('Dual-layer batch '+batch+': '+topic,()=>{
   const context=vm.createContext({URL});
