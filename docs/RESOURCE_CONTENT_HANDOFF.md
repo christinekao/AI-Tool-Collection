@@ -1,6 +1,6 @@
 # Resource 最新交接｜雙層知識 Batch 73–76（2026-11-26）
 
-- PR #109 已合併 `dc4081e46ae997f220a64c3256205cf62da6874d`，243/286。PR #110 待完整 CI 與合併。
+- PR #109 已合併 `dc4081e46ae997f220a64c3256205cf62da6874d`，243/286。PR #110 四項 CI PASS，已合併 `30cd7018af6cd4da30ab1a54385b5b0a31b7d4c8`，252/286。PR #111 首輪 V2 因舊 OmniRoute Repo 引用失敗；修正 Audit 02 來源身分並保存歷史欄位，未更改原測試及關聯。
 - [Batch 73｜模型目錄、模型評估與 Agent 開發](RESOURCE_DUAL_LAYER_BATCH73_20261126.md)：omniroute、minimax-m3-1-flash、minimax-code；3 筆、9 用途、9 局部證據、3 design-only 案例。
 - [Batch 74｜資料視覺化、知識目錄及工作台擴充](RESOURCE_DUAL_LAYER_BATCH74_20261126.md)：april-zhu-minicharts、brandonhimpfen-awesome-finance、herdr-mods-gallery；3 筆、9 用途、9 局部證據、3 design-only 案例。
 - [Batch 75｜決策模型、基礎設施與回測契約](RESOURCE_DUAL_LAYER_BATCH75_20261126.md)：typesafe-ai-jev、zeabur-oss-ai-agent-installer-guide、tradingview-pine-screener-strategy-tester；3 筆、9 用途、9 局部證據、3 design-only 案例。
