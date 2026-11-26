@@ -1,3 +1,13 @@
+# Resource 最新交接｜雙層知識 Batch 79（2026-11-26）
+
+- PR #111 已合併，264/286（257 完成對應、7 deferred）；PR #112 為 Batch 77–78 候選（6 evidence-linked）。本批接續其 Head `8c4cfaa4f7e59a212ccb99d5a88473c5aebaabdc`，不能提前計入 main。
+- [Batch 79｜對話交接、驗收契約與合法來源治理](RESOURCE_DUAL_LAYER_BATCH79_20261126.md)：littlehole2025-token-saver（mapped）、rea（deferred）、alsyundawy-microsoft-office-for-macos（evidence-linked）；9 用途、9 局部能力／文件證據、3 design-only 案例。
+- token-saver 舊 Repo 與 claude-saver 同 Repository ID；更新 Repo 並留舊值。Office 原 Repo 封存，校正來源形式為 collection，保留原分類快照；只採官方合法授權治理文件，不轉載第三方金鑰或下載步驟。REA 核心契約未查核，明示 deferred。
+- [待補證據盤點](RESOURCE_DUAL_LAYER_REMAINING_AUDIT_20261126.md)：原 7 deferred 全數核對；新增 REA deferred；13 筆剩餘未改寫，含來源不明、受限、疑似重複；不得冒充完成。
+- PR #112 與本批均須四項 CI PASS 後依序合併；預計 273/286（265 完成映射、8 deferred），13 筆尚未改寫。下一步 Batch 80～84：以實際可取得來源與去重證據為準。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 77–78（2026-11-26）
 
 - PR #111 四項 CI PASS，已合併 `0fa625660b335801917abc8d3061bca3522add29`；本輪 main 基線 `811d902af9102ae0319c5f0d3a67320ef73e257d`。264/286（257 對應、7 deferred）。

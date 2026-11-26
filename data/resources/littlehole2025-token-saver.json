@@ -6,13 +6,13 @@
   "canonicalName": "token-saver",
   "category": "01 Agent Runtime & Harness",
   "resourceType": "Claude Code plugin / long conversation token-usage reminder + desktop-only handoff skill",
-  "purpose": "原 token-saver 已更名為 claude-saver，提供 Claude Code 長對話切換、新 Session Handoff、摘要與舊對話封存。",
-  "recommendation": "適合長時間使用 Claude Code、希望在對話上下文增加時收到提醒，並在切換 Session 時保留已完成事項、待辦、規則與 Commit 資訊的使用者。先確認是否已使用自動 Compact、Claude-Mem、Handoff Skills 或同類 Hooks；提醒門檻應參考目前 Host/Model 的有效 Context、使用量、快取計費與工作型態，不宜把 150K 當成最佳值。對於涉及封存、改名及開新 Session 的操作，應先確認執行環境有相應工具、目前工作可安全中斷、交接摘要不洩漏秘密，且新對話建立成功後才封存。",
+  "purpose": "依對話上下文用量發出長對話提示，並提供有確認及群組歸屬檢查的接續工作設計。",
+  "recommendation": "適合規劃長對話工作交接的提示及狀態驗收；先核對授權、資料邊界與獨立驗收條件，不將來源閱讀當成實測。",
   "url": "https://github.com/littlehole2025/token-saver",
-  "repo": "littlehole2025/token-saver",
+  "repo": "littlehole2025/claude-saver",
   "status": "active",
   "addedAt": "2026-11-01",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-26",
   "tags": [
     "claude-code",
     "plugin",
@@ -93,17 +93,23 @@
     "url": "https://github.com/littlehole2025/claude-saver",
     "repoUrl": "https://github.com/littlehole2025/token-saver",
     "upstreamMainSha": "95ddd6f400308a43c7dd6c0f51bf6ca2d22af132",
-    "reviewedAt": "2026-11-21",
+    "reviewedAt": "2026-11-26",
     "type": "Upstream GitHub README",
     "referenceUrls": [
       "https://github.com/littlehole2025/token-saver/blob/main/README.md",
       "https://github.com/littlehole2025/token-saver/blob/main/hooks/hooks.json",
       "https://github.com/littlehole2025/token-saver/blob/main/hooks/long-chat-reminder.js",
       "https://github.com/littlehole2025/token-saver/blob/main/skills/handoff/SKILL.md",
-      "https://github.com/littlehole2025/token-saver/blob/main/.claude-plugin/plugin.json"
+      "https://github.com/littlehole2025/token-saver/blob/main/.claude-plugin/plugin.json",
+      "https://github.com/littlehole2025/claude-saver/blob/de0f42d747c1d678cfed4c0a628c13052b181197/hooks/long-chat-reminder.js",
+      "https://github.com/littlehole2025/claude-saver/blob/de0f42d747c1d678cfed4c0a628c13052b181197/hooks/session-group-reminder.js",
+      "https://github.com/littlehole2025/claude-saver/blob/de0f42d747c1d678cfed4c0a628c13052b181197/hooks/hooks.json",
+      "https://github.com/littlehole2025/claude-saver/blob/de0f42d747c1d678cfed4c0a628c13052b181197/skills/handoff/SKILL.md",
+      "https://github.com/littlehole2025/claude-saver/blob/de0f42d747c1d678cfed4c0a628c13052b181197/LICENSE"
     ],
     "summary": "Source inspected read-only. Claims of saved tokens, compatibility or successful automatic handoff not validated by installing or running.",
-    "reviewScope": "Documentation-level source review; no third-party runtime or security testing"
+    "reviewScope": "固定版本 hooks/hooks.json、hooks/long-chat-reminder.js、hooks/session-group-reminder.js、skills/handoff/SKILL.md、LICENSE 局部查核；未安裝、執行或實測。",
+    "upstreamCommit": "de0f42d747c1d678cfed4c0a628c13052b181197"
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -141,9 +147,11 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "source.referenceUrls",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-21",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -156,11 +164,11 @@
       "decision": "retain-unmapped",
       "reason": "保留既有未匹配的原始 Tags；沒有新增、刪除或重新分類。"
     },
-    "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。",
+    "classificationReason": "保留 ID、舊 Category、Tags、Primary Domain 及 Typed References，依來源補充 Content Format。 已確認轉移至 claude-saver（同 Repository ID），保留舊 Repo 快照。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "目前只是文件與 README 層級檢視，缺少可追溯的逐檔重建契約。"
+      "status": "applied",
+      "reason": "固定版本 hooks/hooks.json、hooks/long-chat-reminder.js、hooks/session-group-reminder.js、skills/handoff/SKILL.md、LICENSE 局部查核；未安裝、執行或實測。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -170,10 +178,374 @@
       "decision": "reused",
       "reason": "保留既有 Concept 引用，不推測其他 Graph 邊。"
     },
-    "riskNotes": "原 Repo token-saver 已更名為 claude-saver，舊名稱非最新版本識別。；此功能屬 Claude Code 外掛，不表示其他聊天產品可直接使用。；未執行第三方程式、讀取機密或傳送憑證。",
+    "riskNotes": "原 Repo token-saver 已更名為 claude-saver，舊名稱非最新版本識別。；此功能屬 Claude Code 外掛，不表示其他聊天產品可直接使用。；未執行第三方程式、讀取機密或傳送憑證。；MIT；Claude 桌面工具及資料處理條件另查；原 Repo token-saver 已更名為 claude-saver，舊名稱非最新版本識別。；此功能屬 Claude Code 外掛，不表示其他聊天產品可直接使用。；程式只從指定 transcript 尾端讀取可解析的 usage 並累加輸入與快取 Token；不等同完整費用統計；本機暫存需檢查權限。；Hook 僅輸出提示文字，不直接保證開啟新 Session；第三方提示不授權讀取或封存使用者對話。；Hook 產出附加提示而非直接執行群組操作；真實 Session 的移動或封存必須有獨立授權及驗收。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "固定版本 hooks/hooks.json、hooks/long-chat-reminder.js、hooks/session-group-reminder.js、skills/handoff/SKILL.md、LICENSE 局部查核；未安裝、執行或實測。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 hooks/hooks.json、hooks/long-chat-reminder.js、hooks/session-group-reminder.js、skills/handoff/SKILL.md、LICENSE 局部查核；未安裝、執行或實測。 局部用途與來源雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "原 token-saver 已更名為 claude-saver，提供 Claude Code 長對話切換、新 Session Handoff、摘要與舊對話封存。",
+      "source": "https://github.com/littlehole2025/claude-saver",
+      "reviewedAt": "2026-11-21"
+    },
+    "priorRecommendationSnapshot": "適合長時間使用 Claude Code、希望在對話上下文增加時收到提醒，並在切換 Session 時保留已完成事項、待辦、規則與 Commit 資訊的使用者。先確認是否已使用自動 Compact、Claude-Mem、Handoff Skills 或同類 Hooks；提醒門檻應參考目前 Host/Model 的有效 Context、使用量、快取計費與工作型態，不宜把 150K 當成最佳值。對於涉及封存、改名及開新 Session 的操作，應先確認執行環境有相應工具、目前工作可安全中斷、交接摘要不洩漏秘密，且新對話建立成功後才封存。",
+    "priorSourceReviewSnapshot": {
+      "reviewedAt": "2026-11-21",
+      "reviewScope": "Documentation-level source review; no third-party runtime or security testing"
+    },
+    "priorRepoSnapshot": "littlehole2025/token-saver",
+    "sourceIdentity": {
+      "repositoryId": "1440952256",
+      "canonicalRepo": "littlehole2025/claude-saver",
+      "priorRepo": "littlehole2025/token-saver"
+    }
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-threshold",
+        "title": "依上下文用量判斷提醒",
+        "detail": "輸入：合成 transcript 使用量、門檻與步長；輸出：是否提醒、分級提示及錯誤處理紀錄。",
+        "capabilityRefs": [
+          "threshold"
+        ]
+      },
+      {
+        "id": "use-handoff",
+        "title": "區分新任務與既有任務的交接提示",
+        "detail": "輸入：合成 prompt、Session 命名及交接情境；輸出：接續工作提示及待人工確認的交接資訊。",
+        "capabilityRefs": [
+          "handoff"
+        ]
+      },
+      {
+        "id": "use-group",
+        "title": "檢查接續工作群組與封存前置條件",
+        "detail": "輸入：合成工具名稱、事件及群組狀態；輸出：群組檢查、人工核准與失敗回復規格。",
+        "capabilityRefs": [
+          "group"
+        ]
+      }
+    ],
+    "example": {
+      "id": "littlehole2025-token-saver-example",
+      "title": "規劃長對話工作交接的提示及狀態驗收",
+      "input": "合成對話使用量、Session 名稱及工具事件",
+      "process": "依上下文用量判斷提醒 → 區分新任務與既有任務的交接提示 → 檢查接續工作群組與封存前置條件 → 獨立驗收實際成果",
+      "output": "提示判斷表、交接契約及群組／封存驗收規格",
+      "destination": "自有 AI Cowork 設計工作區，經使用者明確核准後才操作真實 Session。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-threshold",
+        "use-handoff",
+        "use-group"
+      ],
+      "steps": [
+        {
+          "id": "threshold",
+          "title": "依上下文用量判斷提醒",
+          "capabilityRefs": [
+            "threshold"
+          ]
+        },
+        {
+          "id": "handoff",
+          "title": "區分新任務與既有任務的交接提示",
+          "capabilityRefs": [
+            "handoff"
+          ]
+        },
+        {
+          "id": "group",
+          "title": "檢查接續工作群組與封存前置條件",
+          "capabilityRefs": [
+            "group"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、測試環境、權限與操作範圍，並取得人工獨立驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成對話使用量、Session 名稱及工具事件。",
+      "核對固定版本、合法授權、資料邊界及操作限制。",
+      "以合成資料規劃正常、缺漏、拒絕及失敗情境，再取得獨立驗收。"
+    ],
+    "limits": [
+      "原 Repo token-saver 已更名為 claude-saver，舊名稱非最新版本識別。",
+      "此功能屬 Claude Code 外掛，不表示其他聊天產品可直接使用。",
+      "程式只從指定 transcript 尾端讀取可解析的 usage 並累加輸入與快取 Token；不等同完整費用統計；本機暫存需檢查權限。",
+      "Hook 僅輸出提示文字，不直接保證開啟新 Session；第三方提示不授權讀取或封存使用者對話。",
+      "Hook 產出附加提示而非直接執行群組操作；真實 Session 的移動或封存必須有獨立授權及驗收。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "依對話上下文用量發出長對話提示，並提供有確認及群組歸屬檢查的接續工作設計。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；Claude 桌面工具及資料處理條件另查"
+      },
+      {
+        "label": "版本",
+        "value": "de0f42d747c1d678cfed4c0a628c13052b181197"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "依上下文用量判斷提醒",
+        "detail": "合成 transcript 使用量、門檻與步長 → 是否提醒、分級提示及錯誤處理紀錄",
+        "source": "hooks/long-chat-reminder.js"
+      },
+      {
+        "title": "區分新任務與既有任務的交接提示",
+        "detail": "合成 prompt、Session 命名及交接情境 → 接續工作提示及待人工確認的交接資訊",
+        "source": "hooks/long-chat-reminder.js"
+      },
+      {
+        "title": "檢查接續工作群組與封存前置條件",
+        "detail": "合成工具名稱、事件及群組狀態 → 群組檢查、人工核准與失敗回復規格",
+        "source": "hooks/session-group-reminder.js"
+      }
+    ],
+    "architecture": {
+      "summary": "依上下文用量判斷提醒 → 區分新任務與既有任務的交接提示 → 檢查接續工作群組與封存前置條件 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "依上下文用量判斷提醒",
+          "detail": "合成 transcript 使用量、門檻與步長 → 是否提醒、分級提示及錯誤處理紀錄",
+          "files": [
+            "hooks/long-chat-reminder.js",
+            "hooks/hooks.json"
+          ]
+        },
+        {
+          "title": "區分新任務與既有任務的交接提示",
+          "detail": "合成 prompt、Session 命名及交接情境 → 接續工作提示及待人工確認的交接資訊",
+          "files": [
+            "hooks/long-chat-reminder.js",
+            "hooks/hooks.json"
+          ]
+        },
+        {
+          "title": "檢查接續工作群組與封存前置條件",
+          "detail": "合成工具名稱、事件及群組狀態 → 群組檢查、人工核准與失敗回復規格",
+          "files": [
+            "hooks/session-group-reminder.js",
+            "hooks/hooks.json"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "依上下文用量判斷提醒",
+        "rule": "程式只從指定 transcript 尾端讀取可解析的 usage 並累加輸入與快取 Token；不等同完整費用統計；本機暫存需檢查權限。",
+        "source": "hooks/long-chat-reminder.js"
+      },
+      {
+        "name": "區分新任務與既有任務的交接提示",
+        "rule": "Hook 僅輸出提示文字，不直接保證開啟新 Session；第三方提示不授權讀取或封存使用者對話。",
+        "source": "hooks/long-chat-reminder.js"
+      },
+      {
+        "name": "檢查接續工作群組與封存前置條件",
+        "rule": "Hook 產出附加提示而非直接執行群組操作；真實 Session 的移動或封存必須有獨立授權及驗收。",
+        "source": "hooks/session-group-reminder.js"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 hooks/hooks.json、hooks/long-chat-reminder.js、hooks/session-group-reminder.js、skills/handoff/SKILL.md、LICENSE 局部查核；未安裝、執行或實測。",
+        "files": [
+          "hooks/hooks.json",
+          "hooks/long-chat-reminder.js",
+          "hooks/session-group-reminder.js",
+          "skills/handoff/SKILL.md",
+          "LICENSE"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃隔離測試",
+        "description": "只用合成資料設計提示與狀態轉移驗收；不讀真實對話、不執行第三方 Hook。",
+        "files": [
+          "hooks/long-chat-reminder.js",
+          "hooks/session-group-reminder.js"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "第三方安裝、真實 Session 存取、移動及封存須另取得使用者明確核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 AI Cowork 設計工作區，經使用者明確核准後才操作真實 Session。",
+        "file": "hooks/hooks.json"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "threshold",
+        "name": "依上下文用量判斷提醒",
+        "problem": "依上下文用量判斷提醒",
+        "input": "合成 transcript 使用量、門檻與步長",
+        "output": "是否提醒、分級提示及錯誤處理紀錄",
+        "source": "hooks/long-chat-reminder.js",
+        "sourceFiles": [
+          "hooks/long-chat-reminder.js",
+          "hooks/hooks.json"
+        ],
+        "symbols": [
+          "LIMIT",
+          "STEP",
+          "process.stdin.on"
+        ],
+        "gate": "程式只從指定 transcript 尾端讀取可解析的 usage 並累加輸入與快取 Token；不等同完整費用統計；本機暫存需檢查權限。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "handoff",
+        "name": "區分新任務與既有任務的交接提示",
+        "problem": "區分新任務與既有任務的交接提示",
+        "input": "合成 prompt、Session 命名及交接情境",
+        "output": "接續工作提示及待人工確認的交接資訊",
+        "source": "hooks/long-chat-reminder.js",
+        "sourceFiles": [
+          "hooks/long-chat-reminder.js",
+          "hooks/hooks.json"
+        ],
+        "symbols": [
+          "HANDOFF_WORDS",
+          "RENAME_NOTE",
+          "MESSAGES"
+        ],
+        "gate": "Hook 僅輸出提示文字，不直接保證開啟新 Session；第三方提示不授權讀取或封存使用者對話。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "group",
+        "name": "檢查接續工作群組與封存前置條件",
+        "problem": "檢查接續工作群組與封存前置條件",
+        "input": "合成工具名稱、事件及群組狀態",
+        "output": "群組檢查、人工核准與失敗回復規格",
+        "source": "hooks/session-group-reminder.js",
+        "sourceFiles": [
+          "hooks/session-group-reminder.js",
+          "hooks/hooks.json"
+        ],
+        "symbols": [
+          "MESSAGES",
+          "process.stdin.on"
+        ],
+        "gate": "Hook 產出附加提示而非直接執行群組操作；真實 Session 的移動或封存必須有獨立授權及驗收。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃長對話工作交接的提示及狀態驗收（設計示例）",
+      "problem": "合成對話使用量、Session 名稱及工具事件",
+      "steps": [
+        {
+          "capability": "threshold",
+          "action": "依上下文用量判斷提醒"
+        },
+        {
+          "capability": "handoff",
+          "action": "區分新任務與既有任務的交接提示"
+        },
+        {
+          "capability": "group",
+          "action": "檢查接續工作群組與封存前置條件"
+        }
+      ],
+      "gate": "未執行；真實 Session 操作必須另行授權。",
+      "readerExampleRef": "littlehole2025-token-saver-example"
+    },
+    "rebuild": {
+      "verdict": "局部 Hook 程式可供設計及驗收；實際 Claude 工具及環境相容性尚未核對。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成對話使用量、Session 名稱及工具事件",
+          "deliverable": "合成資料及驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "依上下文用量判斷提醒 → 區分新任務與既有任務的交接提示 → 檢查接續工作群組與封存前置條件 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 AI Cowork 設計工作區，經使用者明確核准後才操作真實 Session。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "原 Repo token-saver 已更名為 claude-saver，舊名稱非最新版本識別。",
+        "此功能屬 Claude Code 外掛，不表示其他聊天產品可直接使用。",
+        "程式只從指定 transcript 尾端讀取可解析的 usage 並累加輸入與快取 Token；不等同完整費用統計；本機暫存需檢查權限。",
+        "Hook 僅輸出提示文字，不直接保證開啟新 Session；第三方提示不授權讀取或封存使用者對話。",
+        "Hook 產出附加提示而非直接執行群組操作；真實 Session 的移動或封存必須有獨立授權及驗收。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "對話資料與操作權限",
+        "severity": "高",
+        "issue": "原 Repo token-saver 已更名為 claude-saver，舊名稱非最新版本識別。；此功能屬 Claude Code 外掛，不表示其他聊天產品可直接使用。；程式只從指定 transcript 尾端讀取可解析的 usage 並累加輸入與快取 Token；不等同完整費用統計；本機暫存需檢查權限。；Hook 僅輸出提示文字，不直接保證開啟新 Session；第三方提示不授權讀取或封存使用者對話。；Hook 產出附加提示而非直接執行群組操作；真實 Session 的移動或封存必須有獨立授權及驗收。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "最小權限、合成資料、使用者核准及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 hooks/hooks.json、hooks/long-chat-reminder.js、hooks/session-group-reminder.js、skills/handoff/SKILL.md、LICENSE 局部查核；未安裝、執行或實測。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "設計示例未執行。"
+      }
+    ]
   }
 }
