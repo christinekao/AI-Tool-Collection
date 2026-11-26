@@ -1,3 +1,13 @@
+# Resource 最新交接｜Phase 2 Batch 95–97（2026-11-26）
+
+- PR #118 四項 CI PASS，合併 `124e3217248f7f7aaf0644ef0da63123d7c09b86`。PR #119 Batch 92–94 候選 Head `26940926c8eca23169a6484c61f588ce9c7217b0`；須四項 CI PASS 後依序合併。
+- [Batch 95](RESOURCE_DUAL_LAYER_BATCH95_20261126.md)：infiniflow-ragflow 新增 3 筆局部證據、一組用途；舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。
+- [Batch 96](RESOURCE_DUAL_LAYER_BATCH96_20261126.md)：toeverything-affine 新增 3 筆局部證據、一組用途；已定位後端 Markdown 文件寫入、native 更新合併與工作區／文件授權介面；尚缺 BlockSuite client、端到端同步衝突、儲存及匯出還原；根授權對後端與 native 目錄另有 EE 條件。
+- [Batch 97](RESOURCE_DUAL_LAYER_BATCH97_20261126.md)：hermes-snyk-plugin 新增 3 筆局部證據、一組用途；原 Repo 已封存遷移；現已查核新官方庫固定版本 manifest、README 與 Skill；仍未核對外部 Snyk CLI MCP 即時 schema、掃描器核心實作、資料保留及實際網路行為。
+- 合計 9 筆證據、3 組用途；不修改 ID、分類、Tags、Graph 或正式完成率。268 對應、14 deferred、4 來源阻塞；第三方未執行。
+
+---
+
 # Resource 最新交接｜Phase 2 Batch 92–94（2026-11-26）
 
 - 本分支以 PR #118 修正 Commit `31dfc2a125946c3d290027a78700c4f574cc8026` 為基準；PR #118 四項 CI 完整通過並合併後，才將本批納入 main 的驗收流程。

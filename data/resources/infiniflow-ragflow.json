@@ -74,14 +74,17 @@
   "source": {
     "url": "https://github.com/infiniflow/ragflow",
     "readmeUrl": "https://github.com/infiniflow/ragflow/blob/main/README.md",
-    "reviewedAt": "2026-11-25",
+    "reviewedAt": "2026-11-26",
     "type": "Upstream README or SKILL.md",
-    "reviewScope": "固定版本 README、Go Docker 部署文件與 Apache-2.0 LICENSE；舊 rag/app/naive.py、deepdoc/parser/pdf_parser.py、rag/nlp/search.py 在此版本未找到，未推斷新 Go 核心位置",
+    "reviewScope": "沿用既有文件與證據；Batch 95 新增 3 筆固定版本局部查核。舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。 未執行第三方。",
     "upstreamCommit": "37b63fc3979365ea70f267f290c2f12d93fdbf50",
     "referenceUrls": [
       "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/README.md",
       "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/docker/README.md",
-      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/LICENSE"
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/LICENSE",
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/internal/dao/ingestion_task.go",
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/internal/agent/component/retrieval_permission_test.go",
+      "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/internal/agent/component/citation_sources.go"
     ]
   },
   "intakeReview": {
@@ -93,7 +96,7 @@
       "source.upstreamCommit",
       "source.referenceUrls"
     ],
-    "sourceCheckedAt": "2026-11-25",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
@@ -110,7 +113,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。"
+      "reason": "舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -123,14 +126,14 @@
     "riskNotes": "外部 README 只作為待檢視資訊；未安裝第三方工具、執行腳本或存取任何憑證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "固定版本 README、Go Docker 部署文件與 Apache-2.0 LICENSE；舊 rag/app/naive.py、deepdoc/parser/pdf_parser.py、rag/nlp/search.py 在此版本未找到，未推斷新 Go 核心位置；未安裝或執行。"
+      "evidence": "沿用既有文件與證據；Batch 95 新增 3 筆固定版本局部查核。舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。 未執行第三方。"
     },
-    "sourceGap": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。",
+    "sourceGap": "舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。",
     "layerReview": {
       "status": "deferred",
-      "reason": "已確認固定版本的文件及授權範圍，已知用途與文件證據可雙向對應；原始碼完整契約仍待查。",
-      "gap": "舊 Python parser、chunking、search 路徑在固定版本不存在；目前只完成 Go 部署文件及功能說明，尚未查到新核心 I/O、檢索及引用程式契約。",
-      "nextAction": "從此固定版本 Go 專案結構定位文件 ingestion、檢索、引用、API 及授權檢查；取得實際原始碼、輸入輸出和安全邊界後再升級 mapped。"
+      "reason": "已核對局部來源及設計用法，完整核心契約尚未達驗收，維持 deferred。",
+      "gap": "舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。",
+      "nextAction": "追蹤 ingestion pipeline 執行器、parser/index I/O、檢索服務權限及引用產生呼叫鏈；另以合成資料驗證。"
     }
   },
   "implementationKnowledge": {
@@ -139,7 +142,10 @@
       "retrieval": "README 說明 Agentic Retrieval 與可追溯引用；尚未核對 Go 內部檢索及引用生成契約。",
       "deployment": "docker/README.md 明示 Go deployment、Linux x86-64；macOS 暫不支援；預設依賴 Elasticsearch、MySQL、MinIO、Kvrocks、NATS、ClickHouse，可依配置選引擎。管理密碼應更換，服務不應無限制公開。",
       "license": "Repo LICENSE Apache 2.0；模型、依賴及外部服務條款另查。",
-      "gap": "舊 Python 核心路徑在固定版本回傳 404；新的 Go ingestion、retrieval、citation、資料隔離及 API 契約尚未查核。"
+      "gap": "舊 Python 核心路徑在固定版本回傳 404；新的 Go ingestion、retrieval、citation、資料隔離及 API 契約尚未查核。",
+      "ingestion_task_state": "匯入任務建立前查詢文件 ID，重複時回傳錯誤；條件式更新只在當前狀態屬允許集合時修改，並依 RowsAffected 回報是否成功。重試可解除舊 pipeline log 綁定。",
+      "retrieval_dependency_permission": "上游測試對共享資料集與記憶預期允許、私有資料集及非雙方交集記憶預期拒絕；未啟用的資料來源綁定不參與此次驗證，缺 Canvas 身分預期報錯。",
+      "citation_marker_filter": "引用來源按順序與 token 預算截取，第一個有效來源可超出預算；引用標記只保留允許的 ID，串流緩衝跨 delta 的不完整標記。"
     }
   },
   "agentEvidence": [
@@ -181,6 +187,42 @@
       "limitations": "未實際部署或驗證版本、網路、備份與服務權限。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "ingestion-task-state",
+      "detail": "匯入任務建立前查詢文件 ID，重複時回傳錯誤；條件式更新只在當前狀態屬允許集合時修改，並依 RowsAffected 回報是否成功。重試可解除舊 pipeline log 綁定。",
+      "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/internal/dao/ingestion_task.go#L36-L94",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.ingestion_task_state",
+        "source.referenceUrls"
+      ],
+      "limitations": "此為 DAO 局部契約；未證明所有競爭情境、唯一索引、解析與外部索引一致性。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "retrieval-dependency-permission",
+      "detail": "上游測試對共享資料集與記憶預期允許、私有資料集及非雙方交集記憶預期拒絕；未啟用的資料來源綁定不參與此次驗證，缺 Canvas 身分預期報錯。",
+      "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/internal/agent/component/retrieval_permission_test.go#L83-L122",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.retrieval_dependency_permission",
+        "source.referenceUrls"
+      ],
+      "limitations": "只閱讀 SQLite 測試，沒有執行；不能證明所有檢索入口或部署版隔離。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "citation-marker-filter",
+      "detail": "引用來源按順序與 token 預算截取，第一個有效來源可超出預算；引用標記只保留允許的 ID，串流緩衝跨 delta 的不完整標記。",
+      "locator": "https://github.com/infiniflow/ragflow/blob/37b63fc3979365ea70f267f290c2f12d93fdbf50/internal/agent/component/citation_sources.go#L46-L145",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.citation_marker_filter",
+        "source.referenceUrls"
+      ],
+      "limitations": "超長或未閉合文字可能保留為字面文字；ID 合法不等於回答語意忠實，未核對全部輸出入口。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -211,6 +253,16 @@
         "evidenceRefs": [
           "deployment-conditions"
         ]
+      },
+      {
+        "id": "go-rag-contract-audit",
+        "title": "驗收 Go 檢索權限、引用及匯入狀態",
+        "detail": "以合成文件、不同身分、非授權引用 ID、重複匯入及競爭更新設計正反例；分別驗證來源忠實度及跨租戶隔離。",
+        "evidenceRefs": [
+          "ingestion-task-state",
+          "retrieval-dependency-permission",
+          "citation-marker-filter"
+        ]
       }
     ],
     "example": {
@@ -224,7 +276,8 @@
       "useCaseRefs": [
         "company-knowledge",
         "document-quality",
-        "self-host-evaluation"
+        "self-host-evaluation",
+        "go-rag-contract-audit"
       ],
       "steps": [
         {
@@ -253,6 +306,15 @@
           "title": "逐筆驗證答案、原文及權限",
           "evidenceRefs": [],
           "externalDependency": "標註測試答案、拒答與使用者資料隔離須由應用團隊另外設計及驗證。"
+        },
+        {
+          "id": "go-rag-contract-audit",
+          "title": "驗收 Go 檢索權限、引用及匯入狀態",
+          "evidenceRefs": [
+            "ingestion-task-state",
+            "retrieval-dependency-permission",
+            "citation-marker-filter"
+          ]
         }
       ],
       "verificationStatus": "design-only"
@@ -266,7 +328,8 @@
       "引用來源只能改善可追溯性，不代表答案絕對正確。",
       "資料解析、Embedding、索引與模型可能涉及大量運算與儲存成本。",
       "目前固定版本部署文件明示 Go 實作及 macOS 暫不支援；舊 Python 路徑不可沿用。",
-      "自架不代表所有服務或模型免費，也不代表權限及資料隔離已驗證。"
+      "自架不代表所有服務或模型免費，也不代表權限及資料隔離已驗證。",
+      "舊 Python parser、chunking、search 路徑於固定版本未找到（404）；現已定位 Go 匯入任務 DAO、Canvas 檢索依賴權限測試與引用標記過濾；仍缺解析至索引完整鏈、所有 API 授權與端到端語意引用品質。"
     ],
     "comparison": {
       "title": "何時值得建立 RAG 平台？",

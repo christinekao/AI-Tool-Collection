@@ -785,6 +785,11 @@ try{
    assert.ok(await evaluate('!!document.querySelector("[data-example-id]")'));
    assert.equal(await evaluate('location.hash'),'#/resources/'+id);
   }
+  const recoveryNewTitles={"infiniflow-ragflow":"驗收 Go 檢索權限、引用及匯入狀態","toeverything-affine":"驗收文件寫入、合併及權限邊界","hermes-snyk-plugin":"驗收掃描插件版本與外送邊界"};
+  if(recoveryNewTitles[id]){
+   assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);
+   assert.ok(await evaluate('document.querySelector(".resource-reader-guide")?.textContent.includes('+JSON.stringify(recoveryNewTitles[id])+')'),id);
+  }
   const recoveryTitles={"hindsight":"驗收記憶版本、檢索及租戶授權","anomalyco-opencode":"驗收權限規則與子代理委派","orca":"驗收 Worktree 啟動與執行主機邊界"};
   if(recoveryTitles[id]){
    assert.ok(await evaluate('document.querySelectorAll("[data-use-case-id]").length>=4'),id);

@@ -2693,3 +2693,16 @@ test('Deferred recovery batches 92–94: pinned evidence, historical provenance 
   for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
  }
 });
+
+
+test('Deferred recovery batches 95–97: pinned source gaps and bidirectional links',()=>{
+ const cases=[["infiniflow-ragflow","go-rag-contract-audit","37b63fc3979365ea70f267f290c2f12d93fdbf50",["ingestion-task-state","retrieval-dependency-permission","citation-marker-filter"]],["toeverything-affine","document-sync-permission-audit","81da59d63d535d72ba677a097d9a0cc9a5871ade",["markdown-doc-write","native-update-merge","workspace-doc-permission"]],["hermes-snyk-plugin","migrated-scan-contract-audit","8937d2e90d04f7c91a14ababb0dd5175b3c4d4ed",["migrated-manifest-pin","migrated-network-boundary","migrated-scan-procedure"]]];
+ for(const [id,caseId,pin,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(pin)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(d.source.referenceUrls.includes(e.locator.split('#')[0]),ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
