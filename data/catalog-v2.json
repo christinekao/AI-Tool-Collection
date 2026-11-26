@@ -37566,14 +37566,14 @@
       "canonicalName": "Guizang Product Video Skill",
       "category": "11 Media / Video",
       "resourceType": "Source-Grounded Product Video Agent Skill / Code-Rendered Media Pipeline",
-      "purpose": "從產品 codebase、近期 commit / release notes 與既有 design language 出發，整理值得講的更新、寫分鏡與文案、優先掛載真實產品元件，再用 GSAP / code-driven animation、配樂、動作音效與 FFmpeg/render pipeline 產出 MP4 與可繼續修改的工程。",
-      "recommendation": "適合產品 launch / changelog / feature promo，尤其是需要影片『看起來就是這個產品』而不是生成一套假的 UI；也適合研究 source code / design system 如何成為媒體生成的 ground truth。",
+      "purpose": "將產品更新與設計素材轉為可編輯的影片製作計畫，並以環境、影音同步及交付檢查輔助驗收。",
+      "recommendation": "適合自有產品的更新影片與作品集展示；先核對產品資訊、素材授權及視聽品質，不能以程式檢查代替人工驗收。",
       "url": "https://github.com/op7418/guizang-product-video-skill",
       "repo": "op7418/guizang-product-video-skill",
       "notes": "Official repository confirmed. The workflow starts from product scope, code and real components, derives multiple visual directions, builds scenes with GSAP and code-rendered UI, adds original/programmatic music and action-aligned sound effects, reviews contact sheets/transitions/full-size frames, then exports an MP4 plus editable project and provenance/check records. Supports Claude Code and Codex. AGPL-3.0 licensed.",
       "status": "active",
       "addedAt": "2026-09-30",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "product-video",
         "agent-skill",
@@ -37662,48 +37662,411 @@
         "url": "https://github.com/op7418/guizang-product-video-skill",
         "readmeUrl": "https://github.com/op7418/guizang-product-video-skill/blob/main/README.md",
         "type": "Official README / repository",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Documentation only; no execution tests"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、scripts/check_environment.py、scripts/sfx_landmarks.py、scripts/check_delivery.py 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "18842e0f49a9eb2b8c00cc065ec37b314e235aaa",
+        "referenceUrls": [
+          "https://github.com/op7418/guizang-product-video-skill/blob/18842e0f49a9eb2b8c00cc065ec37b314e235aaa/README.md",
+          "https://github.com/op7418/guizang-product-video-skill/blob/18842e0f49a9eb2b8c00cc065ec37b314e235aaa/LICENSE",
+          "https://github.com/op7418/guizang-product-video-skill/blob/18842e0f49a9eb2b8c00cc065ec37b314e235aaa/scripts/check_environment.py",
+          "https://github.com/op7418/guizang-product-video-skill/blob/18842e0f49a9eb2b8c00cc065ec37b314e235aaa/scripts/sfx_landmarks.py",
+          "https://github.com/op7418/guizang-product-video-skill/blob/18842e0f49a9eb2b8c00cc065ec37b314e235aaa/scripts/check_delivery.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "以既有 Canonical ID 與上游 GitHub Repository 核對，僅改善原紀錄，沒有新增重複資料。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "所有原始 Tags 保持不變，僅補官方文件證據與實際限制。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "維持既有 Primary Domain content；未修改任何分類或新增 Tag。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本次僅來源 README 查核，未核對核心原始碼路徑、執行合約或完整重建測試，無法提供深度 repoGuide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、scripts/check_environment.py、scripts/sfx_landmarks.py、scripts/check_delivery.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "README 功能尚不足以證明版本化 Input／Output 契約可供跨工具組合，不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留已存在的 Concept References，不憑關鍵字新增 Graph 邊。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "第三方來源僅作為審查資料，未下載執行指令、安裝外部軟體、存取 Secrets 或對外傳送敏感資料。",
+        "riskNotes": "AGPL-3.0；預設素材另有授權限制；主專案採 AGPL-3.0，部分預設素材另有 Business Source License，不能混認為 MIT。；使用程式碼與產品素材產片需確認機密、品牌權與影片音樂授權。；腳本說明不安裝相依，但會呼叫本機程式；執行需核准可信環境，檢查通過不代表渲染品質。；依 FFmpeg 解碼的單聲道樣本與相對峰值門檻估算；不代表感知響度或實際混音品質。；依縮小後的亮度差與固定門檻量測，無法判斷審美、內容正確性或字幕可讀性，須人工觀看。；素材授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀；未完成第三方程式建置、Runtime、授權全文、安全或整合測試。"
+          "evidence": "固定版本 README.md、LICENSE、scripts/check_environment.py、scripts/sfx_landmarks.py、scripts/check_delivery.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、scripts/check_environment.py、scripts/sfx_landmarks.py、scripts/check_delivery.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "從產品 codebase、近期 commit / release notes 與既有 design language 出發，整理值得講的更新、寫分鏡與文案、優先掛載真實產品元件，再用 GSAP / code-driven animation、配樂、動作音效與 FFmpeg/render pipeline 產出 MP4 與可繼續修改的工程。",
+          "source": "https://github.com/op7418/guizang-product-video-skill",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合產品 launch / changelog / feature promo，尤其是需要影片『看起來就是這個產品』而不是生成一套假的 UI；也適合研究 source code / design system 如何成為媒體生成的 ground truth。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-preflight",
+            "title": "核對影片製作環境",
+            "detail": "渲染失敗可能來自不同版本或缺少編碼器。 輸出：環境版本、套件位置及必要檢查缺口。",
+            "capabilityRefs": [
+              "preflight"
+            ]
+          },
+          {
+            "id": "use-audio",
+            "title": "量測音效的實際起始與峰值",
+            "detail": "音效檔案起點不一定是人耳感受到的動作時刻。 輸出：長度、起始時間、峰值時間與峰值音量。",
+            "capabilityRefs": [
+              "audio"
+            ]
+          },
+          {
+            "id": "use-delivery",
+            "title": "檢查畫面節奏與開頭可見內容",
+            "detail": "產出影片檔案不代表畫面節奏或封面合格。 輸出：近靜止畫面比例、變化程度及開頭畫面指標。",
+            "capabilityRefs": [
+              "delivery"
+            ]
+          }
+        ],
+        "example": {
+          "id": "guizang-product-video-skill-example",
+          "title": "規劃自有產品更新影片的影音同步與交付驗收",
+          "input": "自有產品更新摘要、合成分鏡、測試影音及已授權環境。",
+          "process": "核對影片製作環境 → 量測音效的實際起始與峰值 → 檢查畫面節奏與開頭可見內容 → 獨立驗收實際成果",
+          "output": "環境缺口清單、音效時間定位與畫面節奏檢查規格。",
+          "destination": "自有產品影片製作工作區，經內容與素材權利覆核後交付。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-preflight",
+            "use-audio",
+            "use-delivery"
+          ],
+          "steps": [
+            {
+              "id": "preflight",
+              "title": "核對影片製作環境",
+              "capabilityRefs": [
+                "preflight"
+              ]
+            },
+            {
+              "id": "audio",
+              "title": "量測音效的實際起始與峰值",
+              "capabilityRefs": [
+                "audio"
+              ]
+            },
+            {
+              "id": "delivery",
+              "title": "檢查畫面節奏與開頭可見內容",
+              "capabilityRefs": [
+                "delivery"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、素材權利、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有產品更新摘要、合成分鏡、測試影音及已授權環境。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "主專案採 AGPL-3.0，部分預設素材另有 Business Source License，不能混認為 MIT。",
+          "使用程式碼與產品素材產片需確認機密、品牌權與影片音樂授權。",
+          "腳本說明不安裝相依，但會呼叫本機程式；執行需核准可信環境，檢查通過不代表渲染品質。",
+          "依 FFmpeg 解碼的單聲道樣本與相對峰值門檻估算；不代表感知響度或實際混音品質。",
+          "依縮小後的亮度差與固定門檻量測，無法判斷審美、內容正確性或字幕可讀性，須人工觀看。",
+          "素材授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "將產品更新與設計素材轉為可編輯的影片製作計畫，並以環境、影音同步及交付檢查輔助驗收。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "AGPL-3.0；預設素材另有授權限制"
+          },
+          {
+            "label": "版本",
+            "value": "18842e0f49a9eb2b8c00cc065ec37b314e235aaa"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "核對影片製作環境",
+            "detail": "渲染失敗可能來自不同版本或缺少編碼器。 輸入：影片專案目錄及指定渲染引擎；輸出：環境版本、套件位置及必要檢查缺口",
+            "source": "scripts/check_environment.py"
+          },
+          {
+            "title": "量測音效的實際起始與峰值",
+            "detail": "音效檔案起點不一定是人耳感受到的動作時刻。 輸入：已授權音效檔案與量測門檻；輸出：長度、起始時間、峰值時間與峰值音量",
+            "source": "scripts/sfx_landmarks.py"
+          },
+          {
+            "title": "檢查畫面節奏與開頭可見內容",
+            "detail": "產出影片檔案不代表畫面節奏或封面合格。 輸入：成片、幀率、長度及分鏡計畫；輸出：近靜止畫面比例、變化程度及開頭畫面指標",
+            "source": "scripts/check_delivery.py"
+          }
+        ],
+        "architecture": {
+          "summary": "核對影片製作環境 → 量測音效的實際起始與峰值 → 檢查畫面節奏與開頭可見內容 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "核對影片製作環境",
+              "detail": "影片專案目錄及指定渲染引擎 → 環境版本、套件位置及必要檢查缺口",
+              "files": [
+                "scripts/check_environment.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "量測音效的實際起始與峰值",
+              "detail": "已授權音效檔案與量測門檻 → 長度、起始時間、峰值時間與峰值音量",
+              "files": [
+                "scripts/sfx_landmarks.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "檢查畫面節奏與開頭可見內容",
+              "detail": "成片、幀率、長度及分鏡計畫 → 近靜止畫面比例、變化程度及開頭畫面指標",
+              "files": [
+                "scripts/check_delivery.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "核對影片製作環境",
+            "rule": "腳本說明不安裝相依，但會呼叫本機程式；執行需核准可信環境，檢查通過不代表渲染品質。",
+            "source": "scripts/check_environment.py"
+          },
+          {
+            "name": "量測音效的實際起始與峰值",
+            "rule": "依 FFmpeg 解碼的單聲道樣本與相對峰值門檻估算；不代表感知響度或實際混音品質。",
+            "source": "scripts/sfx_landmarks.py"
+          },
+          {
+            "name": "檢查畫面節奏與開頭可見內容",
+            "rule": "依縮小後的亮度差與固定門檻量測，無法判斷審美、內容正確性或字幕可讀性，須人工觀看。",
+            "source": "scripts/check_delivery.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、scripts/check_environment.py、scripts/sfx_landmarks.py、scripts/check_delivery.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "scripts/check_environment.py",
+              "scripts/sfx_landmarks.py",
+              "scripts/check_delivery.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有產品更新摘要、合成分鏡、測試影音及已授權環境。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "scripts/check_environment.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有產品影片製作工作區，經內容與素材權利覆核後交付。",
+            "file": "scripts/check_environment.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "preflight",
+            "name": "核對影片製作環境",
+            "problem": "渲染失敗可能來自不同版本或缺少編碼器。",
+            "input": "影片專案目錄及指定渲染引擎",
+            "output": "環境版本、套件位置及必要檢查缺口",
+            "source": "scripts/check_environment.py",
+            "sourceFiles": [
+              "scripts/check_environment.py",
+              "README.md"
+            ],
+            "symbols": [
+              "main",
+              "hyperframes_failures",
+              "run"
+            ],
+            "gate": "腳本說明不安裝相依，但會呼叫本機程式；執行需核准可信環境，檢查通過不代表渲染品質。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "audio",
+            "name": "量測音效的實際起始與峰值",
+            "problem": "音效檔案起點不一定是人耳感受到的動作時刻。",
+            "input": "已授權音效檔案與量測門檻",
+            "output": "長度、起始時間、峰值時間與峰值音量",
+            "source": "scripts/sfx_landmarks.py",
+            "sourceFiles": [
+              "scripts/sfx_landmarks.py",
+              "README.md"
+            ],
+            "symbols": [
+              "samples",
+              "landmarks"
+            ],
+            "gate": "依 FFmpeg 解碼的單聲道樣本與相對峰值門檻估算；不代表感知響度或實際混音品質。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "delivery",
+            "name": "檢查畫面節奏與開頭可見內容",
+            "problem": "產出影片檔案不代表畫面節奏或封面合格。",
+            "input": "成片、幀率、長度及分鏡計畫",
+            "output": "近靜止畫面比例、變化程度及開頭畫面指標",
+            "source": "scripts/check_delivery.py",
+            "sourceFiles": [
+              "scripts/check_delivery.py",
+              "README.md"
+            ],
+            "symbols": [
+              "pacing_metrics",
+              "first_frame_metrics"
+            ],
+            "gate": "依縮小後的亮度差與固定門檻量測，無法判斷審美、內容正確性或字幕可讀性，須人工觀看。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃自有產品更新影片的影音同步與交付驗收（設計示例）",
+          "problem": "自有產品更新摘要、合成分鏡、測試影音及已授權環境。",
+          "steps": [
+            {
+              "capability": "preflight",
+              "action": "核對影片製作環境"
+            },
+            {
+              "capability": "audio",
+              "action": "量測音效的實際起始與峰值"
+            },
+            {
+              "capability": "delivery",
+              "action": "檢查畫面節奏與開頭可見內容"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "guizang-product-video-skill-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有產品更新摘要、合成分鏡、測試影音及已授權環境。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "核對影片製作環境 → 量測音效的實際起始與峰值 → 檢查畫面節奏與開頭可見內容 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有產品影片製作工作區，經內容與素材權利覆核後交付。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "主專案採 AGPL-3.0，部分預設素材另有 Business Source License，不能混認為 MIT。",
+            "使用程式碼與產品素材產片需確認機密、品牌權與影片音樂授權。",
+            "腳本說明不安裝相依，但會呼叫本機程式；執行需核准可信環境，檢查通過不代表渲染品質。",
+            "依 FFmpeg 解碼的單聲道樣本與相對峰值門檻估算；不代表感知響度或實際混音品質。",
+            "依縮小後的亮度差與固定門檻量測，無法判斷審美、內容正確性或字幕可讀性，須人工觀看。",
+            "素材授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "主專案採 AGPL-3.0，部分預設素材另有 Business Source License，不能混認為 MIT。；使用程式碼與產品素材產片需確認機密、品牌權與影片音樂授權。；腳本說明不安裝相依，但會呼叫本機程式；執行需核准可信環境，檢查通過不代表渲染品質。；依 FFmpeg 解碼的單聲道樣本與相對峰值門檻估算；不代表感知響度或實際混音品質。；依縮小後的亮度差與固定門檻量測，無法判斷審美、內容正確性或字幕可讀性，須人工觀看。；素材授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、scripts/check_environment.py、scripts/sfx_landmarks.py、scripts/check_delivery.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -47250,8 +47613,8 @@
       "canonicalName": "rea-video",
       "category": "AI Video Analysis & Reverse Engineering",
       "resourceType": "Open-source Python CLI and coding-agent skill for shot-level video decomposition",
-      "purpose": "逐鏡分析影片底層製作方式（實拍、AI 生成、3D、程式動效、錄影、靜圖等）、分鏡切點、攝影、打光、文字疊加、字幕、聲音及真正需要的素材；輸出有證據與置信度的 HTML/Markdown 報告和重製計畫，供 Claude Code、Codex 或其他 Agent 使用。",
-      "recommendation": "適合研究短影音、產品展示、教學影片、MG／UI 動效和混合素材製作，將參考影片拆解成可執行的拍攝、AI 生成、Remotion 程式段與音訊工作項。適用於學習製作技術及原創改編，不應拿未獲授權的影片／音樂／人物肖像直接重製或公開散布。把 AI/實拍判別視為推測，低置信或平台重壓影片須人工逐鏡確認。",
+      "purpose": "以逐鏡分析、容器 Metadata 與文字圖層量測產生影片製作方式的候選解讀及重製規劃。",
+      "recommendation": "適合分析自有影片的製作技法與建立原創分鏡規格；不把分類當成真偽鑑定，不複製未授權作品。",
       "url": "https://github.com/JuneYaooo/rea-video",
       "repo": "JuneYaooo/rea-video",
       "homepage": "https://www.reavideo.ai/",
@@ -47361,7 +47724,7 @@
       "collectionDecision": "新增官方源碼的 Resource 與實際存在的 SKILL.md Skill；不另建立與已有影片生產工作流高度重疊的 Workflow。",
       "status": "active",
       "addedAt": "2026-11-11",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "rea-video",
         "juneyaooo",
@@ -47399,11 +47762,19 @@
           "https://github.com/JuneYaooo/rea-video/blob/main/LICENSE",
           "https://github.com/JuneYaooo/rea-video/blob/main/NOTICE"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official GitHub repository, license/NOTICE, pyproject, README, SKILL.md, selected docs and installer script",
         "limitations": "Not installed, executed, independently security-audited or evaluated",
         "readmeUrl": "https://github.com/JuneYaooo/rea-video/blob/main/README.md",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "c11f1bd8fd3edd26a40e8f45be828be685417700",
+        "referenceUrls": [
+          "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/README.md",
+          "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/LICENSE",
+          "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/rea_video/probe.py",
+          "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/rea_video/packaging.py",
+          "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/rea_video/plan.py"
+        ]
       },
       "researchStatus": "official-repo-reviewed-not-executed",
       "displayStatus": "listed",
@@ -47430,41 +47801,402 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原有 Tags，不新增或調整分類架構。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "原有 Domain content 保持不變，只補強來源與未敘明的使用方式或風險。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
-          "decision": "candidate",
-          "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
+          "decision": "reused",
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+        "riskNotes": "Apache-2.0；原影片及外部模型素材權利另查；rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。；測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。；模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。；部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。；容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。；位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。；候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。；素材授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "逐鏡分析影片底層製作方式（實拍、AI 生成、3D、程式動效、錄影、靜圖等）、分鏡切點、攝影、打光、文字疊加、字幕、聲音及真正需要的素材；輸出有證據與置信度的 HTML/Markdown 報告和重製計畫，供 Claude Code、Codex 或其他 Agent 使用。",
+          "source": "https://github.com/JuneYaooo/rea-video",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合研究短影音、產品展示、教學影片、MG／UI 動效和混合素材製作，將參考影片拆解成可執行的拍攝、AI 生成、Remotion 程式段與音訊工作項。適用於學習製作技術及原創改編，不應拿未獲授權的影片／音樂／人物肖像直接重製或公開散布。把 AI/實拍判別視為推測，低置信或平台重壓影片須人工逐鏡確認。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-provenance",
+            "title": "區分影片來源線索與真偽證明",
+            "detail": "影片經過轉碼後可能失去來源 Metadata。 輸出：來源線索、證據類型及權重。",
+            "capabilityRefs": [
+              "provenance"
+            ]
+          },
+          {
+            "id": "use-cues",
+            "title": "追蹤文字圖層的時間區間",
+            "detail": "逐幀 OCR 可能將同一字幕拆成多個片段。 輸出：合併後的文字 cue 與觀測紀錄。",
+            "capabilityRefs": [
+              "cues"
+            ]
+          },
+          {
+            "id": "use-plan",
+            "title": "依鏡頭類型規劃候選製作方式",
+            "detail": "不同視覺效果不應全部交給影片生成模型。 輸出：路由規則、候選工具、驗收及素材需求計畫。",
+            "capabilityRefs": [
+              "plan"
+            ]
+          }
+        ],
+        "example": {
+          "id": "juneyaooo-rea-video-example",
+          "title": "規劃自有影片的素材分析與原創分鏡製作規格",
+          "input": "已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+          "process": "區分影片來源線索與真偽證明 → 追蹤文字圖層的時間區間 → 依鏡頭類型規劃候選製作方式 → 獨立驗收實際成果",
+          "output": "來源線索、文字時間區間與候選製作路徑的驗收規格。",
+          "destination": "自有影片研究與製作工作區，經素材權利及人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-provenance",
+            "use-cues",
+            "use-plan"
+          ],
+          "steps": [
+            {
+              "id": "provenance",
+              "title": "區分影片來源線索與真偽證明",
+              "capabilityRefs": [
+                "provenance"
+              ]
+            },
+            {
+              "id": "cues",
+              "title": "追蹤文字圖層的時間區間",
+              "capabilityRefs": [
+                "cues"
+              ]
+            },
+            {
+              "id": "plan",
+              "title": "依鏡頭類型規劃候選製作方式",
+              "capabilityRefs": [
+                "plan"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、素材權利、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。",
+          "測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。",
+          "模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。",
+          "部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。",
+          "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+          "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+          "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+          "素材授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以逐鏡分析、容器 Metadata 與文字圖層量測產生影片製作方式的候選解讀及重製規劃。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "Apache-2.0；原影片及外部模型素材權利另查"
+          },
+          {
+            "label": "版本",
+            "value": "c11f1bd8fd3edd26a40e8f45be828be685417700"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "區分影片來源線索與真偽證明",
+            "detail": "影片經過轉碼後可能失去來源 Metadata。 輸入：影片容器資訊與已授權檔案；輸出：來源線索、證據類型及權重",
+            "source": "rea_video/probe.py"
+          },
+          {
+            "title": "追蹤文字圖層的時間區間",
+            "detail": "逐幀 OCR 可能將同一字幕拆成多個片段。 輸入：有時間、位置與文字的 OCR 觀測及採樣步距；輸出：合併後的文字 cue 與觀測紀錄",
+            "source": "rea_video/packaging.py"
+          },
+          {
+            "title": "依鏡頭類型規劃候選製作方式",
+            "detail": "不同視覺效果不應全部交給影片生成模型。 輸入：已確認鏡頭分類、鏡頭特徵與素材需求；輸出：路由規則、候選工具、驗收及素材需求計畫",
+            "source": "rea_video/plan.py"
+          }
+        ],
+        "architecture": {
+          "summary": "區分影片來源線索與真偽證明 → 追蹤文字圖層的時間區間 → 依鏡頭類型規劃候選製作方式 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "區分影片來源線索與真偽證明",
+              "detail": "影片容器資訊與已授權檔案 → 來源線索、證據類型及權重",
+              "files": [
+                "rea_video/probe.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "追蹤文字圖層的時間區間",
+              "detail": "有時間、位置與文字的 OCR 觀測及採樣步距 → 合併後的文字 cue 與觀測紀錄",
+              "files": [
+                "rea_video/packaging.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "依鏡頭類型規劃候選製作方式",
+              "detail": "已確認鏡頭分類、鏡頭特徵與素材需求 → 路由規則、候選工具、驗收及素材需求計畫",
+              "files": [
+                "rea_video/plan.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "區分影片來源線索與真偽證明",
+            "rule": "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+            "source": "rea_video/probe.py"
+          },
+          {
+            "name": "追蹤文字圖層的時間區間",
+            "rule": "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+            "source": "rea_video/packaging.py"
+          },
+          {
+            "name": "依鏡頭類型規劃候選製作方式",
+            "rule": "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+            "source": "rea_video/plan.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "rea_video/probe.py",
+              "rea_video/packaging.py",
+              "rea_video/plan.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備已授權測試影片、合成文字圖層與人工確認的鏡頭分類。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "rea_video/probe.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有影片研究與製作工作區，經素材權利及人工覆核後使用。",
+            "file": "rea_video/probe.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "provenance",
+            "name": "區分影片來源線索與真偽證明",
+            "problem": "影片經過轉碼後可能失去來源 Metadata。",
+            "input": "影片容器資訊與已授權檔案",
+            "output": "來源線索、證據類型及權重",
+            "source": "rea_video/probe.py",
+            "sourceFiles": [
+              "rea_video/probe.py",
+              "README.md"
+            ],
+            "symbols": [
+              "provenance",
+              "_flatten_tags",
+              "parse_aigc"
+            ],
+            "gate": "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "cues",
+            "name": "追蹤文字圖層的時間區間",
+            "problem": "逐幀 OCR 可能將同一字幕拆成多個片段。",
+            "input": "有時間、位置與文字的 OCR 觀測及採樣步距",
+            "output": "合併後的文字 cue 與觀測紀錄",
+            "source": "rea_video/packaging.py",
+            "sourceFiles": [
+              "rea_video/packaging.py",
+              "README.md"
+            ],
+            "symbols": [
+              "build_cues",
+              "_blocks",
+              "_similar"
+            ],
+            "gate": "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "plan",
+            "name": "依鏡頭類型規劃候選製作方式",
+            "problem": "不同視覺效果不應全部交給影片生成模型。",
+            "input": "已確認鏡頭分類、鏡頭特徵與素材需求",
+            "output": "路由規則、候選工具、驗收及素材需求計畫",
+            "source": "rea_video/plan.py",
+            "sourceFiles": [
+              "rea_video/plan.py",
+              "README.md"
+            ],
+            "symbols": [
+              "Planner.plan_shot",
+              "LABEL_ROUTE",
+              "code_scene"
+            ],
+            "gate": "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃自有影片的素材分析與原創分鏡製作規格（設計示例）",
+          "problem": "已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+          "steps": [
+            {
+              "capability": "provenance",
+              "action": "區分影片來源線索與真偽證明"
+            },
+            {
+              "capability": "cues",
+              "action": "追蹤文字圖層的時間區間"
+            },
+            {
+              "capability": "plan",
+              "action": "依鏡頭類型規劃候選製作方式"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "juneyaooo-rea-video-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "區分影片來源線索與真偽證明 → 追蹤文字圖層的時間區間 → 依鏡頭類型規劃候選製作方式 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有影片研究與製作工作區，經素材權利及人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。",
+            "測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。",
+            "模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。",
+            "部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。",
+            "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+            "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+            "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+            "素材授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。；測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。；模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。；部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。；容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。；位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。；候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。；素材授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -96091,14 +96823,14 @@
       "canonicalName": "zhouxiaoka/autoclip",
       "category": "11 Media / Video",
       "resourceType": "Open-source desktop, CLI and MCP AI video clip repurposing and content export toolkit",
-      "purpose": "將使用者擁有權利的 YouTube/B 站影片連結或本地長影片（訪談、Podcast、課程）轉為平台格式的成片，自動分析精華段落、字幕、封面、發文文案與 ZIP 發布包，支援抖音、小紅書、TikTok、Instagram Reels、YouTube Shorts 等。",
-      "recommendation": "適合作為工具功能和技術選型參考；使用前依官方文件確認適用環境、隱私資料流、商業授權、費用及風險，不在本次收錄中安裝或實測。",
+      "purpose": "將已授權長影片轉成短影音；本次查核生成工作時間預算、取消控制與日誌敏感資料處理。",
+      "recommendation": "適合研究影音工作流的可靠性與隱私管理；不自動下載、發布或重製未取得權利的影片。",
       "url": "https://github.com/zhouxiaoka/autoclip",
       "repo": "zhouxiaoka/autoclip",
       "notes": "2026-10-25 核對 GitHub Repository Metadata、官方 README、Repo 目錄及相關 SKILL.md。Repository 授權：MIT。桌面剪輯/渲染可本機執行，但挑選段落和部分 AI 功能可能透過第三方雲端模型按量計費，是否能用本機模型替代依實際功能與設定核對。官方要求來源影片著作權屬原作者，重製、公開傳播和商業使用應取得授權，使用自己的直播/課程較易確保權利。截圖於 2026-10-18 記載約 9,509 stars，2026-10-25 GitHub 查核時為約 9,713 stars，會變動。Repo 自帶 `skills/autoclip/SKILL.md`（剪片到發布包）與 `skills/product-board/SKILL.md`（社群功能看板，屬 Repo 維護，不是剪片功能），兩者明確分開。Skill 的 CLI 或 MCP 可能讀取本地影片、呼叫模型 API 或寫檔，未經授權不執行。未下載影片、執行剪輯或發布。",
       "status": "active",
       "addedAt": "2026-10-25",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "autoclip",
         "long-to-short",
@@ -96140,8 +96872,16 @@
         "type": "Official GitHub README, repository metadata, license information and named Skill files (where present)",
         "summary": "Verified public official repository sources 2026-10-25. Not installed, executed or independently tested.",
         "readmeUrl": "https://github.com/zhouxiaoka/autoclip/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official upstream website/README; no third-party executable validation"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "2f511907a72cbfbb8d86639f6441967b826acb6a",
+        "referenceUrls": [
+          "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/README.md",
+          "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/LICENSE",
+          "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/backend/core/job_budget.py",
+          "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/backend/core/project_cancellation.py",
+          "https://github.com/zhouxiaoka/autoclip/blob/2f511907a72cbfbb8d86639f6441967b826acb6a/backend/core/log_redaction.py"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -96188,10 +96928,13 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -96204,25 +96947,378 @@
           "decision": "retain-unmapped",
           "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留既有 Primary Domain content，本批僅補來源支援的功能、使用前提與限制。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
           "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
+        "riskNotes": "MIT；來源影音及外部服務另查；若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料；Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI；本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。；取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。；依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。；素材授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+          "evidence": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "將使用者擁有權利的 YouTube/B 站影片連結或本地長影片（訪談、Podcast、課程）轉為平台格式的成片，自動分析精華段落、字幕、封面、發文文案與 ZIP 發布包，支援抖音、小紅書、TikTok、Instagram Reels、YouTube Shorts 等。",
+          "source": "https://github.com/zhouxiaoka/autoclip",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合作為工具功能和技術選型參考；使用前依官方文件確認適用環境、隱私資料流、商業授權、費用及風險，不在本次收錄中安裝或實測。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-budget",
+            "title": "限制生成工作累積等待時間",
+            "detail": "單次請求逾時與多層重試可能讓工作長期卡住。 輸出：剩餘預算限制後的讀取逾時或逾時例外。",
+            "capabilityRefs": [
+              "budget"
+            ]
+          },
+          {
+            "id": "use-cancel",
+            "title": "區分取消生成與刪除專案",
+            "detail": "取消操作可能意外清除已完成成片或讓背景工作繼續。 輸出：停止標記、程序處理與取消狀態。",
+            "capabilityRefs": [
+              "cancel"
+            ]
+          },
+          {
+            "id": "use-redact",
+            "title": "遮罩工作日誌中的敏感資訊",
+            "detail": "外部模型呼叫錯誤可能將憑證寫入日誌。 輸出：遮罩後的文字及日誌紀錄。",
+            "capabilityRefs": [
+              "redact"
+            ]
+          }
+        ],
+        "example": {
+          "id": "zhouxiaoka-autoclip-example",
+          "title": "規劃短影音生成工作的逾時取消與日誌安全驗收",
+          "input": "自有合成影音、模擬模型請求及測試工作識別。",
+          "process": "限制生成工作累積等待時間 → 區分取消生成與刪除專案 → 遮罩工作日誌中的敏感資訊 → 獨立驗收實際成果",
+          "output": "逾時與取消狀態、保留成片規格及敏感資訊遮罩驗收清單。",
+          "destination": "自有影音處理服務，在隔離環境驗證後整合。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-budget",
+            "use-cancel",
+            "use-redact"
+          ],
+          "steps": [
+            {
+              "id": "budget",
+              "title": "限制生成工作累積等待時間",
+              "capabilityRefs": [
+                "budget"
+              ]
+            },
+            {
+              "id": "cancel",
+              "title": "區分取消生成與刪除專案",
+              "capabilityRefs": [
+                "cancel"
+              ]
+            },
+            {
+              "id": "redact",
+              "title": "遮罩工作日誌中的敏感資訊",
+              "capabilityRefs": [
+                "redact"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、素材權利、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有合成影音、模擬模型請求及測試工作識別。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料",
+          "Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI",
+          "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+          "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+          "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+          "素材授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "將已授權長影片轉成短影音；本次查核生成工作時間預算、取消控制與日誌敏感資料處理。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；來源影音及外部服務另查"
+          },
+          {
+            "label": "版本",
+            "value": "2f511907a72cbfbb8d86639f6441967b826acb6a"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "限制生成工作累積等待時間",
+            "detail": "單次請求逾時與多層重試可能讓工作長期卡住。 輸入：工作時間預算與單次模型讀取逾時；輸出：剩餘預算限制後的讀取逾時或逾時例外",
+            "source": "backend/core/job_budget.py"
+          },
+          {
+            "title": "區分取消生成與刪除專案",
+            "detail": "取消操作可能意外清除已完成成片或讓背景工作繼續。 輸入：工作專案識別、取消或刪除事件及受追蹤程序；輸出：停止標記、程序處理與取消狀態",
+            "source": "backend/core/project_cancellation.py"
+          },
+          {
+            "title": "遮罩工作日誌中的敏感資訊",
+            "detail": "外部模型呼叫錯誤可能將憑證寫入日誌。 輸入：合成日誌文字與請求欄位；輸出：遮罩後的文字及日誌紀錄",
+            "source": "backend/core/log_redaction.py"
+          }
+        ],
+        "architecture": {
+          "summary": "限制生成工作累積等待時間 → 區分取消生成與刪除專案 → 遮罩工作日誌中的敏感資訊 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "限制生成工作累積等待時間",
+              "detail": "工作時間預算與單次模型讀取逾時 → 剩餘預算限制後的讀取逾時或逾時例外",
+              "files": [
+                "backend/core/job_budget.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "區分取消生成與刪除專案",
+              "detail": "工作專案識別、取消或刪除事件及受追蹤程序 → 停止標記、程序處理與取消狀態",
+              "files": [
+                "backend/core/project_cancellation.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "遮罩工作日誌中的敏感資訊",
+              "detail": "合成日誌文字與請求欄位 → 遮罩後的文字及日誌紀錄",
+              "files": [
+                "backend/core/log_redaction.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "限制生成工作累積等待時間",
+            "rule": "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+            "source": "backend/core/job_budget.py"
+          },
+          {
+            "name": "區分取消生成與刪除專案",
+            "rule": "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+            "source": "backend/core/project_cancellation.py"
+          },
+          {
+            "name": "遮罩工作日誌中的敏感資訊",
+            "rule": "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+            "source": "backend/core/log_redaction.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "backend/core/job_budget.py",
+              "backend/core/project_cancellation.py",
+              "backend/core/log_redaction.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有合成影音、模擬模型請求及測試工作識別。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "backend/core/job_budget.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有影音處理服務，在隔離環境驗證後整合。",
+            "file": "backend/core/job_budget.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "budget",
+            "name": "限制生成工作累積等待時間",
+            "problem": "單次請求逾時與多層重試可能讓工作長期卡住。",
+            "input": "工作時間預算與單次模型讀取逾時",
+            "output": "剩餘預算限制後的讀取逾時或逾時例外",
+            "source": "backend/core/job_budget.py",
+            "sourceFiles": [
+              "backend/core/job_budget.py",
+              "README.md"
+            ],
+            "symbols": [
+              "clip_job_read_timeout",
+              "bound_clip_job",
+              "clip_step_budget"
+            ],
+            "gate": "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "cancel",
+            "name": "區分取消生成與刪除專案",
+            "problem": "取消操作可能意外清除已完成成片或讓背景工作繼續。",
+            "input": "工作專案識別、取消或刪除事件及受追蹤程序",
+            "output": "停止標記、程序處理與取消狀態",
+            "source": "backend/core/project_cancellation.py",
+            "sourceFiles": [
+              "backend/core/project_cancellation.py",
+              "README.md"
+            ],
+            "symbols": [
+              "cancel",
+              "stop",
+              "restore"
+            ],
+            "gate": "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "redact",
+            "name": "遮罩工作日誌中的敏感資訊",
+            "problem": "外部模型呼叫錯誤可能將憑證寫入日誌。",
+            "input": "合成日誌文字與請求欄位",
+            "output": "遮罩後的文字及日誌紀錄",
+            "source": "backend/core/log_redaction.py",
+            "sourceFiles": [
+              "backend/core/log_redaction.py",
+              "README.md"
+            ],
+            "symbols": [
+              "redact_text",
+              "RedactingFilter"
+            ],
+            "gate": "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃短影音生成工作的逾時取消與日誌安全驗收（設計示例）",
+          "problem": "自有合成影音、模擬模型請求及測試工作識別。",
+          "steps": [
+            {
+              "capability": "budget",
+              "action": "限制生成工作累積等待時間"
+            },
+            {
+              "capability": "cancel",
+              "action": "區分取消生成與刪除專案"
+            },
+            {
+              "capability": "redact",
+              "action": "遮罩工作日誌中的敏感資訊"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "zhouxiaoka-autoclip-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有合成影音、模擬模型請求及測試工作識別。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "限制生成工作累積等待時間 → 區分取消生成與刪除專案 → 遮罩工作日誌中的敏感資訊 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有影音處理服務，在隔離環境驗證後整合。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料",
+            "Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI",
+            "本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。",
+            "取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。",
+            "依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。",
+            "素材授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "若選雲端分析會傳送字幕、抽樣畫面或音訊等輸入資料；Intel Mac 無對應桌面安裝包，特定平台需 Docker 或 CLI；本機運算可能暫停此預算；不能把模型等待限制當成端到端完成時間保證。；取消與刪除的語意不同；stop 會清理暫存，涉及寫入及程序終止，須獨立授權及測試。；依規則匹配而非全面去識別化；不同日誌來源、例外與資料管道仍須獨立核對，不能保證不洩漏。；素材授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、backend/core/job_budget.py、backend/core/project_cancellation.py、backend/core/log_redaction.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
