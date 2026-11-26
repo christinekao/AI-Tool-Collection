@@ -2494,3 +2494,135 @@ for(const [batch,topic,rows] of [
   }
  });
 }
+
+
+test('Dual-layer batches 77–81: all 14 candidates keep scoped source evidence, user examples, and visible reader guides',()=>{
+ const context=vm.createContext({URL});
+ vm.runInContext(fs.readFileSync('catalog-app.js','utf8').replace(/\ninit\(\);\s*$/,'\n'),context);
+ const cases=[
+  [
+    "bencho",
+    "設計作品集的互動操作與回饋",
+    2,
+    "evidence-linked",
+    "application"
+  ],
+  [
+    "fomofly-ai",
+    "從一段自有教學影片規劃短影音交付",
+    2,
+    "evidence-linked",
+    "application"
+  ],
+  [
+    "sona-orbit-parroting",
+    "規劃中英混合語音輸入的品質比較",
+    2,
+    "evidence-linked",
+    "application"
+  ],
+  [
+    "anthropic-claude-mythos-cybersecurity",
+    "制定企業防禦研究的模型採用審查表",
+    2,
+    "evidence-linked",
+    "model"
+  ],
+  [
+    "engineering-leadership-adobe-tech-lead-ai",
+    "規劃 AI 協作開發的交付與審查機制",
+    2,
+    "evidence-linked",
+    "article"
+  ],
+  [
+    "better-me-notes-amie",
+    "規劃個人成長閱讀與反思筆記",
+    2,
+    "evidence-linked",
+    "article"
+  ],
+  [
+    "littlehole2025-token-saver",
+    "規劃長對話工作交接的提示及狀態驗收",
+    1,
+    "mapped",
+    "repository"
+  ],
+  [
+    "rea",
+    "規劃自有軟體的獨立證據驗收",
+    2,
+    "deferred",
+    "repository"
+  ],
+  [
+    "alsyundawy-microsoft-office-for-macos",
+    "規劃企業 Mac Office 軟體來源與授權查核",
+    2,
+    "evidence-linked",
+    "collection"
+  ],
+  [
+    "letswrite-buzz-self-hosted-relay-guide",
+    "規劃隔離的 Buzz 協作工作台部署驗收",
+    2,
+    "evidence-linked",
+    "tutorial"
+  ],
+  [
+    "designed-to-scale",
+    "規劃系統設計課程的自學與應用驗收",
+    2,
+    "deferred",
+    "interactive-tutorial"
+  ],
+  [
+    "stitch-mcp",
+    "規劃作品集設計 Agent 的工具與產物驗收",
+    2,
+    "deferred",
+    "documentation"
+  ],
+  [
+    "land-book-design-inspiration",
+    "規劃作品集首頁的設計參考與採用審查",
+    2,
+    "deferred",
+    "collection"
+  ],
+  [
+    "particles-casberry",
+    "規劃自有網站粒子背景的動效與效能驗收",
+    2,
+    "deferred",
+    "application"
+  ]
+];
+ for(const [id,title,version,status,format] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8')),built=catalog.resources.find(r=>r.id===id);
+  assert.ok(built,id);
+  for(const key of ['readerGuide',version===1?'repoGuide':'agentEvidence','implementationKnowledge','source','intakeReview'])assert.deepEqual(built[key],d[key],id+' '+key);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  assert.equal(d.readerGuide.mappingVersion,version,id);
+  assert.equal(d.intakeReview.layerReview.status,status,id);
+  assert.equal(d.classification.contentFormat,format,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(d.readerGuide.useCases.length>=3,id);
+  if(status==='deferred'){assert.ok(d.intakeReview.layerReview.gap&&d.intakeReview.layerReview.nextAction,id);}
+  for(const uc of d.readerGuide.useCases){
+   const forward=resolveResourceLayerLinks(d,{caseId:uc.id});
+   for(const ref of version===1?uc.capabilityRefs:uc.evidenceRefs){
+    const item=(version===1?forward.capabilities:forward.evidence).find(x=>x.id===ref);
+    assert.ok(item&&item.runtimeStatus==='not-tested',id+' '+ref);
+    assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(c=>c.id===uc.id),id+' '+ref);
+   }
+  }
+  const html=context.detail(built);assert.ok(html.includes(title)&&html.includes('class="resource-reader-guide"'),id);assert.doesNotMatch(html,/class="repo-guide"|class="repo-rebuild-stage"/,id);
+ }
+ const load=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ for(const id of ['designed-to-scale','stitch-mcp','land-book-design-inspiration','particles-casberry']){const d=load(id);assert.equal(d.intakeReview.sourceStatus,'partial',id);assert.ok(d.intakeReview.sourceGap,id);assert.ok(d.source.reviewScope.includes('未'),id);}
+ const stitch=load('stitch-mcp');assert.ok(stitch.source.referenceUrls.some(u=>u.includes('f6aa86cde10c3f490acf09a63cc044582a50821d')), 'SDK evidence must be pinned');assert.ok(!stitch.source.upstreamCommit,'SDK SHA is not the hosted server revision');
+ const buzz=load('letswrite-buzz-self-hosted-relay-guide');assert.equal(buzz.url,'https://www.letswrite.tw/buzz-install/');assert.ok(buzz.source.referenceUrls.some(u=>u.startsWith('https://dev.to/letswrite/')));
+});

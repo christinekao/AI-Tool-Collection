@@ -1,3 +1,14 @@
+# Resource 最新交接｜Batch 80–81 與整合驗收（2026-11-26）
+
+- 正式 main 264/286（257 已對應、7 deferred）。PR #112、#113 共 9 筆候選，未觸發第四項 Live Pages Smoke；未合併。
+- [Batch 80｜協作部署、架構學習及設計整合](RESOURCE_DUAL_LAYER_BATCH80_20261126.md)：letswrite-buzz-self-hosted-relay-guide evidence-linked；designed-to-scale、stitch-mcp deferred。3 筆、9 用途、9 證據、3 設計案例。
+- [Batch 81｜設計參考與粒子動效的有限來源](RESOURCE_DUAL_LAYER_BATCH81_20261126.md)：land-book-design-inspiration、particles-casberry deferred。2 筆、6 用途、6 證據、2 設計案例。原頁 403，僅第一方索引摘要。
+- 接續 #113 的 Head `e8f5d8d08786666401a7b292f043baa5fcb645b2`，保留 Batch 77–79 全部資料與報告。新增 14 筆真實瀏覽器回歸案例（375/430/768/1440 px）及 Canonical/Catalog/正反向引用測試，觸發 Live Pages Smoke；四項 CI 成功才能合併整合 PR。舊 PR 不可重複合併。
+- [收尾來源缺口](RESOURCE_DUAL_LAYER_FINAL_GAPS_20261126.md)：剩餘 8 筆尚未改寫，3 疑似重複紀錄、3 身分不明、1 原 Repo 404、1 首頁逾時；待全庫引用盤點、原始來源及去重核准。
+- 合併後預計 278/286（266 完成對應、12 deferred），8 未改寫；未執行任何第三方工具。下一步核對整合 PR 最新 Head 四項 CI、合併、Catalog Sync／Pages、關閉被取代 PR，再處理來源缺口與最終稽核。
+
+---
+
 # Resource 最新交接｜雙層知識 Batch 79（2026-11-26）
 
 - PR #111 已合併，264/286（257 完成對應、7 deferred）；PR #112 為 Batch 77–78 候選（6 evidence-linked）。本批接續其 Head `8c4cfaa4f7e59a212ccb99d5a88473c5aebaabdc`，不能提前計入 main。

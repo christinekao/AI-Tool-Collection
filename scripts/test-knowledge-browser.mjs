@@ -746,7 +746,21 @@ try{
   ["tradingview-pine-screener-strategy-tester",".resource-reader-guide","規劃金融研究的篩選與回測證據核對"],
   ["skillry-web-design-template-skills",".resource-reader-guide","規劃自有作品集的版型採用與畫面驗收"],
   ["skillry-opus-5-5-video-pattern-library",".resource-reader-guide","規劃自有動效影片的參考模式與重製驗收"],
-  ["zenbuapps",".resource-reader-guide","規劃小型服務業網站的預約與客服驗收"]
+  ["zenbuapps",".resource-reader-guide","規劃小型服務業網站的預約與客服驗收"],
+  ["bencho",".resource-reader-guide","設計作品集的互動操作與回饋"],
+  ["fomofly-ai",".resource-reader-guide","從一段自有教學影片規劃短影音交付"],
+  ["sona-orbit-parroting",".resource-reader-guide","規劃中英混合語音輸入的品質比較"],
+  ["anthropic-claude-mythos-cybersecurity",".resource-reader-guide","制定企業防禦研究的模型採用審查表"],
+  ["engineering-leadership-adobe-tech-lead-ai",".resource-reader-guide","規劃 AI 協作開發的交付與審查機制"],
+  ["better-me-notes-amie",".resource-reader-guide","規劃個人成長閱讀與反思筆記"],
+  ["littlehole2025-token-saver",".resource-reader-guide","規劃長對話工作交接的提示及狀態驗收"],
+  ["rea",".resource-reader-guide","規劃自有軟體的獨立證據驗收"],
+  ["alsyundawy-microsoft-office-for-macos",".resource-reader-guide","規劃企業 Mac Office 軟體來源與授權查核"],
+  ["letswrite-buzz-self-hosted-relay-guide",".resource-reader-guide","規劃隔離的 Buzz 協作工作台部署驗收"],
+  ["designed-to-scale",".resource-reader-guide","規劃系統設計課程的自學與應用驗收"],
+  ["stitch-mcp",".resource-reader-guide","規劃作品集設計 Agent 的工具與產物驗收"],
+  ["land-book-design-inspiration",".resource-reader-guide","規劃作品集首頁的設計參考與採用審查"],
+  ["particles-casberry",".resource-reader-guide","規劃自有網站粒子背景的動效與效能驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

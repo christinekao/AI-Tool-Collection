@@ -6,14 +6,14 @@
   "canonicalName": "Stitch MCP",
   "category": "08 UI & Design Engineering",
   "resourceType": "MCP",
-  "purpose": "讓 Codex / Claude 等 Agent 直接操作 Stitch",
-  "recommendation": "適合研究讓 Agent 直接操作 Stitch 的整合方式。",
+  "purpose": "參考 Google 公開的 Stitch MCP 與 SDK 文件，規劃工具探索、畫面輸出及錯誤驗收；正式設定及伺服器權限仍待核對。",
+  "recommendation": "適合規劃作品集設計 Agent 的工具與產物驗收；採合成資料及最小權限，依來源範圍確認適用性，正式成果另行獨立驗收。",
   "url": "https://stitch.google.com/docs/mcp/setup",
   "repo": "",
   "notes": "",
   "status": "active",
   "addedAt": "2026-09-16",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-26",
   "tags": [
     "mcp",
     "agent-integration",
@@ -68,24 +68,29 @@
   ],
   "source": {
     "url": "https://stitch.google.com/docs/mcp/setup",
-    "reviewedAt": "2026-11-21",
-    "reviewScope": "Partial: official documentation page cannot be fully extracted",
-    "type": "Official product or original article"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "2026-11-26 官方 Setup 頁無可讀正文；Google Labs 官方公告確認 MCP／SDK 關聯，另查 Google Labs SDK 固定版本 README f6aa86cde10c3f490acf09a63cc044582a50821d。固定版本只屬 SDK 文件，不代表 MCP 服務端版本；SDK README 聲明非正式支援產品。未連線。",
+    "type": "Official product or original article",
+    "referenceUrls": [
+      "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md",
+      "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "partial",
     "sourceEvidenceFields": [
-      "source.url"
+      "source.url",
+      "source.referenceUrls"
     ],
-    "sourceGap": "官方 Stitch MCP Setup 頁面本次無法完整擷取正文，工具參數及當前授權流程未逐段核實。",
+    "sourceGap": "原 Setup 頁無正文；即時工具 Schema、正式授權流程、方案限制及服務端版本未核對。",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
-        "title"
+        "url"
       ],
-      "reason": "已比對 Canonical ID、名稱與原始來源，本批只補強既有 Resource，不新增實體。"
+      "reason": "原 Canonical ID 與來源保留，僅增加有限範圍的用途、證據與限制。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
@@ -105,10 +110,185 @@
       "decision": "reused",
       "reason": "保留既有 Concept 引用，不推測其他 Graph 邊。"
     },
-    "riskNotes": "MCP 端點及身分驗證方式可能隨版本變更。；本批未實際連線，且官方頁缺少可完整擷取正文。；未執行第三方程式、讀取機密或傳送憑證。",
+    "riskNotes": "MCP 端點及身分驗證方式可能隨版本變更。；本批未實際連線，且官方頁缺少可完整擷取正文。；未執行第三方程式、讀取機密或傳送憑證。；MCP 端點及身分驗證方式可能隨版本變更。；本批未實際連線，且官方頁缺少可完整擷取正文。；SDK 記錄 listTools 與 callTool；未查即時服務端工具，API 金鑰及 OAuth 必須隔離。；文件說明 getHtml 與 getImage 回傳下載 URL，而非可直接執行或已驗證的產品；未建立畫面。；僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。；第三方安裝、執行、授權與整合均未實測。",
     "verification": {
       "status": "not-tested",
-      "evidence": "本批只有官方來源／README 的文件層級審查；沒有執行第三方 Build、Runtime、Security、License、Integration。"
+      "evidence": "2026-11-26 官方 Setup 頁無可讀正文；Google Labs 官方公告確認 MCP／SDK 關聯，另查 Google Labs SDK 固定版本 README f6aa86cde10c3f490acf09a63cc044582a50821d。固定版本只屬 SDK 文件，不代表 MCP 服務端版本；SDK README 聲明非正式支援產品。未連線。"
+    },
+    "sourceCheckedAt": "2026-11-26",
+    "layerReview": {
+      "status": "deferred",
+      "reason": "2026-11-26 官方 Setup 頁無可讀正文；Google Labs 官方公告確認 MCP／SDK 關聯，另查 Google Labs SDK 固定版本 README f6aa86cde10c3f490acf09a63cc044582a50821d。固定版本只屬 SDK 文件，不代表 MCP 服務端版本；SDK README 聲明非正式支援產品。未連線。",
+      "gap": "原 Setup 頁無正文；即時工具 Schema、正式授權流程、方案限制及服務端版本未核對。",
+      "nextAction": "取得可讀正式 Setup 文件後，在明確核准測試環境比對即時工具清單與權限，再以合成畫面驗收。"
     }
-  }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓 Codex / Claude 等 Agent 直接操作 Stitch",
+      "source": "https://stitch.google.com/docs/mcp/setup",
+      "reviewedAt": "2026-11-21"
+    },
+    "priorRecommendationSnapshot": "適合研究讓 Agent 直接操作 Stitch 的整合方式。",
+    "priorSourceReviewSnapshot": {
+      "reviewedAt": "2026-11-21",
+      "reviewScope": "Partial: official documentation page cannot be fully extracted"
+    },
+    "priorIntakeReviewSnapshot": {
+      "sourceStatus": "partial",
+      "sourceCheckedAt": "",
+      "sourceGap": "官方 Stitch MCP Setup 頁面本次無法完整擷取正文，工具參數及當前授權流程未逐段核實。"
+    },
+    "documentContracts": [
+      {
+        "name": "建立可使用工具與權限清單",
+        "input": "合成 Agent 任務及測試專案授權範圍",
+        "output": "工具探索、允許清單及人工核准規格",
+        "source": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md",
+        "locator": "Tool Client (Agent Usage)／Configuration",
+        "limitations": "SDK 記錄 listTools 與 callTool；未查即時服務端工具，API 金鑰及 OAuth 必須隔離。"
+      },
+      {
+        "name": "區分畫面生成與可交付檔案",
+        "input": "自編 UI 規格及目標裝置",
+        "output": "畫面識別、HTML／圖片下載位置與品質驗收規格",
+        "source": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md",
+        "locator": "Working with Projects and Screens／API Reference: Screen",
+        "limitations": "文件說明 getHtml 與 getImage 回傳下載 URL，而非可直接執行或已驗證的產品；未建立畫面。"
+      },
+      {
+        "name": "建立失敗、澄清與重試驗收",
+        "input": "合成權限拒絕、流量限制及需求澄清情境",
+        "output": "錯誤分類、人工確認與回復條件",
+        "source": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md",
+        "locator": "Error Handling／Answering a clarifying question",
+        "limitations": "僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。"
+      }
+    ]
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 2,
+    "useCases": [
+      {
+        "id": "use-tools",
+        "title": "建立可使用工具與權限清單",
+        "detail": "輸入：合成 Agent 任務及測試專案授權範圍；輸出：工具探索、允許清單及人工核准規格。",
+        "evidenceRefs": [
+          "tools"
+        ]
+      },
+      {
+        "id": "use-screen",
+        "title": "區分畫面生成與可交付檔案",
+        "detail": "輸入：自編 UI 規格及目標裝置；輸出：畫面識別、HTML／圖片下載位置與品質驗收規格。",
+        "evidenceRefs": [
+          "screen"
+        ]
+      },
+      {
+        "id": "use-review",
+        "title": "建立失敗、澄清與重試驗收",
+        "detail": "輸入：合成權限拒絕、流量限制及需求澄清情境；輸出：錯誤分類、人工確認與回復條件。",
+        "evidenceRefs": [
+          "review"
+        ]
+      }
+    ],
+    "example": {
+      "id": "stitch-mcp-example",
+      "title": "規劃作品集設計 Agent 的工具與產物驗收",
+      "input": "合成畫面需求、測試專案識別及權限規格",
+      "process": "建立可使用工具與權限清單 → 區分畫面生成與可交付檔案 → 建立失敗、澄清與重試驗收 → 獨立驗收",
+      "output": "工具清單、畫面產物契約與錯誤驗收表",
+      "destination": "自有前端設計工作區，僅在核准的測試專案使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-tools",
+        "use-screen",
+        "use-review"
+      ],
+      "steps": [
+        {
+          "id": "tools",
+          "title": "建立可使用工具與權限清單",
+          "evidenceRefs": [
+            "tools"
+          ]
+        },
+        {
+          "id": "screen",
+          "title": "區分畫面生成與可交付檔案",
+          "evidenceRefs": [
+            "screen"
+          ]
+        },
+        {
+          "id": "review",
+          "title": "建立失敗、澄清與重試驗收",
+          "evidenceRefs": [
+            "review"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "evidenceRefs": [],
+          "externalDependency": "需另行核准操作環境、合成資料、權限及外部服務，並取得獨立驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成畫面需求、測試專案識別及權限規格。",
+      "核對可讀來源、版本、合法授權與資料邊界。",
+      "使用合成資料設計正常、缺漏、拒絕與失敗情境。"
+    ],
+    "limits": [
+      "MCP 端點及身分驗證方式可能隨版本變更。",
+      "本批未實際連線，且官方頁缺少可完整擷取正文。",
+      "SDK 記錄 listTools 與 callTool；未查即時服務端工具，API 金鑰及 OAuth 必須隔離。",
+      "文件說明 getHtml 與 getImage 回傳下載 URL，而非可直接執行或已驗證的產品；未建立畫面。",
+      "僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。",
+      "第三方安裝、執行、授權與整合均未實測。"
+    ]
+  },
+  "agentEvidence": [
+    {
+      "id": "tools",
+      "detail": "輸入：合成 Agent 任務及測試專案授權範圍；輸出：工具探索、允許清單及人工核准規格。",
+      "locator": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md — Tool Client (Agent Usage)／Configuration",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.0",
+        "source.referenceUrls"
+      ],
+      "limitations": "SDK 記錄 listTools 與 callTool；未查即時服務端工具，API 金鑰及 OAuth 必須隔離。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "screen",
+      "detail": "輸入：自編 UI 規格及目標裝置；輸出：畫面識別、HTML／圖片下載位置與品質驗收規格。",
+      "locator": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md — Working with Projects and Screens／API Reference: Screen",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.1",
+        "source.referenceUrls"
+      ],
+      "limitations": "文件說明 getHtml 與 getImage 回傳下載 URL，而非可直接執行或已驗證的產品；未建立畫面。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "review",
+      "detail": "輸入：合成權限拒絕、流量限制及需求澄清情境；輸出：錯誤分類、人工確認與回復條件。",
+      "locator": "https://github.com/google-labs-code/stitch-sdk/blob/f6aa86cde10c3f490acf09a63cc044582a50821d/README.md — Error Handling／Answering a clarifying question",
+      "evidenceFields": [
+        "implementationKnowledge.documentContracts.2",
+        "source.referenceUrls"
+      ],
+      "limitations": "僅為 SDK 文件描述，未實際觸發任何錯誤或驗證服務端行為。",
+      "evidenceStatus": "source-reviewed",
+      "runtimeStatus": "not-tested"
+    }
+  ]
 }
