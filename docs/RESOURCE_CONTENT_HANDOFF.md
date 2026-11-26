@@ -1,6 +1,6 @@
 # Resource 最新交接｜雙層知識 Batch 63–66（2026-11-26）
 
-- PR #105 已合併，204/286。PR #106 四項 CI PASS 且合併 `04dd94a40e5cb1d4f749f94258173338cdd6df78`，213/286。PR #107 基線 `76cab422496ebac3d771ed935c61f8fc00ad370f`，尚待完整 CI 與合併。
+- PR #105 已合併，204/286。PR #106 四項 CI PASS 且合併 `04dd94a40e5cb1d4f749f94258173338cdd6df78`，213/286。PR #107 四項 CI PASS 且合併 `5c14bbc3e4330050dff5acbb216454314bf1a263`，222/286。PR #108 首次 Intake Gate 發現 3 筆欄位問題：兩筆原限制描述不足 12 字、一筆文件子技能 repo 原本空白。修正 Reader Guide 限制描述及實際來源證據欄位，維持原始資料與驗收規則；待新提交四項 CI。
 - [Batch 63｜金融研究的資料品質、成本與證據](RESOURCE_DUAL_LAYER_BATCH63_20261126.md)：blave-agent、kerr20801-taiwan-stock-ai-analyzer、zhulinsen-daily-stock-analysis；3 筆、9 用途、9 局部證據、3 design-only 案例。
 - [Batch 64｜風險閘道與工具執行邊界](RESOURCE_DUAL_LAYER_BATCH64_20261126.md)：anti-gambling-trader-tw、jakeschincariol-day-trader-skill、pomerado-pomerado；3 筆、9 用途、9 局部證據、3 design-only 案例。
 - [Batch 65｜影音處理與生成素材索引](RESOURCE_DUAL_LAYER_BATCH65_20261126.md)：onetake、jub0t-concat、awesome-gpt-image-2；3 筆、9 用途、9 局部證據、3 design-only 案例。
