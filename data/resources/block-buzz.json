@@ -6,14 +6,14 @@
   "canonicalName": "block/buzz",
   "category": "02 Agent Orchestration",
   "resourceType": "Apache-2.0 open-source self-hostable human-agent collaboration workspace / Nostr relay and multi-agent desktop app",
-  "purpose": "讓人員與 Claude Code、Codex、Goose、Pi 等 Coding Agents 在同一個社群／專案頻道協作；支援 channels、threads、direct messages、Agent 身分、帶簽章的事件紀錄、搜尋、程式碼／Git 活動與可組織的工作流程。提供本機桌面應用、Relay、CLI／ACP Agent 整合；新版 block/buzz-app 可在聊天中呼叫在本機執行的 Agents。",
-  "recommendation": "適合想把團隊討論、程式碼變更、Agent 工作及審核紀錄整合到同一處的開發者或團隊；與偏向 Agent 控制介面的 T3 Code 不同，Buzz 更重視人與 Agent 共用協作空間及可自架 Relay。建議先以獨立測試 Workspace 與非敏感 Repo 試用；保持 Agent 權限最小化，確認本機命令／檔案寫入範圍、各頻道可見性、私鑰備份與 Relay 資料位置，再考慮加入正式團隊。",
+  "purpose": "支援人員與 Agent 的頻道協作；本次查核訂閱範圍、事件佇列及編輯訊息的回覆路由。",
+  "recommendation": "適合研究多 Agent 頻道事件的路由與佇列驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/block/buzz",
   "repo": "block/buzz",
   "notes": "2026-10-24 核對 Block 官方 block/buzz README.md、AGENTS.md、SECURITY.md、LICENSE、以及 block/buzz-app README.md 與兩個 Repo 的 GitHub metadata。兩者 Apache-2.0；block/buzz 為原始 Relay、桌面／CLI／ACP 與協作平台，block/buzz-app 為 Buzz 1.0 Beta 新版 Desktop/Web UI；同一產品生態收錄一筆 Resource 而非兩個重複工具。0.X 與 1.0 Beta 的功能和系統需求不同，不能將每項功能跨版混稱已可用。原始 Repo 的 Relay、頻道、DM、搜尋、Git 事件、Audit 和部分 YAML workflow 已列為現有；某些審核閘道、行動端及推播仍在開發或規劃中。1.0 Beta 的 App 支援 macOS Apple Silicon、Windows x64、Linux x64；Claude 與 Codex Agents 的新 App 支援平台是 macOS/Linux，Goose 與 Pi 包含 Windows。新版無穩定 release channel，Windows 安裝包未簽署、測試成熟度有限。Agent 執行於本機且能執行命令及編輯檔案，預設工作區可在 ~/.buzz；並非唯讀型聊天工具。使用者／Agent 的 Nostr 私鑰存於 OS Keyring 等安全儲存中，1.0 App 明確要求使用者自行備份身分私鑰，否則無法在新裝置恢復身分。使用遠端／第三方 Relay 時，聊天、專案事件及媒體會送至該服務，不能因為 Agent 執行本機就聲稱全部資料完全離線；須分別確認 Relay 管理者、資料可見性、第三方模型／API 的資料流向。SECURITY.md 描述頻道成員資格授權以及可檢測竄改但非阻止具有資料庫寫入能力的攻擊者重算的 audit chain，不應當作全面隔離保證。作者功能說明並非實機驗證。本次未安裝、執行或加入任何社群。",
   "status": "active",
   "addedAt": "2026-10-24",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "buzz",
     "block",
@@ -78,8 +78,16 @@
     "type": "Primary Block GitHub README, AGENTS.md, SECURITY.md, LICENSE and new beta app README",
     "summary": "Verified main Block Buzz platform and newer block/buzz-app 1.0 beta on 2026-10-24. Not the separate Buzz/Whisper transcription project. No installation or runtime testing.",
     "readmeUrl": "https://github.com/block/buzz/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
-    "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+    "reviewedAt": "2026-11-26",
+    "reviewScope": "固定版本 README.md、LICENSE、crates/buzz-acp/src/filter.rs、crates/buzz-acp/src/queue.rs、crates/buzz-acp/src/edit_routing.rs 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "ddc3585a3a83a616d3720cc52723765e840ffea7",
+    "referenceUrls": [
+      "https://github.com/block/buzz/blob/ddc3585a3a83a616d3720cc52723765e840ffea7/README.md",
+      "https://github.com/block/buzz/blob/ddc3585a3a83a616d3720cc52723765e840ffea7/LICENSE",
+      "https://github.com/block/buzz/blob/ddc3585a3a83a616d3720cc52723765e840ffea7/crates/buzz-acp/src/filter.rs",
+      "https://github.com/block/buzz/blob/ddc3585a3a83a616d3720cc52723765e840ffea7/crates/buzz-acp/src/queue.rs",
+      "https://github.com/block/buzz/blob/ddc3585a3a83a616d3720cc52723765e840ffea7/crates/buzz-acp/src/edit_routing.rs"
+    ]
   },
   "researchStatus": "official-source-verified",
   "displayStatus": "listed",
@@ -117,40 +125,396 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+    "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、crates/buzz-acp/src/filter.rs、crates/buzz-acp/src/queue.rs、crates/buzz-acp/src/edit_routing.rs 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+    "riskNotes": "Apache-2.0；README 區分現有功能與規劃中的功能，不能將所有示範情境視為已交付。；自架 Relay 仍需維運、身分／私鑰管理與安全事件審查。；頻道匹配不等於身分或授權驗證；訊息內容須依不可信資料處理。；本次只查政策說明與符號；Drop 與 Queue 語意不同，須驗證溢位、重試及資料遺失。；只查局部路由與範圍定義，未測 relay 讀取及驗證；不得代替權限控制。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+      "evidence": "固定版本 README.md、LICENSE、crates/buzz-acp/src/filter.rs、crates/buzz-acp/src/queue.rs、crates/buzz-acp/src/edit_routing.rs 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、crates/buzz-acp/src/filter.rs、crates/buzz-acp/src/queue.rs、crates/buzz-acp/src/edit_routing.rs 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "讓人員與 Claude Code、Codex、Goose、Pi 等 Coding Agents 在同一個社群／專案頻道協作；支援 channels、threads、direct messages、Agent 身分、帶簽章的事件紀錄、搜尋、程式碼／Git 活動與可組織的工作流程。提供本機桌面應用、Relay、CLI／ACP Agent 整合；新版 block/buzz-app 可在聊天中呼叫在本機執行的 Agents。",
+      "source": "https://github.com/block/buzz",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合想把團隊討論、程式碼變更、Agent 工作及審核紀錄整合到同一處的開發者或團隊；與偏向 Agent 控制介面的 T3 Code 不同，Buzz 更重視人與 Agent 共用協作空間及可自架 Relay。建議先以獨立測試 Workspace 與非敏感 Repo 試用；保持 Agent 權限最小化，確認本機命令／檔案寫入範圍、各頻道可見性、私鑰備份與 Relay 資料位置，再考慮加入正式團隊。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-filter",
+        "title": "限制訂閱頻道",
+        "detail": "Agent 不應將所有頻道事件混為同一任務。 輸出：符合範圍與否的判定。",
+        "capabilityRefs": [
+          "filter"
+        ]
+      },
+      {
+        "id": "use-queue",
+        "title": "界定事件佇列容量與去重政策",
+        "detail": "忙碌頻道的事件可能累積或遺失。 輸出：佇列及批次處理的預期契約。",
+        "capabilityRefs": [
+          "queue"
+        ]
+      },
+      {
+        "id": "use-edit",
+        "title": "辨識訊息編輯的原始目標",
+        "detail": "編輯事件不應被誤當獨立回覆目標。 輸出：原始目標的查詢範圍及回覆路由契約。",
+        "capabilityRefs": [
+          "edit"
+        ]
+      }
+    ],
+    "example": {
+      "id": "block-buzz-example",
+      "title": "規劃多 Agent 頻道事件的路由與佇列驗收",
+      "input": "合成頻道、訊息事件及訂閱設定",
+      "process": "限制訂閱頻道 → 界定事件佇列容量與去重政策 → 辨識訊息編輯的原始目標 → 獨立驗收實際成果",
+      "output": "匹配範圍、佇列狀態與原始訊息路由",
+      "destination": "自有 Agent 協作測試工作區，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-filter",
+        "use-queue",
+        "use-edit"
+      ],
+      "steps": [
+        {
+          "id": "filter",
+          "title": "限制訂閱頻道",
+          "capabilityRefs": [
+            "filter"
+          ]
+        },
+        {
+          "id": "queue",
+          "title": "界定事件佇列容量與去重政策",
+          "capabilityRefs": [
+            "queue"
+          ]
+        },
+        {
+          "id": "edit",
+          "title": "辨識訊息編輯的原始目標",
+          "capabilityRefs": [
+            "edit"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成頻道、訊息事件及訂閱設定。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "README 區分現有功能與規劃中的功能，不能將所有示範情境視為已交付。",
+      "自架 Relay 仍需維運、身分／私鑰管理與安全事件審查。",
+      "頻道匹配不等於身分或授權驗證；訊息內容須依不可信資料處理。",
+      "本次只查政策說明與符號；Drop 與 Queue 語意不同，須驗證溢位、重試及資料遺失。",
+      "只查局部路由與範圍定義，未測 relay 讀取及驗證；不得代替權限控制。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "支援人員與 Agent 的頻道協作；本次查核訂閱範圍、事件佇列及編輯訊息的回覆路由。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0"
+      },
+      {
+        "label": "版本",
+        "value": "ddc3585a3a83a616d3720cc52723765e840ffea7"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "限制訂閱頻道",
+        "detail": "Agent 不應將所有頻道事件混為同一任務。 輸入：頻道識別及訂閱範圍；輸出：符合範圍與否的判定",
+        "source": "crates/buzz-acp/src/filter.rs"
+      },
+      {
+        "title": "界定事件佇列容量與去重政策",
+        "detail": "忙碌頻道的事件可能累積或遺失。 輸入：合成頻道事件與去重模式；輸出：佇列及批次處理的預期契約",
+        "source": "crates/buzz-acp/src/queue.rs"
+      },
+      {
+        "title": "辨識訊息編輯的原始目標",
+        "detail": "編輯事件不應被誤當獨立回覆目標。 輸入：合成編輯事件與頻道；輸出：原始目標的查詢範圍及回覆路由契約",
+        "source": "crates/buzz-acp/src/edit_routing.rs"
+      }
+    ],
+    "architecture": {
+      "summary": "限制訂閱頻道 → 界定事件佇列容量與去重政策 → 辨識訊息編輯的原始目標 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "限制訂閱頻道",
+          "detail": "頻道識別及訂閱範圍 → 符合範圍與否的判定",
+          "files": [
+            "crates/buzz-acp/src/filter.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "界定事件佇列容量與去重政策",
+          "detail": "合成頻道事件與去重模式 → 佇列及批次處理的預期契約",
+          "files": [
+            "crates/buzz-acp/src/queue.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "辨識訊息編輯的原始目標",
+          "detail": "合成編輯事件與頻道 → 原始目標的查詢範圍及回覆路由契約",
+          "files": [
+            "crates/buzz-acp/src/edit_routing.rs",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "限制訂閱頻道",
+        "rule": "頻道匹配不等於身分或授權驗證；訊息內容須依不可信資料處理。",
+        "source": "crates/buzz-acp/src/filter.rs"
+      },
+      {
+        "name": "界定事件佇列容量與去重政策",
+        "rule": "本次只查政策說明與符號；Drop 與 Queue 語意不同，須驗證溢位、重試及資料遺失。",
+        "source": "crates/buzz-acp/src/queue.rs"
+      },
+      {
+        "name": "辨識訊息編輯的原始目標",
+        "rule": "只查局部路由與範圍定義，未測 relay 讀取及驗證；不得代替權限控制。",
+        "source": "crates/buzz-acp/src/edit_routing.rs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、crates/buzz-acp/src/filter.rs、crates/buzz-acp/src/queue.rs、crates/buzz-acp/src/edit_routing.rs 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "crates/buzz-acp/src/filter.rs",
+          "crates/buzz-acp/src/queue.rs",
+          "crates/buzz-acp/src/edit_routing.rs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成頻道、訊息事件及訂閱設定。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "crates/buzz-acp/src/filter.rs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有 Agent 協作測試工作區，經資料權利與人工覆核後使用。",
+        "file": "crates/buzz-acp/src/filter.rs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "filter",
+        "name": "限制訂閱頻道",
+        "problem": "Agent 不應將所有頻道事件混為同一任務。",
+        "input": "頻道識別及訂閱範圍",
+        "output": "符合範圍與否的判定",
+        "source": "crates/buzz-acp/src/filter.rs",
+        "sourceFiles": [
+          "crates/buzz-acp/src/filter.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "ChannelScope::matches",
+          "FilterContext::from_event"
+        ],
+        "gate": "頻道匹配不等於身分或授權驗證；訊息內容須依不可信資料處理。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "queue",
+        "name": "界定事件佇列容量與去重政策",
+        "problem": "忙碌頻道的事件可能累積或遺失。",
+        "input": "合成頻道事件與去重模式",
+        "output": "佇列及批次處理的預期契約",
+        "source": "crates/buzz-acp/src/queue.rs",
+        "sourceFiles": [
+          "crates/buzz-acp/src/queue.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "MAX_PENDING_PER_SCOPE",
+          "MAX_PENDING_PER_CHANNEL",
+          "push",
+          "flush_next"
+        ],
+        "gate": "本次只查政策說明與符號；Drop 與 Queue 語意不同，須驗證溢位、重試及資料遺失。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "edit",
+        "name": "辨識訊息編輯的原始目標",
+        "problem": "編輯事件不應被誤當獨立回覆目標。",
+        "input": "合成編輯事件與頻道",
+        "output": "原始目標的查詢範圍及回覆路由契約",
+        "source": "crates/buzz-acp/src/edit_routing.rs",
+        "sourceFiles": [
+          "crates/buzz-acp/src/edit_routing.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "resolve_edit",
+          "resolve_edit_with"
+        ],
+        "gate": "只查局部路由與範圍定義，未測 relay 讀取及驗證；不得代替權限控制。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃多 Agent 頻道事件的路由與佇列驗收（設計示例）",
+      "problem": "合成頻道、訊息事件及訂閱設定",
+      "steps": [
+        {
+          "capability": "filter",
+          "action": "限制訂閱頻道"
+        },
+        {
+          "capability": "queue",
+          "action": "界定事件佇列容量與去重政策"
+        },
+        {
+          "capability": "edit",
+          "action": "辨識訊息編輯的原始目標"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "block-buzz-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成頻道、訊息事件及訂閱設定",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "限制訂閱頻道 → 界定事件佇列容量與去重政策 → 辨識訊息編輯的原始目標 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有 Agent 協作測試工作區，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "README 區分現有功能與規劃中的功能，不能將所有示範情境視為已交付。",
+        "自架 Relay 仍需維運、身分／私鑰管理與安全事件審查。",
+        "頻道匹配不等於身分或授權驗證；訊息內容須依不可信資料處理。",
+        "本次只查政策說明與符號；Drop 與 Queue 語意不同，須驗證溢位、重試及資料遺失。",
+        "只查局部路由與範圍定義，未測 relay 讀取及驗證；不得代替權限控制。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "README 區分現有功能與規劃中的功能，不能將所有示範情境視為已交付。；自架 Relay 仍需維運、身分／私鑰管理與安全事件審查。；頻道匹配不等於身分或授權驗證；訊息內容須依不可信資料處理。；本次只查政策說明與符號；Drop 與 Queue 語意不同，須驗證溢位、重試及資料遺失。；只查局部路由與範圍定義，未測 relay 讀取及驗證；不得代替權限控制。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、crates/buzz-acp/src/filter.rs、crates/buzz-acp/src/queue.rs、crates/buzz-acp/src/edit_routing.rs 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }

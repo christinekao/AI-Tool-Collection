@@ -695,7 +695,16 @@ try{
   ["social-post",".resource-reader-guide","規劃社群內容工作流的授權與證據驗收"],
   ["storytold-artcraft",".resource-reader-guide","規劃影音創作工作台的素材與生成狀態驗收"],
   ["storytold-filmcraft",".resource-reader-guide","規劃影片剪輯專案的復原與匯出可靠性驗收"],
-  ["lemomo-ai-lemo-opuscar",".resource-reader-guide","規劃程式影片的文字可讀性與字幕時間驗收"]
+  ["lemomo-ai-lemo-opuscar",".resource-reader-guide","規劃程式影片的文字可讀性與字幕時間驗收"],
+  ["nanako0129-syrtis",".resource-reader-guide","規劃 AI 用量監測的週期證據與隱私驗收"],
+  ["block-buzz",".resource-reader-guide","規劃多 Agent 頻道事件的路由與佇列驗收"],
+  ["makecindy-cindy",".resource-reader-guide","規劃跨 Harness Agent 的能力與 Session 驗收"],
+  ["mars-tw-freedom-erp-crm",".resource-reader-guide","規劃模擬 ERP 工作區的資料一致性與備份驗收"],
+  ["zichuanlan-freebie-radar",".resource-reader-guide","規劃資訊雷達的去重與分類證據驗收"],
+  ["hirakujira-pokeep",".resource-reader-guide","規劃本機收藏資料的備份與建議可追溯驗收"],
+  ["forget-c-jellyfish",".resource-reader-guide","規劃短劇專案的章節與生成任務驗收"],
+  ["waooai-waoowaoo",".resource-reader-guide","規劃影音工作區的模型與資料寫入規則驗收"],
+  ["ai-video-drama-platform",".resource-reader-guide","規劃文字故事至分鏡及測試影片的契約驗收"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

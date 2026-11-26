@@ -6,13 +6,13 @@
   "canonicalName": "Nanako0129/syrtis",
   "category": "12 Developer Tools",
   "resourceType": "Open-source native macOS menu-bar AI coding usage / subscription quota monitor",
-  "purpose": "在 macOS 選單列集中檢視 Claude Code、Codex、Cursor、OpenCode、Gemini CLI、Copilot 等 25+ AI 工具的本機工作階段 Token 使用量、估算成本、模型與 Agent 統計，並透過供應商額度資料顯示訂閱用量、重置週期與消耗速率。",
-  "recommendation": "適合使用多個 AI Coding CLI／編輯器的開發者快速比較每日、每月、每小時及模型別 Token 消耗與估算成本，並觀察訂閱額度是否接近限制。優先在個人 Apple Silicon Mac 試用，安裝前核對支援的版本與日誌格式；估算費用不應直接當作實際帳單，OAuth 額度功能可能需要與外部供應商 API 通訊。",
+  "purpose": "在 macOS 彙整 Agent 用量與額度；本次聚焦額度週期證據、帳號範圍與憑證讀取同意。",
+  "recommendation": "適合研究 AI 用量監測的週期證據與隱私驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/Nanako0129/syrtis",
   "repo": "Nanako0129/syrtis",
   "status": "active",
   "addedAt": "2026-10-14",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "token-usage",
     "ai-cost-monitoring",
@@ -76,48 +76,410 @@
   "source": {
     "url": "https://github.com/Nanako0129/syrtis",
     "readmeUrl": "https://github.com/Nanako0129/syrtis/blob/main/README.md",
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official upstream README",
-    "reviewScope": "Documentation only, no code executed"
+    "reviewScope": "固定版本 README.md、LICENSE、crates/tb_core_ffi/src/agent_quota_duration.rs、crates/tb_core_ffi/src/agent_account_scope.rs、crates/tb_core_ffi/src/keychain_consent.rs 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "995615549c5b9c9eedf93fb9d54a90f8062db90c",
+    "referenceUrls": [
+      "https://github.com/Nanako0129/syrtis/blob/995615549c5b9c9eedf93fb9d54a90f8062db90c/README.md",
+      "https://github.com/Nanako0129/syrtis/blob/995615549c5b9c9eedf93fb9d54a90f8062db90c/LICENSE",
+      "https://github.com/Nanako0129/syrtis/blob/995615549c5b9c9eedf93fb9d54a90f8062db90c/crates/tb_core_ffi/src/agent_quota_duration.rs",
+      "https://github.com/Nanako0129/syrtis/blob/995615549c5b9c9eedf93fb9d54a90f8062db90c/crates/tb_core_ffi/src/agent_account_scope.rs",
+      "https://github.com/Nanako0129/syrtis/blob/995615549c5b9c9eedf93fb9d54a90f8062db90c/crates/tb_core_ffi/src/keychain_consent.rs"
+    ]
   },
   "intakeReview": {
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "比對既有 ID、上游 Repo 與正式紀錄，只更新原 Resource，未建立重複實體。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "完整保留原有 Raw Tags、分類、Typed References，沒有新增標籤。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "沿用既有 Primary Domain ai-agent，僅改善功能、條件、限制，不更改分類。",
+    "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "只查核公開 README／來源，尚無可重建的程式碼呼叫契約與實測，未建立 Repo Guide。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、crates/tb_core_ffi/src/agent_quota_duration.rs、crates/tb_core_ffi/src/agent_account_scope.rs、crates/tb_core_ffi/src/keychain_consent.rs 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "公開來源尚無可直接跨工具組裝的版本化 I/O 契約，不新增 Capability。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
       "decision": "reused",
-      "reason": "保留原有 Concept References，不新增 Graph Edge。"
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "公開第三方文件僅供來源查核，未執行安裝、權限變更或傳送任何 Secrets。",
+    "riskNotes": "MIT；供應商憑證與服務另查；用量與配額顯示取決於上游 Log 格式及 Provider 限制；本機 Session Log 可能包含敏感專案活動，應限制讀取與分享；優先級固定；無效的已提供證據不靜默替代。未核對實際供應商額度。；本次只查安裝金鑰生命週期局部契約；涉及寫檔與孤立資料處置，須核准及備份，不讀真實憑證。；預設未授權，完整替換而非合併；僅為程序內登記，不能視為全部 Keychain 存取安全。；授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "官方 README 已閱讀；第三方 Build、Runtime、Integration、Security／License 全文稽核未執行。"
+      "evidence": "固定版本 README.md、LICENSE、crates/tb_core_ffi/src/agent_quota_duration.rs、crates/tb_core_ffi/src/agent_account_scope.rs、crates/tb_core_ffi/src/keychain_consent.rs 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、crates/tb_core_ffi/src/agent_quota_duration.rs、crates/tb_core_ffi/src/agent_account_scope.rs、crates/tb_core_ffi/src/keychain_consent.rs 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "在 macOS 選單列集中檢視 Claude Code、Codex、Cursor、OpenCode、Gemini CLI、Copilot 等 25+ AI 工具的本機工作階段 Token 使用量、估算成本、模型與 Agent 統計，並透過供應商額度資料顯示訂閱用量、重置週期與消耗速率。",
+      "source": "https://github.com/Nanako0129/syrtis",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合使用多個 AI Coding CLI／編輯器的開發者快速比較每日、每月、每小時及模型別 Token 消耗與估算成本，並觀察訂閱額度是否接近限制。優先在個人 Apple Silicon Mac 試用，安裝前核對支援的版本與日誌格式；估算費用不應直接當作實際帳單，OAuth 額度功能可能需要與外部供應商 API 通訊。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-quota",
+        "title": "區分額度週期的證據來源",
+        "detail": "未知週期不應以猜測的時長估算。 輸出：有來源的週期時長或未取得狀態。",
+        "capabilityRefs": [
+          "quota"
+        ]
+      },
+      {
+        "id": "use-identity",
+        "title": "隔離額度歷史的安裝識別",
+        "detail": "歷史資料不應直接暴露帳號憑證。 輸出：安裝識別可用性或類型化錯誤。",
+        "capabilityRefs": [
+          "identity"
+        ]
+      },
+      {
+        "id": "use-consent",
+        "title": "保存有範圍的憑證讀取同意",
+        "detail": "系統權限提示前應先告知本人。 輸出：已同意的用戶端集合與拒絕原因。",
+        "capabilityRefs": [
+          "consent"
+        ]
+      }
+    ],
+    "example": {
+      "id": "nanako0129-syrtis-example",
+      "title": "規劃 AI 用量監測的週期證據與隱私驗收",
+      "input": "合成額度時間、匿名帳號識別及同意設定",
+      "process": "區分額度週期的證據來源 → 隔離額度歷史的安裝識別 → 保存有範圍的憑證讀取同意 → 獨立驗收實際成果",
+      "output": "週期判定、帳號識別邊界及同意檢查",
+      "destination": "自有用量監測測試環境，經資料權利與人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-quota",
+        "use-identity",
+        "use-consent"
+      ],
+      "steps": [
+        {
+          "id": "quota",
+          "title": "區分額度週期的證據來源",
+          "capabilityRefs": [
+            "quota"
+          ]
+        },
+        {
+          "id": "identity",
+          "title": "隔離額度歷史的安裝識別",
+          "capabilityRefs": [
+            "identity"
+          ]
+        },
+        {
+          "id": "consent",
+          "title": "保存有範圍的憑證讀取同意",
+          "capabilityRefs": [
+            "consent"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備合成額度時間、匿名帳號識別及同意設定。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "用量與配額顯示取決於上游 Log 格式及 Provider 限制",
+      "本機 Session Log 可能包含敏感專案活動，應限制讀取與分享",
+      "優先級固定；無效的已提供證據不靜默替代。未核對實際供應商額度。",
+      "本次只查安裝金鑰生命週期局部契約；涉及寫檔與孤立資料處置，須核准及備份，不讀真實憑證。",
+      "預設未授權，完整替換而非合併；僅為程序內登記，不能視為全部 Keychain 存取安全。",
+      "授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "在 macOS 彙整 Agent 用量與額度；本次聚焦額度週期證據、帳號範圍與憑證讀取同意。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "MIT；供應商憑證與服務另查"
+      },
+      {
+        "label": "版本",
+        "value": "995615549c5b9c9eedf93fb9d54a90f8062db90c"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "區分額度週期的證據來源",
+        "detail": "未知週期不應以猜測的時長估算。 輸入：重置時間及供應商、契約、觀測證據；輸出：有來源的週期時長或未取得狀態",
+        "source": "crates/tb_core_ffi/src/agent_quota_duration.rs"
+      },
+      {
+        "title": "隔離額度歷史的安裝識別",
+        "detail": "歷史資料不應直接暴露帳號憑證。 輸入：隔離測試目錄及合成識別；輸出：安裝識別可用性或類型化錯誤",
+        "source": "crates/tb_core_ffi/src/agent_account_scope.rs"
+      },
+      {
+        "title": "保存有範圍的憑證讀取同意",
+        "detail": "系統權限提示前應先告知本人。 輸入：合成用戶端同意 JSON；輸出：已同意的用戶端集合與拒絕原因",
+        "source": "crates/tb_core_ffi/src/keychain_consent.rs"
+      }
+    ],
+    "architecture": {
+      "summary": "區分額度週期的證據來源 → 隔離額度歷史的安裝識別 → 保存有範圍的憑證讀取同意 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "區分額度週期的證據來源",
+          "detail": "重置時間及供應商、契約、觀測證據 → 有來源的週期時長或未取得狀態",
+          "files": [
+            "crates/tb_core_ffi/src/agent_quota_duration.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "隔離額度歷史的安裝識別",
+          "detail": "隔離測試目錄及合成識別 → 安裝識別可用性或類型化錯誤",
+          "files": [
+            "crates/tb_core_ffi/src/agent_account_scope.rs",
+            "README.md"
+          ]
+        },
+        {
+          "title": "保存有範圍的憑證讀取同意",
+          "detail": "合成用戶端同意 JSON → 已同意的用戶端集合與拒絕原因",
+          "files": [
+            "crates/tb_core_ffi/src/keychain_consent.rs",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "區分額度週期的證據來源",
+        "rule": "優先級固定；無效的已提供證據不靜默替代。未核對實際供應商額度。",
+        "source": "crates/tb_core_ffi/src/agent_quota_duration.rs"
+      },
+      {
+        "name": "隔離額度歷史的安裝識別",
+        "rule": "本次只查安裝金鑰生命週期局部契約；涉及寫檔與孤立資料處置，須核准及備份，不讀真實憑證。",
+        "source": "crates/tb_core_ffi/src/agent_account_scope.rs"
+      },
+      {
+        "name": "保存有範圍的憑證讀取同意",
+        "rule": "預設未授權，完整替換而非合併；僅為程序內登記，不能視為全部 Keychain 存取安全。",
+        "source": "crates/tb_core_ffi/src/keychain_consent.rs"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、crates/tb_core_ffi/src/agent_quota_duration.rs、crates/tb_core_ffi/src/agent_account_scope.rs、crates/tb_core_ffi/src/keychain_consent.rs 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "crates/tb_core_ffi/src/agent_quota_duration.rs",
+          "crates/tb_core_ffi/src/agent_account_scope.rs",
+          "crates/tb_core_ffi/src/keychain_consent.rs"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備合成額度時間、匿名帳號識別及同意設定。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "crates/tb_core_ffi/src/agent_quota_duration.rs"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有用量監測測試環境，經資料權利與人工覆核後使用。",
+        "file": "crates/tb_core_ffi/src/agent_quota_duration.rs"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "quota",
+        "name": "區分額度週期的證據來源",
+        "problem": "未知週期不應以猜測的時長估算。",
+        "input": "重置時間及供應商、契約、觀測證據",
+        "output": "有來源的週期時長或未取得狀態",
+        "source": "crates/tb_core_ffi/src/agent_quota_duration.rs",
+        "sourceFiles": [
+          "crates/tb_core_ffi/src/agent_quota_duration.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "resolve_duration",
+          "valid_evidence"
+        ],
+        "gate": "優先級固定；無效的已提供證據不靜默替代。未核對實際供應商額度。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "identity",
+        "name": "隔離額度歷史的安裝識別",
+        "problem": "歷史資料不應直接暴露帳號憑證。",
+        "input": "隔離測試目錄及合成識別",
+        "output": "安裝識別可用性或類型化錯誤",
+        "source": "crates/tb_core_ffi/src/agent_account_scope.rs",
+        "sourceFiles": [
+          "crates/tb_core_ffi/src/agent_account_scope.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "ensure_installation_key",
+          "ensure_installation_key_locked"
+        ],
+        "gate": "本次只查安裝金鑰生命週期局部契約；涉及寫檔與孤立資料處置，須核准及備份，不讀真實憑證。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "consent",
+        "name": "保存有範圍的憑證讀取同意",
+        "problem": "系統權限提示前應先告知本人。",
+        "input": "合成用戶端同意 JSON",
+        "output": "已同意的用戶端集合與拒絕原因",
+        "source": "crates/tb_core_ffi/src/keychain_consent.rs",
+        "sourceFiles": [
+          "crates/tb_core_ffi/src/keychain_consent.rs",
+          "README.md"
+        ],
+        "symbols": [
+          "allowed",
+          "set_from_json"
+        ],
+        "gate": "預設未授權，完整替換而非合併；僅為程序內登記，不能視為全部 Keychain 存取安全。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃 AI 用量監測的週期證據與隱私驗收（設計示例）",
+      "problem": "合成額度時間、匿名帳號識別及同意設定",
+      "steps": [
+        {
+          "capability": "quota",
+          "action": "區分額度週期的證據來源"
+        },
+        {
+          "capability": "identity",
+          "action": "隔離額度歷史的安裝識別"
+        },
+        {
+          "capability": "consent",
+          "action": "保存有範圍的憑證讀取同意"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "nanako0129-syrtis-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "合成額度時間、匿名帳號識別及同意設定",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "區分額度週期的證據來源 → 隔離額度歷史的安裝識別 → 保存有範圍的憑證讀取同意 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有用量監測測試環境，經資料權利與人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "用量與配額顯示取決於上游 Log 格式及 Provider 限制",
+        "本機 Session Log 可能包含敏感專案活動，應限制讀取與分享",
+        "優先級固定；無效的已提供證據不靜默替代。未核對實際供應商額度。",
+        "本次只查安裝金鑰生命週期局部契約；涉及寫檔與孤立資料處置，須核准及備份，不讀真實憑證。",
+        "預設未授權，完整替換而非合併；僅為程序內登記，不能視為全部 Keychain 存取安全。",
+        "授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "用量與配額顯示取決於上游 Log 格式及 Provider 限制；本機 Session Log 可能包含敏感專案活動，應限制讀取與分享；優先級固定；無效的已提供證據不靜默替代。未核對實際供應商額度。；本次只查安裝金鑰生命週期局部契約；涉及寫檔與孤立資料處置，須核准及備份，不讀真實憑證。；預設未授權，完整替換而非合併；僅為程序內登記，不能視為全部 Keychain 存取安全。；授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、crates/tb_core_ffi/src/agent_quota_duration.rs、crates/tb_core_ffi/src/agent_account_scope.rs、crates/tb_core_ffi/src/keychain_consent.rs 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
