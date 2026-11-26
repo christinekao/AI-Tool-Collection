@@ -89,7 +89,7 @@
     "reviewedAt": "2026-11-26",
     "type": "Official upstream GitHub metadata/README/LICENSE/SECURITY.md and official OpenCode V2 documentation",
     "readmeUrl": "https://github.com/anomalyco/opencode/blob/main/README.md",
-    "reviewScope": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。",
+    "reviewScope": "沿用既有固定版本證據；Batch 93 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。 未執行第三方。",
     "upstreamCommit": "e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91",
     "referenceUrls": [
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/README.md",
@@ -101,7 +101,10 @@
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/test/permission.test.ts",
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/plugin/plan.ts",
       "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/shell.ts",
-      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts"
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/mcp.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/session.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/shell/permissions.ts",
+      "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/mcp/index.ts"
     ]
   },
   "researchStatus": "official-source-verified",
@@ -158,7 +161,7 @@
     "readingSpec": {
       "id": "repo",
       "status": "deferred",
-      "reason": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。"
+      "reason": "原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。"
     },
     "capabilityReview": {
       "decision": "none",
@@ -171,14 +174,14 @@
     "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
     "verification": {
       "status": "not-tested",
-      "evidence": "沿用固定版本 README、LICENSE 與既有局部證據；Batch 90 新增 4 筆原始碼證據。已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。 未執行第三方。"
+      "evidence": "沿用既有固定版本證據；Batch 93 新增 4 筆局部原始碼或上游測試證據。原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。 未執行第三方。"
     },
-    "sourceGap": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
+    "sourceGap": "原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。",
     "layerReview": {
       "status": "deferred",
       "reason": "已核對局部原始碼及設計用法，完整核心契約尚未達驗收，維持 deferred。",
-      "gap": "原 404 路徑已更正；已核對 Plan 註冊、session 權限組合、Shell 與 MCP 入口；尚需證明子 session 建立時的父規則限制、Shell 命令解析覆蓋與 MCP 其他入口。",
-      "nextAction": "追蹤 Session.create 的 child 權限、ShellPermissions.requests 解析與 MCP direct/resource 入口，驗證拒絕與越權反例。"
+      "gap": "原 404 路徑已更正；已核對子 session 建立時的規則預設繼承、Shell 無法解析時的拒絕或額外核准，以及 MCP 直接服務入口；仍須證明父角色的限制是否持續有效、各入口呼叫者的權限與 OS 沙箱。",
+      "nextAction": "追蹤 agent 切換、顯式 permissions 覆寫、MCP callTool/readResource 的所有呼叫者及 ShellParse 支援語法；以合成 Repo 測試拒絕及越權反例。"
     }
   },
   "implementationKnowledge": {
@@ -195,7 +198,11 @@
       "plan_role": "Plan plugin 設定 primary 角色、允許 question、拒絕一般 edit，並允許指定 plan 目錄 edit；選中時指令要求不修改其他檔案或委派修改。",
       "session_policy": "權限服務依呼叫的 sessionID 取得 session，解析指定 agent 或 session agent，組合 agent permissions 與 session permissions，再評估操作。",
       "shell_gate": "Shell 解析目標工作目錄，依當前 agent/session 組合政策產生權限請求，逐一 assert，並在程序建立前重新檢查目錄。",
-      "mcp_tool_gate": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。"
+      "mcp_tool_gate": "註冊的 MCP tool 執行前先以 server/tool 正規化名稱、萬用 resource 與呼叫 context 執行 permission.assert，核准後才呼叫 MCP server。",
+      "child_session_admission": "子代理先檢查角色及 permission.assert；重用既有 session 時要求 parentID 等於目前 session，建立子 session 時傳 parentID、agent 與 model，未顯式傳 permissions。",
+      "child_permission_inheritance": "Session.create 查找父 session 並繼承位置；metadata 與 permissions 採 input 值優先、未提供時使用父 session 值。",
+      "shell_unverifiable_policy": "ShellPermissions.requests 使用 ShellParse.scan；無法解析且政策有 shell deny 時回 UnverifiableError，否則要求萬用 external_directory 與完整命令核准，不保存核准模式；成功時解析目錄與命令資源。",
+      "mcp_direct_service_boundary": "MCP.callTool 選擇 attached client 或 configured server 並轉發；MCP.prompt、resources、readResource 走連線及對應讀取方法，這些服務方法本段未見 permission.assert。"
     }
   },
   "agentEvidence": [
@@ -333,6 +340,50 @@
       "limitations": "此入口採工具層萬用 resource，並非參數級授權；不能推廣至所有 MCP 入口或遠端服務端安全。",
       "evidenceStatus": "partial",
       "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "child-session-admission",
+      "detail": "子代理先檢查角色及 permission.assert；重用既有 session 時要求 parentID 等於目前 session，建立子 session 時傳 parentID、agent 與 model，未顯式傳 permissions。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/tool/plugin/subagent.ts#L125-L190",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.child_session_admission"
+      ],
+      "limitations": "既有 child 可切換 agent；未證明原父角色規則、後續更新或所有其他建立入口均維持相同限制。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "child-permission-inheritance",
+      "detail": "Session.create 查找父 session 並繼承位置；metadata 與 permissions 採 input 值優先、未提供時使用父 session 值。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/session.ts#L303-L353",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.child_permission_inheritance"
+      ],
+      "limitations": "這是建立時的預設繼承而非強制父子政策交集；不能推論父 agent 的所有規則自動繼承或後續變更同步。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "shell-unverifiable-policy",
+      "detail": "ShellPermissions.requests 使用 ShellParse.scan；無法解析且政策有 shell deny 時回 UnverifiableError，否則要求萬用 external_directory 與完整命令核准，不保存核准模式；成功時解析目錄與命令資源。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/shell/permissions.ts#L17-L57",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.shell_unverifiable_policy"
+      ],
+      "limitations": "仍須核對 ShellParse 支援語法及實際作業系統行為；非通用沙箱保證。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
+    },
+    {
+      "id": "mcp-direct-service-boundary",
+      "detail": "MCP.callTool 選擇 attached client 或 configured server 並轉發；MCP.prompt、resources、readResource 走連線及對應讀取方法，這些服務方法本段未見 permission.assert。",
+      "locator": "https://github.com/anomalyco/opencode/blob/e54fbacb3d3aebc85f0e5ada0a5c490cc9333a91/packages/core/src/mcp/index.ts#L1096-L1185",
+      "evidenceFields": [
+        "implementationKnowledge.sourceReview.mcp_direct_service_boundary"
+      ],
+      "limitations": "不能僅據此認定可繞過授權；需查所有外部呼叫入口、上游檢查與遠端 server 的授權。",
+      "evidenceStatus": "partial",
+      "runtimeStatus": "not-tested"
     }
   ],
   "readerGuide": {
@@ -384,6 +435,17 @@
           "session-policy",
           "shell-gate",
           "mcp-tool-gate"
+        ]
+      },
+      {
+        "id": "child-shell-mcp-audit",
+        "title": "驗收子代理繼承與工具邊界",
+        "detail": "測試指定子 session 是否屬於父 session、未指定與顯式設定 permissions、切換 agent、無法解析的 Shell 指令，以及 MCP 直接呼叫與 resource 讀取；以 OS 層限制補強。",
+        "evidenceRefs": [
+          "child-session-admission",
+          "child-permission-inheritance",
+          "shell-unverifiable-policy",
+          "mcp-direct-service-boundary"
         ]
       }
     ],

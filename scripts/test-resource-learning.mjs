@@ -2680,3 +2680,16 @@ test('Deferred recovery batches 89–91: pinned source contract gaps and bidirec
   for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
  }
 });
+
+test('Deferred recovery batches 92–94: pinned evidence, historical provenance and bidirectional links',()=>{
+ const cases=[["hindsight","bank-citation-deletion-audit",["bank-validator-coverage","reflect-cited-id-filter","missing-bank-delete-test"]],["anomalyco-opencode","child-shell-mcp-audit",["child-session-admission","child-permission-inheritance","shell-unverifiable-policy","mcp-direct-service-boundary"]],["orca","remote-worker-stop-audit",["mobile-e2ee-auth","paired-device-scope","worker-stop-transaction","exited-terminal-release"]]];
+ for(const [id,caseId,refs] of cases){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.equal(d.intakeReview.layerReview.status,'deferred',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.match(d.intakeReview.layerReview.gap,/原 404 路徑已更正/,id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+  const forward=resolveResourceLayerLinks(d,{caseId});
+  for(const ref of refs){const e=forward.evidence.find(x=>x.id===ref);assert.ok(e&&e.locator.includes(d.source.upstreamCommit)&&e.evidenceStatus==='partial'&&e.runtimeStatus==='not-tested',ref);assert.ok(resolveResourceLayerLinks(d,{capabilityId:ref}).useCases.some(x=>x.id===caseId),ref);}
+ }
+});
