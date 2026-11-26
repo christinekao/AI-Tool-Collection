@@ -5545,14 +5545,14 @@
       "canonicalName": "akto-api-security/akto",
       "category": "07 Security & Governance",
       "resourceType": "Security Testing",
-      "purpose": "Akto 聚焦企業 AI 安全，涵蓋員工端 AI 工具盤點與防護，以及自建 Agent、MCP Server 和 LLM 應用的安全測試與執行期管控。",
-      "recommendation": "適合需要盤點 Agent 使用情況或測試企業自建 AI 系統風險的資安團隊；應先區分 Atlas 與 Argus 的不同範圍。",
+      "purpose": "提供企業 API 與 Agent 安全治理相關程式；本次聚焦資料遮罩、裝置盤點分類與政策覆蓋檢視。",
+      "recommendation": "適合研究內部安全治理資料的品質與政策覆蓋；僅用合成或已核准資料，不視為完整企業版功能。",
       "url": "https://github.com/akto-api-security/akto",
       "repo": "akto-api-security/akto",
       "notes": "",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "api-security",
         "mcp",
@@ -5615,48 +5615,412 @@
         "url": "https://github.com/akto-api-security/akto",
         "readmeUrl": "https://github.com/akto-api-security/akto/blob/master/README.md",
         "type": "Official project GitHub README / repository metadata",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official README and GitHub project overview; underlying code, runtime behavior and license files were not independently audited"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE.md、apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java、apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java、apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "4c4d9e664701b1f2f54ecad2e9f00df175048d1c",
+        "referenceUrls": [
+          "https://github.com/akto-api-security/akto/blob/4c4d9e664701b1f2f54ecad2e9f00df175048d1c/README.md",
+          "https://github.com/akto-api-security/akto/blob/4c4d9e664701b1f2f54ecad2e9f00df175048d1c/LICENSE.md",
+          "https://github.com/akto-api-security/akto/blob/4c4d9e664701b1f2f54ecad2e9f00df175048d1c/apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java",
+          "https://github.com/akto-api-security/akto/blob/4c4d9e664701b1f2f54ecad2e9f00df175048d1c/apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java",
+          "https://github.com/akto-api-security/akto/blob/4c4d9e664701b1f2f54ecad2e9f00df175048d1c/apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "repo"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
-            "repo"
+            "url"
           ],
-          "reason": "比對既有 Resource ID、官方 Repo 身分及用途；只補強本筆原有收藏，未建立新的重複實體。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "本批保留原有 Tags 且不新增標籤；不再以大量 Tags 覆蓋率作為內容品質指標。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "主要成果與官方 README 的產品用途相符，保留原有 Primary Domain security，未以工具名稱建立額外分類。",
+        "classificationReason": "保留既有 Primary Domain security、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批已核對官方 README，但尚未逐項閱讀原始程式碼、執行契約與測試輸出，不能宣稱已完成 Repo 深度重建指南。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE.md、apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java、apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java、apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "README 可確認宣稱功能，但未驗證版本化 I/O 契約與執行結果，因此不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留已存在的 Concept 引用，沒有因字串相似而擴充關聯。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "僅對照官方 Repo README 與資料欄位，沒有安裝、下載執行第三方腳本、連線私有資料或更改授權設定。",
+        "riskNotes": "MIT；企業產品功能與相依授權另查；GitHub 介紹包含不同產品範圍，不能認為開源 Repo 就提供所有企業版功能。；安全工具的功能宣稱不等於已通過本環境的滲透測試或合規驗收。；遮罩是依資料來源與設定而定，不是全面匿名化保證；各匯入來源須以合成資料獨立檢查，原始資料不可直接分享。；依瀏覽器名稱 Metadata 分類，並調整範圍內的標記；資料缺漏可能造成錯分，不是裝置身分驗證。；上游資料不可用時須區分查詢失敗與真實零值；盤點及政策匹配需獨立驗收，不視為已完成合規稽核。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀官方 README 和專案概要；未驗證實際功能、依賴安全、建置、整合或 UI 運作。"
+          "evidence": "固定版本 README.md、LICENSE.md、apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java、apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java、apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE.md、apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java、apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java、apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "Akto 聚焦企業 AI 安全，涵蓋員工端 AI 工具盤點與防護，以及自建 Agent、MCP Server 和 LLM 應用的安全測試與執行期管控。",
+          "source": "https://github.com/akto-api-security/akto",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合需要盤點 Agent 使用情況或測試企業自建 AI 系統風險的資安團隊；應先區分 Atlas 與 Argus 的不同範圍。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-redact",
+            "title": "檢查 API 樣本的敏感資料遮罩",
+            "detail": "治理資料若含個人資訊或憑證，可能造成額外曝露。 輸出：依來源及設定處理的樣本資料。",
+            "capabilityRefs": [
+              "redact"
+            ]
+          },
+          {
+            "id": "use-inventory",
+            "title": "依裝置種類縮小盤點範圍",
+            "detail": "桌面工具與瀏覽器工具的治理清單需要一致篩選。 輸出：限定裝置及其相關工具紀錄的清單。",
+            "capabilityRefs": [
+              "inventory"
+            ]
+          },
+          {
+            "id": "use-hygiene",
+            "title": "區分未觸發政策與未覆蓋資產",
+            "detail": "沒有違規紀錄不代表所有資產均受到政策保護。 輸出：政策衛生與覆蓋缺口分析結果。",
+            "capabilityRefs": [
+              "hygiene"
+            ]
+          }
+        ],
+        "example": {
+          "id": "akto-api-security-akto-example",
+          "title": "規劃企業 AI 工具盤點與安全政策覆蓋驗收",
+          "input": "合成 API 樣本、已授權的裝置清單及政策統計資料。",
+          "process": "檢查 API 樣本的敏感資料遮罩 → 依裝置種類縮小盤點範圍 → 區分未觸發政策與未覆蓋資產 → 獨立驗收實際成果",
+          "output": "遮罩結果、分類後盤點清單與政策覆蓋問題的驗收規格。",
+          "destination": "自有安全治理儀表板，經資料擁有者與安全團隊覆核。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-redact",
+            "use-inventory",
+            "use-hygiene"
+          ],
+          "steps": [
+            {
+              "id": "redact",
+              "title": "檢查 API 樣本的敏感資料遮罩",
+              "capabilityRefs": [
+                "redact"
+              ]
+            },
+            {
+              "id": "inventory",
+              "title": "依裝置種類縮小盤點範圍",
+              "capabilityRefs": [
+                "inventory"
+              ]
+            },
+            {
+              "id": "hygiene",
+              "title": "區分未觸發政策與未覆蓋資產",
+              "capabilityRefs": [
+                "hygiene"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成 API 樣本、已授權的裝置清單及政策統計資料。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "GitHub 介紹包含不同產品範圍，不能認為開源 Repo 就提供所有企業版功能。",
+          "安全工具的功能宣稱不等於已通過本環境的滲透測試或合規驗收。",
+          "遮罩是依資料來源與設定而定，不是全面匿名化保證；各匯入來源須以合成資料獨立檢查，原始資料不可直接分享。",
+          "依瀏覽器名稱 Metadata 分類，並調整範圍內的標記；資料缺漏可能造成錯分，不是裝置身分驗證。",
+          "上游資料不可用時須區分查詢失敗與真實零值；盤點及政策匹配需獨立驗收，不視為已完成合規稽核。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "提供企業 API 與 Agent 安全治理相關程式；本次聚焦資料遮罩、裝置盤點分類與政策覆蓋檢視。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；企業產品功能與相依授權另查"
+          },
+          {
+            "label": "版本",
+            "value": "4c4d9e664701b1f2f54ecad2e9f00df175048d1c"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "檢查 API 樣本的敏感資料遮罩",
+            "detail": "治理資料若含個人資訊或憑證，可能造成額外曝露。 輸入：合成 API 樣本與遮罩設定；輸出：依來源及設定處理的樣本資料",
+            "source": "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java"
+          },
+          {
+            "title": "依裝置種類縮小盤點範圍",
+            "detail": "桌面工具與瀏覽器工具的治理清單需要一致篩選。 輸入：裝置 Metadata、工具清單與目標範圍；輸出：限定裝置及其相關工具紀錄的清單",
+            "source": "apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java"
+          },
+          {
+            "title": "區分未觸發政策與未覆蓋資產",
+            "detail": "沒有違規紀錄不代表所有資產均受到政策保護。 輸入：政策、違規彙總與資產盤點資料；輸出：政策衛生與覆蓋缺口分析結果",
+            "source": "apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java"
+          }
+        ],
+        "architecture": {
+          "summary": "檢查 API 樣本的敏感資料遮罩 → 依裝置種類縮小盤點範圍 → 區分未觸發政策與未覆蓋資產 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "檢查 API 樣本的敏感資料遮罩",
+              "detail": "合成 API 樣本與遮罩設定 → 依來源及設定處理的樣本資料",
+              "files": [
+                "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java",
+                "README.md"
+              ]
+            },
+            {
+              "title": "依裝置種類縮小盤點範圍",
+              "detail": "裝置 Metadata、工具清單與目標範圍 → 限定裝置及其相關工具紀錄的清單",
+              "files": [
+                "apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java",
+                "README.md"
+              ]
+            },
+            {
+              "title": "區分未觸發政策與未覆蓋資產",
+              "detail": "政策、違規彙總與資產盤點資料 → 政策衛生與覆蓋缺口分析結果",
+              "files": [
+                "apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "檢查 API 樣本的敏感資料遮罩",
+            "rule": "遮罩是依資料來源與設定而定，不是全面匿名化保證；各匯入來源須以合成資料獨立檢查，原始資料不可直接分享。",
+            "source": "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java"
+          },
+          {
+            "name": "依裝置種類縮小盤點範圍",
+            "rule": "依瀏覽器名稱 Metadata 分類，並調整範圍內的標記；資料缺漏可能造成錯分，不是裝置身分驗證。",
+            "source": "apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java"
+          },
+          {
+            "name": "區分未觸發政策與未覆蓋資產",
+            "rule": "上游資料不可用時須區分查詢失敗與真實零值；盤點及政策匹配需獨立驗收，不視為已完成合規稽核。",
+            "source": "apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE.md、apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java、apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java、apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE.md",
+              "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java",
+              "apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java",
+              "apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成 API 樣本、已授權的裝置清單及政策統計資料。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有安全治理儀表板，經資料擁有者與安全團隊覆核。",
+            "file": "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "redact",
+            "name": "檢查 API 樣本的敏感資料遮罩",
+            "problem": "治理資料若含個人資訊或憑證，可能造成額外曝露。",
+            "input": "合成 API 樣本與遮罩設定",
+            "output": "依來源及設定處理的樣本資料",
+            "source": "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java",
+            "sourceFiles": [
+              "apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java",
+              "README.md"
+            ],
+            "symbols": [
+              "redactIfRequired",
+              "redactCookie",
+              "handleHeaders"
+            ],
+            "gate": "遮罩是依資料來源與設定而定，不是全面匿名化保證；各匯入來源須以合成資料獨立檢查，原始資料不可直接分享。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "inventory",
+            "name": "依裝置種類縮小盤點範圍",
+            "problem": "桌面工具與瀏覽器工具的治理清單需要一致篩選。",
+            "input": "裝置 Metadata、工具清單與目標範圍",
+            "output": "限定裝置及其相關工具紀錄的清單",
+            "source": "apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java",
+            "sourceFiles": [
+              "apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java",
+              "README.md"
+            ],
+            "symbols": [
+              "browserDevices",
+              "apply",
+              "narrowFlags"
+            ],
+            "gate": "依瀏覽器名稱 Metadata 分類，並調整範圍內的標記；資料缺漏可能造成錯分，不是裝置身分驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "hygiene",
+            "name": "區分未觸發政策與未覆蓋資產",
+            "problem": "沒有違規紀錄不代表所有資產均受到政策保護。",
+            "input": "政策、違規彙總與資產盤點資料",
+            "output": "政策衛生與覆蓋缺口分析結果",
+            "source": "apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java",
+            "sourceFiles": [
+              "apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java",
+              "README.md"
+            ],
+            "symbols": [
+              "compute",
+              "policyCoversHost"
+            ],
+            "gate": "上游資料不可用時須區分查詢失敗與真實零值；盤點及政策匹配需獨立驗收，不視為已完成合規稽核。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃企業 AI 工具盤點與安全政策覆蓋驗收（設計示例）",
+          "problem": "合成 API 樣本、已授權的裝置清單及政策統計資料。",
+          "steps": [
+            {
+              "capability": "redact",
+              "action": "檢查 API 樣本的敏感資料遮罩"
+            },
+            {
+              "capability": "inventory",
+              "action": "依裝置種類縮小盤點範圍"
+            },
+            {
+              "capability": "hygiene",
+              "action": "區分未觸發政策與未覆蓋資產"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "akto-api-security-akto-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成 API 樣本、已授權的裝置清單及政策統計資料。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "檢查 API 樣本的敏感資料遮罩 → 依裝置種類縮小盤點範圍 → 區分未觸發政策與未覆蓋資產 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有安全治理儀表板，經資料擁有者與安全團隊覆核。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "GitHub 介紹包含不同產品範圍，不能認為開源 Repo 就提供所有企業版功能。",
+            "安全工具的功能宣稱不等於已通過本環境的滲透測試或合規驗收。",
+            "遮罩是依資料來源與設定而定，不是全面匿名化保證；各匯入來源須以合成資料獨立檢查，原始資料不可直接分享。",
+            "依瀏覽器名稱 Metadata 分類，並調整範圍內的標記；資料缺漏可能造成錯分，不是裝置身分驗證。",
+            "上游資料不可用時須區分查詢失敗與真實零值；盤點及政策匹配需獨立驗收，不視為已完成合規稽核。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "GitHub 介紹包含不同產品範圍，不能認為開源 Repo 就提供所有企業版功能。；安全工具的功能宣稱不等於已通過本環境的滲透測試或合規驗收。；遮罩是依資料來源與設定而定，不是全面匿名化保證；各匯入來源須以合成資料獨立檢查，原始資料不可直接分享。；依瀏覽器名稱 Metadata 分類，並調整範圍內的標記；資料缺漏可能造成錯分，不是裝置身分驗證。；上游資料不可用時須區分查詢失敗與真實零值；盤點及政策匹配需獨立驗收，不視為已完成合規稽核。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE.md、apps/api-runtime/src/main/java/com/akto/utils/RedactSampleData.java、apps/dashboard/src/main/java/com/akto/service/atlas/AtlasDeviceScope.java、apps/dashboard/src/main/java/com/akto/service/insights/providers/PolicyHygieneProvider.java 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -89534,13 +89898,13 @@
       "canonicalName": "usestrix/strix",
       "category": "07 Security & Governance",
       "resourceType": "Apache-2.0 autonomous AI penetration-testing CLI, nine agent skills and optional managed platform",
-      "purpose": "以多 Agent、Docker 沙箱、動態執行與實際 PoC 驗證分析已授權的 Web App、API、Git Repository 和本機程式，提供 OWASP 分類、CVSS、修復建議、SARIF/JSON 報告與可加入 CI 的 Security Gates。支援自行託管的 CLI（BYO 模型）和 Strix Cloud；可安裝九個 Coding Agent Skills 進行安全掃描、修補與重驗。",
-      "recommendation": "適合在明確書面授權範圍內對自己的專案實施 security-first 測試：先用獨立工作區和 Staging，不直接連正式環境；確認掃描目標、排除路徑、測試帳號、允許的攻擊類型、速率／預算／時間與外送資料政策；查核 Docker image 與安裝來源，再做有限度的只針對目標測試、證據驗收、獨立 Code Review、根因修補及重測。每個 PR 可加有限預算 quick CI，定期做較全面掃描，但不能把 clean exit 當成完成所有資安驗證。使用雲端服務上傳原始碼前要求明確核准並審核上傳清單。",
+      "purpose": "提供授權安全測試的報告及覆蓋證據；本次聚焦區分 Agent 自述與機器觀測、標準化發現及安全匯出。",
+      "recommendation": "適合研究自有專案安全驗收的報告層；只使用合成發現，不執行第三方掃描或漏洞利用。",
       "url": "https://github.com/usestrix/strix",
       "repo": "usestrix/strix",
       "status": "active",
       "addedAt": "2026-10-19",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "strix",
         "autonomous-pentesting",
@@ -89626,18 +89990,29 @@
       "source": {
         "url": "https://github.com/usestrix/strix",
         "readmeUrl": "https://github.com/usestrix/strix/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official GitHub README",
-        "reviewScope": "Documentation only, no runtime/security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、strix/report/coverage.py、strix/report/sarif.py、strix/report/writer.py 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "9ed84f99c8f13fc921baebc59e0c696108cfab3e",
+        "referenceUrls": [
+          "https://github.com/usestrix/strix/blob/9ed84f99c8f13fc921baebc59e0c696108cfab3e/README.md",
+          "https://github.com/usestrix/strix/blob/9ed84f99c8f13fc921baebc59e0c696108cfab3e/LICENSE",
+          "https://github.com/usestrix/strix/blob/9ed84f99c8f13fc921baebc59e0c696108cfab3e/strix/report/coverage.py",
+          "https://github.com/usestrix/strix/blob/9ed84f99c8f13fc921baebc59e0c696108cfab3e/strix/report/sarif.py",
+          "https://github.com/usestrix/strix/blob/9ed84f99c8f13fc921baebc59e0c696108cfab3e/strix/report/writer.py"
+        ]
       },
       "intakeReview": {
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
@@ -89650,25 +90025,378 @@
           "decision": "retain-unmapped",
           "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留既有 Primary Domain security，本批僅補來源支援的功能、使用前提與限制。",
+        "classificationReason": "保留既有 Primary Domain security、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "只有官方網站／README 來源檢視，尚未完成版本化程式碼重建與實測，未建立深度 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、strix/report/coverage.py、strix/report/sarif.py、strix/report/writer.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "來源尚不足以確認正式可組合的 Input／Output 契約，不新增能力。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
           "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "第三方或官方網站資訊僅供查核；沒有執行程式、提供帳號或存取金鑰。",
+        "riskNotes": "Apache-2.0；測試目標授權與相依另查；自動安全測試可能產生大量請求或修改狀態，嚴禁對未授權目標執行；作者示範 PoC 不代表所有漏洞已驗證或已修復；Agent 自述與執行觀測分開；未完成狀態不能宣告完整覆蓋，來源文字與實際測試證據仍須人工核對。；不安全位置不直接當成原始碼位置，合成位置須明確標記；輸出相容性及發現真實性須另驗。；此為輸出層局部防護，不能取代完整渲染安全驗收；勿將來源中的程式片段自動執行。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "公開網站／GitHub README 已檢視；第三方 Build、Runtime、Integration、Security 與 License 全文稽核尚未執行。"
+          "evidence": "固定版本 README.md、LICENSE、strix/report/coverage.py、strix/report/sarif.py、strix/report/writer.py 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、strix/report/coverage.py、strix/report/sarif.py、strix/report/writer.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "以多 Agent、Docker 沙箱、動態執行與實際 PoC 驗證分析已授權的 Web App、API、Git Repository 和本機程式，提供 OWASP 分類、CVSS、修復建議、SARIF/JSON 報告與可加入 CI 的 Security Gates。支援自行託管的 CLI（BYO 模型）和 Strix Cloud；可安裝九個 Coding Agent Skills 進行安全掃描、修補與重驗。",
+          "source": "https://github.com/usestrix/strix",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合在明確書面授權範圍內對自己的專案實施 security-first 測試：先用獨立工作區和 Staging，不直接連正式環境；確認掃描目標、排除路徑、測試帳號、允許的攻擊類型、速率／預算／時間與外送資料政策；查核 Docker image 與安裝來源，再做有限度的只針對目標測試、證據驗收、獨立 Code Review、根因修補及重測。每個 PR 可加有限預算 quick CI，定期做較全面掃描，但不能把 clean exit 當成完成所有資安驗證。使用雲端服務上傳原始碼前要求明確核准並審核上傳清單。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-coverage",
+            "title": "區分安全測試覆蓋與發現數量",
+            "detail": "零項發現不能證明已檢查所有必要範圍。 輸出：具有來源標記的覆蓋文件及缺口資訊。",
+            "capabilityRefs": [
+              "coverage"
+            ]
+          },
+          {
+            "id": "use-sarif",
+            "title": "標準化已取得的安全發現",
+            "detail": "安全報告需要可對應版本及可回查位置。 輸出：SARIF 2.1.0 報告及位置標記。",
+            "capabilityRefs": [
+              "sarif"
+            ]
+          },
+          {
+            "id": "use-export",
+            "title": "避免報告文字被當成可執行內容",
+            "detail": "不可信掃描結果可能在試算表或 Markdown 中被錯誤解析。 輸出：文字化 CSV 欄位與安全的 Markdown 程式碼圍欄。",
+            "capabilityRefs": [
+              "export"
+            ]
+          }
+        ],
+        "example": {
+          "id": "usestrix-strix-example",
+          "title": "規劃安全報告的覆蓋證據與匯出品質驗收",
+          "input": "合成安全發現、模擬執行狀態及自有測試程式庫版本。",
+          "process": "區分安全測試覆蓋與發現數量 → 標準化已取得的安全發現 → 避免報告文字被當成可執行內容 → 獨立驗收實際成果",
+          "output": "覆蓋缺口、SARIF 報告及安全匯出的驗收規格。",
+          "destination": "自有安全審查流程，由授權維護者核對證據後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-coverage",
+            "use-sarif",
+            "use-export"
+          ],
+          "steps": [
+            {
+              "id": "coverage",
+              "title": "區分安全測試覆蓋與發現數量",
+              "capabilityRefs": [
+                "coverage"
+              ]
+            },
+            {
+              "id": "sarif",
+              "title": "標準化已取得的安全發現",
+              "capabilityRefs": [
+                "sarif"
+              ]
+            },
+            {
+              "id": "export",
+              "title": "避免報告文字被當成可執行內容",
+              "capabilityRefs": [
+                "export"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成安全發現、模擬執行狀態及自有測試程式庫版本。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "自動安全測試可能產生大量請求或修改狀態，嚴禁對未授權目標執行",
+          "作者示範 PoC 不代表所有漏洞已驗證或已修復",
+          "Agent 自述與執行觀測分開；未完成狀態不能宣告完整覆蓋，來源文字與實際測試證據仍須人工核對。",
+          "不安全位置不直接當成原始碼位置，合成位置須明確標記；輸出相容性及發現真實性須另驗。",
+          "此為輸出層局部防護，不能取代完整渲染安全驗收；勿將來源中的程式片段自動執行。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "提供授權安全測試的報告及覆蓋證據；本次聚焦區分 Agent 自述與機器觀測、標準化發現及安全匯出。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "Apache-2.0；測試目標授權與相依另查"
+          },
+          {
+            "label": "版本",
+            "value": "9ed84f99c8f13fc921baebc59e0c696108cfab3e"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "區分安全測試覆蓋與發現數量",
+            "detail": "零項發現不能證明已檢查所有必要範圍。 輸入：合成 Agent 覆蓋紀錄、執行圖與完成狀態；輸出：具有來源標記的覆蓋文件及缺口資訊",
+            "source": "strix/report/coverage.py"
+          },
+          {
+            "title": "標準化已取得的安全發現",
+            "detail": "安全報告需要可對應版本及可回查位置。 輸入：合成發現與可選程式庫版本資訊；輸出：SARIF 2.1.0 報告及位置標記",
+            "source": "strix/report/sarif.py"
+          },
+          {
+            "title": "避免報告文字被當成可執行內容",
+            "detail": "不可信掃描結果可能在試算表或 Markdown 中被錯誤解析。 輸入：合成報告欄位與文字片段；輸出：文字化 CSV 欄位與安全的 Markdown 程式碼圍欄",
+            "source": "strix/report/writer.py"
+          }
+        ],
+        "architecture": {
+          "summary": "區分安全測試覆蓋與發現數量 → 標準化已取得的安全發現 → 避免報告文字被當成可執行內容 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "區分安全測試覆蓋與發現數量",
+              "detail": "合成 Agent 覆蓋紀錄、執行圖與完成狀態 → 具有來源標記的覆蓋文件及缺口資訊",
+              "files": [
+                "strix/report/coverage.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "標準化已取得的安全發現",
+              "detail": "合成發現與可選程式庫版本資訊 → SARIF 2.1.0 報告及位置標記",
+              "files": [
+                "strix/report/sarif.py",
+                "README.md"
+              ]
+            },
+            {
+              "title": "避免報告文字被當成可執行內容",
+              "detail": "合成報告欄位與文字片段 → 文字化 CSV 欄位與安全的 Markdown 程式碼圍欄",
+              "files": [
+                "strix/report/writer.py",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "區分安全測試覆蓋與發現數量",
+            "rule": "Agent 自述與執行觀測分開；未完成狀態不能宣告完整覆蓋，來源文字與實際測試證據仍須人工核對。",
+            "source": "strix/report/coverage.py"
+          },
+          {
+            "name": "標準化已取得的安全發現",
+            "rule": "不安全位置不直接當成原始碼位置，合成位置須明確標記；輸出相容性及發現真實性須另驗。",
+            "source": "strix/report/sarif.py"
+          },
+          {
+            "name": "避免報告文字被當成可執行內容",
+            "rule": "此為輸出層局部防護，不能取代完整渲染安全驗收；勿將來源中的程式片段自動執行。",
+            "source": "strix/report/writer.py"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、strix/report/coverage.py、strix/report/sarif.py、strix/report/writer.py 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "strix/report/coverage.py",
+              "strix/report/sarif.py",
+              "strix/report/writer.py"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成安全發現、模擬執行狀態及自有測試程式庫版本。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "strix/report/coverage.py"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有安全審查流程，由授權維護者核對證據後使用。",
+            "file": "strix/report/coverage.py"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "coverage",
+            "name": "區分安全測試覆蓋與發現數量",
+            "problem": "零項發現不能證明已檢查所有必要範圍。",
+            "input": "合成 Agent 覆蓋紀錄、執行圖與完成狀態",
+            "output": "具有來源標記的覆蓋文件及缺口資訊",
+            "source": "strix/report/coverage.py",
+            "sourceFiles": [
+              "strix/report/coverage.py",
+              "README.md"
+            ],
+            "symbols": [
+              "build_coverage_document",
+              "skill_coverage_gaps",
+              "_completeness"
+            ],
+            "gate": "Agent 自述與執行觀測分開；未完成狀態不能宣告完整覆蓋，來源文字與實際測試證據仍須人工核對。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "sarif",
+            "name": "標準化已取得的安全發現",
+            "problem": "安全報告需要可對應版本及可回查位置。",
+            "input": "合成發現與可選程式庫版本資訊",
+            "output": "SARIF 2.1.0 報告及位置標記",
+            "source": "strix/report/sarif.py",
+            "sourceFiles": [
+              "strix/report/sarif.py",
+              "README.md"
+            ],
+            "symbols": [
+              "build_sarif_document",
+              "write_sarif",
+              "_build_locations"
+            ],
+            "gate": "不安全位置不直接當成原始碼位置，合成位置須明確標記；輸出相容性及發現真實性須另驗。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "export",
+            "name": "避免報告文字被當成可執行內容",
+            "problem": "不可信掃描結果可能在試算表或 Markdown 中被錯誤解析。",
+            "input": "合成報告欄位與文字片段",
+            "output": "文字化 CSV 欄位與安全的 Markdown 程式碼圍欄",
+            "source": "strix/report/writer.py",
+            "sourceFiles": [
+              "strix/report/writer.py",
+              "README.md"
+            ],
+            "symbols": [
+              "csv_safe",
+              "safe_fence"
+            ],
+            "gate": "此為輸出層局部防護，不能取代完整渲染安全驗收；勿將來源中的程式片段自動執行。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃安全報告的覆蓋證據與匯出品質驗收（設計示例）",
+          "problem": "合成安全發現、模擬執行狀態及自有測試程式庫版本。",
+          "steps": [
+            {
+              "capability": "coverage",
+              "action": "區分安全測試覆蓋與發現數量"
+            },
+            {
+              "capability": "sarif",
+              "action": "標準化已取得的安全發現"
+            },
+            {
+              "capability": "export",
+              "action": "避免報告文字被當成可執行內容"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "usestrix-strix-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成安全發現、模擬執行狀態及自有測試程式庫版本。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "區分安全測試覆蓋與發現數量 → 標準化已取得的安全發現 → 避免報告文字被當成可執行內容 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有安全審查流程，由授權維護者核對證據後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "自動安全測試可能產生大量請求或修改狀態，嚴禁對未授權目標執行",
+            "作者示範 PoC 不代表所有漏洞已驗證或已修復",
+            "Agent 自述與執行觀測分開；未完成狀態不能宣告完整覆蓋，來源文字與實際測試證據仍須人工核對。",
+            "不安全位置不直接當成原始碼位置，合成位置須明確標記；輸出相容性及發現真實性須另驗。",
+            "此為輸出層局部防護，不能取代完整渲染安全驗收；勿將來源中的程式片段自動執行。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "自動安全測試可能產生大量請求或修改狀態，嚴禁對未授權目標執行；作者示範 PoC 不代表所有漏洞已驗證或已修復；Agent 自述與執行觀測分開；未完成狀態不能宣告完整覆蓋，來源文字與實際測試證據仍須人工核對。；不安全位置不直接當成原始碼位置，合成位置須明確標記；輸出相容性及發現真實性須另驗。；此為輸出層局部防護，不能取代完整渲染安全驗收；勿將來源中的程式片段自動執行。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、strix/report/coverage.py、strix/report/sarif.py、strix/report/writer.py 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -92562,8 +93290,8 @@
       "canonicalName": "Cicada",
       "category": "AI Meeting & Live Translation",
       "resourceType": "Open-source desktop live captioning, interpreting and meeting-notes application",
-      "purpose": "直接擷取系統音訊，在本機辨識會議或直播語音，提供即時雙語字幕、同聲傳譯、逐字稿、會議摘要與匯出。",
-      "recommendation": "適合英文技術會議、跨國溝通與學習直播的即時字幕和會後複盤；公司機密會議使用前須確認錄音及第三方雲端資料傳輸政策。",
+      "purpose": "支援會議逐字稿與翻譯；本次查核本機逐字稿搜尋、Markdown 格式及指定資料夾匯出。",
+      "recommendation": "適合經同意的個人會議知識整理；錄音、翻譯服務、敏感資料與同步資料夾須先核對權限。",
       "url": "https://github.com/wquguru/cicada",
       "repo": "wquguru/cicada",
       "license": "Apache-2.0 (project); BlackHole GPL; bundled WeSpeaker voiceprint model CC BY 4.0",
@@ -92603,7 +93331,7 @@
       "platformNotes": "README 目前列 Apple Silicon macOS 26+；GitHub repo description 另宣稱 Windows/Linux/Android，但 README 路線圖將 Windows/Android 列為未來計畫，故不將跨平台支援視為已驗證。",
       "status": "active",
       "addedAt": "2026-11-05",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "macos",
         "live-captions",
@@ -92625,10 +93353,17 @@
           "https://github.com/wquguru/cicada/blob/main/README.en.md",
           "https://github.com/wquguru/cicada/blob/main/LICENSE"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official upstream README and GitHub metadata",
         "readmeUrl": "https://github.com/wquguru/cicada/blob/main/README.md",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "be9785d562dfcfd22e3d1753a991400c5781f330",
+        "referenceUrls": [
+          "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/README.md",
+          "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/LICENSE",
+          "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/Sources/Cicada/TranscriptSearch.swift",
+          "https://github.com/wquguru/cicada/blob/be9785d562dfcfd22e3d1753a991400c5781f330/Sources/Cicada/FolderExport.swift"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -92659,41 +93394,394 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原有 Tags，不新增或調整分類架構。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "原有 Domain content 保持不變，只補強來源與未敘明的使用方式或風險。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
-          "decision": "candidate",
-          "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
+          "decision": "reused",
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+        "riskNotes": "Apache-2.0；語音模型、參與者同意及外部服務另查；音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同；採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。；檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。；以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "直接擷取系統音訊，在本機辨識會議或直播語音，提供即時雙語字幕、同聲傳譯、逐字稿、會議摘要與匯出。",
+          "source": "https://github.com/wquguru/cicada",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合英文技術會議、跨國溝通與學習直播的即時字幕和會後複盤；公司機密會議使用前須確認錄音及第三方雲端資料傳輸政策。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-search",
+            "title": "依逐字稿及已知名稱變體搜尋",
+            "detail": "語音辨識可能出現名稱誤讀，影響回查。 輸出：依原順序命中的逐字稿行識別。",
+            "capabilityRefs": [
+              "search"
+            ]
+          },
+          {
+            "id": "use-format",
+            "title": "將會議整理成可回查的 Markdown",
+            "detail": "知識庫需要穩定的檔名及會議 Metadata。 輸出：安全檔名候選、YAML frontmatter 與 Markdown 文件。",
+            "capabilityRefs": [
+              "format"
+            ]
+          },
+          {
+            "id": "use-write",
+            "title": "驗證指定資料夾的匯出與更新",
+            "detail": "匯出失敗或名稱衝突可能讓紀錄不完整。 輸出：寫入、未變更或停止的處理結果。",
+            "capabilityRefs": [
+              "write"
+            ]
+          }
+        ],
+        "example": {
+          "id": "wquguru-cicada-example",
+          "title": "規劃已授權會議紀錄的搜尋與私人知識庫匯出",
+          "input": "合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+          "process": "依逐字稿及已知名稱變體搜尋 → 將會議整理成可回查的 Markdown → 驗證指定資料夾的匯出與更新 → 獨立驗收實際成果",
+          "output": "搜尋命中、Markdown Metadata 及資料夾匯出驗收規格。",
+          "destination": "私人知識庫的會議紀錄區，經本人與資料擁有者確認。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-search",
+            "use-format",
+            "use-write"
+          ],
+          "steps": [
+            {
+              "id": "search",
+              "title": "依逐字稿及已知名稱變體搜尋",
+              "capabilityRefs": [
+                "search"
+              ]
+            },
+            {
+              "id": "format",
+              "title": "將會議整理成可回查的 Markdown",
+              "capabilityRefs": [
+                "format"
+              ]
+            },
+            {
+              "id": "write",
+              "title": "驗證指定資料夾的匯出與更新",
+              "capabilityRefs": [
+                "write"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同",
+          "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+          "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+          "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "支援會議逐字稿與翻譯；本次查核本機逐字稿搜尋、Markdown 格式及指定資料夾匯出。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "Apache-2.0；語音模型、參與者同意及外部服務另查"
+          },
+          {
+            "label": "版本",
+            "value": "be9785d562dfcfd22e3d1753a991400c5781f330"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "依逐字稿及已知名稱變體搜尋",
+            "detail": "語音辨識可能出現名稱誤讀，影響回查。 輸入：搜尋詞、逐字稿與筆記中的名稱變體；輸出：依原順序命中的逐字稿行識別",
+            "source": "Sources/Cicada/TranscriptSearch.swift"
+          },
+          {
+            "title": "將會議整理成可回查的 Markdown",
+            "detail": "知識庫需要穩定的檔名及會議 Metadata。 輸入：合成 Session、日期、語言及筆記狀態；輸出：安全檔名候選、YAML frontmatter 與 Markdown 文件",
+            "source": "Sources/Cicada/FolderExport.swift"
+          },
+          {
+            "title": "驗證指定資料夾的匯出與更新",
+            "detail": "匯出失敗或名稱衝突可能讓紀錄不完整。 輸入：合成匯出工作、指定資料夾及既有檔名索引；輸出：寫入、未變更或停止的處理結果",
+            "source": "Sources/Cicada/FolderExport.swift"
+          }
+        ],
+        "architecture": {
+          "summary": "依逐字稿及已知名稱變體搜尋 → 將會議整理成可回查的 Markdown → 驗證指定資料夾的匯出與更新 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "依逐字稿及已知名稱變體搜尋",
+              "detail": "搜尋詞、逐字稿與筆記中的名稱變體 → 依原順序命中的逐字稿行識別",
+              "files": [
+                "Sources/Cicada/TranscriptSearch.swift",
+                "README.md"
+              ]
+            },
+            {
+              "title": "將會議整理成可回查的 Markdown",
+              "detail": "合成 Session、日期、語言及筆記狀態 → 安全檔名候選、YAML frontmatter 與 Markdown 文件",
+              "files": [
+                "Sources/Cicada/FolderExport.swift",
+                "README.md"
+              ]
+            },
+            {
+              "title": "驗證指定資料夾的匯出與更新",
+              "detail": "合成匯出工作、指定資料夾及既有檔名索引 → 寫入、未變更或停止的處理結果",
+              "files": [
+                "Sources/Cicada/FolderExport.swift",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "依逐字稿及已知名稱變體搜尋",
+            "rule": "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+            "source": "Sources/Cicada/TranscriptSearch.swift"
+          },
+          {
+            "name": "將會議整理成可回查的 Markdown",
+            "rule": "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+            "source": "Sources/Cicada/FolderExport.swift"
+          },
+          {
+            "name": "驗證指定資料夾的匯出與更新",
+            "rule": "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+            "source": "Sources/Cicada/FolderExport.swift"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "Sources/Cicada/TranscriptSearch.swift",
+              "Sources/Cicada/FolderExport.swift"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成雙語逐字稿、測試會議識別及核准的本機資料夾。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "Sources/Cicada/TranscriptSearch.swift"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "私人知識庫的會議紀錄區，經本人與資料擁有者確認。",
+            "file": "Sources/Cicada/TranscriptSearch.swift"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "search",
+            "name": "依逐字稿及已知名稱變體搜尋",
+            "problem": "語音辨識可能出現名稱誤讀，影響回查。",
+            "input": "搜尋詞、逐字稿與筆記中的名稱變體",
+            "output": "依原順序命中的逐字稿行識別",
+            "source": "Sources/Cicada/TranscriptSearch.swift",
+            "sourceFiles": [
+              "Sources/Cicada/TranscriptSearch.swift",
+              "README.md"
+            ],
+            "symbols": [
+              "TranscriptSearch.terms",
+              "TranscriptSearch.matches"
+            ],
+            "gate": "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "format",
+            "name": "將會議整理成可回查的 Markdown",
+            "problem": "知識庫需要穩定的檔名及會議 Metadata。",
+            "input": "合成 Session、日期、語言及筆記狀態",
+            "output": "安全檔名候選、YAML frontmatter 與 Markdown 文件",
+            "source": "Sources/Cicada/FolderExport.swift",
+            "sourceFiles": [
+              "Sources/Cicada/FolderExport.swift",
+              "README.md"
+            ],
+            "symbols": [
+              "FolderExportFormat.safeName",
+              "FolderExportFormat.frontmatter",
+              "FolderExportFormat.document"
+            ],
+            "gate": "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "write",
+            "name": "驗證指定資料夾的匯出與更新",
+            "problem": "匯出失敗或名稱衝突可能讓紀錄不完整。",
+            "input": "合成匯出工作、指定資料夾及既有檔名索引",
+            "output": "寫入、未變更或停止的處理結果",
+            "source": "Sources/Cicada/FolderExport.swift",
+            "sourceFiles": [
+              "Sources/Cicada/FolderExport.swift",
+              "README.md"
+            ],
+            "symbols": [
+              "write",
+              "ensure",
+              "probe"
+            ],
+            "gate": "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃已授權會議紀錄的搜尋與私人知識庫匯出（設計示例）",
+          "problem": "合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+          "steps": [
+            {
+              "capability": "search",
+              "action": "依逐字稿及已知名稱變體搜尋"
+            },
+            {
+              "capability": "format",
+              "action": "將會議整理成可回查的 Markdown"
+            },
+            {
+              "capability": "write",
+              "action": "驗證指定資料夾的匯出與更新"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "wquguru-cicada-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成雙語逐字稿、測試會議識別及核准的本機資料夾。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "依逐字稿及已知名稱變體搜尋 → 將會議整理成可回查的 Markdown → 驗證指定資料夾的匯出與更新 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "私人知識庫的會議紀錄區，經本人與資料擁有者確認。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同",
+            "採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。",
+            "檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。",
+            "以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "音訊錄製前須取得參與者適當同意；離線及雲端處理資料邊界不同；採文字包含比對及已知名稱變體，不是語意搜尋；命中不代表轉錄內容正確。；檔名處理不等於內容去識別化；Metadata 及逐字稿仍可能含隱私，需依資料分級確認。；以原子寫入及名稱避碰處理；重新命名時可能移除舊檔，探查亦會寫入測試檔；須核准目標與備份，不能視為唯讀。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、Sources/Cicada/TranscriptSearch.swift、Sources/Cicada/FolderExport.swift 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
