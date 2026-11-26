@@ -1,3 +1,11 @@
+# Phase 2｜Resource 語意品質稽核 Batch 05（2026-11-26）
+
+- [Batch 05｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH05_20261126.md)：deepseek-dsh-superagent-prototype 至 github-agentic-workflows，20/20 已讀取，19 候選修正、1 保留。完整 JSON 比對僅修改 purpose/start，保留來源、證據、案例、分類、Tags、Typed References 與 Graph 關係；Designed to Scale 維持 deferred。
+- 本批基於 #125 Head 5940f0d0fdf04154933038b3ebad8585e6952e0d 準備，當時 #125 三項 CI PASS、P1 Browser 尚執行；需先合併 #125，再指向 main，核對本批四項 CI。正式 deployed Chromium 未驗收。
+- 固定順序候選累計 100/286；映射 268/286、14 Deferred、4 Source-blocked 不變。下一批 google-flow 起取 20 筆。P2 文字佇列保留。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 04（2026-11-26）
 
 - PR #124 四項 CI PASS，合併 c9c5cc9eae89519b5edf01afe38520bd0b42783e；Catalog Sync 45776100838 PASS，生成提交 e8024628cd9e3fc27ab531da359b59642ded7856；Pages 45776135334 PASS，main P1 尚執行；正式 deployed Chromium 未驗收。
