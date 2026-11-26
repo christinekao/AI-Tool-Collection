@@ -659,7 +659,10 @@ try{
   ["openhands-agent-canvas",".resource-reader-guide","規劃多 Agent 執行環境與擴充介面治理"],
   ["debpalash-voicestudio",".resource-reader-guide","規劃雙語教學影片配音與音訊品質驗收"],
   ["leemysw-yovoice",".resource-reader-guide","規劃多版本旁白生成與本機音檔管理"],
-  ["ath-maas-pixelle-video",".resource-reader-guide","規劃自有知識短影音的分鏡與合成驗收"]
+  ["ath-maas-pixelle-video",".resource-reader-guide","規劃自有知識短影音的分鏡與合成驗收"],
+  ["blader-humanizer",".resource-reader-guide","規劃技術文件與工作訊息的保真文字編輯"],
+  ["heydamir-unslop",".resource-reader-guide","規劃儀表板視覺改善與前後對照驗收"],
+  ["lieflat-less-ai-tone",".resource-reader-guide","規劃中文技術文章的分級審查與保真改寫"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});
