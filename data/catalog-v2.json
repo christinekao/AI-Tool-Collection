@@ -5236,15 +5236,15 @@
       "schemaVersion": 2,
       "status": "active",
       "addedAt": "2026-11-01",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "id": "akas333-tysa",
       "entityType": "resource",
       "title": "TYSA — Teach Yourself Anything 自適應學習 Harness",
       "canonicalName": "TYSA",
       "category": "01 Agent Runtime & Harness",
       "resourceType": "Electron adaptive learning app / agentic teaching harness",
-      "purpose": "先診斷學習者已知與未知的概念，再建立依賴關係學習地圖，逐步教學、檢查理解並修復混淆，最後透過練習與知識圖譜支援跨 Session 學習。",
-      "recommendation": "適合研究個人化 AI 教練與 Communication Gym：參考 Measure → Plan → Teach → Practice、概念依賴圖、使用者推理紀錄、漸進提示與跨 Session 知識圖譜。教學成效未獨立驗證。",
+      "purpose": "依學習者理解程度提供教學輔助；本次查核題庫載入、課程進度彙整及搜尋服務可用性。",
+      "recommendation": "適合自有學習平台的題庫與進度管理；教學有效性須獨立驗收，題目與學習資料須有權使用。",
       "url": "https://github.com/Akas333/TYSA",
       "repo": "Akas333/TYSA",
       "license": "AGPL-3.0",
@@ -5298,10 +5298,18 @@
           "https://github.com/Akas333/TYSA/blob/main/README.md",
           "https://github.com/Akas333/TYSA/blob/main/skills/axiom-learn/SKILL.md"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official repository README and SKILL.md",
         "readmeUrl": "https://github.com/Akas333/TYSA/blob/main/README.md",
-        "reviewScope": "Upstream README or SKILL.md only, no executable validation"
+        "reviewScope": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "4484105e310d71b061680c34d538b898fa2b756f",
+        "referenceUrls": [
+          "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/README.md",
+          "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/LICENSE",
+          "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/packages/engine/src/server/courses.ts",
+          "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/packages/engine/src/store/question-bank.ts",
+          "https://github.com/Akas333/TYSA/blob/4484105e310d71b061680c34d538b898fa2b756f/packages/engine/src/server/search.ts"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -5341,41 +5349,397 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "已核對現有 Canonical ID、來源 Repository 與用途，只補強既有紀錄，無新增重複 Resource。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原有 Raw Tags，沒有新增或重新分類。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "沿用既有 ai-agent Domain，補足來源內容與使用限制，不變動分類。",
+        "classificationReason": "保留既有 Primary Domain ai-agent、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "本批僅確認 README／SKILL.md，尚未逐檔核實原始碼、執行合約與可重建測試，故不建立 repoGuide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "README 功能不等於可組合的版本化 Input／Output，暫不增加 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留原有 Concept 引用，未用 Tags 相似度建立新邊。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "本批僅閱讀第三方文件，不執行安裝命令、不存取 API Key、不修改外部服務。",
+        "riskNotes": "AGPL-3.0；題庫與模型授權另查；教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。；README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。；缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。；無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。；指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "已閱讀正式上游 README／SKILL.md；第三方 Build、Runtime、Integration、Security／License 未實測。"
+          "evidence": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "先診斷學習者已知與未知的概念，再建立依賴關係學習地圖，逐步教學、檢查理解並修復混淆，最後透過練習與知識圖譜支援跨 Session 學習。",
+          "source": "https://github.com/Akas333/TYSA",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合研究個人化 AI 教練與 Communication Gym：參考 Measure → Plan → Teach → Practice、概念依賴圖、使用者推理紀錄、漸進提示與跨 Session 知識圖譜。教學成效未獨立驗證。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-course",
+            "title": "彙整概念課程與子課程狀態",
+            "detail": "複合概念的完成度需要反映子課程。 輸出：依教學順序排列的概念與進度。",
+            "capabilityRefs": [
+              "course"
+            ]
+          },
+          {
+            "id": "use-bank",
+            "title": "載入並依來源識別去重題目",
+            "detail": "多個題庫可能包含同一題目。 輸出：依來源識別去重的題庫與可用性。",
+            "capabilityRefs": [
+              "bank"
+            ]
+          },
+          {
+            "id": "use-search",
+            "title": "明確回報搜尋服務是否可用",
+            "detail": "指定服務不可用時不應默默改用其他供應商。 輸出：可用性、選定服務及原因。",
+            "capabilityRefs": [
+              "search"
+            ]
+          }
+        ],
+        "example": {
+          "id": "akas333-tysa-example",
+          "title": "規劃個人學習平台的課程進度與題庫驗收",
+          "input": "合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+          "process": "彙整概念課程與子課程狀態 → 載入並依來源識別去重題目 → 明確回報搜尋服務是否可用 → 獨立驗收實際成果",
+          "output": "課程進度清單、去重題庫及搜尋可用性狀態。",
+          "destination": "自有學習知識庫，經本人覆核及資料授權後整合。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-course",
+            "use-bank",
+            "use-search"
+          ],
+          "steps": [
+            {
+              "id": "course",
+              "title": "彙整概念課程與子課程狀態",
+              "capabilityRefs": [
+                "course"
+              ]
+            },
+            {
+              "id": "bank",
+              "title": "載入並依來源識別去重題目",
+              "capabilityRefs": [
+                "bank"
+              ]
+            },
+            {
+              "id": "search",
+              "title": "明確回報搜尋服務是否可用",
+              "capabilityRefs": [
+                "search"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。",
+          "README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。",
+          "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+          "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+          "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "依學習者理解程度提供教學輔助；本次查核題庫載入、課程進度彙整及搜尋服務可用性。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "AGPL-3.0；題庫與模型授權另查"
+          },
+          {
+            "label": "版本",
+            "value": "4484105e310d71b061680c34d538b898fa2b756f"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "彙整概念課程與子課程狀態",
+            "detail": "複合概念的完成度需要反映子課程。 輸入：課程資料夾識別、概念樹及教學對話；輸出：依教學順序排列的概念與進度",
+            "source": "packages/engine/src/server/courses.ts"
+          },
+          {
+            "title": "載入並依來源識別去重題目",
+            "detail": "多個題庫可能包含同一題目。 輸入：合成 JSONL 題庫檔案；輸出：依來源識別去重的題庫與可用性",
+            "source": "packages/engine/src/store/question-bank.ts"
+          },
+          {
+            "title": "明確回報搜尋服務是否可用",
+            "detail": "指定服務不可用時不應默默改用其他供應商。 輸入：指定搜尋服務與模擬憑證存在狀態；輸出：可用性、選定服務及原因",
+            "source": "packages/engine/src/server/search.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "彙整概念課程與子課程狀態 → 載入並依來源識別去重題目 → 明確回報搜尋服務是否可用 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "彙整概念課程與子課程狀態",
+              "detail": "課程資料夾識別、概念樹及教學對話 → 依教學順序排列的概念與進度",
+              "files": [
+                "packages/engine/src/server/courses.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "載入並依來源識別去重題目",
+              "detail": "合成 JSONL 題庫檔案 → 依來源識別去重的題庫與可用性",
+              "files": [
+                "packages/engine/src/store/question-bank.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "明確回報搜尋服務是否可用",
+              "detail": "指定搜尋服務與模擬憑證存在狀態 → 可用性、選定服務及原因",
+              "files": [
+                "packages/engine/src/server/search.ts",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "彙整概念課程與子課程狀態",
+            "rule": "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+            "source": "packages/engine/src/server/courses.ts"
+          },
+          {
+            "name": "載入並依來源識別去重題目",
+            "rule": "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+            "source": "packages/engine/src/store/question-bank.ts"
+          },
+          {
+            "name": "明確回報搜尋服務是否可用",
+            "rule": "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+            "source": "packages/engine/src/server/search.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "packages/engine/src/server/courses.ts",
+              "packages/engine/src/store/question-bank.ts",
+              "packages/engine/src/server/search.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "packages/engine/src/server/courses.ts"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有學習知識庫，經本人覆核及資料授權後整合。",
+            "file": "packages/engine/src/server/courses.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "course",
+            "name": "彙整概念課程與子課程狀態",
+            "problem": "複合概念的完成度需要反映子課程。",
+            "input": "課程資料夾識別、概念樹及教學對話",
+            "output": "依教學順序排列的概念與進度",
+            "source": "packages/engine/src/server/courses.ts",
+            "sourceFiles": [
+              "packages/engine/src/server/courses.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "courseEntries",
+              "courseOrder",
+              "conceptChatStatus"
+            ],
+            "gate": "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "bank",
+            "name": "載入並依來源識別去重題目",
+            "problem": "多個題庫可能包含同一題目。",
+            "input": "合成 JSONL 題庫檔案",
+            "output": "依來源識別去重的題庫與可用性",
+            "source": "packages/engine/src/store/question-bank.ts",
+            "sourceFiles": [
+              "packages/engine/src/store/question-bank.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "loadQuestionBank",
+              "questionBankAvailable",
+              "bankFiles"
+            ],
+            "gate": "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "search",
+            "name": "明確回報搜尋服務是否可用",
+            "problem": "指定服務不可用時不應默默改用其他供應商。",
+            "input": "指定搜尋服務與模擬憑證存在狀態",
+            "output": "可用性、選定服務及原因",
+            "source": "packages/engine/src/server/search.ts",
+            "sourceFiles": [
+              "packages/engine/src/server/search.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "resolveSearchEngineFor",
+              "searchStatus"
+            ],
+            "gate": "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃個人學習平台的課程進度與題庫驗收（設計示例）",
+          "problem": "合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+          "steps": [
+            {
+              "capability": "course",
+              "action": "彙整概念課程與子課程狀態"
+            },
+            {
+              "capability": "bank",
+              "action": "載入並依來源識別去重題目"
+            },
+            {
+              "capability": "search",
+              "action": "明確回報搜尋服務是否可用"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "akas333-tysa-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成課程概念樹、教學紀錄、測試題庫與模擬搜尋設定。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "彙整概念課程與子課程狀態 → 載入並依來源識別去重題目 → 明確回報搜尋服務是否可用 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有學習知識庫，經本人覆核及資料授權後整合。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。",
+            "README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。",
+            "缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。",
+            "無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。",
+            "指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "教學品質、評分與知識地圖的正確性需要以真實學習任務驗證。；README 標示 AGPL-3.0，重用或部署前應查核授權義務；離線路線需適合的工具呼叫模型。；缺少課程資料時回傳空值；子課程遞迴深度有限，對話狀態完成不等於學習者已掌握。；無法解析或無效資料略過；依檔案大小與修改時間快取，須另檢查缺漏及題目授權。；指定服務缺憑證時不自動替代；有憑證不等於服務可呼叫，對外搜尋及資料傳輸需核准。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、packages/engine/src/server/courses.ts、packages/engine/src/store/question-bank.ts、packages/engine/src/server/search.ts 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -6145,8 +6509,8 @@
       "canonicalName": "huashu-motion",
       "category": "AI Video & Motion Design",
       "resourceType": "Code-driven motion graphics and product launch film toolkit",
-      "purpose": "讓 Coding Agent 以 HTML、GSAP、Canvas、SVG 等可編輯程式碼製作產品宣傳影片、解說動畫與音效配樂，並透過瀏覽器 Studio 針對畫面位置與時間點提供修改回饋。",
-      "recommendation": "適合產品發表影片、作品集 Demo、資料視覺化影片及 Agent 驅動的可編輯影片製作流程。特別可參考逐幀評論、Agent 修正迴圈、影片 QA 與本機渲染。",
+      "purpose": "以可編輯的網頁程式碼製作動效影片，支援渲染前檢查、影片素材時間定位與成片品質量測。",
+      "recommendation": "適合自有產品影片的可重現渲染規劃；程式檢查不能取代視聽品質與素材權利驗收。",
       "url": "https://github.com/alchaincyf/huashu-motion",
       "repo": "alchaincyf/huashu-motion",
       "license": "MIT (project code and docs only; bundled assets have separate licenses)",
@@ -6191,7 +6555,7 @@
       ],
       "status": "active",
       "addedAt": "2026-11-04",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "agent-skill",
         "motion-graphics",
@@ -6215,10 +6579,18 @@
           "https://github.com/alchaincyf/huashu-motion/blob/main/THIRD_PARTY.md",
           "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/SKILL.md"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official upstream repository, license, third-party notices and SKILL.md",
         "readmeUrl": "https://github.com/alchaincyf/huashu-motion/blob/main/README.md",
-        "reviewScope": "README only; not installed/runtime tested"
+        "reviewScope": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "f4f38bfe295a3f768753857be9236cc3277c7dad",
+        "referenceUrls": [
+          "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/README.en.md",
+          "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/LICENSE",
+          "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/cli/lib/check.js",
+          "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/cli/lib/frames.js",
+          "https://github.com/alchaincyf/huashu-motion/blob/f4f38bfe295a3f768753857be9236cc3277c7dad/cli/lib/qa.js"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -6252,41 +6624,395 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原始 Tags 保留原樣；本批沒有新標籤或分類架構變更。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留 Primary Domain content、Category 與原始 Tags；只補來源和使用限制。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "尚無實際整合與 I/O 驗證，不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
-          "decision": "candidate",
-          "reason": "未從標題或相同 Tags 推測新 Concept 引用。"
+          "decision": "reused",
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+        "riskNotes": "MIT；音樂、字型與第三方元件另查；影片生成及音樂素材的授權和效能須另外驗證；來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。；依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。；以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+          "evidence": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "讓 Coding Agent 以 HTML、GSAP、Canvas、SVG 等可編輯程式碼製作產品宣傳影片、解說動畫與音效配樂，並透過瀏覽器 Studio 針對畫面位置與時間點提供修改回饋。",
+          "source": "https://github.com/alchaincyf/huashu-motion",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合產品發表影片、作品集 Demo、資料視覺化影片及 Agent 驅動的可編輯影片製作流程。特別可參考逐幀評論、Agent 修正迴圈、影片 QA 與本機渲染。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-source",
+            "title": "檢查渲染來源與畫面問題",
+            "detail": "動效工程需要在輸出前識別結構及瀏覽器問題。 輸出：來源與頁面錯誤或警告清單。",
+            "capabilityRefs": [
+              "source"
+            ]
+          },
+          {
+            "id": "use-frames",
+            "title": "依影片時間戳規劃素材畫面",
+            "detail": "可變幀率素材不能只依固定幀率推算。 輸出：時間戳、尺寸、編碼與色彩資訊。",
+            "capabilityRefs": [
+              "frames"
+            ]
+          },
+          {
+            "id": "use-qa",
+            "title": "量測成片的瞬間跳動與靜止",
+            "detail": "渲染成功仍可能存在單幀異常。 輸出：低解析度逐幀變化、跳動及節奏報告。",
+            "capabilityRefs": [
+              "qa"
+            ]
+          }
+        ],
+        "example": {
+          "id": "alchaincyf-huashu-motion-example",
+          "title": "規劃程式動效影片的渲染與品質檢查",
+          "input": "自有合成 HTML 動效、測試影片及分鏡時間規格。",
+          "process": "檢查渲染來源與畫面問題 → 依影片時間戳規劃素材畫面 → 量測成片的瞬間跳動與靜止 → 獨立驗收實際成果",
+          "output": "來源檢查、時間戳資訊與成片異常檢視規格。",
+          "destination": "自有影片製作工作區，經人工覆核後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-source",
+            "use-frames",
+            "use-qa"
+          ],
+          "steps": [
+            {
+              "id": "source",
+              "title": "檢查渲染來源與畫面問題",
+              "capabilityRefs": [
+                "source"
+              ]
+            },
+            {
+              "id": "frames",
+              "title": "依影片時間戳規劃素材畫面",
+              "capabilityRefs": [
+                "frames"
+              ]
+            },
+            {
+              "id": "qa",
+              "title": "量測成片的瞬間跳動與靜止",
+              "capabilityRefs": [
+                "qa"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備自有合成 HTML 動效、測試影片及分鏡時間規格。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "影片生成及音樂素材的授權和效能須另外驗證",
+          "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+          "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+          "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以可編輯的網頁程式碼製作動效影片，支援渲染前檢查、影片素材時間定位與成片品質量測。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；音樂、字型與第三方元件另查"
+          },
+          {
+            "label": "版本",
+            "value": "f4f38bfe295a3f768753857be9236cc3277c7dad"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "檢查渲染來源與畫面問題",
+            "detail": "動效工程需要在輸出前識別結構及瀏覽器問題。 輸入：合成影片專案；輸出：來源與頁面錯誤或警告清單",
+            "source": "cli/lib/check.js"
+          },
+          {
+            "title": "依影片時間戳規劃素材畫面",
+            "detail": "可變幀率素材不能只依固定幀率推算。 輸入：已授權本機影片；輸出：時間戳、尺寸、編碼與色彩資訊",
+            "source": "cli/lib/frames.js"
+          },
+          {
+            "title": "量測成片的瞬間跳動與靜止",
+            "detail": "渲染成功仍可能存在單幀異常。 輸入：合成成片與循環選項；輸出：低解析度逐幀變化、跳動及節奏報告",
+            "source": "cli/lib/qa.js"
+          }
+        ],
+        "architecture": {
+          "summary": "檢查渲染來源與畫面問題 → 依影片時間戳規劃素材畫面 → 量測成片的瞬間跳動與靜止 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "檢查渲染來源與畫面問題",
+              "detail": "合成影片專案 → 來源與頁面錯誤或警告清單",
+              "files": [
+                "cli/lib/check.js",
+                "README.en.md"
+              ]
+            },
+            {
+              "title": "依影片時間戳規劃素材畫面",
+              "detail": "已授權本機影片 → 時間戳、尺寸、編碼與色彩資訊",
+              "files": [
+                "cli/lib/frames.js",
+                "README.en.md"
+              ]
+            },
+            {
+              "title": "量測成片的瞬間跳動與靜止",
+              "detail": "合成成片與循環選項 → 低解析度逐幀變化、跳動及節奏報告",
+              "files": [
+                "cli/lib/qa.js",
+                "README.en.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "檢查渲染來源與畫面問題",
+            "rule": "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+            "source": "cli/lib/check.js"
+          },
+          {
+            "name": "依影片時間戳規劃素材畫面",
+            "rule": "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+            "source": "cli/lib/frames.js"
+          },
+          {
+            "name": "量測成片的瞬間跳動與靜止",
+            "rule": "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+            "source": "cli/lib/qa.js"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.en.md",
+              "LICENSE",
+              "cli/lib/check.js",
+              "cli/lib/frames.js",
+              "cli/lib/qa.js"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備自有合成 HTML 動效、測試影片及分鏡時間規格。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "cli/lib/check.js"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有影片製作工作區，經人工覆核後使用。",
+            "file": "cli/lib/check.js"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "source",
+            "name": "檢查渲染來源與畫面問題",
+            "problem": "動效工程需要在輸出前識別結構及瀏覽器問題。",
+            "input": "合成影片專案",
+            "output": "來源與頁面錯誤或警告清單",
+            "source": "cli/lib/check.js",
+            "sourceFiles": [
+              "cli/lib/check.js",
+              "README.en.md"
+            ],
+            "symbols": [
+              "checkSource",
+              "checkPage",
+              "check"
+            ],
+            "gate": "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "frames",
+            "name": "依影片時間戳規劃素材畫面",
+            "problem": "可變幀率素材不能只依固定幀率推算。",
+            "input": "已授權本機影片",
+            "output": "時間戳、尺寸、編碼與色彩資訊",
+            "source": "cli/lib/frames.js",
+            "sourceFiles": [
+              "cli/lib/frames.js",
+              "README.en.md"
+            ],
+            "symbols": [
+              "probeVideo",
+              "matrixFor"
+            ],
+            "gate": "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "qa",
+            "name": "量測成片的瞬間跳動與靜止",
+            "problem": "渲染成功仍可能存在單幀異常。",
+            "input": "合成成片與循環選項",
+            "output": "低解析度逐幀變化、跳動及節奏報告",
+            "source": "cli/lib/qa.js",
+            "sourceFiles": [
+              "cli/lib/qa.js",
+              "README.en.md"
+            ],
+            "symbols": [
+              "qa",
+              "probe",
+              "frames"
+            ],
+            "gate": "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃程式動效影片的渲染與品質檢查（設計示例）",
+          "problem": "自有合成 HTML 動效、測試影片及分鏡時間規格。",
+          "steps": [
+            {
+              "capability": "source",
+              "action": "檢查渲染來源與畫面問題"
+            },
+            {
+              "capability": "frames",
+              "action": "依影片時間戳規劃素材畫面"
+            },
+            {
+              "capability": "qa",
+              "action": "量測成片的瞬間跳動與靜止"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "alchaincyf-huashu-motion-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "自有合成 HTML 動效、測試影片及分鏡時間規格。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "檢查渲染來源與畫面問題 → 依影片時間戳規劃素材畫面 → 量測成片的瞬間跳動與靜止 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有影片製作工作區，經人工覆核後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "影片生成及音樂素材的授權和效能須另外驗證",
+            "來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。",
+            "依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。",
+            "以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "影片生成及音樂素材的授權和效能須另外驗證；來源檢查與實際頁面檢查不同；頁面抽樣不能保證所有畫面，需核准可信瀏覽器環境。；依 FFprobe 回傳及檔案標記；缺少時間戳或影片流會失敗，色彩轉換及實際同步仍須驗證。；以灰階低解析度差值估算，可能遺漏局部錯誤或誤判有意轉場，須人工播放核對。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.en.md、LICENSE、cli/lib/check.js、cli/lib/frames.js、cli/lib/qa.js 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -38555,8 +39281,8 @@
       "canonicalName": "Editkin",
       "category": "AI Video Editing & Agent-Controlled Creative Tools",
       "resourceType": "Local-first AI-assisted video editor with timeline, EditGraph and MCP tools",
-      "purpose": "提供可編輯影片時間軸、音訊處理、字幕、視覺特效與匯出；可透過本機 MCP 讓 Claude Code、Codex 與 Video Autopilot Kit 等工具操作結構化剪輯計畫，保留可人工修改的剪輯專案。",
-      "recommendation": "適合測試 AI 自動剪輯與人工後製的混合工作流、長片轉短影音和教學 Reels；但 0.16.0 安裝版為閉源且 Windows 未簽章，macOS 版簽章／實測資訊尚不完整，應先在測試環境驗證下載檔案與輸出品質，再使用重要或機密影片。",
+      "purpose": "提供可編輯時間軸與影片處理；本次僅查核公開舊版的渲染圖驗證、增量更新及白平衡契約。",
+      "recommendation": "適合研究自有剪輯引擎的資料契約；公開原始碼不代表新版安裝包的行為或授權。",
       "url": "https://github.com/Hao0321/Editkin/releases/tag/v0.16.0",
       "repo": "Hao0321/Editkin",
       "homepage": "https://hao0321.com/works/editkin/",
@@ -38647,7 +39373,7 @@
       "collectionDecision": "新增 1 Resource 記錄 Editkin 產品及 v0.16.0 Release；以清楚獨立欄位區分 GPL 社群原始碼與閉源免費商業使用版，不額外新增未驗證 Skill。",
       "status": "active",
       "addedAt": "2026-11-08",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "editkin",
         "hao0321",
@@ -38685,11 +39411,18 @@
           "https://github.com/Hao0321/Editkin/releases/download/v0.16.0/RELEASE_NOTES.zh-TW.md",
           "https://hao0321.com/works/editkin/"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Upstream GitHub repository metadata, v0.16.0 release and asset metadata, README, SECURITY and author website",
         "limitations": "Release EULA text and prebuilt binaries could not be opened or executed for verification; commercial permission reflects developer's official statement, not independent license text review.",
         "readmeUrl": "https://github.com/Hao0321/Editkin/blob/main/README.md",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、native/hao-core/src/engine/validate.rs、native/hao-core/src/engine/white_balance.rs 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "51b1e3172142fffcf8da1d7110377caa3b42f9f4",
+        "referenceUrls": [
+          "https://github.com/Hao0321/Editkin/blob/51b1e3172142fffcf8da1d7110377caa3b42f9f4/README.md",
+          "https://github.com/Hao0321/Editkin/blob/51b1e3172142fffcf8da1d7110377caa3b42f9f4/LICENSE",
+          "https://github.com/Hao0321/Editkin/blob/51b1e3172142fffcf8da1d7110377caa3b42f9f4/native/hao-core/src/engine/validate.rs",
+          "https://github.com/Hao0321/Editkin/blob/51b1e3172142fffcf8da1d7110377caa3b42f9f4/native/hao-core/src/engine/white_balance.rs"
+        ]
       },
       "researchStatus": "official-repository-and-release-reviewed-binaries-not-audited",
       "displayStatus": "listed",
@@ -38717,41 +39450,402 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原有 Tags，不新增或調整分類架構。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "原有 Domain content 保持不變，只補強來源與未敘明的使用方式或風險。",
+        "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、native/hao-core/src/engine/validate.rs、native/hao-core/src/engine/white_balance.rs 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
-          "decision": "candidate",
-          "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
+          "decision": "reused",
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+        "riskNotes": "GPL-3.0 公開舊版；0.16.0 起為專有軟體；列出的 v0.16.0 功能為開發者 Release Notes 主張，未進行實機驗證或品質測試。；公開 GPL 原始碼不是 v0.16.0 安裝包完整可驗證來源；遵循不同授權分界。；0.16.0 沒有自動更新，使用者需手動檢查 Release。；這是一款影片編輯器與 AI 工具介面，並非直接可安裝的 SKILL.md；應分類 Resource。；搭配 Video Autopilot Kit 可規劃自動剪輯，但 Kit、模型及媒體處理層需個別安裝與授權；本次未整合。；檢查識別、尺寸、時間基準與輸出節點；編譯合法不代表畫面正確。；拒絕未知節點；僅依圖中已宣告的依賴計算，未驗證快取實際失效或新版行為。；限制有限數值與處理器版本；這是公開舊版局部色彩運算，不等於完整色彩管理或新版結果。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "固定版本 README.md、LICENSE、native/hao-core/src/engine/validate.rs、native/hao-core/src/engine/white_balance.rs 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、native/hao-core/src/engine/validate.rs、native/hao-core/src/engine/white_balance.rs 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供可編輯影片時間軸、音訊處理、字幕、視覺特效與匯出；可透過本機 MCP 讓 Claude Code、Codex 與 Video Autopilot Kit 等工具操作結構化剪輯計畫，保留可人工修改的剪輯專案。",
+          "source": "https://github.com/Hao0321/Editkin/releases/tag/v0.16.0",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合測試 AI 自動剪輯與人工後製的混合工作流、長片轉短影音和教學 Reels；但 0.16.0 安裝版為閉源且 Windows 未簽章，macOS 版簽章／實測資訊尚不完整，應先在測試環境驗證下載檔案與輸出品質，再使用重要或機密影片。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-graph",
+            "title": "驗證渲染圖的結構契約",
+            "detail": "錯誤節點或時間基準可能造成渲染失敗。 輸出：編譯後圖結構或驗證錯誤。",
+            "capabilityRefs": [
+              "graph"
+            ]
+          },
+          {
+            "id": "use-dirty",
+            "title": "追蹤節點修改影響的下游",
+            "detail": "剪輯調整不必無條件重算所有節點。 輸出：依拓撲順序排列的受影響節點。",
+            "capabilityRefs": [
+              "dirty"
+            ]
+          },
+          {
+            "id": "use-color",
+            "title": "驗證版本化白平衡參數",
+            "detail": "不同色彩處理器的參數語意不能混用。 輸出：契約判定或轉換後 RGB。",
+            "capabilityRefs": [
+              "color"
+            ]
+          }
+        ],
+        "example": {
+          "id": "hao0321-editkin-example",
+          "title": "規劃剪輯渲染圖與色彩處理的契約驗收",
+          "input": "合成渲染圖、節點變更與測試 RGB 資料。",
+          "process": "驗證渲染圖的結構契約 → 追蹤節點修改影響的下游 → 驗證版本化白平衡參數 → 獨立驗收實際成果",
+          "output": "合法圖結構、受影響節點與白平衡驗收規格。",
+          "destination": "自有剪輯系統的設計與回歸測試，遵守來源授權。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-graph",
+            "use-dirty",
+            "use-color"
+          ],
+          "steps": [
+            {
+              "id": "graph",
+              "title": "驗證渲染圖的結構契約",
+              "capabilityRefs": [
+                "graph"
+              ]
+            },
+            {
+              "id": "dirty",
+              "title": "追蹤節點修改影響的下游",
+              "capabilityRefs": [
+                "dirty"
+              ]
+            },
+            {
+              "id": "color",
+              "title": "驗證版本化白平衡參數",
+              "capabilityRefs": [
+                "color"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成渲染圖、節點變更與測試 RGB 資料。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "列出的 v0.16.0 功能為開發者 Release Notes 主張，未進行實機驗證或品質測試。",
+          "公開 GPL 原始碼不是 v0.16.0 安裝包完整可驗證來源；遵循不同授權分界。",
+          "0.16.0 沒有自動更新，使用者需手動檢查 Release。",
+          "這是一款影片編輯器與 AI 工具介面，並非直接可安裝的 SKILL.md；應分類 Resource。",
+          "搭配 Video Autopilot Kit 可規劃自動剪輯，但 Kit、模型及媒體處理層需個別安裝與授權；本次未整合。",
+          "檢查識別、尺寸、時間基準與輸出節點；編譯合法不代表畫面正確。",
+          "拒絕未知節點；僅依圖中已宣告的依賴計算，未驗證快取實際失效或新版行為。",
+          "限制有限數值與處理器版本；這是公開舊版局部色彩運算，不等於完整色彩管理或新版結果。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "提供可編輯時間軸與影片處理；本次僅查核公開舊版的渲染圖驗證、增量更新及白平衡契約。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "GPL-3.0 公開舊版；0.16.0 起為專有軟體"
+          },
+          {
+            "label": "版本",
+            "value": "51b1e3172142fffcf8da1d7110377caa3b42f9f4"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "驗證渲染圖的結構契約",
+            "detail": "錯誤節點或時間基準可能造成渲染失敗。 輸入：合成 EngineGraph；輸出：編譯後圖結構或驗證錯誤",
+            "source": "native/hao-core/src/engine/validate.rs"
+          },
+          {
+            "title": "追蹤節點修改影響的下游",
+            "detail": "剪輯調整不必無條件重算所有節點。 輸入：渲染圖與已變更節點識別；輸出：依拓撲順序排列的受影響節點",
+            "source": "native/hao-core/src/engine/validate.rs"
+          },
+          {
+            "title": "驗證版本化白平衡參數",
+            "detail": "不同色彩處理器的參數語意不能混用。 輸入：處理器識別、RGB 與三通道 stops；輸出：契約判定或轉換後 RGB",
+            "source": "native/hao-core/src/engine/white_balance.rs"
+          }
+        ],
+        "architecture": {
+          "summary": "驗證渲染圖的結構契約 → 追蹤節點修改影響的下游 → 驗證版本化白平衡參數 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "驗證渲染圖的結構契約",
+              "detail": "合成 EngineGraph → 編譯後圖結構或驗證錯誤",
+              "files": [
+                "native/hao-core/src/engine/validate.rs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "追蹤節點修改影響的下游",
+              "detail": "渲染圖與已變更節點識別 → 依拓撲順序排列的受影響節點",
+              "files": [
+                "native/hao-core/src/engine/validate.rs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "驗證版本化白平衡參數",
+              "detail": "處理器識別、RGB 與三通道 stops → 契約判定或轉換後 RGB",
+              "files": [
+                "native/hao-core/src/engine/white_balance.rs",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "驗證渲染圖的結構契約",
+            "rule": "檢查識別、尺寸、時間基準與輸出節點；編譯合法不代表畫面正確。",
+            "source": "native/hao-core/src/engine/validate.rs"
+          },
+          {
+            "name": "追蹤節點修改影響的下游",
+            "rule": "拒絕未知節點；僅依圖中已宣告的依賴計算，未驗證快取實際失效或新版行為。",
+            "source": "native/hao-core/src/engine/validate.rs"
+          },
+          {
+            "name": "驗證版本化白平衡參數",
+            "rule": "限制有限數值與處理器版本；這是公開舊版局部色彩運算，不等於完整色彩管理或新版結果。",
+            "source": "native/hao-core/src/engine/white_balance.rs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、native/hao-core/src/engine/validate.rs、native/hao-core/src/engine/white_balance.rs 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "native/hao-core/src/engine/validate.rs",
+              "native/hao-core/src/engine/white_balance.rs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成渲染圖、節點變更與測試 RGB 資料。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "native/hao-core/src/engine/validate.rs"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有剪輯系統的設計與回歸測試，遵守來源授權。",
+            "file": "native/hao-core/src/engine/validate.rs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "graph",
+            "name": "驗證渲染圖的結構契約",
+            "problem": "錯誤節點或時間基準可能造成渲染失敗。",
+            "input": "合成 EngineGraph",
+            "output": "編譯後圖結構或驗證錯誤",
+            "source": "native/hao-core/src/engine/validate.rs",
+            "sourceFiles": [
+              "native/hao-core/src/engine/validate.rs",
+              "README.md"
+            ],
+            "symbols": [
+              "compile_graph",
+              "valid_frame_range",
+              "topological_order"
+            ],
+            "gate": "檢查識別、尺寸、時間基準與輸出節點；編譯合法不代表畫面正確。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "dirty",
+            "name": "追蹤節點修改影響的下游",
+            "problem": "剪輯調整不必無條件重算所有節點。",
+            "input": "渲染圖與已變更節點識別",
+            "output": "依拓撲順序排列的受影響節點",
+            "source": "native/hao-core/src/engine/validate.rs",
+            "sourceFiles": [
+              "native/hao-core/src/engine/validate.rs",
+              "README.md"
+            ],
+            "symbols": [
+              "dirty_descendants",
+              "topological_order"
+            ],
+            "gate": "拒絕未知節點；僅依圖中已宣告的依賴計算，未驗證快取實際失效或新版行為。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "color",
+            "name": "驗證版本化白平衡參數",
+            "problem": "不同色彩處理器的參數語意不能混用。",
+            "input": "處理器識別、RGB 與三通道 stops",
+            "output": "契約判定或轉換後 RGB",
+            "source": "native/hao-core/src/engine/white_balance.rs",
+            "sourceFiles": [
+              "native/hao-core/src/engine/white_balance.rs",
+              "README.md"
+            ],
+            "symbols": [
+              "validate_contract",
+              "apply_linear",
+              "apply_encoded_rec709"
+            ],
+            "gate": "限制有限數值與處理器版本；這是公開舊版局部色彩運算，不等於完整色彩管理或新版結果。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃剪輯渲染圖與色彩處理的契約驗收（設計示例）",
+          "problem": "合成渲染圖、節點變更與測試 RGB 資料。",
+          "steps": [
+            {
+              "capability": "graph",
+              "action": "驗證渲染圖的結構契約"
+            },
+            {
+              "capability": "dirty",
+              "action": "追蹤節點修改影響的下游"
+            },
+            {
+              "capability": "color",
+              "action": "驗證版本化白平衡參數"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "hao0321-editkin-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成渲染圖、節點變更與測試 RGB 資料。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "驗證渲染圖的結構契約 → 追蹤節點修改影響的下游 → 驗證版本化白平衡參數 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有剪輯系統的設計與回歸測試，遵守來源授權。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "列出的 v0.16.0 功能為開發者 Release Notes 主張，未進行實機驗證或品質測試。",
+            "公開 GPL 原始碼不是 v0.16.0 安裝包完整可驗證來源；遵循不同授權分界。",
+            "0.16.0 沒有自動更新，使用者需手動檢查 Release。",
+            "這是一款影片編輯器與 AI 工具介面，並非直接可安裝的 SKILL.md；應分類 Resource。",
+            "搭配 Video Autopilot Kit 可規劃自動剪輯，但 Kit、模型及媒體處理層需個別安裝與授權；本次未整合。",
+            "檢查識別、尺寸、時間基準與輸出節點；編譯合法不代表畫面正確。",
+            "拒絕未知節點；僅依圖中已宣告的依賴計算，未驗證快取實際失效或新版行為。",
+            "限制有限數值與處理器版本；這是公開舊版局部色彩運算，不等於完整色彩管理或新版結果。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "列出的 v0.16.0 功能為開發者 Release Notes 主張，未進行實機驗證或品質測試。；公開 GPL 原始碼不是 v0.16.0 安裝包完整可驗證來源；遵循不同授權分界。；0.16.0 沒有自動更新，使用者需手動檢查 Release。；這是一款影片編輯器與 AI 工具介面，並非直接可安裝的 SKILL.md；應分類 Resource。；搭配 Video Autopilot Kit 可規劃自動剪輯，但 Kit、模型及媒體處理層需個別安裝與授權；本次未整合。；檢查識別、尺寸、時間基準與輸出節點；編譯合法不代表畫面正確。；拒絕未知節點；僅依圖中已宣告的依賴計算，未驗證快取實際失效或新版行為。；限制有限數值與處理器版本；這是公開舊版局部色彩運算，不等於完整色彩管理或新版結果。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、native/hao-core/src/engine/validate.rs、native/hao-core/src/engine/white_balance.rs 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -56877,14 +57971,14 @@
       "canonicalName": "Hairline",
       "category": "08 UI & Design Engineering",
       "resourceType": "MIT-licensed SVG/DOM Interactive Isometric Illustration Library + Two Agent Skills",
-      "purpose": "提供 33 個會回應游標或鍵盤互動的等角線條 SVG 圖形，適用於 React 18+、其他 DOM 前端以及網站 Hero、產品功能展示；統一 API 支援 intensity、theme、label、onRead、play。附兩個獨立的 Agent Skills：建立新圖形（hairline-create）及將現有 SVG 轉譯為相同風格互動圖形（hairline-adopt）。",
-      "recommendation": "適合作為產品首頁與開發者網站互動圖像靈感，或需要可直接嵌入前端、符合 reduced-motion 的視覺展示。若只需現成圖形，直接使用套件；若要重新設計圖形，才評估兩個可執行的 Skill。需自行評估視覺品質、效能、可及性與品牌識別權利。",
+      "purpose": "提供可互動的等角線條 SVG 圖形，並以統一強度參數、動效模型及 React 元件生命週期管理呈現。",
+      "recommendation": "適合產品功能展示與裝飾圖形；仍需可及性、減少動態及實際效能驗收。",
       "url": "https://github.com/lucasmarkes/hairline",
       "repo": "lucasmarkes/hairline",
       "notes": "2026-10-27 官方 README、packages/hairline/package.json、skills/hairline-create/SKILL.md、skills/hairline-adopt/SKILL.md 與 LICENSE 已核對。官方 README 列 33 個互動圖形；套件版本 package.json 為 0.5.1（發布狀態不代表此輪查到 npm 即時更新），ESM only，基礎庫無執行階段依賴；React 18+ 為 optional peer。作者描述互動圖形共享 requestAnimationFrame、在離屏停止、支援 prefers-reduced-motion 與可及性描述；未實際進行瀏覽器測試。官方 Skills 使用 Node、HTML/JavaScript 工具與可選 Playwright-core 檢查；執行前應審查其依賴與檔案寫入，未經授權不要安裝。Root LICENSE 為 MIT；若輸入第三方商標／圖示，產出的改造物仍應自行檢查商標與衍生著作權。此輪僅收錄，未安裝或測試。",
       "status": "active",
       "addedAt": "2026-10-27",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "svg",
         "interactive-illustration",
@@ -56938,8 +58032,16 @@
         "type": "Official GitHub README, package metadata, two SKILL.md, MIT license",
         "summary": "Reviewed on 2026-10-27; package source and documented behavior examined, not executed.",
         "readmeUrl": "https://github.com/lucasmarkes/hairline/blob/main/README.md",
-        "reviewedAt": "2026-11-19",
-        "reviewScope": "Official upstream document only; no runtime or security validation"
+        "reviewedAt": "2026-11-26",
+        "reviewScope": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "034f4bf9902c6adcf3cf39d82f85e6010cb4e094",
+        "referenceUrls": [
+          "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/README.md",
+          "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/LICENSE",
+          "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/packages/hairline/src/intensity.ts",
+          "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/packages/hairline/src/core/motion.ts",
+          "https://github.com/lucasmarkes/hairline/blob/034f4bf9902c6adcf3cf39d82f85e6010cb4e094/packages/hairline/src/react.tsx"
+        ]
       },
       "researchStatus": "official-source-verified",
       "displayStatus": "listed",
@@ -56976,41 +58078,398 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "對照既有 Canonical ID 與上游 Repository，僅改善該筆原始收藏，不新增重複項目。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原始 Tags、分類與既有知識關聯，沒有新增標籤。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留既有 Primary Domain design，本輪只補足來源支援的使用方法與限制。",
+        "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "只有 README／安裝指引的來源查核，未逐檔分析程式碼、版本化實作契約與建置結果，不增加深度 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "官方文件描述的功能不等於正式 I/O 相容性，暫不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留已存在的 Concept 引用，沒有根據 Tag 相似新增 Edge。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "僅閱讀第三方文件，不執行安裝程式、不讀取憑證、資料或進行外送。",
+        "riskNotes": "MIT；裝飾性圖形不能替代重要資訊文字；過多動態效果可能影響裝置效能及可及性；非法數值回到預設；映射依各圖形設定，不代表感知強度一致。；減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。；依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "上游 README／指引已閱讀，第三方 Build、Runtime、Integration、Security 與 License 全文未實測。"
+          "evidence": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "提供 33 個會回應游標或鍵盤互動的等角線條 SVG 圖形，適用於 React 18+、其他 DOM 前端以及網站 Hero、產品功能展示；統一 API 支援 intensity、theme、label、onRead、play。附兩個獨立的 Agent Skills：建立新圖形（hairline-create）及將現有 SVG 轉譯為相同風格互動圖形（hairline-adopt）。",
+          "source": "https://github.com/lucasmarkes/hairline",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合作為產品首頁與開發者網站互動圖像靈感，或需要可直接嵌入前端、符合 reduced-motion 的視覺展示。若只需現成圖形，直接使用套件；若要重新設計圖形，才評估兩個可執行的 Skill。需自行評估視覺品質、效能、可及性與品牌識別權利。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-intensity",
+            "title": "統一不同圖形的互動強度",
+            "detail": "不同動效的底層單位不同。 輸出：限制於範圍內並映射的圖形參數。",
+            "capabilityRefs": [
+              "intensity"
+            ]
+          },
+          {
+            "id": "use-motion",
+            "title": "依互動類型更新動效",
+            "detail": "連續輸入與離散狀態變化需要不同時間模型。 輸出：更新後的彈簧或補間狀態。",
+            "capabilityRefs": [
+              "motion"
+            ]
+          },
+          {
+            "id": "use-react",
+            "title": "管理互動圖形元件生命週期",
+            "detail": "參數改變不應不必要地重新建立圖形。 輸出：掛載的圖形及卸載清理行為。",
+            "capabilityRefs": [
+              "react"
+            ]
+          }
+        ],
+        "example": {
+          "id": "lucasmarkes-hairline-example",
+          "title": "規劃互動線條圖形的參數與動效驗收",
+          "input": "合成產品頁面、互動強度及減少動態設定。",
+          "process": "統一不同圖形的互動強度 → 依互動類型更新動效 → 管理互動圖形元件生命週期 → 獨立驗收實際成果",
+          "output": "強度映射、動畫狀態與元件更新驗收規格。",
+          "destination": "自有前端展示頁面，保留重要資訊的文字替代。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-intensity",
+            "use-motion",
+            "use-react"
+          ],
+          "steps": [
+            {
+              "id": "intensity",
+              "title": "統一不同圖形的互動強度",
+              "capabilityRefs": [
+                "intensity"
+              ]
+            },
+            {
+              "id": "motion",
+              "title": "依互動類型更新動效",
+              "capabilityRefs": [
+                "motion"
+              ]
+            },
+            {
+              "id": "react",
+              "title": "管理互動圖形元件生命週期",
+              "capabilityRefs": [
+                "react"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成產品頁面、互動強度及減少動態設定。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "裝飾性圖形不能替代重要資訊文字",
+          "過多動態效果可能影響裝置效能及可及性",
+          "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+          "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+          "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "提供可互動的等角線條 SVG 圖形，並以統一強度參數、動效模型及 React 元件生命週期管理呈現。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本",
+            "value": "034f4bf9902c6adcf3cf39d82f85e6010cb4e094"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "統一不同圖形的互動強度",
+            "detail": "不同動效的底層單位不同。 輸入：圖形識別與強度輸入；輸出：限制於範圍內並映射的圖形參數",
+            "source": "packages/hairline/src/intensity.ts"
+          },
+          {
+            "title": "依互動類型更新動效",
+            "detail": "連續輸入與離散狀態變化需要不同時間模型。 輸入：目標狀態、時間步長與減少動態設定；輸出：更新後的彈簧或補間狀態",
+            "source": "packages/hairline/src/core/motion.ts"
+          },
+          {
+            "title": "管理互動圖形元件生命週期",
+            "detail": "參數改變不應不必要地重新建立圖形。 輸入：React 元件、圖形掛載函式及參數；輸出：掛載的圖形及卸載清理行為",
+            "source": "packages/hairline/src/react.tsx"
+          }
+        ],
+        "architecture": {
+          "summary": "統一不同圖形的互動強度 → 依互動類型更新動效 → 管理互動圖形元件生命週期 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "統一不同圖形的互動強度",
+              "detail": "圖形識別與強度輸入 → 限制於範圍內並映射的圖形參數",
+              "files": [
+                "packages/hairline/src/intensity.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "依互動類型更新動效",
+              "detail": "目標狀態、時間步長與減少動態設定 → 更新後的彈簧或補間狀態",
+              "files": [
+                "packages/hairline/src/core/motion.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "管理互動圖形元件生命週期",
+              "detail": "React 元件、圖形掛載函式及參數 → 掛載的圖形及卸載清理行為",
+              "files": [
+                "packages/hairline/src/react.tsx",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "統一不同圖形的互動強度",
+            "rule": "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+            "source": "packages/hairline/src/intensity.ts"
+          },
+          {
+            "name": "依互動類型更新動效",
+            "rule": "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+            "source": "packages/hairline/src/core/motion.ts"
+          },
+          {
+            "name": "管理互動圖形元件生命週期",
+            "rule": "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+            "source": "packages/hairline/src/react.tsx"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "packages/hairline/src/intensity.ts",
+              "packages/hairline/src/core/motion.ts",
+              "packages/hairline/src/react.tsx"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成產品頁面、互動強度及減少動態設定。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "packages/hairline/src/intensity.ts"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有前端展示頁面，保留重要資訊的文字替代。",
+            "file": "packages/hairline/src/intensity.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "intensity",
+            "name": "統一不同圖形的互動強度",
+            "problem": "不同動效的底層單位不同。",
+            "input": "圖形識別與強度輸入",
+            "output": "限制於範圍內並映射的圖形參數",
+            "source": "packages/hairline/src/intensity.ts",
+            "sourceFiles": [
+              "packages/hairline/src/intensity.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "intensity",
+              "parameter",
+              "TABLE"
+            ],
+            "gate": "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "motion",
+            "name": "依互動類型更新動效",
+            "problem": "連續輸入與離散狀態變化需要不同時間模型。",
+            "input": "目標狀態、時間步長與減少動態設定",
+            "output": "更新後的彈簧或補間狀態",
+            "source": "packages/hairline/src/core/motion.ts",
+            "sourceFiles": [
+              "packages/hairline/src/core/motion.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "spring",
+              "stepS",
+              "setReducedMotion",
+              "tween"
+            ],
+            "gate": "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "react",
+            "name": "管理互動圖形元件生命週期",
+            "problem": "參數改變不應不必要地重新建立圖形。",
+            "input": "React 元件、圖形掛載函式及參數",
+            "output": "掛載的圖形及卸載清理行為",
+            "source": "packages/hairline/src/react.tsx",
+            "sourceFiles": [
+              "packages/hairline/src/react.tsx",
+              "README.md"
+            ],
+            "symbols": [
+              "make",
+              "useIsoLayoutEffect"
+            ],
+            "gate": "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃互動線條圖形的參數與動效驗收（設計示例）",
+          "problem": "合成產品頁面、互動強度及減少動態設定。",
+          "steps": [
+            {
+              "capability": "intensity",
+              "action": "統一不同圖形的互動強度"
+            },
+            {
+              "capability": "motion",
+              "action": "依互動類型更新動效"
+            },
+            {
+              "capability": "react",
+              "action": "管理互動圖形元件生命週期"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "lucasmarkes-hairline-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成產品頁面、互動強度及減少動態設定。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "統一不同圖形的互動強度 → 依互動類型更新動效 → 管理互動圖形元件生命週期 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有前端展示頁面，保留重要資訊的文字替代。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "裝飾性圖形不能替代重要資訊文字",
+            "過多動態效果可能影響裝置效能及可及性",
+            "非法數值回到預設；映射依各圖形設定，不代表感知強度一致。",
+            "減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。",
+            "依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "裝飾性圖形不能替代重要資訊文字；過多動態效果可能影響裝置效能及可及性；非法數值回到預設；映射依各圖形設定，不代表感知強度一致。；減少動態時直接到達目標；旗標與瀏覽器設定同步及高負載下效能仍須實測。；依 React effect 掛載及銷毀；伺服器端先呈現容器，鍵盤操作、SSR hydration 與可及性仍需驗證。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、packages/hairline/src/intensity.ts、packages/hairline/src/core/motion.ts、packages/hairline/src/react.tsx 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -61372,8 +62831,8 @@
       "canonicalName": "minchenlee/loadsketch",
       "category": "03 Code Intelligence",
       "resourceType": "Open-source system design simulator and interactive distributed-systems learning tool",
-      "purpose": "在可拖曳的系統架構畫布上串接 API、負載平衡器、資料庫、快取、佇列等元件，以離散事件模擬逐筆請求、流量突波、逾時、重試、Circuit Breaker、Queue Backlog、故障、擴容與復原，協助理解架構決策及失效模式。",
-      "recommendation": "適合 System Design 面試準備、分散式系統基礎教學與 Error Path／Retry Storm／故障復原的概念驗證。可先從 three-tier、retry-storm、async-queue、cache-stampede、slow-dependency 等範例出發，修改流量、Concurrency、Timeout、Retry、Queue、Cache Hit Ratio 等參數比較差異；輸出結果僅為模型估算，不能代替真實負載測試。",
+      "purpose": "以離散事件模擬探索架構與負載假設，本次聚焦重現隨機情境、延遲統計與模擬 SLO 判定。",
+      "recommendation": "適合架構學習及方案比較；模擬不能作為實際容量、SLA 或成本承諾。",
       "url": "https://loadsketch.mclee.dev",
       "repo": "minchenlee/loadsketch",
       "githubUrl": "https://github.com/minchenlee/loadsketch",
@@ -61440,7 +62899,7 @@
       "displayStatus": "listed",
       "status": "active",
       "addedAt": "2026-11-12",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "tags": [
         "loadsketch",
         "system-design",
@@ -61475,10 +62934,18 @@
           "https://github.com/minchenlee/loadsketch/blob/main/LICENSE",
           "https://github.com/minchenlee/loadsketch/blob/main/package.json"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official GitHub README, Traditional Chinese documentation, simulation model and MIT license; homepage not independently fetched",
         "readmeUrl": "https://github.com/minchenlee/loadsketch/blob/main/README.md",
-        "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+        "reviewScope": "固定版本 README.md、LICENSE、src/engine/rng.ts、src/engine/histogram.ts、src/engine/limit.ts 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9",
+        "referenceUrls": [
+          "https://github.com/minchenlee/loadsketch/blob/0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9/README.md",
+          "https://github.com/minchenlee/loadsketch/blob/0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9/LICENSE",
+          "https://github.com/minchenlee/loadsketch/blob/0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9/src/engine/rng.ts",
+          "https://github.com/minchenlee/loadsketch/blob/0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9/src/engine/histogram.ts",
+          "https://github.com/minchenlee/loadsketch/blob/0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9/src/engine/limit.ts"
+        ]
       },
       "classification": {
         "primaryDomain": "software",
@@ -61505,41 +62972,402 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "保留原有 Tags，不新增或調整分類架構。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "原有 Domain software 保持不變，只補強來源與未敘明的使用方式或風險。",
+        "classificationReason": "保留既有 Primary Domain software、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、src/engine/rng.ts、src/engine/histogram.ts、src/engine/limit.ts 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
-          "decision": "candidate",
-          "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
+          "decision": "reused",
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+        "riskNotes": "MIT；屬於學習／設計比較用的簡化離散事件模擬；真實服務延遲、容量、資源競爭、故障模式和成本可能不同。；官方 README 對知名服務的架構範例明示為依公開資料簡化，不代表任何公司真實內部架構。；模型結果依元件參數、流量分佈、隨機種子和假設決定；不可作為雲端實際 SLA 或壓力測試證據。；本次直接讀取 https://loadsketch.mclee.dev 失敗，但官方 GitHub repo metadata、README 和 package.json 均一致指向此網址；未實際開啟網站或執行模擬。；相同種子和標記產生相同序列；不同設計呼叫順序可能影響實際對照，模型分佈仍須確認。；以對數桶近似分位數，空樣本回傳零不能視為低延遲；須核對樣本數與適用範圍。；使用模擬暖機、觀測與排空條件；樣本不足或背景失敗須另處理，結果只在模型假設下有效。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+          "evidence": "固定版本 README.md、LICENSE、src/engine/rng.ts、src/engine/histogram.ts、src/engine/limit.ts 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、src/engine/rng.ts、src/engine/histogram.ts、src/engine/limit.ts 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "在可拖曳的系統架構畫布上串接 API、負載平衡器、資料庫、快取、佇列等元件，以離散事件模擬逐筆請求、流量突波、逾時、重試、Circuit Breaker、Queue Backlog、故障、擴容與復原，協助理解架構決策及失效模式。",
+          "source": "https://loadsketch.mclee.dev",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合 System Design 面試準備、分散式系統基礎教學與 Error Path／Retry Storm／故障復原的概念驗證。可先從 three-tier、retry-storm、async-queue、cache-stampede、slow-dependency 等範例出發，修改流量、Concurrency、Timeout、Retry、Queue、Cache Hit Ratio 等參數比較差異；輸出結果僅為模型估算，不能代替真實負載測試。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-rng",
+            "title": "建立可重現的隨機抽樣",
+            "detail": "比較架構方案需要控制隨機變異。 輸出：可重現的隨機序列及抽樣時間。",
+            "capabilityRefs": [
+              "rng"
+            ]
+          },
+          {
+            "id": "use-hist",
+            "title": "計算模擬延遲分位數",
+            "detail": "平均值可能掩蓋長尾延遲。 輸出：樣本數、平均及分位數摘要。",
+            "capabilityRefs": [
+              "hist"
+            ]
+          },
+          {
+            "id": "use-slo",
+            "title": "比較模擬負載與服務目標",
+            "detail": "容量評估需要同時看延遲、錯誤與背景工作。 輸出：模擬指標及各項條件判定。",
+            "capabilityRefs": [
+              "slo"
+            ]
+          }
+        ],
+        "example": {
+          "id": "minchenlee-loadsketch-example",
+          "title": "規劃架構模擬的公平比較與延遲驗收",
+          "input": "合成架構、同一情境種子、流量與模擬 SLO。",
+          "process": "建立可重現的隨機抽樣 → 計算模擬延遲分位數 → 比較模擬負載與服務目標 → 獨立驗收實際成果",
+          "output": "可重現的抽樣序列、延遲摘要與模擬條件判定。",
+          "destination": "自有架構學習與設計實驗，另行執行真實負載測試。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-rng",
+            "use-hist",
+            "use-slo"
+          ],
+          "steps": [
+            {
+              "id": "rng",
+              "title": "建立可重現的隨機抽樣",
+              "capabilityRefs": [
+                "rng"
+              ]
+            },
+            {
+              "id": "hist",
+              "title": "計算模擬延遲分位數",
+              "capabilityRefs": [
+                "hist"
+              ]
+            },
+            {
+              "id": "slo",
+              "title": "比較模擬負載與服務目標",
+              "capabilityRefs": [
+                "slo"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成架構、同一情境種子、流量與模擬 SLO。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "屬於學習／設計比較用的簡化離散事件模擬；真實服務延遲、容量、資源競爭、故障模式和成本可能不同。",
+          "官方 README 對知名服務的架構範例明示為依公開資料簡化，不代表任何公司真實內部架構。",
+          "模型結果依元件參數、流量分佈、隨機種子和假設決定；不可作為雲端實際 SLA 或壓力測試證據。",
+          "本次直接讀取 https://loadsketch.mclee.dev 失敗，但官方 GitHub repo metadata、README 和 package.json 均一致指向此網址；未實際開啟網站或執行模擬。",
+          "相同種子和標記產生相同序列；不同設計呼叫順序可能影響實際對照，模型分佈仍須確認。",
+          "以對數桶近似分位數，空樣本回傳零不能視為低延遲；須核對樣本數與適用範圍。",
+          "使用模擬暖機、觀測與排空條件；樣本不足或背景失敗須另處理，結果只在模型假設下有效。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "以離散事件模擬探索架構與負載假設，本次聚焦重現隨機情境、延遲統計與模擬 SLO 判定。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT"
+          },
+          {
+            "label": "版本",
+            "value": "0e30c5b6fdac12aeb2724e0a3cee7b4a8ecf47d9"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "建立可重現的隨機抽樣",
+            "detail": "比較架構方案需要控制隨機變異。 輸入：種子、序列標記與分佈參數；輸出：可重現的隨機序列及抽樣時間",
+            "source": "src/engine/rng.ts"
+          },
+          {
+            "title": "計算模擬延遲分位數",
+            "detail": "平均值可能掩蓋長尾延遲。 輸入：合成非負有限延遲樣本；輸出：樣本數、平均及分位數摘要",
+            "source": "src/engine/histogram.ts"
+          },
+          {
+            "title": "比較模擬負載與服務目標",
+            "detail": "容量評估需要同時看延遲、錯誤與背景工作。 輸入：架構、基礎情境、流量及 SLO 參數；輸出：模擬指標及各項條件判定",
+            "source": "src/engine/limit.ts"
+          }
+        ],
+        "architecture": {
+          "summary": "建立可重現的隨機抽樣 → 計算模擬延遲分位數 → 比較模擬負載與服務目標 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "建立可重現的隨機抽樣",
+              "detail": "種子、序列標記與分佈參數 → 可重現的隨機序列及抽樣時間",
+              "files": [
+                "src/engine/rng.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "計算模擬延遲分位數",
+              "detail": "合成非負有限延遲樣本 → 樣本數、平均及分位數摘要",
+              "files": [
+                "src/engine/histogram.ts",
+                "README.md"
+              ]
+            },
+            {
+              "title": "比較模擬負載與服務目標",
+              "detail": "架構、基礎情境、流量及 SLO 參數 → 模擬指標及各項條件判定",
+              "files": [
+                "src/engine/limit.ts",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "建立可重現的隨機抽樣",
+            "rule": "相同種子和標記產生相同序列；不同設計呼叫順序可能影響實際對照，模型分佈仍須確認。",
+            "source": "src/engine/rng.ts"
+          },
+          {
+            "name": "計算模擬延遲分位數",
+            "rule": "以對數桶近似分位數，空樣本回傳零不能視為低延遲；須核對樣本數與適用範圍。",
+            "source": "src/engine/histogram.ts"
+          },
+          {
+            "name": "比較模擬負載與服務目標",
+            "rule": "使用模擬暖機、觀測與排空條件；樣本不足或背景失敗須另處理，結果只在模型假設下有效。",
+            "source": "src/engine/limit.ts"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、src/engine/rng.ts、src/engine/histogram.ts、src/engine/limit.ts 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "src/engine/rng.ts",
+              "src/engine/histogram.ts",
+              "src/engine/limit.ts"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成架構、同一情境種子、流量與模擬 SLO。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "src/engine/rng.ts"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有架構學習與設計實驗，另行執行真實負載測試。",
+            "file": "src/engine/rng.ts"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "rng",
+            "name": "建立可重現的隨機抽樣",
+            "problem": "比較架構方案需要控制隨機變異。",
+            "input": "種子、序列標記與分佈參數",
+            "output": "可重現的隨機序列及抽樣時間",
+            "source": "src/engine/rng.ts",
+            "sourceFiles": [
+              "src/engine/rng.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "makeRng",
+              "sampleDuration",
+              "sampleExp"
+            ],
+            "gate": "相同種子和標記產生相同序列；不同設計呼叫順序可能影響實際對照，模型分佈仍須確認。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "hist",
+            "name": "計算模擬延遲分位數",
+            "problem": "平均值可能掩蓋長尾延遲。",
+            "input": "合成非負有限延遲樣本",
+            "output": "樣本數、平均及分位數摘要",
+            "source": "src/engine/histogram.ts",
+            "sourceFiles": [
+              "src/engine/histogram.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "Histogram.add",
+              "Histogram.quantile",
+              "Histogram.summary"
+            ],
+            "gate": "以對數桶近似分位數，空樣本回傳零不能視為低延遲；須核對樣本數與適用範圍。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "slo",
+            "name": "比較模擬負載與服務目標",
+            "problem": "容量評估需要同時看延遲、錯誤與背景工作。",
+            "input": "架構、基礎情境、流量及 SLO 參數",
+            "output": "模擬指標及各項條件判定",
+            "source": "src/engine/limit.ts",
+            "sourceFiles": [
+              "src/engine/limit.ts",
+              "README.md"
+            ],
+            "symbols": [
+              "simulatePeak",
+              "peakScenario",
+              "sloOf"
+            ],
+            "gate": "使用模擬暖機、觀測與排空條件；樣本不足或背景失敗須另處理，結果只在模型假設下有效。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃架構模擬的公平比較與延遲驗收（設計示例）",
+          "problem": "合成架構、同一情境種子、流量與模擬 SLO。",
+          "steps": [
+            {
+              "capability": "rng",
+              "action": "建立可重現的隨機抽樣"
+            },
+            {
+              "capability": "hist",
+              "action": "計算模擬延遲分位數"
+            },
+            {
+              "capability": "slo",
+              "action": "比較模擬負載與服務目標"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "minchenlee-loadsketch-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成架構、同一情境種子、流量與模擬 SLO。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "建立可重現的隨機抽樣 → 計算模擬延遲分位數 → 比較模擬負載與服務目標 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有架構學習與設計實驗，另行執行真實負載測試。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "屬於學習／設計比較用的簡化離散事件模擬；真實服務延遲、容量、資源競爭、故障模式和成本可能不同。",
+            "官方 README 對知名服務的架構範例明示為依公開資料簡化，不代表任何公司真實內部架構。",
+            "模型結果依元件參數、流量分佈、隨機種子和假設決定；不可作為雲端實際 SLA 或壓力測試證據。",
+            "本次直接讀取 https://loadsketch.mclee.dev 失敗，但官方 GitHub repo metadata、README 和 package.json 均一致指向此網址；未實際開啟網站或執行模擬。",
+            "相同種子和標記產生相同序列；不同設計呼叫順序可能影響實際對照，模型分佈仍須確認。",
+            "以對數桶近似分位數，空樣本回傳零不能視為低延遲；須核對樣本數與適用範圍。",
+            "使用模擬暖機、觀測與排空條件；樣本不足或背景失敗須另處理，結果只在模型假設下有效。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "屬於學習／設計比較用的簡化離散事件模擬；真實服務延遲、容量、資源競爭、故障模式和成本可能不同。；官方 README 對知名服務的架構範例明示為依公開資料簡化，不代表任何公司真實內部架構。；模型結果依元件參數、流量分佈、隨機種子和假設決定；不可作為雲端實際 SLA 或壓力測試證據。；本次直接讀取 https://loadsketch.mclee.dev 失敗，但官方 GitHub repo metadata、README 和 package.json 均一致指向此網址；未實際開啟網站或執行模擬。；相同種子和標記產生相同序列；不同設計呼叫順序可能影響實際對照，模型分佈仍須確認。；以對數桶近似分位數，空樣本回傳零不能視為低延遲；須核對樣本數與適用範圍。；使用模擬暖機、觀測與排空條件；樣本不足或背景失敗須另處理，結果只在模型假設下有效。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、src/engine/rng.ts、src/engine/histogram.ts、src/engine/limit.ts 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
@@ -64907,14 +66735,14 @@
       "id": "nutlope-hallmark",
       "status": "active",
       "addedAt": "2026-09-16",
-      "updatedAt": "2026-11-19",
+      "updatedAt": "2026-11-26",
       "entityType": "resource",
       "title": "Hallmark v2 — Anti-AI-Slop Design Skill｜50 種主題與瀏覽器設計驗收",
       "canonicalName": "Hallmark by Nutlope (Together AI)",
       "category": "08 UI & Design Engineering",
       "resourceType": "Open-source cross-agent web design Skill + browser design linter",
-      "purpose": "讓 Claude Code、Codex、Cursor、OpenCode 生成不似制式 AI 模板的網頁；以 50 種設計材質主題或客製化方向為起點，再以 Sloplint、瀏覽器實際渲染和獨立 Review 檢查設計品質。",
-      "recommendation": "適合個人作品集、產品官網及 Landing Page 改版，尤其是希望避免常見 AI 生成網站版型的情境。需要完整改版使用 /hallmark redesign；只想檢查現有設計使用 /hallmark audit。獨特視覺需兼顧產品真實內容、可及性、手機版、效能與功能驗證。",
+      "purpose": "提供網頁設計主題選擇、設計原始碼機械檢查與規則參照一致性檢查。",
+      "recommendation": "適合自有設計收藏及前端 QA；不能以 lint 或主題差異當成實際使用體驗保證。",
       "url": "https://github.com/Nutlope/hallmark",
       "repo": "Nutlope/hallmark",
       "homepage": "https://www.usehallmark.com/",
@@ -65022,10 +66850,18 @@
           "https://github.com/Nutlope/hallmark/blob/main/LICENSE",
           "https://www.usehallmark.com/"
         ],
-        "reviewedAt": "2026-11-19",
+        "reviewedAt": "2026-11-26",
         "type": "Official repository README, SKILL.md 2.0.0, package.json, LICENSE, sample CLI script",
         "readmeUrl": "https://github.com/Nutlope/hallmark/blob/main/README.md",
-        "reviewScope": "README only; not installed/runtime tested"
+        "reviewScope": "固定版本 README.md、LICENSE、skills/hallmark/scripts/theme.mjs、skills/hallmark/scripts/sloplint.mjs、skills/hallmark/scripts/refcheck.mjs 局部查核；未安裝、執行或實測第三方項目。",
+        "upstreamCommit": "04977e15f3dfd6ee4b74c887dac3eb52665d6c92",
+        "referenceUrls": [
+          "https://github.com/Nutlope/hallmark/blob/04977e15f3dfd6ee4b74c887dac3eb52665d6c92/README.md",
+          "https://github.com/Nutlope/hallmark/blob/04977e15f3dfd6ee4b74c887dac3eb52665d6c92/LICENSE",
+          "https://github.com/Nutlope/hallmark/blob/04977e15f3dfd6ee4b74c887dac3eb52665d6c92/skills/hallmark/scripts/theme.mjs",
+          "https://github.com/Nutlope/hallmark/blob/04977e15f3dfd6ee4b74c887dac3eb52665d6c92/skills/hallmark/scripts/sloplint.mjs",
+          "https://github.com/Nutlope/hallmark/blob/04977e15f3dfd6ee4b74c887dac3eb52665d6c92/skills/hallmark/scripts/refcheck.mjs"
+        ]
       },
       "researchStatus": "official-source-reviewed-not-executed",
       "displayStatus": "listed",
@@ -65064,41 +66900,401 @@
         "policyVersion": "1.0",
         "sourceStatus": "source-checked",
         "sourceEvidenceFields": [
+          "url",
           "source.url",
-          "url"
+          "source.referenceUrls",
+          "repo",
+          "source.upstreamCommit"
         ],
-        "sourceCheckedAt": "2026-11-19",
+        "sourceCheckedAt": "2026-11-26",
         "dedupeReview": {
           "decision": "update",
           "checkedFields": [
             "id",
             "url"
           ],
-          "reason": "比對 Canonical ID 與官方來源，只補強現有項目，未新增或合併 Entity。"
+          "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
         },
         "tagReview": {
           "decision": "retain-unmapped",
-          "reason": "原始 Tags 保留原樣；本批沒有新標籤或分類架構變更。"
+          "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
         },
-        "classificationReason": "保留 Primary Domain design、Category 與原始 Tags；只補來源和使用限制。",
+        "classificationReason": "保留既有 Primary Domain design、Tags、Category、Typed References。原格式不變。",
         "readingSpec": {
           "id": "repo",
-          "status": "deferred",
-          "reason": "僅閱讀官方 README；原始碼、版本化輸入輸出與重建測試尚未完成，不產生 Repo Guide。"
+          "status": "applied",
+          "reason": "固定版本 README.md、LICENSE、skills/hallmark/scripts/theme.mjs、skills/hallmark/scripts/sloplint.mjs、skills/hallmark/scripts/refcheck.mjs 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
         },
         "capabilityReview": {
           "decision": "none",
-          "reason": "尚無實際整合與 I/O 驗證，不新增 Capability。"
+          "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
         },
         "conceptReview": {
           "decision": "reused",
-          "reason": "保留既有 Concept 引用，未新增 Graph Edge。"
+          "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
         },
-        "riskNotes": "外部 README 僅作為資料來源；未安裝第三方工具、執行腳本或存取任何金鑰。",
+        "riskNotes": "MIT；圖片、字型與第三方依賴另查；主題提供的是視覺材質，而不是保證適合任何網站的固定資訊架構。；不能以文字 lint 完全取代真實瀏覽器、手機操作、鍵盤、輔助技術與效能測試。；不保證網站 SEO 排名或轉換率成效。；未獨立執行 SKILL.md 或瀏覽器 QA；功能與數量按上游 README v2 所述。；索引建立會寫入檔案並拒絕重複 slug；候選差異是啟發式，不等於符合訪客任務。；略過特定建置及隱藏目錄；靜態解析不是完整瀏覽器渲染，動態行為與可及性須另驗。；依文件格式和規則識別字串檢查，不代表規則語意正確；執行完整腳本前先核准隔離環境。；授權、權限、相依、整合及實際成果未驗證。",
         "verification": {
           "status": "not-tested",
-          "evidence": "官方 README 已閱讀，Build／Runtime／Security／License／Integration 尚未實測。"
+          "evidence": "固定版本 README.md、LICENSE、skills/hallmark/scripts/theme.mjs、skills/hallmark/scripts/sloplint.mjs、skills/hallmark/scripts/refcheck.mjs 局部查核；未安裝、執行或實測第三方項目。"
+        },
+        "layerReview": {
+          "status": "mapped",
+          "reason": "固定版本 README.md、LICENSE、skills/hallmark/scripts/theme.mjs、skills/hallmark/scripts/sloplint.mjs、skills/hallmark/scripts/refcheck.mjs 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
         }
+      },
+      "implementationKnowledge": {
+        "priorPurposeSnapshot": {
+          "text": "讓 Claude Code、Codex、Cursor、OpenCode 生成不似制式 AI 模板的網頁；以 50 種設計材質主題或客製化方向為起點，再以 Sloplint、瀏覽器實際渲染和獨立 Review 檢查設計品質。",
+          "source": "https://github.com/Nutlope/hallmark",
+          "reviewedAt": "2026-11-19"
+        },
+        "priorRecommendationSnapshot": "適合個人作品集、產品官網及 Landing Page 改版，尤其是希望避免常見 AI 生成網站版型的情境。需要完整改版使用 /hallmark redesign；只想檢查現有設計使用 /hallmark audit。獨特視覺需兼顧產品真實內容、可及性、手機版、效能與功能驗證。"
+      },
+      "readerGuide": {
+        "version": 2,
+        "mappingVersion": 1,
+        "useCases": [
+          {
+            "id": "use-themes",
+            "title": "建立主題索引與差異化候選",
+            "detail": "多個主題候選若材質雷同就缺乏選擇價值。 輸出：主題索引及具不同材質組合的候選。",
+            "capabilityRefs": [
+              "themes"
+            ]
+          },
+          {
+            "id": "use-lint",
+            "title": "界定設計原始碼檢查範圍",
+            "detail": "靜態檢查須明確知道哪些來源被納入。 輸出：去重後的檔案清單及解析結果。",
+            "capabilityRefs": [
+              "lint"
+            ]
+          },
+          {
+            "id": "use-refs",
+            "title": "驗證設計規則引用有效性",
+            "detail": "長期維護的規則可能引用已移除的 gate。 輸出：不存在、已退役或無效子條款的問題紀錄。",
+            "capabilityRefs": [
+              "refs"
+            ]
+          }
+        ],
+        "example": {
+          "id": "nutlope-hallmark-example",
+          "title": "規劃前端設計主題選擇與規則檢查驗收",
+          "input": "合成設計需求、測試主題清單及自有 HTML/CSS/JSX。",
+          "process": "建立主題索引與差異化候選 → 界定設計原始碼檢查範圍 → 驗證設計規則引用有效性 → 獨立驗收實際成果",
+          "output": "主題候選、原始碼檢查範圍及規則引用結果。",
+          "destination": "自有前端設計工作區，經真實瀏覽器與人工驗收後使用。",
+          "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+          "verificationStatus": "design-only",
+          "useCaseRefs": [
+            "use-themes",
+            "use-lint",
+            "use-refs"
+          ],
+          "steps": [
+            {
+              "id": "themes",
+              "title": "建立主題索引與差異化候選",
+              "capabilityRefs": [
+                "themes"
+              ]
+            },
+            {
+              "id": "lint",
+              "title": "界定設計原始碼檢查範圍",
+              "capabilityRefs": [
+                "lint"
+              ]
+            },
+            {
+              "id": "refs",
+              "title": "驗證設計規則引用有效性",
+              "capabilityRefs": [
+                "refs"
+              ]
+            },
+            {
+              "id": "verify-output",
+              "title": "獨立驗收實際成果",
+              "capabilityRefs": [],
+              "externalDependency": "需另行核准合成資料、環境、修改與外部服務權限，並取得人工驗收證據。"
+            }
+          ]
+        },
+        "start": [
+          "先準備合成設計需求、測試主題清單及自有 HTML/CSS/JSX。",
+          "核對固定版本、授權、資料邊界與操作限制。",
+          "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+        ],
+        "limits": [
+          "主題提供的是視覺材質，而不是保證適合任何網站的固定資訊架構。",
+          "不能以文字 lint 完全取代真實瀏覽器、手機操作、鍵盤、輔助技術與效能測試。",
+          "不保證網站 SEO 排名或轉換率成效。",
+          "未獨立執行 SKILL.md 或瀏覽器 QA；功能與數量按上游 README v2 所述。",
+          "索引建立會寫入檔案並拒絕重複 slug；候選差異是啟發式，不等於符合訪客任務。",
+          "略過特定建置及隱藏目錄；靜態解析不是完整瀏覽器渲染，動態行為與可及性須另驗。",
+          "依文件格式和規則識別字串檢查，不代表規則語意正確；執行完整腳本前先核准隔離環境。",
+          "授權、權限、相依、整合及實際成果未驗證。"
+        ]
+      },
+      "repoGuide": {
+        "version": 1,
+        "scope": "pure-repository",
+        "overview": "提供網頁設計主題選擇、設計原始碼機械檢查與規則參照一致性檢查。",
+        "status": [
+          {
+            "label": "來源",
+            "value": "固定版本局部已查閱"
+          },
+          {
+            "label": "實測",
+            "value": "未安裝／未執行"
+          },
+          {
+            "label": "重建",
+            "value": "局部契約，非完整重建"
+          }
+        ],
+        "facts": [
+          {
+            "label": "授權",
+            "value": "MIT；圖片、字型與第三方依賴另查"
+          },
+          {
+            "label": "版本",
+            "value": "04977e15f3dfd6ee4b74c887dac3eb52665d6c92"
+          }
+        ],
+        "screenshots": [],
+        "features": [
+          {
+            "title": "建立主題索引與差異化候選",
+            "detail": "多個主題候選若材質雷同就缺乏選擇價值。 輸入：主題文件、排序後候選與排除清單；輸出：主題索引及具不同材質組合的候選",
+            "source": "skills/hallmark/scripts/theme.mjs"
+          },
+          {
+            "title": "界定設計原始碼檢查範圍",
+            "detail": "靜態檢查須明確知道哪些來源被納入。 輸入：自有來源檔或目錄；輸出：去重後的檔案清單及解析結果",
+            "source": "skills/hallmark/scripts/sloplint.mjs"
+          },
+          {
+            "title": "驗證設計規則引用有效性",
+            "detail": "長期維護的規則可能引用已移除的 gate。 輸入：規則文件中的 gate 識別；輸出：不存在、已退役或無效子條款的問題紀錄",
+            "source": "skills/hallmark/scripts/refcheck.mjs"
+          }
+        ],
+        "architecture": {
+          "summary": "建立主題索引與差異化候選 → 界定設計原始碼檢查範圍 → 驗證設計規則引用有效性 → 獨立驗收實際成果",
+          "nodes": [
+            {
+              "title": "建立主題索引與差異化候選",
+              "detail": "主題文件、排序後候選與排除清單 → 主題索引及具不同材質組合的候選",
+              "files": [
+                "skills/hallmark/scripts/theme.mjs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "界定設計原始碼檢查範圍",
+              "detail": "自有來源檔或目錄 → 去重後的檔案清單及解析結果",
+              "files": [
+                "skills/hallmark/scripts/sloplint.mjs",
+                "README.md"
+              ]
+            },
+            {
+              "title": "驗證設計規則引用有效性",
+              "detail": "規則文件中的 gate 識別 → 不存在、已退役或無效子條款的問題紀錄",
+              "files": [
+                "skills/hallmark/scripts/refcheck.mjs",
+                "README.md"
+              ]
+            }
+          ]
+        },
+        "implementationRules": [
+          {
+            "name": "建立主題索引與差異化候選",
+            "rule": "索引建立會寫入檔案並拒絕重複 slug；候選差異是啟發式，不等於符合訪客任務。",
+            "source": "skills/hallmark/scripts/theme.mjs"
+          },
+          {
+            "name": "界定設計原始碼檢查範圍",
+            "rule": "略過特定建置及隱藏目錄；靜態解析不是完整瀏覽器渲染，動態行為與可及性須另驗。",
+            "source": "skills/hallmark/scripts/sloplint.mjs"
+          },
+          {
+            "name": "驗證設計規則引用有效性",
+            "rule": "依文件格式和規則識別字串檢查，不代表規則語意正確；執行完整腳本前先核准隔離環境。",
+            "source": "skills/hallmark/scripts/refcheck.mjs"
+          }
+        ],
+        "usage": [
+          {
+            "title": "閱讀固定版本",
+            "description": "固定版本 README.md、LICENSE、skills/hallmark/scripts/theme.mjs、skills/hallmark/scripts/sloplint.mjs、skills/hallmark/scripts/refcheck.mjs 局部查核；未安裝、執行或實測第三方項目。",
+            "files": [
+              "README.md",
+              "LICENSE",
+              "skills/hallmark/scripts/theme.mjs",
+              "skills/hallmark/scripts/sloplint.mjs",
+              "skills/hallmark/scripts/refcheck.mjs"
+            ],
+            "commands": [],
+            "approval": false
+          },
+          {
+            "title": "規劃實際使用",
+            "description": "先準備合成設計需求、測試主題清單及自有 HTML/CSS/JSX。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+            "files": [
+              "skills/hallmark/scripts/theme.mjs"
+            ],
+            "commands": [],
+            "approval": true,
+            "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+          }
+        ],
+        "extension": [
+          {
+            "title": "獨立應用驗收",
+            "detail": "自有前端設計工作區，經真實瀏覽器與人工驗收後使用。",
+            "file": "skills/hallmark/scripts/theme.mjs"
+          }
+        ],
+        "capabilities": [
+          {
+            "id": "themes",
+            "name": "建立主題索引與差異化候選",
+            "problem": "多個主題候選若材質雷同就缺乏選擇價值。",
+            "input": "主題文件、排序後候選與排除清單",
+            "output": "主題索引及具不同材質組合的候選",
+            "source": "skills/hallmark/scripts/theme.mjs",
+            "sourceFiles": [
+              "skills/hallmark/scripts/theme.mjs",
+              "README.md"
+            ],
+            "symbols": [
+              "buildIndex",
+              "loadIndex",
+              "pickFrom"
+            ],
+            "gate": "索引建立會寫入檔案並拒絕重複 slug；候選差異是啟發式，不等於符合訪客任務。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "lint",
+            "name": "界定設計原始碼檢查範圍",
+            "problem": "靜態檢查須明確知道哪些來源被納入。",
+            "input": "自有來源檔或目錄",
+            "output": "去重後的檔案清單及解析結果",
+            "source": "skills/hallmark/scripts/sloplint.mjs",
+            "sourceFiles": [
+              "skills/hallmark/scripts/sloplint.mjs",
+              "README.md"
+            ],
+            "symbols": [
+              "collectFiles",
+              "parseDoc",
+              "parseCss"
+            ],
+            "gate": "略過特定建置及隱藏目錄；靜態解析不是完整瀏覽器渲染，動態行為與可及性須另驗。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          },
+          {
+            "id": "refs",
+            "name": "驗證設計規則引用有效性",
+            "problem": "長期維護的規則可能引用已移除的 gate。",
+            "input": "規則文件中的 gate 識別",
+            "output": "不存在、已退役或無效子條款的問題紀錄",
+            "source": "skills/hallmark/scripts/refcheck.mjs",
+            "sourceFiles": [
+              "skills/hallmark/scripts/refcheck.mjs",
+              "README.md"
+            ],
+            "symbols": [
+              "gateProblem",
+              "walk"
+            ],
+            "gate": "依文件格式和規則識別字串檢查，不代表規則語意正確；執行完整腳本前先核准隔離環境。",
+            "evidenceStatus": "source-reviewed",
+            "runtimeStatus": "not-tested"
+          }
+        ],
+        "workflow": {
+          "title": "規劃前端設計主題選擇與規則檢查驗收（設計示例）",
+          "problem": "合成設計需求、測試主題清單及自有 HTML/CSS/JSX。",
+          "steps": [
+            {
+              "capability": "themes",
+              "action": "建立主題索引與差異化候選"
+            },
+            {
+              "capability": "lint",
+              "action": "界定設計原始碼檢查範圍"
+            },
+            {
+              "capability": "refs",
+              "action": "驗證設計規則引用有效性"
+            }
+          ],
+          "gate": "未執行；實際環境及成果須獨立驗收。",
+          "readerExampleRef": "nutlope-hallmark-example"
+        },
+        "rebuild": {
+          "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+          "stages": [
+            {
+              "title": "定義輸入",
+              "detail": "合成設計需求、測試主題清單及自有 HTML/CSS/JSX。",
+              "deliverable": "合成資料與驗收規格"
+            },
+            {
+              "title": "核心步驟",
+              "detail": "建立主題索引與差異化候選 → 界定設計原始碼檢查範圍 → 驗證設計規則引用有效性 → 獨立驗收實際成果",
+              "deliverable": "實際行為測試紀錄"
+            },
+            {
+              "title": "交付",
+              "detail": "自有前端設計工作區，經真實瀏覽器與人工驗收後使用。",
+              "deliverable": "實際成果及限制紀錄"
+            }
+          ],
+          "gaps": [
+            "主題提供的是視覺材質，而不是保證適合任何網站的固定資訊架構。",
+            "不能以文字 lint 完全取代真實瀏覽器、手機操作、鍵盤、輔助技術與效能測試。",
+            "不保證網站 SEO 排名或轉換率成效。",
+            "未獨立執行 SKILL.md 或瀏覽器 QA；功能與數量按上游 README v2 所述。",
+            "索引建立會寫入檔案並拒絕重複 slug；候選差異是啟發式，不等於符合訪客任務。",
+            "略過特定建置及隱藏目錄；靜態解析不是完整瀏覽器渲染，動態行為與可及性須另驗。",
+            "依文件格式和規則識別字串檢查，不代表規則語意正確；執行完整腳本前先核准隔離環境。",
+            "授權、權限、相依、整合及實際成果未驗證。"
+          ]
+        },
+        "risks": [
+          {
+            "title": "資料、授權與權限邊界",
+            "severity": "高",
+            "issue": "主題提供的是視覺材質，而不是保證適合任何網站的固定資訊架構。；不能以文字 lint 完全取代真實瀏覽器、手機操作、鍵盤、輔助技術與效能測試。；不保證網站 SEO 排名或轉換率成效。；未獨立執行 SKILL.md 或瀏覽器 QA；功能與數量按上游 README v2 所述。；索引建立會寫入檔案並拒絕重複 slug；候選差異是啟發式，不等於符合訪客任務。；略過特定建置及隱藏目錄；靜態解析不是完整瀏覽器渲染，動態行為與可及性須另驗。；依文件格式和規則識別字串檢查，不代表規則語意正確；執行完整腳本前先核准隔離環境。；授權、權限、相依、整合及實際成果未驗證。",
+            "control": "固定版本、最小權限、原始證據及獨立驗收。"
+          }
+        ],
+        "verification": [
+          {
+            "item": "來源",
+            "state": "已查閱",
+            "evidence": "固定版本 README.md、LICENSE、skills/hallmark/scripts/theme.mjs、skills/hallmark/scripts/sloplint.mjs、skills/hallmark/scripts/refcheck.mjs 局部查核；未安裝、執行或實測第三方項目。"
+          },
+          {
+            "item": "第三方 Runtime",
+            "state": "未驗證",
+            "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+          }
+        ]
       }
     },
     {
