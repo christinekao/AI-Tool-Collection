@@ -2775,3 +2775,18 @@ test('Deferred recovery 95–105: supplemental example step precedes independent
   assert.deepEqual(validateResourceLayerLinks(d),[],id);
  }
 });
+
+
+test('Resource quality audit 01: current source scope and practical reader starts stay distinct from runtime',()=>{
+ const get=id=>JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+ const snyk=get('hermes-snyk-plugin');
+ for(const s of [snyk.intakeReview.riskNotes,...snyk.readerGuide.limits.filter(x=>x.includes('歷史狀態'))]){
+  assert.match(s,/2026-11-25 歷史狀態/);assert.match(s,/2026-11-26 已局部查核/);assert.match(s,/仍未實測/);
+ }
+ assert.ok(snyk.readerGuide.limits.some(x=>x.includes('歷史狀態')));
+ const rag=get('infiniflow-ragflow');assert.match(rag.readerGuide.example.note,/局部 Go 原始碼及上游測試/);assert.match(rag.readerGuide.example.note,/未執行上游測試/);
+ for(const [id,expected] of [['stitch-mcp','作品集畫面'],['land-book-design-inspiration','品牌方向'],['particles-casberry','粒子背景']]){
+  const d=get(id);assert.match(d.readerGuide.start[0],new RegExp(expected));assert.equal(d.readerGuide.start.length,3,id);
+ }
+ for(const id of ["hermes-snyk-plugin","infiniflow-ragflow","stitch-mcp","land-book-design-inspiration","particles-casberry"]){const d=get(id);assert.equal(d.intakeReview.layerReview.status,'deferred',id);assert.equal(d.intakeReview.verification.status,'not-tested',id);assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);assert.deepEqual(validateResourceLayerLinks(d),[],id);}
+});
