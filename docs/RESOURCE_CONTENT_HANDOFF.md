@@ -1,3 +1,12 @@
+# Phase 2｜Resource 語意品質稽核 Batch 15（2026-11-26）
+
+- [Batch 15｜最後六筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH15_20261126.md)：zeabur-oss-ai-agent-installer-guide 至 zichuanlan-freebie-radar，6/6 已讀取且候選修正。更新 purpose/start 與三項 useCase.detail。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。
+- 基於 #135 Head 2226bc221ac7f843daa1e5bc2febd071eff428d7，三項 CI PASS、P1 Browser 尚執行；先合併 #135 再將本批指向 main。#134 Catalog Sync、Pages PASS。
+- 固定順序候選 286/286（202 改善、84 保留）；正式起始 260/286，待合併 26 筆。既有映射 268/286、14 Deferred、4 Source-blocked 不變。
+- 最終驗收：核對所有 15 份報告覆蓋、全庫實際狀態、依序合併及部署；正式 deployed Chromium 尚未獨立驗收。P2 文字佇列保留。之後進入 Concept 知識萃取與關聯品質審查，不擅自整併身分。
+
+---
+
 # Phase 2｜Resource 語意品質稽核 Batch 14（2026-11-26）
 
 - [Batch 14｜20 筆稽核報告](RESOURCE_CONTENT_REVIEW_BATCH14_20261126.md)：ui-ux-gold-standard 至 yusufkaraaslan-skill-seekers，20/20 已讀取，12 候選修正、8 保留（含兩筆 source-blocked）。更新 purpose/start 與九項 useCase.detail；Wellmade 維持 deferred。原始案例、來源、證據、分類、Tags 與 Graph 關係保留。

@@ -3060,3 +3060,23 @@ test('Resource quality batch 14: practical starts and independent evidence bound
  const s=JSON.parse(fs.readFileSync('data/resources/yusufkaraaslan-skill-seekers.json','utf8'));
  assert.match(s.readerGuide.start[2],/封裝成功不代表已上傳或可執行/);
 });
+
+
+test('Resource quality batch 15: final six practical starts and independent verification',()=>{
+ const expected={"zeabur-oss-ai-agent-installer-guide":"合成 Linux 伺服器清單","zed-industries-zed":"兩個獨立任務","zenbuapps":"虛構服務、網站內容","zhouxiaoka-autoclip":"自有已授權合成影音","zhulinsen-daily-stock-analysis":"合成行情 API 回應","zichuanlan-freebie-radar":"合成多語資訊標題"};
+ for(const [id,phrase] of Object.entries(expected)){
+  const d=JSON.parse(fs.readFileSync('data/resources/'+id+'.json','utf8'));
+  assert.ok(d.readerGuide.start[0].includes(phrase),id);
+  assert.equal(d.readerGuide.start.length,3,id);
+  assert.equal(d.readerGuide.example.verificationStatus,'design-only',id);
+  assert.equal(d.intakeReview.verification.status,'not-tested',id);
+  assert.ok(['mapped','evidence-linked'].includes(d.intakeReview.layerReview.status),id);
+  assert.deepEqual(validateResourceLayerLinks(d),[],id);
+ }
+ const r=JSON.parse(fs.readFileSync('data/resources/zichuanlan-freebie-radar.json','utf8'));
+ assert.equal(r.readerGuide.useCases.length,3);for(const c of r.readerGuide.useCases)assert.match(c.detail,/輸出：/);
+ const z=JSON.parse(fs.readFileSync('data/resources/zeabur-oss-ai-agent-installer-guide.json','utf8'));
+ assert.match(z.readerGuide.start[2],/Passkey 由本人保管/);
+ const d=JSON.parse(fs.readFileSync('data/resources/zhulinsen-daily-stock-analysis.json','utf8'));
+ assert.match(d.readerGuide.start[2],/不以模擬資料或 AI 評分提出買賣決策/);
+});

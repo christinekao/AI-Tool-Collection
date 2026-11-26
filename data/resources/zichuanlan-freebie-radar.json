@@ -6,7 +6,7 @@
   "canonicalName": "ZiChuanLan/freebie-radar",
   "category": "05 Data & Ingestion",
   "resourceType": "Self-hosted Information Aggregator / AI-Assisted Feed Triage",
-  "purpose": "自架資訊聚合與分類雷達；本次查核標題去重、內容線索及證據優先的分類契約。",
+  "purpose": "研究多來源資訊雷達如何辨識重複標題、區分免費與促銷取得條件，並以來源證據建立一致的分類。",
   "recommendation": "適合研究資訊雷達的去重與分類證據驗收；先核對來源與權限，局部契約不是完整工具實測。",
   "url": "https://github.com/ZiChuanLan/freebie-radar",
   "repo": "ZiChuanLan/freebie-radar",
@@ -162,7 +162,7 @@
       {
         "id": "use-dedup",
         "title": "從標題萃取合併候選",
-        "detail": "相似資訊重複出現時需減少雜訊。 輸出：合併鍵候選。",
+        "detail": "以合成多語標題與人工標註的同事件、不同事件比較正規化與合併鍵。輸出：合併候選及原始來源紀錄；誤合併需人工覆核。",
         "capabilityRefs": [
           "dedup"
         ]
@@ -170,7 +170,7 @@
       {
         "id": "use-signals",
         "title": "區分宣稱免費與具體取得線索",
-        "detail": "資訊標題的促銷用語不等於真實可取得。 輸出：促銷、取得、取消等文字線索。",
+        "detail": "以合成免費、試用、抽獎、促銷及取消資訊檢查文字線索。輸出：取得條件候選及不確定項目；實際資格、價格與期限需查官方來源。",
         "capabilityRefs": [
           "signals"
         ]
@@ -178,7 +178,7 @@
       {
         "id": "use-classification",
         "title": "建立證據優先的分類入口",
-        "detail": "分類結果不應依不同呼叫路徑漂移。 輸出：來源類型判定與分類規則契約。",
+        "detail": "以相同合成分類上下文與來源 URL 比對來源類型及分類規則，檢查不同呼叫情境的一致性。輸出：可追溯分類契約與待覆核項目；網域匹配不代表內容真實。",
         "capabilityRefs": [
           "classification"
         ]
@@ -229,9 +229,9 @@
       ]
     },
     "start": [
-      "先準備合成資訊標題、摘要及分類欄位。",
-      "核對固定版本、授權、資料邊界與操作限制。",
-      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+      "先建立合成多語資訊標題、摘要、來源 URL 與人工分類，包含同題不同事件、過期優惠、試用及抽獎。",
+      "依固定版本 dedup.ts、evidence.ts 與 classify.ts 核對合併鍵、取得線索及來源類型；文字或網域匹配不證明優惠真實，也不能自動合併不同事件。",
+      "取得隔離測試核准後比對誤合併、漏判、分類一致性及原始來源，保留可回查紀錄；官方條件及期限另驗，不接真實帳號或自動發送通知。"
     ],
     "limits": [
       "來源可用性、優惠真實性、分類與 AI 評等的準確率均未經本次實測。",
