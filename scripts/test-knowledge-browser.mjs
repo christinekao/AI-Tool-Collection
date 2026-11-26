@@ -677,7 +677,10 @@ try{
   ["dominicrico-jev-router",".resource-reader-guide","規劃 Coding Agent 的模型路由與快取策略驗收"],
   ["akto-api-security-akto",".resource-reader-guide","規劃企業 AI 工具盤點與安全政策覆蓋驗收"],
   ["usestrix-strix",".resource-reader-guide","規劃安全報告的覆蓋證據與匯出品質驗收"],
-  ["wquguru-cicada",".resource-reader-guide","規劃已授權會議紀錄的搜尋與私人知識庫匯出"]
+  ["wquguru-cicada",".resource-reader-guide","規劃已授權會議紀錄的搜尋與私人知識庫匯出"],
+  ["guizang-product-video-skill",".resource-reader-guide","規劃自有產品更新影片的影音同步與交付驗收"],
+  ["zhouxiaoka-autoclip",".resource-reader-guide","規劃短影音生成工作的逾時取消與日誌安全驗收"],
+  ["juneyaooo-rea-video",".resource-reader-guide","規劃自有影片的素材分析與原創分鏡製作規格"]
  ];
  for(const [id,selector,phrase] of phase3){
   await send('Page.navigate',{url:origin+'/index.html#/resources/'+id});

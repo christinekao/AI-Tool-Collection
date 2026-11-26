@@ -6,8 +6,8 @@
   "canonicalName": "rea-video",
   "category": "AI Video Analysis & Reverse Engineering",
   "resourceType": "Open-source Python CLI and coding-agent skill for shot-level video decomposition",
-  "purpose": "逐鏡分析影片底層製作方式（實拍、AI 生成、3D、程式動效、錄影、靜圖等）、分鏡切點、攝影、打光、文字疊加、字幕、聲音及真正需要的素材；輸出有證據與置信度的 HTML/Markdown 報告和重製計畫，供 Claude Code、Codex 或其他 Agent 使用。",
-  "recommendation": "適合研究短影音、產品展示、教學影片、MG／UI 動效和混合素材製作，將參考影片拆解成可執行的拍攝、AI 生成、Remotion 程式段與音訊工作項。適用於學習製作技術及原創改編，不應拿未獲授權的影片／音樂／人物肖像直接重製或公開散布。把 AI/實拍判別視為推測，低置信或平台重壓影片須人工逐鏡確認。",
+  "purpose": "以逐鏡分析、容器 Metadata 與文字圖層量測產生影片製作方式的候選解讀及重製規劃。",
+  "recommendation": "適合分析自有影片的製作技法與建立原創分鏡規格；不把分類當成真偽鑑定，不複製未授權作品。",
   "url": "https://github.com/JuneYaooo/rea-video",
   "repo": "JuneYaooo/rea-video",
   "homepage": "https://www.reavideo.ai/",
@@ -117,7 +117,7 @@
   "collectionDecision": "新增官方源碼的 Resource 與實際存在的 SKILL.md Skill；不另建立與已有影片生產工作流高度重疊的 Workflow。",
   "status": "active",
   "addedAt": "2026-11-11",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-26",
   "tags": [
     "rea-video",
     "juneyaooo",
@@ -155,11 +155,19 @@
       "https://github.com/JuneYaooo/rea-video/blob/main/LICENSE",
       "https://github.com/JuneYaooo/rea-video/blob/main/NOTICE"
     ],
-    "reviewedAt": "2026-11-19",
+    "reviewedAt": "2026-11-26",
     "type": "Official GitHub repository, license/NOTICE, pyproject, README, SKILL.md, selected docs and installer script",
     "limitations": "Not installed, executed, independently security-audited or evaluated",
     "readmeUrl": "https://github.com/JuneYaooo/rea-video/blob/main/README.md",
-    "reviewScope": "Official upstream README or documentation only; no runtime/license/security audit"
+    "reviewScope": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。",
+    "upstreamCommit": "c11f1bd8fd3edd26a40e8f45be828be685417700",
+    "referenceUrls": [
+      "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/README.md",
+      "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/LICENSE",
+      "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/rea_video/probe.py",
+      "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/rea_video/packaging.py",
+      "https://github.com/JuneYaooo/rea-video/blob/c11f1bd8fd3edd26a40e8f45be828be685417700/rea_video/plan.py"
+    ]
   },
   "researchStatus": "official-repo-reviewed-not-executed",
   "displayStatus": "listed",
@@ -186,40 +194,401 @@
     "policyVersion": "1.0",
     "sourceStatus": "source-checked",
     "sourceEvidenceFields": [
+      "url",
       "source.url",
-      "url"
+      "source.referenceUrls",
+      "repo",
+      "source.upstreamCommit"
     ],
-    "sourceCheckedAt": "2026-11-19",
+    "sourceCheckedAt": "2026-11-26",
     "dedupeReview": {
       "decision": "update",
       "checkedFields": [
         "id",
         "url"
       ],
-      "reason": "核對原有 Resource ID 及官方來源，維持現有 Canonical 資料，不建立重複紀錄。"
+      "reason": "核對既有 Resource ID、來源網址和用途後更新本筆，不新增重複 Entity。"
     },
     "tagReview": {
       "decision": "retain-unmapped",
-      "reason": "保留原有 Tags，不新增或調整分類架構。"
+      "reason": "保留原有 Tags 與既有分類，未增加任何新標籤。"
     },
-    "classificationReason": "原有 Domain content 保持不變，只補強來源與未敘明的使用方式或風險。",
+    "classificationReason": "保留既有 Primary Domain content、Tags、Category、Typed References。原格式不變。",
     "readingSpec": {
       "id": "repo",
-      "status": "deferred",
-      "reason": "僅完成官方文件核對，沒有逐檔程式分析、執行驗收或版本化 I/O 契約。"
+      "status": "applied",
+      "reason": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。 局部程式契約。"
     },
     "capabilityReview": {
       "decision": "none",
-      "reason": "未完成 I/O 與整合驗證，不建立新能力標籤。"
+      "reason": "局部來源不足以確認跨工具正式組合契約，不新增 Graph Capability。"
     },
     "conceptReview": {
-      "decision": "candidate",
-      "reason": "不憑共同詞彙推測 Concept 與 Workflow 關係。"
+      "decision": "reused",
+      "reason": "保留既有 Concept 關聯，不依相似 Keywords 建立新連線。"
     },
-    "riskNotes": "上游 README／文件僅為資料來源，沒有執行安裝、動用憑證或更改本機授權設定。",
+    "riskNotes": "Apache-2.0；原影片及外部模型素材權利另查；rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。；測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。；模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。；部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。；容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。；位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。；候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。；素材授權、權限、相依、整合及實際成果未驗證。",
     "verification": {
       "status": "not-tested",
-      "evidence": "僅閱讀官方文件；Build、Runtime、Security、License、Integration 未測試。"
+      "evidence": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。"
+    },
+    "layerReview": {
+      "status": "mapped",
+      "reason": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。 用途與來源證據雙向對應。"
     }
+  },
+  "implementationKnowledge": {
+    "priorPurposeSnapshot": {
+      "text": "逐鏡分析影片底層製作方式（實拍、AI 生成、3D、程式動效、錄影、靜圖等）、分鏡切點、攝影、打光、文字疊加、字幕、聲音及真正需要的素材；輸出有證據與置信度的 HTML/Markdown 報告和重製計畫，供 Claude Code、Codex 或其他 Agent 使用。",
+      "source": "https://github.com/JuneYaooo/rea-video",
+      "reviewedAt": "2026-11-19"
+    },
+    "priorRecommendationSnapshot": "適合研究短影音、產品展示、教學影片、MG／UI 動效和混合素材製作，將參考影片拆解成可執行的拍攝、AI 生成、Remotion 程式段與音訊工作項。適用於學習製作技術及原創改編，不應拿未獲授權的影片／音樂／人物肖像直接重製或公開散布。把 AI/實拍判別視為推測，低置信或平台重壓影片須人工逐鏡確認。"
+  },
+  "readerGuide": {
+    "version": 2,
+    "mappingVersion": 1,
+    "useCases": [
+      {
+        "id": "use-provenance",
+        "title": "區分影片來源線索與真偽證明",
+        "detail": "影片經過轉碼後可能失去來源 Metadata。 輸出：來源線索、證據類型及權重。",
+        "capabilityRefs": [
+          "provenance"
+        ]
+      },
+      {
+        "id": "use-cues",
+        "title": "追蹤文字圖層的時間區間",
+        "detail": "逐幀 OCR 可能將同一字幕拆成多個片段。 輸出：合併後的文字 cue 與觀測紀錄。",
+        "capabilityRefs": [
+          "cues"
+        ]
+      },
+      {
+        "id": "use-plan",
+        "title": "依鏡頭類型規劃候選製作方式",
+        "detail": "不同視覺效果不應全部交給影片生成模型。 輸出：路由規則、候選工具、驗收及素材需求計畫。",
+        "capabilityRefs": [
+          "plan"
+        ]
+      }
+    ],
+    "example": {
+      "id": "juneyaooo-rea-video-example",
+      "title": "規劃自有影片的素材分析與原創分鏡製作規格",
+      "input": "已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+      "process": "區分影片來源線索與真偽證明 → 追蹤文字圖層的時間區間 → 依鏡頭類型規劃候選製作方式 → 獨立驗收實際成果",
+      "output": "來源線索、文字時間區間與候選製作路徑的驗收規格。",
+      "destination": "自有影片研究與製作工作區，經素材權利及人工覆核後使用。",
+      "note": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。",
+      "verificationStatus": "design-only",
+      "useCaseRefs": [
+        "use-provenance",
+        "use-cues",
+        "use-plan"
+      ],
+      "steps": [
+        {
+          "id": "provenance",
+          "title": "區分影片來源線索與真偽證明",
+          "capabilityRefs": [
+            "provenance"
+          ]
+        },
+        {
+          "id": "cues",
+          "title": "追蹤文字圖層的時間區間",
+          "capabilityRefs": [
+            "cues"
+          ]
+        },
+        {
+          "id": "plan",
+          "title": "依鏡頭類型規劃候選製作方式",
+          "capabilityRefs": [
+            "plan"
+          ]
+        },
+        {
+          "id": "verify-output",
+          "title": "獨立驗收實際成果",
+          "capabilityRefs": [],
+          "externalDependency": "需另行核准合成資料、素材權利、環境、修改與外部服務權限，並取得人工驗收證據。"
+        }
+      ]
+    },
+    "start": [
+      "先準備已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+      "核對固定版本、授權、資料邊界與操作限制。",
+      "核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。"
+    ],
+    "limits": [
+      "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。",
+      "測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。",
+      "模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。",
+      "部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。",
+      "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+      "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+      "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+      "素材授權、權限、相依、整合及實際成果未驗證。"
+    ]
+  },
+  "repoGuide": {
+    "version": 1,
+    "scope": "pure-repository",
+    "overview": "以逐鏡分析、容器 Metadata 與文字圖層量測產生影片製作方式的候選解讀及重製規劃。",
+    "status": [
+      {
+        "label": "來源",
+        "value": "固定版本局部已查閱"
+      },
+      {
+        "label": "實測",
+        "value": "未安裝／未執行"
+      },
+      {
+        "label": "重建",
+        "value": "局部契約，非完整重建"
+      }
+    ],
+    "facts": [
+      {
+        "label": "授權",
+        "value": "Apache-2.0；原影片及外部模型素材權利另查"
+      },
+      {
+        "label": "版本",
+        "value": "c11f1bd8fd3edd26a40e8f45be828be685417700"
+      }
+    ],
+    "screenshots": [],
+    "features": [
+      {
+        "title": "區分影片來源線索與真偽證明",
+        "detail": "影片經過轉碼後可能失去來源 Metadata。 輸入：影片容器資訊與已授權檔案；輸出：來源線索、證據類型及權重",
+        "source": "rea_video/probe.py"
+      },
+      {
+        "title": "追蹤文字圖層的時間區間",
+        "detail": "逐幀 OCR 可能將同一字幕拆成多個片段。 輸入：有時間、位置與文字的 OCR 觀測及採樣步距；輸出：合併後的文字 cue 與觀測紀錄",
+        "source": "rea_video/packaging.py"
+      },
+      {
+        "title": "依鏡頭類型規劃候選製作方式",
+        "detail": "不同視覺效果不應全部交給影片生成模型。 輸入：已確認鏡頭分類、鏡頭特徵與素材需求；輸出：路由規則、候選工具、驗收及素材需求計畫",
+        "source": "rea_video/plan.py"
+      }
+    ],
+    "architecture": {
+      "summary": "區分影片來源線索與真偽證明 → 追蹤文字圖層的時間區間 → 依鏡頭類型規劃候選製作方式 → 獨立驗收實際成果",
+      "nodes": [
+        {
+          "title": "區分影片來源線索與真偽證明",
+          "detail": "影片容器資訊與已授權檔案 → 來源線索、證據類型及權重",
+          "files": [
+            "rea_video/probe.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "追蹤文字圖層的時間區間",
+          "detail": "有時間、位置與文字的 OCR 觀測及採樣步距 → 合併後的文字 cue 與觀測紀錄",
+          "files": [
+            "rea_video/packaging.py",
+            "README.md"
+          ]
+        },
+        {
+          "title": "依鏡頭類型規劃候選製作方式",
+          "detail": "已確認鏡頭分類、鏡頭特徵與素材需求 → 路由規則、候選工具、驗收及素材需求計畫",
+          "files": [
+            "rea_video/plan.py",
+            "README.md"
+          ]
+        }
+      ]
+    },
+    "implementationRules": [
+      {
+        "name": "區分影片來源線索與真偽證明",
+        "rule": "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+        "source": "rea_video/probe.py"
+      },
+      {
+        "name": "追蹤文字圖層的時間區間",
+        "rule": "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+        "source": "rea_video/packaging.py"
+      },
+      {
+        "name": "依鏡頭類型規劃候選製作方式",
+        "rule": "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+        "source": "rea_video/plan.py"
+      }
+    ],
+    "usage": [
+      {
+        "title": "閱讀固定版本",
+        "description": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。",
+        "files": [
+          "README.md",
+          "LICENSE",
+          "rea_video/probe.py",
+          "rea_video/packaging.py",
+          "rea_video/plan.py"
+        ],
+        "commands": [],
+        "approval": false
+      },
+      {
+        "title": "規劃實際使用",
+        "description": "先準備已授權測試影片、合成文字圖層與人工確認的鏡頭分類。 核對固定版本、授權、資料邊界與操作限制。 核准隔離測試環境後，以合成資料驗證正常、缺漏及失敗情境。",
+        "files": [
+          "rea_video/probe.py"
+        ],
+        "commands": [],
+        "approval": true,
+        "approvalNote": "安裝、執行、外部服務、資料寫入及費用須另行核准。"
+      }
+    ],
+    "extension": [
+      {
+        "title": "獨立應用驗收",
+        "detail": "自有影片研究與製作工作區，經素材權利及人工覆核後使用。",
+        "file": "rea_video/probe.py"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "provenance",
+        "name": "區分影片來源線索與真偽證明",
+        "problem": "影片經過轉碼後可能失去來源 Metadata。",
+        "input": "影片容器資訊與已授權檔案",
+        "output": "來源線索、證據類型及權重",
+        "source": "rea_video/probe.py",
+        "sourceFiles": [
+          "rea_video/probe.py",
+          "README.md"
+        ],
+        "symbols": [
+          "provenance",
+          "_flatten_tags",
+          "parse_aigc"
+        ],
+        "gate": "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "cues",
+        "name": "追蹤文字圖層的時間區間",
+        "problem": "逐幀 OCR 可能將同一字幕拆成多個片段。",
+        "input": "有時間、位置與文字的 OCR 觀測及採樣步距",
+        "output": "合併後的文字 cue 與觀測紀錄",
+        "source": "rea_video/packaging.py",
+        "sourceFiles": [
+          "rea_video/packaging.py",
+          "README.md"
+        ],
+        "symbols": [
+          "build_cues",
+          "_blocks",
+          "_similar"
+        ],
+        "gate": "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      },
+      {
+        "id": "plan",
+        "name": "依鏡頭類型規劃候選製作方式",
+        "problem": "不同視覺效果不應全部交給影片生成模型。",
+        "input": "已確認鏡頭分類、鏡頭特徵與素材需求",
+        "output": "路由規則、候選工具、驗收及素材需求計畫",
+        "source": "rea_video/plan.py",
+        "sourceFiles": [
+          "rea_video/plan.py",
+          "README.md"
+        ],
+        "symbols": [
+          "Planner.plan_shot",
+          "LABEL_ROUTE",
+          "code_scene"
+        ],
+        "gate": "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+        "evidenceStatus": "source-reviewed",
+        "runtimeStatus": "not-tested"
+      }
+    ],
+    "workflow": {
+      "title": "規劃自有影片的素材分析與原創分鏡製作規格（設計示例）",
+      "problem": "已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+      "steps": [
+        {
+          "capability": "provenance",
+          "action": "區分影片來源線索與真偽證明"
+        },
+        {
+          "capability": "cues",
+          "action": "追蹤文字圖層的時間區間"
+        },
+        {
+          "capability": "plan",
+          "action": "依鏡頭類型規劃候選製作方式"
+        }
+      ],
+      "gate": "未執行；實際環境及成果須獨立驗收。",
+      "readerExampleRef": "juneyaooo-rea-video-example"
+    },
+    "rebuild": {
+      "verdict": "局部來源契約可供規劃及驗收；非完整工具重建。",
+      "stages": [
+        {
+          "title": "定義輸入",
+          "detail": "已授權測試影片、合成文字圖層與人工確認的鏡頭分類。",
+          "deliverable": "合成資料與驗收規格"
+        },
+        {
+          "title": "核心步驟",
+          "detail": "區分影片來源線索與真偽證明 → 追蹤文字圖層的時間區間 → 依鏡頭類型規劃候選製作方式 → 獨立驗收實際成果",
+          "deliverable": "實際行為測試紀錄"
+        },
+        {
+          "title": "交付",
+          "detail": "自有影片研究與製作工作區，經素材權利及人工覆核後使用。",
+          "deliverable": "實際成果及限制紀錄"
+        }
+      ],
+      "gaps": [
+        "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。",
+        "測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。",
+        "模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。",
+        "部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。",
+        "容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。",
+        "位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。",
+        "候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。",
+        "素材授權、權限、相依、整合及實際成果未驗證。"
+      ]
+    },
+    "risks": [
+      {
+        "title": "資料、授權與權限邊界",
+        "severity": "高",
+        "issue": "rea-video 的主要工作是拆解與規劃，並非單獨一鍵完成影片重製；程式碼動效的 Remotion 專案仍需由 Agent 或開發人員實作。；測得的分類與分鏡並非可靠的真偽鑑定或攝影器材來源證明，應人工確認。；模型生成與素材使用的商用授權、費用及內容權利不包含在 Apache-2.0 的軟體授權中。；部分重建功能尚屬開發中或依賴其他專案；官方測試覆蓋不等於全面品質保證。；容器文字與 C2PA 標記存在不是簽章有效性證明；缺少 Metadata 不代表非 AI 生成，禁止作為單一真偽依據。；位置與文字相似度為啟發式，快速字幕、模糊畫面與特殊排版需要人工覆核。；候選方案不是已完成影片；外部模型、真實素材與產出權利須另核准，對真人肖像與聲音不得擅自重製。；素材授權、權限、相依、整合及實際成果未驗證。",
+        "control": "固定版本、最小權限、原始證據及獨立驗收。"
+      }
+    ],
+    "verification": [
+      {
+        "item": "來源",
+        "state": "已查閱",
+        "evidence": "固定版本 README.md、LICENSE、rea_video/probe.py、rea_video/packaging.py、rea_video/plan.py 局部查核；未安裝、執行或實測第三方項目。"
+      },
+      {
+        "item": "第三方 Runtime",
+        "state": "未驗證",
+        "evidence": "自訂設計案例；未安裝、執行第三方工具或產生真實成果。"
+      }
+    ]
   }
 }
