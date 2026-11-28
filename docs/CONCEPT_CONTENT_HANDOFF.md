@@ -1,3 +1,12 @@
+# Phase 3｜既有 Resource→Concept 關聯證據審查 01（2026-11-28）
+
+- #140 主線 P1、V2 Validate、Pages PASS；#141 已合併。五份先前報告與現有 286 個 Resource ID 去重比對：83 已審、203 待審。
+- [Evidence 01](CONCEPT_RELATION_EVIDENCE_01_20261128.md)：依 ID 順序新審 30 筆 Resource（abi-screenshot-to-code 至 awesome-gpt-image-2），遞迴確認 82 條出向 Concept 配對；S 局部支持 28、P 部分支持 32、W 證據不足 22。三種狀態均非第三方 runtime 驗證，W 非刪除授權。
+- 累計 113/286，剩 173；下輪延續未審查 ID，優先記錄每條 W 的源證據與責任差異。不重審既有 113 筆，不以此比例推估全庫邊品質。
+- 保留全部正式 refs、Graph、Schema、Tags、網站、權限；後續如需修正，先提出具證據與影響範圍的受控候選。
+
+---
+
 # Phase 3｜Concept 關聯 Census 02（2026-11-28）
 
 - #140 已通過 [P1 CI](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45879094798) 並合併；實際全庫統計：565 Canonical、1248 不重複有向 Concept 配對、712 去方向 Resource–Concept 配對；231/286 Resource 有直接 Concept 關聯，55 無；67/68 Concept 有 Resource 關聯，全部 68 均有 Canonical 關聯。
