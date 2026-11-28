@@ -1,3 +1,12 @@
+# Phase 3｜Concept 關聯 Census 02（2026-11-28）
+
+- #140 已通過 [P1 CI](https://github.com/christinekao/AI-Tool-Collection/actions/runs/45879094798) 並合併；實際全庫統計：565 Canonical、1248 不重複有向 Concept 配對、712 去方向 Resource–Concept 配對；231/286 Resource 有直接 Concept 關聯，55 無；67/68 Concept 有 Resource 關聯，全部 68 均有 Canonical 關聯。
+- [Census 02](CONCEPT_RELATION_CENSUS_02_20261128.md)：55/55 無直接關聯 Resource 已比對 CI ID 佇列，34 既有 Concept 候選、17 保留 Resource、4 來源缺口待解。新讀 50 筆加先前 5 筆；累計 83/286 個局部證據個案，剩 203。候選不是正式 Typed Reference。
+- 唯一無直接 Resource 來源的三層架構 Concept 已提出 Microsoft 課程的跨章對照及 Smolagents/OpenClaw 局部例子；未宣稱整合或全框架驗證。新概念先補強既有 Harness/治理，Collaborative State Sync 維持待研究。
+- 下一輪不再重審已完成的 55 筆，優先核對有關聯但未審查的 203 筆及逐邊證據。Canonical、Graph、Tags、Schema 與原有 14 deferred/4 source-blocked 保留。
+
+---
+
 # Phase 3｜Concept 語意審查完成與全庫關聯盤點（2026-11-27）
 
 - Review 01/02/03：20+17+31=68/68 定義審查；[PR #137](https://github.com/christinekao/AI-Tool-Collection/pull/137)、[#138](https://github.com/christinekao/AI-Tool-Collection/pull/138)、[#139](https://github.com/christinekao/AI-Tool-Collection/pull/139) 均已合併。暫保留全部 68 ID；不代表全部關係與上游證據已驗證。
