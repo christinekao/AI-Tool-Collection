@@ -1,3 +1,12 @@
+# Phase 3｜既有 Resource→Concept 關聯證據審查 02（2026-11-28）
+
+- #142 已合併，六份前期報告與 286 個 Resource ID 去重比對：113 已審、173 待審。
+- [Evidence 02](CONCEPT_RELATION_EVIDENCE_02_20261128.md)：下一批 30 筆（aws-samples-sample-agent-cost-bench 至 davinci-resolve），89 個出向 Concept 配對：S 32、P 39、W 18。兩批逐邊合計 171（S 60、P 71、W 40）。
+- 累計 143/286 Resource 局部證據對照，剩 143。先前 83 筆並非全部逐邊審查，不混入 171 分母。下一輪以報告 Resource ID 去重後接續，不重審。
+- 觀測不等於控制或驗收；離線成本比較不等於即時路由；圖解、素材與工具不等於完整原理。保留正式 refs、Graph、Schema、Tags、網站及權限，待全部審查後再提出有證據的受控修正。
+
+---
+
 # Phase 3｜既有 Resource→Concept 關聯證據審查 01（2026-11-28）
 
 - #140 主線 P1、V2 Validate、Pages PASS；#141 已合併。五份先前報告與現有 286 個 Resource ID 去重比對：83 已審、203 待審。
