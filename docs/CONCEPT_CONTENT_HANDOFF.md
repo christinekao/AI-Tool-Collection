@@ -1,3 +1,11 @@
+# Phase 3｜Concept 語意審查完成與全庫關聯盤點（2026-11-27）
+
+- Review 01/02/03：20+17+31=68/68 定義審查；[PR #137](https://github.com/christinekao/AI-Tool-Collection/pull/137)、[#138](https://github.com/christinekao/AI-Tool-Collection/pull/138)、[#139](https://github.com/christinekao/AI-Tool-Collection/pull/139) 均已合併。暫保留全部 68 ID；不代表全部關係與上游證據已驗證。
+- [全庫關聯 Census 01](CONCEPT_RELATION_CENSUS_01_20261127.md)：新增只讀稽核與測試，已對照 33 個 Resource 局部證據（包含全部 18 個 deferred/source-blocked）。CI 統計待驗收；尚餘 253 Resource 待本階段局部語意核對，不自動建立或刪除 Graph 關係。
+- 下一步：依實際 census 佇列分批審查無直接關聯、Concept 缺來源及既有關聯證據。保持六類 Canonical、Tags、Schema、正式 Graph 不變。
+
+---
+
 # Phase 3｜Concept 語意邊界與 Resource 證據對照（2026-11-26）
 
 - [Review 01](CONCEPT_KNOWLEDGE_REVIEW_01_20261126.md)：盤點 68 ID，讀取 20 定義與八個 Resource 局部證據；記憶、參考模式及驗收 Gate 分組暫保留，列出 Resource 關聯候選與既有證據缺口。未修改 Canonical 或正式 Graph。
